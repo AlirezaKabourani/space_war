@@ -1,0 +1,65 @@
+:root {
+  /* base typography */
+  font-family: system-ui, Avenir, Helvetica, Arial, sans-serif;
+  line-height: 1.5;
+  font-weight: 400;
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+
+  /* theme tokens */
+  color-scheme: dark;
+  --bg-root: #020617;
+  --bg-main: #030712;
+  --bg-panel: rgba(15, 23, 42, 0.96);
+  --border-soft: rgba(148, 163, 184, 0.4);
+  --accent: #38bdf8;
+  --accent-soft: rgba(56, 189, 248, 0.25);
+  --accent-purple: rgba(168, 85, 247, 0.18);
+  --accent-deep: rgba(15, 23, 42, 1);
+  --text-main: #e5e7eb;
+  --text-muted: #9ca3af;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+a {
+  font-weight: 500;
+  color: #646cff;
+  text-decoration: inherit;
+}
+
+a:hover {
+  color: #535bf2;
+}
+
+body {
+  margin: 0;
+  font-family: "Vazirmatn", system-ui, -apple-system, BlinkMacSystemFont,
+    "Segoe UI", sans-serif;
+  background-color: var(--bg-root);
+  color: var(--text-main);
+  direction: rtl;
+}
+
+.app-root {
+  background:
+    radial-gradient(circle at 10% 0%, var(--accent-soft) 0, transparent 45%),
+    radial-gradient(circle at 90% 10%, var(--accent-purple) 0, transparent 50%),
+    radial-gradient(circle at 50% 100%, var(--accent-deep) 0, transparent 55%),
+    var(--bg-main);
+}
+
+#root {
+  min-height: 100vh;
+}
+
+/* optional: reset default button style (our components use inline styles) */
+button {
+  font-family: inherit;
+}

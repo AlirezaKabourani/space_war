@@ -1,0 +1,56 @@
+@startuml appFullChart
+interface DecisionOption {
+    +id: string
+    +text: string
+    +next: string
+    +cognitiveEffects?: Partial<CognitiveScore>
+    +resourceEffects?: Partial<ResourceState>
+}
+interface ScenarioNodeBase {
+    +id: string
+    +type: ScenarioNodeType
+}
+interface InfoNode extends ScenarioNodeBase {
+    +type: "info"
+    +text: string
+    +next?: string
+}
+interface DecisionNode extends ScenarioNodeBase {
+    +type: "decision"
+    +question: string
+    +options: DecisionOption[]
+}
+interface AllocationNode extends ScenarioNodeBase {
+    +type: "allocation"
+    +instructions: string
+    +resources: { name: string; max: number; }[]
+    +next: string
+}
+interface MiniGameNode extends ScenarioNodeBase {
+    +type: "minigame"
+    +game: "reaction" | "memory" | "tracking"
+    +next: string
+}
+interface EndNode extends ScenarioNodeBase {
+    +type: "end"
+    +summaryText: string
+}
+interface ScenarioDefinition {
+    +id: string
+    +title: string
+    +description: string
+    +start: string
+    +nodes: Record<string, ScenarioNode>
+}
+interface CognitiveScore {
+    +focus: number
+    +situationalAwareness: number
+    +riskTaking: number
+    +reactionSpeed: number
+}
+interface ResourceState {
+    +satelliteISR: number
+    +energy: number
+    +time: number
+}
+@enduml
