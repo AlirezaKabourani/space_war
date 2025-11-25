@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { AllScenarios } from "../../../scenarios";
 import type { ScenarioId } from "../../../scenarios";
 import type {
@@ -9,6 +9,7 @@ import type {
   EndNode,
 } from "../../../core/types/scenario";
 import { Card } from "../common/Card";
+import { eventLogger } from "../../../services/analytics/eventLogger";
 
 interface ScenarioRunnerProps {
   scenarioId: ScenarioId;
@@ -21,12 +22,48 @@ export const ScenarioRunner = ({ scenarioId, onExit }: ScenarioRunnerProps) => {
 
   const [currentNodeId, setCurrentNodeId] = useState<string>(scenario.start);
   const [selectedOptionId, setSelectedOptionId] = useState<string | null>(null);
+  const nodeTimerKeyRef = useRef<string | null>(null);
+  const nodeEnteredAtRef = useRef<number | null>(null);
 
   const node: ScenarioNode = scenario.nodes[currentNodeId];
+
+  const stopNodeTimer = () => {
+    if (!nodeTimerKeyRef.current) return undefined;
+    const elapsed = eventLogger.stopTimer(nodeTimerKeyRef.current);
+    nodeTimerKeyRef.current = null;
+    nodeEnteredAtRef.current = null;
+    return elapsed;
+  };
+
+  useEffect(() => {
+    const key = `node:${scenarioId}:${currentNodeId}`;
+    if (nodeTimerKeyRef.current && nodeTimerKeyRef.current !== key) {
+      eventLogger.stopTimer(nodeTimerKeyRef.current);
+    }
+    nodeTimerKeyRef.current = key;
+    nodeEnteredAtRef.current =
+      typeof performance !== "undefined" ? performance.now() : Date.now();
+
+    eventLogger.startTimer(key);
+    eventLogger.log({
+      type: "node_enter",
+      scenarioId,
+      nodeId: currentNodeId,
+      detail: { nodeType: node?.type },
+    });
+
+    return () => {
+      if (nodeTimerKeyRef.current === key) {
+        eventLogger.stopTimer(key);
+        nodeTimerKeyRef.current = null;
+      }
+    };
+  }, [scenarioId, currentNodeId, node?.type]);
 
   const goToNext = (nextId?: string) => {
     if (!nextId) return;
     if (!scenario.nodes[nextId]) return;
+    stopNodeTimer();
     setCurrentNodeId(nextId);
     setSelectedOptionId(null); // هر بار نود عوض می‌شود، انتخاب پاک شود
   };
@@ -52,7 +89,17 @@ export const ScenarioRunner = ({ scenarioId, onExit }: ScenarioRunnerProps) => {
         {infoNode.next && (
           <div style={{ display: "flex", justifyContent: "flex-start" }}>
             <button
-              onClick={() => goToNext(infoNode.next)}
+              onClick={() => {
+                const elapsed = stopNodeTimer();
+                eventLogger.log({
+                  type: "option_confirm",
+                  scenarioId,
+                  nodeId: infoNode.id,
+                  detail: { action: "info_continue" },
+                  elapsedMs: elapsed,
+                });
+                goToNext(infoNode.next);
+              }}
               style={{
                 padding: "0.6rem 1.2rem",
                 borderRadius: "999px",
@@ -79,6 +126,14 @@ export const ScenarioRunner = ({ scenarioId, onExit }: ScenarioRunnerProps) => {
       const chosen = decisionNode.options.find(
         (opt) => opt.id === selectedOptionId
       );
+      const elapsed = stopNodeTimer();
+      eventLogger.log({
+        type: "option_confirm",
+        scenarioId,
+        nodeId: decisionNode.id,
+        detail: { optionId: chosen?.id, optionText: chosen?.text },
+        elapsedMs: elapsed,
+      });
       if (chosen?.next) {
         goToNext(chosen.next);
       }
@@ -114,7 +169,22 @@ export const ScenarioRunner = ({ scenarioId, onExit }: ScenarioRunnerProps) => {
               return (
                 <button
                   key={opt.id}
-                  onClick={() => setSelectedOptionId(opt.id)} // فقط انتخاب
+                  onClick={() => {
+                    const elapsed =
+                      nodeEnteredAtRef.current != null
+                        ? (typeof performance !== "undefined"
+                            ? performance.now()
+                            : Date.now()) - nodeEnteredAtRef.current
+                        : undefined;
+                    setSelectedOptionId(opt.id); // فقط انتخاب
+                    eventLogger.log({
+                      type: "option_select",
+                      scenarioId,
+                      nodeId: decisionNode.id,
+                      detail: { optionId: opt.id, optionText: opt.text },
+                      elapsedMs: elapsed,
+                    });
+                  }} // فقط انتخاب
                   style={{
                     padding: "0.6rem 1rem",
                     borderRadius: "12px",
@@ -188,7 +258,10 @@ export const ScenarioRunner = ({ scenarioId, onExit }: ScenarioRunnerProps) => {
         <div style={{ display: "flex", gap: "0.75rem", flexWrap: "wrap" }}>
           {onExit && (
             <button
-              onClick={onExit}
+              onClick={() => {
+                stopNodeTimer();
+                onExit();
+              }}
               style={{
                 padding: "0.6rem 1.2rem",
                 borderRadius: "999px",

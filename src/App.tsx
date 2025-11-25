@@ -1,8 +1,9 @@
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import "./App.css";
 
 import { ScenarioRunner } from "./ui/components/scenario/ScenarioRunner";
 import type { ScenarioId } from "./scenarios";
+import { eventLogger } from "./services/analytics/eventLogger";
 
 type ProfileRole = "admin" | "player";
 
@@ -158,6 +159,10 @@ const App = () => {
   const [scenarioMenuOpen, setScenarioMenuOpen] = useState<boolean>(false);
   const [introModalText, setIntroModalText] = useState<string | null>(null);
   const showBackgroundVideo = view !== "scenarioPlay";
+  const scenarioTimerKeyRef = useRef<string | null>(null);
+  const scenarioLogIdRef = useRef<string | number | null>(null);
+  const questionTimerKeyRef = useRef<string | null>(null);
+  const [globalMenuOpen, setGlobalMenuOpen] = useState(false);
 
   const activeProfile = profiles.find((p) => p.id === activeProfileId)!;
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
@@ -180,8 +185,73 @@ const [expandedScenarioId, setExpandedScenarioId] = useState<number | null>(null
     return scenarioIndex < profile.progress;
   };
 
+  const logScenarioExit = (reason: string) => {
+    if (!scenarioLogIdRef.current) return;
+    const elapsed =
+      scenarioTimerKeyRef.current != null
+        ? eventLogger.stopTimer(scenarioTimerKeyRef.current)
+        : undefined;
+    eventLogger.log({
+      type: "scenario_exit",
+      scenarioId: scenarioLogIdRef.current,
+      action: reason,
+      elapsedMs: elapsed,
+    });
+    scenarioTimerKeyRef.current = null;
+    scenarioLogIdRef.current = null;
+    if (questionTimerKeyRef.current) {
+      eventLogger.stopTimer(questionTimerKeyRef.current);
+      questionTimerKeyRef.current = null;
+    }
+  };
+
+  const leaveScenarioToMainMenu = () => {
+    logScenarioExit("main_menu");
+    setActiveScenarioId(null);
+    setView("mainMenu");
+  };
+
+  const leaveScenarioToList = () => {
+    logScenarioExit("scenario_list");
+    setActiveScenarioId(null);
+    setView("scenarioList");
+  };
+
+  const leaveScenarioGeneric = (nextView: View, reason: string) => {
+    if (view === "scenarioPlay" && scenarioLogIdRef.current) {
+      logScenarioExit(reason);
+      setActiveScenarioId(null);
+    }
+    setView(nextView);
+    setGlobalMenuOpen(false);
+  };
+
+  const handleDownloadLog = () => {
+    eventLogger.exportToText();
+  };
+
   const handleConfirmAnswer = (totalQuestions: number) => {
   if (selectedOptionIndex == null) return;
+
+  const scenarioLogId = scenarioLogIdRef.current ?? activeScenarioId ?? "unknown";
+  const questions = activeScenarioId != null ? SCENARIO_QUESTIONS[activeScenarioId] || [] : [];
+  const currentQuestion = questions[currentQuestionIndex];
+  const elapsed =
+    questionTimerKeyRef.current != null
+      ? eventLogger.stopTimer(questionTimerKeyRef.current)
+      : undefined;
+
+  eventLogger.log({
+    type: "question_answered",
+    scenarioId: scenarioLogId,
+    detail: {
+      questionId: currentQuestion?.id ?? currentQuestionIndex,
+      selectedIndex: selectedOptionIndex,
+      selectedText: currentQuestion?.options?.[selectedOptionIndex],
+    },
+    elapsedMs: elapsed,
+  });
+  questionTimerKeyRef.current = null;
 
   const nextIndex = currentQuestionIndex + 1;
   setAnsweredCount((prev) => prev + 1);
@@ -198,16 +268,34 @@ const [expandedScenarioId, setExpandedScenarioId] = useState<number | null>(null
   const handleOpenScenario = (scenarioId: number) => {
     const scenarioIndex = SCENARIOS.findIndex((s) => s.id === scenarioId);
     if (scenarioIndex === -1) return;
+    const scenario = SCENARIOS[scenarioIndex];
+    const scenarioTreeId = SCENARIO_TREE_IDS[scenario.id];
+    const scenarioLogId = scenarioTreeId ?? scenario.id;
+
+    eventLogger.log({
+      type: "scenario_card_click",
+      scenarioId: scenarioLogId,
+      detail: { unlocked: isScenarioUnlocked(activeProfile, scenarioIndex) },
+    });
 
     if (!isScenarioUnlocked(activeProfile, scenarioIndex)) {
       return;
     }
 
+    scenarioLogIdRef.current = scenarioLogId;
+    scenarioTimerKeyRef.current = `scenario:${scenarioLogId}`;
+    eventLogger.startTimer(scenarioTimerKeyRef.current);
+    eventLogger.log({
+      type: "scenario_start",
+      scenarioId: scenarioLogId,
+      detail: { role: activeProfile.role, profileId: activeProfile.id },
+    });
+
     setActiveScenarioId(scenarioId);
     setCurrentQuestionIndex(0);
     setSelectedOptionIndex(null);
     setAnsweredCount(0);
-    setIntroModalText(SCENARIOS[scenarioIndex].introText ?? null);
+    setIntroModalText(scenario.introText ?? null);
     setScenarioMenuOpen(false);
     setView("scenarioPlay");
   };
@@ -219,6 +307,23 @@ const [expandedScenarioId, setExpandedScenarioId] = useState<number | null>(null
       (s) => s.id === activeScenarioId
     );
     if (scenarioIndex === -1) return;
+    const scenarioLogId = scenarioLogIdRef.current ?? activeScenarioId;
+    const elapsed =
+      scenarioTimerKeyRef.current != null
+        ? eventLogger.stopTimer(scenarioTimerKeyRef.current)
+        : undefined;
+    if (questionTimerKeyRef.current) {
+      eventLogger.stopTimer(questionTimerKeyRef.current);
+      questionTimerKeyRef.current = null;
+    }
+    eventLogger.log({
+      type: "scenario_end",
+      scenarioId: scenarioLogId,
+      elapsedMs: elapsed,
+      detail: { reason: "completed" },
+    });
+    scenarioTimerKeyRef.current = null;
+    scenarioLogIdRef.current = null;
 
     // برای player: سناریوی بعدی را باز کن
     if (activeProfile.role === "player") {
@@ -235,7 +340,37 @@ const [expandedScenarioId, setExpandedScenarioId] = useState<number | null>(null
     setView("scenarioList");
   };
 
+  useEffect(() => {
+    if (view !== "scenarioPlay") return;
+    if (activeScenarioId == null) return;
+    const scenarioTreeId = SCENARIO_TREE_IDS[activeScenarioId];
+    if (scenarioTreeId) return; // tree mode handled elsewhere
+
+    const questions = SCENARIO_QUESTIONS[activeScenarioId] || [];
+    const currentQuestion = questions[currentQuestionIndex];
+    if (!currentQuestion) return;
+
+    const scenarioLogId = scenarioLogIdRef.current ?? activeScenarioId;
+    const key = `question:${scenarioLogId}:${currentQuestion.id}`;
+    if (questionTimerKeyRef.current === key) return;
+
+    if (questionTimerKeyRef.current) {
+      eventLogger.stopTimer(questionTimerKeyRef.current);
+    }
+
+    questionTimerKeyRef.current = key;
+    eventLogger.startTimer(key);
+    eventLogger.log({
+      type: "question_presented",
+      scenarioId: scenarioLogId,
+      detail: { questionId: currentQuestion.id, index: currentQuestionIndex },
+    });
+  }, [view, activeScenarioId, currentQuestionIndex]);
+
   const handleExit = () => {
+    if (view === "scenarioPlay" && scenarioLogIdRef.current) {
+      logScenarioExit("app_exit");
+    }
     // فعلاً فقط یک پیام ساده
     alert("خروج از برنامه در نسخه فعلی فقط نمادین است.");
   };
@@ -407,6 +542,7 @@ const renderScenarioPlay = () => {
 
   // اگر سناریو درخت دارد، از ScenarioRunner استفاده می‌کنیم
   const scenarioTreeId = SCENARIO_TREE_IDS[scenario.id];
+  const scenarioLogId = scenarioTreeId ?? scenario.id;
 
   // فقط سناریوهایی که درخت ندارند از سیستم سؤال‌ها استفاده می‌کنند
   const questions: Question[] = scenarioTreeId
@@ -447,11 +583,14 @@ const renderScenarioPlay = () => {
         {scenarioMenuOpen && (
           <div className="side-menu-content">
             <h3>منوی سناریو</h3>
-            <button onClick={() => setView("mainMenu")}>
+            <button onClick={leaveScenarioToMainMenu}>
               بازگشت به منوی اصلی
             </button>
-            <button onClick={() => setView("scenarioList")}>
+            <button onClick={leaveScenarioToList}>
               بازگشت به لیست سناریوها
+            </button>
+            <button onClick={() => eventLogger.exportToText()}>
+              دانلود لاگ رفتار
             </button>
             <button className="danger" onClick={handleExit}>
               خروج
@@ -485,10 +624,7 @@ const renderScenarioPlay = () => {
 
             <ScenarioRunner
               scenarioId={scenarioTreeId}
-              onExit={() => {
-                setView("scenarioList");
-                setActiveScenarioId(null);
-              }}
+              onExit={leaveScenarioToList}
             />
 
             <div className="scenario-footer">
@@ -529,7 +665,18 @@ const renderScenarioPlay = () => {
                             ? " option-card-selected"
                             : "")
                         }
-                        onClick={() => setSelectedOptionIndex(idx)}
+                        onClick={() => {
+                          setSelectedOptionIndex(idx);
+                          eventLogger.log({
+                            type: "option_select",
+                            scenarioId: scenarioLogId,
+                            detail: {
+                              questionId: currentQuestion.id,
+                              optionIndex: idx,
+                              optionText: opt,
+                            },
+                          });
+                        }}
                       >
                         {opt}
                       </div>
@@ -582,6 +729,64 @@ const renderScenarioPlay = () => {
       {view === "profileManager" && renderProfileManager()}
       {view === "scenarioList" && renderScenarioList()}
       {view === "scenarioPlay" && renderScenarioPlay()}
+
+      {/* Global quick menu to access navigation and log download anywhere */}
+      <div
+        style={{
+          position: "fixed",
+          top: "1rem",
+          right: "1rem",
+          zIndex: 2000,
+          display: "flex",
+          flexDirection: "column",
+          alignItems: "flex-end",
+          gap: "0.5rem",
+        }}
+      >
+        <button
+          onClick={() => setGlobalMenuOpen((v) => !v)}
+          style={{
+            padding: "0.5rem 0.75rem",
+            borderRadius: "999px",
+            border: "1px solid var(--border-soft)",
+            background: "rgba(15, 23, 42, 0.85)",
+            color: "var(--text-main)",
+            cursor: "pointer",
+          }}
+        >
+          {globalMenuOpen ? "✕" : "☰"} منوی سریع
+        </button>
+
+        {globalMenuOpen && (
+          <div
+            style={{
+              background: "rgba(15, 23, 42, 0.92)",
+              border: "1px solid var(--border-soft)",
+              borderRadius: "12px",
+              padding: "0.75rem",
+              minWidth: "200px",
+              boxShadow: "0 10px 30px rgba(0,0,0,0.3)",
+              display: "flex",
+              flexDirection: "column",
+              gap: "0.5rem",
+            }}
+          >
+            <button onClick={() => leaveScenarioGeneric("mainMenu", "global_menu_main")}>
+              منوی اصلی
+            </button>
+            <button onClick={() => leaveScenarioGeneric("scenarioList", "global_menu_list")}>
+              لیست سناریوها
+            </button>
+            <button onClick={() => leaveScenarioGeneric("profileManager", "global_menu_profile")}>
+              مدیریت پروفایل
+            </button>
+            <button onClick={handleDownloadLog}>دانلود لاگ رفتار</button>
+            <button className="danger" onClick={handleExit}>
+              خروج
+            </button>
+          </div>
+        )}
+      </div>
     </div>
   );
 };
