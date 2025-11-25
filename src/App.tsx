@@ -1,6 +1,9 @@
 import { useState } from "react";
 import "./App.css";
 
+import { ScenarioRunner } from "./ui/components/scenario/ScenarioRunner";
+import type { ScenarioId } from "./scenarios";
+
 type ProfileRole = "admin" | "player";
 
 
@@ -61,6 +64,13 @@ const SCENARIO_QUESTIONS: Record<number, Question[]> = {
   ]
   // می‌توانی بعداً بقیه را اضافه کنی
 };
+
+const SCENARIO_TREE_IDS: Partial<Record<number, ScenarioId>> = {
+  0: "s0_gateway_space_wargaming",
+  1: "s1_shadows_low_orbit",
+  // بقیه فعلاً درخت ندارند
+};
+
 
 type View =
   | "mainMenu"
@@ -389,18 +399,26 @@ const [expandedScenarioId, setExpandedScenarioId] = useState<number | null>(null
   );
 
 
-  const renderScenarioPlay = () => {
+const renderScenarioPlay = () => {
   if (activeScenarioId == null) return null;
+
+  // سناریوی فعال
   const scenario = SCENARIOS.find((s) => s.id === activeScenarioId)!;
 
-  // ⬅⬅⬅ اینجا باید باشد (نه وسط JSX)
-  const questions: Question[] = SCENARIO_QUESTIONS[scenario.id] || [];
+  // اگر سناریو درخت دارد، از ScenarioRunner استفاده می‌کنیم
+  const scenarioTreeId = SCENARIO_TREE_IDS[scenario.id];
+
+  // فقط سناریوهایی که درخت ندارند از سیستم سؤال‌ها استفاده می‌کنند
+  const questions: Question[] = scenarioTreeId
+    ? []
+    : SCENARIO_QUESTIONS[scenario.id] || [];
+
   const totalQuestions = questions.length;
   const currentQuestion = questions[currentQuestionIndex];
 
   return (
     <div className="screen scenario-play-screen">
-
+      {/* مودال اینترو در شروع سناریو */}
       {introModalText && (
         <div className="intro-modal-backdrop">
           <div className="intro-modal">
@@ -429,18 +447,21 @@ const [expandedScenarioId, setExpandedScenarioId] = useState<number | null>(null
         {scenarioMenuOpen && (
           <div className="side-menu-content">
             <h3>منوی سناریو</h3>
-            <button onClick={() => setView("mainMenu")}>بازگشت به منوی اصلی</button>
+            <button onClick={() => setView("mainMenu")}>
+              بازگشت به منوی اصلی
+            </button>
             <button onClick={() => setView("scenarioList")}>
               بازگشت به لیست سناریوها
             </button>
-            <button className="danger" onClick={handleExit}>خروج</button>
+            <button className="danger" onClick={handleExit}>
+              خروج
+            </button>
           </div>
         )}
       </div>
 
-      {/* بدنه اصلی */}
+      {/* بدنه اصلی سناریو */}
       <div className="card scenario-play-card">
-
         <div className="screen-header">
           <div>
             <h2 className="screen-title">{scenario.title}</h2>
@@ -454,66 +475,95 @@ const [expandedScenarioId, setExpandedScenarioId] = useState<number | null>(null
           </div>
         </div>
 
-        <div className="scenario-body">
-          <p className="hint">
-            این صفحه فعلاً شامل یک سؤال در هر مرحله است. بعداً MiniGame و درخت
-            تصمیم اضافه می‌شود.
-          </p>
+        {/* اگر درخت داریم، موتور درخت تصمیم را نشان بده */}
+        {scenarioTreeId ? (
+          <>
+            <p className="hint">
+              این سناریو با موتور درخت تصمیم اجرا می‌شود؛ هر انتخابت مسیر
+              داستان را عوض می‌کند.
+            </p>
 
-          {currentQuestion ? (
-            <div className="question-block">
-              <div className="question-header">
-                <span>سؤال {currentQuestionIndex + 1}</span>
-                {totalQuestions > 1 && (
-                  <span className="question-progress">
-                    {currentQuestionIndex + 1} / {totalQuestions}
-                  </span>
-                )}
-              </div>
+            <ScenarioRunner
+              scenarioId={scenarioTreeId}
+              onExit={() => {
+                setView("scenarioList");
+                setActiveScenarioId(null);
+              }}
+            />
 
-              <p className="question-text">{currentQuestion.text}</p>
-
-              <div className="options-grid">
-                {currentQuestion.options.map((opt, idx) => (
-                  <div
-                    key={idx}
-                    className={
-                      "option-card" +
-                      (selectedOptionIndex === idx ? " option-card-selected" : "")
-                    }
-                    onClick={() => setSelectedOptionIndex(idx)}
-                  >
-                    {opt}
-                  </div>
-                ))}
-              </div>
+            <div className="scenario-footer">
+              <button className="primary" onClick={handleFinishScenario}>
+                اتمام سناریو و باز کردن بعدی
+              </button>
             </div>
-          ) : (
-            <p className="hint">برای این سناریو هنوز سؤال ثبت نشده.</p>
-          )}
-        </div>
+          </>
+        ) : (
+          <>
+            {/* نسخه‌ی قدیمی مبتنی بر سؤال‌ها */}
+            <div className="scenario-body">
+              <p className="hint">
+                این صفحه فعلاً شامل یک سؤال در هر مرحله است. بعداً MiniGame و
+                درخت تصمیم اضافه می‌شود.
+              </p>
 
-        <div className="scenario-footer">
-          <button
-            onClick={() => handleConfirmAnswer(totalQuestions)}
-            disabled={selectedOptionIndex == null || !currentQuestion}
-          >
-            تأیید گزینه
-          </button>
+              {currentQuestion ? (
+                <div className="question-block">
+                  <div className="question-header">
+                    <span>سؤال {currentQuestionIndex + 1}</span>
+                    {totalQuestions > 1 && (
+                      <span className="question-progress">
+                        {currentQuestionIndex + 1} / {totalQuestions}
+                      </span>
+                    )}
+                  </div>
 
-          <button
-            className="primary"
-            onClick={handleFinishScenario}
-            disabled={totalQuestions > 0 && answeredCount < totalQuestions}
-          >
-            اتمام سناریو و باز کردن بعدی
-          </button>
-        </div>
+                  <p className="question-text">{currentQuestion.text}</p>
 
+                  <div className="options-grid">
+                    {currentQuestion.options.map((opt, idx) => (
+                      <div
+                        key={idx}
+                        className={
+                          "option-card" +
+                          (selectedOptionIndex === idx
+                            ? " option-card-selected"
+                            : "")
+                        }
+                        onClick={() => setSelectedOptionIndex(idx)}
+                      >
+                        {opt}
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              ) : (
+                <p className="hint">برای این سناریو هنوز سؤال ثبت نشده.</p>
+              )}
+            </div>
+
+            <div className="scenario-footer">
+              <button
+                onClick={() => handleConfirmAnswer(totalQuestions)}
+                disabled={selectedOptionIndex == null || !currentQuestion}
+              >
+                تأیید گزینه
+              </button>
+
+              <button
+                className="primary"
+                onClick={handleFinishScenario}
+                disabled={totalQuestions > 0 && answeredCount < totalQuestions}
+              >
+                اتمام سناریو و باز کردن بعدی
+              </button>
+            </div>
+          </>
+        )}
       </div>
     </div>
   );
 };
+
 
 
   return (
