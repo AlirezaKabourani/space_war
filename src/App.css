@@ -149,6 +149,13 @@ button.link {
   box-shadow: none;
 }
 
+.start-button {
+  background: linear-gradient(135deg, #60a5fa, #22d3ee, #a5f3fc);
+  color: #041023;
+  border-color: rgba(94, 234, 212, 0.7);
+  box-shadow: 0 12px 28px rgba(34, 211, 238, 0.35);
+}
+
 /* Main menu */
 
 .menu-buttons {

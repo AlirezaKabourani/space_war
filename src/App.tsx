@@ -165,6 +165,13 @@ const App = () => {
   const [globalMenuOpen, setGlobalMenuOpen] = useState(false);
 
   const activeProfile = profiles.find((p) => p.id === activeProfileId)!;
+  useEffect(() => {
+    eventLogger.setUserContext({
+      id: activeProfile.id,
+      name: activeProfile.name,
+      role: activeProfile.role,
+    });
+  }, [activeProfile]);
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
   const [selectedOptionIndex, setSelectedOptionIndex] = useState<number | null>(null);
   const [answeredCount, setAnsweredCount] = useState(0);
@@ -227,7 +234,7 @@ const [expandedScenarioId, setExpandedScenarioId] = useState<number | null>(null
   };
 
   const handleDownloadLog = () => {
-    eventLogger.exportToText();
+    eventLogger.exportToCSV();
   };
 
   const handleConfirmAnswer = (totalQuestions: number) => {
@@ -624,7 +631,7 @@ const renderScenarioPlay = () => {
 
             <ScenarioRunner
               scenarioId={scenarioTreeId}
-              onExit={leaveScenarioToList}
+              onExit={handleFinishScenario}
             />
 
             <div className="scenario-footer">
@@ -780,13 +787,34 @@ const renderScenarioPlay = () => {
             <button onClick={() => leaveScenarioGeneric("profileManager", "global_menu_profile")}>
               مدیریت پروفایل
             </button>
-            <button onClick={handleDownloadLog}>دانلود لاگ رفتار</button>
+            <button onClick={handleDownloadLog}>دانلود لاگ رفتار (CSV)</button>
             <button className="danger" onClick={handleExit}>
               خروج
             </button>
           </div>
         )}
       </div>
+
+      {activeProfile.role === "admin" && (
+        <button
+          onClick={() => eventLogger.clear()}
+          style={{
+            position: "fixed",
+            left: "1rem",
+            bottom: "1rem",
+            padding: "0.45rem 0.9rem",
+            borderRadius: "999px",
+            border: "1px solid var(--border-soft)",
+            background: "rgba(15, 23, 42, 0.85)",
+            color: "var(--text-main)",
+            boxShadow: "0 10px 24px rgba(0,0,0,0.35)",
+            cursor: "pointer",
+            zIndex: 2000,
+          }}
+        >
+          Reset log
+        </button>
+      )}
     </div>
   );
 };
