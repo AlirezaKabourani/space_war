@@ -1,19 +1,21 @@
 // Node types inside a scenario decision tree
 // NOTE: "mcq" and "resource" are aliases for "decision" and "allocation" to support the new step model
 export type ScenarioNodeType =
-  | "info"         // Shows text / briefing
-  | "decision"     // Multiple choice question
-  | "mcq"          // alias for decision
-  | "allocation"   // Resource allocation node
-  | "resource"     // alias for allocation
-  | "minigame"     // A mini-game trigger
-  | "end";         // End of scenario
+  | "info" // Shows text / briefing
+  | "decision" // Multiple choice question
+  | "mcq" // alias for decision
+  | "quiz" // quiz node with answer validation
+  | "allocation" // Resource allocation node
+  | "resource" // alias for allocation
+  | "minigame" // A mini-game trigger
+  | "end"; // End of scenario
 
-// Option type for decision nodes
+// Option type for decision and quiz nodes
 export interface DecisionOption {
   id: string;
   text: string; // text displayed to the user
   next: string; // ID of next node
+  isCorrect?: boolean;
   cognitiveEffects?: Partial<CognitiveScore>;
   resourceEffects?: Partial<ResourceState>;
 }
@@ -35,6 +37,14 @@ export interface InfoNode extends ScenarioNodeBase {
 export interface DecisionNode extends ScenarioNodeBase {
   type: "decision" | "mcq";
   question: string;
+  options: DecisionOption[];
+}
+
+// Quiz node
+export interface QuizNode extends ScenarioNodeBase {
+  type: "quiz";
+  question: string;
+  referenceTexts?: Record<string, string>;
   options: DecisionOption[];
 }
 
@@ -63,6 +73,7 @@ export interface EndNode extends ScenarioNodeBase {
 export type ScenarioNode =
   | InfoNode
   | DecisionNode
+  | QuizNode
   | AllocationNode
   | MiniGameNode
   | EndNode;
@@ -72,7 +83,7 @@ export interface ScenarioDefinition {
   id: string;
   title: string;
   description: string;
-  start: string;          // first node
+  start: string; // first node
   nodes: Record<string, ScenarioNode>;
   // optional metadata to help scoring or grouping
   tags?: string[];
@@ -107,7 +118,7 @@ export interface AssessmentEvent {
   action: string; // e.g. "select_option", "allocate_resource", "start_minigame", "end_minigame"
   payload?: Record<string, unknown>; // details of the action (option id, amounts, etc.)
   startedAt: number; // epoch ms
-  endedAt?: number;  // epoch ms
+  endedAt?: number; // epoch ms
   durationMs?: number;
   metadata?: Record<string, unknown>;
 }
