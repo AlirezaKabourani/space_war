@@ -30,6 +30,35 @@ interface Question {
   options: string[];
 }
 
+interface UserAnalyticsSummary {
+  userId: string;
+  userName: string;
+  role: string;
+  totalEvents: number;
+  scenarioStarts: number;
+  scenarioEnds: number;
+  scenarioExits: number;
+  questionsAnswered: number;
+  avgScenarioDurationSec: number;
+  lastActivityTs: number;
+}
+
+interface UserAnalyticsInsights {
+  totalQuestions: number;
+  answeredQuestions: number;
+  correctAnswers: number;
+  correctAnswerRate: number;
+  avgThinkingMs: number;
+  referenceClicks: number;
+  descriptionReadSec: number;
+  referenceReadSec: number;
+  avgScenarioDurationSec: number;
+  scenarioRuns: number;
+  eventTypeCounts: Array<{ type: string; count: number }>;
+  questionThinking: Array<{ question: string; ms: number }>;
+  questionTimeline: Array<{ label: string; ms: number }>;
+}
+
 const SCENARIO_QUESTIONS: Record<number, Question[]> = {
   0: [
     {
@@ -77,7 +106,8 @@ type View =
   | "mainMenu"
   | "scenarioList"
   | "scenarioPlay"
-  | "profileManager";
+  | "profileManager"
+  | "adminAnalytics";
 
 const SCENARIOS: Scenario[] = [
   {
@@ -163,6 +193,14 @@ const App = () => {
   const scenarioLogIdRef = useRef<string | number | null>(null);
   const questionTimerKeyRef = useRef<string | null>(null);
   const [globalMenuOpen, setGlobalMenuOpen] = useState(false);
+  const [selectedAnalyticsUserId, setSelectedAnalyticsUserId] = useState<string>("all");
+  const [selectedScenarioRunId, setSelectedScenarioRunId] = useState<string>("all");
+  const [showAnalyticsLog, setShowAnalyticsLog] = useState(false);
+  const scenarioDescriptionTimerKeyRef = useRef<string | null>(null);
+
+  useEffect(() => {
+    setSelectedScenarioRunId("all");
+  }, [selectedAnalyticsUserId]);
 
   const activeProfile = profiles.find((p) => p.id === activeProfileId)!;
   useEffect(() => {
@@ -235,6 +273,187 @@ const [expandedScenarioId, setExpandedScenarioId] = useState<number | null>(null
 
   const handleDownloadLog = () => {
     eventLogger.exportToCSV();
+  };
+
+  const getUserAnalytics = (): UserAnalyticsSummary[] => {
+    const events = eventLogger.getEvents();
+    const groups = new Map<string, UserAnalyticsSummary>();
+    const scenarioDurations = new Map<string, number[]>();
+
+    for (const event of events) {
+      const userId = event.userId ?? "unknown";
+      const userName = event.userName ?? "ناشناس";
+      const role = event.userRole ?? "unknown";
+      const key = `${userId}::${userName}`;
+
+      if (!groups.has(key)) {
+        groups.set(key, {
+          userId,
+          userName,
+          role,
+          totalEvents: 0,
+          scenarioStarts: 0,
+          scenarioEnds: 0,
+          scenarioExits: 0,
+          questionsAnswered: 0,
+          avgScenarioDurationSec: 0,
+          lastActivityTs: 0,
+        });
+      }
+
+      const summary = groups.get(key)!;
+      summary.totalEvents += 1;
+      summary.lastActivityTs = Math.max(summary.lastActivityTs, event.ts);
+
+      if (event.type === "scenario_start") summary.scenarioStarts += 1;
+      if (event.type === "scenario_end") {
+        summary.scenarioEnds += 1;
+        if (event.elapsedMs != null) {
+          const list = scenarioDurations.get(key) ?? [];
+          list.push(event.elapsedMs);
+          scenarioDurations.set(key, list);
+        }
+      }
+      if (event.type === "scenario_exit") summary.scenarioExits += 1;
+      if (event.type === "question_answered") summary.questionsAnswered += 1;
+    }
+
+    for (const [key, summary] of groups.entries()) {
+      const durations = scenarioDurations.get(key) ?? [];
+      if (durations.length > 0) {
+        const avgMs = durations.reduce((acc, cur) => acc + cur, 0) / durations.length;
+        summary.avgScenarioDurationSec = Math.round(avgMs / 1000);
+      }
+    }
+
+    return Array.from(groups.values()).sort((a, b) => b.lastActivityTs - a.lastActivityTs);
+  };
+
+  const buildInsights = (events: ReturnType<typeof eventLogger.getEvents>): UserAnalyticsInsights => {
+    const quizQuestionIds = new Set<string>();
+    const answeredQuestionIds = new Set<string>();
+    let correctAnswers = 0;
+    let answerCount = 0;
+    let totalThinkingMs = 0;
+    let thinkingCount = 0;
+    let referenceClicks = 0;
+    let descriptionReadMs = 0;
+    let referenceReadMs = 0;
+    let totalScenarioDurationMs = 0;
+    let scenarioDurationCount = 0;
+    const eventTypeMap = new Map<string, number>();
+    const questionThinkingMap = new Map<string, { total: number; count: number }>();
+    const questionTimeline: Array<{ label: string; ms: number }> = [];
+
+    for (const event of events) {
+      eventTypeMap.set(event.type, (eventTypeMap.get(event.type) ?? 0) + 1);
+      const detail = event.detail ?? {};
+      const nodeType = detail["nodeType"];
+      const optionId = detail["optionId"];
+      const isCorrect = detail["isCorrect"];
+
+      if (
+        event.type === "node_enter" &&
+        nodeType === "quiz" &&
+        event.nodeId
+      ) {
+        quizQuestionIds.add(event.nodeId);
+      }
+
+      if (
+        event.type === "option_confirm" &&
+        typeof optionId === "string" &&
+        typeof isCorrect === "boolean"
+      ) {
+        answerCount += 1;
+        if (event.nodeId) {
+          answeredQuestionIds.add(event.nodeId);
+          if (event.elapsedMs != null) {
+            const prev = questionThinkingMap.get(event.nodeId) ?? { total: 0, count: 0 };
+            prev.total += event.elapsedMs;
+            prev.count += 1;
+            questionThinkingMap.set(event.nodeId, prev);
+          }
+        }
+        if (isCorrect) correctAnswers += 1;
+        if (event.elapsedMs != null) {
+          totalThinkingMs += event.elapsedMs;
+          thinkingCount += 1;
+          const qLabel = event.nodeId ?? `q${answerCount}`;
+          questionTimeline.push({
+            label: qLabel,
+            ms: Math.round(event.elapsedMs),
+          });
+        }
+      }
+
+      if (
+        event.type === "reference_open" ||
+        (event.type === "node_enter" &&
+          typeof event.nodeId === "string" &&
+          event.nodeId.toLowerCase().includes("example"))
+      ) {
+        referenceClicks += 1;
+      }
+
+      if (event.type === "reference_close" && event.elapsedMs != null) {
+        const source = String(detail["source"] ?? "");
+        if (source === "scenario_description") {
+          descriptionReadMs += event.elapsedMs;
+        } else {
+          referenceReadMs += event.elapsedMs;
+        }
+      }
+
+      if (
+        event.type === "option_confirm" &&
+        event.elapsedMs != null &&
+        String(detail["action"] ?? "") === "info_continue"
+      ) {
+        const nodeId = (event.nodeId ?? "").toLowerCase();
+        if (nodeId.includes("example")) {
+          referenceReadMs += event.elapsedMs;
+        } else {
+          descriptionReadMs += event.elapsedMs;
+        }
+      }
+
+      if (event.type === "scenario_end" && event.elapsedMs != null) {
+        totalScenarioDurationMs += event.elapsedMs;
+        scenarioDurationCount += 1;
+      }
+    }
+
+    const eventTypeCounts = Array.from(eventTypeMap.entries())
+      .map(([type, count]) => ({ type, count }))
+      .sort((a, b) => b.count - a.count)
+      .slice(0, 8);
+    const questionThinking = Array.from(questionThinkingMap.entries())
+      .map(([question, data]) => ({
+        question,
+        ms: Math.round(data.total / Math.max(data.count, 1)),
+      }))
+      .sort((a, b) => b.ms - a.ms)
+      .slice(0, 8);
+
+    return {
+      totalQuestions: quizQuestionIds.size,
+      answeredQuestions: answeredQuestionIds.size,
+      correctAnswers,
+      correctAnswerRate: answerCount > 0 ? Math.round((correctAnswers / answerCount) * 100) : 0,
+      avgThinkingMs: thinkingCount > 0 ? Math.round(totalThinkingMs / thinkingCount) : 0,
+      referenceClicks,
+      descriptionReadSec: Math.round(descriptionReadMs / 1000),
+      referenceReadSec: Math.round(referenceReadMs / 1000),
+      avgScenarioDurationSec:
+        scenarioDurationCount > 0
+          ? Math.round(totalScenarioDurationMs / scenarioDurationCount / 1000)
+          : 0,
+      scenarioRuns: scenarioDurationCount,
+      eventTypeCounts,
+      questionThinking,
+      questionTimeline,
+    };
   };
 
   const handleConfirmAnswer = (totalQuestions: number) => {
@@ -347,6 +566,15 @@ const [expandedScenarioId, setExpandedScenarioId] = useState<number | null>(null
     setView("scenarioList");
   };
 
+  const handleStopScenario = () => {
+    if (view !== "scenarioPlay" || !scenarioLogIdRef.current) return;
+    const shouldStop = window.confirm("آیا واقعا می‌خواهید این سناریو را ناتمام متوقف کنید؟");
+    if (!shouldStop) return;
+    logScenarioExit("manual_stop_unfinished");
+    setActiveScenarioId(null);
+    setView("scenarioList");
+  };
+
   useEffect(() => {
     if (view !== "scenarioPlay") return;
     if (activeScenarioId == null) return;
@@ -433,6 +661,14 @@ const [expandedScenarioId, setExpandedScenarioId] = useState<number | null>(null
           فعلاً دو پروفایل ثابت داریم؛ بعداً می‌توانیم ساخت پروفایل جدید اضافه کنیم.
         </p>
 
+        {activeProfile.role === "admin" && (
+          <div style={{ marginBottom: "1rem" }}>
+            <button onClick={() => setView("adminAnalytics")}>
+              داشبورد تحلیلی کاربران
+            </button>
+          </div>
+        )}
+
         <div className="profile-list">
           {profiles.map((profile) => (
             <button
@@ -458,6 +694,345 @@ const [expandedScenarioId, setExpandedScenarioId] = useState<number | null>(null
       </div>
     </div>
   );
+
+  const renderAdminAnalytics = () => {
+    if (activeProfile.role !== "admin") {
+      return (
+        <div className="screen">
+          <div className="card">
+            <p className="hint">دسترسی فقط برای ادمین فعال است.</p>
+            <button className="link" onClick={() => setView("mainMenu")}>
+              بازگشت به منوی اصلی
+            </button>
+          </div>
+        </div>
+      );
+    }
+
+    const allEvents = eventLogger.getEvents();
+    const users = getUserAnalytics();
+    const userScopedEvents =
+      selectedAnalyticsUserId === "all"
+        ? allEvents
+        : allEvents.filter((event) => event.userId === selectedAnalyticsUserId);
+    const buildScenarioRuns = (events: typeof userScopedEvents) => {
+      const sorted = events.slice().sort((a, b) => a.ts - b.ts);
+      const scenarioCounters = new Map<string, number>();
+      const openRuns: Record<string, { runId: string; startTs: number }> = {};
+      const runs: Array<{ runId: string; label: string; startTs: number; endTs: number; scenarioId: string }> = [];
+
+      for (const event of sorted) {
+        const sid = event.scenarioId != null ? String(event.scenarioId) : "";
+        if (!sid) continue;
+        if (event.type === "scenario_start") {
+          const attempt = (scenarioCounters.get(sid) ?? 0) + 1;
+          scenarioCounters.set(sid, attempt);
+          const runId = `${sid}::${attempt}`;
+          openRuns[sid] = { runId, startTs: event.ts };
+        }
+        if ((event.type === "scenario_end" || event.type === "scenario_exit") && openRuns[sid]) {
+          const current = openRuns[sid];
+          runs.push({
+            runId: current.runId,
+            label: `سناریو ${sid} - اجرای ${current.runId.split("::")[1]}`,
+            startTs: current.startTs,
+            endTs: event.ts,
+            scenarioId: sid,
+          });
+          delete openRuns[sid];
+        }
+      }
+
+      return runs.sort((a, b) => b.startTs - a.startTs);
+    };
+    const scenarioRuns = buildScenarioRuns(userScopedEvents);
+    const selectedRun = selectedScenarioRunId === "all"
+      ? null
+      : scenarioRuns.find((run) => run.runId === selectedScenarioRunId) ?? null;
+    const filteredEvents = selectedRun
+      ? userScopedEvents.filter((event) => {
+          const sid = event.scenarioId != null ? String(event.scenarioId) : "";
+          return sid === selectedRun.scenarioId && event.ts >= selectedRun.startTs && event.ts <= selectedRun.endTs;
+        })
+      : userScopedEvents;
+    const insights = buildInsights(filteredEvents);
+    const selectedSummary =
+      selectedAnalyticsUserId === "all"
+        ? null
+        : users.find((user) => user.userId === selectedAnalyticsUserId) ?? null;
+    const maxTypeCount = Math.max(...insights.eventTypeCounts.map((x) => x.count), 1);
+    const maxThinkingMs = Math.max(...insights.questionThinking.map((x) => x.ms), 1);
+    const totalAnswers = Math.max(insights.correctAnswers, 0) + Math.max(insights.answeredQuestions - insights.correctAnswers, 0);
+    const correctPercent = totalAnswers > 0 ? Math.round((insights.correctAnswers / totalAnswers) * 100) : 0;
+    const incorrectPercent = 100 - correctPercent;
+    const pieStyle = {
+      background: `conic-gradient(#22c55e 0% ${correctPercent}%, #ef4444 ${correctPercent}% 100%)`,
+    };
+    const translateEventType = (type: string) => {
+      const map: Record<string, string> = {
+        scenario_card_click: "کلیک کارت سناریو",
+        scenario_start: "شروع سناریو",
+        scenario_end: "اتمام سناریو",
+        scenario_exit: "خروج ناتمام از سناریو",
+        question_presented: "نمایش سوال",
+        question_answered: "پاسخ به سوال",
+        node_enter: "ورود به گره",
+        option_select: "انتخاب گزینه",
+        option_confirm: "تایید گزینه",
+        reference_open: "بازکردن رفرنس",
+        reference_close: "بستن رفرنس",
+      };
+      return map[type] ?? type;
+    };
+    const translateNodeId = (nodeId: string) => {
+      const normalized = nodeId.replace(/([a-z])([A-Z])/g, "$1 $2").replace(/_/g, " ");
+      return normalized;
+    };
+    const timelineData = insights.questionTimeline.slice(0, 20);
+    const timelineMax = Math.max(...timelineData.map((x) => x.ms), 1);
+    const timelinePoints = timelineData
+      .map((point, index) => {
+        const x = timelineData.length > 1 ? 60 + (index / (timelineData.length - 1)) * 540 : 60;
+        const y = 210 - (point.ms / timelineMax) * 160;
+        return `${x},${y}`;
+      })
+      .join(" ");
+    const timelineTicks = timelineData.map((_, index) => {
+      const x = timelineData.length > 1 ? 60 + (index / (timelineData.length - 1)) * 540 : 60;
+      return { x, label: index + 1 };
+    });
+
+    return (
+      <div className="screen">
+        <div className="card">
+          <div className="screen-header">
+            <div>
+              <h2 className="screen-title">داشبورد تحلیلی کاربران</h2>
+              <p className="subtitle">نمایش تحلیل رفتار براساس لاگ کاربران</p>
+            </div>
+            <button className="link" onClick={() => setView("profileManager")}>
+              بازگشت به مدیریت پروفایل
+            </button>
+          </div>
+
+          <div className="analytics-toolbar">
+            <label htmlFor="analytics-user-select">فیلتر کاربر:</label>
+            <select
+              id="analytics-user-select"
+              value={selectedAnalyticsUserId}
+              onChange={(event) => setSelectedAnalyticsUserId(event.target.value)}
+            >
+              <option value="all">همه کاربران</option>
+              {users.map((user) => (
+                <option key={`${user.userId}-${user.userName}`} value={user.userId}>
+                  {user.userName} ({user.userId})
+                </option>
+              ))}
+            </select>
+
+            <label htmlFor="analytics-scenario-run-select">فیلتر اجرای سناریو:</label>
+            <select
+              id="analytics-scenario-run-select"
+              value={selectedScenarioRunId}
+              onChange={(event) => setSelectedScenarioRunId(event.target.value)}
+              disabled={selectedAnalyticsUserId === "all"}
+            >
+              <option value="all">نمایش همه سناریوها</option>
+              {selectedAnalyticsUserId !== "all" &&
+                scenarioRuns.map((run) => (
+                  <option key={run.runId} value={run.runId}>
+                    {run.label}
+                  </option>
+                ))}
+            </select>
+          </div>
+
+          <div className="analytics-grid">
+            <div className="analytics-stat">
+              <span>کل لاگ‌ها</span>
+              <strong>{filteredEvents.length}</strong>
+            </div>
+            <div className="analytics-stat">
+              <span>کل کاربران لاگ‌شده</span>
+              <strong>{users.length}</strong>
+            </div>
+            <div className="analytics-stat">
+              <span>سوالات پاسخ‌داده‌شده</span>
+              <strong>{insights.answeredQuestions}</strong>
+            </div>
+            <div className="analytics-stat">
+              <span>درصد پاسخ صحیح</span>
+              <strong>{insights.correctAnswerRate}%</strong>
+            </div>
+          </div>
+
+          <div className="analytics-grid">
+            <div className="analytics-stat">
+              <span>تعداد سوالات (Quiz)</span>
+              <strong>{insights.totalQuestions}</strong>
+            </div>
+            <div className="analytics-stat">
+              <span>تعداد گزینه صحیح</span>
+              <strong>{insights.correctAnswers}</strong>
+            </div>
+            <div className="analytics-stat">
+              <span>میانگین زمان فکر روی سوال</span>
+              <strong>{Math.round(insights.avgThinkingMs / 1000)} ثانیه</strong>
+            </div>
+            <div className="analytics-stat">
+              <span>کلیک روی رفرنس‌ها/مثال‌ها</span>
+              <strong>{insights.referenceClicks}</strong>
+            </div>
+          </div>
+
+          <div className="analytics-grid">
+            <div className="analytics-stat">
+              <span>میانگین مدت اجرای سناریو</span>
+              <strong>{insights.avgScenarioDurationSec} ثانیه</strong>
+            </div>
+            <div className="analytics-stat">
+              <span>تعداد اجرای کامل سناریو</span>
+              <strong>{insights.scenarioRuns}</strong>
+            </div>
+            <div className="analytics-stat">
+              <span>زمان مطالعه توضیحات</span>
+              <strong>{insights.descriptionReadSec} ثانیه</strong>
+            </div>
+            <div className="analytics-stat">
+              <span>زمان مطالعه رفرنس/مثال</span>
+              <strong>{insights.referenceReadSec} ثانیه</strong>
+            </div>
+          </div>
+
+          {selectedSummary && (
+            <div className="analytics-user-summary">
+              <h3>خلاصه کاربر انتخاب‌شده</h3>
+              {selectedRun && <p>فیلتر اجرای فعال: <strong>{selectedRun.label}</strong></p>}
+              <p>
+                کاربر: <strong>{selectedSummary.userName}</strong> ({selectedSummary.userId}) -
+                نقش: {selectedSummary.role}
+              </p>
+              <p>
+                سناریوی کامل: {selectedSummary.scenarioEnds} | خروج از سناریوی ناتمام:{" "}
+                {selectedSummary.scenarioExits} | میانگین مدت سناریوی کامل:{" "}
+                {selectedSummary.avgScenarioDurationSec} ثانیه
+              </p>
+            </div>
+          )}
+
+          <div className="analytics-charts">
+            <div className="analytics-chart-card">
+              <h3>توزیع نوع رخدادها</h3>
+              {insights.eventTypeCounts.map((item) => (
+                <div key={item.type} className="analytics-bar-row">
+                  <span className="analytics-bar-label">{translateEventType(item.type)}</span>
+                  <div className="analytics-bar-track">
+                    <div
+                      className="analytics-bar-fill"
+                      style={{ width: `${Math.max((item.count / maxTypeCount) * 100, 6)}%` }}
+                    />
+                  </div>
+                  <span className="analytics-bar-value">{item.count}</span>
+                </div>
+              ))}
+            </div>
+
+            <div className="analytics-chart-card">
+              <h3>نمودار دایره‌ای پاسخ صحیح</h3>
+              <div className="analytics-pie-wrap">
+                <div className="analytics-pie" style={pieStyle} />
+                <div className="analytics-pie-legend">
+                  <div><span className="dot dot-ok" /> صحیح: {correctPercent}%</div>
+                  <div><span className="dot dot-bad" /> غلط: {incorrectPercent}%</div>
+                </div>
+              </div>
+            </div>
+
+            <div className="analytics-chart-card">
+              <h3>میانگین زمان فکر روی سوال‌ها</h3>
+              {insights.questionThinking.map((item) => (
+                <div key={item.question} className="analytics-bar-row">
+                  <span className="analytics-bar-label">{translateNodeId(item.question)}</span>
+                  <div className="analytics-bar-track">
+                    <div
+                      className="analytics-bar-fill analytics-bar-fill-warn"
+                      style={{ width: `${Math.max((item.ms / maxThinkingMs) * 100, 6)}%` }}
+                    />
+                  </div>
+                  <span className="analytics-bar-value">{Math.round(item.ms / 1000)} ث</span>
+                </div>
+              ))}
+            </div>
+          </div>
+
+          <div className="analytics-chart-card" style={{ marginBottom: "1rem" }}>
+            <h3>روند زمان پاسخ از سوال اول تا آخر</h3>
+            {timelineData.length > 1 ? (
+              <div className="analytics-line-wrap">
+                <svg viewBox="0 0 640 260" preserveAspectRatio="xMidYMid meet" className="analytics-line-svg">
+                  <line x1="60" y1="40" x2="60" y2="210" className="analytics-axis" />
+                  <line x1="60" y1="210" x2="610" y2="210" className="analytics-axis" />
+                  <line x1="60" y1="125" x2="610" y2="125" className="analytics-axis-grid" />
+                  <text x="12" y="44" className="analytics-axis-text">زیاد</text>
+                  <text x="8" y="129" className="analytics-axis-text">متوسط</text>
+                  <text x="20" y="214" className="analytics-axis-text">کم</text>
+                  <text x="235" y="246" className="analytics-axis-text">محور X: ترتیب سوال‌ها</text>
+                  <text x="70" y="28" className="analytics-axis-text">محور Y: زمان پاسخ</text>
+                  <polyline points={timelinePoints} className="analytics-line" />
+                  {timelineTicks.map((tick) => (
+                    <g key={`tick-${tick.label}`}>
+                      <line x1={tick.x} y1="210" x2={tick.x} y2="216" className="analytics-axis" />
+                      <text x={tick.x - 3} y="230" className="analytics-axis-text">
+                        {tick.label}
+                      </text>
+                    </g>
+                  ))}
+                </svg>
+              </div>
+            ) : (
+              <p className="hint">داده کافی برای نمایش روند زمانی وجود ندارد.</p>
+            )}
+          </div>
+
+          <div className="analytics-log-toggle">
+            <button onClick={() => setShowAnalyticsLog((prev) => !prev)}>
+              {showAnalyticsLog ? "پنهان کردن لاگ" : "نمایش لاگ"}
+            </button>
+          </div>
+
+          {showAnalyticsLog && (
+            <div className="analytics-table-wrap">
+              <table className="analytics-table">
+                <thead>
+                  <tr>
+                    <th>زمان</th>
+                    <th>کاربر</th>
+                    <th>نوع رخداد</th>
+                    <th>سناریو</th>
+                    <th>جزئیات</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {filteredEvents
+                    .slice()
+                    .sort((a, b) => b.ts - a.ts)
+                    .map((event) => (
+                      <tr key={event.id}>
+                        <td>{new Date(event.ts).toLocaleString("fa-IR")}</td>
+                        <td>{event.userName ?? event.userId ?? "-"}</td>
+                        <td>{event.type}</td>
+                        <td>{event.scenarioId ?? "-"}</td>
+                        <td>{event.detail ? JSON.stringify(event.detail) : "-"}</td>
+                      </tr>
+                    ))}
+                </tbody>
+              </table>
+            </div>
+          )}
+        </div>
+      </div>
+    );
+  };
 
   const renderScenarioList = () => (
     <div className="screen">
@@ -518,9 +1093,30 @@ const [expandedScenarioId, setExpandedScenarioId] = useState<number | null>(null
                   <div className="scenario-actions">
                     <button
                       className="secondary"
-                      onClick={() =>
-                        setExpandedScenarioId(isExpanded ? null : scenario.id)
-                      }
+                      onClick={() => {
+                        if (!isExpanded) {
+                          const timerKey = `scenario-desc:${scenario.id}`;
+                          scenarioDescriptionTimerKeyRef.current = timerKey;
+                          eventLogger.startTimer(timerKey);
+                          eventLogger.log({
+                            type: "reference_open",
+                            scenarioId: scenario.id,
+                            action: "scenario_full_description",
+                            detail: { source: "scenario_description" },
+                          });
+                        } else if (scenarioDescriptionTimerKeyRef.current) {
+                          const elapsed = eventLogger.stopTimer(scenarioDescriptionTimerKeyRef.current);
+                          eventLogger.log({
+                            type: "reference_close",
+                            scenarioId: scenario.id,
+                            action: "scenario_full_description",
+                            elapsedMs: elapsed,
+                            detail: { source: "scenario_description" },
+                          });
+                          scenarioDescriptionTimerKeyRef.current = null;
+                        }
+                        setExpandedScenarioId(isExpanded ? null : scenario.id);
+                      }}
                     >
                       {isExpanded ? "بستن توضیح" : "نمایش توضیحات کامل"}
                     </button>
@@ -635,8 +1231,8 @@ const renderScenarioPlay = () => {
             />
 
             <div className="scenario-footer">
-              <button className="primary" onClick={handleFinishScenario}>
-                اتمام سناریو و باز کردن بعدی
+              <button className="danger" onClick={handleStopScenario}>
+                توقف سناریو
               </button>
             </div>
           </>
@@ -696,6 +1292,11 @@ const renderScenarioPlay = () => {
             </div>
 
             <div className="scenario-footer">
+              {!(totalQuestions > 0 && answeredCount >= totalQuestions) && (
+                <button className="danger" onClick={handleStopScenario}>
+                  توقف سناریو
+                </button>
+              )}
               <button
                 onClick={() => handleConfirmAnswer(totalQuestions)}
                 disabled={selectedOptionIndex == null || !currentQuestion}
@@ -708,7 +1309,7 @@ const renderScenarioPlay = () => {
                 onClick={handleFinishScenario}
                 disabled={totalQuestions > 0 && answeredCount < totalQuestions}
               >
-                اتمام سناریو و باز کردن بعدی
+                پایان سناریو
               </button>
             </div>
           </>
@@ -734,6 +1335,7 @@ const renderScenarioPlay = () => {
       )}
       {view === "mainMenu" && renderMainMenu()}
       {view === "profileManager" && renderProfileManager()}
+      {view === "adminAnalytics" && renderAdminAnalytics()}
       {view === "scenarioList" && renderScenarioList()}
       {view === "scenarioPlay" && renderScenarioPlay()}
 

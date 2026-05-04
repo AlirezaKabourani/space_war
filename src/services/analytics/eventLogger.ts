@@ -3,6 +3,8 @@
 
 type EventType =
   | "scenario_card_click"
+  | "reference_open"
+  | "reference_close"
   | "scenario_start"
   | "scenario_end"
   | "scenario_exit"
@@ -59,6 +61,10 @@ const buildId = () => {
 };
 
 export const eventLogger = {
+  getEvents() {
+    return load();
+  },
+
   setUserContext(user: { id?: string; name?: string; role?: string }) {
     userContext = user ?? {};
   },
