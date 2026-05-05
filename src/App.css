@@ -552,6 +552,69 @@ button.secondary {
   padding: 0.35rem 0.6rem;
 }
 
+.analytics-tabs {
+  display: flex;
+  gap: 0.5rem;
+  margin-bottom: 1rem;
+}
+
+.analytics-tab {
+  background: rgba(15, 23, 42, 0.8);
+  border: 1px solid rgba(148, 163, 184, 0.4);
+}
+
+.analytics-tab.active {
+  background: linear-gradient(135deg, #38bdf8, #0ea5e9);
+  color: #031025;
+  border-color: rgba(56, 189, 248, 0.8);
+}
+
+.analytics-cognitive {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.radar-wrap {
+  display: flex;
+  justify-content: center;
+  width: 100%;
+}
+
+.radar-svg {
+  width: 100%;
+  max-width: 460px;
+  height: auto;
+}
+
+.radar-grid {
+  fill: none;
+  stroke: rgba(148, 163, 184, 0.35);
+  stroke-width: 1;
+}
+
+.radar-axis-line {
+  stroke: rgba(148, 163, 184, 0.5);
+  stroke-width: 1;
+}
+
+.radar-axis-label {
+  fill: #cbd5e1;
+  font-size: 12px;
+  text-anchor: middle;
+  dominant-baseline: middle;
+}
+
+.radar-data-fill {
+  fill: rgba(56, 189, 248, 0.22);
+}
+
+.radar-data-stroke {
+  fill: none;
+  stroke: #38bdf8;
+  stroke-width: 2;
+}
+
 .analytics-grid {
   display: grid;
   grid-template-columns: repeat(4, minmax(0, 1fr));

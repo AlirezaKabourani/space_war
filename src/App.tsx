@@ -46,6 +46,7 @@ interface UserAnalyticsSummary {
 interface UserAnalyticsInsights {
   totalQuestions: number;
   answeredQuestions: number;
+  scoredAnswers: number;
   correctAnswers: number;
   correctAnswerRate: number;
   avgThinkingMs: number;
@@ -57,6 +58,28 @@ interface UserAnalyticsInsights {
   eventTypeCounts: Array<{ type: string; count: number }>;
   questionThinking: Array<{ question: string; ms: number }>;
   questionTimeline: Array<{ label: string; ms: number }>;
+}
+
+interface CognitiveDomainScore {
+  domain: string;
+  total: number;
+  correct: number;
+  accuracy: number;
+}
+
+interface CognitiveInsights {
+  overallAccuracy: number;
+  decisionSpeedSec: number;
+  hesitationRate: number;
+  answerChangeRate: number;
+  successfulRevisionRate: number;
+  referenceUsageRate: number;
+  unfinishedExitRate: number;
+  estimatedCognitiveLoad: number;
+  styleLabel: string;
+  speedAccuracyQuadrant: string;
+  domainScores: CognitiveDomainScore[];
+  frequentErrors: Array<{ nodeId: string; wrongCount: number }>;
 }
 
 const SCENARIO_QUESTIONS: Record<number, Question[]> = {
@@ -195,8 +218,11 @@ const App = () => {
   const [globalMenuOpen, setGlobalMenuOpen] = useState(false);
   const [selectedAnalyticsUserId, setSelectedAnalyticsUserId] = useState<string>("all");
   const [selectedScenarioRunId, setSelectedScenarioRunId] = useState<string>("all");
+  const [analyticsSection, setAnalyticsSection] = useState<"stat" | "cognitive">("stat");
   const [showAnalyticsLog, setShowAnalyticsLog] = useState(false);
+  const [loggingEnabled, setLoggingEnabled] = useState<boolean>(() => eventLogger.isLoggingEnabled());
   const scenarioDescriptionTimerKeyRef = useRef<string | null>(null);
+  const importLogInputRef = useRef<HTMLInputElement | null>(null);
 
   useEffect(() => {
     setSelectedScenarioRunId("all");
@@ -273,6 +299,109 @@ const [expandedScenarioId, setExpandedScenarioId] = useState<number | null>(null
 
   const handleDownloadLog = () => {
     eventLogger.exportToCSV();
+  };
+
+  const handleToggleLogging = () => {
+    const next = !loggingEnabled;
+    eventLogger.setLoggingEnabled(next);
+    setLoggingEnabled(next);
+  };
+
+  const parseCsvLine = (line: string) => {
+    const values: string[] = [];
+    let current = "";
+    let inQuotes = false;
+    for (let i = 0; i < line.length; i += 1) {
+      const ch = line[i];
+      const next = line[i + 1];
+      if (ch === '"' && inQuotes && next === '"') {
+        current += '"';
+        i += 1;
+        continue;
+      }
+      if (ch === '"') {
+        inQuotes = !inQuotes;
+        continue;
+      }
+      if (ch === "," && !inQuotes) {
+        values.push(current);
+        current = "";
+        continue;
+      }
+      current += ch;
+    }
+    values.push(current);
+    return values;
+  };
+
+  const handleImportLogFile = async (file: File) => {
+    const text = await file.text();
+    const lines = text
+      .split(/\r?\n/)
+      .map((l) => l.trim())
+      .filter(Boolean);
+    if (lines.length < 2) {
+      alert("CSV معتبر نیست.");
+      return;
+    }
+
+    const header = parseCsvLine(lines[0]);
+    const indexOf = (key: string) => header.indexOf(key);
+    const idx = {
+      timestamp: indexOf("timestamp"),
+      type: indexOf("type"),
+      scenarioId: indexOf("scenarioId"),
+      nodeId: indexOf("nodeId"),
+      action: indexOf("action"),
+      elapsedMs: indexOf("elapsedMs"),
+      userId: indexOf("userId"),
+      userName: indexOf("userName"),
+      userRole: indexOf("userRole"),
+      detail: indexOf("detail"),
+    };
+    if (idx.timestamp < 0 || idx.type < 0) {
+      alert("ستون‌های ضروری CSV پیدا نشد.");
+      return;
+    }
+
+    const imported = lines.slice(1).map((line, rowIdx) => {
+      const row = parseCsvLine(line);
+      const detailRaw = idx.detail >= 0 ? row[idx.detail] ?? "" : "";
+      let detail: Record<string, unknown> | undefined;
+      if (detailRaw) {
+        try {
+          detail = JSON.parse(detailRaw) as Record<string, unknown>;
+        } catch {
+          detail = { raw: detailRaw };
+        }
+      }
+      const tsRaw = row[idx.timestamp];
+      const ts = Number.isFinite(Date.parse(tsRaw)) ? Date.parse(tsRaw) : Date.now();
+      const elapsedRaw = idx.elapsedMs >= 0 ? row[idx.elapsedMs] : "";
+      const elapsedMs = elapsedRaw ? Number(elapsedRaw) : undefined;
+      return {
+        id: `import-${ts}-${rowIdx}`,
+        ts,
+        type: row[idx.type] ?? "unknown",
+        scenarioId: idx.scenarioId >= 0 && row[idx.scenarioId] !== "" ? row[idx.scenarioId] : undefined,
+        nodeId: idx.nodeId >= 0 && row[idx.nodeId] !== "" ? row[idx.nodeId] : undefined,
+        action: idx.action >= 0 && row[idx.action] !== "" ? row[idx.action] : undefined,
+        elapsedMs: Number.isFinite(elapsedMs) ? elapsedMs : undefined,
+        userId: idx.userId >= 0 && row[idx.userId] !== "" ? row[idx.userId] : undefined,
+        userName: idx.userName >= 0 && row[idx.userName] !== "" ? row[idx.userName] : undefined,
+        userRole: idx.userRole >= 0 && row[idx.userRole] !== "" ? row[idx.userRole] : undefined,
+        detail,
+      };
+    });
+
+    const replace = window.confirm("می‌خواهی لاگ فعلی پاک شود و CSV جایگزین شود؟\nOK = جایگزینی کامل، Cancel = ادغام با لاگ فعلی");
+    if (replace) {
+      eventLogger.replaceEvents(imported);
+      alert(`لاگ با ${imported.length} رویداد جایگزین شد.`);
+    } else {
+      const added = eventLogger.mergeEvents(imported);
+      alert(`${added} رویداد جدید به لاگ اضافه شد (ادغام با حذف تکراری‌ها).`);
+    }
   };
 
   const getUserAnalytics = (): UserAnalyticsSummary[] => {
@@ -439,6 +568,7 @@ const [expandedScenarioId, setExpandedScenarioId] = useState<number | null>(null
     return {
       totalQuestions: quizQuestionIds.size,
       answeredQuestions: answeredQuestionIds.size,
+      scoredAnswers: answerCount,
       correctAnswers,
       correctAnswerRate: answerCount > 0 ? Math.round((correctAnswers / answerCount) * 100) : 0,
       avgThinkingMs: thinkingCount > 0 ? Math.round(totalThinkingMs / thinkingCount) : 0,
@@ -453,6 +583,137 @@ const [expandedScenarioId, setExpandedScenarioId] = useState<number | null>(null
       eventTypeCounts,
       questionThinking,
       questionTimeline,
+    };
+  };
+
+  const buildCognitiveInsights = (events: ReturnType<typeof eventLogger.getEvents>): CognitiveInsights => {
+    const confirmEvents = events.filter((e) => e.type === "option_confirm");
+    const scoredConfirms = confirmEvents.filter(
+      (e) => typeof e.detail?.["isCorrect"] === "boolean"
+    );
+    const correctCount = scoredConfirms.filter((e) => e.detail?.["isCorrect"] === true).length;
+    const overallAccuracy = scoredConfirms.length > 0 ? Math.round((correctCount / scoredConfirms.length) * 100) : 0;
+
+    const decisionElapsed = scoredConfirms
+      .map((e) => e.elapsedMs ?? 0)
+      .filter((x) => x > 0);
+    const avgDecisionMs = decisionElapsed.length > 0
+      ? decisionElapsed.reduce((a, b) => a + b, 0) / decisionElapsed.length
+      : 0;
+    const decisionSpeedSec = Math.round(avgDecisionMs / 1000);
+
+    const groupByNode = new Map<string, typeof events>();
+    for (const event of events) {
+      if (!event.nodeId) continue;
+      const key = String(event.nodeId);
+      groupByNode.set(key, [...(groupByNode.get(key) ?? []), event]);
+    }
+
+    let hesitantNodes = 0;
+    let changedAnswerNodes = 0;
+    let successfulRevisions = 0;
+    let revisionCount = 0;
+    let referenceUsedNodes = 0;
+    let wrongAfterLongThink = 0;
+    const wrongCountByNode = new Map<string, number>();
+    const domainStat = new Map<string, { total: number; correct: number }>();
+
+    const getDomain = (nodeId: string) => {
+      const n = nodeId.toLowerCase();
+      if (n.includes("gametheory")) return "نظریه بازی";
+      if (n.includes("wargame")) return "بازی جنگ";
+      if (n.includes("space")) return "بازی جنگ فضایی";
+      return "سایر";
+    };
+
+    for (const [nodeId, nodeEvents] of groupByNode.entries()) {
+      const selects = nodeEvents.filter((e) => e.type === "option_select");
+      const confirms = nodeEvents.filter((e) => e.type === "option_confirm");
+      const confirmsWithScore = confirms.filter((e) => typeof e.detail?.["isCorrect"] === "boolean");
+      if (selects.length > 1) hesitantNodes += 1;
+      const selectedOptionIds = selects.map((e) => String(e.detail?.["optionId"] ?? ""));
+      if (new Set(selectedOptionIds.filter(Boolean)).size > 1) changedAnswerNodes += 1;
+
+      if (confirmsWithScore.length > 0) {
+        const c = confirmsWithScore[confirmsWithScore.length - 1];
+        const d = getDomain(nodeId);
+        const prev = domainStat.get(d) ?? { total: 0, correct: 0 };
+        prev.total += 1;
+        if (c.detail?.["isCorrect"] === true) prev.correct += 1;
+        domainStat.set(d, prev);
+
+        if (c.detail?.["isCorrect"] === false) {
+          wrongCountByNode.set(nodeId, (wrongCountByNode.get(nodeId) ?? 0) + 1);
+          if ((c.elapsedMs ?? 0) > avgDecisionMs && avgDecisionMs > 0) wrongAfterLongThink += 1;
+        }
+      }
+
+      const hasReference = nodeEvents.some(
+        (e) =>
+          e.type === "reference_open" ||
+          (e.type === "node_enter" && String(e.nodeId ?? "").toLowerCase().includes("example"))
+      );
+      if (hasReference) referenceUsedNodes += 1;
+
+      const changed = new Set(selectedOptionIds.filter(Boolean)).size > 1;
+      if (changed && confirmsWithScore.length > 0) {
+        revisionCount += 1;
+        const lastConfirm = confirmsWithScore[confirmsWithScore.length - 1];
+        if (lastConfirm.detail?.["isCorrect"] === true) successfulRevisions += 1;
+      }
+    }
+
+    const scenarioStarts = events.filter((e) => e.type === "scenario_start").length;
+    const scenarioExits = events.filter((e) => e.type === "scenario_exit").length;
+
+    const hesitationRate = scoredConfirms.length > 0 ? Math.round((hesitantNodes / scoredConfirms.length) * 100) : 0;
+    const answerChangeRate = scoredConfirms.length > 0 ? Math.round((changedAnswerNodes / scoredConfirms.length) * 100) : 0;
+    const successfulRevisionRate = revisionCount > 0 ? Math.round((successfulRevisions / revisionCount) * 100) : 0;
+    const referenceUsageRate = scoredConfirms.length > 0 ? Math.round((referenceUsedNodes / scoredConfirms.length) * 100) : 0;
+    const unfinishedExitRate = scenarioStarts > 0 ? Math.round((scenarioExits / scenarioStarts) * 100) : 0;
+
+    const loadRaw =
+      (hesitationRate * 0.25) +
+      (answerChangeRate * 0.2) +
+      (referenceUsageRate * 0.15) +
+      (unfinishedExitRate * 0.2) +
+      (wrongAfterLongThink > 0 ? Math.min(20, wrongAfterLongThink * 5) : 0);
+    const estimatedCognitiveLoad = Math.max(0, Math.min(100, Math.round(loadRaw)));
+
+    const isFast = decisionSpeedSec > 0 && decisionSpeedSec <= 2;
+    const isAccurate = overallAccuracy >= 70;
+    const speedAccuracyQuadrant = isFast
+      ? (isAccurate ? "سریع و دقیق" : "سریع و غیردقیق")
+      : (isAccurate ? "کند و دقیق" : "کند و غیردقیق");
+    const styleLabel = isFast
+      ? (overallAccuracy >= 70 ? "شهودی-عملیاتی" : "شتاب‌زده")
+      : (overallAccuracy >= 70 ? "تحلیلی-محتاط" : "مردد/نیازمند آموزش");
+
+    const domainScores: CognitiveDomainScore[] = Array.from(domainStat.entries()).map(([domain, v]) => ({
+      domain,
+      total: v.total,
+      correct: v.correct,
+      accuracy: v.total > 0 ? Math.round((v.correct / v.total) * 100) : 0,
+    }));
+
+    const frequentErrors = Array.from(wrongCountByNode.entries())
+      .map(([nodeId, wrongCount]) => ({ nodeId, wrongCount }))
+      .sort((a, b) => b.wrongCount - a.wrongCount)
+      .slice(0, 6);
+
+    return {
+      overallAccuracy,
+      decisionSpeedSec,
+      hesitationRate,
+      answerChangeRate,
+      successfulRevisionRate,
+      referenceUsageRate,
+      unfinishedExitRate,
+      estimatedCognitiveLoad,
+      styleLabel,
+      speedAccuracyQuadrant,
+      domainScores,
+      frequentErrors,
     };
   };
 
@@ -719,7 +980,14 @@ const [expandedScenarioId, setExpandedScenarioId] = useState<number | null>(null
       const sorted = events.slice().sort((a, b) => a.ts - b.ts);
       const scenarioCounters = new Map<string, number>();
       const openRuns: Record<string, { runId: string; startTs: number }> = {};
-      const runs: Array<{ runId: string; label: string; startTs: number; endTs: number; scenarioId: string }> = [];
+      const runs: Array<{
+        runId: string;
+        label: string;
+        startTs: number;
+        endTs: number;
+        scenarioId: string;
+        completed: boolean;
+      }> = [];
 
       for (const event of sorted) {
         const sid = event.scenarioId != null ? String(event.scenarioId) : "";
@@ -738,6 +1006,7 @@ const [expandedScenarioId, setExpandedScenarioId] = useState<number | null>(null
             startTs: current.startTs,
             endTs: event.ts,
             scenarioId: sid,
+            completed: event.type === "scenario_end",
           });
           delete openRuns[sid];
         }
@@ -756,13 +1025,15 @@ const [expandedScenarioId, setExpandedScenarioId] = useState<number | null>(null
         })
       : userScopedEvents;
     const insights = buildInsights(filteredEvents);
+    const cognitive = buildCognitiveInsights(filteredEvents);
+    const isSelectedRunUnfinished = Boolean(selectedRun && !selectedRun.completed);
     const selectedSummary =
       selectedAnalyticsUserId === "all"
         ? null
         : users.find((user) => user.userId === selectedAnalyticsUserId) ?? null;
     const maxTypeCount = Math.max(...insights.eventTypeCounts.map((x) => x.count), 1);
     const maxThinkingMs = Math.max(...insights.questionThinking.map((x) => x.ms), 1);
-    const totalAnswers = Math.max(insights.correctAnswers, 0) + Math.max(insights.answeredQuestions - insights.correctAnswers, 0);
+    const totalAnswers = Math.max(insights.scoredAnswers, 0);
     const correctPercent = totalAnswers > 0 ? Math.round((insights.correctAnswers / totalAnswers) * 100) : 0;
     const incorrectPercent = 100 - correctPercent;
     const pieStyle = {
@@ -801,6 +1072,44 @@ const [expandedScenarioId, setExpandedScenarioId] = useState<number | null>(null
       const x = timelineData.length > 1 ? 60 + (index / (timelineData.length - 1)) * 540 : 60;
       return { x, label: index + 1 };
     });
+    const clamp100 = (n: number) => Math.max(0, Math.min(100, Math.round(n)));
+    const radarAxes = [
+      { label: "درک مفهومی", value: clamp100(cognitive.overallAccuracy) },
+      {
+        label: "آگاهی موقعیتی",
+        value: clamp100(cognitive.referenceUsageRate * 0.4 + cognitive.successfulRevisionRate * 0.6),
+      },
+      {
+        label: "کیفیت تصمیم",
+        value: clamp100(cognitive.overallAccuracy * 0.7 + cognitive.successfulRevisionRate * 0.3),
+      },
+      {
+        label: "سرعت پردازش",
+        value: clamp100(100 - Math.min(100, cognitive.decisionSpeedSec * 20)),
+      },
+      { label: "مدیریت ریسک", value: clamp100(100 - cognitive.unfinishedExitRate) },
+      { label: "جست‌وجوی اطلاعات", value: clamp100(cognitive.referenceUsageRate) },
+      { label: "یادگیری و سازگاری", value: clamp100(cognitive.successfulRevisionRate) },
+      { label: "مدیریت منابع", value: 50 },
+      { label: "پایبندی به مأموریت", value: clamp100(100 - cognitive.unfinishedExitRate * 0.8) },
+    ];
+    const radarCx = 220;
+    const radarCy = 220;
+    const radarR = 150;
+    const radarLevels = [20, 40, 60, 80, 100];
+    const toRadarPoint = (index: number, normalized: number) => {
+      const angle = (Math.PI * 2 * index) / radarAxes.length - Math.PI / 2;
+      const r = radarR * normalized;
+      const x = radarCx + r * Math.cos(angle);
+      const y = radarCy + r * Math.sin(angle);
+      return { x, y };
+    };
+    const radarPolygon = radarAxes
+      .map((axis, idx) => {
+        const p = toRadarPoint(idx, axis.value / 100);
+        return `${p.x},${p.y}`;
+      })
+      .join(" ");
 
     return (
       <div className="screen">
@@ -847,6 +1156,23 @@ const [expandedScenarioId, setExpandedScenarioId] = useState<number | null>(null
             </select>
           </div>
 
+          <div className="analytics-tabs">
+            <button
+              className={analyticsSection === "stat" ? "analytics-tab active" : "analytics-tab"}
+              onClick={() => setAnalyticsSection("stat")}
+            >
+              بررسی آماری
+            </button>
+            <button
+              className={analyticsSection === "cognitive" ? "analytics-tab active" : "analytics-tab"}
+              onClick={() => setAnalyticsSection("cognitive")}
+            >
+              بررسی شناختی
+            </button>
+          </div>
+
+          {analyticsSection === "stat" ? (
+          <>
           <div className="analytics-grid">
             <div className="analytics-stat">
               <span>کل لاگ‌ها</span>
@@ -888,7 +1214,9 @@ const [expandedScenarioId, setExpandedScenarioId] = useState<number | null>(null
           <div className="analytics-grid">
             <div className="analytics-stat">
               <span>میانگین مدت اجرای سناریو</span>
-              <strong>{insights.avgScenarioDurationSec} ثانیه</strong>
+              <strong>
+                {isSelectedRunUnfinished ? "سناریو تکمیل نشد" : `${insights.avgScenarioDurationSec} ثانیه`}
+              </strong>
             </div>
             <div className="analytics-stat">
               <span>تعداد اجرای کامل سناریو</span>
@@ -1027,6 +1355,90 @@ const [expandedScenarioId, setExpandedScenarioId] = useState<number | null>(null
                     ))}
                 </tbody>
               </table>
+            </div>
+          )}
+          </>
+          ) : (
+            <div className="analytics-cognitive">
+              <div className="analytics-grid">
+                <div className="analytics-stat"><span>دقت مفهومی کلی</span><strong>{cognitive.overallAccuracy}%</strong></div>
+                <div className="analytics-stat"><span>سرعت تصمیم‌گیری</span><strong>{cognitive.decisionSpeedSec} ثانیه</strong></div>
+                <div className="analytics-stat"><span>نرخ تردید/بازبینی</span><strong>{cognitive.hesitationRate}%</strong></div>
+                <div className="analytics-stat"><span>نرخ تغییر پاسخ</span><strong>{cognitive.answerChangeRate}%</strong></div>
+                <div className="analytics-stat"><span>اصلاح موفق پس از تغییر</span><strong>{cognitive.successfulRevisionRate}%</strong></div>
+                <div className="analytics-stat"><span>استفاده از مرجع</span><strong>{cognitive.referenceUsageRate}%</strong></div>
+                <div className="analytics-stat"><span>ترک سناریوی ناتمام</span><strong>{cognitive.unfinishedExitRate}%</strong></div>
+                <div className="analytics-stat"><span>بار شناختی تخمینی</span><strong>{cognitive.estimatedCognitiveLoad}/100</strong></div>
+              </div>
+
+              <div className="analytics-user-summary">
+                <h3>خلاصه شناختی</h3>
+                <p>سبک تصمیم‌گیری: <strong>{cognitive.styleLabel}</strong></p>
+                <p>جایگاه در ماتریس سرعت×دقت: <strong>{cognitive.speedAccuracyQuadrant}</strong></p>
+              </div>
+
+              <div className="analytics-charts">
+                <div className="analytics-chart-card">
+                  <h3>نمودار راداری شناختی</h3>
+                  <div className="radar-wrap">
+                    <svg viewBox="0 0 440 470" className="radar-svg">
+                      {radarLevels.map((level) => {
+                        const points = radarAxes
+                          .map((_, idx) => {
+                            const p = toRadarPoint(idx, level / 100);
+                            return `${p.x},${p.y}`;
+                          })
+                          .join(" ");
+                        return <polygon key={`lvl-${level}`} points={points} className="radar-grid" />;
+                      })}
+
+                      {radarAxes.map((axis, idx) => {
+                        const p = toRadarPoint(idx, 1);
+                        return (
+                          <g key={`axis-${axis.label}`}>
+                            <line x1={radarCx} y1={radarCy} x2={p.x} y2={p.y} className="radar-axis-line" />
+                            <text x={p.x} y={p.y} className="radar-axis-label">
+                              {axis.label}
+                            </text>
+                          </g>
+                        );
+                      })}
+
+                      <polygon points={radarPolygon} className="radar-data-fill" />
+                      <polygon points={radarPolygon} className="radar-data-stroke" />
+                    </svg>
+                  </div>
+                  <p className="hint">این نمودار بر اساس پروکسی رفتاری و لاگ فعلی محاسبه می‌شود.</p>
+                </div>
+
+                <div className="analytics-chart-card">
+                  <h3>تسلط مفهومی بر حوزه‌ها</h3>
+                  {cognitive.domainScores.map((d) => (
+                    <div key={d.domain} className="analytics-bar-row">
+                      <span className="analytics-bar-label">{d.domain}</span>
+                      <div className="analytics-bar-track">
+                        <div className="analytics-bar-fill" style={{ width: `${Math.max(d.accuracy, 4)}%` }} />
+                      </div>
+                      <span className="analytics-bar-value">{d.accuracy}%</span>
+                    </div>
+                  ))}
+                </div>
+
+                <div className="analytics-chart-card">
+                  <h3>ضعف‌های پرتکرار (خطای مفهومی)</h3>
+                  {cognitive.frequentErrors.length === 0 && <p className="hint">خطای پرتکرار ثبت نشده است.</p>}
+                  {cognitive.frequentErrors.map((e) => (
+                    <div key={e.nodeId} className="analytics-bar-row">
+                      <span className="analytics-bar-label">{e.nodeId}</span>
+                      <div className="analytics-bar-track">
+                        <div className="analytics-bar-fill analytics-bar-fill-warn" style={{ width: `${Math.min(100, e.wrongCount * 25)}%` }} />
+                      </div>
+                      <span className="analytics-bar-value">{e.wrongCount}</span>
+                    </div>
+                  ))}
+                </div>
+              </div>
+
             </div>
           )}
         </div>
@@ -1398,24 +1810,71 @@ const renderScenarioPlay = () => {
       </div>
 
       {activeProfile.role === "admin" && (
-        <button
-          onClick={() => eventLogger.clear()}
+        <div
           style={{
             position: "fixed",
             left: "1rem",
             bottom: "1rem",
-            padding: "0.45rem 0.9rem",
-            borderRadius: "999px",
-            border: "1px solid var(--border-soft)",
-            background: "rgba(15, 23, 42, 0.85)",
-            color: "var(--text-main)",
-            boxShadow: "0 10px 24px rgba(0,0,0,0.35)",
-            cursor: "pointer",
+            display: "flex",
+            gap: "0.5rem",
             zIndex: 2000,
           }}
         >
-          Reset log
-        </button>
+          <button
+            onClick={handleToggleLogging}
+            style={{
+              padding: "0.45rem 0.9rem",
+              borderRadius: "999px",
+              border: "1px solid var(--border-soft)",
+              background: "rgba(15, 23, 42, 0.85)",
+              color: "var(--text-main)",
+              boxShadow: "0 10px 24px rgba(0,0,0,0.35)",
+              cursor: "pointer",
+            }}
+          >
+            {loggingEnabled ? "stop logging" : "start logging"}
+          </button>
+          <button
+            onClick={() => importLogInputRef.current?.click()}
+            style={{
+              padding: "0.45rem 0.9rem",
+              borderRadius: "999px",
+              border: "1px solid var(--border-soft)",
+              background: "rgba(15, 23, 42, 0.85)",
+              color: "var(--text-main)",
+              boxShadow: "0 10px 24px rgba(0,0,0,0.35)",
+              cursor: "pointer",
+            }}
+          >
+            Import log CSV
+          </button>
+          <button
+            onClick={() => eventLogger.clear()}
+            style={{
+              padding: "0.45rem 0.9rem",
+              borderRadius: "999px",
+              border: "1px solid var(--border-soft)",
+              background: "rgba(15, 23, 42, 0.85)",
+              color: "var(--text-main)",
+              boxShadow: "0 10px 24px rgba(0,0,0,0.35)",
+              cursor: "pointer",
+            }}
+          >
+            Reset log
+          </button>
+          <input
+            ref={importLogInputRef}
+            type="file"
+            accept=".csv,text/csv"
+            style={{ display: "none" }}
+            onChange={async (event) => {
+              const file = event.target.files?.[0];
+              if (!file) return;
+              await handleImportLogFile(file);
+              event.target.value = "";
+            }}
+          />
+        </div>
       )}
     </div>
   );

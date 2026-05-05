@@ -29,6 +29,7 @@ export interface EventLogEntry {
 }
 
 const STORAGE_KEY = "space-war.analytics.events";
+const LOGGING_ENABLED_KEY = "space-war.analytics.enabled";
 const timers: Record<string, number> = {};
 let counter = 0;
 let userContext: { id?: string; name?: string; role?: string } = {};
@@ -61,8 +62,38 @@ const buildId = () => {
 };
 
 export const eventLogger = {
+  isLoggingEnabled() {
+    return loadLoggingEnabled();
+  },
+
+  setLoggingEnabled(enabled: boolean) {
+    persistLoggingEnabled(enabled);
+  },
+
   getEvents() {
     return load();
+  },
+
+  replaceEvents(events: EventLogEntry[]) {
+    persist(events);
+  },
+
+  mergeEvents(events: EventLogEntry[]) {
+    const current = load();
+    const seen = new Set<string>();
+    const keyOf = (e: EventLogEntry) =>
+      e.id || `${e.ts}|${e.type}|${e.userId ?? ""}|${e.nodeId ?? ""}|${e.scenarioId ?? ""}`;
+
+    const merged: EventLogEntry[] = [];
+    for (const item of [...current, ...events]) {
+      const key = keyOf(item);
+      if (seen.has(key)) continue;
+      seen.add(key);
+      merged.push(item);
+    }
+    merged.sort((a, b) => a.ts - b.ts);
+    persist(merged);
+    return merged.length - current.length;
   },
 
   setUserContext(user: { id?: string; name?: string; role?: string }) {
@@ -70,6 +101,7 @@ export const eventLogger = {
   },
 
   log(event: Omit<EventLogEntry, "id" | "ts">) {
+    if (!loadLoggingEnabled()) return null;
     const entry: EventLogEntry = {
       id: buildId(),
       ts: Date.now(),
@@ -171,4 +203,24 @@ export const eventLogger = {
   clear() {
     persist([]);
   },
+};
+
+const loadLoggingEnabled = () => {
+  if (typeof localStorage === "undefined") return true;
+  try {
+    const raw = localStorage.getItem(LOGGING_ENABLED_KEY);
+    if (raw == null) return true;
+    return raw !== "false";
+  } catch {
+    return true;
+  }
+};
+
+const persistLoggingEnabled = (enabled: boolean) => {
+  if (typeof localStorage === "undefined") return;
+  try {
+    localStorage.setItem(LOGGING_ENABLED_KEY, String(enabled));
+  } catch {
+    // ignore storage errors silently
+  }
 };
