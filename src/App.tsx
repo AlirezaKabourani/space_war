@@ -74,6 +74,12 @@ interface CognitiveInsights {
   answerChangeRate: number;
   successfulRevisionRate: number;
   referenceUsageRate: number;
+  explanationUsageRate: number;
+  avgExplanationSec: number;
+  guidanceBenefitScore: number;
+  overconfidenceErrorRate: number;
+  productiveHesitationRate: number;
+  conceptFrictionScore: number;
   unfinishedExitRate: number;
   estimatedCognitiveLoad: number;
   styleLabel: string;
@@ -81,6 +87,58 @@ interface CognitiveInsights {
   domainScores: CognitiveDomainScore[];
   frequentErrors: Array<{ nodeId: string; wrongCount: number }>;
 }
+
+const clampDashboardValue = (value: number, min: number, max: number) =>
+  Math.max(min, Math.min(max, value));
+
+const OperationalStrategicScale = ({ value }: { value: number }) => {
+  const markerPosition = clampDashboardValue(((value + 1) / 2) * 100, 0, 100);
+  return (
+    <div
+      style={{
+        border: "1px solid var(--border-soft)",
+        borderRadius: "14px",
+        padding: "1rem",
+        background: "rgba(15, 23, 42, 0.65)",
+        marginTop: "0.8rem",
+      }}
+    >
+      <div style={{ display: "flex", justifyContent: "space-between", gap: "1rem", marginBottom: "0.65rem" }}>
+        <strong>طیف عملیاتی–راهبردی</strong>
+        <span>{value.toFixed(2)}</span>
+      </div>
+      <div
+        style={{
+          position: "relative",
+          height: "18px",
+          borderRadius: "999px",
+          background:
+            "linear-gradient(90deg, #ef4444 0%, #f59e0b 36%, #22c55e 50%, #38bdf8 64%, #6366f1 100%)",
+          boxShadow: "inset 0 0 0 1px rgba(255,255,255,0.18)",
+        }}
+      >
+        <div
+          style={{
+            position: "absolute",
+            top: "-7px",
+            left: `${markerPosition}%`,
+            width: "4px",
+            height: "32px",
+            borderRadius: "999px",
+            background: "#fff",
+            transform: "translateX(-50%)",
+            boxShadow: "0 0 16px rgba(255,255,255,0.85)",
+          }}
+        />
+      </div>
+      <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr 1fr", gap: "0.5rem", marginTop: "0.65rem", fontSize: "0.85rem", color: "var(--text-muted)" }}>
+        <span style={{ textAlign: "right" }}>عملیاتی (-1)</span>
+        <span style={{ textAlign: "center" }}>ترکیبی (0)</span>
+        <span style={{ textAlign: "left" }}>راهبردی (+1)</span>
+      </div>
+    </div>
+  );
+};
 
 const SCENARIO_QUESTIONS: Record<number, Question[]> = {
   0: [
@@ -154,7 +212,7 @@ const SCENARIOS: Scenario[] = [
   },
   {
     id: 1,
-    title: "سایه‌های مدار پایین",
+    title: "۱ — سایه‌های مدار پایین",
     summary: "پایش ماهواره‌ها و حفظ پوشش اطلاعاتی در مدار پایین زمین.",
     image: "/images/scenario1.png",
     fullDescription: `در مدار پایین زمین، نبردی خاموش در جریان است؛ ماهواره‌ها در ظاهر برای علم و ارتباط پرتاب می‌شوند، اما هر حرکت می‌تواند معنایی پنهان داشته باشد. در این سناریو، شما فرمانده عملیات اطلاعاتی ایران هستید. مأموریتتان ساده به نظر می‌رسد: حفظ پوشش اطلاعاتی در چند منطقه کلیدی. اما هر تصمیم شما، می‌تواند تفاوت بین «اشراف فضایی» و «کور شدن میدان نبرد» باشد. آیا می‌توانید پیش از دشمن، حرکت بعدی او را ببینید؟ `
@@ -596,11 +654,23 @@ const [expandedScenarioId, setExpandedScenarioId] = useState<number | null>(null
     const scoredConfirms = confirmEvents.filter(
       (e) => typeof e.detail?.["isCorrect"] === "boolean"
     );
-    const correctCount = scoredConfirms.filter((e) => e.detail?.["isCorrect"] === true).length;
-    const overallAccuracy = scoredConfirms.length > 0 ? Math.round((correctCount / scoredConfirms.length) * 100) : 0;
+    const miniGameScoredEvents = events.filter(
+      (e) =>
+        typeof e.type === "string" &&
+        e.type.startsWith("mini_game_") &&
+        e.type !== "mini_game_start" &&
+        e.type !== "mini_game_summary" &&
+        typeof e.detail?.["isCorrect"] === "boolean"
+    );
+    const allScoredEvents = [...scoredConfirms, ...miniGameScoredEvents];
+    const allCorrectCount = allScoredEvents.filter((e) => e.detail?.["isCorrect"] === true).length;
+    const overallAccuracy = allScoredEvents.length > 0 ? Math.round((allCorrectCount / allScoredEvents.length) * 100) : 0;
 
-    const decisionElapsed = scoredConfirms
-      .map((e) => e.elapsedMs ?? 0)
+    const decisionElapsed = allScoredEvents
+      .map((e) => {
+        const responseTimeMs = e.detail?.["responseTimeMs"];
+        return typeof responseTimeMs === "number" ? responseTimeMs : (e.elapsedMs ?? 0);
+      })
       .filter((x) => x > 0);
     const avgDecisionMs = decisionElapsed.length > 0
       ? decisionElapsed.reduce((a, b) => a + b, 0) / decisionElapsed.length
@@ -622,6 +692,64 @@ const [expandedScenarioId, setExpandedScenarioId] = useState<number | null>(null
     let wrongAfterLongThink = 0;
     const wrongCountByNode = new Map<string, number>();
     const domainStat = new Map<string, { total: number; correct: number }>();
+    const miniGameTotal = miniGameScoredEvents.length;
+    const miniGameOpenedExplanation = miniGameScoredEvents.filter(
+      (e) => e.detail?.["openedExplanation"] === true
+    );
+    const miniGameWithExplanation = miniGameOpenedExplanation;
+    const miniGameWithoutExplanation = miniGameScoredEvents.filter(
+      (e) => e.detail?.["openedExplanation"] !== true
+    );
+    const miniGameChangedTotal = miniGameScoredEvents.reduce((sum, event) => {
+      const changed = event.detail?.["changedAnswerCount"];
+      return sum + (typeof changed === "number" ? changed : 0);
+    }, 0);
+    const miniGameExplanationMs = miniGameOpenedExplanation
+      .map((e) => e.detail?.["explanationTimeMs"])
+      .filter((value): value is number => typeof value === "number" && value > 0);
+    const explanationUsageRate =
+      miniGameTotal > 0 ? Math.round((miniGameOpenedExplanation.length / miniGameTotal) * 100) : 0;
+    const avgExplanationSec =
+      miniGameExplanationMs.length > 0
+        ? Math.round(
+            miniGameExplanationMs.reduce((sum, value) => sum + value, 0) /
+              miniGameExplanationMs.length /
+              1000
+          )
+        : 0;
+    const accuracyOf = (items: typeof events) => {
+      const scored = items.filter((e) => typeof e.detail?.["isCorrect"] === "boolean");
+      if (scored.length === 0) return 0;
+      const correct = scored.filter((e) => e.detail?.["isCorrect"] === true).length;
+      return Math.round((correct / scored.length) * 100);
+    };
+    const accuracyWithExplanation = accuracyOf(miniGameWithExplanation);
+    const accuracyWithoutExplanation = accuracyOf(miniGameWithoutExplanation);
+    const guidanceBenefitScore =
+      miniGameWithExplanation.length > 0 && miniGameWithoutExplanation.length > 0
+        ? Math.max(-100, Math.min(100, accuracyWithExplanation - accuracyWithoutExplanation))
+        : 0;
+    const overconfidenceErrors = miniGameScoredEvents.filter((e) => {
+      const changed = e.detail?.["changedAnswerCount"];
+      return (
+        e.detail?.["isCorrect"] === false &&
+        e.detail?.["openedExplanation"] !== true &&
+        (typeof changed !== "number" || changed === 0)
+      );
+    }).length;
+    const overconfidenceErrorRate =
+      miniGameTotal > 0 ? Math.round((overconfidenceErrors / miniGameTotal) * 100) : 0;
+    const hesitantMiniGameEvents = miniGameScoredEvents.filter((e) => {
+      const changed = e.detail?.["changedAnswerCount"];
+      return e.detail?.["openedExplanation"] === true || (typeof changed === "number" && changed > 0);
+    });
+    const productiveHesitations = hesitantMiniGameEvents.filter(
+      (e) => e.detail?.["isCorrect"] === true
+    ).length;
+    const productiveHesitationRate =
+      hesitantMiniGameEvents.length > 0
+        ? Math.round((productiveHesitations / hesitantMiniGameEvents.length) * 100)
+        : 0;
 
     const getDomain = (nodeId: string) => {
       const n = nodeId.toLowerCase();
@@ -629,6 +757,20 @@ const [expandedScenarioId, setExpandedScenarioId] = useState<number | null>(null
       if (n.includes("wargame")) return "بازی جنگ";
       if (n.includes("space")) return "بازی جنگ فضایی";
       return "سایر";
+    };
+    const getMiniGameDomain = (event: (typeof events)[number]) => {
+      const conceptTag = event.detail?.["conceptTag"];
+      if (typeof conceptTag === "string" && conceptTag.trim().length > 0) {
+        return conceptTag;
+      }
+      const roundId = String(event.detail?.["roundId"] ?? "");
+      const cardId = String(event.detail?.["cardId"] ?? "");
+      if (cardId.includes("zero_sum")) return "بازی جمع صفر";
+      if (cardId.includes("non_zero_sum")) return "بازی مجموع‌غیرصفر";
+      if (roundId.includes("incomplete") || cardId.includes("incomplete")) return "اطلاعات ناقص";
+      if (roundId.includes("action_reaction")) return "کنش و واکنش";
+      if (roundId.includes("integrated")) return "مفاهیم ترکیبی";
+      return "آزمایشگاه مفاهیم";
     };
 
     for (const [nodeId, nodeEvents] of groupByNode.entries()) {
@@ -671,17 +813,71 @@ const [expandedScenarioId, setExpandedScenarioId] = useState<number | null>(null
     const scenarioStarts = events.filter((e) => e.type === "scenario_start").length;
     const scenarioExits = events.filter((e) => e.type === "scenario_exit").length;
 
-    const hesitationRate = scoredConfirms.length > 0 ? Math.round((hesitantNodes / scoredConfirms.length) * 100) : 0;
-    const answerChangeRate = scoredConfirms.length > 0 ? Math.round((changedAnswerNodes / scoredConfirms.length) * 100) : 0;
+    for (const event of miniGameScoredEvents) {
+      const domain = getMiniGameDomain(event);
+      const prev = domainStat.get(domain) ?? { total: 0, correct: 0 };
+      prev.total += 1;
+      if (event.detail?.["isCorrect"] === true) prev.correct += 1;
+      domainStat.set(domain, prev);
+      if (event.detail?.["isCorrect"] === false) {
+        const cardId = String(event.detail?.["cardId"] ?? event.nodeId ?? "mini_game");
+        wrongCountByNode.set(cardId, (wrongCountByNode.get(cardId) ?? 0) + 1);
+      }
+    }
+
+    const scoredCountForRates = Math.max(allScoredEvents.length, 1);
+    const miniChangedCardCount = miniGameScoredEvents.filter((event) => {
+      const changed = event.detail?.["changedAnswerCount"];
+      return typeof changed === "number" && changed > 0;
+    }).length;
+    const hesitationRate = Math.round(
+      ((hesitantNodes + miniChangedCardCount + miniGameOpenedExplanation.length) / scoredCountForRates) * 100
+    );
+    const answerChangeRate = Math.round(
+      ((changedAnswerNodes + miniChangedCardCount) / scoredCountForRates) * 100
+    );
     const successfulRevisionRate = revisionCount > 0 ? Math.round((successfulRevisions / revisionCount) * 100) : 0;
-    const referenceUsageRate = scoredConfirms.length > 0 ? Math.round((referenceUsedNodes / scoredConfirms.length) * 100) : 0;
+    const referenceUsageRate = scoredCountForRates > 0
+      ? Math.round(((referenceUsedNodes + miniGameOpenedExplanation.length) / scoredCountForRates) * 100)
+      : 0;
     const unfinishedExitRate = scenarioStarts > 0 ? Math.round((scenarioExits / scenarioStarts) * 100) : 0;
+    const miniGameWrongRate =
+      miniGameTotal > 0
+        ? Math.round(
+            (miniGameScoredEvents.filter((e) => e.detail?.["isCorrect"] === false).length /
+              miniGameTotal) *
+              100
+          )
+        : 0;
+    const miniGameChangeRate =
+      miniGameTotal > 0 ? Math.round((miniGameChangedTotal / miniGameTotal) * 100) : 0;
+    const miniGameAvgResponseMs =
+      miniGameTotal > 0
+        ? miniGameScoredEvents.reduce((sum, event) => {
+            const responseTimeMs = event.detail?.["responseTimeMs"];
+            return sum + (typeof responseTimeMs === "number" ? responseTimeMs : event.elapsedMs ?? 0);
+          }, 0) / miniGameTotal
+        : 0;
+    const conceptFrictionScore = Math.max(
+      0,
+      Math.min(
+        100,
+        Math.round(
+          miniGameWrongRate * 0.35 +
+            explanationUsageRate * 0.25 +
+            Math.min(100, miniGameAvgResponseMs / 100) * 0.2 +
+            Math.min(100, miniGameChangeRate) * 0.2
+        )
+      )
+    );
 
     const loadRaw =
       (hesitationRate * 0.25) +
       (answerChangeRate * 0.2) +
       (referenceUsageRate * 0.15) +
       (unfinishedExitRate * 0.2) +
+      (conceptFrictionScore * 0.2) +
+      (overconfidenceErrorRate * 0.15) +
       (wrongAfterLongThink > 0 ? Math.min(20, wrongAfterLongThink * 5) : 0);
     const estimatedCognitiveLoad = Math.max(0, Math.min(100, Math.round(loadRaw)));
 
@@ -713,6 +909,12 @@ const [expandedScenarioId, setExpandedScenarioId] = useState<number | null>(null
       answerChangeRate,
       successfulRevisionRate,
       referenceUsageRate,
+      explanationUsageRate,
+      avgExplanationSec,
+      guidanceBenefitScore,
+      overconfidenceErrorRate,
+      productiveHesitationRate,
+      conceptFrictionScore,
       unfinishedExitRate,
       estimatedCognitiveLoad,
       styleLabel,
@@ -1032,6 +1234,60 @@ const [expandedScenarioId, setExpandedScenarioId] = useState<number | null>(null
       : userScopedEvents;
     const insights = buildInsights(filteredEvents);
     const cognitive = buildCognitiveInsights(filteredEvents);
+    const s1SummaryEvents = filteredEvents.filter(
+      (event) =>
+        event.type === "s1_cognitive_summary" &&
+        event.scenarioId === "s1_shadows_low_orbit"
+    );
+    const s1DecisionEvents = filteredEvents.filter(
+      (event) =>
+        event.type === "s1_decision" &&
+        event.scenarioId === "s1_shadows_low_orbit"
+    );
+    const getDetailNumber = (event: (typeof filteredEvents)[number], key: string) => {
+      const value = event.detail?.[key];
+      return typeof value === "number" ? value : 0;
+    };
+    const getDetailString = (event: (typeof filteredEvents)[number], key: string) => {
+      const value = event.detail?.[key];
+      return typeof value === "string" ? value : "";
+    };
+    const avgDetail = (events: typeof filteredEvents, key: string) =>
+      events.length > 0
+        ? events.reduce((sum, event) => sum + getDetailNumber(event, key), 0) / events.length
+        : 0;
+    const s1StartedCount = filteredEvents.filter(
+      (event) => event.type === "scenario_start" && event.scenarioId === "s1_shadows_low_orbit"
+    ).length;
+    const s1CompletedCount = s1SummaryEvents.length;
+    const s1CompletionRate =
+      s1StartedCount > 0 ? Math.round((s1CompletedCount / s1StartedCount) * 100) : 0;
+    const s1StyleCounts = s1SummaryEvents.reduce(
+      (acc, event) => {
+        const label = getDetailString(event, "decisionStyleLabel");
+        if (label === "operational" || label === "balanced" || label === "strategic") {
+          acc[label] += 1;
+        }
+        return acc;
+      },
+      { operational: 0, balanced: 0, strategic: 0 }
+    );
+    const s1Metrics = {
+      startedCount: s1StartedCount,
+      completedCount: s1CompletedCount,
+      completionRate: s1CompletionRate,
+      avgScenarioDurationSec: Math.round(avgDetail(s1SummaryEvents, "avgResponseTimeMs") / 1000),
+      avgDecisionMs: Math.round(avgDetail(s1DecisionEvents, "responseTimeMs")),
+      avgChangedAnswerCount: avgDetail(s1SummaryEvents, "totalChangedAnswerCount"),
+      avgPreviewOpenCount: avgDetail(s1SummaryEvents, "totalPreviewOpenCount"),
+      avgOperationalStrategicIndex: avgDetail(s1SummaryEvents, "operationalStrategicIndex"),
+      avgSecondOrderThinking: avgDetail(s1SummaryEvents, "secondOrderThinkingScore"),
+      avgAdversaryModeling: avgDetail(s1SummaryEvents, "adversaryModelingScore"),
+      avgEscalationSensitivity: avgDetail(s1SummaryEvents, "escalationSensitivityScore"),
+      avgInformationDiscipline: avgDetail(s1SummaryEvents, "informationDisciplineScore"),
+      avgCognitiveFlexibility: avgDetail(s1SummaryEvents, "cognitiveFlexibilityScore"),
+      styleCounts: s1StyleCounts,
+    };
     const isSelectedRunUnfinished = Boolean(selectedRun && !selectedRun.completed);
     const selectedSummary =
       selectedAnalyticsUserId === "all"
@@ -1083,20 +1339,61 @@ const [expandedScenarioId, setExpandedScenarioId] = useState<number | null>(null
       { label: "درک مفهومی", value: clamp100(cognitive.overallAccuracy) },
       {
         label: "آگاهی موقعیتی",
-        value: clamp100(cognitive.referenceUsageRate * 0.4 + cognitive.successfulRevisionRate * 0.6),
+        value: clamp100(
+          cognitive.referenceUsageRate * 0.35 +
+            cognitive.explanationUsageRate * 0.25 +
+            cognitive.productiveHesitationRate * 0.25 +
+            Math.max(0, s1Metrics.avgInformationDiscipline * 100) * 0.15
+        ),
       },
       {
         label: "کیفیت تصمیم",
-        value: clamp100(cognitive.overallAccuracy * 0.7 + cognitive.successfulRevisionRate * 0.3),
+        value: clamp100(
+          cognitive.overallAccuracy * 0.55 +
+            Math.max(0, cognitive.guidanceBenefitScore) * 0.2 +
+            (100 - cognitive.overconfidenceErrorRate) * 0.15 +
+            Math.max(0, s1Metrics.avgCognitiveFlexibility * 100) * 0.1
+        ),
       },
       {
         label: "سرعت پردازش",
         value: clamp100(100 - Math.min(100, cognitive.decisionSpeedSec * 20)),
       },
-      { label: "مدیریت ریسک", value: clamp100(100 - cognitive.unfinishedExitRate) },
-      { label: "جست‌وجوی اطلاعات", value: clamp100(cognitive.referenceUsageRate) },
-      { label: "یادگیری و سازگاری", value: clamp100(cognitive.successfulRevisionRate) },
-      { label: "مدیریت منابع", value: 50 },
+      {
+        label: "مدیریت ریسک",
+        value: clamp100(
+          100 -
+            cognitive.unfinishedExitRate * 0.35 -
+            cognitive.overconfidenceErrorRate * 0.35 +
+            Math.max(0, s1Metrics.avgEscalationSensitivity * 100) * 0.3
+        ),
+      },
+      {
+        label: "جست‌وجوی اطلاعات",
+        value: clamp100(
+          cognitive.referenceUsageRate * 0.35 +
+            cognitive.explanationUsageRate * 0.45 +
+            Math.min(100, cognitive.avgExplanationSec * 8) * 0.1 +
+            Math.max(0, s1Metrics.avgInformationDiscipline * 100) * 0.1
+        ),
+      },
+      {
+        label: "یادگیری و سازگاری",
+        value: clamp100(
+          cognitive.successfulRevisionRate * 0.3 +
+            cognitive.productiveHesitationRate * 0.45 +
+            Math.max(0, cognitive.guidanceBenefitScore) * 0.15 +
+            Math.max(0, s1Metrics.avgSecondOrderThinking * 100) * 0.1
+        ),
+      },
+      {
+        label: "مدیریت ابهام",
+        value: clamp100(
+          (100 - cognitive.conceptFrictionScore) * 0.65 +
+            Math.max(0, s1Metrics.avgAdversaryModeling * 100) * 0.2 +
+            Math.max(0, s1Metrics.avgInformationDiscipline * 100) * 0.15
+        ),
+      },
       { label: "پایبندی به مأموریت", value: clamp100(100 - cognitive.unfinishedExitRate * 0.8) },
     ];
     const radarCx = 220;
@@ -1238,6 +1535,67 @@ const [expandedScenarioId, setExpandedScenarioId] = useState<number | null>(null
             </div>
           </div>
 
+          <div className="analytics-user-summary">
+            <h3>شاخص‌های سناریو ۱ — سایه‌های مدار پایین</h3>
+            <div className="analytics-grid">
+              <div className="analytics-stat">
+                <span>تعداد شروع سناریو ۱</span>
+                <strong>{s1Metrics.startedCount}</strong>
+              </div>
+              <div className="analytics-stat">
+                <span>اجرای کامل سناریو ۱</span>
+                <strong>{s1Metrics.completedCount}</strong>
+              </div>
+              <div className="analytics-stat">
+                <span>نرخ تکمیل سناریو ۱</span>
+                <strong>{s1Metrics.completionRate}%</strong>
+              </div>
+              <div className="analytics-stat">
+                <span>میانگین زمان تصمیم هر راند</span>
+                <strong>{Math.round(s1Metrics.avgDecisionMs / 1000)} ثانیه</strong>
+              </div>
+            </div>
+            <div className="analytics-grid">
+              <div className="analytics-stat">
+                <span>میانگین تغییر تصمیم</span>
+                <strong>{s1Metrics.avgChangedAnswerCount.toFixed(1)}</strong>
+              </div>
+              <div className="analytics-stat">
+                <span>میانگین Preview</span>
+                <strong>{s1Metrics.avgPreviewOpenCount.toFixed(1)}</strong>
+              </div>
+              <div className="analytics-stat">
+                <span>میانگین OSI</span>
+                <strong>{s1Metrics.avgOperationalStrategicIndex.toFixed(2)}</strong>
+              </div>
+              <div className="analytics-stat">
+                <span>توزیع سبک</span>
+                <strong>
+                  عملیاتی {s1Metrics.styleCounts.operational} | ترکیبی {s1Metrics.styleCounts.balanced} | راهبردی {s1Metrics.styleCounts.strategic}
+                </strong>
+              </div>
+            </div>
+            <OperationalStrategicScale value={s1Metrics.avgOperationalStrategicIndex} />
+            <div className="analytics-grid">
+              <div className="analytics-stat">
+                <span>تفکر مرحله دوم</span>
+                <strong>{s1Metrics.avgSecondOrderThinking.toFixed(2)}</strong>
+              </div>
+              <div className="analytics-stat">
+                <span>مدل‌سازی طرف مقابل</span>
+                <strong>{s1Metrics.avgAdversaryModeling.toFixed(2)}</strong>
+              </div>
+              <div className="analytics-stat">
+                <span>حساسیت به تشدید تنش</span>
+                <strong>{s1Metrics.avgEscalationSensitivity.toFixed(2)}</strong>
+              </div>
+              <div className="analytics-stat">
+                <span>نظم اطلاعات‌جویی</span>
+                <strong>{s1Metrics.avgInformationDiscipline.toFixed(2)}</strong>
+              </div>
+            </div>
+          </div>
+
           {selectedSummary && (
             <div className="analytics-user-summary">
               <h3>خلاصه کاربر انتخاب‌شده</h3>
@@ -1375,12 +1733,23 @@ const [expandedScenarioId, setExpandedScenarioId] = useState<number | null>(null
                 <div className="analytics-stat"><span>استفاده از مرجع</span><strong>{cognitive.referenceUsageRate}%</strong></div>
                 <div className="analytics-stat"><span>ترک سناریوی ناتمام</span><strong>{cognitive.unfinishedExitRate}%</strong></div>
                 <div className="analytics-stat"><span>بار شناختی تخمینی</span><strong>{cognitive.estimatedCognitiveLoad}/100</strong></div>
+                <div className="analytics-stat"><span>استفاده از توضیح بیشتر</span><strong>{cognitive.explanationUsageRate}%</strong></div>
+                <div className="analytics-stat"><span>زمان مطالعه توضیح</span><strong>{cognitive.avgExplanationSec} ثانیه</strong></div>
+                <div className="analytics-stat"><span>اثر توضیح بر دقت</span><strong>{cognitive.guidanceBenefitScore}%</strong></div>
+                <div className="analytics-stat"><span>خطای با اطمینان بالا</span><strong>{cognitive.overconfidenceErrorRate}%</strong></div>
+                <div className="analytics-stat"><span>تردید مفید</span><strong>{cognitive.productiveHesitationRate}%</strong></div>
+                <div className="analytics-stat"><span>اصطکاک مفهومی</span><strong>{cognitive.conceptFrictionScore}/100</strong></div>
+                <div className="analytics-stat"><span>سناریو ۱: OSI</span><strong>{s1Metrics.avgOperationalStrategicIndex.toFixed(2)}</strong></div>
+                <div className="analytics-stat"><span>سناریو ۱: تفکر مرحله دوم</span><strong>{s1Metrics.avgSecondOrderThinking.toFixed(2)}</strong></div>
+                <div className="analytics-stat"><span>سناریو ۱: مدل‌سازی طرف مقابل</span><strong>{s1Metrics.avgAdversaryModeling.toFixed(2)}</strong></div>
+                <div className="analytics-stat"><span>سناریو ۱: انعطاف شناختی</span><strong>{s1Metrics.avgCognitiveFlexibility.toFixed(2)}</strong></div>
               </div>
 
               <div className="analytics-user-summary">
                 <h3>خلاصه شناختی</h3>
                 <p>سبک تصمیم‌گیری: <strong>{cognitive.styleLabel}</strong></p>
                 <p>جایگاه در ماتریس سرعت×دقت: <strong>{cognitive.speedAccuracyQuadrant}</strong></p>
+                <OperationalStrategicScale value={s1Metrics.avgOperationalStrategicIndex} />
               </div>
 
               <div className="analytics-charts">
@@ -1568,6 +1937,7 @@ const renderScenarioPlay = () => {
     !scenarioTreeId ||
     activeScenarioNodeId == null ||
     activeScenarioNodeId === AllScenarios[scenarioTreeId].start;
+  const isScenarioOne = scenarioTreeId === "s1_shadows_low_orbit";
 
   // فقط سناریوهایی که درخت ندارند از سیستم سؤال‌ها استفاده می‌کنند
   const questions: Question[] = scenarioTreeId
@@ -1578,7 +1948,12 @@ const renderScenarioPlay = () => {
   const currentQuestion = questions[currentQuestionIndex];
 
   return (
-    <div className="screen scenario-play-screen">
+    <div
+      className={
+        "screen scenario-play-screen" +
+        (isScenarioOne ? " scenario-one-play-screen" : "")
+      }
+    >
       {/* مودال اینترو در شروع سناریو */}
       {introModalText && (
         <div className="intro-modal-backdrop">
@@ -1625,7 +2000,13 @@ const renderScenarioPlay = () => {
       </div>
 
       {/* بدنه اصلی سناریو */}
-      <div className="card scenario-play-card">
+      <div
+        className={
+          "card scenario-play-card" +
+          (isScenarioOne ? " scenario-one-play-card" : "")
+        }
+      >
+        {!isScenarioOne && (
         <div className="screen-header">
           <div>
             <h2 className="screen-title">{scenario.title}</h2>
@@ -1640,11 +2021,12 @@ const renderScenarioPlay = () => {
             </span>
           </div>
         </div>
+        )}
 
         {/* اگر درخت داریم، موتور درخت تصمیم را نشان بده */}
         {scenarioTreeId ? (
           <>
-            {isScenarioStartNode && (
+            {scenario.id === 0 && isScenarioStartNode && (
               <p className="hint">
                  این سناریو به جهت تست سناریو 0 به هدف معرفی نظریه بازی و بازی جنگ بالاخص بازی جنگ فضایی طراحی شده است.
               </p>
@@ -1653,6 +2035,8 @@ const renderScenarioPlay = () => {
             <ScenarioRunner
               scenarioId={scenarioTreeId}
               onNodeChange={handleScenarioNodeChange}
+              allowSkipToMiniGame={activeProfile.role === "admin"}
+              userProfileId={activeProfile.id}
               onExit={handleFinishScenario}
             />
 
@@ -1769,11 +2153,11 @@ const renderScenarioPlay = () => {
       <div
         style={{
           position: "fixed",
-          top: "1rem",
+          bottom: "1rem",
           right: "1rem",
           zIndex: 2000,
           display: "flex",
-          flexDirection: "column",
+          flexDirection: "column-reverse",
           alignItems: "flex-end",
           gap: "0.5rem",
         }}
@@ -1781,15 +2165,23 @@ const renderScenarioPlay = () => {
         <button
           onClick={() => setGlobalMenuOpen((v) => !v)}
           style={{
-            padding: "0.5rem 0.75rem",
-            borderRadius: "999px",
+            width: "48px",
+            height: "48px",
+            padding: 0,
+            borderRadius: "50%",
             border: "1px solid var(--border-soft)",
             background: "rgba(15, 23, 42, 0.85)",
             color: "var(--text-main)",
             cursor: "pointer",
+            fontSize: "1.25rem",
+            display: "inline-flex",
+            alignItems: "center",
+            justifyContent: "center",
           }}
+          aria-label="منوی سریع"
+          title="منوی سریع"
         >
-          {globalMenuOpen ? "✕" : "☰"} منوی سریع
+          {globalMenuOpen ? "✕" : "⚙"}
         </button>
 
         {globalMenuOpen && (

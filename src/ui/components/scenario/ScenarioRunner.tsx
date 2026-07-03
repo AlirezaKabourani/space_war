@@ -7,15 +7,19 @@ import type {
   InfoNode,
   DecisionNode,
   QuizNode,
+  MiniGameNode,
   EndNode,
 } from "../../../core/types/scenario";
 import { Card } from "../common/Card";
 import { eventLogger } from "../../../services/analytics/eventLogger";
+import { MiniGameHost } from "./MiniGameHost";
 
 interface ScenarioRunnerProps {
   scenarioId: ScenarioId;
   onExit?: () => void;
   onNodeChange?: (nodeId: string) => void;
+  allowSkipToMiniGame?: boolean;
+  userProfileId?: string;
 }
 
 // 🔹 حتماً named export داریم
@@ -23,6 +27,8 @@ export const ScenarioRunner = ({
   scenarioId,
   onExit,
   onNodeChange,
+  allowSkipToMiniGame = false,
+  userProfileId,
 }: ScenarioRunnerProps) => {
   const scenario: ScenarioDefinition = AllScenarios[scenarioId];
 
@@ -36,6 +42,9 @@ export const ScenarioRunner = ({
   const nodeEnteredAtRef = useRef<number | null>(null);
 
   const node: ScenarioNode = scenario.nodes[currentNodeId];
+  const firstMiniGameNodeId = Object.values(scenario.nodes).find(
+    (scenarioNode) => scenarioNode.type === "minigame"
+  )?.id;
 
   useEffect(() => {
     setCurrentNodeId(scenario.start);
@@ -508,6 +517,19 @@ export const ScenarioRunner = ({
     </Card>
   );
 
+  const renderMiniGameNode = (miniGameNode: MiniGameNode) => (
+    <MiniGameHost
+      scenarioId={scenarioId}
+      nodeId={miniGameNode.id}
+      game={miniGameNode.game}
+      userProfileId={userProfileId}
+      onComplete={() => {
+        stopNodeTimer();
+        goToNext(miniGameNode.next);
+      }}
+    />
+  );
+
   const renderCurrentNode = () => {
     if (!node) {
       return (
@@ -521,6 +543,7 @@ export const ScenarioRunner = ({
     if (node.type === "decision" || node.type === "mcq")
       return renderDecisionNode(node as DecisionNode);
     if (node.type === "quiz") return renderQuizNode(node as QuizNode);
+    if (node.type === "minigame") return renderMiniGameNode(node as MiniGameNode);
     if (node.type === "end") return renderEndNode(node as EndNode);
 
     return (
@@ -539,6 +562,37 @@ export const ScenarioRunner = ({
         gap: "1rem",
       }}
     >
+      {allowSkipToMiniGame &&
+        firstMiniGameNodeId &&
+        node?.type !== "minigame" &&
+        node?.type !== "end" && (
+          <div style={{ display: "flex", justifyContent: "flex-start" }}>
+            <button
+              onClick={() => {
+                eventLogger.log({
+                  type: "admin_skip_to_minigame",
+                  scenarioId,
+                  nodeId: currentNodeId,
+                  detail: {
+                    targetNodeId: firstMiniGameNodeId,
+                    reason: "admin_minigame_review",
+                  },
+                });
+                goToNext(firstMiniGameNodeId);
+              }}
+              style={{
+                padding: "0.55rem 1rem",
+                borderRadius: "999px",
+                border: "1px solid var(--border-soft)",
+                background: "rgba(15, 23, 42, 0.82)",
+                color: "var(--text-main)",
+                cursor: "pointer",
+              }}
+            >
+              عبور ادمین به مینی‌گیم
+            </button>
+          </div>
+        )}
       {renderCurrentNode()}
       {quizReferenceText && (
         <div

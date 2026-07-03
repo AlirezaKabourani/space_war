@@ -483,21 +483,28 @@ export const S0_GatewayToSpaceWargaming: ScenarioDefinition = {
           id: "zeroSum",
           text: "جمع صفر",
           isCorrect: false,
-          next: "finalSummary",
+          next: "conceptLab",
         },
         {
           id: "nonZeroSum",
           text: "مجموع غیرصفر",
           isCorrect: false,
-          next: "finalSummary",
+          next: "conceptLab",
         },
         {
           id: "incompleteInfo",
           text: "اطلاعات ناقص",
           isCorrect: true,
-          next: "finalSummary",
+          next: "conceptLab",
         },
       ],
+    },
+
+    conceptLab: {
+      id: "conceptLab",
+      type: "minigame",
+      game: "scenario0_concept_lab",
+      next: "finalSummary",
     },
 
     // جمع‌بندی نهایی

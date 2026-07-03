@@ -59,7 +59,12 @@ export interface AllocationNode extends ScenarioNodeBase {
 // Mini-game node
 export interface MiniGameNode extends ScenarioNodeBase {
   type: "minigame";
-  game: "reaction" | "memory" | "tracking"; // extendable
+  game:
+    | "reaction"
+    | "memory"
+    | "tracking"
+    | "scenario0_concept_lab"
+    | "s1_decision_simulation"; // extendable
   next: string;
 }
 
