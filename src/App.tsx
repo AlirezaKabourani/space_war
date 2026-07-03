@@ -1,8 +1,8 @@
-import { useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import "./App.css";
 
 import { ScenarioRunner } from "./ui/components/scenario/ScenarioRunner";
-import type { ScenarioId } from "./scenarios";
+import { AllScenarios, type ScenarioId } from "./scenarios";
 import { eventLogger } from "./services/analytics/eventLogger";
 
 type ProfileRole = "admin" | "player";
@@ -209,6 +209,7 @@ const App = () => {
   const [activeProfileId, setActiveProfileId] = useState<string>("test-player");
   const [view, setView] = useState<View>("mainMenu");
   const [activeScenarioId, setActiveScenarioId] = useState<number | null>(null);
+  const [activeScenarioNodeId, setActiveScenarioNodeId] = useState<string | null>(null);
   const [scenarioMenuOpen, setScenarioMenuOpen] = useState<boolean>(false);
   const [introModalText, setIntroModalText] = useState<string | null>(null);
   const showBackgroundVideo = view !== "scenarioPlay";
@@ -227,6 +228,10 @@ const App = () => {
   useEffect(() => {
     setSelectedScenarioRunId("all");
   }, [selectedAnalyticsUserId]);
+
+  const handleScenarioNodeChange = useCallback((nodeId: string) => {
+    setActiveScenarioNodeId(nodeId);
+  }, []);
 
   const activeProfile = profiles.find((p) => p.id === activeProfileId)!;
   useEffect(() => {
@@ -779,6 +784,7 @@ const [expandedScenarioId, setExpandedScenarioId] = useState<number | null>(null
     });
 
     setActiveScenarioId(scenarioId);
+    setActiveScenarioNodeId(null);
     setCurrentQuestionIndex(0);
     setSelectedOptionIndex(null);
     setAnsweredCount(0);
@@ -1558,6 +1564,10 @@ const renderScenarioPlay = () => {
   // اگر سناریو درخت دارد، از ScenarioRunner استفاده می‌کنیم
   const scenarioTreeId = SCENARIO_TREE_IDS[scenario.id];
   const scenarioLogId = scenarioTreeId ?? scenario.id;
+  const isScenarioStartNode =
+    !scenarioTreeId ||
+    activeScenarioNodeId == null ||
+    activeScenarioNodeId === AllScenarios[scenarioTreeId].start;
 
   // فقط سناریوهایی که درخت ندارند از سیستم سؤال‌ها استفاده می‌کنند
   const questions: Question[] = scenarioTreeId
@@ -1619,7 +1629,9 @@ const renderScenarioPlay = () => {
         <div className="screen-header">
           <div>
             <h2 className="screen-title">{scenario.title}</h2>
-            <p className="subtitle">{scenario.summary}</p>
+            {isScenarioStartNode && (
+              <p className="subtitle">{scenario.summary}</p>
+            )}
           </div>
           <div className="profile-badge-inline">
             پروفایل: <strong>{activeProfile.name}</strong>{" "}
@@ -1632,13 +1644,15 @@ const renderScenarioPlay = () => {
         {/* اگر درخت داریم، موتور درخت تصمیم را نشان بده */}
         {scenarioTreeId ? (
           <>
-            <p className="hint">
-               این سناریو به جهت تست سناریو 0 به هدف معرفی نظریه بازی و بازی جنگ بالاخص بازی جنگ فضایی طراحی شده است.
-
-            </p>
+            {isScenarioStartNode && (
+              <p className="hint">
+                 این سناریو به جهت تست سناریو 0 به هدف معرفی نظریه بازی و بازی جنگ بالاخص بازی جنگ فضایی طراحی شده است.
+              </p>
+            )}
 
             <ScenarioRunner
               scenarioId={scenarioTreeId}
+              onNodeChange={handleScenarioNodeChange}
               onExit={handleFinishScenario}
             />
 

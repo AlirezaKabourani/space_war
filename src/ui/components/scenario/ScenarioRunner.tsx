@@ -15,10 +15,15 @@ import { eventLogger } from "../../../services/analytics/eventLogger";
 interface ScenarioRunnerProps {
   scenarioId: ScenarioId;
   onExit?: () => void;
+  onNodeChange?: (nodeId: string) => void;
 }
 
 // 🔹 حتماً named export داریم
-export const ScenarioRunner = ({ scenarioId, onExit }: ScenarioRunnerProps) => {
+export const ScenarioRunner = ({
+  scenarioId,
+  onExit,
+  onNodeChange,
+}: ScenarioRunnerProps) => {
   const scenario: ScenarioDefinition = AllScenarios[scenarioId];
 
   const [currentNodeId, setCurrentNodeId] = useState<string>(scenario.start);
@@ -31,6 +36,11 @@ export const ScenarioRunner = ({ scenarioId, onExit }: ScenarioRunnerProps) => {
   const nodeEnteredAtRef = useRef<number | null>(null);
 
   const node: ScenarioNode = scenario.nodes[currentNodeId];
+
+  useEffect(() => {
+    setCurrentNodeId(scenario.start);
+    onNodeChange?.(scenario.start);
+  }, [scenario.start, scenarioId, onNodeChange]);
 
   const stopNodeTimer = () => {
     if (!nodeTimerKeyRef.current) return undefined;
@@ -56,6 +66,7 @@ export const ScenarioRunner = ({ scenarioId, onExit }: ScenarioRunnerProps) => {
       nodeId: currentNodeId,
       detail: { nodeType: node?.type },
     });
+    onNodeChange?.(currentNodeId);
 
     return () => {
       if (nodeTimerKeyRef.current === key) {
@@ -63,7 +74,7 @@ export const ScenarioRunner = ({ scenarioId, onExit }: ScenarioRunnerProps) => {
         nodeTimerKeyRef.current = null;
       }
     };
-  }, [scenarioId, currentNodeId, node?.type]);
+  }, [scenarioId, currentNodeId, node?.type, onNodeChange]);
 
   const goToNext = (nextId?: string) => {
     if (!nextId) return;
@@ -289,7 +300,7 @@ export const ScenarioRunner = ({ scenarioId, onExit }: ScenarioRunnerProps) => {
     <Card>
       <div style={{ display: "flex", flexDirection: "column", gap: "1.5rem" }}>
         <div>
-          <h2 style={{ marginTop: 0, marginBottom: "0.75rem" }}>briefing</h2>
+          <h2 style={{ marginTop: 0, marginBottom: "0.75rem" }}>توضیحات</h2>
           <p
             style={{
               margin: 0,
