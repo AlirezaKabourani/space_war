@@ -68,6 +68,7 @@ interface MiniGameHostProps {
     | "scenario0_concept_lab"
     | "s1_decision_simulation";
   userProfileId?: string;
+  onCompletionUiActiveChange?: (active: boolean) => void;
   onComplete: () => void;
 }
 
@@ -433,6 +434,7 @@ export const MiniGameHost = ({
   nodeId,
   game,
   userProfileId,
+  onCompletionUiActiveChange,
   onComplete,
 }: MiniGameHostProps) => {
   const [hasStarted, setHasStarted] = useState(false);
@@ -606,6 +608,7 @@ export const MiniGameHost = ({
         scenarioId={scenarioId}
         nodeId={nodeId}
         userProfileId={userProfileId}
+        onCompletionUiActiveChange={onCompletionUiActiveChange}
         onComplete={onComplete}
       />
     );

@@ -4,6 +4,7 @@ import "./App.css";
 import { ScenarioRunner } from "./ui/components/scenario/ScenarioRunner";
 import { AllScenarios, type ScenarioId } from "./scenarios";
 import { eventLogger } from "./services/analytics/eventLogger";
+import scenario2IntroBackground from "../assets/s2/A1.png";
 
 type ProfileRole = "admin" | "player";
 
@@ -18,9 +19,12 @@ interface Profile {
 interface Scenario {
   id: number;
   title: string;
+  introTitle?: string;
   summary: string;
   fullDescription?: string;
+  descriptionPreview?: string;
   introText?: string;
+  introBackgroundImage?: string;
   image?: string;
 }
 
@@ -131,10 +135,10 @@ const OperationalStrategicScale = ({ value }: { value: number }) => {
           }}
         />
       </div>
-      <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr 1fr", gap: "0.5rem", marginTop: "0.65rem", fontSize: "0.85rem", color: "var(--text-muted)" }}>
-        <span style={{ textAlign: "right" }}>عملیاتی (-1)</span>
+      <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr 1fr", gap: "0.5rem", marginTop: "0.65rem", fontSize: "0.85rem", color: "var(--text-muted)", direction: "ltr" }}>
+        <span style={{ textAlign: "left" }}>عملیاتی (1-)</span>
         <span style={{ textAlign: "center" }}>ترکیبی (0)</span>
-        <span style={{ textAlign: "left" }}>راهبردی (+1)</span>
+        <span style={{ textAlign: "right" }}>راهبردی (1+)</span>
       </div>
     </div>
   );
@@ -213,16 +217,34 @@ const SCENARIOS: Scenario[] = [
   {
     id: 1,
     title: "۱ — سایه‌های مدار پایین",
-    summary: "پایش ماهواره‌ها و حفظ پوشش اطلاعاتی در مدار پایین زمین.",
+    summary: "در مدار پایین زمین، نبردی خاموش در جریان است؛ ماهواره‌ها در ظاهر برای علم و ارتباط پرتاب می‌شوند،",
     image: "/images/scenario1.png",
     fullDescription: `در مدار پایین زمین، نبردی خاموش در جریان است؛ ماهواره‌ها در ظاهر برای علم و ارتباط پرتاب می‌شوند، اما هر حرکت می‌تواند معنایی پنهان داشته باشد. در این سناریو، شما فرمانده عملیات اطلاعاتی ایران هستید. مأموریتتان ساده به نظر می‌رسد: حفظ پوشش اطلاعاتی در چند منطقه کلیدی. اما هر تصمیم شما، می‌تواند تفاوت بین «اشراف فضایی» و «کور شدن میدان نبرد» باشد. آیا می‌توانید پیش از دشمن، حرکت بعدی او را ببینید؟ `
   },
   {
     id: 2,
-    title: "امواج خاموش",
-    summary: "حفاظت از لینک‌های ارتباطی در برابر حملات اخلال‌گر.",
+    title: "۲ — امواج خاموش",
+    introTitle: "سناریو ۲ — امواج خاموش",
+    summary: "اختلال از آسمان آغاز شده و حالا شبکه لجستیک روی زمین از هماهنگی خارج می‌شود ...",
     image: "/images/scenario2.png",
-    fullDescription: `همه‌چیز در چند دقیقه تغییر می‌کند؛ سامانه‌های ناوبری دچار اختلال شده‌اند و ناوگان لجستیکی کشور در حال از دست دادن هماهنگی است. دشمن هیچ نشانه‌ای از خود بر جای نگذاشته، اما اثرش همه‌جا دیده می‌شود. حالا تصمیم با شماست — آیا مسیرها را تغییر می‌دهید؟ آیا به سامانه‌های پشتیبان اعتماد دارید؟ در «امواج خاموش»، زمان علیه شماست و تنها با هوش، تحلیل و تصمیم‌گیری سریع می‌توانید نظم را بازگردانید.`
+    descriptionPreview: `اختلال از آسمان آغاز شده و حالا شبکه لجستیک روی زمین از هماهنگی خارج می‌شود. داده‌های ناوبری مشکوک‌اند، مسیر کاروان‌ها قابل اعتماد نیست و فرمانده باید میان تغییر مسیر، سوئیچ به سامانه پشتیبان، توقف بخشی از عملیات یا ادامه جریان پشتیبانی تصمیم بگیرد.`,
+    fullDescription: `اختلال ناوبری و آلودگی داده‌ها، زنجیره لجستیک کشور را در آستانه فروپاشی قرار داده است. در این سناریو باید زیر فشار زمان، میان حفظ جریان پشتیبانی و جلوگیری از خسارت بزرگ‌تر تصمیم بگیرید.`,
+    introBackgroundImage: scenario2IntroBackground,
+    introText: `اختلال از آسمان آغاز شد، اما میدان نبرد روی زمین فرو ریخت.
+
+در ساعات اولیه عملیات، ستون‌های لجستیکی کشور طبق طرح از پیش تعیین‌شده در حال جابه‌جایی بودند. مسیرها امن ارزیابی شده بود، سامانه‌های ناوبری فعال بودند و محموله‌های حیاتی باید در زمان مقرر به مراکز عملیاتی، درمانی و پشتیبانی می‌رسیدند. اما ناگهان، گزارش‌ها یکی پس از دیگری رسید: انحراف از مسیر، تأخیر در رسیدن کاروان‌ها، ناهماهنگی میان واحدها و اختلاف میان مختصات اعلامی و موقعیت واقعی.
+
+هیچ حمله مستقیمی ثبت نشده است. هیچ انفجاری رخ نداده. هیچ پهپاد یا موشکی در آسمان دیده نمی‌شود. اما اثر دشمن در تمام شبکه فرماندهی و پشتیبانی احساس می‌شود.
+
+دشمن این بار زیرساخت فیزیکی را هدف نگرفته است؛ او سامانه ادراک شما را مختل کرده. داده‌ها آلوده شده‌اند، موقعیت‌ها قابل اعتماد نیستند و زنجیره لجستیک، که ستون فقرات عملیات دفاعی کشور است، در معرض فروپاشی قرار دارد.
+
+شما در اتاق فرماندهی قرار دارید. باید در کمترین زمان تصمیم بگیرید: آیا مسیر کاروان‌ها را تغییر می‌دهید؟ آیا به سامانه‌های ناوبری پشتیبان سوئیچ می‌کنید؟ آیا بخشی از عملیات را متوقف می‌کنید تا از خسارت بزرگ‌تر جلوگیری شود؟ یا با پذیرش ریسک، جریان پشتیبانی را ادامه می‌دهید؟
+
+هر تصمیم، پیامد عملیاتی دارد. تأخیر می‌تواند یگان‌های خط مقدم را بدون پشتیبانی بگذارد. تصمیم شتاب‌زده می‌تواند کاروان‌ها را وارد مسیرهای پرخطر کند. اعتماد بیش از حد به داده‌های مخدوش می‌تواند کل عملیات را از کنترل خارج سازد.
+
+در «امواج خاموش»، شما با دشمنی روبه‌رو هستید که دیده نمی‌شود، اما فرماندهی، ناوبری و پشتیبانی کشور را هدف گرفته است. مأموریت شما حفظ پیوستگی عملیات، بازگرداندن کنترل به شبکه لجستیک و جلوگیری از تبدیل یک اختلال فضایی به بحران میدانی است.
+
+زمان محدود است. داده‌ها مشکوک‌اند. و میدان نبرد، پیش از آنکه دیده شود، در سامانه‌های ناوبری آغاز شده است.`
   },
   {
     id: 3,
@@ -268,6 +290,7 @@ const App = () => {
   const [view, setView] = useState<View>("mainMenu");
   const [activeScenarioId, setActiveScenarioId] = useState<number | null>(null);
   const [activeScenarioNodeId, setActiveScenarioNodeId] = useState<string | null>(null);
+  const [scenarioCompletionUiActive, setScenarioCompletionUiActive] = useState(false);
   const [scenarioMenuOpen, setScenarioMenuOpen] = useState<boolean>(false);
   const [introModalText, setIntroModalText] = useState<string | null>(null);
   const showBackgroundVideo = view !== "scenarioPlay";
@@ -277,7 +300,7 @@ const App = () => {
   const [globalMenuOpen, setGlobalMenuOpen] = useState(false);
   const [selectedAnalyticsUserId, setSelectedAnalyticsUserId] = useState<string>("all");
   const [selectedScenarioRunId, setSelectedScenarioRunId] = useState<string>("all");
-  const [analyticsSection, setAnalyticsSection] = useState<"stat" | "cognitive">("stat");
+  const [analyticsSection, setAnalyticsSection] = useState<"overview" | "stat" | "cognitive">("overview");
   const [showAnalyticsLog, setShowAnalyticsLog] = useState(false);
   const [loggingEnabled, setLoggingEnabled] = useState<boolean>(() => eventLogger.isLoggingEnabled());
   const scenarioDescriptionTimerKeyRef = useRef<string | null>(null);
@@ -289,6 +312,9 @@ const App = () => {
 
   const handleScenarioNodeChange = useCallback((nodeId: string) => {
     setActiveScenarioNodeId(nodeId);
+    if (nodeId !== "end") {
+      setScenarioCompletionUiActive(false);
+    }
   }, []);
 
   const activeProfile = profiles.find((p) => p.id === activeProfileId)!;
@@ -987,6 +1013,7 @@ const [expandedScenarioId, setExpandedScenarioId] = useState<number | null>(null
 
     setActiveScenarioId(scenarioId);
     setActiveScenarioNodeId(null);
+    setScenarioCompletionUiActive(false);
     setCurrentQuestionIndex(0);
     setSelectedOptionIndex(null);
     setAnsweredCount(0);
@@ -1019,6 +1046,7 @@ const [expandedScenarioId, setExpandedScenarioId] = useState<number | null>(null
     });
     scenarioTimerKeyRef.current = null;
     scenarioLogIdRef.current = null;
+    setScenarioCompletionUiActive(false);
 
     // برای player: سناریوی بعدی را باز کن
     if (activeProfile.role === "player") {
@@ -1041,6 +1069,7 @@ const [expandedScenarioId, setExpandedScenarioId] = useState<number | null>(null
     if (!shouldStop) return;
     logScenarioExit("manual_stop_unfinished");
     setActiveScenarioId(null);
+    setScenarioCompletionUiActive(false);
     setView("scenarioList");
   };
 
@@ -1234,60 +1263,181 @@ const [expandedScenarioId, setExpandedScenarioId] = useState<number | null>(null
       : userScopedEvents;
     const insights = buildInsights(filteredEvents);
     const cognitive = buildCognitiveInsights(filteredEvents);
-    const s1SummaryEvents = filteredEvents.filter(
-      (event) =>
-        event.type === "s1_cognitive_summary" &&
-        event.scenarioId === "s1_shadows_low_orbit"
-    );
-    const s1DecisionEvents = filteredEvents.filter(
-      (event) =>
-        event.type === "s1_decision" &&
-        event.scenarioId === "s1_shadows_low_orbit"
-    );
-    const getDetailNumber = (event: (typeof filteredEvents)[number], key: string) => {
+    const overviewInsights = buildInsights(userScopedEvents);
+    const overviewCognitive = buildCognitiveInsights(userScopedEvents);
+    const getDetailNumber = (event: (typeof userScopedEvents)[number], key: string) => {
       const value = event.detail?.[key];
       return typeof value === "number" ? value : 0;
     };
-    const getDetailString = (event: (typeof filteredEvents)[number], key: string) => {
+    const getDetailString = (event: (typeof userScopedEvents)[number], key: string) => {
       const value = event.detail?.[key];
       return typeof value === "string" ? value : "";
     };
-    const avgDetail = (events: typeof filteredEvents, key: string) =>
+    const s1OutcomeLabels = [
+      "major_information_compromise",
+      "limited_information_compromise",
+      "information_control_success",
+      "uncontrolled_escalation",
+      "high_readiness_high_tension",
+      "strategic_information_opportunity",
+      "calm_crisis_control",
+      "remaining_ambiguity",
+      "mixed_crisis_containment",
+    ] as const;
+    type S1OutcomeLabel = (typeof s1OutcomeLabels)[number];
+    const getS1OutcomeTitle = (label: S1OutcomeLabel) =>
+      ({
+        major_information_compromise: "شکست اطلاعاتی شدید",
+        limited_information_compromise: "شکست اطلاعاتی محدود",
+        information_control_success: "موفقیت در کنترل اطلاعاتی",
+        uncontrolled_escalation: "تشدید کنترل‌نشده بحران",
+        high_readiness_high_tension: "آمادگی بالا همراه با تنش بالا",
+        strategic_information_opportunity: "فرصت اطلاعاتی راهبردی",
+        calm_crisis_control: "کنترل آرام بحران",
+        remaining_ambiguity: "باقی‌ماندن ابهام",
+        mixed_crisis_containment: "مهار نسبی بحران",
+      })[label];
+    const avgDetail = (events: typeof userScopedEvents, key: string) =>
       events.length > 0
         ? events.reduce((sum, event) => sum + getDetailNumber(event, key), 0) / events.length
         : 0;
-    const s1StartedCount = filteredEvents.filter(
-      (event) => event.type === "scenario_start" && event.scenarioId === "s1_shadows_low_orbit"
-    ).length;
-    const s1CompletedCount = s1SummaryEvents.length;
-    const s1CompletionRate =
-      s1StartedCount > 0 ? Math.round((s1CompletedCount / s1StartedCount) * 100) : 0;
-    const s1StyleCounts = s1SummaryEvents.reduce(
-      (acc, event) => {
-        const label = getDetailString(event, "decisionStyleLabel");
-        if (label === "operational" || label === "balanced" || label === "strategic") {
-          acc[label] += 1;
-        }
-        return acc;
-      },
-      { operational: 0, balanced: 0, strategic: 0 }
-    );
-    const s1Metrics = {
-      startedCount: s1StartedCount,
-      completedCount: s1CompletedCount,
-      completionRate: s1CompletionRate,
-      avgScenarioDurationSec: Math.round(avgDetail(s1SummaryEvents, "avgResponseTimeMs") / 1000),
-      avgDecisionMs: Math.round(avgDetail(s1DecisionEvents, "responseTimeMs")),
-      avgChangedAnswerCount: avgDetail(s1SummaryEvents, "totalChangedAnswerCount"),
-      avgPreviewOpenCount: avgDetail(s1SummaryEvents, "totalPreviewOpenCount"),
-      avgOperationalStrategicIndex: avgDetail(s1SummaryEvents, "operationalStrategicIndex"),
-      avgSecondOrderThinking: avgDetail(s1SummaryEvents, "secondOrderThinkingScore"),
-      avgAdversaryModeling: avgDetail(s1SummaryEvents, "adversaryModelingScore"),
-      avgEscalationSensitivity: avgDetail(s1SummaryEvents, "escalationSensitivityScore"),
-      avgInformationDiscipline: avgDetail(s1SummaryEvents, "informationDisciplineScore"),
-      avgCognitiveFlexibility: avgDetail(s1SummaryEvents, "cognitiveFlexibilityScore"),
-      styleCounts: s1StyleCounts,
+    const buildS1Analytics = (events: typeof userScopedEvents) => {
+      const summaryEvents = events.filter(
+        (event) =>
+          event.type === "s1_cognitive_summary" &&
+          event.scenarioId === "s1_shadows_low_orbit"
+      );
+      const decisionEvents = events.filter(
+        (event) =>
+          event.type === "s1_decision" &&
+          event.scenarioId === "s1_shadows_low_orbit"
+      );
+      const startedCount = events.filter(
+        (event) => event.type === "scenario_start" && event.scenarioId === "s1_shadows_low_orbit"
+      ).length;
+      const completedCount = summaryEvents.length;
+      const styleCounts = summaryEvents.reduce(
+        (acc, event) => {
+          const label = getDetailString(event, "decisionStyleLabel");
+          if (label === "operational" || label === "balanced" || label === "strategic") {
+            acc[label] += 1;
+          }
+          return acc;
+        },
+        { operational: 0, balanced: 0, strategic: 0 }
+      );
+      const informationCompromiseCounts = summaryEvents.reduce(
+        (acc, event) => {
+          const level = getDetailString(event, "informationCompromiseLevel");
+          if (level === "none" || level === "limited" || level === "major") {
+            acc[level] += 1;
+          }
+          return acc;
+        },
+        { none: 0, limited: 0, major: 0 }
+      );
+      const outcomeCounts = summaryEvents.reduce(
+        (acc, event) => {
+          const label = getDetailString(event, "finalNarrativeOutcomeLabel");
+          if (s1OutcomeLabels.includes(label as S1OutcomeLabel)) {
+            acc[label as S1OutcomeLabel] += 1;
+          }
+          return acc;
+        },
+        Object.fromEntries(s1OutcomeLabels.map((label) => [label, 0])) as Record<S1OutcomeLabel, number>
+      );
+      const completedForExposure = Math.max(summaryEvents.length, 1);
+      const decisionExposureByRound = Array.from(
+        decisionEvents.reduce((acc, event) => {
+          const roundId = getDetailString(event, "roundId");
+          if (!roundId) return acc;
+          const current = acc.get(roundId) ?? { roundId, count: 0, totalAfter: 0, totalDelta: 0, maxDelta: Number.NEGATIVE_INFINITY };
+          const after = getDetailNumber(event, "statusAfter_informationExposureRisk");
+          const delta = getDetailNumber(event, "informationExposureDelta");
+          current.count += 1;
+          current.totalAfter += after;
+          current.totalDelta += delta;
+          current.maxDelta = Math.max(current.maxDelta, delta);
+          acc.set(roundId, current);
+          return acc;
+        }, new Map<string, { roundId: string; count: number; totalAfter: number; totalDelta: number; maxDelta: number }>())
+        .values()
+      ).map((item) => ({
+        roundId: item.roundId,
+        avgAfter: item.count > 0 ? item.totalAfter / item.count : 0,
+        avgDelta: item.count > 0 ? item.totalDelta / item.count : 0,
+        maxDelta: item.maxDelta === Number.NEGATIVE_INFINITY ? 0 : item.maxDelta,
+      }));
+      const informationCompromiseOutcomePercent =
+        summaryEvents.length > 0
+          ? Math.round(
+              ((informationCompromiseCounts.limited + informationCompromiseCounts.major) /
+                summaryEvents.length) *
+                100
+            )
+          : 0;
+
+      return {
+        summaryEvents,
+        decisionEvents,
+        decisionExposureByRound,
+        topExposureRounds: decisionExposureByRound
+          .slice()
+          .sort((a, b) => b.avgDelta - a.avgDelta)
+          .slice(0, 5),
+        osiExposurePoints: summaryEvents.map((event) => ({
+          x: ((getDetailNumber(event, "operationalStrategicIndex") + 1) / 2) * 100,
+          y: getDetailNumber(event, "final_informationExposureRisk"),
+        })),
+        escalationExposurePoints: decisionEvents.map((event) => ({
+          x: getDetailNumber(event, "statusAfter_escalationRisk"),
+          y: getDetailNumber(event, "statusAfter_informationExposureRisk"),
+        })),
+        metrics: {
+          startedCount,
+          completedCount,
+          completionRate: startedCount > 0 ? Math.round((completedCount / startedCount) * 100) : 0,
+          avgScenarioDurationSec: Math.round(avgDetail(summaryEvents, "avgResponseTimeMs") / 1000),
+          avgDecisionMs: Math.round(avgDetail(decisionEvents, "responseTimeMs")),
+          avgChangedAnswerCount: avgDetail(summaryEvents, "totalChangedAnswerCount"),
+          avgPreviewOpenCount: avgDetail(summaryEvents, "totalPreviewOpenCount"),
+          avgOperationalStrategicIndex: avgDetail(summaryEvents, "operationalStrategicIndex"),
+          avgSecondOrderThinking: avgDetail(summaryEvents, "secondOrderThinkingScore"),
+          avgAdversaryModeling: avgDetail(summaryEvents, "adversaryModelingScore"),
+          avgEscalationSensitivity: avgDetail(summaryEvents, "escalationSensitivityScore"),
+          avgInformationDiscipline: avgDetail(summaryEvents, "informationDisciplineScore"),
+          avgCognitiveFlexibility: avgDetail(summaryEvents, "cognitiveFlexibilityScore"),
+          avgInformationExposureRisk: avgDetail(summaryEvents, "final_informationExposureRisk"),
+          maxInformationExposureRisk: summaryEvents.reduce(
+            (max, event) => Math.max(max, getDetailNumber(event, "final_informationExposureRisk")),
+            0
+          ),
+          informationCompromiseNonePercent: Math.round((informationCompromiseCounts.none / completedForExposure) * 100),
+          informationCompromiseLimitedPercent: Math.round((informationCompromiseCounts.limited / completedForExposure) * 100),
+          informationCompromiseMajorPercent: Math.round((informationCompromiseCounts.major / completedForExposure) * 100),
+          informationCompromiseOutcomePercent,
+          informationCompromiseCounts,
+          outcomeCounts,
+          styleCounts,
+        },
+      };
     };
+    const currentS1 = buildS1Analytics(filteredEvents);
+    const overviewS1 = buildS1Analytics(userScopedEvents);
+    const s1SummaryEvents = currentS1.summaryEvents;
+    const s1DecisionExposureByRound = currentS1.decisionExposureByRound;
+    const s1TopExposureRounds = currentS1.topExposureRounds;
+    const s1OsiExposurePoints = currentS1.osiExposurePoints;
+    const s1EscalationExposurePoints = currentS1.escalationExposurePoints;
+    const s1Metrics = currentS1.metrics;
+    const overviewS1Metrics = overviewS1.metrics;
+    const isS1RunSelected = selectedRun?.scenarioId === "s1_shadows_low_orbit";
+    const overviewMaxStyleCount = Math.max(
+      overviewS1Metrics.styleCounts.operational,
+      overviewS1Metrics.styleCounts.balanced,
+      overviewS1Metrics.styleCounts.strategic,
+      1
+    );
     const isSelectedRunUnfinished = Boolean(selectedRun && !selectedRun.completed);
     const selectedSummary =
       selectedAnalyticsUserId === "all"
@@ -1335,88 +1485,96 @@ const [expandedScenarioId, setExpandedScenarioId] = useState<number | null>(null
       return { x, label: index + 1 };
     });
     const clamp100 = (n: number) => Math.max(0, Math.min(100, Math.round(n)));
-    const radarAxes = [
-      { label: "درک مفهومی", value: clamp100(cognitive.overallAccuracy) },
+    const buildRadarAxes = (
+      sourceCognitive: CognitiveInsights,
+      sourceS1Metrics: typeof s1Metrics
+    ) => [
+      { label: "درک مفهومی", value: clamp100(sourceCognitive.overallAccuracy) },
       {
         label: "آگاهی موقعیتی",
         value: clamp100(
-          cognitive.referenceUsageRate * 0.35 +
-            cognitive.explanationUsageRate * 0.25 +
-            cognitive.productiveHesitationRate * 0.25 +
-            Math.max(0, s1Metrics.avgInformationDiscipline * 100) * 0.15
+          sourceCognitive.referenceUsageRate * 0.35 +
+            sourceCognitive.explanationUsageRate * 0.25 +
+            sourceCognitive.productiveHesitationRate * 0.25 +
+            Math.max(0, sourceS1Metrics.avgInformationDiscipline * 100) * 0.15
         ),
       },
       {
         label: "کیفیت تصمیم",
         value: clamp100(
-          cognitive.overallAccuracy * 0.55 +
-            Math.max(0, cognitive.guidanceBenefitScore) * 0.2 +
-            (100 - cognitive.overconfidenceErrorRate) * 0.15 +
-            Math.max(0, s1Metrics.avgCognitiveFlexibility * 100) * 0.1
+          sourceCognitive.overallAccuracy * 0.55 +
+            Math.max(0, sourceCognitive.guidanceBenefitScore) * 0.2 +
+            (100 - sourceCognitive.overconfidenceErrorRate) * 0.15 +
+            Math.max(0, sourceS1Metrics.avgCognitiveFlexibility * 100) * 0.1
         ),
       },
       {
         label: "سرعت پردازش",
-        value: clamp100(100 - Math.min(100, cognitive.decisionSpeedSec * 20)),
+        value: clamp100(100 - Math.min(100, sourceCognitive.decisionSpeedSec * 20)),
       },
       {
         label: "مدیریت ریسک",
         value: clamp100(
           100 -
-            cognitive.unfinishedExitRate * 0.35 -
-            cognitive.overconfidenceErrorRate * 0.35 +
-            Math.max(0, s1Metrics.avgEscalationSensitivity * 100) * 0.3
+            sourceCognitive.unfinishedExitRate * 0.35 -
+            sourceCognitive.overconfidenceErrorRate * 0.35 +
+            Math.max(0, sourceS1Metrics.avgEscalationSensitivity * 100) * 0.3
         ),
       },
       {
         label: "جست‌وجوی اطلاعات",
         value: clamp100(
-          cognitive.referenceUsageRate * 0.35 +
-            cognitive.explanationUsageRate * 0.45 +
-            Math.min(100, cognitive.avgExplanationSec * 8) * 0.1 +
-            Math.max(0, s1Metrics.avgInformationDiscipline * 100) * 0.1
+          sourceCognitive.referenceUsageRate * 0.35 +
+            sourceCognitive.explanationUsageRate * 0.45 +
+            Math.min(100, sourceCognitive.avgExplanationSec * 8) * 0.1 +
+            Math.max(0, sourceS1Metrics.avgInformationDiscipline * 100) * 0.1
         ),
       },
       {
         label: "یادگیری و سازگاری",
         value: clamp100(
-          cognitive.successfulRevisionRate * 0.3 +
-            cognitive.productiveHesitationRate * 0.45 +
-            Math.max(0, cognitive.guidanceBenefitScore) * 0.15 +
-            Math.max(0, s1Metrics.avgSecondOrderThinking * 100) * 0.1
+          sourceCognitive.successfulRevisionRate * 0.3 +
+            sourceCognitive.productiveHesitationRate * 0.45 +
+            Math.max(0, sourceCognitive.guidanceBenefitScore) * 0.15 +
+            Math.max(0, sourceS1Metrics.avgSecondOrderThinking * 100) * 0.1
         ),
       },
       {
         label: "مدیریت ابهام",
         value: clamp100(
-          (100 - cognitive.conceptFrictionScore) * 0.65 +
-            Math.max(0, s1Metrics.avgAdversaryModeling * 100) * 0.2 +
-            Math.max(0, s1Metrics.avgInformationDiscipline * 100) * 0.15
+          (100 - sourceCognitive.conceptFrictionScore) * 0.65 +
+            Math.max(0, sourceS1Metrics.avgAdversaryModeling * 100) * 0.2 +
+            Math.max(0, sourceS1Metrics.avgInformationDiscipline * 100) * 0.15
         ),
       },
-      { label: "پایبندی به مأموریت", value: clamp100(100 - cognitive.unfinishedExitRate * 0.8) },
+      { label: "پایبندی به مأموریت", value: clamp100(100 - sourceCognitive.unfinishedExitRate * 0.8) },
     ];
+    const radarAxes = buildRadarAxes(cognitive, s1Metrics);
+    const overviewRadarAxes = buildRadarAxes(overviewCognitive, overviewS1Metrics);
     const radarCx = 220;
     const radarCy = 220;
     const radarR = 150;
     const radarLevels = [20, 40, 60, 80, 100];
-    const toRadarPoint = (index: number, normalized: number) => {
-      const angle = (Math.PI * 2 * index) / radarAxes.length - Math.PI / 2;
+    const toRadarPoint = (index: number, normalized: number, axisCount = radarAxes.length) => {
+      const angle = (Math.PI * 2 * index) / axisCount - Math.PI / 2;
       const r = radarR * normalized;
       const x = radarCx + r * Math.cos(angle);
       const y = radarCy + r * Math.sin(angle);
       return { x, y };
     };
-    const radarPolygon = radarAxes
+    const buildRadarPolygon = (axes: typeof radarAxes) =>
+      axes
       .map((axis, idx) => {
-        const p = toRadarPoint(idx, axis.value / 100);
+        const p = toRadarPoint(idx, axis.value / 100, axes.length);
         return `${p.x},${p.y}`;
       })
       .join(" ");
+    const radarPolygon = buildRadarPolygon(radarAxes);
+    const overviewRadarPolygon = buildRadarPolygon(overviewRadarAxes);
 
     return (
-      <div className="screen">
-        <div className="card">
+      <div className="screen admin-analytics-screen">
+        <div className="card admin-analytics-card">
           <div className="screen-header">
             <div>
               <h2 className="screen-title">داشبورد تحلیلی کاربران</h2>
@@ -1447,7 +1605,7 @@ const [expandedScenarioId, setExpandedScenarioId] = useState<number | null>(null
               id="analytics-scenario-run-select"
               value={selectedScenarioRunId}
               onChange={(event) => setSelectedScenarioRunId(event.target.value)}
-              disabled={selectedAnalyticsUserId === "all"}
+              disabled={selectedAnalyticsUserId === "all" || analyticsSection === "overview"}
             >
               <option value="all">نمایش همه سناریوها</option>
               {selectedAnalyticsUserId !== "all" &&
@@ -1460,6 +1618,12 @@ const [expandedScenarioId, setExpandedScenarioId] = useState<number | null>(null
           </div>
 
           <div className="analytics-tabs">
+            <button
+              className={analyticsSection === "overview" ? "analytics-tab active" : "analytics-tab"}
+              onClick={() => setAnalyticsSection("overview")}
+            >
+              بینش کلی
+            </button>
             <button
               className={analyticsSection === "stat" ? "analytics-tab active" : "analytics-tab"}
               onClick={() => setAnalyticsSection("stat")}
@@ -1474,9 +1638,123 @@ const [expandedScenarioId, setExpandedScenarioId] = useState<number | null>(null
             </button>
           </div>
 
-          {analyticsSection === "stat" ? (
+          <div className="analytics-context-strip">
+            <div>
+              <span>دامنه داده</span>
+              <strong>
+                {analyticsSection === "overview"
+                  ? selectedAnalyticsUserId === "all"
+                    ? "نمای کلی همه کاربران"
+                    : "نمای کلی کاربر انتخاب‌شده"
+                  : selectedRun
+                    ? selectedRun.label
+                    : selectedAnalyticsUserId === "all"
+                      ? "همه کاربران"
+                      : "کاربر انتخاب‌شده"}
+              </strong>
+            </div>
+            <div>
+              <span>رخدادهای فیلترشده</span>
+              <strong>{analyticsSection === "overview" ? userScopedEvents.length : filteredEvents.length}</strong>
+            </div>
+            <div>
+              <span>دقت پاسخ‌ها</span>
+              <strong>{analyticsSection === "overview" ? overviewInsights.correctAnswerRate : insights.correctAnswerRate}%</strong>
+            </div>
+            <div>
+              <span>بار شناختی</span>
+              <strong>{analyticsSection === "overview" ? overviewCognitive.estimatedCognitiveLoad : cognitive.estimatedCognitiveLoad}/100</strong>
+            </div>
+          </div>
+
+          {analyticsSection === "overview" ? (
+            <div className="analytics-cognitive">
+              <div className="analytics-grid analytics-grid-primary">
+                <div className="analytics-stat"><span>کل رخدادها</span><strong>{userScopedEvents.length}</strong></div>
+                <div className="analytics-stat"><span>اجرای کامل سناریو</span><strong>{overviewInsights.scenarioRuns}</strong></div>
+                <div className="analytics-stat"><span>دقت کلی پاسخ‌ها</span><strong>{overviewInsights.correctAnswerRate}%</strong></div>
+                <div className="analytics-stat"><span>بار شناختی کلی</span><strong>{overviewCognitive.estimatedCognitiveLoad}/100</strong></div>
+              </div>
+
+              <div className="analytics-charts overview-charts">
+                <div className="analytics-chart-card analytics-chart-card-wide">
+                  <h3>رادار کلی شناختی</h3>
+                  <div className="radar-wrap">
+                    <svg viewBox="0 0 440 470" className="radar-svg">
+                      {radarLevels.map((level) => {
+                        const points = overviewRadarAxes
+                          .map((_, idx) => {
+                            const p = toRadarPoint(idx, level / 100, overviewRadarAxes.length);
+                            return `${p.x},${p.y}`;
+                          })
+                          .join(" ");
+                        return <polygon key={`overview-lvl-${level}`} points={points} className="radar-grid" />;
+                      })}
+
+                      {overviewRadarAxes.map((axis, idx) => {
+                        const p = toRadarPoint(idx, 1, overviewRadarAxes.length);
+                        return (
+                          <g key={`overview-axis-${axis.label}`}>
+                            <line x1={radarCx} y1={radarCy} x2={p.x} y2={p.y} className="radar-axis-line" />
+                            <text x={p.x} y={p.y} className="radar-axis-label">
+                              {axis.label}
+                            </text>
+                          </g>
+                        );
+                      })}
+
+                      <polygon points={overviewRadarPolygon} className="radar-data-fill" />
+                      <polygon points={overviewRadarPolygon} className="radar-data-stroke" />
+                    </svg>
+                  </div>
+                </div>
+
+                <div className="analytics-chart-card">
+                  <h3>طیف تفکر عملیاتی/راهبردی</h3>
+                  <OperationalStrategicScale value={overviewS1Metrics.avgOperationalStrategicIndex} />
+                  <div className="analytics-bar-row">
+                    <span className="analytics-bar-label">عملیاتی</span>
+                    <div className="analytics-bar-track">
+                      <div className="analytics-bar-fill analytics-bar-fill-warn" style={{ width: `${Math.max((overviewS1Metrics.styleCounts.operational / overviewMaxStyleCount) * 100, overviewS1Metrics.styleCounts.operational > 0 ? 6 : 0)}%` }} />
+                    </div>
+                    <span className="analytics-bar-value">{overviewS1Metrics.styleCounts.operational}</span>
+                  </div>
+                  <div className="analytics-bar-row">
+                    <span className="analytics-bar-label">ترکیبی</span>
+                    <div className="analytics-bar-track">
+                      <div className="analytics-bar-fill" style={{ width: `${Math.max((overviewS1Metrics.styleCounts.balanced / overviewMaxStyleCount) * 100, overviewS1Metrics.styleCounts.balanced > 0 ? 6 : 0)}%` }} />
+                    </div>
+                    <span className="analytics-bar-value">{overviewS1Metrics.styleCounts.balanced}</span>
+                  </div>
+                  <div className="analytics-bar-row">
+                    <span className="analytics-bar-label">راهبردی</span>
+                    <div className="analytics-bar-track">
+                      <div className="analytics-bar-fill analytics-bar-fill-alt" style={{ width: `${Math.max((overviewS1Metrics.styleCounts.strategic / overviewMaxStyleCount) * 100, overviewS1Metrics.styleCounts.strategic > 0 ? 6 : 0)}%` }} />
+                    </div>
+                    <span className="analytics-bar-value">{overviewS1Metrics.styleCounts.strategic}</span>
+                  </div>
+                </div>
+
+                <div className="analytics-chart-card">
+                  <h3>کیفیت کلی پاسخ</h3>
+                  <div className="analytics-pie-wrap">
+                    <div
+                      className="analytics-pie"
+                      style={{
+                        background: `conic-gradient(#22c55e 0% ${overviewInsights.correctAnswerRate}%, #ef4444 ${overviewInsights.correctAnswerRate}% 100%)`,
+                      }}
+                    />
+                    <div className="analytics-pie-legend">
+                      <div><span className="dot dot-ok" /> صحیح: {overviewInsights.correctAnswerRate}%</div>
+                      <div><span className="dot dot-bad" /> خطا: {100 - overviewInsights.correctAnswerRate}%</div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          ) : analyticsSection === "stat" ? (
           <>
-          <div className="analytics-grid">
+          <div className="analytics-grid analytics-grid-primary">
             <div className="analytics-stat">
               <span>کل لاگ‌ها</span>
               <strong>{filteredEvents.length}</strong>
@@ -1495,49 +1773,53 @@ const [expandedScenarioId, setExpandedScenarioId] = useState<number | null>(null
             </div>
           </div>
 
-          <div className="analytics-grid">
-            <div className="analytics-stat">
-              <span>تعداد سوالات (Quiz)</span>
-              <strong>{insights.totalQuestions}</strong>
+          <details className="analytics-section">
+            <summary>جزئیات آماری عمومی</summary>
+            <div className="analytics-grid analytics-grid-compact">
+              <div className="analytics-stat">
+                <span>تعداد سوالات (Quiz)</span>
+                <strong>{insights.totalQuestions}</strong>
+              </div>
+              <div className="analytics-stat">
+                <span>تعداد گزینه صحیح</span>
+                <strong>{insights.correctAnswers}</strong>
+              </div>
+              <div className="analytics-stat">
+                <span>میانگین زمان فکر روی سوال</span>
+                <strong>{Math.round(insights.avgThinkingMs / 1000)} ثانیه</strong>
+              </div>
+              <div className="analytics-stat">
+                <span>کلیک روی رفرنس‌ها/مثال‌ها</span>
+                <strong>{insights.referenceClicks}</strong>
+              </div>
+              <div className="analytics-stat">
+                <span>میانگین مدت اجرای سناریو</span>
+                <strong>
+                  {isSelectedRunUnfinished ? "سناریو تکمیل نشد" : `${insights.avgScenarioDurationSec} ثانیه`}
+                </strong>
+              </div>
+              <div className="analytics-stat">
+                <span>تعداد اجرای کامل سناریو</span>
+                <strong>{insights.scenarioRuns}</strong>
+              </div>
+              <div className="analytics-stat">
+                <span>زمان مطالعه توضیحات</span>
+                <strong>{insights.descriptionReadSec} ثانیه</strong>
+              </div>
+              <div className="analytics-stat">
+                <span>زمان مطالعه رفرنس/مثال</span>
+                <strong>{insights.referenceReadSec} ثانیه</strong>
+              </div>
             </div>
-            <div className="analytics-stat">
-              <span>تعداد گزینه صحیح</span>
-              <strong>{insights.correctAnswers}</strong>
-            </div>
-            <div className="analytics-stat">
-              <span>میانگین زمان فکر روی سوال</span>
-              <strong>{Math.round(insights.avgThinkingMs / 1000)} ثانیه</strong>
-            </div>
-            <div className="analytics-stat">
-              <span>کلیک روی رفرنس‌ها/مثال‌ها</span>
-              <strong>{insights.referenceClicks}</strong>
-            </div>
-          </div>
+          </details>
 
-          <div className="analytics-grid">
-            <div className="analytics-stat">
-              <span>میانگین مدت اجرای سناریو</span>
-              <strong>
-                {isSelectedRunUnfinished ? "سناریو تکمیل نشد" : `${insights.avgScenarioDurationSec} ثانیه`}
-              </strong>
-            </div>
-            <div className="analytics-stat">
-              <span>تعداد اجرای کامل سناریو</span>
-              <strong>{insights.scenarioRuns}</strong>
-            </div>
-            <div className="analytics-stat">
-              <span>زمان مطالعه توضیحات</span>
-              <strong>{insights.descriptionReadSec} ثانیه</strong>
-            </div>
-            <div className="analytics-stat">
-              <span>زمان مطالعه رفرنس/مثال</span>
-              <strong>{insights.referenceReadSec} ثانیه</strong>
-            </div>
-          </div>
-
+          {isS1RunSelected && (
+          <>
+          <details className="analytics-section">
+            <summary>شاخص‌های سناریو ۱ — سایه‌های مدار پایین</summary>
           <div className="analytics-user-summary">
             <h3>شاخص‌های سناریو ۱ — سایه‌های مدار پایین</h3>
-            <div className="analytics-grid">
+            <div className="analytics-grid analytics-grid-compact">
               <div className="analytics-stat">
                 <span>تعداد شروع سناریو ۱</span>
                 <strong>{s1Metrics.startedCount}</strong>
@@ -1575,8 +1857,26 @@ const [expandedScenarioId, setExpandedScenarioId] = useState<number | null>(null
                 </strong>
               </div>
             </div>
+            <div className="analytics-grid analytics-grid-compact">
+              <div className="analytics-stat">
+                <span>میانگین ریسک افشای اطلاعات</span>
+                <strong>{s1Metrics.avgInformationExposureRisk.toFixed(1)}%</strong>
+              </div>
+              <div className="analytics-stat">
+                <span>بیشترین ریسک افشای اطلاعات</span>
+                <strong>{s1Metrics.maxInformationExposureRisk}%</strong>
+              </div>
+              <div className="analytics-stat">
+                <span>سطح افشا: none</span>
+                <strong>{s1Metrics.informationCompromiseNonePercent}%</strong>
+              </div>
+              <div className="analytics-stat">
+                <span>سطح افشا: limited / major</span>
+                <strong>{s1Metrics.informationCompromiseLimitedPercent}% / {s1Metrics.informationCompromiseMajorPercent}%</strong>
+              </div>
+            </div>
             <OperationalStrategicScale value={s1Metrics.avgOperationalStrategicIndex} />
-            <div className="analytics-grid">
+            <div className="analytics-grid analytics-grid-compact">
               <div className="analytics-stat">
                 <span>تفکر مرحله دوم</span>
                 <strong>{s1Metrics.avgSecondOrderThinking.toFixed(2)}</strong>
@@ -1595,6 +1895,133 @@ const [expandedScenarioId, setExpandedScenarioId] = useState<number | null>(null
               </div>
             </div>
           </div>
+          </details>
+
+          <details className="analytics-section">
+            <summary>نمودارهای تکمیلی سناریو ۱</summary>
+            <div className="analytics-charts" style={{ marginTop: "1rem" }}>
+              <div className="analytics-chart-card">
+                <h3>توزیع سطح افشای اطلاعات</h3>
+                {(["none", "limited", "major"] as const).map((level) => {
+                  const count = s1Metrics.informationCompromiseCounts[level];
+                  const percent = s1SummaryEvents.length > 0 ? Math.round((count / s1SummaryEvents.length) * 100) : 0;
+                  return (
+                    <div key={level} className="analytics-bar-row">
+                      <span className="analytics-bar-label">{level}</span>
+                      <div className="analytics-bar-track">
+                        <div className="analytics-bar-fill" style={{ width: `${Math.max(percent, count > 0 ? 6 : 0)}%` }} />
+                      </div>
+                      <span className="analytics-bar-value">{count}</span>
+                    </div>
+                  );
+                })}
+              </div>
+
+              <div className="analytics-chart-card">
+                <h3>میانگین ریسک افشا به تفکیک راند</h3>
+                {s1DecisionExposureByRound.length === 0 && <p className="hint">داده‌ای برای سناریو ۱ ثبت نشده است.</p>}
+                {s1DecisionExposureByRound.map((item) => (
+                  <div key={item.roundId} className="analytics-bar-row">
+                    <span className="analytics-bar-label">{translateNodeId(item.roundId)}</span>
+                    <div className="analytics-bar-track">
+                      <div className="analytics-bar-fill analytics-bar-fill-warn" style={{ width: `${Math.max(item.avgAfter, 4)}%` }} />
+                    </div>
+                    <span className="analytics-bar-value">{Math.round(item.avgAfter)}%</span>
+                  </div>
+                ))}
+              </div>
+
+              <div className="analytics-chart-card">
+                <h3>راندهای با بیشترین افزایش ریسک افشا</h3>
+                {s1TopExposureRounds.length === 0 && <p className="hint">داده‌ای برای سناریو ۱ ثبت نشده است.</p>}
+                {s1TopExposureRounds.map((item) => (
+                  <div key={item.roundId} className="analytics-bar-row">
+                    <span className="analytics-bar-label">{translateNodeId(item.roundId)}</span>
+                    <div className="analytics-bar-track">
+                      <div className="analytics-bar-fill analytics-bar-fill-warn" style={{ width: `${Math.max(Math.min(item.avgDelta * 4, 100), 4)}%` }} />
+                    </div>
+                    <span className="analytics-bar-value">{item.avgDelta.toFixed(1)}</span>
+                  </div>
+                ))}
+              </div>
+
+              <div className="analytics-chart-card">
+                <h3>Outcomeهای شکست اطلاعاتی</h3>
+                <div className="analytics-stat">
+                  <span>درصد outcomeهای limited/major</span>
+                  <strong>{s1Metrics.informationCompromiseOutcomePercent}%</strong>
+                </div>
+                <p className="hint">این درصد از summary نهایی سناریو ۱ محاسبه می‌شود.</p>
+              </div>
+
+              <div className="analytics-chart-card">
+                <h3>توزیع خروجی نهایی سناریو ۱</h3>
+                {s1OutcomeLabels.map((label) => {
+                  const count = s1Metrics.outcomeCounts[label];
+                  const percent = s1SummaryEvents.length > 0 ? Math.round((count / s1SummaryEvents.length) * 100) : 0;
+                  return (
+                    <div key={label} className="analytics-bar-row">
+                      <span className="analytics-bar-label">{getS1OutcomeTitle(label)}</span>
+                      <div className="analytics-bar-track">
+                        <div className="analytics-bar-fill" style={{ width: `${Math.max(percent, count > 0 ? 6 : 0)}%` }} />
+                      </div>
+                      <span className="analytics-bar-value">{count}</span>
+                    </div>
+                  );
+                })}
+              </div>
+
+              <div className="analytics-chart-card">
+                <h3>رابطه OSI و ریسک افشا</h3>
+                {s1OsiExposurePoints.length === 0 ? (
+                  <p className="hint">داده‌ای برای نمایش رابطه ثبت نشده است.</p>
+                ) : (
+                  <svg viewBox="0 0 260 170" style={{ width: "100%", height: 170 }}>
+                    <line x1="28" y1="138" x2="238" y2="138" stroke="rgba(148,163,184,0.45)" />
+                    <line x1="28" y1="18" x2="28" y2="138" stroke="rgba(148,163,184,0.45)" />
+                    {s1OsiExposurePoints.map((point, index) => (
+                      <circle
+                        key={`osi-exposure-${index}`}
+                        cx={28 + (point.x / 100) * 210}
+                        cy={138 - (point.y / 100) * 120}
+                        r="4"
+                        fill="#38bdf8"
+                        opacity="0.82"
+                      />
+                    ))}
+                    <text x="78" y="162" fill="#94a3b8" fontSize="10">Operational-Strategic Index</text>
+                    <text x="34" y="14" fill="#94a3b8" fontSize="10">Exposure</text>
+                  </svg>
+                )}
+              </div>
+
+              <div className="analytics-chart-card">
+                <h3>رابطه ریسک تنش و ریسک افشا</h3>
+                {s1EscalationExposurePoints.length === 0 ? (
+                  <p className="hint">داده‌ای برای نمایش رابطه ثبت نشده است.</p>
+                ) : (
+                  <svg viewBox="0 0 260 170" style={{ width: "100%", height: 170 }}>
+                    <line x1="28" y1="138" x2="238" y2="138" stroke="rgba(148,163,184,0.45)" />
+                    <line x1="28" y1="18" x2="28" y2="138" stroke="rgba(148,163,184,0.45)" />
+                    {s1EscalationExposurePoints.map((point, index) => (
+                      <circle
+                        key={`escalation-exposure-${index}`}
+                        cx={28 + (point.x / 100) * 210}
+                        cy={138 - (point.y / 100) * 120}
+                        r="3.4"
+                        fill="#f59e0b"
+                        opacity="0.78"
+                      />
+                    ))}
+                    <text x="96" y="162" fill="#94a3b8" fontSize="10">Escalation</text>
+                    <text x="34" y="14" fill="#94a3b8" fontSize="10">Exposure</text>
+                  </svg>
+                )}
+              </div>
+            </div>
+          </details>
+          </>
+          )}
 
           {selectedSummary && (
             <div className="analytics-user-summary">
@@ -1612,6 +2039,8 @@ const [expandedScenarioId, setExpandedScenarioId] = useState<number | null>(null
             </div>
           )}
 
+          <details className="analytics-section" open>
+            <summary>نمودارهای کلیدی آماری</summary>
           <div className="analytics-charts">
             <div className="analytics-chart-card">
               <h3>توزیع نوع رخدادها</h3>
@@ -1656,7 +2085,10 @@ const [expandedScenarioId, setExpandedScenarioId] = useState<number | null>(null
               ))}
             </div>
           </div>
+          </details>
 
+          <details className="analytics-section">
+            <summary>روند زمان پاسخ</summary>
           <div className="analytics-chart-card" style={{ marginBottom: "1rem" }}>
             <h3>روند زمان پاسخ از سوال اول تا آخر</h3>
             {timelineData.length > 1 ? (
@@ -1685,6 +2117,7 @@ const [expandedScenarioId, setExpandedScenarioId] = useState<number | null>(null
               <p className="hint">داده کافی برای نمایش روند زمانی وجود ندارد.</p>
             )}
           </div>
+          </details>
 
           <div className="analytics-log-toggle">
             <button onClick={() => setShowAnalyticsLog((prev) => !prev)}>
@@ -1724,34 +2157,50 @@ const [expandedScenarioId, setExpandedScenarioId] = useState<number | null>(null
           </>
           ) : (
             <div className="analytics-cognitive">
-              <div className="analytics-grid">
+              <div className="analytics-grid analytics-grid-primary">
                 <div className="analytics-stat"><span>دقت مفهومی کلی</span><strong>{cognitive.overallAccuracy}%</strong></div>
                 <div className="analytics-stat"><span>سرعت تصمیم‌گیری</span><strong>{cognitive.decisionSpeedSec} ثانیه</strong></div>
                 <div className="analytics-stat"><span>نرخ تردید/بازبینی</span><strong>{cognitive.hesitationRate}%</strong></div>
-                <div className="analytics-stat"><span>نرخ تغییر پاسخ</span><strong>{cognitive.answerChangeRate}%</strong></div>
-                <div className="analytics-stat"><span>اصلاح موفق پس از تغییر</span><strong>{cognitive.successfulRevisionRate}%</strong></div>
-                <div className="analytics-stat"><span>استفاده از مرجع</span><strong>{cognitive.referenceUsageRate}%</strong></div>
-                <div className="analytics-stat"><span>ترک سناریوی ناتمام</span><strong>{cognitive.unfinishedExitRate}%</strong></div>
                 <div className="analytics-stat"><span>بار شناختی تخمینی</span><strong>{cognitive.estimatedCognitiveLoad}/100</strong></div>
-                <div className="analytics-stat"><span>استفاده از توضیح بیشتر</span><strong>{cognitive.explanationUsageRate}%</strong></div>
-                <div className="analytics-stat"><span>زمان مطالعه توضیح</span><strong>{cognitive.avgExplanationSec} ثانیه</strong></div>
-                <div className="analytics-stat"><span>اثر توضیح بر دقت</span><strong>{cognitive.guidanceBenefitScore}%</strong></div>
-                <div className="analytics-stat"><span>خطای با اطمینان بالا</span><strong>{cognitive.overconfidenceErrorRate}%</strong></div>
-                <div className="analytics-stat"><span>تردید مفید</span><strong>{cognitive.productiveHesitationRate}%</strong></div>
-                <div className="analytics-stat"><span>اصطکاک مفهومی</span><strong>{cognitive.conceptFrictionScore}/100</strong></div>
-                <div className="analytics-stat"><span>سناریو ۱: OSI</span><strong>{s1Metrics.avgOperationalStrategicIndex.toFixed(2)}</strong></div>
-                <div className="analytics-stat"><span>سناریو ۱: تفکر مرحله دوم</span><strong>{s1Metrics.avgSecondOrderThinking.toFixed(2)}</strong></div>
-                <div className="analytics-stat"><span>سناریو ۱: مدل‌سازی طرف مقابل</span><strong>{s1Metrics.avgAdversaryModeling.toFixed(2)}</strong></div>
-                <div className="analytics-stat"><span>سناریو ۱: انعطاف شناختی</span><strong>{s1Metrics.avgCognitiveFlexibility.toFixed(2)}</strong></div>
               </div>
 
               <div className="analytics-user-summary">
                 <h3>خلاصه شناختی</h3>
                 <p>سبک تصمیم‌گیری: <strong>{cognitive.styleLabel}</strong></p>
                 <p>جایگاه در ماتریس سرعت×دقت: <strong>{cognitive.speedAccuracyQuadrant}</strong></p>
-                <OperationalStrategicScale value={s1Metrics.avgOperationalStrategicIndex} />
+                {isS1RunSelected && <OperationalStrategicScale value={s1Metrics.avgOperationalStrategicIndex} />}
               </div>
 
+              <details className="analytics-section">
+                <summary>جزئیات شاخص‌های شناختی</summary>
+                <div className="analytics-grid analytics-grid-compact">
+                  <div className="analytics-stat"><span>نرخ تغییر پاسخ</span><strong>{cognitive.answerChangeRate}%</strong></div>
+                  <div className="analytics-stat"><span>اصلاح موفق پس از تغییر</span><strong>{cognitive.successfulRevisionRate}%</strong></div>
+                  <div className="analytics-stat"><span>استفاده از مرجع</span><strong>{cognitive.referenceUsageRate}%</strong></div>
+                  <div className="analytics-stat"><span>ترک سناریوی ناتمام</span><strong>{cognitive.unfinishedExitRate}%</strong></div>
+                  <div className="analytics-stat"><span>استفاده از توضیح بیشتر</span><strong>{cognitive.explanationUsageRate}%</strong></div>
+                  <div className="analytics-stat"><span>زمان مطالعه توضیح</span><strong>{cognitive.avgExplanationSec} ثانیه</strong></div>
+                  <div className="analytics-stat"><span>اثر توضیح بر دقت</span><strong>{cognitive.guidanceBenefitScore}%</strong></div>
+                  <div className="analytics-stat"><span>خطای با اطمینان بالا</span><strong>{cognitive.overconfidenceErrorRate}%</strong></div>
+                  <div className="analytics-stat"><span>تردید مفید</span><strong>{cognitive.productiveHesitationRate}%</strong></div>
+                  <div className="analytics-stat"><span>اصطکاک مفهومی</span><strong>{cognitive.conceptFrictionScore}/100</strong></div>
+                </div>
+              </details>
+
+              {isS1RunSelected && (
+                <details className="analytics-section">
+                  <summary>شاخص‌های شناختی اختصاصی سناریو ۱</summary>
+                  <div className="analytics-grid analytics-grid-compact">
+                    <div className="analytics-stat"><span>سناریو ۱: OSI</span><strong>{s1Metrics.avgOperationalStrategicIndex.toFixed(2)}</strong></div>
+                    <div className="analytics-stat"><span>سناریو ۱: تفکر مرحله دوم</span><strong>{s1Metrics.avgSecondOrderThinking.toFixed(2)}</strong></div>
+                    <div className="analytics-stat"><span>سناریو ۱: مدل‌سازی طرف مقابل</span><strong>{s1Metrics.avgAdversaryModeling.toFixed(2)}</strong></div>
+                    <div className="analytics-stat"><span>سناریو ۱: انعطاف شناختی</span><strong>{s1Metrics.avgCognitiveFlexibility.toFixed(2)}</strong></div>
+                  </div>
+                </details>
+              )}
+
+              <details className="analytics-section" open>
+                <summary>نمودارهای شناختی</summary>
               <div className="analytics-charts">
                 <div className="analytics-chart-card">
                   <h3>نمودار راداری شناختی</h3>
@@ -1813,6 +2262,7 @@ const [expandedScenarioId, setExpandedScenarioId] = useState<number | null>(null
                   ))}
                 </div>
               </div>
+              </details>
 
             </div>
           )}
@@ -1872,8 +2322,8 @@ const [expandedScenarioId, setExpandedScenarioId] = useState<number | null>(null
 
                   <h3 className="scenario-title">{scenario.title}</h3>
                   <p className="scenario-summary">
-                    {isExpanded && scenario.fullDescription
-                      ? scenario.fullDescription
+                    {isExpanded && (scenario.descriptionPreview || scenario.fullDescription)
+                      ? scenario.descriptionPreview || scenario.fullDescription
                       : scenario.summary.slice(0, 70) + "…"}
                   </p>
 
@@ -1929,6 +2379,9 @@ const renderScenarioPlay = () => {
 
   // سناریوی فعال
   const scenario = SCENARIOS.find((s) => s.id === activeScenarioId)!;
+  const introModalStyle = scenario.introBackgroundImage
+    ? { backgroundImage: `linear-gradient(90deg, rgba(2, 6, 23, 0.9), rgba(2, 6, 23, 0.68)), url(${scenario.introBackgroundImage})` }
+    : undefined;
 
   // اگر سناریو درخت دارد، از ScenarioRunner استفاده می‌کنیم
   const scenarioTreeId = SCENARIO_TREE_IDS[scenario.id];
@@ -1938,6 +2391,9 @@ const renderScenarioPlay = () => {
     activeScenarioNodeId == null ||
     activeScenarioNodeId === AllScenarios[scenarioTreeId].start;
   const isScenarioOne = scenarioTreeId === "s1_shadows_low_orbit";
+  const hideScenarioStopButton =
+    Boolean(scenarioTreeId) &&
+    (activeScenarioNodeId === "end" || scenarioCompletionUiActive);
 
   // فقط سناریوهایی که درخت ندارند از سیستم سؤال‌ها استفاده می‌کنند
   const questions: Question[] = scenarioTreeId
@@ -1957,8 +2413,11 @@ const renderScenarioPlay = () => {
       {/* مودال اینترو در شروع سناریو */}
       {introModalText && (
         <div className="intro-modal-backdrop">
-          <div className="intro-modal">
-            <h3>شروع مسیر</h3>
+          <div
+            className={"intro-modal" + (scenario.introBackgroundImage ? " intro-modal-with-bg" : "")}
+            style={introModalStyle}
+          >
+            <h3>{scenario.introTitle ?? "شروع مسیر"}</h3>
             <p className="intro-modal-text">{introModalText}</p>
             <button className="primary" onClick={() => setIntroModalText(null)}>
               شروع
@@ -2035,16 +2494,19 @@ const renderScenarioPlay = () => {
             <ScenarioRunner
               scenarioId={scenarioTreeId}
               onNodeChange={handleScenarioNodeChange}
+              onCompletionUiActiveChange={setScenarioCompletionUiActive}
               allowSkipToMiniGame={activeProfile.role === "admin"}
               userProfileId={activeProfile.id}
               onExit={handleFinishScenario}
             />
 
-            <div className="scenario-footer">
-              <button className="danger" onClick={handleStopScenario}>
-                توقف سناریو
-              </button>
-            </div>
+            {!hideScenarioStopButton && (
+              <div className="scenario-footer">
+                <button className="danger" onClick={handleStopScenario}>
+                  توقف سناریو
+                </button>
+              </div>
+            )}
           </>
         ) : (
           <>

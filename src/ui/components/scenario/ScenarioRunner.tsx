@@ -18,6 +18,7 @@ interface ScenarioRunnerProps {
   scenarioId: ScenarioId;
   onExit?: () => void;
   onNodeChange?: (nodeId: string) => void;
+  onCompletionUiActiveChange?: (active: boolean) => void;
   allowSkipToMiniGame?: boolean;
   userProfileId?: string;
 }
@@ -27,6 +28,7 @@ export const ScenarioRunner = ({
   scenarioId,
   onExit,
   onNodeChange,
+  onCompletionUiActiveChange,
   allowSkipToMiniGame = false,
   userProfileId,
 }: ScenarioRunnerProps) => {
@@ -474,21 +476,31 @@ export const ScenarioRunner = ({
   };
 
   // ---------- End Node ----------
-  const renderEndNode = (endNode: EndNode) => (
+  const renderEndNode = (endNode: EndNode) => {
+    const isScenarioOneEnd = scenarioId === "s1_shadows_low_orbit";
+    return (
     <Card>
       <div style={{ display: "flex", flexDirection: "column", gap: "1.5rem" }}>
         <div>
-          <h2 style={{ marginTop: 0, marginBottom: "0.75rem" }}>پایان مرحله</h2>
-          <p
-            style={{
-              margin: 0,
-              lineHeight: 1.8,
-              whiteSpace: "pre-wrap",
-              fontSize: "0.95rem",
-            }}
-          >
-            {endNode.summaryText}
-          </p>
+          <h2 style={{ marginTop: 0, marginBottom: "0.75rem" }}>
+            {isScenarioOneEnd ? "پایان سناریو ۱" : "پایان مرحله"}
+          </h2>
+          {isScenarioOneEnd ? (
+            <p style={{ margin: 0, lineHeight: 1.9, fontSize: "0.95rem" }}>
+              سناریو ۱ — <strong>سایه‌های مدار پایین</strong> به پایان رسید. شما در این مأموریت با رفتار مبهم یک ماهواره ناشناس، محدودیت منابع رصدی، ریسک تشدید تنش و خطر افشای اطلاعات روبه‌رو شدید و تصمیم‌های شما مسیر بحران را شکل داد. اکنون این مرحله کامل شده و آماده ورود به سناریو بعدی هستید: <strong>سناریو ۲ — امواج خاموش</strong>؛ جایی که نبرد از سطح مشاهده مداری فراتر می‌رود و به لایه ارتباطات، سیگنال‌ها و اختلالات پنهان کشیده می‌شود.
+            </p>
+          ) : (
+            <p
+              style={{
+                margin: 0,
+                lineHeight: 1.8,
+                whiteSpace: "pre-wrap",
+                fontSize: "0.95rem",
+              }}
+            >
+              {endNode.summaryText}
+            </p>
+          )}
         </div>
 
         <div style={{ display: "flex", gap: "0.75rem", flexWrap: "wrap" }}>
@@ -509,13 +521,14 @@ export const ScenarioRunner = ({
                 fontSize: "0.9rem",
               }}
             >
-              پایان سناریو
+              {isScenarioOneEnd ? "رفتن به منو انتخاب سناریو ها" : "پایان سناریو"}
             </button>
           )}
         </div>
       </div>
     </Card>
-  );
+    );
+  };
 
   const renderMiniGameNode = (miniGameNode: MiniGameNode) => (
     <MiniGameHost
@@ -523,6 +536,7 @@ export const ScenarioRunner = ({
       nodeId={miniGameNode.id}
       game={miniGameNode.game}
       userProfileId={userProfileId}
+      onCompletionUiActiveChange={onCompletionUiActiveChange}
       onComplete={() => {
         stopNodeTimer();
         goToNext(miniGameNode.next);
