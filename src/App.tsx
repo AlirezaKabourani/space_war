@@ -183,6 +183,7 @@ const SCENARIO_QUESTIONS: Record<number, Question[]> = {
 const SCENARIO_TREE_IDS: Partial<Record<number, ScenarioId>> = {
   0: "s0_gateway_space_wargaming",
   1: "s1_shadows_low_orbit",
+  2: "s2_silent_waves",
   // بقیه فعلاً درخت ندارند
 };
 
@@ -248,10 +249,17 @@ const SCENARIOS: Scenario[] = [
   },
   {
     id: 3,
-    title: "لبه بازدارندگی",
-    summary: "مدیریت زمان و منابع برای دریافت تصاویر کلیدی از منطقه هدف.",
+    title: "۳- کریدور امن",
+    summary: "در نبردهای آینده، فاصله میان موفقیت و شکست همیشه روی زمین تعیین نمی‌شود.",
     image: "/images/scenario3.png",
-    fullDescription: `بحرانی در حال شکل‌گیری است. دشمن با مانورهای تهدیدآمیز و عملیات سایبری مرزهای تحمل را آزمایش می‌کند. شما باید بین پاسخ سخت، هشدار نرم یا سکوت حساب‌شده یکی را برگزینید. هر حرکت شما، بازتابی جهانی دارد؛ از میدان نبرد تا میز مذاکرات. «لبه بازدارندگی» میدان آزمون رهبران راهبردی است — جایی که هوش دیپلماتیک، درک روان دشمن، و قدرت تصمیم‌گیری چندبعدی تعیین می‌کند چه کسی بحران را مهار می‌کند و چه کسی آن را می‌سوزاند.`
+    fullDescription: `در نبردهای آینده، فاصله میان موفقیت و شکست همیشه روی زمین تعیین نمی‌شود. گاهی سرنوشت یک عملیات، در تصویری رقم می‌خورد که از مدار زمین دریافت می‌شود؛ تصویری ناقص، گذرا و وابسته به تصمیمی که باید در لحظه گرفته شود.
+یک محموله حساس در آستانه انتقال قرار دارد. ارزش این محموله فقط در مقصد آن نیست؛ در زمانی است که باید برسد، در مسیری است که نباید آشکار شود، و در تصمیم‌هایی است که پیش از دیده‌شدن دشمن باید گرفته شوند.
+شما در این مأموریت، چشم عملیات در مدار هستید. وظیفه شما هدایت مستقیم نیست؛ بلکه دیدن پیش از دیگران، تشخیص پیش از تهدید، و هشدار پیش از دیر شدن است. مسیر روی نقشه ساده به نظر می‌رسد، اما در میدان واقعی، هیچ مسیر امنی برای همیشه امن باقی نمی‌ماند. ما دشمن نیز بیکار نیست. واحدهای تعقیب، پهپادهای شناسایی، سامانه‌های اخلال‌گر و ماهواره‌های مراقبتی دشمن در منطقه فعال‌اند.
+هر لحظه ممکن است داده‌ای تازه، ردی مشکوک یا تغییری کوچک در محیط، معنای کل مسیر را عوض کند. باید میان سرعت، پنهان‌کاری و امنیت تعادل برقرار کنید؛ زیرا هر انتخاب، فرصت‌هایی می‌سازد و خطرهایی پنهان می‌کند.
+مأموریت آغاز می‌شود.
+محموله باید حرکت کند.
+و این‌بار، آنچه از مدار می‌بینید، می‌تواند تفاوت میان عبور موفق و شکست کامل باشد.
+`
   },
   {
     id: 4,
@@ -2391,6 +2399,7 @@ const renderScenarioPlay = () => {
     activeScenarioNodeId == null ||
     activeScenarioNodeId === AllScenarios[scenarioTreeId].start;
   const isScenarioOne = scenarioTreeId === "s1_shadows_low_orbit";
+  const isScenarioTwo = scenarioTreeId === "s2_silent_waves";
   const hideScenarioStopButton =
     Boolean(scenarioTreeId) &&
     (activeScenarioNodeId === "end" || scenarioCompletionUiActive);
@@ -2407,7 +2416,7 @@ const renderScenarioPlay = () => {
     <div
       className={
         "screen scenario-play-screen" +
-        (isScenarioOne ? " scenario-one-play-screen" : "")
+        (isScenarioOne || isScenarioTwo ? " scenario-one-play-screen" : "")
       }
     >
       {/* مودال اینترو در شروع سناریو */}
@@ -2462,10 +2471,10 @@ const renderScenarioPlay = () => {
       <div
         className={
           "card scenario-play-card" +
-          (isScenarioOne ? " scenario-one-play-card" : "")
+          (isScenarioOne || isScenarioTwo ? " scenario-one-play-card" : "")
         }
       >
-        {!isScenarioOne && (
+        {!isScenarioOne && !isScenarioTwo && (
         <div className="screen-header">
           <div>
             <h2 className="screen-title">{scenario.title}</h2>
@@ -2677,7 +2686,7 @@ const renderScenarioPlay = () => {
         )}
       </div>
 
-      {activeProfile.role === "admin" && (
+      {activeProfile.role === "admin" && import.meta.env.DEV && (
         <div
           style={{
             position: "fixed",

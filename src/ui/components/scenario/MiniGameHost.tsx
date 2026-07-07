@@ -2,6 +2,7 @@ import { useMemo, useRef, useState } from "react";
 import { eventLogger } from "../../../services/analytics/eventLogger";
 import { Card } from "../common/Card";
 import { ScenarioOneSimulation } from "./ScenarioOneSimulation";
+import { ScenarioTwoSimulation } from "./ScenarioTwoSimulation";
 
 type DecisionStylePreview =
   | "operational_preview"
@@ -66,7 +67,8 @@ interface MiniGameHostProps {
     | "memory"
     | "tracking"
     | "scenario0_concept_lab"
-    | "s1_decision_simulation";
+    | "s1_decision_simulation"
+    | "s2_gnss_logistics_simulation";
   userProfileId?: string;
   onCompletionUiActiveChange?: (active: boolean) => void;
   onComplete: () => void;
@@ -605,6 +607,18 @@ export const MiniGameHost = ({
   if (game === "s1_decision_simulation") {
     return (
       <ScenarioOneSimulation
+        scenarioId={scenarioId}
+        nodeId={nodeId}
+        userProfileId={userProfileId}
+        onCompletionUiActiveChange={onCompletionUiActiveChange}
+        onComplete={onComplete}
+      />
+    );
+  }
+
+  if (game === "s2_gnss_logistics_simulation") {
+    return (
+      <ScenarioTwoSimulation
         scenarioId={scenarioId}
         nodeId={nodeId}
         userProfileId={userProfileId}
