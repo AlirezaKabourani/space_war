@@ -1,6 +1,6 @@
 import { useRef, useState } from "react";
 import type { MouseEvent } from "react";
-import type { Convoy, MapZone, Route, SelectedAction } from "./ScenarioTwoTypes";
+import type { ActionCard, Convoy, MapZone, Route, SelectedAction } from "./ScenarioTwoTypes";
 
 const zoneColor: Record<MapZone["threatLevel"], string> = {
   safe: "#22c55e",
@@ -39,6 +39,13 @@ const convoyOffsets: Record<string, { x: number; y: number }> = {
   convoy_supplies: { x: -18, y: -16 },
 };
 
+const convoyLetterById: Record<string, string> = {
+  convoy_medical: "الف",
+  convoy_fuel: "ب",
+  convoy_comms: "ج",
+  convoy_supplies: "د",
+};
+
 const facilityColor = (type: string) => {
   if (type === "medical") return "#34d399";
   if (type === "ops") return "#dbeafe";
@@ -48,8 +55,15 @@ const facilityColor = (type: string) => {
 
 const getZonePoint = (zoneId: string) => mapPointByZoneId[zoneId] ?? { x: 500, y: 310, city: "نامعلوم", role: "محور ناشناخته" };
 
-const getConvoyPoint = (convoy: Convoy) => {
-  const base = getZonePoint(convoy.currentZoneId);
+const getConvoyPoint = (convoy: Convoy, routes: Route[]) => {
+  const route = routes.find((entry) => entry.id === convoy.routeId);
+  const from = route ? getZonePoint(route.fromZoneId) : getZonePoint(convoy.currentZoneId);
+  const to = route ? getZonePoint(route.toZoneId) : from;
+  const ratio = Math.max(0, Math.min(1, convoy.progress / 100));
+  const base = {
+    x: from.x + (to.x - from.x) * ratio,
+    y: from.y + (to.y - from.y) * ratio,
+  };
   const offset = convoyOffsets[convoy.id] ?? { x: 0, y: 0 };
   return { x: base.x + offset.x, y: base.y + offset.y };
 };
@@ -75,6 +89,7 @@ export const ScenarioTwoMap = ({
   activeTargetType,
   pendingActionId,
   selectedActions,
+  previewAction,
   ambiguity,
   navigationIntegrity,
   onSelectZone,
@@ -89,6 +104,7 @@ export const ScenarioTwoMap = ({
   activeTargetType?: "convoy" | "zone" | "route" | "global";
   pendingActionId?: string;
   selectedActions: SelectedAction[];
+  previewAction?: ActionCard | null;
   ambiguity: number;
   navigationIntegrity: number;
   onSelectZone: (zoneId: string) => void;
@@ -104,10 +120,15 @@ export const ScenarioTwoMap = ({
   const lastMapAction = mapActions.length > 0 ? mapActions[mapActions.length - 1] : undefined;
   const jitter = navigationIntegrity < 50 ? "s2-jitter" : "";
   const fog = ambiguity > 55 ? "s2-map-fog" : "";
+  const previewRoute = previewAction?.id === "action_reroute_convoy"
+    ? routes.find((route) => route.id === "route_north_alt") ?? routes.find((route) => route.visualStatus === "safe")
+    : undefined;
+  const medicalConvoy = convoys.find((convoy) => convoy.id === "convoy_medical");
+  const medicalPoint = medicalConvoy ? getConvoyPoint(medicalConvoy, routes) : undefined;
   const targetPoint = (() => {
     if (!lastMapAction?.targetId) return undefined;
     const convoy = convoys.find((item) => item.id === lastMapAction.targetId);
-    if (convoy) return getConvoyPoint(convoy);
+    if (convoy) return getConvoyPoint(convoy, routes);
     if (lastMapAction.targetId in mapPointByZoneId) return getZonePoint(lastMapAction.targetId);
     const route = routes.find((item) => item.id === lastMapAction.targetId);
     if (route) {
@@ -264,6 +285,17 @@ export const ScenarioTwoMap = ({
           );
         })}
 
+        {previewRoute && (
+          <path
+            d={routePath(getZonePoint(previewRoute.fromZoneId), getZonePoint(previewRoute.toZoneId))}
+            fill="none"
+            className="s2-route-preview"
+            stroke="#67e8f9"
+            strokeWidth="6"
+            strokeDasharray="10 8"
+          />
+        )}
+
         {facilities.map((facility) => (
           <g key={facility.id} className="s2-facility-node">
             <path
@@ -298,37 +330,46 @@ export const ScenarioTwoMap = ({
               <circle cx={x} cy={y} r="28" fill={zoneColor[visibleThreat]} opacity={zone.isRevealed ? 0.2 : 0.12} stroke={zoneColor[visibleThreat]} strokeWidth="2.5" filter="url(#s2Glow)" />
               {!zone.isRevealed && <circle cx={x} cy={y} r="40" className="s2-fog-zone" />}
               <text x={x} y={y - 34} className="s2-map-label">{point.city}</text>
-              <text x={x} y={y + 48} className="s2-map-value">{zone.isRevealed ? `${zone.gnssDisruption}% اختلال` : "نامعلوم"}</text>
+              <text x={x} y={y + 48} className="s2-map-value">{zone.isRevealed ? `${zone.gnssDisruption}% اختلال` : "ریسک GNSS نامشخص"}</text>
               {hasCivilWarning && <text x={x + 42} y={y - 30} className="s2-warning">!</text>}
             </g>
           );
         })}
 
         {convoys.map((convoy) => {
-          const { x, y } = getConvoyPoint(convoy);
+          const { x, y } = getConvoyPoint(convoy, routes);
+          const isPrimary = convoy.id === "convoy_medical";
           const isCritical = convoy.priority >= 4;
           const isSelectable = activeTargetType === "convoy" || (activeTargetType === "route" && !selectedConvoyId);
           const select = activeTargetType === "route" ? onSelectConvoyForRoute : onSelectConvoy;
-          const fill = convoy.status === "paused" ? "#94a3b8" : convoy.status === "compromised" ? "#ef4444" : isCritical ? "#38bdf8" : "#f59e0b";
+          const fill = convoy.status === "paused"
+            ? "#94a3b8"
+            : convoy.status === "compromised"
+              ? "#ef4444"
+              : convoy.id === "convoy_medical"
+                ? "#f59e0b"
+                : "#38bdf8";
           return (
             <g
               key={convoy.id}
-              className={`s2-convoy-node ${isCritical ? "s2-critical-convoy" : ""} ${isSelectable ? "s2-clickable s2-target-pulse" : ""} ${jitter}`}
+              className={`s2-convoy-node ${isPrimary ? "s2-primary-convoy" : ""} ${isCritical ? "s2-critical-convoy" : ""} ${isSelectable ? "s2-clickable s2-target-pulse" : ""} ${jitter}`}
               onClick={() => isSelectable && select(convoy.id)}
             >
               {isCritical && (
                 <>
-                  <circle cx={x} cy={y} r="34" className="s2-critical-ring" />
-                  <text x={x} y={y - 38} className="s2-critical-badge">حیاتی</text>
+                  <circle cx={x} cy={y} r={isPrimary ? 42 : 34} className="s2-critical-ring" />
+                  <text x={x} y={y - (isPrimary ? 46 : 38)} className="s2-critical-badge">{isPrimary ? "هدف اصلی" : "حیاتی"}</text>
                 </>
               )}
               <g className="s2-truck-icon" transform={`translate(${x} ${y})`}>
                 <rect x="-21" y="-12" width="28" height="18" rx="3" fill={fill} stroke={selectedConvoyId === convoy.id ? "#facc15" : "#dbeafe"} strokeWidth={selectedConvoyId === convoy.id ? 3 : 1.4} />
                 <path d="M 7 -8 L 19 -8 L 25 0 L 25 6 L 7 6 Z" fill={fill} stroke={selectedConvoyId === convoy.id ? "#facc15" : "#dbeafe"} strokeWidth="1.4" />
+                <text x="-7" y="-2.5" className="s2-truck-letter">{convoyLetterById[convoy.id] ?? "؟"}</text>
                 <circle cx="-12" cy="9" r="4" fill="#020617" stroke="#e0f2fe" strokeWidth="1.2" />
                 <circle cx="16" cy="9" r="4" fill="#020617" stroke="#e0f2fe" strokeWidth="1.2" />
               </g>
-              <text x={x} y={y - 22} className="s2-convoy-label">{convoy.name.replace("کاروان ", "M-")}</text>
+              <text x={x} y={y + 43} className="s2-convoy-progress">{convoy.progress}%</text>
+              {convoy.hasFallbackNav && <text x={x + 34} y={y + 4} className="s2-nav-badge">NAV</text>}
               <text x={x} y={y + 30} className="s2-convoy-status">{convoy.status === "moving" ? "ON ROUTE" : convoy.status.toUpperCase()}</text>
               <title>{`${convoy.name} | ${convoy.cargo} | اعتماد GNSS ${convoy.gnssTrustLevel} | وضعیت ${convoy.status}`}</title>
             </g>
@@ -339,6 +380,20 @@ export const ScenarioTwoMap = ({
           <circle cx={targetPoint.x} cy={targetPoint.y} r="46" className="s2-action-sweep">
             <title>{`بازخورد اقدام: ${lastMapAction?.action.title ?? "اقدام نقشه‌ای"}`}</title>
           </circle>
+        )}
+        {previewAction?.id === "action_isr_scan" && (
+          <circle cx={612} cy={175} r="66" className="s2-preview-sweep">
+            <title>پیش‌نمایش: محور شرق برای آشکارسازی spoofing بررسی می‌شود.</title>
+          </circle>
+        )}
+        {previewAction?.id === "action_continue_gnss" && medicalPoint && (
+          <>
+            <circle cx={medicalPoint.x + 34} cy={medicalPoint.y - 8} r="24" className="s2-preview-risk" />
+            <text x={medicalPoint.x + 54} y={medicalPoint.y - 30} className="s2-map-threat-label">ریسک ادامه GNSS</text>
+          </>
+        )}
+        {previewAction?.id === "action_fallback_nav" && medicalPoint && (
+          <text x={medicalPoint.x + 38} y={medicalPoint.y + 2} className="s2-nav-badge">NAV PREVIEW</text>
         )}
         </g>
       </svg>

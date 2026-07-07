@@ -2,6 +2,7 @@ import { useMemo, useRef, useState } from "react";
 import { eventLogger } from "../../../services/analytics/eventLogger";
 import { Card } from "../common/Card";
 import { ScenarioOneSimulation } from "./ScenarioOneSimulation";
+import { ScenarioThreeDungeon } from "./ScenarioThreeDungeon";
 import { ScenarioTwoSimulation } from "./ScenarioTwoSimulation";
 
 type DecisionStylePreview =
@@ -68,7 +69,8 @@ interface MiniGameHostProps {
     | "tracking"
     | "scenario0_concept_lab"
     | "s1_decision_simulation"
-    | "s2_gnss_logistics_simulation";
+    | "s2_gnss_logistics_simulation"
+    | "s3_secure_corridor_dungeon";
   userProfileId?: string;
   onCompletionUiActiveChange?: (active: boolean) => void;
   onComplete: () => void;
@@ -619,6 +621,18 @@ export const MiniGameHost = ({
   if (game === "s2_gnss_logistics_simulation") {
     return (
       <ScenarioTwoSimulation
+        scenarioId={scenarioId}
+        nodeId={nodeId}
+        userProfileId={userProfileId}
+        onCompletionUiActiveChange={onCompletionUiActiveChange}
+        onComplete={onComplete}
+      />
+    );
+  }
+
+  if (game === "s3_secure_corridor_dungeon") {
+    return (
+      <ScenarioThreeDungeon
         scenarioId={scenarioId}
         nodeId={nodeId}
         userProfileId={userProfileId}

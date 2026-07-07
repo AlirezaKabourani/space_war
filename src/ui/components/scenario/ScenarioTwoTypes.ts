@@ -18,6 +18,8 @@ export type Convoy = {
   id: string;
   name: string;
   cargo: string;
+  origin: string;
+  destination: string;
   priority: number;
   deadline: number;
   delay: number;
@@ -26,6 +28,7 @@ export type Convoy = {
   routeId: string;
   hasFallbackNav: boolean;
   gnssTrustLevel: number;
+  progress: number;
 };
 
 export type MapZone = {
@@ -68,7 +71,13 @@ export type ScenarioTwoDecisionWeights = {
 export type ActionCard = {
   id: string;
   title: string;
+  subtitle: string;
   description: string;
+  expectedResult: string;
+  mapEffect: string;
+  riskText: string;
+  missionImpact: "زیاد" | "متوسط" | "کم" | "پرریسک";
+  objectiveTags: string[];
   category: "diagnosis" | "navigation" | "logistics" | "command" | "civilian" | "deception" | "risky";
   cost: Partial<ResourceState>;
   effects: Partial<ScenarioTwoMissionStatus>;
@@ -119,7 +128,11 @@ export type ScenarioTwoRound = {
   title: string;
   alertLevel: "زرد" | "نارنجی" | "قرمز";
   narrative: string;
+  operationalProblem: string;
+  roundGoal: string;
   actionIds: string[];
+  mainActionIds: string[];
+  supportActionIds: string[];
 };
 
 export type ScenarioTwoMetrics = {
@@ -137,6 +150,46 @@ export type ScenarioTwoMetrics = {
 };
 
 export type ScenarioTwoSummaryData = {
+  missionOutcome: "complete_success" | "limited_success" | "partial_failure" | "failure";
+  missionObjectiveCompletion: number;
+  missionCompletionPercent: number;
+  missionOutcomeLabel: string;
+  primaryObjectiveText: string;
+  primaryObjectiveStatus: "delivered_on_time" | "delivered_delayed" | "rerouted_not_delivered" | "compromised" | "lost";
+  primaryConvoyId: "convoy_medical";
+  primaryConvoyDelay: number;
+  secondaryObjectives: {
+    logisticsMaintained: boolean;
+    ambiguityControlled: boolean;
+    gnssRiskControlled: boolean;
+    civilianStabilityMaintained: boolean;
+    resourcesPreserved: boolean;
+  };
+  subObjectiveNotes: string[];
+  roundTimeline: Array<{
+    roundId: string;
+    roundTitle: string;
+    selectedActions: string[];
+    mapEffects: string[];
+    objectiveEffects: string[];
+    resourceChanges: {
+      satelliteISRDelta: number;
+      energyDelta: number;
+      timeDelta: number;
+    };
+    statusChanges: {
+      logisticsContinuityDelta?: number;
+      criticalDeliveryDelta?: number;
+      navigationIntegrityDelta?: number;
+      civilianStabilityDelta?: number;
+      ambiguityDelta?: number;
+      gnssExposureRiskDelta?: number;
+      cumulativeDelayDelta?: number;
+    };
+  }>;
+  personalizedLessons: string[];
+  keyTurningPoint: string;
+  criticalMistake: string;
   logisticsResilienceIndex: number;
   operationalStrategicIndex: number;
   decisionStyleLabel: string;

@@ -65,7 +65,8 @@ export interface MiniGameNode extends ScenarioNodeBase {
     | "tracking"
     | "scenario0_concept_lab"
     | "s1_decision_simulation"
-    | "s2_gnss_logistics_simulation"; // extendable
+    | "s2_gnss_logistics_simulation"
+    | "s3_secure_corridor_dungeon"; // extendable
   next: string;
 }
 

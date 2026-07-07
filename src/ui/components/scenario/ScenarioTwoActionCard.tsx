@@ -74,6 +74,8 @@ export const ScenarioTwoActionCard = ({
   disabledReason,
   isTargeting = false,
   riskReason,
+  decisionRole,
+  onPreviewChange,
   onPick,
   onRemove,
 }: {
@@ -82,16 +84,20 @@ export const ScenarioTwoActionCard = ({
   disabledReason?: string;
   isTargeting?: boolean;
   riskReason?: string;
+  decisionRole: "main" | "support";
+  onPreviewChange?: (action: ActionCard | null) => void;
   onPick: () => void;
   onRemove: () => void;
 }) => {
   const isSelected = Boolean(selectedAction);
   const [isHelpOpen, setIsHelpOpen] = useState(false);
-  const tooltip = disabledReason || riskReason || action.description;
   return (
     <div
-      className={`s2-action-card ${isSelected ? "selected" : ""} ${isTargeting ? "targeting" : ""} ${riskReason ? "risky" : ""} ${disabledReason ? "disabled" : ""}`}
-      title={tooltip}
+      className={`s2-action-card ${decisionRole} ${isSelected ? "selected" : ""} ${isTargeting ? "targeting" : ""} ${riskReason ? "risky" : ""} ${disabledReason ? "disabled" : ""}`}
+      onMouseEnter={() => onPreviewChange?.(action)}
+      onMouseLeave={() => onPreviewChange?.(null)}
+      onFocus={() => onPreviewChange?.(action)}
+      onBlur={() => onPreviewChange?.(null)}
     >
       <button
         className="s2-action-card-main"
@@ -104,6 +110,22 @@ export const ScenarioTwoActionCard = ({
           <strong>{action.targetType ? `هدف: ${targetLabels[action.targetType]}` : "بدون هدف"}</strong>
         </div>
         <h4>{action.title}</h4>
+        <p className="s2-action-subtitle">{action.subtitle}</p>
+        <div className="s2-action-objectives">
+          <span>کمک به:</span>
+          {action.objectiveTags.slice(0, 2).map((tag) => <b key={tag}>{tag}</b>)}
+        </div>
+        <div className="s2-action-popovers" aria-label="جزئیات سریع تصمیم">
+          <span tabIndex={0}>
+            نتیجه
+            <em>{action.expectedResult}</em>
+          </span>
+          <span tabIndex={0}>
+            نقشه
+            <em>{action.mapEffect}</em>
+          </span>
+          <span className={`impact impact-${action.missionImpact}`}>اثر: {action.missionImpact}</span>
+        </div>
         <div className="s2-action-effect">{getEffectHint(action)}</div>
         <div className="s2-action-costs">
           <CostChips cost={action.cost} unaffordable={Boolean(disabledReason)} risky={Boolean(riskReason)} />
@@ -126,7 +148,9 @@ export const ScenarioTwoActionCard = ({
       </button>
       {isHelpOpen && (
         <div className="s2-action-description">
-          {action.description}
+          <p>{action.description}</p>
+          <p><strong>ریسک:</strong> {action.riskText}</p>
+          <p><strong>کمک به مأموریت:</strong> {action.missionImpact}</p>
           {(disabledReason || riskReason) && <strong>{disabledReason || riskReason}</strong>}
         </div>
       )}
