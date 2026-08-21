@@ -4,6 +4,7 @@ import { Card } from "../common/Card";
 import { ScenarioOneSimulation } from "./ScenarioOneSimulation";
 import { ScenarioThreeDungeon } from "./ScenarioThreeDungeon";
 import { ScenarioTwoSimulation } from "./ScenarioTwoSimulation";
+import { ScenarioFourRedesignedScenarioOne } from "./ScenarioFourRedesignedScenarioOne";
 
 type DecisionStylePreview =
   | "operational_preview"
@@ -70,7 +71,8 @@ interface MiniGameHostProps {
     | "scenario0_concept_lab"
     | "s1_decision_simulation"
     | "s2_gnss_logistics_simulation"
-    | "s3_secure_corridor_dungeon";
+    | "s3_secure_corridor_dungeon"
+    | "s4_redesigned_scenario_one_move1";
   userProfileId?: string;
   onCompletionUiActiveChange?: (active: boolean) => void;
   onComplete: () => void;
@@ -633,6 +635,18 @@ export const MiniGameHost = ({
   if (game === "s3_secure_corridor_dungeon") {
     return (
       <ScenarioThreeDungeon
+        scenarioId={scenarioId}
+        nodeId={nodeId}
+        userProfileId={userProfileId}
+        onCompletionUiActiveChange={onCompletionUiActiveChange}
+        onComplete={onComplete}
+      />
+    );
+  }
+
+  if (game === "s4_redesigned_scenario_one_move1") {
+    return (
+      <ScenarioFourRedesignedScenarioOne
         scenarioId={scenarioId}
         nodeId={nodeId}
         userProfileId={userProfileId}

@@ -185,6 +185,7 @@ const SCENARIO_TREE_IDS: Partial<Record<number, ScenarioId>> = {
   1: "s1_shadows_low_orbit",
   2: "s2_silent_waves",
   3: "s3_secure_corridor",
+  4: "s4_redesigned_scenario_one",
   // بقیه فعلاً درخت ندارند
 };
 
@@ -265,10 +266,12 @@ const SCENARIOS: Scenario[] = [
   },
   {
     id: 4,
-    title: "طوفان در مدار",
-    summary: "هماهنگی چند مأموریت فضایی به‌صورت هم‌زمان با منابع محدود.",
+    title: "۴ — حریم خاکستری مدار",
+    introTitle: "سناریو ۴ — حریم خاکستری مدار",
+    summary: "تصمیم‌گیری در فضای خاکستری؛ جایی که رفتار غیرعادی الزاماً به معنای حمله نیست.",
     image: "/images/scenario4.png",
-    fullDescription: `ناگهان آسمان به میدان نبرد بدل می‌شود. حمله‌ای چندوجهی آغاز شده است — ماهواره‌ها یکی‌یکی از دسترس خارج می‌شوند، ایستگاه‌های زمینی با نفوذ سایبری روبه‌رو شده‌اند، و اطلاعات ضدونقیض از هر سو می‌رسد. در این آشوب، شما باید تصمیم بگیرید: مقابله مستقیم؟ سکوت تاکتیکی؟ یا بازیابی سریع؟ «طوفان در مدار» شما را در قلب یک بحران تمام‌عیار فضایی قرار می‌دهد؛ جایی که هر ثانیه و هر تصمیم می‌تواند مسیر آینده کشور را تغییر دهد.`
+    descriptionPreview: "در نقش مسئول یک سلول تصمیم‌گیری فضایی، با نزدیک‌شدن یک دارایی دوکاربردی ناشناس، افت سرویس، شواهد متناقض و بحران انتساب روبه‌رو می‌شوید.",
+    fullDescription: `در نقش مسئول یک سلول تصمیم‌گیری فضایی، با نزدیک‌شدن یک دارایی دوکاربردی ناشناس، افت سرویس، شواهد متناقض و بحران انتساب روبه‌رو می‌شوید. تصمیم‌های شما مسیر بحران، رفتار طرف مقابل، واکنش متحدان و نتیجه نهایی را تغییر می‌دهد. ساختار سناریو سه مرحله بحران دارد و برای تمرین تصمیم‌گیری عملیاتی–راهبردی در شرایط اطلاعات ناقص طراحی شده است.`
   },
   {
     id: 5,
@@ -2402,6 +2405,7 @@ const renderScenarioPlay = () => {
     activeScenarioNodeId === AllScenarios[scenarioTreeId].start;
   const isScenarioOne = scenarioTreeId === "s1_shadows_low_orbit";
   const isScenarioTwo = scenarioTreeId === "s2_silent_waves";
+  const isScenarioFour = scenarioTreeId === "s4_redesigned_scenario_one";
   const hideScenarioStopButton =
     Boolean(scenarioTreeId) &&
     (activeScenarioNodeId === "end" || scenarioCompletionUiActive);
@@ -2418,7 +2422,7 @@ const renderScenarioPlay = () => {
     <div
       className={
         "screen scenario-play-screen" +
-        (isScenarioOne || isScenarioTwo ? " scenario-one-play-screen" : "")
+        (isScenarioOne || isScenarioTwo || isScenarioFour ? " scenario-one-play-screen" : "")
       }
     >
       {/* مودال اینترو در شروع سناریو */}
@@ -2459,9 +2463,11 @@ const renderScenarioPlay = () => {
             <button onClick={leaveScenarioToList}>
               بازگشت به لیست سناریوها
             </button>
-            <button onClick={() => eventLogger.exportToText()}>
-              دانلود لاگ رفتار
-            </button>
+            {activeProfile.role === "admin" && (
+              <button onClick={() => eventLogger.exportToText()}>
+                دانلود لاگ رفتار
+              </button>
+            )}
             <button className="danger" onClick={handleExit}>
               خروج
             </button>
@@ -2473,10 +2479,10 @@ const renderScenarioPlay = () => {
       <div
         className={
           "card scenario-play-card" +
-          (isScenarioOne || isScenarioTwo ? " scenario-one-play-card" : "")
+          (isScenarioOne || isScenarioTwo || isScenarioFour ? " scenario-one-play-card" : "")
         }
       >
-        {!isScenarioOne && !isScenarioTwo && (
+        {!isScenarioOne && !isScenarioTwo && !isScenarioFour && (
         <div className="screen-header">
           <div>
             <h2 className="screen-title">{scenario.title}</h2>
@@ -2604,6 +2610,11 @@ const renderScenarioPlay = () => {
 
 
 
+  const activeScenarioTreeId =
+    activeScenarioId != null ? SCENARIO_TREE_IDS[activeScenarioId] : undefined;
+  const isScenarioFourActive =
+    view === "scenarioPlay" && activeScenarioTreeId === "s4_redesigned_scenario_one";
+
   return (
     <div className="app-root">
       {showBackgroundVideo && (
@@ -2680,7 +2691,9 @@ const renderScenarioPlay = () => {
             <button onClick={() => leaveScenarioGeneric("profileManager", "global_menu_profile")}>
               مدیریت پروفایل
             </button>
-            <button onClick={handleDownloadLog}>دانلود لاگ رفتار (CSV)</button>
+            {activeProfile.role === "admin" && (
+              <button onClick={handleDownloadLog}>دانلود لاگ رفتار (CSV)</button>
+            )}
             <button className="danger" onClick={handleExit}>
               خروج
             </button>
@@ -2688,7 +2701,7 @@ const renderScenarioPlay = () => {
         )}
       </div>
 
-      {activeProfile.role === "admin" && import.meta.env.DEV && (
+      {activeProfile.role === "admin" && import.meta.env.DEV && !isScenarioFourActive && (
         <div
           style={{
             position: "fixed",
