@@ -4,18 +4,29 @@ import type { Convoy, ScenarioTwoDecisionRecord, ScenarioTwoMetrics, ScenarioTwo
 const routeLabelById: Record<string, string> = {
   route_main_east: "مسیر اصلی شرق",
   route_north_alt: "جایگزین شمالی",
+  route_staged_east: "مسیر مرحله‌ای کنترل‌شده",
   route_central_alt: "مسیر مرکزی",
   route_south: "جنوب به مرکز",
   route_north: "شمال غرب",
+  route_west_iraq: "تهران به مرز عراق",
+  route_ambush_spur: "مسیر فرعی کمین",
+  route_phantom: "مسیر فریب",
   route_shadow: "مسیر خاکستری",
 };
 
 const statusLabelByStatus: Record<Convoy["status"], string> = {
   moving: "در مسیر",
+  normal: "در مسیر",
+  monitored: "پایش ویژه",
+  suspicious: "مشکوک",
   rerouted: "اصلاح مسیر شده",
   paused: "متوقف",
+  supported: "پشتیبانی‌شده",
+  near_threat: "نزدیک تهدید",
   delivered: "تحویل‌شده",
-  compromised: "از دست‌رفته",
+  delivered_delayed: "تحویل‌شده با تأخیر",
+  compromised: "آسیب‌دیده",
+  lost_contact: "ناپدیدشده",
 };
 
 const primaryStatusLabel: Record<ScenarioTwoSummaryData["primaryObjectiveStatus"], string> = {
@@ -97,6 +108,11 @@ export const ScenarioTwoSummary = ({
     { key: "energy" as const, label: "انرژی", before: initialResources.energy, after: resources.energy, color: "#22c55e" },
     { key: "time" as const, label: "زمان", before: initialResources.time, after: resources.time, color: "#f59e0b" },
   ];
+  const decisionStyleLabelFa: Record<string, string> = {
+    "Mission-Oriented Rescuer": "نجات‌دهنده مأموریت‌محور",
+    "Adaptive Logistics Commander": "فرمانده لجستیک تطبیقی",
+    "System-Dependent Commander": "فرمانده وابسته به سامانه",
+  };
 
   return (
     <div className="s2-summary">
@@ -105,7 +121,7 @@ export const ScenarioTwoSummary = ({
           <span>نتیجه مأموریت</span>
           <h2>{summary.missionOutcomeLabel}</h2>
           <p>{summary.primaryObjectiveText}</p>
-          <p>{summary.decisionStyleLabel}: {summary.decisionStyleText}</p>
+          <p>سبک تصمیم‌گیری: {decisionStyleLabelFa[summary.decisionStyleLabel] ?? summary.decisionStyleLabel}. {summary.decisionStyleText}</p>
         </div>
         <div className="s2-summary-scoreboard">
           <strong>{summary.missionCompletionPercent}%</strong>
@@ -131,18 +147,18 @@ export const ScenarioTwoSummary = ({
         </section>
 
         <section className="s2-summary-card">
-          <h3>اهداف فرعی</h3>
+          <h3>چرا این نتیجه اتفاق افتاد؟</h3>
           <div className="s2-summary-checklist">
-            {summary.subObjectiveNotes.map((note) => {
-              const done = note.startsWith("✓");
-              return (
-                <div key={note} className={done ? "done" : "missed"} title="وضعیت این هدف بر اساس مقدار نهایی مأموریت محاسبه شده است.">
-                  <b>{done ? "✓" : "✕"}</b>
-                  <span>{note.replace(/^[✓✕]\s*/, "")}</span>
-                </div>
-              );
-            })}
+            {(summary.whyThisOutcome ?? []).map((note) => (
+              <div key={note} className="done">
+                <b>•</b>
+                <span>{note}</span>
+              </div>
+            ))}
           </div>
+          {summary.alphaFinalStatus && (
+            <p>وضعیت نهایی الف: <strong>{statusLabelByStatus[summary.alphaFinalStatus]}</strong> | سلامت {summary.alphaHealth} | پیشرفت {summary.alphaProgress}%</p>
+          )}
         </section>
       </div>
 
@@ -171,20 +187,16 @@ export const ScenarioTwoSummary = ({
 
         <section className="s2-summary-card">
           <h3>بازپخش تصمیم‌ها</h3>
-          <button type="button" className="secondary s2-replay-button" disabled title="بازپخش تصویری در فاز بعدی به نقشه وصل می‌شود.">
-            بازپخش نقشه مأموریت
-          </button>
           <div className="s2-decision-timeline">
             {summary.roundTimeline.map((round) => (
-              <article key={round.roundId}>
-                <header>
+              <details key={round.roundId}>
+                <summary>
                   <strong>{round.roundTitle}</strong>
                   <span>ISR {round.resourceChanges.satelliteISRDelta} | ENG {round.resourceChanges.energyDelta} | TIME {round.resourceChanges.timeDelta}</span>
-                </header>
-                <p>اقدام‌ها: {round.selectedActions.join("، ") || "بدون اقدام ثبت‌شده"}</p>
+                </summary>
+                <p>تصمیم‌ها: {round.selectedActions.join("، ") || "بدون اقدام ثبت‌شده"}</p>
                 <p>اثر نقشه: {round.mapEffects.slice(0, 2).join(" ") || "اثر نقشه‌ای مستقیم ثبت نشد."}</p>
-                <p>اثر هدف: {round.objectiveEffects.slice(0, 2).join(" ") || "اثر هدفی مستقیم ثبت نشد."}</p>
-              </article>
+              </details>
             ))}
           </div>
         </section>
@@ -210,31 +222,27 @@ export const ScenarioTwoSummary = ({
 
         <section className="s2-summary-card">
           <h3>شاخص‌های عملیاتی</h3>
-          <SummaryBar label="تحقق هدف مأموریت" value={summary.missionCompletionPercent} color="#facc15" description="ترکیبی از وضعیت کاروان الف، تحویل حیاتی، ریسک GNSS، پایداری شبکه و منابع باقی‌مانده." />
-          <SummaryBar label="تحقق تحویل کاروان الف / محموله حیاتی" value={summary.criticalDeliveryScore} description="نشان می‌دهد مأموریت اصلی و کاروان‌های مهم تا چه حد به هدف تحویل نزدیک شدند." />
-          <SummaryBar label="پایداری شبکه لجستیک" value={status.logisticsContinuity} color="#22c55e" description="توان ادامه کار شبکه پس از فشار اختلال و تصمیم‌های توقف یا تغییر مسیر." />
-          <SummaryBar label="اعتمادپذیری ناوبری" value={status.navigationIntegrity} color="#2dd4bf" description="کیفیت تصمیم‌گیری بدون اتکای کور به داده آلوده GNSS." />
-          <SummaryBar label="کنترل تأخیر مأموریت" value={summary.delayControlScore} color="#f59e0b" description="اثر تجمعی تصمیم‌ها بر پنجره تحویل و سرعت عملیات." />
-          <SummaryBar label="تشخیص اخلال ناوبری" value={summary.gnssAnomalyDetectionScore} color="#a78bfa" description="چقدر زود و درست spoofing/jamming تشخیص داده شد." />
-          <SummaryBar label="پایداری مدنی" value={status.civilianStability} color="#84cc16" description="اثر تصمیم‌ها روی خدمات و مناطق شهری حساس." />
+          <SummaryBar label="تحقق مأموریت" value={summary.missionCompletionPercent} color="#facc15" />
+          <SummaryBar label="سلامت/تحویل کاروان الف" value={summary.criticalDeliveryScore} />
+          <SummaryBar label="ثبات کاروان‌های فرعی" value={status.logisticsContinuity} color="#22c55e" />
+          <SummaryBar label="کنترل تهدید مشهد" value={summary.gnssAnomalyDetectionScore} color="#a78bfa" />
+          <SummaryBar label="مدیریت منابع" value={metrics.resourceEfficiencyScore} color="#f59e0b" />
         </section>
       </div>
 
       <div className="s2-summary-grid">
         <section className="s2-summary-card">
           <h3>شاخص‌های شناختی</h3>
-          <SummaryBar label="تفکر مرحله دوم" value={metrics.secondOrderThinkingScore} description="آیا تصمیم‌ها فقط اثر فوری داشتند یا برای موج بعدی اختلال هم ظرفیت گذاشتند؟" />
-          <SummaryBar label="مدل‌سازی دشمن" value={metrics.adversaryModelingScore} color="#a78bfa" description="آیا با تنوع مسیر و تشخیص به‌موقع، پیش‌بینی‌پذیری واکنش خود را کم کردید؟" />
-          <SummaryBar label="انضباط اطلاعاتی" value={metrics.informationDisciplineScore} color="#2dd4bf" description="میزان پرهیز از اعتماد به GNSS قبل از تأیید مستقل." />
-          <SummaryBar label="انعطاف شناختی" value={metrics.cognitiveFlexibilityScore} color="#22c55e" description="توان اصلاح تصمیم پس از آشکار شدن تهدید یا تغییر وضعیت." />
-          <SummaryBar label="اعتماد کاذب به GNSS" value={Math.max(0, 100 - metrics.falseGnssRelianceTime * 35)} color="#fb7185" description="هرچه کمتر به داده آلوده تکیه شده باشد، این شاخص بهتر است." />
+          <SummaryBar label="تشخیص تهدید" value={summary.gnssAnomalyDetectionScore} />
+          <SummaryBar label="انعطاف تصمیم‌گیری" value={metrics.cognitiveFlexibilityScore} color="#22c55e" />
+          <SummaryBar label="مدیریت منابع" value={metrics.resourceEfficiencyScore} color="#f59e0b" />
         </section>
 
         <section className="s2-summary-card s2-lessons-card">
           <h3>درس‌های شخصی‌سازی‌شده</h3>
           <p><strong>نقطه عطف:</strong> {summary.keyTurningPoint}</p>
           <p><strong>اشتباه بحرانی:</strong> {summary.criticalMistake}</p>
-          {summary.personalizedLessons.map((note) => <p key={note}>{note}</p>)}
+          {summary.personalizedLessons.slice(0, 3).map((note) => <p key={note}>{note}</p>)}
         </section>
       </div>
 

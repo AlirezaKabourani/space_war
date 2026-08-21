@@ -21,6 +21,9 @@ const mapPointByZoneId: Record<string, { x: number; y: number; city: string; rol
   zone_east: { x: 612, y: 175, city: "مشهد", role: "هاب پشتیبانی شرق" },
   zone_central: { x: 428, y: 200, city: "تهران", role: "قرارگاه لجستیک" },
   zone_south: { x: 541, y: 462, city: "بندرعباس", role: "هاب دریایی جنوب" },
+  zone_west: { x: 244, y: 246, city: "مرز عراق", role: "مقصد غربی کاروان د" },
+  zone_support_east: { x: 612, y: 184, city: "پایگاه مشهد", role: "پشتیبانی زمینی" },
+  zone_ambush: { x: 584, y: 190, city: "محور مشکوک", role: "نقطه کمین/اختلال" },
 };
 
 const facilities = [
@@ -30,6 +33,8 @@ const facilities = [
   { id: "medical_kerman", x: 567, y: 391, label: "KERMAN MEDICAL", type: "medical" },
   { id: "hub_kermanshah", x: 282, y: 217, label: "KERMANSHAH SUPPORT", type: "support" },
   { id: "port_bandar", x: 541, y: 462, label: "BANDAR ABBAS PORT", type: "port" },
+  { id: "support_mashhad", x: 612, y: 175, label: "MASHHAD GROUND SUPPORT", type: "support" },
+  { id: "iraq_border", x: 244, y: 246, label: "IRAQ BORDER DEST", type: "support" },
 ];
 
 const convoyOffsets: Record<string, { x: number; y: number }> = {
@@ -46,6 +51,8 @@ const convoyLetterById: Record<string, string> = {
   convoy_supplies: "د",
 };
 
+const gorganPoint = { x: 478, y: 92, city: "گرگان", role: "Waypoint مسیر شمالی" };
+
 const facilityColor = (type: string) => {
   if (type === "medical") return "#34d399";
   if (type === "ops") return "#dbeafe";
@@ -55,15 +62,34 @@ const facilityColor = (type: string) => {
 
 const getZonePoint = (zoneId: string) => mapPointByZoneId[zoneId] ?? { x: 500, y: 310, city: "نامعلوم", role: "محور ناشناخته" };
 
+const getRoutePoints = (route: Route) => {
+  const from = getZonePoint(route.fromZoneId);
+  const to = getZonePoint(route.toZoneId);
+  if (route.id === "route_north_alt") {
+    return [from, gorganPoint, to];
+  }
+  return [from, to];
+};
+
+const interpolateRoutePoint = (points: Array<{ x: number; y: number }>, ratio: number) => {
+  if (points.length <= 1) return points[0] ?? { x: 500, y: 310 };
+  const segmentCount = points.length - 1;
+  const scaled = Math.max(0, Math.min(0.999, ratio)) * segmentCount;
+  const index = Math.floor(scaled);
+  const localRatio = scaled - index;
+  const from = points[index];
+  const to = points[index + 1];
+  return {
+    x: from.x + (to.x - from.x) * localRatio,
+    y: from.y + (to.y - from.y) * localRatio,
+  };
+};
+
 const getConvoyPoint = (convoy: Convoy, routes: Route[]) => {
   const route = routes.find((entry) => entry.id === convoy.routeId);
-  const from = route ? getZonePoint(route.fromZoneId) : getZonePoint(convoy.currentZoneId);
-  const to = route ? getZonePoint(route.toZoneId) : from;
+  const routePoints = route ? getRoutePoints(route) : [getZonePoint(convoy.currentZoneId)];
   const ratio = Math.max(0, Math.min(1, convoy.progress / 100));
-  const base = {
-    x: from.x + (to.x - from.x) * ratio,
-    y: from.y + (to.y - from.y) * ratio,
-  };
+  const base = interpolateRoutePoint(routePoints, ratio);
   const offset = convoyOffsets[convoy.id] ?? { x: 0, y: 0 };
   return { x: base.x + offset.x, y: base.y + offset.y };
 };
@@ -71,6 +97,15 @@ const getConvoyPoint = (convoy: Convoy, routes: Route[]) => {
 const routePath = (from: { x: number; y: number }, to: { x: number; y: number }) => {
   const lift = Math.max(42, Math.abs(from.x - to.x) * 0.12);
   return `M ${from.x} ${from.y} C ${(from.x + to.x) / 2} ${Math.min(from.y, to.y) - lift}, ${(from.x + to.x) / 2} ${Math.max(from.y, to.y) + lift}, ${to.x} ${to.y}`;
+};
+
+const routeDrawPath = (route: Route) => {
+  const points = getRoutePoints(route);
+  if (points.length === 3) {
+    const [from, via, to] = points;
+    return `M ${from.x} ${from.y} C ${from.x - 24} ${from.y - 112}, ${via.x + 40} ${via.y - 28}, ${via.x} ${via.y} S ${to.x - 130} ${to.y - 88}, ${to.x} ${to.y}`;
+  }
+  return routePath(points[0], points[1]);
 };
 
 const defaultMapTransform = { zoom: 1, x: 0, y: 0 };
@@ -120,9 +155,16 @@ export const ScenarioTwoMap = ({
   const lastMapAction = mapActions.length > 0 ? mapActions[mapActions.length - 1] : undefined;
   const jitter = navigationIntegrity < 50 ? "s2-jitter" : "";
   const fog = ambiguity > 55 ? "s2-map-fog" : "";
-  const previewRoute = previewAction?.id === "action_reroute_convoy"
+  const isNorthernRouteActive = previewAction?.id === "route_northern" || pendingActionId === "route_northern" || selectedActions.some((item) => item.action.id === "route_northern");
+  const isStagedRouteActive = previewAction?.id === "route_staged" || pendingActionId === "route_staged" || selectedActions.some((item) => item.action.id === "route_staged");
+  const previewRoute = isNorthernRouteActive
     ? routes.find((route) => route.id === "route_north_alt") ?? routes.find((route) => route.visualStatus === "safe")
+    : isStagedRouteActive
+      ? routes.find((route) => route.id === "route_staged_east") ?? routes.find((route) => route.visualStatus === "safe")
     : undefined;
+  const isAmbushZoneRevealed = zones.some((zone) => zone.id === "zone_ambush" && zone.isRevealed);
+  const isMashhadDisruptionIdentified = zones.some((zone) => zone.id === "zone_east" && zone.isRevealed && zone.threatLevel !== "safe");
+  const hasGroundSupport = convoys.some((convoy) => convoy.hasGroundSupport);
   const medicalConvoy = convoys.find((convoy) => convoy.id === "convoy_medical");
   const medicalPoint = medicalConvoy ? getConvoyPoint(medicalConvoy, routes) : undefined;
   const targetPoint = (() => {
@@ -263,14 +305,19 @@ export const ScenarioTwoMap = ({
           className="s2-iran-base-image"
         />
 
-        {routes.map((route) => {
-          const from = getZonePoint(route.fromZoneId);
+        {routes.filter((route) => {
+          const touchesAmbush = route.fromZoneId === "zone_ambush" || route.toZoneId === "zone_ambush";
+          const isSecondaryMashhadRoute = route.id === "route_north_alt" || route.id === "route_staged_east";
+          const isDeceptionPreview = previewAction?.id === "deception_route" && route.id === "route_phantom";
+          if (isSecondaryMashhadRoute && !isMashhadDisruptionIdentified && !isNorthernRouteActive && !isStagedRouteActive) return false;
+          return !touchesAmbush || isAmbushZoneRevealed || isDeceptionPreview;
+        }).map((route) => {
           const to = getZonePoint(route.toZoneId);
           const isSelectable = activeTargetType === "route" && Boolean(selectedConvoyId);
           return (
             <g key={route.id} onClick={() => isSelectable && onSelectRoute(route.id)} className={isSelectable ? "s2-clickable" : ""}>
               <path
-                d={routePath(from, to)}
+                d={routeDrawPath(route)}
                 fill="none"
                 className={`s2-route-line s2-route-${route.visualStatus}`}
                 stroke={routeColor[route.visualStatus]}
@@ -287,13 +334,26 @@ export const ScenarioTwoMap = ({
 
         {previewRoute && (
           <path
-            d={routePath(getZonePoint(previewRoute.fromZoneId), getZonePoint(previewRoute.toZoneId))}
+            d={routeDrawPath(previewRoute)}
             fill="none"
             className="s2-route-preview"
             stroke="#67e8f9"
             strokeWidth="6"
             strokeDasharray="10 8"
           />
+        )}
+
+        {(isNorthernRouteActive || isMashhadDisruptionIdentified) && (
+          <g className="s2-facility-node">
+            <circle cx={gorganPoint.x} cy={gorganPoint.y} r="7" fill="#67e8f9" stroke="#dbeafe" strokeWidth="1.5" />
+            <text x={gorganPoint.x + 12} y={gorganPoint.y - 8} className="s2-facility-label">گرگان</text>
+          </g>
+        )}
+
+        {!isMashhadDisruptionIdentified && (
+          <circle cx={590} cy={184} r="16" className="s2-weak-data-pulse">
+            <title>نوسان داده‌ای ضعیف</title>
+          </circle>
         )}
 
         {facilities.map((facility) => (
@@ -307,11 +367,19 @@ export const ScenarioTwoMap = ({
             <text x={facility.x} y={facility.y + 5} className="s2-facility-icon">
               {facility.type === "medical" ? "+" : facility.type === "port" ? "⌂" : "◆"}
             </text>
-            <text x={facility.x + 22} y={facility.y - 6} className="s2-facility-label">{facility.label}</text>
+            <text
+              x={facility.id === "support_mashhad" ? facility.x + 44 : facility.x + 22}
+              y={facility.id === "support_mashhad" ? facility.y + 8 : facility.y - 6}
+              className="s2-facility-label"
+            >
+              {facility.id === "support_mashhad" ? "پایگاه مشهد" : facility.label}
+            </text>
           </g>
         ))}
 
         {zones.map((zone) => {
+          if (zone.id === "zone_support_east") return null;
+          if (zone.id === "zone_ambush" && !zone.isRevealed) return null;
           const point = getZonePoint(zone.id);
           const x = point.x;
           const y = point.y;
@@ -328,25 +396,35 @@ export const ScenarioTwoMap = ({
                 </>
               )}
               <circle cx={x} cy={y} r="28" fill={zoneColor[visibleThreat]} opacity={zone.isRevealed ? 0.2 : 0.12} stroke={zoneColor[visibleThreat]} strokeWidth="2.5" filter="url(#s2Glow)" />
-              {!zone.isRevealed && <circle cx={x} cy={y} r="40" className="s2-fog-zone" />}
+              {!zone.isRevealed && zone.id !== "zone_east" && <circle cx={x} cy={y} r="40" className="s2-fog-zone" />}
               <text x={x} y={y - 34} className="s2-map-label">{point.city}</text>
-              <text x={x} y={y + 48} className="s2-map-value">{zone.isRevealed ? `${zone.gnssDisruption}% اختلال` : "ریسک GNSS نامشخص"}</text>
+              <text x={x} y={y + 48} className="s2-map-value">{zone.isRevealed ? `${zone.gnssDisruption}% اختلال` : `${zone.gnssDisruption}% نوسان`}</text>
               {hasCivilWarning && <text x={x + 42} y={y - 30} className="s2-warning">!</text>}
             </g>
           );
         })}
 
+        {hasGroundSupport && (
+          <g className="s2-ground-support-unit">
+            <rect x="548" y="190" width="38" height="18" rx="4" fill="#1d4ed8" stroke="#bfdbfe" strokeWidth="1.6" />
+            <circle cx="556" cy="211" r="4" fill="#020617" stroke="#e0f2fe" />
+            <circle cx="578" cy="211" r="4" fill="#020617" stroke="#e0f2fe" />
+            <text x="594" y="204" className="s2-facility-label">پشتیبانی زمینی</text>
+          </g>
+        )}
+
         {convoys.map((convoy) => {
           const { x, y } = getConvoyPoint(convoy, routes);
           const isPrimary = convoy.id === "convoy_medical";
-          const isCritical = convoy.priority >= 4;
+          const isPrimaryRevealed = isPrimary && isMashhadDisruptionIdentified;
+          const isCritical = convoy.priority >= 4 && (!isPrimary || isPrimaryRevealed);
           const isSelectable = activeTargetType === "convoy" || (activeTargetType === "route" && !selectedConvoyId);
           const select = activeTargetType === "route" ? onSelectConvoyForRoute : onSelectConvoy;
           const fill = convoy.status === "paused"
             ? "#94a3b8"
             : convoy.status === "compromised"
               ? "#ef4444"
-              : convoy.id === "convoy_medical"
+              : convoy.id === "convoy_medical" && isMashhadDisruptionIdentified
                 ? "#f59e0b"
                 : "#38bdf8";
           return (
@@ -357,8 +435,8 @@ export const ScenarioTwoMap = ({
             >
               {isCritical && (
                 <>
-                  <circle cx={x} cy={y} r={isPrimary ? 42 : 34} className="s2-critical-ring" />
-                  <text x={x} y={y - (isPrimary ? 46 : 38)} className="s2-critical-badge">{isPrimary ? "هدف اصلی" : "حیاتی"}</text>
+                  <circle cx={x} cy={y} r={isPrimaryRevealed ? 42 : 34} className="s2-critical-ring" />
+                  <text x={x} y={y - (isPrimaryRevealed ? 46 : 38)} className="s2-critical-badge">{isPrimaryRevealed ? "در خطر" : "حیاتی"}</text>
                 </>
               )}
               <g className="s2-truck-icon" transform={`translate(${x} ${y})`}>

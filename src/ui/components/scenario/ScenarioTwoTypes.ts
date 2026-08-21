@@ -1,6 +1,12 @@
 import type { ResourceState } from "../../../core/types/scenario";
 
 export type ScenarioTwoMissionStatus = {
+  alphaHealth: number;
+  alphaProgress: number;
+  threatIdentification: number;
+  secondaryConvoyStability: number;
+  resourceReserve: number;
+  ambushRisk: number;
   logisticsContinuity: number;
   criticalDelivery: number;
   navigationIntegrity: number;
@@ -12,7 +18,19 @@ export type ScenarioTwoMissionStatus = {
   gnssExposureRisk: number;
 };
 
-export type ConvoyStatus = "moving" | "rerouted" | "paused" | "delivered" | "compromised";
+export type ConvoyStatus =
+  | "moving"
+  | "normal"
+  | "monitored"
+  | "suspicious"
+  | "rerouted"
+  | "paused"
+  | "supported"
+  | "near_threat"
+  | "compromised"
+  | "lost_contact"
+  | "delivered"
+  | "delivered_delayed";
 
 export type Convoy = {
   id: string;
@@ -23,12 +41,15 @@ export type Convoy = {
   priority: number;
   deadline: number;
   delay: number;
+  health: number;
   status: ConvoyStatus;
   currentZoneId: string;
   routeId: string;
   hasFallbackNav: boolean;
+  hasGroundSupport: boolean;
   gnssTrustLevel: number;
   progress: number;
+  lastRoundAction?: string;
 };
 
 export type MapZone = {
@@ -190,6 +211,15 @@ export type ScenarioTwoSummaryData = {
   personalizedLessons: string[];
   keyTurningPoint: string;
   criticalMistake: string;
+  alphaFinalStatus?: ConvoyStatus;
+  alphaHealth?: number;
+  alphaProgress?: number;
+  threatWasIdentifiedRound?: string;
+  secondaryConvoysDelivered?: number;
+  groundSupportUsed?: boolean;
+  ambushAvoided?: boolean;
+  resourceExhaustion?: boolean;
+  whyThisOutcome?: string[];
   logisticsResilienceIndex: number;
   operationalStrategicIndex: number;
   decisionStyleLabel: string;

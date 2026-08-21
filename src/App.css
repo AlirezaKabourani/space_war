@@ -1948,6 +1948,31 @@ button.secondary {
   stroke-dasharray: 6 6;
 }
 
+.s2-weak-data-pulse {
+  fill: rgba(249, 115, 22, 0.12);
+  stroke: rgba(251, 146, 60, 0.55);
+  stroke-width: 2;
+  transform-box: fill-box;
+  transform-origin: center;
+  animation: s2WeakPulse 5s ease-in-out infinite;
+  pointer-events: none;
+}
+
+@keyframes s2WeakPulse {
+  0%, 70%, 100% {
+    opacity: 0;
+    transform: scale(0.6);
+  }
+  80% {
+    opacity: 0.65;
+    transform: scale(1);
+  }
+  92% {
+    opacity: 0;
+    transform: scale(1.45);
+  }
+}
+
 .s2-map-controls {
   position: absolute;
   left: 1rem;

@@ -29,41 +29,54 @@ interface ScenarioTwoSimulationProps {
 const clamp = (value: number, min = 0, max = 100) => Math.max(min, Math.min(max, Math.round(value)));
 const now = () => (typeof performance !== "undefined" ? performance.now() : Date.now());
 
-const initialResources: ResourceState = { satelliteISR: 60, energy: 80, time: 100 };
+type MissionFlag = "mashhadIdentified" | "alphaMonitored" | "safeRouteChosen" | "groundSupportReady" | "resourcesPreserved" | "ambushCountered" | "lateDiscoveryPenalty";
+
+const initialResources: ResourceState = { satelliteISR: 80, energy: 80, time: 100 };
 
 const initialStatus: ScenarioTwoMissionStatus = {
-  logisticsContinuity: 85,
-  criticalDelivery: 80,
-  navigationIntegrity: 75,
-  civilianStability: 90,
-  escalationRisk: 20,
-  remainingResources: 80,
-  ambiguity: 35,
+  alphaHealth: 82,
+  alphaProgress: 15,
+  threatIdentification: 0,
+  secondaryConvoyStability: 78,
+  resourceReserve: 87,
+  ambushRisk: 8,
+  logisticsContinuity: 82,
+  criticalDelivery: 72,
+  navigationIntegrity: 76,
+  civilianStability: 88,
+  escalationRisk: 18,
+  remainingResources: 87,
+  ambiguity: 25,
   cumulativeDelay: 0,
-  gnssExposureRisk: 25,
+  gnssExposureRisk: 18,
 };
 
 const initialConvoys: Convoy[] = [
-  { id: "convoy_medical", name: "کاروان الف", cargo: "تجهیزات درمانی اضطراری", origin: "تهران", destination: "مشهد", priority: 5, deadline: 5, delay: 0, status: "moving", currentZoneId: "zone_central", routeId: "route_main_east", hasFallbackNav: false, gnssTrustLevel: 70, progress: 18 },
-  { id: "convoy_fuel", name: "کاروان ب", cargo: "سوخت عملیاتی", origin: "بندرعباس", destination: "تهران", priority: 4, deadline: 5, delay: 0, status: "moving", currentZoneId: "zone_south", routeId: "route_south", hasFallbackNav: false, gnssTrustLevel: 75, progress: 22 },
-  { id: "convoy_comms", name: "کاروان ج", cargo: "قطعات ارتباطی و مخابراتی", origin: "تبریز", destination: "تهران", priority: 4, deadline: 5, delay: 0, status: "moving", currentZoneId: "zone_north", routeId: "route_north", hasFallbackNav: false, gnssTrustLevel: 65, progress: 28 },
-  { id: "convoy_supplies", name: "کاروان د", cargo: "پشتیبانی عمومی و تدارکات", origin: "جنوب", destination: "مرکز", priority: 2, deadline: 5, delay: 0, status: "moving", currentZoneId: "zone_south", routeId: "route_south", hasFallbackNav: false, gnssTrustLevel: 80, progress: 35 },
+  { id: "convoy_medical", name: "کاروان الف", cargo: "تجهیزات درمانی اضطراری", origin: "تهران", destination: "مشهد", priority: 5, deadline: 8, delay: 0, health: 82, status: "normal", currentZoneId: "zone_central", routeId: "route_main_east", hasFallbackNav: false, hasGroundSupport: false, gnssTrustLevel: 75, progress: 15 },
+  { id: "convoy_fuel", name: "کاروان ب", cargo: "سوخت عملیاتی", origin: "بندرعباس", destination: "تهران", priority: 4, deadline: 8, delay: 0, health: 86, status: "normal", currentZoneId: "zone_south", routeId: "route_south", hasFallbackNav: false, hasGroundSupport: false, gnssTrustLevel: 78, progress: 20 },
+  { id: "convoy_comms", name: "کاروان ج", cargo: "قطعات ارتباطی", origin: "تبریز", destination: "تهران", priority: 4, deadline: 8, delay: 0, health: 84, status: "normal", currentZoneId: "zone_north", routeId: "route_north", hasFallbackNav: false, hasGroundSupport: false, gnssTrustLevel: 76, progress: 18 },
+  { id: "convoy_supplies", name: "کاروان د", cargo: "تدارکات پشتیبانی مرزی", origin: "تهران", destination: "مرز عراق", priority: 3, deadline: 8, delay: 0, health: 80, status: "normal", currentZoneId: "zone_central", routeId: "route_west_iraq", hasFallbackNav: false, hasGroundSupport: false, gnssTrustLevel: 80, progress: 16 },
 ];
 
 const initialZones: MapZone[] = [
-  { id: "zone_north", name: "محور شمالی", x: 45, y: 18, threatLevel: "suspicious", gnssDisruption: 45, civilianSensitivity: 30, isRevealed: true },
-  { id: "zone_east", name: "محور شرقی", x: 75, y: 42, threatLevel: "jammed", gnssDisruption: 70, civilianSensitivity: 55, isRevealed: false },
-  { id: "zone_central", name: "محور مرکزی", x: 50, y: 50, threatLevel: "unknown", gnssDisruption: 55, civilianSensitivity: 70, isRevealed: false },
-  { id: "zone_south", name: "محور جنوبی", x: 40, y: 78, threatLevel: "safe", gnssDisruption: 20, civilianSensitivity: 45, isRevealed: true },
+  { id: "zone_north", name: "تبریز", x: 45, y: 18, threatLevel: "safe", gnssDisruption: 5, civilianSensitivity: 30, isRevealed: true },
+  { id: "zone_east", name: "مشهد", x: 75, y: 42, threatLevel: "unknown", gnssDisruption: 12, civilianSensitivity: 55, isRevealed: false },
+  { id: "zone_central", name: "تهران", x: 50, y: 50, threatLevel: "safe", gnssDisruption: 6, civilianSensitivity: 70, isRevealed: true },
+  { id: "zone_south", name: "بندرعباس", x: 40, y: 78, threatLevel: "safe", gnssDisruption: 4, civilianSensitivity: 45, isRevealed: true },
+  { id: "zone_west", name: "مرز عراق", x: 24, y: 48, threatLevel: "safe", gnssDisruption: 7, civilianSensitivity: 50, isRevealed: true },
+  { id: "zone_support_east", name: "پایگاه پشتیبانی مشهد", x: 68, y: 48, threatLevel: "safe", gnssDisruption: 18, civilianSensitivity: 35, isRevealed: true },
+  { id: "zone_ambush", name: "نقطه مشکوک محور مشهد", x: 70, y: 39, threatLevel: "unknown", gnssDisruption: 65, civilianSensitivity: 45, isRevealed: false },
 ];
 
 const routes: Route[] = [
-  { id: "route_main_east", name: "Route A — مسیر اصلی شرق", fromZoneId: "zone_central", toZoneId: "zone_east", travelCost: 8, delayRisk: 35, gnssRisk: 70, civilianImpact: 45, visualStatus: "danger" },
-  { id: "route_north_alt", name: "Route B — جایگزین شمالی", fromZoneId: "zone_central", toZoneId: "zone_north", travelCost: 14, delayRisk: 28, gnssRisk: 28, civilianImpact: 32, visualStatus: "safe" },
-  { id: "route_central_alt", name: "Route C — مسیر مرکزی", fromZoneId: "zone_central", toZoneId: "zone_east", travelCost: 10, delayRisk: 30, gnssRisk: 42, civilianImpact: 40, visualStatus: "risky" },
-  { id: "route_south", name: "Route D — جنوب به مرکز", fromZoneId: "zone_south", toZoneId: "zone_central", travelCost: 12, delayRisk: 42, gnssRisk: 35, civilianImpact: 48, visualStatus: "risky" },
-  { id: "route_north", name: "Route E — شمال غرب", fromZoneId: "zone_north", toZoneId: "zone_central", travelCost: 10, delayRisk: 30, gnssRisk: 35, civilianImpact: 30, visualStatus: "safe" },
-  { id: "route_shadow", name: "مسیر خاکستری دشمن", fromZoneId: "zone_north", toZoneId: "zone_east", travelCost: 7, delayRisk: 52, gnssRisk: 78, civilianImpact: 62, visualStatus: "unknown" },
+  { id: "route_main_east", name: "تهران به مشهد", fromZoneId: "zone_central", toZoneId: "zone_east", travelCost: 8, delayRisk: 22, gnssRisk: 38, civilianImpact: 45, visualStatus: "risky" },
+  { id: "route_south", name: "بندرعباس به تهران", fromZoneId: "zone_south", toZoneId: "zone_central", travelCost: 12, delayRisk: 30, gnssRisk: 22, civilianImpact: 48, visualStatus: "safe" },
+  { id: "route_north", name: "تبریز به تهران", fromZoneId: "zone_north", toZoneId: "zone_central", travelCost: 10, delayRisk: 24, gnssRisk: 20, civilianImpact: 30, visualStatus: "safe" },
+  { id: "route_west_iraq", name: "تهران به مرز عراق", fromZoneId: "zone_central", toZoneId: "zone_west", travelCost: 11, delayRisk: 32, gnssRisk: 26, civilianImpact: 42, visualStatus: "safe" },
+  { id: "route_north_alt", name: "مسیر جایگزین شمالی به مشهد", fromZoneId: "zone_central", toZoneId: "zone_east", travelCost: 16, delayRisk: 34, gnssRisk: 20, civilianImpact: 34, visualStatus: "safe" },
+  { id: "route_staged_east", name: "مسیر مرحله‌ای کنترل‌شده", fromZoneId: "zone_central", toZoneId: "zone_support_east", travelCost: 18, delayRisk: 28, gnssRisk: 24, civilianImpact: 36, visualStatus: "safe" },
+  { id: "route_ambush_spur", name: "مسیر فرعی کمین نزدیک مشهد", fromZoneId: "zone_support_east", toZoneId: "zone_ambush", travelCost: 6, delayRisk: 54, gnssRisk: 82, civilianImpact: 52, visualStatus: "unknown" },
+  { id: "route_phantom", name: "مسیر فریب دشمن", fromZoneId: "zone_support_east", toZoneId: "zone_ambush", travelCost: 5, delayRisk: 20, gnssRisk: 70, civilianImpact: 20, visualStatus: "unknown" },
 ];
 
 const zeroWeights: ScenarioTwoDecisionWeights = {
@@ -80,290 +93,718 @@ const zeroWeights: ScenarioTwoDecisionWeights = {
   cognitiveFlexibilityWeight: 0,
 };
 
-const makeAction = (action: ActionCard) => action;
+const weights = (partial: Partial<ScenarioTwoDecisionWeights> = {}): ScenarioTwoDecisionWeights => ({ ...zeroWeights, ...partial });
 
 const actionCatalog: Record<string, ActionCard> = {
-  action_isr_scan: makeAction({
-    id: "action_isr_scan",
-    title: "اول اختلال را تأیید کن",
-    subtitle: "بررسی ISR روی محور مشکوک برای آشکارسازی spoofing",
-    description: "قبل از حرکت یا تغییر مسیر، یک گذر سریع ISR انجام می‌دهید تا مشخص شود اختلاف GNSS واقعی است یا خطای گزارش میدانی.",
-    expectedResult: "ابهام عملیاتی کم می‌شود و سلامت ناوبری بهتر می‌شود.",
-    mapEffect: "ناحیه هدف با sweep دایره‌ای scan می‌شود و fog-of-war کمتر می‌شود.",
-    riskText: "اگر دیر انجام شود، زمان تحویل کاروان الف از دست می‌رود.",
+  routine_routes: {
+    id: "routine_routes",
+    title: "بررسی وضعیت مسیرها",
+    subtitle: "روشن کردن مسیر چهار کاروان و تثبیت تصویر اولیه",
+    description: "مسیرهای چهار کاروان طبق برنامه بررسی می‌شوند.",
+    expectedResult: "پایداری کاروان‌های فرعی بهتر می‌شود، اما تهدید پنهان هنوز آشکار نمی‌شود.",
+    mapEffect: "چهار مسیر اصلی برای چند ثانیه روشن می‌شوند.",
+    riskText: "اطلاعات تهدید احتمالی هنوز قطعی نمی‌شود.",
     missionImpact: "متوسط",
-    objectiveTags: ["کاهش ابهام", "تشخیص GNSS آلوده"],
+    objectiveTags: ["پایش روتین", "ثبات شبکه"],
     category: "diagnosis",
-    cost: { satelliteISR: 20, time: 8 },
-    effects: { ambiguity: -20, navigationIntegrity: 10 },
-    requirements: { satelliteISR: 20, time: 8 },
+    cost: { time: 3 },
+    effects: { secondaryConvoyStability: 5, logisticsContinuity: 4 },
+    targetType: "global",
+    weights: weights({ logisticsWeight: 4, secondOrderThinkingWeight: 3 }),
+  },
+  routine_gnss: {
+    id: "routine_gnss",
+    title: "بررسی موقعیت GNSS کاروان‌ها",
+    subtitle: "ثبت ping موقعیت اولیه همه کاروان‌ها",
+    description: "مختصات GNSS همه کاروان‌ها با طرح حرکت مقایسه می‌شود.",
+    expectedResult: "تصویر اولیه کامل‌تر می‌شود، اما اعتماد صرف به GNSS می‌تواند خطرناک باشد.",
+    mapEffect: "کنار هر کاروان ping موقعیت ظاهر می‌شود.",
+    riskText: "اگر فقط به GNSS اعتماد شود، راند بعد ریسک اعتماد کاذب بالا می‌رود.",
+    missionImpact: "کم",
+    objectiveTags: ["موقعیت اولیه", "GNSS"],
+    category: "diagnosis",
+    cost: { time: 2 },
+    effects: { navigationIntegrity: 4, gnssExposureRisk: 4 },
+    targetType: "global",
+    weights: weights({ infoSeekingWeight: 2, navigationIntegrityWeight: 2 }),
+  },
+  routine_radio: {
+    id: "routine_radio",
+    title: "بررسی ارتباطات رادیویی",
+    subtitle: "تثبیت کانال هشدار بین قرارگاه و کاروان‌ها",
+    description: "ارتباط رادیویی با هر چهار کاروان چک می‌شود تا در صورت اختلال، هشدار سریع‌تر برسد.",
+    expectedResult: "پایداری شبکه بهتر می‌شود.",
+    mapEffect: "موج ارتباطی از تهران به هر کاروان نمایش داده می‌شود.",
+    riskText: "زمان اندکی مصرف می‌شود.",
+    missionImpact: "متوسط",
+    objectiveTags: ["ارتباطات", "هشدار سریع"],
+    category: "command",
+    cost: { time: 3 },
+    effects: { secondaryConvoyStability: 5, logisticsContinuity: 3 },
+    targetType: "global",
+    weights: weights({ logisticsWeight: 4, secondOrderThinkingWeight: 4 }),
+  },
+  routine_preserve: {
+    id: "routine_preserve",
+    title: "ذخیره منابع و ادامه طبق برنامه",
+    subtitle: "حرکت عادی بدون مصرف منابع",
+    description: "کاروان‌ها طبق برنامه ادامه می‌دهند و منابع برای مرحله‌های بعدی حفظ می‌شود.",
+    expectedResult: "منابع حفظ می‌شوند.",
+    mapEffect: "حرکت عادی کاروان‌ها ادامه پیدا می‌کند.",
+    riskText: "شناخت اولیه کمتر است.",
+    missionImpact: "کم",
+    objectiveTags: ["ذخیره منابع"],
+    category: "command",
+    cost: {},
+    effects: { resourceReserve: 3, ambiguity: 5 },
+    targetType: "global",
+    weights: weights({ resourceEfficiencyWeight: 6, infoSeekingWeight: -3 }),
+  },
+  scan_all_nodes: {
+    id: "scan_all_nodes",
+    title: "اسکن سراسری چهار گره عملیاتی",
+    subtitle: "تهران، مشهد، تبریز و بندرعباس هم‌زمان بررسی شوند",
+    description: "یک اسکن پرهزینه اما جامع روی چهار گره عملیاتی اجرا می‌شود.",
+    expectedResult: "گره دارای بیشترین ناسازگاری مشخص می‌شود.",
+    mapEffect: "هر چهار شهر scan pulse می‌گیرند و گره مشکوک آشکار می‌شود.",
+    riskText: "ISR و زمان زیادی مصرف می‌شود.",
+    missionImpact: "زیاد",
+    objectiveTags: ["کشف اختلال", "کاهش ابهام"],
+    category: "diagnosis",
+    cost: { satelliteISR: 25, time: 10 },
+    effects: { threatIdentification: 35, ambiguity: -30, navigationIntegrity: 8 },
+    targetType: "global",
+    weights: weights({ infoSeekingWeight: 9, secondOrderThinkingWeight: 6 }),
+  },
+  scan_mashhad: {
+    id: "scan_mashhad",
+    title: "اسکن هدفمند مشهد",
+    subtitle: "تمرکز روی یکی از گره‌های شرقی شبکه",
+    description: "گره شرقی شبکه هدف اسکن قرار می‌گیرد تا فرض اختلال در مقصد بررسی شود.",
+    expectedResult: "اگر این گره منشأ ناسازگاری باشد، سریع و کم‌هزینه‌تر تأیید می‌شود.",
+    mapEffect: "گره شرقی و محور ورودی آن scan می‌شوند.",
+    riskText: "اگر نشانه را اشتباه خوانده باشید، گره‌های دیگر کمتر بررسی می‌شوند.",
+    missionImpact: "زیاد",
+    objectiveTags: ["کشف اختلال", "تصمیم دقیق"],
+    category: "diagnosis",
+    cost: { satelliteISR: 15, time: 6 },
+    effects: { threatIdentification: 40, ambiguity: -35, gnssExposureRisk: -6 },
     targetType: "zone",
-    weights: { logisticsWeight: 4, criticalDeliveryWeight: 3, delayControlWeight: -2, resourceEfficiencyWeight: 3, navigationIntegrityWeight: 8, civilianImpactWeight: 1, escalationWeight: -1, infoSeekingWeight: 9, secondOrderThinkingWeight: 5, adversaryModelingWeight: 3, cognitiveFlexibilityWeight: 4 },
-  }),
-  action_fallback_nav: makeAction({
-    id: "action_fallback_nav",
-    title: "کاروان الف را از GNSS جدا کن",
-    subtitle: "فعال‌سازی ناوبری پشتیبان برای کاهش ریسک spoofing",
-    description: "کاروان انتخاب‌شده از اتکای مستقیم به GNSS جدا می‌شود و با ناوبری پشتیبان ادامه می‌دهد.",
-    expectedResult: "ریسک GNSS کم می‌شود و شانس رسیدن کاروان حیاتی بالا می‌رود.",
-    mapEffect: "آیکون کاروان badge NAV و glow آبی می‌گیرد.",
-    riskText: "انرژی مصرف می‌کند و اگر دیر انتخاب شود ممکن است برای اصلاح مسیر کافی نباشد.",
-    missionImpact: "زیاد",
-    objectiveTags: ["نجات کاروان حیاتی", "کاهش ریسک GNSS"],
-    category: "navigation",
-    cost: { energy: 15, time: 4 },
-    effects: { criticalDelivery: 12, gnssExposureRisk: -15, navigationIntegrity: 8 },
-    requirements: { energy: 15, time: 4 },
-    targetType: "convoy",
-    weights: { logisticsWeight: 6, criticalDeliveryWeight: 9, delayControlWeight: 3, resourceEfficiencyWeight: 4, navigationIntegrityWeight: 8, civilianImpactWeight: 2, escalationWeight: -2, infoSeekingWeight: 1, secondOrderThinkingWeight: 6, adversaryModelingWeight: 2, cognitiveFlexibilityWeight: 5 },
-  }),
-  action_reroute_convoy: makeAction({
-    id: "action_reroute_convoy",
-    title: "کاروان الف را از مسیر آلوده خارج کن",
-    subtitle: "تغییر مسیر از محور شرق به مسیر جایگزین امن‌تر",
-    description: "کاروان هدف از مسیر فعلی خارج می‌شود و وارد مسیر جایگزین می‌گردد تا از محدوده spoofing دور شود.",
-    expectedResult: "ریسک GNSS کم می‌شود، اما تأخیر و مصرف انرژی بالا می‌رود.",
-    mapEffect: "مسیر قبلی کم‌رنگ و مسیر جدید با خط روشن فعال می‌شود.",
-    riskText: "اگر مسیر جایگزین بررسی نشده باشد، دشمن ممکن است در راند بعد آن را مختل کند.",
-    missionImpact: "زیاد",
-    objectiveTags: ["تحویل مأموریت اصلی", "اصلاح مسیر"],
-    category: "logistics",
-    cost: { energy: 10, time: 6 },
-    effects: { logisticsContinuity: 5, cumulativeDelay: 6, gnssExposureRisk: -8 },
-    requirements: { energy: 10, time: 6 },
-    targetType: "route",
-    weights: { logisticsWeight: 7, criticalDeliveryWeight: 6, delayControlWeight: -3, resourceEfficiencyWeight: 3, navigationIntegrityWeight: 5, civilianImpactWeight: 2, escalationWeight: -2, infoSeekingWeight: 1, secondOrderThinkingWeight: 6, adversaryModelingWeight: 4, cognitiveFlexibilityWeight: 6 },
-  }),
-  action_continue_gnss: makeAction({
-    id: "action_continue_gnss",
-    title: "ریسک کن و سرعت را حفظ کن",
-    subtitle: "ادامه مسیر بر اساس GNSS بدون مصرف منابع",
-    description: "کاروان‌ها طبق GNSS ادامه می‌دهند و منابع مصرف نمی‌شود، اما اگر داده آلوده باشد تصمیم شما به انحراف نزدیک می‌شود.",
-    expectedResult: "progress سریع‌تر می‌شود و منابع حفظ می‌شوند.",
-    mapEffect: "کاروان روی مسیر فعلی جلو می‌رود؛ اگر مسیر آلوده باشد هاله هشدار ظاهر می‌شود.",
-    riskText: "در ابهام بالا می‌تواند ریسک GNSS و احتمال compromised شدن کاروان الف را زیاد کند.",
+    weights: weights({ infoSeekingWeight: 10, secondOrderThinkingWeight: 7, cognitiveFlexibilityWeight: 4 }),
+  },
+  scan_tehran: {
+    id: "scan_tehran",
+    title: "اسکن تهران",
+    subtitle: "پاک‌سازی گره فرماندهی از فرض اختلال",
+    description: "تهران بررسی می‌شود تا مشخص شود مشکل از مرکز فرماندهی نیست.",
+    expectedResult: "مشخص می‌کند آیا هشدار از گره تهران منشأ گرفته یا نه.",
+    mapEffect: "تهران scan می‌شود.",
+    riskText: "اگر منشأ اختلال در گره دیگری باشد، بخشی از زمان و ISR مصرف می‌شود.",
+    missionImpact: "کم",
+    objectiveTags: ["رد فرض غلط"],
+    category: "diagnosis",
+    cost: { satelliteISR: 10, time: 5 },
+    effects: { ambiguity: -8, threatIdentification: 8 },
+    targetType: "zone",
+    weights: weights({ infoSeekingWeight: 4 }),
+  },
+  scan_tabriz: {
+    id: "scan_tabriz",
+    title: "اسکن تبریز",
+    subtitle: "بررسی گره شمال‌غرب و مسیر کاروان ج",
+    description: "گره تبریز و مسیر کاروان ج بررسی می‌شود تا نقش آن در هشدار مشخص شود.",
+    expectedResult: "می‌تواند منشأ هشدار در شمال‌غرب را تأیید یا رد کند.",
+    mapEffect: "روی شهر تبریز انیمیشن scan اجرا می‌شود.",
+    riskText: "اگر منشأ اختلال در گره دیگری باشد، بخشی از زمان و ISR مصرف می‌شود.",
+    missionImpact: "کم",
+    objectiveTags: ["ثبات فرعی"],
+    category: "diagnosis",
+    cost: { satelliteISR: 10, time: 5 },
+    effects: { secondaryConvoyStability: 5, ambiguity: -4 },
+    targetType: "zone",
+    weights: weights({ logisticsWeight: 3, infoSeekingWeight: 2 }),
+  },
+  scan_bandar: {
+    id: "scan_bandar",
+    title: "اسکن بندرعباس",
+    subtitle: "بررسی گره جنوب و مسیر کاروان ب",
+    description: "گره بندرعباس و مسیر کاروان ب بررسی می‌شود تا نقش آن در هشدار مشخص شود.",
+    expectedResult: "می‌تواند منشأ هشدار در جنوب را تأیید یا رد کند.",
+    mapEffect: "روی بندرعباس انیمیشن scan اجرا می‌شود.",
+    riskText: "اگر منشأ اختلال در گره دیگری باشد، بخشی از زمان و ISR مصرف می‌شود.",
+    missionImpact: "کم",
+    objectiveTags: ["ثبات فرعی"],
+    category: "diagnosis",
+    cost: { satelliteISR: 10, time: 5 },
+    effects: { secondaryConvoyStability: 5, ambiguity: -4 },
+    targetType: "zone",
+    weights: weights({ logisticsWeight: 3, infoSeekingWeight: 2 }),
+  },
+  wait_normal: {
+    id: "wait_normal",
+    title: "صبر و ادامه پایش عادی",
+    subtitle: "عدم مصرف منبع در برابر هشدار مبهم",
+    description: "کاروان‌ها حرکت می‌کنند و هشدار مبهم قطعی نمی‌شود.",
+    expectedResult: "منابع حفظ می‌شوند.",
+    mapEffect: "fog روی گره مشکوک باقی می‌ماند.",
+    riskText: "ابهام، ریسک GNSS و ریسک کمین افزایش می‌یابد.",
     missionImpact: "پرریسک",
-    objectiveTags: ["حفظ زمان و منابع", "ریسک انحراف"],
+    objectiveTags: ["حفظ منابع", "ریسک ابهام"],
     category: "risky",
     cost: {},
-    effects: { gnssExposureRisk: 15, ambiguity: 8 },
+    effects: { ambiguity: 15, gnssExposureRisk: 10, ambushRisk: 5 },
     targetType: "global",
-    weights: { logisticsWeight: 2, criticalDeliveryWeight: -2, delayControlWeight: 8, resourceEfficiencyWeight: 5, navigationIntegrityWeight: -8, civilianImpactWeight: -2, escalationWeight: 5, infoSeekingWeight: -6, secondOrderThinkingWeight: -5, adversaryModelingWeight: -3, cognitiveFlexibilityWeight: -4 },
-  }),
-  action_pause_low_priority: makeAction({
-    id: "action_pause_low_priority",
-    title: "کاروان کم‌اولویت را قربانی کن",
-    subtitle: "توقف موقت کاروان د یا کاروان کم‌اهمیت برای حفظ تمرکز عملیاتی",
-    description: "یک کاروان کم‌اولویت موقتاً متوقف می‌شود تا فشار عملیاتی، ریسک و مصرف منابع برای کاروان‌های حیاتی کنترل شود.",
-    expectedResult: "منابع و تمرکز برای کاروان الف بهتر حفظ می‌شود.",
-    mapEffect: "کاروان هدف badge PAUSED می‌گیرد و روی نقشه ثابت می‌ماند.",
-    riskText: "پیوستگی لجستیک و زمان‌بندی کاروان متوقف‌شده آسیب می‌بیند.",
+    weights: weights({ resourceEfficiencyWeight: 4, infoSeekingWeight: -7, secondOrderThinkingWeight: -4 }),
+  },
+  alpha_special_monitoring: {
+    id: "alpha_special_monitoring",
+    title: "پایش ویژه کاروان مشکوک",
+    subtitle: "تمرکز روی کاروانی که با داده‌های متناقض درگیر شده",
+    description: "کاروان مشکوک glow پایش می‌گیرد و مسیر آن با حساسیت بالاتر دنبال می‌شود.",
+    expectedResult: "سلامت کاروان درگیر و شناسایی تهدید بهتر می‌شود.",
+    mapEffect: "کاروان درگیر glow و مسیر آن پررنگ می‌شود.",
+    riskText: "مسیرهای دیگر کمتر کنترل می‌شوند.",
+    missionImpact: "زیاد",
+    objectiveTags: ["پایش ویژه", "کاهش ابهام"],
+    category: "diagnosis",
+    cost: { satelliteISR: 15, time: 6 },
+    effects: { alphaHealth: 10, threatIdentification: 10, secondaryConvoyStability: -5 },
+    targetType: "convoy",
+    weights: weights({ criticalDeliveryWeight: 8, infoSeekingWeight: 7, secondOrderThinkingWeight: 5 }),
+  },
+  balanced_monitoring: {
+    id: "balanced_monitoring",
+    title: "پایش متعادل همه کاروان‌ها",
+    subtitle: "الف زیر نظر، شبکه هم رها نمی‌شود",
+    description: "روی همه کاروان‌ها ping پایش می‌آید و الف کمی قوی‌تر دنبال می‌شود.",
+    expectedResult: "تعادل بین مأموریت اصلی و روتین شبکه حفظ می‌شود.",
+    mapEffect: "روی همه کاروان‌ها ping پایش ظاهر می‌شود.",
+    riskText: "مصرف ISR و زمان بیشتر است.",
     missionImpact: "متوسط",
-    objectiveTags: ["حفظ منابع", "اولویت‌دهی به کاروان الف"],
+    objectiveTags: ["تعادل", "ثبات شبکه"],
+    category: "command",
+    cost: { satelliteISR: 20, time: 8 },
+    effects: { alphaHealth: 7, secondaryConvoyStability: 10, ambiguity: -8 },
+    targetType: "global",
+    weights: weights({ logisticsWeight: 7, criticalDeliveryWeight: 5, secondOrderThinkingWeight: 7 }),
+  },
+  alpha_only_focus: {
+    id: "alpha_only_focus",
+    title: "تمرکز کامل روی کاروان مشکوک",
+    subtitle: "توقف چک روتین بقیه مسیرها",
+    description: "فقط کاروان مشکوک پایش سنگین می‌گیرد و مسیرهای ب، ج و د کم‌رنگ می‌شوند.",
+    expectedResult: "کاروان درگیر بهتر کنترل می‌شود.",
+    mapEffect: "فقط مسیر کاروان درگیر روشن می‌ماند.",
+    riskText: "کاروان‌های دیگر در ریسک رهاشدگی قرار می‌گیرند.",
+    missionImpact: "متوسط",
+    objectiveTags: ["تمرکز عملیاتی"],
+    category: "command",
+    cost: { satelliteISR: 12, time: 4 },
+    effects: { alphaHealth: 12, secondaryConvoyStability: -15, ambushRisk: -5 },
+    targetType: "global",
+    weights: weights({ criticalDeliveryWeight: 8, logisticsWeight: -4 }),
+  },
+  normal_routine: {
+    id: "normal_routine",
+    title: "ادامه روتین معمولی",
+    subtitle: "بدون پایش ویژه برای الف",
+    description: "همه کاروان‌ها طبق روال عادی ادامه می‌دهند.",
+    expectedResult: "شبکه فرعی کمی پایدار می‌ماند.",
+    mapEffect: "حرکت عادی ادامه دارد.",
+    riskText: "الف در محور مشهد پایش ویژه ندارد.",
+    missionImpact: "پرریسک",
+    objectiveTags: ["روتین", "ریسک الف"],
+    category: "risky",
+    cost: { time: 2 },
+    effects: { secondaryConvoyStability: 5, alphaHealth: -5, ambiguity: 10, ambushRisk: 5 },
+    targetType: "global",
+    weights: weights({ logisticsWeight: 3, criticalDeliveryWeight: -5 }),
+  },
+  route_main_heavy_watch: {
+    id: "route_main_heavy_watch",
+    title: "ادامه مسیر اصلی با پایش سنگین",
+    subtitle: "سرعت حفظ شود، مسیر مشکوک زیر sweep بماند",
+    description: "کاروان الف مسیر اصلی را ادامه می‌دهد اما ISR سنگین روی آن اجرا می‌شود.",
+    expectedResult: "پیشرفت خوب است، اما کاروان در محور مشکوک باقی می‌ماند.",
+    mapEffect: "مسیر اصلی زرد/قرمز و sweep پایش روی آن اجرا می‌شود.",
+    riskText: "ریسک کمین بالا می‌رود.",
+    missionImpact: "پرریسک",
+    objectiveTags: ["سرعت", "پایش"],
+    category: "risky",
+    cost: { satelliteISR: 20, time: 5 },
+    effects: { alphaProgress: 20, threatIdentification: 10, ambushRisk: 8, alphaHealth: -3 },
+    targetType: "route",
+    weights: weights({ delayControlWeight: 6, infoSeekingWeight: 5, secondOrderThinkingWeight: -2 }),
+  },
+  route_northern: {
+    id: "route_northern",
+    title: "تغییر مسیر به مسیر شمالی",
+    subtitle: "دور کردن الف از محور مشکوک مشهد",
+    description: "مسیر اصلی کم‌رنگ می‌شود و مسیر جایگزین شمالی برای نزدیک شدن امن‌تر فعال می‌شود.",
+    expectedResult: "ریسک کمین کم می‌شود و سلامت الف بهتر می‌شود.",
+    mapEffect: "مسیر جدید آبی/سبز از شمال به مشهد روشن می‌شود.",
+    riskText: "تأخیر عملیاتی افزایش می‌یابد.",
+    missionImpact: "زیاد",
+    objectiveTags: ["مسیر امن", "نجات الف"],
+    category: "logistics",
+    cost: { energy: 15, time: 10 },
+    effects: { alphaProgress: 12, ambushRisk: -15, alphaHealth: 10, cumulativeDelay: 10 },
+    targetType: "route",
+    weights: weights({ criticalDeliveryWeight: 8, secondOrderThinkingWeight: 7, cognitiveFlexibilityWeight: 7 }),
+  },
+  route_staged: {
+    id: "route_staged",
+    title: "مسیر مرحله‌ای با توقف‌های کنترل‌شده",
+    subtitle: "عبور کندتر اما قابل کنترل‌تر",
+    description: "چند waypoint امن و کنترل موقعیت برای کاروان الف تعریف می‌شود.",
+    expectedResult: "احتمال انحراف کم می‌شود.",
+    mapEffect: "waypointهای امن روی مسیر ظاهر می‌شوند.",
+    riskText: "تأخیر افزایش پیدا می‌کند.",
+    missionImpact: "زیاد",
+    objectiveTags: ["کنترل مسیر", "سلامت الف"],
+    category: "navigation",
+    cost: { time: 12, energy: 8 },
+    effects: { alphaHealth: 15, ambushRisk: -10, alphaProgress: 8, cumulativeDelay: 12 },
+    targetType: "route",
+    weights: weights({ criticalDeliveryWeight: 7, secondOrderThinkingWeight: 8, navigationIntegrityWeight: 7 }),
+  },
+  pause_alpha: {
+    id: "pause_alpha",
+    title: "توقف موقت تا روشن شدن وضعیت",
+    subtitle: "کاهش ریسک فوری به قیمت از دست دادن زمان",
+    description: "کاروان الف متوقف می‌شود تا تصویر تهدید روشن‌تر شود.",
+    expectedResult: "سلامت الف کمی بهتر و ریسک کمین کمتر می‌شود.",
+    mapEffect: "کاروان الف badge PAUSED می‌گیرد.",
+    riskText: "زمان تحویل به خطر می‌افتد.",
+    missionImpact: "متوسط",
+    objectiveTags: ["کاهش ریسک", "تأخیر"],
+    category: "command",
+    cost: { time: 15 },
+    effects: { alphaHealth: 5, ambushRisk: -8, cumulativeDelay: 15 },
+    targetType: "convoy",
+    weights: weights({ secondOrderThinkingWeight: 4, delayControlWeight: -6 }),
+  },
+  more_checkpoints: {
+    id: "more_checkpoints",
+    title: "افزایش توقف‌های کنترل موقعیت",
+    subtitle: "کنترل دقیق‌تر در بخش حساس مسیر",
+    description: "توقف‌های کنترل موقعیت بیشتر می‌شود.",
+    expectedResult: "سلامت و کنترل مسیر بهتر می‌شود.",
+    mapEffect: "waypointهای کنترل روی مسیر ظاهر می‌شوند.",
+    riskText: "سرعت کاهش می‌یابد.",
+    missionImpact: "متوسط",
+    objectiveTags: ["کنترل", "سلامت"],
+    category: "navigation",
+    cost: { time: 12 },
+    effects: { alphaHealth: 12, ambushRisk: -10, alphaProgress: 8, cumulativeDelay: 12 },
+    targetType: "global",
+    weights: weights({ navigationIntegrityWeight: 7, secondOrderThinkingWeight: 6 }),
+  },
+  fewer_stops: {
+    id: "fewer_stops",
+    title: "کاهش توقف‌های غیرضروری",
+    subtitle: "جبران زمان با پذیرش ریسک انحراف",
+    description: "کاروان الف توقف‌های کم‌اهمیت را حذف می‌کند و سریع‌تر حرکت می‌کند.",
+    expectedResult: "زمان جبران می‌شود.",
+    mapEffect: "waypointهای غیرضروری حذف و حرکت سریع‌تر می‌شود.",
+    riskText: "ریسک خطا و انحراف بالا می‌رود.",
+    missionImpact: "پرریسک",
+    objectiveTags: ["سرعت", "ریسک"],
+    category: "risky",
+    cost: { energy: 5 },
+    effects: { alphaProgress: 22, cumulativeDelay: -5, ambushRisk: 10, alphaHealth: -5 },
+    targetType: "global",
+    weights: weights({ delayControlWeight: 8, secondOrderThinkingWeight: -4 }),
+  },
+  dispatch_ground_support: {
+    id: "dispatch_ground_support",
+    title: "اعزام نیروی پشتیبانی زمینی",
+    subtitle: "آماده‌سازی مقابله برای محور مشهد",
+    description: "تیم پشتیبانی از پایگاه نزدیک مشهد به سمت مسیر الف اعزام می‌شود.",
+    expectedResult: "اگر تهدید آشکار شود، واکنش زمینی آماده است.",
+    mapEffect: "آیکون تیم پشتیبانی به سمت مسیر الف حرکت می‌کند.",
+    riskText: "انرژی و زمان مصرف می‌شود.",
+    missionImpact: "زیاد",
+    objectiveTags: ["مقابله زمینی", "آمادگی راند ۷"],
+    category: "logistics",
+    cost: { energy: 15, time: 6 },
+    effects: { alphaHealth: 12, ambushRisk: -12 },
+    targetType: "zone",
+    weights: weights({ secondOrderThinkingWeight: 9, adversaryModelingWeight: 7, criticalDeliveryWeight: 7 }),
+  },
+  prioritize_secondary: {
+    id: "prioritize_secondary",
+    title: "اولویت دادن به روتین سایر کاروان‌ها",
+    subtitle: "حفظ ب، ج و د در برابر رهاشدگی",
+    description: "کاروان‌های ب، ج و د ping پایش و حرکت منظم می‌گیرند.",
+    expectedResult: "شبکه پایدار می‌ماند.",
+    mapEffect: "ب، ج و د ping و حرکت منظم می‌گیرند.",
+    riskText: "تمرکز روی کاروان الف کمتر می‌شود.",
+    missionImpact: "متوسط",
+    objectiveTags: ["ثبات شبکه"],
+    category: "command",
+    cost: { time: 8, satelliteISR: 8 },
+    effects: { secondaryConvoyStability: 15, alphaProgress: 5 },
+    targetType: "global",
+    weights: weights({ logisticsWeight: 8, secondOrderThinkingWeight: 5 }),
+  },
+  alpha_priority: {
+    id: "alpha_priority",
+    title: "اولویت مطلق با کاروان الف",
+    subtitle: "تقویت محموله درمانی به قیمت کند شدن شبکه",
+    description: "بیشتر منابع باقی‌مانده به کاروان الف اختصاص می‌یابد.",
+    expectedResult: "الف تقویت می‌شود.",
+    mapEffect: "الف حرکت و پشتیبانی بیشتر می‌گیرد و ب/ج/د کندتر می‌شوند.",
+    riskText: "شبکه لجستیک آسیب‌پذیرتر می‌شود.",
+    missionImpact: "زیاد",
+    objectiveTags: ["نجات الف"],
+    category: "command",
+    cost: { energy: 15, satelliteISR: 10, time: 8 },
+    effects: { alphaHealth: 15, alphaProgress: 18, secondaryConvoyStability: -15, resourceReserve: -10 },
+    targetType: "global",
+    weights: weights({ criticalDeliveryWeight: 10, logisticsWeight: -4 }),
+  },
+  balanced_resources: {
+    id: "balanced_resources",
+    title: "تقسیم متعادل منابع",
+    subtitle: "هیچ مسیر کاملاً رها نشود",
+    description: "منابع بین الف و روتین سایر کاروان‌ها تقسیم می‌شود.",
+    expectedResult: "تعادل حفظ می‌شود.",
+    mapEffect: "همه کاروان‌ها حرکت کنترل‌شده دارند.",
+    riskText: "اثر مستقیم روی الف کمتر از اولویت مطلق است.",
+    missionImpact: "متوسط",
+    objectiveTags: ["تعادل", "حفظ شبکه"],
+    category: "command",
+    cost: { energy: 12, satelliteISR: 12, time: 10 },
+    effects: { alphaHealth: 8, alphaProgress: 12, secondaryConvoyStability: 10 },
+    targetType: "global",
+    weights: weights({ logisticsWeight: 8, secondOrderThinkingWeight: 8 }),
+  },
+  preserve_final_resources: {
+    id: "preserve_final_resources",
+    title: "حفظ منابع برای مرحله نهایی",
+    subtitle: "حرکت کندتر اما با ذخیره واکنش",
+    description: "اقدام سنگین انجام نمی‌شود تا راند ۷ و ۸ امکان نجات باقی بماند.",
+    expectedResult: "ذخیره عملیاتی بالا می‌ماند.",
+    mapEffect: "حرکت کندتر اما منظم ادامه دارد.",
+    riskText: "پیشرفت الف کمتر می‌شود.",
+    missionImpact: "متوسط",
+    objectiveTags: ["ذخیره عملیاتی"],
+    category: "command",
+    cost: { time: 3 },
+    effects: { resourceReserve: 15, alphaProgress: 6, alphaHealth: 2 },
+    targetType: "global",
+    weights: weights({ resourceEfficiencyWeight: 9, secondOrderThinkingWeight: 8 }),
+  },
+  sacrifice_delta: {
+    id: "sacrifice_delta",
+    title: "قربانی کردن روتین کاروان د",
+    subtitle: "کم کردن اولویت مسیر عراق برای حفظ مأموریت اصلی",
+    description: "کاروان د کند یا متوقف می‌شود تا ظرفیت بیشتری برای الف باقی بماند.",
+    expectedResult: "منابع مأموریت اصلی بهتر حفظ می‌شود.",
+    mapEffect: "کاروان د کند یا PAUSED می‌شود.",
+    riskText: "ثبات شبکه فرعی کمی کاهش می‌یابد.",
+    missionImpact: "متوسط",
+    objectiveTags: ["ذخیره منابع", "اولویت‌بندی"],
+    category: "logistics",
+    cost: {},
+    effects: { resourceReserve: 10, alphaHealth: 6, secondaryConvoyStability: -5 },
+    targetType: "convoy",
+    weights: weights({ resourceEfficiencyWeight: 8, secondOrderThinkingWeight: 6 }),
+  },
+  emergency_safe_route: {
+    id: "emergency_safe_route",
+    title: "تغییر فوری مسیر کاروان در خطر",
+    subtitle: "قطع مسیر کمین و روشن کردن مسیر امن",
+    description: "مسیر قرمز/آلوده قطع می‌شود و کاروان از محور امن‌تر ادامه می‌دهد.",
+    expectedResult: "کاروان در خطر از مسیر کمین دور می‌شود.",
+    mapEffect: "مسیر قرمز قطع و مسیر امن روشن می‌شود.",
+    riskText: "تأخیر افزایش می‌یابد.",
+    missionImpact: "زیاد",
+    objectiveTags: ["فرار از کمین", "نجات محموله"],
+    category: "navigation",
+    cost: { energy: 18, time: 10 },
+    effects: { ambushRisk: -25, alphaHealth: 15, alphaProgress: 8, cumulativeDelay: 10 },
+    targetType: "route",
+    weights: weights({ criticalDeliveryWeight: 10, cognitiveFlexibilityWeight: 9, adversaryModelingWeight: 6 }),
+  },
+  attack_signal_source: {
+    id: "attack_signal_source",
+    title: "اعزام نیروی زمینی به منبع اختلال",
+    subtitle: "فشار مستقیم روی سیگنال فریبنده",
+    description: "نیروی زمینی به منبع اختلال نزدیک محور مشهد اعزام می‌شود.",
+    expectedResult: "سیگنال فریبنده تضعیف می‌شود.",
+    mapEffect: "آیکون نیروی زمینی به سمت نقطه تهدید حرکت می‌کند.",
+    riskText: "اگر زودتر آماده نشده باشد، هزینه بالاتر است.",
+    missionImpact: "زیاد",
+    objectiveTags: ["مقابله زمینی", "کاهش کمین"],
+    category: "logistics",
+    cost: { energy: 15, time: 8 },
+    effects: { threatIdentification: 20, ambushRisk: -20 },
+    targetType: "zone",
+    weights: weights({ adversaryModelingWeight: 8, secondOrderThinkingWeight: 8, criticalDeliveryWeight: 7 }),
+  },
+  deception_route: {
+    id: "deception_route",
+    title: "ایجاد مسیر فریب برای دشمن",
+    subtitle: "هدایت دشمن به مسیر جعلی و عبور واقعی الف",
+    description: "یک مسیر phantom برای دشمن ساخته می‌شود و مسیر واقعی با امضای کم‌تر ادامه می‌یابد.",
+    expectedResult: "دشمن به مسیر جعلی هدایت می‌شود.",
+    mapEffect: "مسیر phantom کم‌رنگ و مسیر واقعی آبی کم‌رنگ نمایش داده می‌شود.",
+    riskText: "اگر ISR کم باشد، فریب ناقص اجرا می‌شود.",
+    missionImpact: "زیاد",
+    objectiveTags: ["فریب", "مدل‌سازی دشمن"],
+    category: "deception",
+    cost: { satelliteISR: 12, energy: 8 },
+    effects: { ambushRisk: -18 },
+    targetType: "route",
+    weights: weights({ adversaryModelingWeight: 10, infoSeekingWeight: 5, secondOrderThinkingWeight: 8 }),
+  },
+  fast_escort: {
+    id: "fast_escort",
+    title: "ادامه با اسکورت و سرعت بالا",
+    subtitle: "عبور سریع از محور تهدید",
+    description: "کاروان با اسکورت و سرعت بالا از محدوده عبور می‌کند.",
+    expectedResult: "پیشرفت زیاد می‌شود.",
+    mapEffect: "آیکون اسکورت کنار کاروان اضافه می‌شود.",
+    riskText: "اگر مسیر قبلاً شناخته نشده باشد، ریسک کمین بالا می‌رود.",
+    missionImpact: "پرریسک",
+    objectiveTags: ["سرعت", "اسکورت"],
+    category: "risky",
+    cost: { energy: 20, time: 4 },
+    effects: { alphaProgress: 25, alphaHealth: 5, ambushRisk: 10 },
+    targetType: "convoy",
+    weights: weights({ delayControlWeight: 9, criticalDeliveryWeight: 5, secondOrderThinkingWeight: -4 }),
+  },
+  final_guide: {
+    id: "final_guide",
+    title: "هدایت نهایی به مقصد مشهد",
+    subtitle: "آخرین اصلاح مسیر برای رساندن الف",
+    description: "اگر وضعیت بحرانی نباشد، کاروان به مقصد مشهد هدایت نهایی می‌شود.",
+    expectedResult: "پیشرفت الف کامل می‌شود.",
+    mapEffect: "الف وارد مشهد می‌شود و badge DELIVERED می‌گیرد.",
+    riskText: "در ریسک کمین بالا کافی نیست.",
+    missionImpact: "زیاد",
+    objectiveTags: ["تحویل نهایی"],
+    category: "navigation",
+    cost: { time: 5, energy: 5 },
+    effects: { alphaProgress: 25, alphaHealth: 5 },
+    targetType: "global",
+    weights: weights({ criticalDeliveryWeight: 8 }),
+  },
+  final_ground_support: {
+    id: "final_ground_support",
+    title: "درخواست پشتیبانی نهایی زمینی",
+    subtitle: "جلوگیری از آسیب در ریسک متوسط",
+    description: "پشتیبانی زمینی برای عبور نهایی فعال می‌شود.",
+    expectedResult: "اگر ریسک متوسط باشد، از compromised شدن جلوگیری می‌کند.",
+    mapEffect: "پشتیبانی زمینی در محور مشهد روشن می‌شود.",
+    riskText: "در ریسک خیلی بالا کافی نیست.",
+    missionImpact: "متوسط",
+    objectiveTags: ["پشتیبانی نهایی"],
+    category: "logistics",
+    cost: { energy: 10 },
+    effects: { ambushRisk: -12, alphaHealth: 8 },
+    targetType: "global",
+    weights: weights({ secondOrderThinkingWeight: 5, criticalDeliveryWeight: 5 }),
+  },
+  final_no_action: {
+    id: "final_no_action",
+    title: "ادامه بدون اقدام",
+    subtitle: "نتیجه بر اساس وضعیت قبلی محاسبه شود",
+    description: "هیچ منبعی مصرف نمی‌شود و نتیجه از تصمیم‌های قبلی به دست می‌آید.",
+    expectedResult: "منابع حفظ می‌شوند.",
+    mapEffect: "حرکت نهایی بدون تغییر ادامه پیدا می‌کند.",
+    riskText: "اگر ریسک کمین بالا باشد، الف ممکن است ناپدید شود.",
+    missionImpact: "پرریسک",
+    objectiveTags: ["بدون اقدام"],
+    category: "risky",
+    cost: {},
+    effects: {},
+    targetType: "global",
+    weights: weights({ resourceEfficiencyWeight: 3 }),
+  },
+  support_alpha_radio: {
+    id: "support_alpha_radio",
+    title: "چک رادیویی کاروان الف",
+    subtitle: "کاهش ابهام در ارتباط با الف",
+    description: "کانال ارتباطی کاروان الف چک می‌شود.",
+    expectedResult: "سلامت عملیاتی الف بهتر حفظ می‌شود.",
+    mapEffect: "موج ارتباطی روی الف ظاهر می‌شود.",
+    riskText: "زمان کمی مصرف می‌شود.",
+    missionImpact: "متوسط",
+    objectiveTags: ["ارتباط الف"],
+    category: "command",
+    cost: { time: 3 },
+    effects: { alphaHealth: 5 },
+    targetType: "convoy",
+    weights: weights({ criticalDeliveryWeight: 3 }),
+  },
+  support_secondary_check: {
+    id: "support_secondary_check",
+    title: "چک روتین ب/ج/د",
+    subtitle: "پایداری مسیرهای فرعی",
+    description: "وضعیت کاروان‌های فرعی بررسی می‌شود.",
+    expectedResult: "پایداری شبکه فرعی بهتر می‌شود.",
+    mapEffect: "ب، ج و د ping روتین می‌گیرند.",
+    riskText: "زمان مصرف می‌شود.",
+    missionImpact: "متوسط",
+    objectiveTags: ["ثبات فرعی"],
     category: "logistics",
     cost: { time: 5 },
-    effects: { logisticsContinuity: -4, civilianStability: 4, escalationRisk: -3 },
-    requirements: { time: 5 },
-    targetType: "convoy",
-    weights: { logisticsWeight: -2, criticalDeliveryWeight: 4, delayControlWeight: -3, resourceEfficiencyWeight: 7, navigationIntegrityWeight: 2, civilianImpactWeight: 4, escalationWeight: -4, infoSeekingWeight: 1, secondOrderThinkingWeight: 5, adversaryModelingWeight: 2, cognitiveFlexibilityWeight: 4 },
-  }),
-  action_route_diversity: makeAction({
-    id: "action_route_diversity",
-    title: "مسیرها را پخش کن",
-    subtitle: "کاهش پیش‌بینی‌پذیری شبکه برای دشمن",
-    description: "کاروان‌ها در مسیرهای متفاوت پخش می‌شوند تا دشمن نتواند با یک موج اختلال همه شبکه را هدف بگیرد.",
-    expectedResult: "پایداری شبکه و مدل‌سازی دشمن بهتر می‌شود.",
-    mapEffect: "چند مسیر هم‌زمان روشن می‌شوند و کاروان‌ها از تمرکز خارج می‌شوند.",
-    riskText: "زمان و انرژی مصرف می‌شود و ممکن است کاروان الف کمتر تقویت شود.",
-    missionImpact: "متوسط",
-    objectiveTags: ["حفظ شبکه", "کاهش پیش‌بینی‌پذیری"],
-    category: "deception",
-    cost: { energy: 12, time: 8 },
-    effects: { logisticsContinuity: 8, escalationRisk: -6, gnssExposureRisk: -6 },
-    requirements: { energy: 12, time: 8 },
+    effects: { secondaryConvoyStability: 8 },
     targetType: "global",
-    weights: { logisticsWeight: 8, criticalDeliveryWeight: 5, delayControlWeight: -2, resourceEfficiencyWeight: 4, navigationIntegrityWeight: 4, civilianImpactWeight: 2, escalationWeight: -5, infoSeekingWeight: 1, secondOrderThinkingWeight: 7, adversaryModelingWeight: 9, cognitiveFlexibilityWeight: 7 },
-  }),
-  action_signal_analysis: makeAction({
-    id: "action_signal_analysis",
-    title: "عملیات را کند کن و منتظر تحلیل بمان",
-    subtitle: "تحلیل ناسازگاری GNSS و گزارش میدانی پیش از تصمیم پرریسک",
-    description: "سرعت عملیات کمی کم می‌شود تا تحلیل سیگنال تصویر دقیق‌تری از spoofing یا jamming بدهد.",
-    expectedResult: "ابهام و ریسک GNSS کاهش می‌یابد، اما زمان از دست می‌رود.",
-    mapEffect: "لایه تحلیل روی ناحیه هدف فعال می‌شود و حرکت کاروان کندتر می‌شود.",
-    riskText: "اگر پنجره تحویل تنگ باشد، تأخیر تحلیلی می‌تواند مأموریت اصلی را تهدید کند.",
+    weights: weights({ logisticsWeight: 5 }),
+  },
+  support_mashhad_quick: {
+    id: "support_mashhad_quick",
+    title: "بررسی سریع مشهد",
+    subtitle: "افزایش شناسایی تهدید محور ورودی",
+    description: "یک بررسی سریع روی محور مشهد اجرا می‌شود.",
+    expectedResult: "سطح شناسایی تهدید بهتر می‌شود.",
+    mapEffect: "مشهد scan کوتاه می‌گیرد.",
+    riskText: "ISR مصرف می‌شود.",
     missionImpact: "متوسط",
-    objectiveTags: ["کاهش ابهام", "تأیید مستقل داده"],
+    objectiveTags: ["کشف تهدید"],
     category: "diagnosis",
-    cost: { satelliteISR: 8, time: 10 },
-    effects: { ambiguity: -14, navigationIntegrity: 6, gnssExposureRisk: -6 },
-    requirements: { satelliteISR: 8, time: 10 },
+    cost: { satelliteISR: 10 },
+    effects: { threatIdentification: 10, ambiguity: -6 },
     targetType: "zone",
-    weights: { logisticsWeight: 3, criticalDeliveryWeight: 3, delayControlWeight: -4, resourceEfficiencyWeight: 4, navigationIntegrityWeight: 7, civilianImpactWeight: 1, escalationWeight: -2, infoSeekingWeight: 8, secondOrderThinkingWeight: 6, adversaryModelingWeight: 6, cognitiveFlexibilityWeight: 5 },
-  }),
-  action_civil_coordination: makeAction({
-    id: "action_civil_coordination",
-    title: "فشار مدنی را کنترل کن",
-    subtitle: "هماهنگی با مدیریت بحران برای عبور امن‌تر مسیرهای شهری",
-    description: "مسیرهای حساس مدنی هماهنگ می‌شوند تا اختلال لجستیک به بحران خدمات حیاتی تبدیل نشود.",
-    expectedResult: "پایداری مدنی بهتر می‌شود و ریسک تشدید کاهش می‌یابد.",
-    mapEffect: "روی مناطق شهری نشان هماهنگی/حفاظت نمایش داده می‌شود.",
-    riskText: "زمان و انرژی مصرف می‌کند و بخشی از سرعت لجستیک را کم می‌کند.",
+    weights: weights({ infoSeekingWeight: 4 }),
+  },
+  support_medical_dest: {
+    id: "support_medical_dest",
+    title: "هماهنگی با مقصد درمانی مشهد",
+    subtitle: "آماده‌سازی تحویل نهایی",
+    description: "مرکز درمانی مشهد برای دریافت محموله آماده می‌شود.",
+    expectedResult: "کیفیت تحویل نهایی بهتر می‌شود.",
+    mapEffect: "مقصد مشهد highlight می‌شود.",
+    riskText: "زمان مصرف می‌شود.",
     missionImpact: "متوسط",
-    objectiveTags: ["پایداری مدنی", "کاهش ریسک تشدید"],
+    objectiveTags: ["تحویل نهایی"],
     category: "civilian",
-    cost: { time: 7, energy: 6 },
-    effects: { civilianStability: 10, escalationRisk: -4, logisticsContinuity: -2 },
-    requirements: { time: 7, energy: 6 },
+    cost: { time: 5 },
+    effects: { criticalDelivery: 8, civilianStability: 4 },
     targetType: "zone",
-    weights: { logisticsWeight: -1, criticalDeliveryWeight: 1, delayControlWeight: -3, resourceEfficiencyWeight: 3, navigationIntegrityWeight: 1, civilianImpactWeight: 9, escalationWeight: -5, infoSeekingWeight: 2, secondOrderThinkingWeight: 7, adversaryModelingWeight: 3, cognitiveFlexibilityWeight: 4 },
-  }),
-  action_preserve_resources: makeAction({
-    id: "action_preserve_resources",
-    title: "ذخیره عملیاتی نگه دار",
-    subtitle: "حفظ منابع برای پنجره نهایی تحویل",
-    description: "از اقدام سنگین فوری پرهیز می‌کنید تا برای راند نهایی هنوز ظرفیت اصلاح مسیر یا نجات کاروان الف باقی بماند.",
-    expectedResult: "کارایی منابع بهتر می‌شود، اما اثر فوری محدود است.",
-    mapEffect: "حرکت نقشه محافظه‌کارانه ادامه پیدا می‌کند و اقدام نمایشی بزرگی رخ نمی‌دهد.",
-    riskText: "اگر وضعیت کاروان الف بحرانی باشد، محافظه‌کاری بیش از حد می‌تواند دیر شود.",
-    missionImpact: "کم",
-    objectiveTags: ["مدیریت منابع", "آمادگی راند نهایی"],
-    category: "command",
-    cost: {},
-    effects: { remainingResources: 5, logisticsContinuity: -2 },
-    targetType: "global",
-    weights: { logisticsWeight: -1, criticalDeliveryWeight: 1, delayControlWeight: -1, resourceEfficiencyWeight: 8, navigationIntegrityWeight: 1, civilianImpactWeight: 1, escalationWeight: -2, infoSeekingWeight: 0, secondOrderThinkingWeight: 8, adversaryModelingWeight: 5, cognitiveFlexibilityWeight: 5 },
-  }),
-  action_all_in_critical: makeAction({
-    id: "action_all_in_critical",
-    title: "همه توان روی کاروان الف",
-    subtitle: "مصرف ظرفیت باقی‌مانده برای رساندن محموله درمانی",
-    description: "بیشترین ظرفیت باقی‌مانده برای نجات کاروان الف مصرف می‌شود و سایر بخش‌های شبکه آسیب می‌بینند.",
-    expectedResult: "احتمال تحویل کاروان الف بالا می‌رود.",
-    mapEffect: "کاروان الف با highlight قوی به سمت مشهد حرکت نهایی می‌کند.",
-    riskText: "شبکه لجستیک، پایداری مدنی و منابع باقی‌مانده آسیب جدی می‌بینند.",
-    missionImpact: "زیاد",
-    objectiveTags: ["نجات کاروان الف", "تحویل نهایی"],
-    category: "logistics",
-    cost: { energy: 20, time: 10, satelliteISR: 10 },
-    effects: { criticalDelivery: 20, logisticsContinuity: -10, civilianStability: -6, remainingResources: -15 },
-    requirements: { energy: 20, time: 10, satelliteISR: 10 },
-    targetType: "convoy",
-    weights: { logisticsWeight: -3, criticalDeliveryWeight: 10, delayControlWeight: 4, resourceEfficiencyWeight: -4, navigationIntegrityWeight: 3, civilianImpactWeight: -5, escalationWeight: 4, infoSeekingWeight: 1, secondOrderThinkingWeight: 2, adversaryModelingWeight: 1, cognitiveFlexibilityWeight: 3 },
-  }),
-  action_distribute_resources: makeAction({
-    id: "action_distribute_resources",
-    title: "تحویل کنترل‌شده و حفظ شبکه",
-    subtitle: "تقسیم منابع بین کاروان الف و شبکه پشتیبانی",
-    description: "منابع باقی‌مانده به جای تمرکز کامل روی یک نقطه، بین کاروان حیاتی و شبکه پشتیبانی تقسیم می‌شود.",
-    expectedResult: "شبکه پایدارتر می‌ماند و کاروان الف هم پشتیبانی محدود می‌گیرد.",
-    mapEffect: "کاروان الف و چند کاروان دیگر هم‌زمان حرکت کنترل‌شده می‌گیرند.",
-    riskText: "اگر کاروان الف خیلی عقب باشد، این تصمیم ممکن است برای تحویل نهایی کافی نباشد.",
+    weights: weights({ civilianImpactWeight: 5 }),
+  },
+  support_fuel: {
+    id: "support_fuel",
+    title: "سوخت‌گیری اضطراری",
+    subtitle: "حفظ توان حرکت کاروان الف",
+    description: "توقف کوتاه سوخت‌گیری برای الف انجام می‌شود.",
+    expectedResult: "سلامت عملیاتی الف بهتر می‌شود.",
+    mapEffect: "نقطه سوخت‌گیری روی مسیر ظاهر می‌شود.",
+    riskText: "زمان مصرف می‌شود.",
     missionImpact: "متوسط",
-    objectiveTags: ["حفظ شبکه", "پایداری مأموریت"],
-    category: "command",
-    cost: { energy: 16, time: 8, satelliteISR: 6 },
-    effects: { logisticsContinuity: 10, criticalDelivery: 5, remainingResources: -8, escalationRisk: -2 },
-    requirements: { energy: 16, time: 8, satelliteISR: 6 },
-    targetType: "global",
-    weights: { logisticsWeight: 8, criticalDeliveryWeight: 5, delayControlWeight: 2, resourceEfficiencyWeight: 2, navigationIntegrityWeight: 3, civilianImpactWeight: 4, escalationWeight: -2, infoSeekingWeight: 1, secondOrderThinkingWeight: 6, adversaryModelingWeight: 4, cognitiveFlexibilityWeight: 6 },
-  }),
+    objectiveTags: ["سلامت الف"],
+    category: "logistics",
+    cost: { time: 5 },
+    effects: { alphaHealth: 5 },
+    targetType: "convoy",
+    weights: weights({ criticalDeliveryWeight: 3 }),
+  },
 };
 
 const rounds: ScenarioTwoRound[] = [
   {
     id: "round_1",
-    title: "راند ۱ — ناسازگاری اولیه",
+    title: "راند ۱ — وضعیت عادی / پایش روتین",
     alertLevel: "زرد",
-    narrative: "مختصات GNSS کاروان الف را در مسیر اصلی تهران به مشهد نشان می‌دهد، اما گزارش میدانی می‌گوید کاروان از محور امن فاصله گرفته است. هنوز اختلال قابل مدیریت است.",
-    operationalProblem: "آیا باید به GNSS اعتماد کنید یا اول داده را تأیید کنید؟",
-    roundGoal: "جلوگیری از اعتماد کور به GNSS و تشخیص زودهنگام spoofing.",
-    actionIds: ["action_isr_scan", "action_fallback_nav", "action_continue_gnss", "action_signal_analysis", "action_pause_low_priority", "action_civil_coordination"],
-    mainActionIds: ["action_isr_scan", "action_fallback_nav", "action_continue_gnss", "action_signal_analysis"],
-    supportActionIds: ["action_pause_low_priority", "action_civil_coordination"],
+    narrative: "ساعت ۰۴:۲۰. چهار کاروان طبق برنامه در حال حرکت‌اند. مسیرها امن ارزیابی شده‌اند، ارتباطات برقرار است و GNSS موقعیت کاروان‌ها را عادی نشان می‌دهد.",
+    operationalProblem: "در شروع شیفت عملیاتی، کدام پایش‌های روتین را انجام می‌دهید؟",
+    roundGoal: "آشنایی با نقشه، کاروان‌ها و روال عادی قرارگاه.",
+    actionIds: ["routine_routes", "routine_gnss", "routine_radio", "routine_preserve"],
+    mainActionIds: ["routine_routes", "routine_gnss", "routine_radio", "routine_preserve"],
+    supportActionIds: [],
   },
   {
     id: "round_2",
-    title: "راند ۲ — انحراف کاروان حیاتی",
-    alertLevel: "نارنجی",
-    narrative: "کاروان الف در محدوده مشکوک به spoofing قرار گرفته است. اگر مسیر اصلاح نشود، احتمال انحراف و از دست رفتن پنجره تحویل بالا می‌رود.",
-    operationalProblem: "آیا باید مسیر کاروان الف را تغییر دهید یا با ناوبری پشتیبان از همان مسیر عبور کنید؟",
-    roundGoal: "نجات مسیر کاروان الف پیش از ورود به انحراف بحرانی.",
-    actionIds: ["action_reroute_convoy", "action_fallback_nav", "action_isr_scan", "action_pause_low_priority", "action_continue_gnss", "action_signal_analysis"],
-    mainActionIds: ["action_reroute_convoy", "action_fallback_nav", "action_signal_analysis", "action_continue_gnss"],
-    supportActionIds: ["action_isr_scan", "action_pause_low_priority"],
+    title: "راند ۲ — هشدار مبهم / اختلال نامعلوم",
+    alertLevel: "زرد",
+    narrative: "سیستم هشدار سطح زرد می‌دهد. GNSS هنوز موقعیت‌ها را عادی نشان می‌دهد، اما یکی از گزارش‌های میدانی با مختصات ثبت‌شده هم‌خوان نیست.",
+    operationalProblem: "هشدار نامشخص است. برای پیدا کردن محل اختلال، کدام گره‌های عملیاتی را اسکن می‌کنید؟",
+    roundGoal: "پیدا کردن محل اختلال پیش از اثرگذاری روی جریان کاروان‌ها.",
+    actionIds: ["scan_all_nodes", "scan_mashhad", "scan_tehran", "scan_tabriz", "scan_bandar", "wait_normal"],
+    mainActionIds: ["scan_all_nodes", "scan_mashhad", "scan_tehran", "scan_tabriz", "scan_bandar", "wait_normal"],
+    supportActionIds: [],
   },
   {
     id: "round_3",
-    title: "راند ۳ — فشار هم‌زمان روی شبکه",
+    title: "راند ۳ — پایش ویژه مسیر مشکوک",
     alertLevel: "نارنجی",
-    narrative: "تمرکز کامل روی کاروان الف، شبکه سوخت و ارتباطات را آسیب‌پذیر می‌کند. اما اگر کاروان الف دیر برسد، مأموریت اصلی شکست می‌خورد.",
-    operationalProblem: "آیا مأموریت اصلی را اولویت مطلق می‌دهید یا شبکه لجستیک را متعادل نگه می‌دارید؟",
-    roundGoal: "تعادل بین نجات کاروان الف و حفظ شبکه سوخت و ارتباطات.",
-    actionIds: ["action_fallback_nav", "action_distribute_resources", "action_isr_scan", "action_civil_coordination", "action_route_diversity", "action_pause_low_priority"],
-    mainActionIds: ["action_fallback_nav", "action_distribute_resources", "action_pause_low_priority", "action_route_diversity"],
-    supportActionIds: ["action_isr_scan", "action_civil_coordination"],
+    narrative: "اکنون مشخص شده اختلال به محور مشهد مربوط است. کاروان الف در مسیر تهران-مشهد قرار دارد و باید پایش ویژه شود.",
+    operationalProblem: "چطور کاروان الف را زیر پایش ویژه می‌برید، بدون اینکه روتین سایر مسیرها مختل شود؟",
+    roundGoal: "پایش ویژه کاروان الف بدون رها کردن روتین سایر مسیرها.",
+    actionIds: ["alpha_special_monitoring", "balanced_monitoring", "alpha_only_focus", "normal_routine", "support_alpha_radio", "support_secondary_check"],
+    mainActionIds: ["alpha_special_monitoring", "balanced_monitoring", "alpha_only_focus", "normal_routine"],
+    supportActionIds: ["support_alpha_radio", "support_secondary_check"],
   },
   {
     id: "round_4",
-    title: "راند ۴ — واکنش دشمن",
-    alertLevel: "قرمز",
-    narrative: "دشمن مسیر تصمیم شما را می‌سنجد. اگر مسیرها متمرکز بمانند، اختلال به مسیر جایگزین هم منتقل می‌شود؛ اگر متنوع عمل کرده باشید، اثر دشمن محدودتر می‌ماند.",
-    operationalProblem: "آیا تصمیم قبلی را اصلاح می‌کنید یا روی همان الگو ادامه می‌دهید؟",
-    roundGoal: "تصمیم تطبیقی و حفظ ظرفیت برای راند نهایی.",
-    actionIds: ["action_route_diversity", "action_isr_scan", "action_signal_analysis", "action_reroute_convoy", "action_civil_coordination", "action_preserve_resources", "action_continue_gnss"],
-    mainActionIds: ["action_reroute_convoy", "action_preserve_resources", "action_isr_scan", "action_continue_gnss"],
-    supportActionIds: ["action_route_diversity", "action_signal_analysis", "action_civil_coordination"],
+    title: "راند ۴ — طراحی مسیر جدید",
+    alertLevel: "نارنجی",
+    narrative: "اکنون مسیر درگیر با اختلال مشخص شده است. هنوز تهدید واقعی معلوم نیست، اما ادامه مسیر بدون اصلاح خطرناک است.",
+    operationalProblem: "کاروان درگیر چگونه باید به مقصد نزدیک شود؟",
+    roundGoal: "تعیین راهبرد مسیر برای کاروان درگیر.",
+    actionIds: ["route_main_heavy_watch", "route_northern", "route_staged", "pause_alpha", "support_fuel", "support_secondary_check"],
+    mainActionIds: ["route_main_heavy_watch", "route_northern", "route_staged", "pause_alpha"],
+    supportActionIds: ["support_fuel", "support_secondary_check"],
   },
   {
     id: "round_5",
-    title: "راند ۵ — پنجره نهایی تحویل",
+    title: "راند ۵ — مدیریت توقف‌ها و پشتیبانی",
+    alertLevel: "نارنجی",
+    narrative: "کاروان درگیر وارد بخش حساس مسیر شده است. باید توقف سوخت، کنترل موقعیت، پشتیبانی زمینی و روتین سایر کاروان‌ها مدیریت شود.",
+    operationalProblem: "برای عبور از بخش حساس مسیر، توقف‌ها و پشتیبانی را چگونه تنظیم می‌کنید؟",
+    roundGoal: "تنظیم کیفیت حرکت کاروان درگیر و مدیریت مصرف منابع.",
+    actionIds: ["more_checkpoints", "fewer_stops", "dispatch_ground_support", "prioritize_secondary", "support_mashhad_quick", "support_medical_dest", "support_fuel", "support_secondary_check"],
+    mainActionIds: ["more_checkpoints", "fewer_stops", "dispatch_ground_support", "prioritize_secondary"],
+    supportActionIds: ["support_mashhad_quick", "support_medical_dest", "support_fuel", "support_secondary_check"],
+  },
+  {
+    id: "round_6",
+    title: "راند ۶ — فشار منابع",
+    alertLevel: "نارنجی",
+    narrative: "منابع کاهش یافته‌اند. کاروان الف مهم‌ترین مأموریت است، اما کاروان‌های ب، ج و د هم نباید از روتین خارج شوند.",
+    operationalProblem: "منابع باقی‌مانده را چگونه میان کاروان الف و روتین سایر مسیرها تقسیم می‌کنید؟",
+    roundGoal: "تصمیم درباره اولویت منابع پیش از آشکار شدن تهدید اصلی.",
+    actionIds: ["alpha_priority", "balanced_resources", "preserve_final_resources", "sacrifice_delta", "support_mashhad_quick", "support_secondary_check"],
+    mainActionIds: ["alpha_priority", "balanced_resources", "preserve_final_resources", "sacrifice_delta"],
+    supportActionIds: ["support_mashhad_quick", "support_secondary_check"],
+  },
+  {
+    id: "round_7",
+    title: "راند ۷ — تهدید آشکار / مسیر کمین",
     alertLevel: "قرمز",
-    narrative: "پنجره تحویل رو به بسته شدن است. تصمیم نهایی شما مشخص می‌کند کاروان الف به مرکز درمانی شرق می‌رسد یا شبکه لجستیک زیر فشار اختلال فرو می‌پاشد.",
-    operationalProblem: "آیا همه‌چیز را برای رساندن کاروان الف مصرف می‌کنید یا شبکه را هم حفظ می‌کنید؟",
-    roundGoal: "تکمیل مأموریت اصلی با منابع باقی‌مانده.",
-    actionIds: ["action_fallback_nav", "action_reroute_convoy", "action_civil_coordination", "action_pause_low_priority", "action_continue_gnss", "action_all_in_critical", "action_distribute_resources"],
-    mainActionIds: ["action_all_in_critical", "action_distribute_resources", "action_fallback_nav", "action_continue_gnss"],
-    supportActionIds: ["action_reroute_convoy", "action_civil_coordination", "action_pause_low_priority"],
+    narrative: "اختلال از یک منبع زمینی نزدیک محور ورودی مشهد تقویت می‌شود. هدف دشمن فقط تأخیر نیست؛ او می‌خواهد کاروان الف را به مسیر فرعی کشانده و محموله را سرقت کند.",
+    operationalProblem: "دشمن در حال کشاندن کاروان الف به مسیر فرعی است. چطور محموله را از کمین دور می‌کنید؟",
+    roundGoal: "دور کردن کاروان الف از مسیر کمین و فعال کردن مقابله زمینی.",
+    actionIds: ["emergency_safe_route", "attack_signal_source", "deception_route", "fast_escort", "support_medical_dest", "support_fuel"],
+    mainActionIds: ["emergency_safe_route", "attack_signal_source", "deception_route", "fast_escort"],
+    supportActionIds: ["support_medical_dest", "support_fuel"],
+  },
+  {
+    id: "round_8",
+    title: "راند ۸ — نتیجه نهایی",
+    alertLevel: "قرمز",
+    narrative: "آخرین راند نتیجه تمام تصمیم‌هاست. اگر مسیر، منابع، روتین‌ها و واکنش راند ۷ درست بوده باشند، کاروان‌ها به مقصد می‌رسند.",
+    operationalProblem: "آیا برای رساندن نهایی کاروان الف اقدام اضطراری انجام می‌دهید؟",
+    roundGoal: "نمایش نتیجه نهایی: رسیدن، تأخیر، آسیب یا ناپدید شدن محموله.",
+    actionIds: ["final_guide", "final_ground_support", "final_no_action"],
+    mainActionIds: ["final_guide", "final_ground_support", "final_no_action"],
+    supportActionIds: [],
   },
 ];
 
 const actionTitleById: Record<string, string> = Object.fromEntries(Object.entries(actionCatalog).map(([id, action]) => [id, action.title]));
 const roundTitleById: Record<string, string> = Object.fromEntries(rounds.map((round) => [round.id, round.title]));
 
-const mapEffectByActionId: Record<string, string> = {
-  action_isr_scan: "ناحیه هدف با sweep شناسایی آشکار شد.",
-  action_signal_analysis: "لایه تحلیل سیگنال برای مسیر مشکوک فعال شد.",
-  action_fallback_nav: "آیکون کاروان هدف glow آبی و NAV پشتیبان گرفت.",
-  action_reroute_convoy: "مسیر قبلی کم‌رنگ و مسیر جایگزین فعال شد.",
-  action_continue_gnss: "کاروان‌ها طبق داده GNSS حرکت کردند؛ در مسیر آلوده احتمال انحراف بالا رفت.",
-  action_pause_low_priority: "کاروان هدف متوقف شد و delay گرفت.",
-  action_route_diversity: "کاروان‌ها روی مسیرهای متفاوت پخش شدند.",
-  action_civil_coordination: "مناطق شهری با هماهنگی مدنی پوشش داده شدند.",
-  action_preserve_resources: "حرکت فوری محدود شد تا ذخیره عملیاتی حفظ شود.",
-  action_all_in_critical: "منابع روی کاروان حیاتی متمرکز شد.",
-  action_distribute_resources: "منابع بین چند کاروان پخش شد.",
-};
-
-const objectiveEffectByActionId: Record<string, string> = {
-  action_isr_scan: "ابهام و ریسک اعتماد کور به GNSS کاهش یافت.",
-  action_signal_analysis: "تشخیص اخلال ناوبری دقیق‌تر شد.",
-  action_fallback_nav: "احتمال نجات کاروان حیاتی و کنترل ریسک GNSS افزایش یافت.",
-  action_reroute_convoy: "شانس خروج کاروان از مسیر آلوده افزایش یافت.",
-  action_continue_gnss: "زمان و منابع حفظ شد، اما ریسک GNSS آلوده بالا رفت.",
-  action_pause_low_priority: "منابع برای اولویت‌های حیاتی آزاد شد، اما پیوستگی لجستیک کاهش یافت.",
-  action_route_diversity: "پیش‌بینی‌پذیری شبکه برای دشمن کاهش یافت.",
-  action_civil_coordination: "پایداری مدنی و کنترل تشدید بهتر شد.",
-  action_preserve_resources: "ظرفیت راند پایانی حفظ شد.",
-  action_all_in_critical: "تحویل کاروان الف تقویت شد، اما شبکه آسیب‌پذیرتر شد.",
-  action_distribute_resources: "پایداری شبکه بهتر شد، اما تمرکز روی کاروان الف کمتر شد.",
-};
-
 const initialMetrics: ScenarioTwoMetrics = {
   falseGnssRelianceTime: 0,
   isrUsageQuality: 50,
   routeDiversityScore: 45,
-  resourceEfficiencyScore: 70,
+  resourceEfficiencyScore: 80,
   secondOrderThinkingScore: 50,
   adversaryModelingScore: 45,
   escalationSensitivityScore: 55,
@@ -373,20 +814,26 @@ const initialMetrics: ScenarioTwoMetrics = {
   totalPreviewOpenCount: 0,
 };
 
-const applyStatusDelta = (
-  base: ScenarioTwoMissionStatus,
-  delta: Partial<ScenarioTwoMissionStatus>
-): ScenarioTwoMissionStatus => ({
-  logisticsContinuity: clamp(base.logisticsContinuity + (delta.logisticsContinuity ?? 0)),
-  criticalDelivery: clamp(base.criticalDelivery + (delta.criticalDelivery ?? 0)),
-  navigationIntegrity: clamp(base.navigationIntegrity + (delta.navigationIntegrity ?? 0)),
-  civilianStability: clamp(base.civilianStability + (delta.civilianStability ?? 0)),
-  escalationRisk: clamp(base.escalationRisk + (delta.escalationRisk ?? 0)),
-  remainingResources: clamp(base.remainingResources + (delta.remainingResources ?? 0)),
-  ambiguity: clamp(base.ambiguity + (delta.ambiguity ?? 0)),
-  cumulativeDelay: Math.max(0, Math.round(base.cumulativeDelay + (delta.cumulativeDelay ?? 0))),
-  gnssExposureRisk: clamp(base.gnssExposureRisk + (delta.gnssExposureRisk ?? 0)),
-});
+const alertHelp: Record<ScenarioTwoRound["alertLevel"], string> = {
+  زرد: "اختلال اولیه یا ابهام قابل مدیریت؛ هنوز فرصت تشخیص وجود دارد.",
+  نارنجی: "ریسک عملیاتی فعال؛ مسیر و منابع باید با دقت مدیریت شوند.",
+  قرمز: "تهدید آشکار؛ تصمیم مستقیم روی بقای کاروان الف اثر می‌گذارد.",
+};
+
+const statusLabel: Record<Convoy["status"], string> = {
+  moving: "در مسیر",
+  normal: "در مسیر",
+  monitored: "پایش ویژه",
+  suspicious: "مشکوک",
+  rerouted: "تغییر مسیر یافته",
+  paused: "متوقف",
+  supported: "پشتیبانی‌شده",
+  near_threat: "نزدیک تهدید",
+  compromised: "آسیب‌دیده",
+  lost_contact: "ناپدیدشده",
+  delivered: "تحویل‌شده",
+  delivered_delayed: "تحویل‌شده با تأخیر",
+};
 
 const addResources = (base: ResourceState, delta: Partial<ResourceState>, sign = -1): ResourceState => ({
   satelliteISR: clamp(base.satelliteISR + sign * (delta.satelliteISR ?? 0)),
@@ -394,35 +841,39 @@ const addResources = (base: ResourceState, delta: Partial<ResourceState>, sign =
   time: clamp(base.time + sign * (delta.time ?? 0)),
 });
 
+const applyStatusDelta = (base: ScenarioTwoMissionStatus, delta: Partial<ScenarioTwoMissionStatus>): ScenarioTwoMissionStatus => {
+  const next = {
+    ...base,
+    alphaHealth: clamp(base.alphaHealth + (delta.alphaHealth ?? 0)),
+    alphaProgress: clamp(base.alphaProgress + (delta.alphaProgress ?? 0)),
+    threatIdentification: clamp(base.threatIdentification + (delta.threatIdentification ?? 0)),
+    secondaryConvoyStability: clamp(base.secondaryConvoyStability + (delta.secondaryConvoyStability ?? 0)),
+    resourceReserve: clamp(base.resourceReserve + (delta.resourceReserve ?? 0)),
+    ambushRisk: clamp(base.ambushRisk + (delta.ambushRisk ?? 0)),
+    logisticsContinuity: clamp(base.logisticsContinuity + (delta.logisticsContinuity ?? 0)),
+    criticalDelivery: clamp(base.criticalDelivery + (delta.criticalDelivery ?? 0)),
+    navigationIntegrity: clamp(base.navigationIntegrity + (delta.navigationIntegrity ?? 0)),
+    civilianStability: clamp(base.civilianStability + (delta.civilianStability ?? 0)),
+    escalationRisk: clamp(base.escalationRisk + (delta.escalationRisk ?? 0)),
+    remainingResources: clamp(base.remainingResources + (delta.remainingResources ?? 0)),
+    ambiguity: clamp(base.ambiguity + (delta.ambiguity ?? 0)),
+    cumulativeDelay: Math.max(0, Math.round(base.cumulativeDelay + (delta.cumulativeDelay ?? 0))),
+    gnssExposureRisk: clamp(base.gnssExposureRisk + (delta.gnssExposureRisk ?? 0)),
+  };
+
+  next.criticalDelivery = clamp((next.alphaHealth + next.alphaProgress) / 2);
+  next.logisticsContinuity = clamp((next.secondaryConvoyStability * 0.65) + (next.resourceReserve * 0.35));
+  next.navigationIntegrity = clamp(100 - next.ambiguity - next.gnssExposureRisk / 4 + next.threatIdentification / 5);
+  next.remainingResources = next.resourceReserve;
+  return next;
+};
+
 const sumCosts = (items: SelectedAction[]) =>
   items.reduce<Partial<ResourceState>>((sum, item) => ({
     satelliteISR: (sum.satelliteISR ?? 0) + (item.action.cost.satelliteISR ?? 0),
     energy: (sum.energy ?? 0) + (item.action.cost.energy ?? 0),
     time: (sum.time ?? 0) + (item.action.cost.time ?? 0),
   }), {});
-
-const canAfford = (resources: ResourceState, action: ActionCard, selectedActions: SelectedAction[]) => {
-  const preview = sumCosts(selectedActions);
-  const requirements = action.requirements ?? action.cost;
-  if ((requirements.satelliteISR ?? 0) + (preview.satelliteISR ?? 0) > resources.satelliteISR) return "برای اجرای این اقدام، ظرفیت ISR کافی نیست.";
-  if ((requirements.energy ?? 0) + (preview.energy ?? 0) > resources.energy) return "برای اجرای این اقدام، انرژی عملیاتی کافی نیست.";
-  if ((requirements.time ?? 0) + (preview.time ?? 0) > resources.time) return "برای اجرای این اقدام، زمان عملیاتی کافی نیست.";
-  if (selectedActions.length >= 3) return "بودجه اقدام عملیاتی این راند تکمیل شده است.";
-  return undefined;
-};
-
-const getResourceRiskReason = (resources: ResourceState, action: ActionCard, selectedActions: SelectedAction[]) => {
-  const preview = sumCosts(selectedActions);
-  const next = addResources(resources, {
-    satelliteISR: (preview.satelliteISR ?? 0) + (action.cost.satelliteISR ?? 0),
-    energy: (preview.energy ?? 0) + (action.cost.energy ?? 0),
-    time: (preview.time ?? 0) + (action.cost.time ?? 0),
-  });
-  if ((action.cost.satelliteISR ?? 0) > 0 && next.satelliteISR < 25) return "اجرای این اقدام ظرفیت ISR را به سطح بحرانی نزدیک می‌کند.";
-  if ((action.cost.energy ?? 0) > 0 && next.energy < 25) return "اجرای این اقدام انرژی عملیاتی را به سطح بحرانی نزدیک می‌کند.";
-  if ((action.cost.time ?? 0) > 0 && next.time < 25) return "اجرای این اقدام زمان عملیاتی را به سطح بحرانی نزدیک می‌کند.";
-  return undefined;
-};
 
 const sumWeights = (items: SelectedAction[]) =>
   items.reduce<ScenarioTwoDecisionWeights>((sum, item) => ({
@@ -439,128 +890,80 @@ const sumWeights = (items: SelectedAction[]) =>
     cognitiveFlexibilityWeight: sum.cognitiveFlexibilityWeight + item.action.weights.cognitiveFlexibilityWeight,
   }), { ...zeroWeights });
 
-const average = (values: number[]) => (values.length ? values.reduce((sum, value) => sum + value, 0) / values.length : 0);
-
-const riskMetricColor = (value: number) => {
-  if (value < 35) return "#22c55e";
-  if (value < 65) return "#f59e0b";
-  return "#f43f5e";
+const canAfford = (resources: ResourceState, action: ActionCard, selectedActions: SelectedAction[]) => {
+  const preview = sumCosts(selectedActions);
+  if ((action.cost.satelliteISR ?? 0) + (preview.satelliteISR ?? 0) > resources.satelliteISR) return "برای اجرای این اقدام، ظرفیت ISR کافی نیست.";
+  if ((action.cost.energy ?? 0) + (preview.energy ?? 0) > resources.energy) return "برای اجرای این اقدام، انرژی عملیاتی کافی نیست.";
+  if ((action.cost.time ?? 0) + (preview.time ?? 0) > resources.time) return "برای اجرای این اقدام، زمان عملیاتی کافی نیست.";
+  if (selectedActions.length >= 3) return "بودجه اقدام عملیاتی این راند تکمیل شده است.";
+  return undefined;
 };
 
-const getMedicalConvoy = (convoys: Convoy[]) => convoys.find((convoy) => convoy.id === "convoy_medical") ?? convoys[0];
-
-const getPrimaryObjectiveStatus = (medical: Convoy): ScenarioTwoSummaryData["primaryObjectiveStatus"] => {
-  if (medical.status === "delivered") return medical.delay <= 10 ? "delivered_on_time" : "delivered_delayed";
-  if (medical.status === "rerouted" || medical.progress >= 70) return "rerouted_not_delivered";
-  if (medical.status === "compromised") return "compromised";
-  return "lost";
+const getResourceRiskReason = (resources: ResourceState, action: ActionCard, selectedActions: SelectedAction[]) => {
+  const preview = sumCosts(selectedActions);
+  const next = addResources(resources, {
+    satelliteISR: (preview.satelliteISR ?? 0) + (action.cost.satelliteISR ?? 0),
+    energy: (preview.energy ?? 0) + (action.cost.energy ?? 0),
+    time: (preview.time ?? 0) + (action.cost.time ?? 0),
+  });
+  if ((action.cost.satelliteISR ?? 0) > 0 && next.satelliteISR < 20) return "اجرای این اقدام ظرفیت ISR را به سطح بحرانی نزدیک می‌کند.";
+  if ((action.cost.energy ?? 0) > 0 && next.energy < 20) return "اجرای این اقدام انرژی عملیاتی را به سطح بحرانی نزدیک می‌کند.";
+  if ((action.cost.time ?? 0) > 0 && next.time < 20) return "اجرای این اقدام زمان عملیاتی را به سطح بحرانی نزدیک می‌کند.";
+  return undefined;
 };
 
-const calculateMissionCompletion = (status: ScenarioTwoMissionStatus, convoys: Convoy[], resources?: ResourceState) => {
-  const medical = getMedicalConvoy(convoys);
-  const primaryStatus = getPrimaryObjectiveStatus(medical);
-  const primaryScoreByStatus: Record<ScenarioTwoSummaryData["primaryObjectiveStatus"], number> = {
-    delivered_on_time: 50,
-    delivered_delayed: 38,
-    rerouted_not_delivered: 22,
-    compromised: 8,
-    lost: 0,
-  };
-  const resourceEfficiency = resources ? (resources.satelliteISR + resources.energy + resources.time) / 3 : 50;
+const calculateMissionCompletion = (status: ScenarioTwoMissionStatus, resources: ResourceState, alphaStatus: Convoy["status"]) => {
+  const statusScore = alphaStatus === "delivered" ? 35 : alphaStatus === "delivered_delayed" ? 28 : alphaStatus === "lost_contact" ? 0 : alphaStatus === "compromised" ? 8 : 18;
+  const resourceReserve = (resources.satelliteISR + resources.energy + resources.time) / 3;
   return clamp(
-    primaryScoreByStatus[primaryStatus] +
-    status.criticalDelivery * 0.2 +
-    (100 - status.gnssExposureRisk) * 0.1 +
-    status.logisticsContinuity * 0.1 +
-    status.civilianStability * 0.05 +
-    resourceEfficiency * 0.05
+    statusScore +
+    status.alphaHealth * 0.2 +
+    status.alphaProgress * 0.15 +
+    (100 - status.ambushRisk) * 0.12 +
+    status.threatIdentification * 0.08 +
+    status.secondaryConvoyStability * 0.06 +
+    resourceReserve * 0.04
   );
 };
 
+const getMedicalConvoy = (convoys: Convoy[]) => convoys.find((convoy) => convoy.id === "convoy_medical") ?? convoys[0];
+const getResourceReserve = (resources: ResourceState) => clamp((resources.satelliteISR + resources.energy + resources.time) / 3);
+const average = (values: number[]) => (values.length ? values.reduce((sum, value) => sum + value, 0) / values.length : 0);
+const riskMetricColor = (value: number) => value < 35 ? "#22c55e" : value < 65 ? "#f59e0b" : "#f43f5e";
+
 const getObjectiveChecks = (status: ScenarioTwoMissionStatus, convoys: Convoy[], resources: ResourceState) => {
-  const medical = getMedicalConvoy(convoys);
-  const activeConvoys = convoys.filter((convoy) => convoy.status !== "compromised" && convoy.status !== "paused").length;
+  const alpha = getMedicalConvoy(convoys);
+  const secondarySafe = convoys.filter((convoy) => convoy.id !== "convoy_medical" && !["compromised", "lost_contact"].includes(convoy.status)).length;
   return [
-    { label: "کاروان الف به مشهد برسد", done: medical.status === "delivered", value: `${medical.progress}%` },
-    { label: "حداقل ۲ کاروان فعال بمانند", done: activeConvoys >= 2, value: `${activeConvoys}/4` },
-    { label: "ابهام کمتر از ۳۰", done: status.ambiguity < 30, value: `${status.ambiguity}` },
-    { label: "ریسک GNSS کمتر از ۴۰", done: status.gnssExposureRisk < 40, value: `${status.gnssExposureRisk}` },
-    { label: "پایداری مدنی بالای ۶۰", done: status.civilianStability > 60, value: `${status.civilianStability}` },
-    { label: "حداقل یک منبع بالای ۱۵", done: Math.max(resources.satelliteISR, resources.energy, resources.time) >= 15, value: `ISR ${resources.satelliteISR} / ENG ${resources.energy} / TIME ${resources.time}` },
+    { label: "کاروان الف تا پایان راند ۸ سالم به مشهد برسد", done: ["delivered", "delivered_delayed"].includes(alpha.status), value: `${alpha.progress}% | سلامت ${alpha.health}` },
+    { label: "حداقل دو کاروان دیگر امن بمانند", done: secondarySafe >= 2, value: `${secondarySafe}/3` },
+    { label: "محل اختلال قبل از راند ۴ شناسایی شود", done: status.threatIdentification >= 40, value: `${status.threatIdentification}` },
+    { label: "منابع تا راند ۷ کاملاً مصرف نشوند", done: getResourceReserve(resources) >= 20, value: `ISR ${resources.satelliteISR} / ENG ${resources.energy} / TIME ${resources.time}` },
+    { label: "الف از مسیر کمین دور شود", done: status.ambushRisk < 45, value: `${status.ambushRisk}` },
+    { label: "روتین مسیرهای دیگر رها نشود", done: status.secondaryConvoyStability >= 55, value: `${status.secondaryConvoyStability}` },
   ];
 };
 
-const advanceConvoys = (baseConvoys: Convoy[], routeList: Route[], selectedItems: SelectedAction[]) => {
-  let statusDelta: Partial<ScenarioTwoMissionStatus> = {};
-  const messages: Array<{ text: string; level: "info" | "success" | "warning" | "critical" }> = [];
-  const selectedIds = new Set(selectedItems.map((item) => item.action.id));
-  const nextConvoys = baseConvoys.map((convoy) => {
-    if (convoy.status === "delivered" || convoy.status === "compromised") return convoy;
-    if (convoy.status === "paused") {
-      return { ...convoy, delay: convoy.delay + 5, status: "moving" as const };
-    }
-
-    const route = routeList.find((entry) => entry.id === convoy.routeId);
-    const gnssRisk = route?.gnssRisk ?? 45;
-    const isRisky = gnssRisk >= 55;
-    const isDanger = gnssRisk >= 68;
-    let progressGain = gnssRisk < 35 ? 25 : gnssRisk < 60 ? 15 : 5;
-    let delayGain = isDanger ? 10 : isRisky ? 5 : 0;
-    let nextStatus: Convoy["status"] = convoy.status;
-    let nextGnssTrust = convoy.gnssTrustLevel;
-
-    if (convoy.hasFallbackNav) {
-      progressGain = Math.max(progressGain, isDanger ? 15 : 18);
-      delayGain = Math.max(0, delayGain - 4);
-      nextGnssTrust = clamp(convoy.gnssTrustLevel - 8);
-      statusDelta = {
-        ...statusDelta,
-        gnssExposureRisk: (statusDelta.gnssExposureRisk ?? 0) - 3,
-        navigationIntegrity: (statusDelta.navigationIntegrity ?? 0) + 2,
-      };
-    } else if (isDanger) {
-      statusDelta = {
-        ...statusDelta,
-        gnssExposureRisk: (statusDelta.gnssExposureRisk ?? 0) + (convoy.id === "convoy_medical" ? 8 : 4),
-        ambiguity: (statusDelta.ambiguity ?? 0) + 3,
-      };
-      if (convoy.id === "convoy_medical" && convoy.progress > 45 && !convoy.hasFallbackNav && !selectedIds.has("action_reroute_convoy")) {
-        nextStatus = "compromised";
-        messages.push({ text: "کاروان الف به‌دلیل ادامه در مسیر آلوده وارد وضعیت انحراف بحرانی شد.", level: "critical" });
-      }
-    }
-
-    if (convoy.status === "rerouted") {
-      progressGain = Math.max(10, progressGain - 4);
-      delayGain += 4;
-    }
-
-    const nextProgress = clamp(convoy.progress + progressGain);
-    if (nextProgress >= 100) {
-      nextStatus = "delivered";
-      messages.push({
-        text: `${convoy.name} به مقصد ${convoy.destination} رسید.`,
-        level: convoy.id === "convoy_medical" ? "success" : "info",
-      });
-    }
-
-    return {
-      ...convoy,
-      progress: nextProgress,
-      delay: convoy.delay + delayGain,
-      gnssTrustLevel: nextGnssTrust,
-      currentZoneId: route && nextProgress > 55 ? route.toZoneId : convoy.currentZoneId,
-      status: nextStatus,
-    };
-  });
-
-  return { nextConvoys, statusDelta, messages };
-};
-
-const alertHelp: Record<ScenarioTwoRound["alertLevel"], string> = {
-  زرد: "اختلال اولیه یا ابهام قابل مدیریت؛ هنوز فرصت تشخیص و اصلاح مسیر وجود دارد.",
-  نارنجی: "ریسک عملیاتی فعال؛ تأخیر یا انتخاب اشتباه می‌تواند به کاروان‌های حیاتی آسیب بزند.",
-  قرمز: "بحران جدی؛ منابع باقی‌مانده و هدف‌گیری دقیق تعیین‌کننده نتیجه مأموریت است.",
+const defaultTargetByActionId: Record<string, string | undefined> = {
+  scan_mashhad: "zone_east",
+  scan_tehran: "zone_central",
+  scan_tabriz: "zone_north",
+  scan_bandar: "zone_south",
+  alpha_special_monitoring: "convoy_medical",
+  support_alpha_radio: "convoy_medical",
+  support_fuel: "convoy_medical",
+  pause_alpha: "convoy_medical",
+  dispatch_ground_support: "zone_support_east",
+  support_mashhad_quick: "zone_east",
+  support_medical_dest: "zone_east",
+  route_main_heavy_watch: "route_main_east",
+  route_northern: "route_north_alt",
+  route_staged: "route_staged_east",
+  emergency_safe_route: "route_north_alt",
+  attack_signal_source: "zone_ambush",
+  deception_route: "route_phantom",
+  fast_escort: "convoy_medical",
+  sacrifice_delta: "convoy_supplies",
 };
 
 export const ScenarioTwoSimulation = ({
@@ -577,7 +980,6 @@ export const ScenarioTwoSimulation = ({
   const [convoys, setConvoys] = useState<Convoy[]>(initialConvoys);
   const [zones, setZones] = useState<MapZone[]>(initialZones);
   const [selectedActions, setSelectedActions] = useState<SelectedAction[]>([]);
-  const [pendingAction, setPendingAction] = useState<ActionCard | null>(null);
   const [selectedConvoyForRoute, setSelectedConvoyForRoute] = useState<string | undefined>();
   const [hoveredAction, setHoveredAction] = useState<ActionCard | null>(null);
   const [events, setEvents] = useState<Array<{ id: string; text: string; level: "info" | "success" | "warning" | "critical" }>>([]);
@@ -590,6 +992,17 @@ export const ScenarioTwoSimulation = ({
     messages: Array<{ text: string; level: "info" | "success" | "warning" | "critical" }>;
     nextRoundIndex?: number;
   } | null>(null);
+  const [flags, setFlags] = useState<Record<MissionFlag, boolean>>({
+    mashhadIdentified: false,
+    alphaMonitored: false,
+    safeRouteChosen: false,
+    groundSupportReady: false,
+    resourcesPreserved: false,
+    ambushCountered: false,
+    lateDiscoveryPenalty: false,
+  });
+  const [threatWasIdentifiedRound, setThreatWasIdentifiedRound] = useState<string | undefined>();
+
   const roundStartedAtRef = useRef(now());
   const changedActionCountRef = useRef(0);
   const previewOpenCountRef = useRef(0);
@@ -602,16 +1015,20 @@ export const ScenarioTwoSimulation = ({
   const hasResourcePreview = selectedActions.length > 0;
   const medicalConvoy = getMedicalConvoy(convoys);
   const objectiveChecks = getObjectiveChecks(status, convoys, resources);
-  const missionCompletion = calculateMissionCompletion(status, convoys, resources);
+  const isAlphaThreatRevealed = flags.mashhadIdentified;
   const keyMetrics = [
-    { label: "لجستیک", value: status.logisticsContinuity, color: "#22c55e" },
-    { label: "تحویل حیاتی", value: status.criticalDelivery, color: "#38bdf8" },
-    { label: "ابهام", value: status.ambiguity, color: riskMetricColor(status.ambiguity) },
-    { label: "ریسک GNSS", value: status.gnssExposureRisk, color: riskMetricColor(status.gnssExposureRisk) },
+    ...(isAlphaThreatRevealed ? [
+      { label: "سلامت محموله در خطر", value: status.alphaHealth, color: "#38bdf8" },
+      { label: "پیشرفت محموله در خطر", value: status.alphaProgress, color: "#22c55e" },
+    ] : []),
+    { label: "شناسایی تهدید", value: status.threatIdentification, color: "#a78bfa" },
+    { label: "ثبات فرعی", value: status.secondaryConvoyStability, color: "#84cc16" },
+    { label: "ذخیره منابع", value: getResourceReserve(resources), color: "#facc15" },
+    ...(isAlphaThreatRevealed ? [{ label: "ریسک کمین", value: status.ambushRisk, color: riskMetricColor(status.ambushRisk) }] : []),
   ];
 
   const addEvent = (text: string, level: "info" | "success" | "warning" | "critical" = "info") => {
-    setEvents((prev) => [{ id: `${Date.now()}-${prev.length}`, text, level }, ...prev].slice(0, 12));
+    setEvents((prev) => [{ id: `${Date.now()}-${prev.length}`, text, level }, ...prev].slice(0, 14));
   };
 
   const begin = () => {
@@ -622,7 +1039,7 @@ export const ScenarioTwoSimulation = ({
       scenarioId,
       nodeId,
       userId: userProfileId,
-      detail: { miniGameId: "s2_gnss_logistics_simulation", totalRounds: rounds.length },
+      detail: { miniGameId: "s2_gnss_logistics_simulation_v2", totalRounds: rounds.length },
     });
   };
 
@@ -636,13 +1053,10 @@ export const ScenarioTwoSimulation = ({
       }
       return [...prev, { action, targetId }];
     });
-    setPendingAction(null);
     if (action.targetType !== "route") {
       setSelectedConvoyForRoute(undefined);
     }
-    if (action.targetType && action.targetType !== "global") {
-      addEvent(`اقدام «${action.title}» روی هدف ${targetId} آماده اجرا شد.`, "info");
-    }
+    addEvent(`اقدام «${action.title}» آماده اجرا شد.`, "info");
   };
 
   const handlePickAction = (action: ActionCard) => {
@@ -652,17 +1066,8 @@ export const ScenarioTwoSimulation = ({
       addEvent("حداکثر دو اقدام پشتیبان برای هر راند قابل انتخاب است.", "warning");
       return;
     }
-    if (pendingAction) {
-      addEvent("ابتدا هدف اقدام در حال هدف‌گیری را روی نقشه انتخاب کنید یا هدف‌گیری را لغو کنید.", "warning");
-      return;
-    }
     previewOpenCountRef.current += 1;
-    if (action.targetType && action.targetType !== "global") {
-      setPendingAction(action);
-      addEvent(`برای «${action.title}» هدف را روی نقشه انتخاب کنید.`, "info");
-      return;
-    }
-    addSelectedAction(action);
+    addSelectedAction(action, defaultTargetByActionId[action.id]);
   };
 
   const removeSelectedAction = (actionId: string, targetId?: string) => {
@@ -673,17 +1078,6 @@ export const ScenarioTwoSimulation = ({
   const hasMainDecision = selectedActions.some((item) => currentRound.mainActionIds.includes(item.action.id));
   const supportSelectionCount = selectedActions.filter((item) => currentRound.supportActionIds.includes(item.action.id)).length;
 
-  const getTargetInstruction = () => {
-    if (!pendingAction) return "";
-    if (pendingAction.targetType === "zone") return "روی یکی از محورهای نقشه کلیک کنید.";
-    if (pendingAction.targetType === "convoy") return "روی یکی از کاروان‌ها روی نقشه کلیک کنید.";
-    if (pendingAction.targetType === "route") {
-      return selectedConvoyForRoute
-        ? "حالا مسیر مقصد را روی نقشه انتخاب کنید."
-        : "اول یک کاروان را از نقشه یا پنل کاروان‌ها انتخاب کنید، سپس مسیر مقصد را بزنید.";
-    }
-    return "";
-  };
   const renderResourceMeterChip = (key: keyof ResourceState, label: string) => {
     const value = resources[key];
     const nextValue = resourcesAfterPreview[key];
@@ -693,7 +1087,7 @@ export const ScenarioTwoSimulation = ({
     return (
       <span
         className={`${isDanger ? "danger" : isWarning ? "warning" : ""} ${delta > 0 ? "preview" : ""}`}
-        title={delta > 0 ? `بعد از اجرای بسته عملیاتی: ${nextValue} باقی می‌ماند.` : undefined}
+        title={delta > 0 ? `بعد از اجرای تصمیم: ${nextValue} باقی می‌ماند.` : undefined}
       >
         <b>{label}</b>
         <strong>{value}</strong>
@@ -707,162 +1101,239 @@ export const ScenarioTwoSimulation = ({
     );
   };
 
-  const applyActionSideEffects = (items: SelectedAction[], nextStatus: ScenarioTwoMissionStatus) => {
+  const revealScenarioMapState = (actionIds: Set<string>, nextZones: MapZone[], nextRoundIndex: number) => {
+    let zonesAfter = nextZones;
+    if (actionIds.has("scan_all_nodes") || actionIds.has("scan_mashhad") || status.threatIdentification >= 35) {
+      zonesAfter = zonesAfter.map((zone) => zone.id === "zone_east" ? { ...zone, isRevealed: true, threatLevel: "suspicious", gnssDisruption: 58 } : zone);
+    }
+    if (nextRoundIndex >= 6 || actionIds.has("attack_signal_source") || actionIds.has("emergency_safe_route") || actionIds.has("deception_route")) {
+      zonesAfter = zonesAfter.map((zone) => zone.id === "zone_ambush" ? { ...zone, isRevealed: true, threatLevel: "jammed", gnssDisruption: 82 } : zone);
+    }
+    return zonesAfter;
+  };
+
+  const applyActionSideEffects = (
+    items: SelectedAction[],
+    nextStatus: ScenarioTwoMissionStatus,
+    nextResources: ResourceState
+  ) => {
+    const actionIds = new Set(items.map((item) => item.action.id));
     let updatedStatus = nextStatus;
     let nextConvoys = convoys.slice();
     let nextZones = zones.slice();
+    const nextFlags = { ...flags };
     const nextMetrics = { ...metrics };
     const roundMessages: Array<{ text: string; level: "info" | "success" | "warning" | "critical" }> = [];
 
-    for (const item of items) {
-      const targetId = item.targetId;
-      if (item.action.id === "action_isr_scan" || item.action.id === "action_signal_analysis") {
-        const zone = nextZones.find((entry) => entry.id === targetId);
-        if (zone) {
-          nextZones = nextZones.map((entry) => entry.id === zone.id ? { ...entry, isRevealed: true } : entry);
-          if (zone.gnssDisruption > 50 || nextConvoys.some((convoy) => convoy.currentZoneId === zone.id && convoy.priority >= 4)) {
-            updatedStatus = applyStatusDelta(updatedStatus, { ambiguity: -10, navigationIntegrity: 8 });
-            nextMetrics.isrUsageQuality = clamp(nextMetrics.isrUsageQuality + 12);
-            roundMessages.push({ text: "ISR روی محور پرریسک اجرا شد و ابهام واقعی کاهش یافت.", level: "success" });
-          } else {
-            updatedStatus = applyStatusDelta(updatedStatus, { remainingResources: -4 });
-            nextMetrics.isrUsageQuality = clamp(nextMetrics.isrUsageQuality - 8);
-            roundMessages.push({ text: "بخشی از ظرفیت تشخیص روی محور کم‌ریسک مصرف شد.", level: "warning" });
-          }
-        }
-      }
+    const setAlpha = (patch: Partial<Convoy>) => {
+      nextConvoys = nextConvoys.map((convoy) => convoy.id === "convoy_medical" ? { ...convoy, ...patch } : convoy);
+    };
 
-      if (item.action.id === "action_fallback_nav" && targetId) {
-        nextConvoys = nextConvoys.map((convoy) => convoy.id === targetId ? { ...convoy, hasFallbackNav: true, gnssTrustLevel: clamp(convoy.gnssTrustLevel - 35), status: convoy.status === "moving" ? "rerouted" : convoy.status } : convoy);
-        roundMessages.push({ text: "کاروان منتخب از وابستگی مستقیم به GNSS جدا شد.", level: "success" });
+    if (actionIds.has("scan_mashhad") || actionIds.has("scan_all_nodes")) {
+      nextFlags.mashhadIdentified = true;
+      if (!threatWasIdentifiedRound) setThreatWasIdentifiedRound(currentRound.id);
+      roundMessages.push({ text: "اختلال اصلی در محور ورودی مشهد شناسایی شد.", level: "success" });
+    }
+    if (actionIds.has("scan_tehran")) {
+      nextZones = nextZones.map((zone) => zone.id === "zone_central" ? { ...zone, gnssDisruption: 3, threatLevel: "safe", isRevealed: true } : zone.id === "zone_east" ? { ...zone, gnssDisruption: Math.max(zone.gnssDisruption, 16) } : zone);
+      roundMessages.push({ text: "تهران پاک است. داده‌ها نشان می‌دهد منشأ اختلال احتمالاً به مسیر شرقی نزدیک‌تر است.", level: "info" });
+    }
+    if (actionIds.has("scan_tabriz")) {
+      nextZones = nextZones.map((zone) => zone.id === "zone_north" ? { ...zone, gnssDisruption: 3, threatLevel: "safe", isRevealed: true } : zone.id === "zone_east" ? { ...zone, gnssDisruption: Math.max(zone.gnssDisruption, 16) } : zone);
+      roundMessages.push({ text: "تبریز پاک است و اختلال اصلی در این گره دیده نشد.", level: "info" });
+    }
+    if (actionIds.has("scan_bandar")) {
+      nextZones = nextZones.map((zone) => zone.id === "zone_south" ? { ...zone, gnssDisruption: 3, threatLevel: "safe", isRevealed: true } : zone.id === "zone_east" ? { ...zone, gnssDisruption: Math.max(zone.gnssDisruption, 16) } : zone);
+      roundMessages.push({ text: "بندرعباس پاک است و اختلال اصلی در این گره دیده نشد.", level: "info" });
+    }
+    if (currentRound.id === "round_2" && !actionIds.has("scan_mashhad") && !actionIds.has("scan_all_nodes")) {
+      updatedStatus = applyStatusDelta(updatedStatus, { ambushRisk: 8, ambiguity: 8 });
+      roundMessages.push({ text: "محل دقیق اختلال هنوز قطعی نیست؛ محور مشهد مشکوک باقی ماند.", level: "warning" });
+    }
+    if (actionIds.has("alpha_special_monitoring") || actionIds.has("balanced_monitoring") || actionIds.has("alpha_only_focus")) {
+      nextFlags.alphaMonitored = true;
+      setAlpha({ status: "monitored", lastRoundAction: "پایش ویژه" });
+    }
+    if (actionIds.has("route_northern") || actionIds.has("route_staged") || actionIds.has("emergency_safe_route")) {
+      nextFlags.safeRouteChosen = true;
+      setAlpha({ routeId: actionIds.has("route_staged") ? "route_staged_east" : "route_north_alt", status: "rerouted", lastRoundAction: "تغییر مسیر" });
+    }
+    if (actionIds.has("pause_alpha")) {
+      setAlpha({ status: "paused", lastRoundAction: "توقف موقت" });
+    }
+    if (actionIds.has("route_main_heavy_watch")) {
+      setAlpha({ status: "near_threat", lastRoundAction: "ادامه مسیر اصلی" });
+    }
+    if (actionIds.has("dispatch_ground_support")) {
+      nextFlags.groundSupportReady = true;
+      setAlpha({ hasGroundSupport: true, status: "supported", lastRoundAction: "پشتیبانی زمینی" });
+      roundMessages.push({ text: "نیروی پشتیبانی زمینی برای محور مشهد آماده شد.", level: "success" });
+    }
+    if (actionIds.has("preserve_final_resources")) {
+      nextFlags.resourcesPreserved = true;
+    }
+    if (actionIds.has("sacrifice_delta")) {
+      nextConvoys = nextConvoys.map((convoy) => convoy.id === "convoy_supplies" ? { ...convoy, status: "paused", delay: convoy.delay + 10, lastRoundAction: "کاهش اولویت" } : convoy);
+    }
+    if (currentRound.id === "round_6") {
+      roundMessages.push({ text: "یک منبع ارسال سیگنال مشکوک نزدیک محور ورودی مشهد فعال دیده شد؛ احتمال اقدام هدفمند دشمن بالا است.", level: "warning" });
+    }
+    if (actionIds.has("attack_signal_source")) {
+      const supportBonus = flags.groundSupportReady ? { ambushRisk: -10, threatIdentification: 8 } : {};
+      updatedStatus = applyStatusDelta(updatedStatus, supportBonus);
+      nextFlags.ambushCountered = true;
+      setAlpha({ hasGroundSupport: true, status: "supported", lastRoundAction: "فشار روی منبع اختلال" });
+      roundMessages.push({ text: flags.groundSupportReady ? "نیروی آماده‌شده زودتر وارد عمل شد و سیگنال فریبنده را شدیداً تضعیف کرد." : "نیروی زمینی به منبع اختلال نزدیک شد و سیگنال فریبنده تضعیف شد.", level: "success" });
+    }
+    if (actionIds.has("deception_route")) {
+      if (nextResources.satelliteISR < 15) {
+        updatedStatus = applyStatusDelta(updatedStatus, { ambushRisk: 10, ambiguity: 8 });
+        roundMessages.push({ text: "به‌دلیل کمبود ISR، مسیر فریب ناقص اجرا شد.", level: "warning" });
+      } else {
+        nextFlags.ambushCountered = true;
+        setAlpha({ routeId: "route_north_alt", status: "rerouted", lastRoundAction: "مسیر فریب" });
+        roundMessages.push({ text: "دشمن به مسیر جعلی هدایت شد و کاروان واقعی از محور امن‌تر عبور کرد.", level: "success" });
       }
-
-      if (item.action.id === "action_reroute_convoy" && targetId) {
-        const route = routes.find((entry) => entry.id === targetId);
-        const convoyId = selectedConvoyForRoute ?? nextConvoys.find((convoy) => convoy.priority >= 4 && convoy.status !== "delivered")?.id;
-        if (route && convoyId) {
-          nextConvoys = nextConvoys.map((convoy) => convoy.id === convoyId ? { ...convoy, routeId: route.id, currentZoneId: route.toZoneId, delay: convoy.delay + route.travelCost, status: "rerouted", gnssTrustLevel: clamp(convoy.gnssTrustLevel - route.gnssRisk / 5) } : convoy);
-          updatedStatus = applyStatusDelta(updatedStatus, { cumulativeDelay: Math.round(route.travelCost / 2), civilianStability: -Math.round(route.civilianImpact / 20) });
-          roundMessages.push({ text: `مسیر ${route.name} برای یک کاروان فعال شد؛ تأخیر عملیاتی افزایش یافت.`, level: route.gnssRisk > 60 ? "warning" : "success" });
-        }
-      }
-
-      if (item.action.id === "action_pause_low_priority" && targetId) {
-        nextConvoys = nextConvoys.map((convoy) => convoy.id === targetId ? { ...convoy, status: "paused", delay: convoy.delay + 8 } : convoy);
-      }
-
-      if (item.action.id === "action_route_diversity") {
-        const routeIds = ["route_main_east", "route_south", "route_north", "route_north_alt"];
-        nextConvoys = nextConvoys.map((convoy, index) => ({ ...convoy, routeId: routeIds[index] ?? convoy.routeId, status: convoy.status === "moving" ? "rerouted" : convoy.status }));
-        nextMetrics.routeDiversityScore = clamp(nextMetrics.routeDiversityScore + 15);
-        nextMetrics.adversaryModelingScore = clamp(nextMetrics.adversaryModelingScore + 10);
-        roundMessages.push({ text: "تقسیم هوشمند مسیرها پیش‌بینی‌پذیری شبکه را کاهش داد.", level: "success" });
-      }
-
-      if (item.action.id === "action_continue_gnss" && status.ambiguity > 45) {
-        updatedStatus = applyStatusDelta(updatedStatus, { criticalDelivery: -6, cumulativeDelay: 8, navigationIntegrity: -5 });
-        nextMetrics.falseGnssRelianceTime += 1;
-        nextMetrics.informationDisciplineScore = clamp(nextMetrics.informationDisciplineScore - 10);
-        roundMessages.push({ text: "ادامه اتکا به GNSS در شرایط ابهام بالا، شبکه را آسیب‌پذیرتر کرد.", level: "critical" });
+    }
+    if (actionIds.has("emergency_safe_route")) {
+      nextFlags.ambushCountered = true;
+      setAlpha({ routeId: "route_north_alt", status: "rerouted", lastRoundAction: "فرار از کمین" });
+      roundMessages.push({ text: "کاروان الف از مسیر کمین دور شد، اما تأخیر افزایش یافت.", level: "success" });
+    }
+    if (actionIds.has("fast_escort")) {
+      if (!flags.safeRouteChosen && status.threatIdentification < 60) {
+        updatedStatus = applyStatusDelta(updatedStatus, { ambushRisk: 18, alphaHealth: -12 });
+        setAlpha({ status: "near_threat", lastRoundAction: "اسکورت پرریسک" });
+        roundMessages.push({ text: "اسکورت سریع بدون شناخت کافی مسیر، کاروان را به محدوده خطر نزدیک کرد.", level: "critical" });
+      } else {
+        setAlpha({ status: "supported", lastRoundAction: "اسکورت سریع" });
+        roundMessages.push({ text: "کاروان با اسکورت از محور تهدید عبور کرد.", level: "success" });
       }
     }
 
-    const continueGnssCount = records.reduce((sum, record) => sum + (record.selectedActionIds.includes("action_continue_gnss") ? 1 : 0), 0) + (items.some((item) => item.action.id === "action_continue_gnss") ? 1 : 0);
-    if (continueGnssCount >= 2 && updatedStatus.ambiguity > 45) {
-      updatedStatus = applyStatusDelta(updatedStatus, { criticalDelivery: -10, cumulativeDelay: 15, gnssExposureRisk: 20 });
-      nextMetrics.falseGnssRelianceTime += 1;
-      roundMessages.push({ text: "ادامه اتکا به GNSS در دو راند، باعث انحراف عملیاتی کاروان شد.", level: "critical" });
+    const progressPenalty = currentRound.id === "round_4" && actionIds.has("pause_alpha") ? 0 : 7;
+    updatedStatus = applyStatusDelta(updatedStatus, {
+      alphaProgress: progressPenalty,
+      resourceReserve: getResourceReserve(nextResources) - status.resourceReserve,
+    });
+
+    if (currentRound.id === "round_7" && !nextFlags.ambushCountered && updatedStatus.ambushRisk > 55) {
+      updatedStatus = applyStatusDelta(updatedStatus, { alphaHealth: -18, ambushRisk: 12 });
+      setAlpha({ status: "lost_contact", lastRoundAction: "ورود به محدوده کور" });
+      roundMessages.push({ text: "کاروان الف وارد محدوده کور ارتباطی شد و موقعیت واقعی آن برای چند دقیقه از نقشه ناپدید شد.", level: "critical" });
     }
 
-    if (roundIndex <= 1 && resources.satelliteISR - (previewCost.satelliteISR ?? 0) < 20) {
-      updatedStatus = applyStatusDelta(updatedStatus, { ambiguity: 15, navigationIntegrity: -10 });
-      nextMetrics.isrUsageQuality = clamp(nextMetrics.isrUsageQuality - 10);
-      roundMessages.push({ text: "مصرف زودهنگام ظرفیت ISR توان آشکارسازی موج بعدی را کاهش داد.", level: "warning" });
-    }
+    const alphaStatus = nextConvoys.find((convoy) => convoy.id === "convoy_medical")?.status ?? "normal";
+    nextConvoys = nextConvoys.map((convoy) => {
+      if (convoy.id === "convoy_medical") {
+        return {
+          ...convoy,
+          progress: updatedStatus.alphaProgress,
+          health: updatedStatus.alphaHealth,
+          delay: updatedStatus.cumulativeDelay,
+          status: alphaStatus === "paused" && !actionIds.has("pause_alpha") ? "normal" : alphaStatus,
+        };
+      }
+      const gain = updatedStatus.secondaryConvoyStability > 70 ? 12 : updatedStatus.secondaryConvoyStability > 45 ? 8 : 4;
+      const nextProgress = clamp(convoy.progress + gain);
+      return {
+        ...convoy,
+        progress: nextProgress,
+        health: clamp(convoy.health + (updatedStatus.secondaryConvoyStability > 60 ? 2 : -4)),
+        status: nextProgress >= 100 ? "delivered" : convoy.status === "paused" ? "paused" : "normal",
+      };
+    });
 
-    const routeCounts = new Map<string, number>();
-    nextConvoys.forEach((convoy) => routeCounts.set(convoy.routeId, (routeCounts.get(convoy.routeId) ?? 0) + 1));
-    if (Array.from(routeCounts.values()).some((count) => count > 3)) {
-      updatedStatus = applyStatusDelta(updatedStatus, { escalationRisk: 10, logisticsContinuity: -8 });
-      nextMetrics.routeDiversityScore = clamp(nextMetrics.routeDiversityScore - 15);
-      nextMetrics.adversaryModelingScore = clamp(nextMetrics.adversaryModelingScore - 8);
-      roundMessages.push({ text: "تمرکز بیش از حد کاروان‌ها در یک مسیر، الگوی واکنش شما را آشکارتر کرد.", level: "warning" });
-    }
+    nextZones = revealScenarioMapState(actionIds, nextZones, roundIndex + 1);
 
     nextMetrics.secondOrderThinkingScore = clamp(nextMetrics.secondOrderThinkingScore + sumWeights(items).secondOrderThinkingWeight);
     nextMetrics.adversaryModelingScore = clamp(nextMetrics.adversaryModelingScore + Math.round(sumWeights(items).adversaryModelingWeight / 2));
+    nextMetrics.informationDisciplineScore = clamp(nextMetrics.informationDisciplineScore + Math.round(sumWeights(items).infoSeekingWeight / 2) - (actionIds.has("wait_normal") ? 10 : 0));
     nextMetrics.cognitiveFlexibilityScore = clamp(nextMetrics.cognitiveFlexibilityScore + Math.round(sumWeights(items).cognitiveFlexibilityWeight / 2));
-    nextMetrics.escalationSensitivityScore = clamp(nextMetrics.escalationSensitivityScore - Math.round(sumWeights(items).escalationWeight / 2));
+    nextMetrics.resourceEfficiencyScore = getResourceReserve(nextResources);
 
-    return { updatedStatus, nextConvoys, nextZones, nextMetrics, roundMessages };
+    return { updatedStatus, nextConvoys, nextZones, nextMetrics, nextFlags, roundMessages };
   };
 
-  const makeSummary = (
+  const finalizeMission = (
     finalStatus: ScenarioTwoMissionStatus,
     finalResources: ResourceState,
     finalConvoys: Convoy[],
     finalRecords: ScenarioTwoDecisionRecord[],
-    finalMetrics: ScenarioTwoMetrics
-  ): ScenarioTwoSummaryData => {
-    const weightedDelivered = finalConvoys.reduce((sum, convoy) => {
-      const deliveredScore = convoy.status === "compromised" ? 20 : convoy.status === "delivered" ? 100 : convoy.delay <= convoy.deadline ? 82 : 58;
-      return sum + convoy.priority * deliveredScore;
-    }, 0);
-    const totalPriority = finalConvoys.reduce((sum, convoy) => sum + convoy.priority, 0);
-    const criticalDeliveryScore = clamp(weightedDelivered / totalPriority);
-    const delayControlScore = clamp(100 - finalStatus.cumulativeDelay);
-    const resourceEfficiencyScore = clamp((finalResources.satelliteISR + finalResources.energy + finalResources.time) / 3 + (finalMetrics.isrUsageQuality - 50) / 3);
-    const gnssAnomalyDetectionScore = clamp(100 - finalStatus.ambiguity + finalMetrics.isrUsageQuality / 4 - finalMetrics.falseGnssRelianceTime * 8);
-    const logisticsResilienceIndex = clamp(
-      0.3 * criticalDeliveryScore +
-      0.2 * finalStatus.logisticsContinuity +
-      0.15 * finalStatus.navigationIntegrity +
-      0.15 * resourceEfficiencyScore +
-      0.1 * finalStatus.civilianStability +
-      0.1 * delayControlScore
-    );
-    const operationalStrategicIndex = clamp((finalMetrics.secondOrderThinkingScore + finalMetrics.adversaryModelingScore + finalMetrics.informationDisciplineScore - finalStatus.escalationRisk) / 3, 0, 100);
-    const avgResponseTimeMs = Math.round(average(finalRecords.map((record) => record.responseTimeMs)));
-    const navigationCompromiseLevel = clamp(100 - finalStatus.navigationIntegrity + finalStatus.gnssExposureRisk / 3);
-    const medicalConvoy = getMedicalConvoy(finalConvoys);
-    const primaryObjectiveStatus = getPrimaryObjectiveStatus(medicalConvoy);
-    const missionObjectiveCompletion = calculateMissionCompletion(finalStatus, finalConvoys, finalResources);
-    const secondaryObjectives = {
-      logisticsMaintained: finalStatus.logisticsContinuity >= 65,
-      ambiguityControlled: finalStatus.ambiguity <= 30,
-      gnssRiskControlled: finalStatus.gnssExposureRisk <= 40,
-      civilianStabilityMaintained: finalStatus.civilianStability >= 60,
-      resourcesPreserved: Math.max(finalResources.satelliteISR, finalResources.energy, finalResources.time) >= 15,
-    };
+    finalMetrics: ScenarioTwoMetrics,
+    finalFlags: Record<MissionFlag, boolean>
+  ): { finalStatus: ScenarioTwoMissionStatus; finalConvoys: Convoy[]; finalSummary: ScenarioTwoSummaryData } => {
+    const resourceReserve = getResourceReserve(finalResources);
+    const secondarySafe = finalConvoys.filter((convoy) => convoy.id !== "convoy_medical" && !["compromised", "lost_contact"].includes(convoy.status)).length;
+    let alphaStatus: Convoy["status"] = "delivered_delayed";
     let missionOutcome: ScenarioTwoSummaryData["missionOutcome"] = "limited_success";
     let missionOutcomeLabel = "مأموریت با موفقیت محدود انجام شد.";
-    if (primaryObjectiveStatus === "delivered_on_time" && finalStatus.criticalDelivery > 80 && finalStatus.logisticsContinuity > 65 && finalStatus.ambiguity < 30 && finalStatus.gnssExposureRisk < 40) {
-      missionOutcome = "complete_success";
-      missionOutcomeLabel = "مأموریت با نتیجه عالی انجام شد.";
-    } else if (primaryObjectiveStatus === "lost" || primaryObjectiveStatus === "compromised" || (medicalConvoy.status !== "delivered" && (finalStatus.criticalDelivery < 40 || finalStatus.logisticsContinuity < 40))) {
+    let primaryObjectiveText = "کاروان الف سالم ماند و با تأخیر به مقصد می‌رسد. تهدید کامل حذف نشد، اما سرقت محموله شکست خورد.";
+
+    if (finalStatus.ambushRisk >= 68 || finalStatus.alphaHealth < 35 || (!finalFlags.ambushCountered && finalStatus.ambushRisk > 55)) {
+      alphaStatus = "lost_contact";
       missionOutcome = "failure";
       missionOutcomeLabel = "مأموریت شکست خورد.";
-    } else if (medicalConvoy.status !== "delivered" || finalStatus.gnssExposureRisk > 70 || finalStatus.logisticsContinuity < 40) {
+      primaryObjectiveText = "کاروان الف از نقشه ناپدید شد. آخرین موقعیت ثبت‌شده آن با داده GNSS هم‌خوان نیست.";
+    } else if (finalStatus.alphaHealth < 52 || (secondarySafe >= 2 && finalStatus.alphaProgress < 86 && !finalFlags.safeRouteChosen)) {
+      alphaStatus = "compromised";
       missionOutcome = "partial_failure";
-      missionOutcomeLabel = "مأموریت ناقص انجام شد.";
+      missionOutcomeLabel = "مأموریت اصلی ناقص شد.";
+      primaryObjectiveText = "کاروان‌های فرعی مدیریت شدند، اما کاروان الف در محدوده تهدید دچار مشکل شد.";
+    } else if (finalStatus.alphaHealth >= 68 && finalStatus.ambushRisk < 35 && finalStatus.alphaProgress >= 88 && secondarySafe >= 2 && resourceReserve >= 15 && !finalFlags.lateDiscoveryPenalty && finalStatus.cumulativeDelay <= 15) {
+      alphaStatus = "delivered";
+      missionOutcome = "complete_success";
+      missionOutcomeLabel = "مأموریت با موفقیت کامل انجام شد.";
+      primaryObjectiveText = "کاروان الف با تأخیر کنترل‌شده به مشهد رسید. کاروان‌های دیگر نیز امن ماندند و تهدید شناسایی و کنترل شد.";
     }
-    const primaryObjectiveText = medicalConvoy.status === "delivered"
-      ? `کاروان الف با ${medicalConvoy.delay} واحد تأخیر به مقصد ${medicalConvoy.destination} رسید.`
-      : `کاروان الف به مقصد نرسید؛ پیشروی نهایی ${medicalConvoy.progress}٪ و وضعیت ${medicalConvoy.status} بود.`;
-    const subObjectiveNotes = [
-      `${medicalConvoy.status === "delivered" ? "✓" : "✕"} کاروان الف به مقصد برسد: ${medicalConvoy.progress}%`,
-      `${secondaryObjectives.logisticsMaintained ? "✓" : "✕"} شبکه لجستیک پایدار بماند: ${finalStatus.logisticsContinuity}`,
-      `${secondaryObjectives.ambiguityControlled ? "✓" : "✕"} ابهام عملیاتی کنترل شود: ${finalStatus.ambiguity}`,
-      `${secondaryObjectives.gnssRiskControlled ? "✓" : "✕"} ریسک GNSS آلوده کنترل شود: ${finalStatus.gnssExposureRisk}`,
-      `${secondaryObjectives.civilianStabilityMaintained ? "✓" : "✕"} پایداری مدنی حفظ شود: ${finalStatus.civilianStability}`,
-      `${secondaryObjectives.resourcesPreserved ? "✓" : "✕"} حداقل یک منبع ذخیره بماند: ISR ${finalResources.satelliteISR} / ENG ${finalResources.energy} / TIME ${finalResources.time}`,
+
+    const deliveredProgress = alphaStatus === "delivered" || alphaStatus === "delivered_delayed" ? 100 : finalStatus.alphaProgress;
+    const nextStatus = applyStatusDelta(finalStatus, { alphaProgress: deliveredProgress - finalStatus.alphaProgress });
+    const nextConvoys = finalConvoys.map((convoy) => {
+      if (convoy.id === "convoy_medical") {
+        return { ...convoy, status: alphaStatus, progress: deliveredProgress, health: nextStatus.alphaHealth };
+      }
+      if (convoy.progress >= 82 && nextStatus.secondaryConvoyStability >= 55) return { ...convoy, status: "delivered" as const, progress: 100 };
+      return convoy;
+    });
+
+    const secondaryDelivered = nextConvoys.filter((convoy) => convoy.id !== "convoy_medical" && convoy.status === "delivered").length;
+    const missionObjectiveCompletion = calculateMissionCompletion(nextStatus, finalResources, alphaStatus);
+    const criticalDeliveryScore = clamp((nextStatus.alphaHealth + nextStatus.alphaProgress) / 2);
+    const delayControlScore = clamp(100 - nextStatus.cumulativeDelay);
+    const gnssAnomalyDetectionScore = clamp(nextStatus.threatIdentification - nextStatus.ambiguity / 2 + (finalFlags.mashhadIdentified ? 25 : 0));
+    const logisticsResilienceIndex = clamp(
+      criticalDeliveryScore * 0.35 +
+      nextStatus.secondaryConvoyStability * 0.2 +
+      (100 - nextStatus.ambushRisk) * 0.2 +
+      resourceReserve * 0.15 +
+      nextStatus.threatIdentification * 0.1
+    );
+    const operationalStrategicIndex = clamp((finalMetrics.secondOrderThinkingScore + finalMetrics.adversaryModelingScore + finalMetrics.informationDisciplineScore + finalMetrics.cognitiveFlexibilityScore) / 4);
+    const primaryObjectiveStatus: ScenarioTwoSummaryData["primaryObjectiveStatus"] =
+      alphaStatus === "delivered" ? "delivered_on_time" :
+        alphaStatus === "delivered_delayed" ? "delivered_delayed" :
+          alphaStatus === "compromised" ? "compromised" : "lost";
+
+    const whyThisOutcome = [
+      finalFlags.lateDiscoveryPenalty ? "اختلال مشهد در راند ۲ شناسایی نشد و قرارگاه با جریمه منابع وارد راند ۳ شد." : "محل اختلال در راند ۲ زود شناسایی شد.",
+      finalFlags.safeRouteChosen ? "مسیر کاروان الف پیش از کمین اصلاح شد." : "مسیر کاروان الف دیر یا ناقص اصلاح شد.",
+      finalFlags.ambushCountered ? "در راند ۷ تهدید کمین کنترل شد." : "در راند ۷ تهدید کمین به اندازه کافی کنترل نشد.",
     ];
+    const personalizedLessons = [
+      finalFlags.lateDiscoveryPenalty ? "دفعه بعد، نوسان‌های ضعیف مقصد را زودتر با اسکن هدفمند بررسی کنید." : "تشخیص زودهنگام مشهد باعث شد تصمیم‌های مسیر دقیق‌تر شوند.",
+      finalFlags.safeRouteChosen ? "اصلاح مسیر الف، ریسک کمین را پایین آورد هرچند زمان مصرف کرد." : "تأخیر در اصلاح مسیر، کاروان حیاتی را به تهدید نزدیک نگه داشت.",
+      resourceReserve < 20 ? "منابع نزدیک پایان مأموریت بیش از حد مصرف شده بودند و گزینه‌های نجات محدود شد." : "ذخیره عملیاتی تا پایان باقی ماند و امکان واکنش نهایی حفظ شد.",
+      finalFlags.groundSupportReady ? "اعزام زودهنگام نیروی زمینی، مقابله راند ۷ را مؤثرتر کرد." : "نبود آمادگی زمینی باعث شد مقابله با منبع اختلال سخت‌تر شود.",
+      nextStatus.secondaryConvoyStability < 55 ? "تمرکز بیش از حد روی الف، روتین سایر مسیرها را آسیب‌پذیر کرد." : "روتین کاروان‌های دیگر کاملاً رها نشد و شبکه از فروپاشی دور ماند.",
+    ];
+
     const roundTimeline = finalRecords.map((record) => ({
       roundId: record.roundId,
       roundTitle: roundTitleById[record.roundId] ?? record.roundId,
       selectedActions: record.selectedActionIds.map((id) => actionTitleById[id] ?? id),
-      mapEffects: record.selectedActionIds.map((id) => mapEffectByActionId[id]).filter(Boolean),
-      objectiveEffects: record.selectedActionIds.map((id) => objectiveEffectByActionId[id]).filter(Boolean),
+      mapEffects: record.selectedActionIds.map((id) => actionCatalog[id]?.mapEffect).filter(Boolean),
+      objectiveEffects: record.selectedActionIds.map((id) => actionCatalog[id]?.expectedResult).filter(Boolean),
       resourceChanges: {
         satelliteISRDelta: record.satelliteISRAfter - record.satelliteISRBefore,
         energyDelta: record.energyAfter - record.energyBefore,
@@ -878,50 +1349,8 @@ export const ScenarioTwoSimulation = ({
         cumulativeDelayDelta: record.cumulativeDelayAfter - record.cumulativeDelayBefore,
       },
     }));
-    const keyTurningPointRecord = finalRecords.find((record) => record.selectedActionIds.includes("action_reroute_convoy") || record.selectedActionIds.includes("action_fallback_nav"));
-    const keyTurningPoint = keyTurningPointRecord
-      ? `${roundTitleById[keyTurningPointRecord.roundId] ?? keyTurningPointRecord.roundId}: اصلاح مسیر یا ناوبری پشتیبان، شانس نجات کاروان الف را بالا برد.`
-      : "نقطه عطف مشخصی ثبت نشد؛ تصمیم‌ها بیشتر روی حفظ شبکه و منابع متمرکز بودند.";
-    const criticalMistake = finalResources.energy < 15
-      ? "مصرف سنگین انرژی باعث شد گزینه‌های پایانی محدود شوند."
-      : finalMetrics.falseGnssRelianceTime > 0
-        ? "ادامه اتکا به GNSS در شرایط ابهام، ریسک انحراف را بالا برد."
-        : finalStatus.ambiguity > 40
-          ? "ابهام عملیاتی دیر کنترل شد و بخشی از تصمیم‌ها با تصویر ناقص گرفته شد."
-          : "اشتباه بحرانی پررنگی ثبت نشد؛ ریسک‌ها عمدتاً کنترل شدند.";
 
-    let decisionStyleLabel = "Adaptive Logistics Commander";
-    let decisionStyleText = "شما تصمیم‌ها را با تغییر وضعیت اصلاح کردید، منابع را مرحله‌ای مصرف کردید و مسیرها را بر اساس اهمیت و ریسک تفکیک کردید.";
-    if (finalMetrics.falseGnssRelianceTime >= 2 || navigationCompromiseLevel > 65) {
-      decisionStyleLabel = "System-Dependent Commander";
-      decisionStyleText = "شما بیش از حد به داده‌های GNSS اتکا کردید و دیر به سراغ منابع تأییدکننده رفتید.";
-    } else if (finalStatus.escalationRisk < 25 && finalStatus.civilianStability > 75 && finalStatus.cumulativeDelay > 28) {
-      decisionStyleLabel = "Conservative Stabilizer";
-      decisionStyleText = "شما بحران را با احتیاط مدیریت کردید، اما بخشی از سرعت عملیاتی را از دست دادید.";
-    } else if (resourceEfficiencyScore < 42 && avgResponseTimeMs < 5000) {
-      decisionStyleLabel = "Reactive Commander";
-      decisionStyleText = "شما سریع واکنش نشان دادید، اما بخشی از منابع را زودتر از زمان مناسب مصرف کردید.";
-    } else if (finalStatus.gnssExposureRisk > 65 && finalStatus.escalationRisk > 55) {
-      decisionStyleLabel = "High-Risk Operator";
-      decisionStyleText = "شما سرعت و استمرار عملیات را بر کاهش ریسک ترجیح دادید.";
-    } else if (avgResponseTimeMs > 35000 && finalStatus.cumulativeDelay > 30) {
-      decisionStyleLabel = "Analysis-Paralysis Commander";
-      decisionStyleText = "برای رسیدن به قطعیت، زمان زیادی صرف بررسی کردید و تأخیر عملیاتی افزایش یافت.";
-    }
-
-    const personalizedLessons = [
-      finalResources.satelliteISR < 15
-        ? "شما بخش بزرگی از ظرفیت ISR را زود مصرف کردید؛ در موج‌های بعدی، توان آشکارسازی محدود شد."
-        : "ظرفیت ISR تا پایان کاملاً تخلیه نشد و امکان اصلاح تصمیم در راندهای بعدی باقی ماند.",
-      finalMetrics.falseGnssRelianceTime > 0
-        ? "در چند لحظه با وجود ابهام بالا، اتکا به GNSS ادامه پیدا کرد و ریسک وابستگی غلط افزایش یافت."
-        : "از اعتماد کور به GNSS پرهیز شد و منابع تأییدکننده نقش واقعی در تصمیم‌ها داشتند.",
-      finalMetrics.routeDiversityScore >= 60
-        ? "تفکیک مسیرها باعث شد اختلال دشمن اثر محدودتری بر شبکه لجستیک داشته باشد."
-        : "تمرکز مسیرها یا تأخیر در پراکندگی، پیش‌بینی‌پذیری واکنش شبکه را بالا نگه داشت.",
-    ];
-
-    return {
+    const finalSummary: ScenarioTwoSummaryData = {
       missionOutcome,
       missionObjectiveCompletion,
       missionCompletionPercent: missionObjectiveCompletion,
@@ -929,45 +1358,81 @@ export const ScenarioTwoSimulation = ({
       primaryObjectiveText,
       primaryObjectiveStatus,
       primaryConvoyId: "convoy_medical",
-      primaryConvoyDelay: medicalConvoy.delay,
-      secondaryObjectives,
-      subObjectiveNotes,
+      primaryConvoyDelay: nextStatus.cumulativeDelay,
+      secondaryObjectives: {
+        logisticsMaintained: nextStatus.secondaryConvoyStability >= 55,
+        ambiguityControlled: nextStatus.ambiguity <= 35,
+        gnssRiskControlled: nextStatus.gnssExposureRisk <= 45,
+        civilianStabilityMaintained: nextStatus.civilianStability >= 60,
+        resourcesPreserved: resourceReserve >= 15,
+      },
+      subObjectiveNotes: [
+        `${["delivered", "delivered_delayed"].includes(alphaStatus) ? "✓" : "✕"} کاروان الف سالم به مشهد برسد: ${deliveredProgress}% | سلامت ${nextStatus.alphaHealth}`,
+        `${secondarySafe >= 2 ? "✓" : "✕"} حداقل دو کاروان دیگر امن بمانند: ${secondarySafe}/3`,
+        `${finalFlags.mashhadIdentified ? "✓" : "✕"} محل اختلال قبل از راند ۴ شناسایی شود`,
+        `${resourceReserve >= 15 ? "✓" : "✕"} منابع کاملاً تخلیه نشوند: ${resourceReserve}`,
+        `${nextStatus.ambushRisk < 45 ? "✓" : "✕"} الف از مسیر کمین دور شود: ریسک ${nextStatus.ambushRisk}`,
+        `${nextStatus.secondaryConvoyStability >= 55 ? "✓" : "✕"} روتین سایر مسیرها حفظ شود: ${nextStatus.secondaryConvoyStability}`,
+      ],
       roundTimeline,
       personalizedLessons,
-      keyTurningPoint,
-      criticalMistake,
+      keyTurningPoint: finalFlags.ambushCountered
+        ? "راند ۷: مقابله با کمین، مسیر نهایی کاروان الف را نجات داد."
+        : finalFlags.safeRouteChosen
+          ? "راند ۴: تغییر مسیر الف، ریسک کمین را پیش از آشکار شدن تهدید پایین آورد."
+          : "نقطه عطف نجات‌بخش روشنی ثبت نشد؛ تصمیم‌ها بیشتر واکنشی بودند.",
+      criticalMistake: finalFlags.lateDiscoveryPenalty
+        ? "اختلال مشهد در راند ۲ شناسایی نشد و قرارگاه با جریمه منابع وارد راند ۳ شد."
+        : !finalFlags.safeRouteChosen
+          ? "مسیر الف به‌موقع از محور مشکوک جدا نشد."
+          : resourceReserve < 20
+            ? "منابع واکنش نهایی بیش از حد مصرف شدند."
+            : !finalFlags.ambushCountered
+              ? "تهدید کمین در راند ۷ کامل کنترل نشد."
+              : "اشتباه بحرانی پررنگی ثبت نشد؛ ریسک‌ها عمدتاً کنترل شدند.",
+      alphaFinalStatus: alphaStatus,
+      alphaHealth: nextStatus.alphaHealth,
+      alphaProgress: deliveredProgress,
+      threatWasIdentifiedRound,
+      secondaryConvoysDelivered: secondaryDelivered,
+      groundSupportUsed: finalFlags.groundSupportReady || finalFlags.ambushCountered,
+      ambushAvoided: nextStatus.ambushRisk < 45,
+      resourceExhaustion: resourceReserve < 15,
+      whyThisOutcome,
       logisticsResilienceIndex,
       operationalStrategicIndex,
-      decisionStyleLabel,
-      decisionStyleText,
+      decisionStyleLabel: finalMetrics.falseGnssRelianceTime > 1 ? "System-Dependent Commander" : finalFlags.ambushCountered ? "Mission-Oriented Rescuer" : "Adaptive Logistics Commander",
+      decisionStyleText: finalFlags.ambushCountered
+        ? "تصمیم‌های شما روی کشف تهدید، اصلاح مسیر و مقابله عملی با کمین متمرکز بود."
+        : "تصمیم‌های شما مأموریت را پیش برد، اما در لحظه تهدید آشکار هنوز بخشی از ریسک باقی ماند.",
       criticalDeliveryScore,
       delayControlScore,
       gnssAnomalyDetectionScore,
-      navigationCompromiseLevel,
-      avgResponseTimeMs,
+      navigationCompromiseLevel: clamp(100 - nextStatus.navigationIntegrity + nextStatus.ambushRisk / 2),
+      avgResponseTimeMs: Math.round(average(finalRecords.map((record) => record.responseTimeMs))),
       learningNotes: personalizedLessons,
     };
+
+    return { finalStatus: nextStatus, finalConvoys: nextConvoys, finalSummary };
   };
 
   const executeRound = () => {
     if (selectedActions.length === 0) return;
     const resourcesBefore = resources;
     const statusBefore = status;
-    const weights = sumWeights(selectedActions);
+    const convoyStatesBefore = convoys;
+    const weightsForRecord = sumWeights(selectedActions);
     const nextResources = addResources(resources, previewCost);
     let nextStatus = selectedActions.reduce((current, item) => applyStatusDelta(current, item.action.effects), status);
     nextStatus = applyStatusDelta(nextStatus, {
-      remainingResources: Math.round(((nextResources.satelliteISR + nextResources.energy + nextResources.time) / 3) - status.remainingResources),
+      resourceReserve: getResourceReserve(nextResources) - status.resourceReserve,
     });
 
-    const sideEffects = applyActionSideEffects(selectedActions, nextStatus);
+    const sideEffects = applyActionSideEffects(selectedActions, nextStatus, nextResources);
     nextStatus = sideEffects.updatedStatus;
-    const movement = advanceConvoys(sideEffects.nextConvoys, routes, selectedActions);
-    nextStatus = applyStatusDelta(nextStatus, movement.statusDelta);
-    const nextConvoysAfterMovement = movement.nextConvoys;
+    const nextConvoys = sideEffects.nextConvoys;
     const nextMetrics = {
       ...sideEffects.nextMetrics,
-      resourceEfficiencyScore: clamp((nextResources.satelliteISR + nextResources.energy + nextResources.time) / 3),
       totalChangedActionCount: metrics.totalChangedActionCount + changedActionCountRef.current,
       totalPreviewOpenCount: metrics.totalPreviewOpenCount + previewOpenCountRef.current,
     };
@@ -1002,9 +1467,11 @@ export const ScenarioTwoSimulation = ({
       escalationRiskAfter: nextStatus.escalationRisk,
       gnssExposureRiskAfter: nextStatus.gnssExposureRisk,
       cumulativeDelayAfter: nextStatus.cumulativeDelay,
-      ...weights,
+      ...weightsForRecord,
     };
 
+    const actionIds = selectedActions.map((item) => item.action.id);
+    const narrativeOutcome = sideEffects.roundMessages[0]?.text ?? actionIds.map((id) => actionCatalog[id]?.expectedResult).filter(Boolean).join(" ");
     eventLogger.log({
       type: "s2_decision",
       scenarioId,
@@ -1013,16 +1480,21 @@ export const ScenarioTwoSimulation = ({
       elapsedMs: responseTimeMs,
       detail: {
         roundId: currentRound.id,
-        selectedActionIds: record.selectedActionIds,
-        selectedTargets: record.selectedTargets,
-        responseTimeMs,
-        changedActionCount: record.changedActionCount,
-        previewOpenCount: record.previewOpenCount,
-        resourcesBefore,
-        resourcesAfter: nextResources,
-        statusBefore,
-        statusAfter: nextStatus,
-        decisionWeights: weights,
+        roundTitle: currentRound.title,
+        mainDecisionId: actionIds.find((id) => currentRound.mainActionIds.includes(id)),
+        supportActionIds: actionIds.filter((id) => currentRound.supportActionIds.includes(id)),
+        resourceBefore: resourcesBefore,
+        resourceAfter: nextResources,
+        convoyStatesBefore,
+        convoyStatesAfter: nextConvoys,
+        mapEffects: actionIds.map((id) => actionCatalog[id]?.mapEffect).filter(Boolean),
+        narrativeOutcome,
+        alphaProgressDelta: nextStatus.alphaProgress - statusBefore.alphaProgress,
+        alphaHealthDelta: nextStatus.alphaHealth - statusBefore.alphaHealth,
+        ambushRiskDelta: nextStatus.ambushRisk - statusBefore.ambushRisk,
+        threatIdentificationDelta: nextStatus.threatIdentification - statusBefore.threatIdentification,
+        secondaryConvoyStabilityDelta: nextStatus.secondaryConvoyStability - statusBefore.secondaryConvoyStability,
+        resourceReserveDelta: nextStatus.resourceReserve - statusBefore.resourceReserve,
       },
     });
 
@@ -1044,72 +1516,37 @@ export const ScenarioTwoSimulation = ({
           },
         });
       }
-
-      if (item.action.targetType && item.action.targetType !== "global") {
-        const zone = zones.find((entry) => entry.id === item.targetId);
-        const route = routes.find((entry) => entry.id === item.targetId);
-        eventLogger.log({
-          type: "s2_map_action",
-          scenarioId,
-          nodeId,
-          userId: userProfileId,
-          detail: {
-            roundId: currentRound.id,
-            actionId: item.action.id,
-            targetType: item.action.targetType,
-            targetId: item.targetId,
-            selectedZoneId: item.action.targetType === "zone" ? item.targetId : undefined,
-            selectedConvoyId: item.action.targetType === "convoy" ? item.targetId : selectedConvoyForRoute,
-            selectedRouteId: item.action.targetType === "route" ? item.targetId : undefined,
-      routeRiskLevel: route?.visualStatus,
-            gnssDisruptionLevel: zone?.gnssDisruption ?? route?.gnssRisk,
-            civilianImpact: zone?.civilianSensitivity ?? route?.civilianImpact,
-          },
-        });
-      }
     });
 
     const updatedRecords = [...records, record];
-    const completionBefore = calculateMissionCompletion(statusBefore, convoys, resourcesBefore);
-    const completionAfter = calculateMissionCompletion(nextStatus, nextConvoysAfterMovement, nextResources);
+    const completionBefore = calculateMissionCompletion(statusBefore, resourcesBefore, medicalConvoy.status);
+    const completionAfter = calculateMissionCompletion(nextStatus, nextResources, getMedicalConvoy(nextConvoys).status);
     const outcomeMessages = [
       ...sideEffects.roundMessages,
-      ...movement.messages,
       { text: `منابع پس از اجرا: ISR ${nextResources.satelliteISR} | انرژی ${nextResources.energy} | زمان ${nextResources.time}`, level: "info" as const },
-      { text: `وضعیت مأموریت: لجستیک ${nextStatus.logisticsContinuity}٪، ابهام ${nextStatus.ambiguity}٪، ریسک GNSS ${nextStatus.gnssExposureRisk}٪`, level: "info" as const },
+      sideEffects.nextFlags.mashhadIdentified
+        ? { text: `وضعیت محموله در خطر: پیشرفت ${nextStatus.alphaProgress}٪، سلامت ${nextStatus.alphaHealth}، ریسک کمین ${nextStatus.ambushRisk}`, level: nextStatus.ambushRisk > 60 ? "critical" as const : "info" as const }
+        : { text: `وضعیت شبکه: ثبات کاروان‌ها ${nextStatus.secondaryConvoyStability}٪، شناسایی تهدید ${nextStatus.threatIdentification}٪`, level: "info" as const },
       { text: `تحقق هدف مأموریت: ${completionBefore}٪ → ${completionAfter}٪`, level: completionAfter >= completionBefore ? "success" as const : "warning" as const },
-    ].slice(0, 5);
+    ].filter((message) => message.text).slice(0, 5);
 
     setResources(nextResources);
     setStatus(nextStatus);
-    setConvoys(nextConvoysAfterMovement);
+    setConvoys(nextConvoys);
     setZones(sideEffects.nextZones);
     setMetrics(nextMetrics);
+    setFlags(sideEffects.nextFlags);
     sideEffects.roundMessages.forEach((message) => addEvent(message.text, message.level));
-    addEvent(`بسته عملیاتی ${currentRound.title} اجرا شد.`, "success");
+    addEvent(`تصمیم ${currentRound.title} اجرا شد.`, "success");
     setRecords(updatedRecords);
     setSelectedActions([]);
-    setPendingAction(null);
-    setSelectedConvoyForRoute(undefined);
+      setSelectedConvoyForRoute(undefined);
     changedActionCountRef.current = 0;
     previewOpenCountRef.current = 0;
 
     if (roundIndex + 1 >= rounds.length) {
-      const deliveredConvoys = nextConvoysAfterMovement.map((convoy) => ({
-        ...convoy,
-        status: convoy.status === "delivered" || convoy.status === "compromised"
-          ? convoy.status
-          : convoy.id === "convoy_medical" && convoy.progress < 100
-            ? "compromised" as const
-            : convoy.progress >= 85
-              ? "delivered" as const
-              : convoy.status,
-      }));
-      const finalStatus = applyStatusDelta(nextStatus, {
-        criticalDelivery: deliveredConvoys.some((convoy) => convoy.priority >= 5 && convoy.status === "delivered") ? 8 : -16,
-      });
-      const finalSummary = makeSummary(finalStatus, nextResources, deliveredConvoys, updatedRecords, nextMetrics);
-      setConvoys(deliveredConvoys);
+      const { finalStatus, finalConvoys, finalSummary } = finalizeMission(nextStatus, nextResources, nextConvoys, updatedRecords, nextMetrics, sideEffects.nextFlags);
+      setConvoys(finalConvoys);
       setStatus(finalStatus);
       setSummary(finalSummary);
       onCompletionUiActiveChange?.(true);
@@ -1120,18 +1557,15 @@ export const ScenarioTwoSimulation = ({
         userId: userProfileId,
         detail: {
           ...finalSummary,
-          cumulativeDelay: finalStatus.cumulativeDelay,
-          falseGnssRelianceTime: nextMetrics.falseGnssRelianceTime,
-          isrUsageQuality: nextMetrics.isrUsageQuality,
-          routeDiversityScore: nextMetrics.routeDiversityScore,
-          resourceEfficiencyScore: nextMetrics.resourceEfficiencyScore,
-          secondOrderThinkingScore: nextMetrics.secondOrderThinkingScore,
-          adversaryModelingScore: nextMetrics.adversaryModelingScore,
-          escalationSensitivityScore: nextMetrics.escalationSensitivityScore,
-          informationDisciplineScore: nextMetrics.informationDisciplineScore,
-          cognitiveFlexibilityScore: nextMetrics.cognitiveFlexibilityScore,
-          totalChangedActionCount: nextMetrics.totalChangedActionCount,
-          totalPreviewOpenCount: nextMetrics.totalPreviewOpenCount,
+          alphaFinalStatus: finalSummary.alphaFinalStatus,
+          alphaDelay: finalSummary.primaryConvoyDelay,
+          alphaProgress: finalSummary.alphaProgress,
+          alphaHealth: finalSummary.alphaHealth,
+          secondaryConvoysDelivered: finalSummary.secondaryConvoysDelivered,
+          threatWasIdentifiedRound: finalSummary.threatWasIdentifiedRound,
+          groundSupportUsed: finalSummary.groundSupportUsed,
+          ambushAvoided: finalSummary.ambushAvoided,
+          resourceExhaustion: finalSummary.resourceExhaustion,
         },
       });
       return;
@@ -1146,6 +1580,15 @@ export const ScenarioTwoSimulation = ({
 
   const continueAfterOutcome = () => {
     if (roundOutcome?.nextRoundIndex != null) {
+      if (roundOutcome.nextRoundIndex === 2 && !flags.mashhadIdentified) {
+        const penalty = { satelliteISR: 12, time: 8 };
+        setResources((current) => addResources(current, penalty));
+        setStatus((current) => applyStatusDelta(current, { ambiguity: 10, ambushRisk: 8, threatIdentification: 40 }));
+        setZones((current) => current.map((zone) => zone.id === "zone_east" ? { ...zone, isRevealed: true, threatLevel: "suspicious", gnssDisruption: 34 } : zone));
+        setFlags((current) => ({ ...current, mashhadIdentified: true, lateDiscoveryPenalty: true }));
+        if (!threatWasIdentifiedRound) setThreatWasIdentifiedRound("forced_round_3");
+        addEvent("جریمه تشخیص دیرهنگام: ISR -12 | TIME -8. تیم کاوش قرارگاه منشأ اصلی اختلال را با بررسی اضطراری در محور ورودی مشهد پیدا کرد.", "warning");
+      }
       setRoundIndex(roundOutcome.nextRoundIndex);
       roundStartedAtRef.current = now();
     }
@@ -1156,47 +1599,41 @@ export const ScenarioTwoSimulation = ({
     return (
       <div className="s2-start">
         <h2>سناریو ۲ — امواج خاموش</h2>
-        <h3>مدیریت کاروان‌های حیاتی تحت اخلال GNSS</h3>
+        <h3>مدیریت کاروان‌ها تحت اختلال GNSS</h3>
         <p>
-          شما فرمانده قرارگاه لجستیک و پشتیبانی عملیاتی هستید. چند کاروان حیاتی در حال حرکت‌اند، اما داده‌های{" "}
-          <span className="s2-term">
-            GNSS
-            <span className="s2-term-help" tabIndex={0} aria-label="توضیح GNSS">؟</span>
-            <span className="s2-term-tooltip" role="tooltip">
-              GNSS سامانه‌ای ماهواره‌ای برای تعیین موقعیت، ناوبری و زمان‌سنجی دقیق در سطح زمین است.
-            </span>
-          </span>{" "}
-          آلوده‌اند. دشمن مستقیماً حمله نکرده؛ او مسیرها، مختصات و اعتماد شما به داده‌ها را هدف گرفته است.
+          شما فرمانده قرارگاه لجستیک هستید. چهار کاروان حیاتی و پشتیبانی در مسیرهای مختلف کشور در حال حرکت‌اند.
+          در آغاز، همه‌چیز عادی است؛ اما یک اختلال خاموش در داده‌های ناوبری ظاهر می‌شود.
         </p>
         <p>
-          در ساعت ۰۴:۲۰، کاروان الف، حامل تجهیزات درمانی اضطراری، باید به مرکز درمانی شرق کشور برسد؛ اما نشانه‌های اولیه نشان می‌دهد مسیر آن احتمالاً تحت spoofing قرار گرفته است.
+          مأموریت شما این است که محل اختلال را پیدا کنید، همه کاروان‌ها را تا مقصد هدایت کنید
+          و شبکه لجستیک را از فروپاشی حفظ کنید.
         </p>
         <div className="s2-briefing">
           <h3>مأموریت شما</h3>
           <ol>
-            <li>کاروان الف را تا پایان راند ۵ به مقصد برسانید.</li>
-            <li>جریان لجستیک را حفظ کنید و اجازه ندهید شبکه فروبپاشد.</li>
-            <li>قبل از اعتماد به مختصات آلوده، منبع اختلال را تشخیص دهید.</li>
-            <li>در هر راند حداکثر سه اقدام عملیاتی انتخاب کنید.</li>
-            <li>اگر اقدام هدف‌دار است، بعد از انتخاب کارت باید هدف را روی نقشه مشخص کنید.</li>
+            <li>تمام کاروان‌ها را تا پایان راند ۸ به مقصد برسانید.</li>
+            <li>حداقل سه کاروان را در وضعیت امن یا تحویل‌شده نگه دارید.</li>
+            <li>محل اختلال را تا قبل از راند ۴ شناسایی کنید.</li>
+            <li>منابع را تا راند ۷ کاملاً مصرف نکنید.</li>
+            <li>در صورت آشکار شدن تهدید، مسیر یا منبع اختلال را کنترل کنید.</li>
           </ol>
           <div className="s2-terms-grid">
-            <span><b>Spoofing</b> ارسال داده جعلی برای فریب ناوبری</span>
-            <span><b>Jamming</b> اخلال در سیگنال و کاهش دقت ناوبری</span>
-            <span><b>ISR</b> ظرفیت شناسایی و پایش مناطق مشکوک</span>
-            <span><b>ابهام عملیاتی</b> نامطمئن بودن وضعیت واقعی میدان</span>
+            <span><b>GNSS</b> سامانه ناوبری ماهواره‌ای</span>
+            <span><b>Spoofing</b> داده جعلی برای فریب ناوبری</span>
+            <span><b>ISR</b> ظرفیت شناسایی و پایش</span>
+            <span><b>ریسک کمین</b> احتمال کشیده شدن یک کاروان به مسیر جعلی</span>
           </div>
           <div className="s2-briefing-alerts">
-            <span><b className="yellow" /> زرد: ابهام قابل مدیریت</span>
-            <span><b className="orange" /> نارنجی: ریسک فعال</span>
-            <span><b className="red" /> قرمز: بحران جدی</span>
+            <span><b className="yellow" /> زرد: وضعیت عادی یا هشدار مبهم</span>
+            <span><b className="orange" /> نارنجی: ریسک فعال مسیر و منابع</span>
+            <span><b className="red" /> قرمز: تهدید آشکار و تصمیم نجات</span>
           </div>
         </div>
         <div className="s2-start-grid">
-          <span>۵ راند</span>
+          <span>۸ راند</span>
           <span>۴ کاروان</span>
-          <span>بودجه اقدام ۳/راند</span>
-          <span>قفل منابع واقعی</span>
+          <span>۱ تصمیم اصلی/راند</span>
+          <span>حداکثر ۲ اقدام پشتیبان</span>
         </div>
         <button className="primary" onClick={begin}>ورود به اتاق فرماندهی</button>
       </div>
@@ -1227,8 +1664,8 @@ export const ScenarioTwoSimulation = ({
         <div className={`s2-alert s2-alert-${currentRound.alertLevel}`} title={alertHelp[currentRound.alertLevel]}>
           هشدار {currentRound.alertLevel}
         </div>
-        <div className="s2-alert-help">{alertHelp[currentRound.alertLevel]}</div>
-        <div className="s2-action-budget">بودجه اقدام عملیاتی: {selectedActions.length}/3</div>
+        <div className="s2-alert-help">هدف: {currentRound.roundGoal}</div>
+        <div className="s2-action-budget">تصمیم: {hasMainDecision ? "۱/۱" : "۰/۱"} | پشتیبان: {supportSelectionCount}/2</div>
         <div className="s2-resource-chips">
           {renderResourceMeterChip("satelliteISR", "ISR")}
           {renderResourceMeterChip("energy", "ENG")}
@@ -1241,28 +1678,48 @@ export const ScenarioTwoSimulation = ({
           <button type="button" onClick={() => setOpenDrawer("log")}>لاگ عملیات</button>
         </div>
       </header>
+
       <section className="s2-objective-strip">
         <div>
-          <span>مأموریت اصلی</span>
-          <strong>کاروان الف را تا پایان راند ۵ به مشهد برسانید.</strong>
+          <span>هدف اصلی</span>
+          <strong>تمام کاروان‌ها تا پایان راند ۸ به مقصد برسند.</strong>
         </div>
         <div className="s2-primary-progress">
-          <span>کاروان الف: {medicalConvoy.progress}% مسیر</span>
-          <i><em style={{ width: `${medicalConvoy.progress}%` }} /></i>
+          {isAlphaThreatRevealed ? (
+            <>
+              <span>پیشرفت محموله در خطر: {medicalConvoy.progress}% | سلامت {medicalConvoy.health}</span>
+              <i><em style={{ width: `${medicalConvoy.progress}%` }} /></i>
+            </>
+          ) : (
+            <>
+              <span>&nbsp;</span>
+              <i><em style={{ width: "0%" }} /></i>
+            </>
+          )}
         </div>
         <div>
           <span>مهلت</span>
           <strong>{rounds.length - roundIndex} راند باقی‌مانده</strong>
         </div>
-        <div>
-          <span>وضعیت</span>
-          <strong>{medicalConvoy.status === "delivered" ? "تحویل‌شده" : medicalConvoy.status === "compromised" ? "از دست‌رفته" : medicalConvoy.status === "rerouted" ? "اصلاح مسیر" : medicalConvoy.hasFallbackNav ? "ناوبری پشتیبان" : "در معرض spoofing"}</strong>
-        </div>
-        <div>
-          <span>تحقق هدف</span>
-          <strong>{missionCompletion}%</strong>
-        </div>
+        {isAlphaThreatRevealed ? (
+          <>
+            <div>
+              <span>وضعیت محموله در خطر</span>
+              <strong>{statusLabel[medicalConvoy.status]}</strong>
+            </div>
+            <div>
+              <span>ریسک کمین</span>
+              <strong>{status.ambushRisk}</strong>
+            </div>
+          </>
+        ) : (
+          <>
+            <div><span>&nbsp;</span><strong>&nbsp;</strong></div>
+            <div><span>&nbsp;</span><strong>&nbsp;</strong></div>
+          </>
+        )}
       </section>
+
       <div className="s2-kpi-strip">
         {keyMetrics.map((metric) => (
           <div key={metric.label}>
@@ -1272,127 +1729,110 @@ export const ScenarioTwoSimulation = ({
           </div>
         ))}
       </div>
+
       {hasResourcePreview && (
-        <div className={`s2-resource-preview ${Object.values(resourcesAfterPreview).some((value) => value < 25) ? "warning" : ""}`}>
+        <div className={`s2-resource-preview ${Object.values(resourcesAfterPreview).some((value) => value < 20) ? "warning" : ""}`}>
           <strong>پیش‌نمایش مصرف منابع</strong>
           <span>ISR: {resources.satelliteISR} → {resourcesAfterPreview.satelliteISR}</span>
           <span>ENG: {resources.energy} → {resourcesAfterPreview.energy}</span>
           <span>TIME: {resources.time} → {resourcesAfterPreview.time}</span>
-          {Object.values(resourcesAfterPreview).some((value) => value < 25) && <em>هشدار: یکی از منابع پس از اجرای بسته به سطح بحرانی می‌رسد.</em>}
+          {Object.values(resourcesAfterPreview).some((value) => value < 20) && <em>هشدار: یکی از منابع پس از اجرای تصمیم به سطح بحرانی می‌رسد.</em>}
         </div>
       )}
 
       <p className="s2-round-narrative">{currentRound.narrative}</p>
-      {pendingAction && (
-        <div className="s2-targeting-banner">
-          <strong>هدف‌گیری فعال: {pendingAction.title}</strong>
-          <span>{getTargetInstruction()}</span>
-          <button
-            type="button"
-            onClick={() => {
-              setPendingAction(null);
-              setSelectedConvoyForRoute(undefined);
-            }}
-          >
-            لغو هدف‌گیری
-          </button>
-        </div>
-      )}
-
       <main className="s2-layout">
         <ScenarioTwoMap
           zones={zones}
           routes={routes}
           convoys={convoys}
           selectedConvoyId={selectedConvoyForRoute}
-          activeTargetType={pendingAction?.targetType}
-          pendingActionId={pendingAction?.id}
+          activeTargetType={undefined}
+          pendingActionId={hoveredAction?.id}
           selectedActions={selectedActions}
           previewAction={hoveredAction}
           ambiguity={status.ambiguity}
           navigationIntegrity={status.navigationIntegrity}
-          onSelectZone={(zoneId) => pendingAction && addSelectedAction(pendingAction, zoneId)}
-          onSelectConvoy={(convoyId) => pendingAction && addSelectedAction(pendingAction, convoyId)}
+          onSelectZone={() => undefined}
+          onSelectConvoy={() => undefined}
           onSelectConvoyForRoute={(convoyId) => setSelectedConvoyForRoute(convoyId)}
-          onSelectRoute={(routeId) => pendingAction && addSelectedAction(pendingAction, routeId)}
+          onSelectRoute={() => undefined}
         />
 
         <section className="s2-actions-section">
           <div className="s2-section-header">
-            <h3>کارت‌های اقدام عملیاتی</h3>
-            <span>۱ تصمیم اصلی انتخاب کنید؛ سپس حداکثر ۲ اقدام پشتیبان اضافه کنید.</span>
+            <h3>پنل تصمیم راند</h3>
+            <span>یک تصمیم اصلی انتخاب کنید؛ سپس در صورت نیاز حداکثر دو اقدام پشتیبان اضافه کنید.</span>
             <div className="s2-round-problem">
-              <strong>مسئله این راند چیست؟</strong>
+              <strong>مسئله عملیاتی راند</strong>
               <p>{currentRound.operationalProblem}</p>
               <em>هدف راند: {currentRound.roundGoal}</em>
             </div>
           </div>
           <div className="s2-action-groups">
             <div>
-              <h4>تصمیم اصلی</h4>
+              <h4>Main Decision</h4>
               <div className="s2-action-grid">
-            {mainActions.map((action) => {
-              const selectedAction = selectedActions.find((item) => item.action.id === action.id);
-              const selectedForAfford = currentRound.mainActionIds.includes(action.id)
-                ? selectedActions.filter((item) => !currentRound.mainActionIds.includes(item.action.id))
-                : selectedActions;
-              const disabledReason = selectedAction
-                ? undefined
-                : pendingAction && pendingAction.id !== action.id
-                  ? "ابتدا هدف اقدام فعال را انتخاب یا لغو کنید."
-                  : canAfford(resources, action, selectedForAfford);
-              const riskReason = selectedAction || disabledReason ? undefined : getResourceRiskReason(resources, action, selectedActions);
-              return (
-                <ScenarioTwoActionCard
-                  key={action.id}
-                  action={action}
-                  selectedAction={selectedAction}
-                  disabledReason={disabledReason}
-                  isTargeting={pendingAction?.id === action.id}
-                  riskReason={riskReason}
-                  decisionRole="main"
-                  onPreviewChange={setHoveredAction}
-                  onPick={() => handlePickAction(action)}
-                  onRemove={() => removeSelectedAction(action.id, selectedAction?.targetId)}
-                />
-              );
-            })}
+                {mainActions.map((action) => {
+                  const selectedAction = selectedActions.find((item) => item.action.id === action.id);
+                  const selectedForAfford = currentRound.mainActionIds.includes(action.id)
+                    ? selectedActions.filter((item) => !currentRound.mainActionIds.includes(item.action.id))
+                    : selectedActions;
+                  const disabledReason = selectedAction
+                    ? undefined
+                      : canAfford(resources, action, selectedForAfford);
+                  const riskReason = selectedAction || disabledReason ? undefined : getResourceRiskReason(resources, action, selectedActions);
+                  return (
+                    <ScenarioTwoActionCard
+                      key={action.id}
+                      action={action}
+                      selectedAction={selectedAction}
+                      disabledReason={disabledReason}
+                      isTargeting={hoveredAction?.id === action.id}
+                      riskReason={riskReason}
+                      decisionRole="main"
+                      onPreviewChange={setHoveredAction}
+                      onPick={() => handlePickAction(action)}
+                      onRemove={() => removeSelectedAction(action.id, selectedAction?.targetId)}
+                    />
+                  );
+                })}
               </div>
             </div>
-            <div>
-              <h4>اقدام‌های پشتیبان ({supportSelectionCount}/2)</h4>
-              <div className="s2-action-grid">
-            {supportActions.map((action) => {
-              const selectedAction = selectedActions.find((item) => item.action.id === action.id);
-              const disabledReason = selectedAction
-                ? undefined
-                : pendingAction && pendingAction.id !== action.id
-                  ? "ابتدا هدف اقدام فعال را انتخاب یا لغو کنید."
-                  : supportSelectionCount >= 2
-                    ? "حداکثر دو اقدام پشتیبان قابل انتخاب است."
-                    : canAfford(resources, action, selectedActions);
-              const riskReason = selectedAction || disabledReason ? undefined : getResourceRiskReason(resources, action, selectedActions);
-              return (
-                <ScenarioTwoActionCard
-                  key={action.id}
-                  action={action}
-                  selectedAction={selectedAction}
-                  disabledReason={disabledReason}
-                  isTargeting={pendingAction?.id === action.id}
-                  riskReason={riskReason}
-                  decisionRole="support"
-                  onPreviewChange={setHoveredAction}
-                  onPick={() => handlePickAction(action)}
-                  onRemove={() => removeSelectedAction(action.id, selectedAction?.targetId)}
-                />
-              );
-            })}
+            {supportActions.length > 0 && (
+              <div>
+                <h4>Support Actions ({supportSelectionCount}/2)</h4>
+                <div className="s2-action-grid">
+                  {supportActions.map((action) => {
+                    const selectedAction = selectedActions.find((item) => item.action.id === action.id);
+                    const disabledReason = selectedAction
+                      ? undefined
+                        : supportSelectionCount >= 2
+                          ? "حداکثر دو اقدام پشتیبان قابل انتخاب است."
+                          : canAfford(resources, action, selectedActions);
+                    const riskReason = selectedAction || disabledReason ? undefined : getResourceRiskReason(resources, action, selectedActions);
+                    return (
+                      <ScenarioTwoActionCard
+                        key={action.id}
+                        action={action}
+                        selectedAction={selectedAction}
+                        disabledReason={disabledReason}
+                      isTargeting={hoveredAction?.id === action.id}
+                        riskReason={riskReason}
+                        decisionRole="support"
+                        onPreviewChange={setHoveredAction}
+                        onPick={() => handlePickAction(action)}
+                        onRemove={() => removeSelectedAction(action.id, selectedAction?.targetId)}
+                      />
+                    );
+                  })}
+                </div>
               </div>
-            </div>
+            )}
           </div>
           <div className="s2-execute-row">
             <div className="s2-selected-actions">
-              <strong>تصمیم انتخاب‌شده: {hasMainDecision ? "۱/۱" : "۰/۱"} | پشتیبان: {supportSelectionCount}/2</strong>
+              <strong>Selected Decision Preview</strong>
               {selectedActions.length === 0 ? <span>هنوز اقدامی انتخاب نشده است.</span> : selectedActions.map((item) => (
                 <button
                   type="button"
@@ -1407,7 +1847,7 @@ export const ScenarioTwoSimulation = ({
                 <em>پس از اجرا: ISR {resourcesAfterPreview.satelliteISR} | ENG {resourcesAfterPreview.energy} | TIME {resourcesAfterPreview.time}</em>
               )}
             </div>
-            <button className="primary" disabled={!hasMainDecision || Boolean(pendingAction)} onClick={executeRound}>اجرای بسته عملیاتی</button>
+            <button className="primary" disabled={!hasMainDecision} onClick={executeRound}>اجرای تصمیم راند</button>
           </div>
         </section>
       </main>
@@ -1433,8 +1873,8 @@ export const ScenarioTwoSimulation = ({
                   >
                     <strong>{convoy.name}</strong>
                     <span>{convoy.cargo}</span>
-                    <small>اولویت {convoy.priority} | مهلت {convoy.deadline} | تأخیر {convoy.delay}</small>
-                    <em>{convoy.hasFallbackNav ? "ناوبری پشتیبان فعال" : `اعتماد GNSS ${convoy.gnssTrustLevel}`}</em>
+                    <small>اهمیت {convoy.priority} | پیشرفت {convoy.progress}% | سلامت {convoy.health}</small>
+                    <em>{statusLabel[convoy.status]}</em>
                   </button>
                 ))}
               </div>
@@ -1442,14 +1882,16 @@ export const ScenarioTwoSimulation = ({
             {openDrawer === "mission" && (
               <div className="s2-drawer-list">
                 {[
-                  ["پیوستگی لجستیک", status.logisticsContinuity],
-                  ["تحویل حیاتی", status.criticalDelivery],
-                  ["سلامت ناوبری", status.navigationIntegrity],
-                  ["پایداری مدنی", status.civilianStability],
+                  ...(isAlphaThreatRevealed ? [
+                    ["سلامت محموله در خطر", status.alphaHealth],
+                    ["پیشرفت محموله در خطر", status.alphaProgress],
+                  ] as Array<[string, number]> : []),
+                  ["سطح شناسایی تهدید", status.threatIdentification],
+                  ["پایداری کاروان‌های فرعی", status.secondaryConvoyStability],
+                  ["ذخیره منابع", getResourceReserve(resources)],
+                  ...(isAlphaThreatRevealed ? [["ریسک سرقت/کمین", status.ambushRisk]] as Array<[string, number]> : []),
                   ["ابهام", status.ambiguity],
-                  ["ریسک تشدید", status.escalationRisk],
-                  ["ریسک GNSS آلوده", status.gnssExposureRisk],
-                  ["تأخیر تجمعی", status.cumulativeDelay],
+                  ["ریسک GNSS", status.gnssExposureRisk],
                 ].map(([label, value]) => (
                   <div key={label} className="s2-drawer-metric">
                     <span>{label}</span>
@@ -1462,20 +1904,27 @@ export const ScenarioTwoSimulation = ({
               <div className="s2-drawer-list">
                 <div className="s2-objective-detail">
                   <strong>هدف اصلی</strong>
-                  <p>کاروان الف، حامل تجهیزات درمانی اضطراری، باید قبل از پایان راند ۵ به مشهد برسد. اگر این کاروان نرسد، مأموریت کامل موفق محسوب نمی‌شود.</p>
+                  <p>تمام کاروان‌ها باید تا پایان راند ۸ به مقصد برسند و شبکه لجستیک پایدار بماند.</p>
                 </div>
-                {objectiveChecks.map((objective) => (
-                  <div key={objective.label} className={`s2-objective-row ${objective.done ? "done" : ""}`}>
-                    <b>{objective.done ? "✓" : "○"}</b>
-                    <span>{objective.label}</span>
-                    <strong>{objective.value}</strong>
-                  </div>
-                ))}
+                {(isAlphaThreatRevealed
+                  ? objectiveChecks
+                  : [
+                    { label: "تمام کاروان‌ها به مقصد برسند", done: false, value: "در جریان" },
+                    { label: "حداقل سه کاروان امن بمانند", done: status.secondaryConvoyStability >= 65, value: `${status.secondaryConvoyStability}` },
+                    { label: "محل اختلال قبل از راند ۴ شناسایی شود", done: status.threatIdentification >= 40, value: `${status.threatIdentification}` },
+                    { label: "منابع تا راندهای پایانی حفظ شوند", done: getResourceReserve(resources) >= 20, value: `ISR ${resources.satelliteISR} / ENG ${resources.energy} / TIME ${resources.time}` },
+                  ]).map((objective) => (
+                    <div key={objective.label} className={`s2-objective-row ${objective.done ? "done" : ""}`}>
+                      <b>{objective.done ? "✓" : "○"}</b>
+                      <span>{objective.label}</span>
+                      <strong>{objective.value}</strong>
+                    </div>
+                  ))}
               </div>
             )}
             {openDrawer === "log" && (
               <div className="s2-drawer-list">
-                {events.length === 0 && <p className="s2-empty-log">پس از اجرای بسته عملیاتی، پیامدها اینجا ثبت می‌شوند.</p>}
+                {events.length === 0 && <p className="s2-empty-log">پس از اجرای تصمیم راند، پیامدها اینجا ثبت می‌شوند.</p>}
                 {events.map((event) => <div key={event.id} className={`s2-log-item ${event.level}`}>{event.text}</div>)}
               </div>
             )}

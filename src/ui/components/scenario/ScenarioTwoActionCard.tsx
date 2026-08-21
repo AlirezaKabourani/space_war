@@ -24,13 +24,6 @@ const resourceClass: Record<keyof ResourceState, string> = {
   time: "time",
 };
 
-const targetLabels: Record<NonNullable<ActionCard["targetType"]>, string> = {
-  zone: "ناحیه",
-  convoy: "کاروان",
-  route: "مسیر",
-  global: "بدون هدف",
-};
-
 const getEffectHint = (action: ActionCard) => {
   const effects = action.effects;
   const hints: string[] = [];
@@ -107,7 +100,7 @@ export const ScenarioTwoActionCard = ({
       >
         <div className="s2-action-card-top">
           <span>{categoryLabels[action.category]}</span>
-          <strong>{action.targetType ? `هدف: ${targetLabels[action.targetType]}` : "بدون هدف"}</strong>
+          <strong>اثر خودکار</strong>
         </div>
         <h4>{action.title}</h4>
         <p className="s2-action-subtitle">{action.subtitle}</p>
@@ -117,11 +110,11 @@ export const ScenarioTwoActionCard = ({
         </div>
         <div className="s2-action-popovers" aria-label="جزئیات سریع تصمیم">
           <span tabIndex={0}>
-            نتیجه
+            اثر احتمالی
             <em>{action.expectedResult}</em>
           </span>
           <span tabIndex={0}>
-            نقشه
+            نمایش روی نقشه
             <em>{action.mapEffect}</em>
           </span>
           <span className={`impact impact-${action.missionImpact}`}>اثر: {action.missionImpact}</span>
@@ -131,9 +124,7 @@ export const ScenarioTwoActionCard = ({
           <CostChips cost={action.cost} unaffordable={Boolean(disabledReason)} risky={Boolean(riskReason)} />
         </div>
         <div className="s2-action-card-foot">
-          <span>{isTargeting ? "هدف را روی نقشه انتخاب کنید" : selectedAction?.targetId ? "هدف ثبت شد" : "آماده انتخاب"}</span>
-          {selectedAction?.targetId && <strong>{selectedAction.targetId}</strong>}
-          {isTargeting && <em>در انتظار هدف</em>}
+          <span>{isTargeting ? "پیش‌نمایش فعال" : selectedAction ? "انتخاب شده" : "برای انتخاب کلیک کنید"}</span>
           {isSelected && <em>انتخاب شده، برای حذف کلیک کنید</em>}
         </div>
       </button>
