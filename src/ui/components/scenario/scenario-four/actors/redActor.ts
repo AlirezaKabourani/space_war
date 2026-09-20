@@ -1,4 +1,4 @@
-import { seededNoise } from "../adjudication/seededRandom";
+import { seededNoise } from "../adjudication/seededRandom.ts";
 import type {
   RedIntent,
   RedMove1Action,

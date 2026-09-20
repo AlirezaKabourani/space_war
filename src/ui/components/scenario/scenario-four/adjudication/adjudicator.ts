@@ -1,8 +1,8 @@
-import { createSeededRandom } from "./seededRandom";
-import { resolveAllyActor } from "../actors/allyActor";
-import { resolveCommercialActor } from "../actors/commercialActor";
-import { resolveRedActor } from "../actors/redActor";
-import { clampScenarioOneState, cloneState } from "../model/initialState";
+import { createSeededRandom } from "./seededRandom.ts";
+import { resolveAllyActor } from "../actors/allyActor.ts";
+import { resolveCommercialActor } from "../actors/commercialActor.ts";
+import { resolveRedActor } from "../actors/redActor.ts";
+import { clampScenarioOneState, cloneState } from "../model/initialState.ts";
 import type {
   AllyAction,
   CommercialAction,
@@ -320,7 +320,7 @@ const generateSituationUpdate = (
       allyAction === "quiet_support" || allyAction === "public_support"
         ? "متحد منطقه‌ای از ادامه هماهنگی حمایت کرده و مسیر تبادل اطلاعات باز مانده است."
         : allyAction === "distance_from_blue"
-          ? "متحد منطقه‌ای با احتیاط بیشتری عمل می‌کند و از موضع Blue فاصله گرفته است."
+          ? "متحد منطقه‌ای ایران با احتیاط بیشتری عمل می‌کند و از موضع ایران فاصله گرفته است."
           : allyAction === "request_more_information"
             ? "متحد منطقه‌ای درخواست داده تکمیلی کرده و منتظر روشن‌تر شدن شواهد است."
             : "وضعیت ائتلاف تغییر عمده‌ای نشان نمی‌دهد.",

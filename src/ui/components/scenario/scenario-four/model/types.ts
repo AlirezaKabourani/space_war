@@ -108,6 +108,66 @@ export interface ScenarioOneDecisionRecord {
   stateAfter: ScenarioOneState;
   resourcesBefore: ScenarioOneState["resources"];
   resourcesAfter: ScenarioOneState["resources"];
+  resourceEvents?: ResourceEvent[];
+  telemetryV3?: DecisionTelemetryV3;
+}
+
+export interface EvidenceOpenTelemetryV3 {
+  evidenceId: string;
+  sourceType: string;
+  openedAt: string;
+  closedAt?: string;
+  activeDwellMs?: number;
+}
+
+export interface DecisionTelemetryV3 {
+  runId: string;
+  moveId: "move_1" | "move_2" | "move_3";
+  windowId: DecisionWindowId;
+  enteredAt: string;
+  confirmedAt: string;
+  elapsedMs: number;
+  activeDecisionMs: number;
+  firstSelectedOptionId?: string;
+  finalSelectedOptionId: string;
+  optionChangeCount: number;
+  selectionTimeline: Array<{ optionId: string; ts: string }>;
+  evidenceAvailableIds: string[];
+  evidenceOpenedIds: string[];
+  evidenceOpenTimeline: EvidenceOpenTelemetryV3[];
+  helpOpened: boolean;
+  glossaryOpened: boolean;
+  playerAttributionEstimateBefore?: number;
+  playerAttributionEstimateAfter?: number;
+  systemAttributionConfidenceVisibleAtDecision?: number;
+  statedReasonId?: string;
+  statedReasonText?: string;
+  resourcesBefore: ScenarioOneState["resources"];
+  resourcesAfterUserAction: ScenarioOneState["resources"];
+}
+
+export interface AttributionEstimateTelemetryV3 {
+  phase: "m2_pre_investigation" | "m2_post_investigation" | "m3_final";
+  playerEstimate: number;
+  systemEvidenceConfidence: number;
+  recordedAt: string;
+}
+
+export type ResourceKey = keyof ScenarioOneState["resources"];
+
+export interface ResourceEvent {
+  id: string;
+  moveId: "move_1" | "move_2" | "move_3";
+  kind: "user_cost" | "actor_recovery" | "transition_recovery";
+  resource: ResourceKey;
+  source: string;
+  sourceDecisionId?: string;
+  sourceActorId?: string;
+  rationale: string;
+  before: number;
+  delta: number;
+  after: number;
+  timestamp: string;
 }
 
 export interface RedObservation {
@@ -282,6 +342,17 @@ export interface ScenarioOneFinalSnapshot {
     evidenceTruthMap: Record<string, unknown>;
   };
   completedAt: string;
+  resourceEvents?: ResourceEvent[];
+  measurementModelVersion?: "s4-cog-v3";
+  formulaVersion?: "3.0.0";
+  optionProfileVersion?: "s4-options-v3.1-postfix";
+  scenarioContentVersion?: string;
+  expertPanelVersion?: "provisional-unvalidated";
+  anchorTestVersion?: "s4-anchor-first-options-v1";
+  decisionTelemetryV3?: DecisionTelemetryV3[];
+  attributionTelemetryV3?: AttributionEstimateTelemetryV3[];
+  oldOSI?: number | null;
+  cognitiveScoresV3?: Record<string, unknown>;
 }
 
 export interface MoveSnapshot {

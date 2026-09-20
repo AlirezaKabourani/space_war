@@ -1,5 +1,5 @@
-import { seededNoise } from "./seededRandom";
-import { clampScenarioOneState, cloneState } from "../model/initialState";
+import { seededNoise } from "./seededRandom.ts";
+import { clampScenarioOneState, cloneState } from "../model/initialState.ts";
 import type {
   AllyFinalAction,
   FinalBlueObservation,
@@ -374,18 +374,25 @@ const computeMetrics = (
         : choices.threshold === "m3_t_sufficient_strong" && choices.informationPolicy === "m3_info_public_attribution"
           ? 75
           : 65;
+  const resourceValues = Object.values(state.resources);
+  const totalResourceSpent = Math.max(0, 400 - resourceValues.reduce((sum, value) => sum + value, 0));
+  const protectedMissionValue = state.visible.missionContinuity * 0.75 + state.visible.operationalReadiness * 0.25;
+  const missionBenefitPerCost = scoreClamp((protectedMissionValue / Math.max(35, totalResourceSpent)) * 100);
+  const reserveAtCriticalMoment = scoreClamp(resourceValues.reduce((sum, value) => sum + value, 0) / resourceValues.length);
+  const avoidedExhaustion = resourceValues.filter((value) => value >= 20).length * 25;
+  const recoveryUtilization = state.flags.m2MissionLoadReduced || state.flags.m2FallbackActivated ? 75 : 50;
+  const resourceEfficiency = scoreClamp(
+    missionBenefitPerCost * 0.4 +
+      reserveAtCriticalMoment * 0.25 +
+      avoidedExhaustion * 0.2 +
+      recoveryUtilization * 0.15
+  );
   return {
     missionOutcomeScore: scoreClamp(state.visible.missionContinuity + (state.flags.m2FallbackActivated ? 8 : 0)),
     informationQualityScore: scoreClamp(state.visible.situationAwareness + evidence * 0.2),
     escalationControlScore: scoreClamp(100 - state.visible.escalationPressure + (redAction.includes("offramp") ? 8 : 0)),
     coalitionOutcomeScore: scoreClamp(state.visible.coalitionCohesion),
-    resourceSustainabilityScore: scoreClamp(
-      (state.resources.ssaCapacity +
-        state.resources.protectiveCapacity +
-        state.resources.politicalCapital +
-        state.resources.disclosureBudget) /
-        4
-    ),
+    resourceSustainabilityScore: resourceEfficiency,
     informationDisciplineScore: scoreClamp(100 - overclaimGap - state.visible.informationExposure * 0.25),
     strategicLegitimacyScore: scoreClamp(state.visible.strategicLegitimacy),
     resilienceScore: scoreClamp(state.visible.operationalReadiness + (state.flags.m2FallbackActivated ? 12 : 0)),
@@ -397,40 +404,87 @@ const computeMetrics = (
   };
 };
 
-const selectEndState = (
-  state: ScenarioOneState,
-  metrics: FinalMetrics,
-  redAction: RedMove3Action
-): { primary: FinalEndState; tags: string[] } => {
+export interface FinalEndStateContext {
+  state: ScenarioOneState;
+  metrics: FinalMetrics;
+  redAction: RedMove3Action;
+  choices: Move3Choices;
+}
+
+export const resolvePrimaryEndState = ({
+  state,
+  metrics,
+  redAction,
+  choices,
+}: FinalEndStateContext): { primary: FinalEndState; tags: string[] } => {
   const tags: string[] = [];
   if (state.visible.coalitionCohesion < 45) tags.push("coalition_risk");
   if (state.visible.escalationPressure > 65) tags.push("escalation_risk");
   if (metrics.informationDisciplineScore < 45) tags.push("information_discipline_risk");
-  if (
-    state.flags.m3PublicAttribution &&
+  const reciprocalDeescalation = redAction === "deescalate_and_separate" || redAction === "accept_interim_offramp" || Boolean(state.flags.m3ReciprocalDeescalation);
+  const actualOffRampProposal = Boolean(
+    state.flags.m2OffRampOfferedByBlue ||
+    state.flags.m2OffRampOfferedByRed ||
+    state.flags.m3NegotiatedOffRamp ||
+    (choices.offRamp && choices.offRamp !== "reject") ||
+    choices.coa === "m3_coa_negotiated_deescalation"
+  );
+  const severeEscalation = state.visible.escalationPressure >= 75;
+  const strongMisattribution = state.flags.m3PublicAttribution &&
     state.hidden.trueIncidentAttribution === "non_red" &&
-    metrics.informationDisciplineScore < 55
+    metrics.informationDisciplineScore < 55;
+  const missionPreserved = state.visible.missionContinuity >= 55;
+  const attributionUnresolved = state.knowledge.systemAttributionConfidence < 55;
+
+  if (severeEscalation) return { primary: "escalation_spiral", tags };
+  if (
+    strongMisattribution
   ) {
     return { primary: "intelligence_failure", tags };
   }
-  if (state.visible.escalationPressure >= 75 && redAction === "increase_non_destructive_pressure") {
-    return { primary: "escalation_spiral", tags };
-  }
   if (state.visible.coalitionCohesion < 35) return { primary: "coalition_fracture", tags };
-  if (redAction === "accept_interim_offramp" && state.visible.missionContinuity >= 55) {
+  if (actualOffRampProposal && reciprocalDeescalation && missionPreserved) {
     return { primary: "negotiated_deescalation", tags };
   }
-  if (metrics.missionOutcomeScore >= 75 && metrics.escalationControlScore >= 70 && metrics.coalitionOutcomeScore >= 60) {
+  if (
+    metrics.missionOutcomeScore >= 75 &&
+    metrics.escalationControlScore >= 70 &&
+    metrics.coalitionOutcomeScore >= 60 &&
+    reciprocalDeescalation
+  ) {
     return { primary: "calm_crisis_control", tags };
   }
   if (redAction === "deescalate_and_separate" && state.visible.informationExposure > 45) {
     return { primary: "costly_deterrence", tags };
   }
+  if (
+    missionPreserved &&
+    attributionUnresolved &&
+    ["maintain_ambiguous_pressure", "deny_and_hold", "pause_for_assessment"].includes(redAction)
+  ) {
+    return { primary: "persistent_ambiguity", tags };
+  }
   if (metrics.informationQualityScore >= 70 && metrics.escalationControlScore >= 55) {
     return { primary: "strategic_information_opportunity", tags };
   }
-  if (state.knowledge.systemAttributionConfidence < 55) return { primary: "persistent_ambiguity", tags };
+  if (attributionUnresolved) return { primary: "persistent_ambiguity", tags };
   return { primary: "mixed_crisis_containment", tags };
+};
+
+export const getEndStateExplanation = (context: FinalEndStateContext, endState?: FinalEndState) => {
+  const primary = endState ?? resolvePrimaryEndState(context).primary;
+  const explanations: Record<FinalEndState, string> = {
+    calm_crisis_control: "مأموریت و انسجام حفظ شد، فشار تشدید کنترل ماند و اسرائیل نیز عملاً از مسیر فشار فاصله گرفت.",
+    costly_deterrence: "فاصله‌گیری اسرائیل حاصل شد، اما هزینه منابع یا افشای اطلاعات برای ایران بالا بود.",
+    persistent_ambiguity: "مأموریت حفظ شد، اما انتساب همچنان حل‌نشده و رفتار اسرائیل چندتعبیری باقی ماند.",
+    coalition_fracture: "کاهش شدید انسجام متحدان، امکان اقدام هماهنگ را محدود کرد.",
+    escalation_spiral: "فشار تشدید به سطح شدید رسید و واکنش اسرائیل نیز مسیر بحران را تندتر کرد.",
+    intelligence_failure: "ادعای عمومی فراتر از شواهد با حقیقت رخداد سازگار نبود و بر نتیجه غلبه کرد.",
+    negotiated_deescalation: "یک مسیر کاهش تنش واقعاً پیشنهاد شد و با پذیرش یا فاصله‌گذاری متقابل اسرائیل همراه بود.",
+    strategic_information_opportunity: "کنترل نسبی بحران همراه با شناخت بهتر، امکان بهره‌برداری اطلاعاتی بعدی ایجاد کرد.",
+    mixed_crisis_containment: "بخشی از اهداف حفظ شد، اما نتیجه در مأموریت، تشدید یا انسجام کاملاً مطلوب نبود.",
+  };
+  return explanations[primary];
 };
 
 const endStateLabel: Record<FinalEndState, string> = {
@@ -485,7 +539,9 @@ export const adjudicateMove3 = ({
   working.knowledge.playerAttributionEstimateFinal = playerAttributionEstimateFinal;
   const finalState = clampScenarioOneState(working);
   const metrics = computeMetrics(finalState, choices, redAction);
-  const endState = selectEndState(finalState, metrics, redAction);
+  const finalContext: FinalEndStateContext = { state: finalState, metrics, redAction, choices };
+  const endState = resolvePrimaryEndState(finalContext);
+  const endStateExplanation = getEndStateExplanation(finalContext, endState.primary);
 
   const move3: Move3Snapshot = {
     moveId: "move_3",
@@ -522,11 +578,11 @@ export const adjudicateMove3 = ({
     },
     {
       title: "تحول شناخت",
-      text: `برآوردهای شما درباره نقش Red از ${move2.attributionEstimatePre} به ${move2.attributionEstimatePost} و سپس ${playerAttributionEstimateFinal} رسید.`,
+      text: `برآوردهای شما درباره احتمال نقش اسرائیل از ${move2.attributionEstimatePre} به ${move2.attributionEstimatePost} و سپس ${playerAttributionEstimateFinal} رسید.`,
     },
     {
       title: "End State",
-      text: `${endStateLabel[endState.primary]}: این نتیجه بر اساس ترکیب مأموریت، تشدید، ائتلاف، منابع، سیاست اطلاعاتی و واکنش بازیگران شکل گرفت.`,
+      text: `${endStateLabel[endState.primary]}: ${endStateExplanation}`,
     },
   ];
 

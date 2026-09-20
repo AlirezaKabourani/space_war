@@ -1,5 +1,5 @@
-import { seededNoise, selectWeighted } from "./seededRandom";
-import { clampScenarioOneState, cloneState } from "../model/initialState";
+import { seededNoise, selectWeighted } from "./seededRandom.ts";
+import { clampScenarioOneState, cloneState } from "../model/initialState.ts";
 import type {
   AllyMove2Action,
   CommercialMove2Action,
@@ -520,13 +520,13 @@ export const adjudicateMove2 = ({
           : "شواهد همچنان چندفرضیه‌ای است و نقص داخلی یا عامل غیرخصمانه کاملاً رد نشده است.",
     },
     {
-      title: "رفتار Red",
+      title: "رفتار اسرائیل",
       text:
         redAction === "offer_mutual_separation"
-          ? "Red مسیر فاصله‌گذاری متقابل را پیشنهاد داده است."
+          ? "اسرائیل مسیر فاصله‌گذاری متقابل را پیشنهاد داده است."
           : redAction === "introduce_second_asset"
-            ? "یک دارایی دیگر Red در محیط عملیاتی مشاهده شده است."
-            : "Red همچنان در محیط عملیاتی حضور دارد و رفتار آن قابل تفسیر چندگانه است.",
+            ? "یک دارایی دیگر اسرائیل در محیط عملیاتی مشاهده شده است."
+            : "اسرائیل همچنان در محیط عملیاتی حضور دارد و رفتار آن قابل تفسیر چندگانه است.",
     },
     {
       title: "وضعیت ائتلاف",

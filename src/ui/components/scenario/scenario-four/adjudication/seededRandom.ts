@@ -1,4 +1,4 @@
-import { redIntentWeights } from "../model/initialState";
+import { redIntentWeights } from "../model/initialState.ts";
 import type { RedIntent } from "../model/types";
 
 const hashString = (value: string) => {

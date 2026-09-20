@@ -7,6 +7,9 @@
     "dev": "vite --open",
     "build": "tsc -b && vite build",
     "lint": "eslint .",
+    "test:s4-models": "node scripts/validate-s4-models.mjs && node scripts/validate-s4-cognitive-v3.mjs",
+    "test:s4-cognitive-v3": "node scripts/validate-s4-cognitive-v3.mjs",
+    "export:s4-cognitive-profiles": "node scripts/export-s4-cognitive-profiles-v3.mjs",
     "preview": "vite preview"
   },
   "dependencies": {

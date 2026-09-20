@@ -268,10 +268,14 @@ const SCENARIOS: Scenario[] = [
     id: 4,
     title: "۴ — حریم خاکستری مدار",
     introTitle: "سناریو ۴ — حریم خاکستری مدار",
-    summary: "تصمیم‌گیری در فضای خاکستری؛ جایی که رفتار غیرعادی الزاماً به معنای حمله نیست.",
+    summary: "مدیریت یک بحران مداری سه‌مرحله‌ای؛ از نزدیک‌شدن مبهم R-31 تا اختلال A-17 و تصمیم نهایی درباره انتساب، پاسخ و کاهش تنش.",
     image: "/images/scenario4.png",
-    descriptionPreview: "در نقش مسئول یک سلول تصمیم‌گیری فضایی، با نزدیک‌شدن یک دارایی دوکاربردی ناشناس، افت سرویس، شواهد متناقض و بحران انتساب روبه‌رو می‌شوید.",
-    fullDescription: `در نقش مسئول یک سلول تصمیم‌گیری فضایی، با نزدیک‌شدن یک دارایی دوکاربردی ناشناس، افت سرویس، شواهد متناقض و بحران انتساب روبه‌رو می‌شوید. تصمیم‌های شما مسیر بحران، رفتار طرف مقابل، واکنش متحدان و نتیجه نهایی را تغییر می‌دهد. ساختار سناریو سه مرحله بحران دارد و برای تمرین تصمیم‌گیری عملیاتی–راهبردی در شرایط اطلاعات ناقص طراحی شده است.`
+    descriptionPreview: "شما رئیس سلول تصمیم‌گیری عملیات فضایی ایران هستید. باید با منابع محدود، شواهد چندمنبعی و نیت نامعلوم اسرائیل، تداوم مأموریت A-17 را حفظ و مسیر بحران را مدیریت کنید.",
+    fullDescription: `R-31، یک دارایی فضایی دوکاربردی متعلق به اسرائیل، از الگوی معمول خود خارج شده و فاصله‌اش با ماهواره مهم A-17 ایران را کاهش داده است. هنوز حمله یا نیت خصمانه‌ای تأیید نشده و رفتار مشاهده‌شده می‌تواند از یک مأموریت فنی تا آزمون واکنش، جمع‌آوری اطلاعات یا اعمال فشار معنا داشته باشد.
+
+شما در نقش رئیس سلول تصمیم‌گیری عملیات فضایی ایران، بحران را در سه مرحله مدیریت می‌کنید: نزدیک‌شدن مداری مبهم، اختلال بدون امضای قطعی، و بحران نهایی انتساب. در ۹ نقطه تصمیم باید اولویت اطلاعاتی، وضعیت حفاظتی، ارتباط با اسرائیل و متحدان ایران، بررسی علت اختلال، تداوم مأموریت، مسیر پاسخ و سیاست انتشار شواهد را تعیین کنید.
+
+منابع SSA، ظرفیت حفاظتی، سرمایه سیاسی و ظرفیت افشای امن محدودند و تصمیم‌های شما می‌توانند آن‌ها را مصرف یا در شرایط منطقی بازیابی کنند. اسرائیل، متحدان ایران و اپراتور تجاری نیز مستقل واکنش نشان می‌دهند؛ بنابراین نتیجه فقط به یک انتخاب وابسته نیست. هدف سناریو یافتن یک پاسخ صحیح ثابت نیست، بلکه تمرین تصمیم‌گیری عملیاتی–راهبردی در شرایط اطلاعات ناقص، کنترل تشدید، حفظ گزینه‌های آینده و سنجش پیامدهای هر اقدام است.`
   },
   {
     id: 5,
@@ -315,9 +319,7 @@ const App = () => {
   const [selectedScenarioRunId, setSelectedScenarioRunId] = useState<string>("all");
   const [analyticsSection, setAnalyticsSection] = useState<"overview" | "stat" | "cognitive">("overview");
   const [showAnalyticsLog, setShowAnalyticsLog] = useState(false);
-  const [loggingEnabled, setLoggingEnabled] = useState<boolean>(() => eventLogger.isLoggingEnabled());
   const scenarioDescriptionTimerKeyRef = useRef<string | null>(null);
-  const importLogInputRef = useRef<HTMLInputElement | null>(null);
 
   useEffect(() => {
     setSelectedScenarioRunId("all");
@@ -401,109 +403,6 @@ const [expandedScenarioId, setExpandedScenarioId] = useState<number | null>(null
 
   const handleDownloadLog = () => {
     eventLogger.exportToCSV();
-  };
-
-  const handleToggleLogging = () => {
-    const next = !loggingEnabled;
-    eventLogger.setLoggingEnabled(next);
-    setLoggingEnabled(next);
-  };
-
-  const parseCsvLine = (line: string) => {
-    const values: string[] = [];
-    let current = "";
-    let inQuotes = false;
-    for (let i = 0; i < line.length; i += 1) {
-      const ch = line[i];
-      const next = line[i + 1];
-      if (ch === '"' && inQuotes && next === '"') {
-        current += '"';
-        i += 1;
-        continue;
-      }
-      if (ch === '"') {
-        inQuotes = !inQuotes;
-        continue;
-      }
-      if (ch === "," && !inQuotes) {
-        values.push(current);
-        current = "";
-        continue;
-      }
-      current += ch;
-    }
-    values.push(current);
-    return values;
-  };
-
-  const handleImportLogFile = async (file: File) => {
-    const text = await file.text();
-    const lines = text
-      .split(/\r?\n/)
-      .map((l) => l.trim())
-      .filter(Boolean);
-    if (lines.length < 2) {
-      alert("CSV معتبر نیست.");
-      return;
-    }
-
-    const header = parseCsvLine(lines[0]);
-    const indexOf = (key: string) => header.indexOf(key);
-    const idx = {
-      timestamp: indexOf("timestamp"),
-      type: indexOf("type"),
-      scenarioId: indexOf("scenarioId"),
-      nodeId: indexOf("nodeId"),
-      action: indexOf("action"),
-      elapsedMs: indexOf("elapsedMs"),
-      userId: indexOf("userId"),
-      userName: indexOf("userName"),
-      userRole: indexOf("userRole"),
-      detail: indexOf("detail"),
-    };
-    if (idx.timestamp < 0 || idx.type < 0) {
-      alert("ستون‌های ضروری CSV پیدا نشد.");
-      return;
-    }
-
-    const imported = lines.slice(1).map((line, rowIdx) => {
-      const row = parseCsvLine(line);
-      const detailRaw = idx.detail >= 0 ? row[idx.detail] ?? "" : "";
-      let detail: Record<string, unknown> | undefined;
-      if (detailRaw) {
-        try {
-          detail = JSON.parse(detailRaw) as Record<string, unknown>;
-        } catch {
-          detail = { raw: detailRaw };
-        }
-      }
-      const tsRaw = row[idx.timestamp];
-      const ts = Number.isFinite(Date.parse(tsRaw)) ? Date.parse(tsRaw) : Date.now();
-      const elapsedRaw = idx.elapsedMs >= 0 ? row[idx.elapsedMs] : "";
-      const elapsedMs = elapsedRaw ? Number(elapsedRaw) : undefined;
-      return {
-        id: `import-${ts}-${rowIdx}`,
-        ts,
-        type: row[idx.type] ?? "unknown",
-        scenarioId: idx.scenarioId >= 0 && row[idx.scenarioId] !== "" ? row[idx.scenarioId] : undefined,
-        nodeId: idx.nodeId >= 0 && row[idx.nodeId] !== "" ? row[idx.nodeId] : undefined,
-        action: idx.action >= 0 && row[idx.action] !== "" ? row[idx.action] : undefined,
-        elapsedMs: Number.isFinite(elapsedMs) ? elapsedMs : undefined,
-        userId: idx.userId >= 0 && row[idx.userId] !== "" ? row[idx.userId] : undefined,
-        userName: idx.userName >= 0 && row[idx.userName] !== "" ? row[idx.userName] : undefined,
-        userRole: idx.userRole >= 0 && row[idx.userRole] !== "" ? row[idx.userRole] : undefined,
-        detail,
-      };
-    });
-
-    const replace = window.confirm("می‌خواهی لاگ فعلی پاک شود و CSV جایگزین شود؟\nOK = جایگزینی کامل، Cancel = ادغام با لاگ فعلی");
-    if (replace) {
-      eventLogger.replaceEvents(imported);
-      alert(`لاگ با ${imported.length} رویداد جایگزین شد.`);
-    } else {
-      const added = eventLogger.mergeEvents(imported);
-      alert(`${added} رویداد جدید به لاگ اضافه شد (ادغام با حذف تکراری‌ها).`);
-    }
   };
 
   const getUserAnalytics = (): UserAnalyticsSummary[] => {
@@ -2335,9 +2234,12 @@ const [expandedScenarioId, setExpandedScenarioId] = useState<number | null>(null
 
                   <h3 className="scenario-title">{scenario.title}</h3>
                   <p className="scenario-summary">
-                    {isExpanded && (scenario.descriptionPreview || scenario.fullDescription)
-                      ? scenario.descriptionPreview || scenario.fullDescription
-                      : scenario.summary.slice(0, 70) + "…"}
+                    {isExpanded
+                      ? scenario.fullDescription || scenario.descriptionPreview || scenario.summary
+                      : (() => {
+                          const preview = scenario.descriptionPreview || scenario.summary;
+                          return preview.length > 140 ? `${preview.slice(0, 140)}…` : preview;
+                        })()}
                   </p>
 
                   <div className="scenario-actions">
@@ -2463,11 +2365,6 @@ const renderScenarioPlay = () => {
             <button onClick={leaveScenarioToList}>
               بازگشت به لیست سناریوها
             </button>
-            {activeProfile.role === "admin" && (
-              <button onClick={() => eventLogger.exportToText()}>
-                دانلود لاگ رفتار
-              </button>
-            )}
             <button className="danger" onClick={handleExit}>
               خروج
             </button>
@@ -2607,14 +2504,6 @@ const renderScenarioPlay = () => {
     </div>
   );
 };
-
-
-
-  const activeScenarioTreeId =
-    activeScenarioId != null ? SCENARIO_TREE_IDS[activeScenarioId] : undefined;
-  const isScenarioFourActive =
-    view === "scenarioPlay" && activeScenarioTreeId === "s4_redesigned_scenario_one";
-
   return (
     <div className="app-root">
       {showBackgroundVideo && (
@@ -2692,7 +2581,7 @@ const renderScenarioPlay = () => {
               مدیریت پروفایل
             </button>
             {activeProfile.role === "admin" && (
-              <button onClick={handleDownloadLog}>دانلود لاگ رفتار (CSV)</button>
+              <button onClick={handleDownloadLog}>دانلود لاگ رفتاری</button>
             )}
             <button className="danger" onClick={handleExit}>
               خروج
@@ -2701,73 +2590,6 @@ const renderScenarioPlay = () => {
         )}
       </div>
 
-      {activeProfile.role === "admin" && import.meta.env.DEV && !isScenarioFourActive && (
-        <div
-          style={{
-            position: "fixed",
-            left: "1rem",
-            bottom: "1rem",
-            display: "flex",
-            gap: "0.5rem",
-            zIndex: 2000,
-          }}
-        >
-          <button
-            onClick={handleToggleLogging}
-            style={{
-              padding: "0.45rem 0.9rem",
-              borderRadius: "999px",
-              border: "1px solid var(--border-soft)",
-              background: "rgba(15, 23, 42, 0.85)",
-              color: "var(--text-main)",
-              boxShadow: "0 10px 24px rgba(0,0,0,0.35)",
-              cursor: "pointer",
-            }}
-          >
-            {loggingEnabled ? "stop logging" : "start logging"}
-          </button>
-          <button
-            onClick={() => importLogInputRef.current?.click()}
-            style={{
-              padding: "0.45rem 0.9rem",
-              borderRadius: "999px",
-              border: "1px solid var(--border-soft)",
-              background: "rgba(15, 23, 42, 0.85)",
-              color: "var(--text-main)",
-              boxShadow: "0 10px 24px rgba(0,0,0,0.35)",
-              cursor: "pointer",
-            }}
-          >
-            Import log CSV
-          </button>
-          <button
-            onClick={() => eventLogger.clear()}
-            style={{
-              padding: "0.45rem 0.9rem",
-              borderRadius: "999px",
-              border: "1px solid var(--border-soft)",
-              background: "rgba(15, 23, 42, 0.85)",
-              color: "var(--text-main)",
-              boxShadow: "0 10px 24px rgba(0,0,0,0.35)",
-              cursor: "pointer",
-            }}
-          >
-            Reset log
-          </button>
-          <input
-            ref={importLogInputRef}
-            type="file"
-            accept=".csv,text/csv"
-            style={{ display: "none" }}
-            onChange={async (event) => {
-              const file = event.target.files?.[0];
-              if (!file) return;
-              await handleImportLogFile(file);
-              event.target.value = "";
-            }}
-          />
-        </div>
-      )}
     </div>
   );
 };

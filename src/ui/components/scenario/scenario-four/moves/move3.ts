@@ -15,7 +15,7 @@ export const crisisCoaOptions: DecisionOption[] = [
   {
     id: "m3_coa_controlled_deterrence",
     label: "بازدارندگی کنترل‌شده",
-    description: "آمادگی و حفاظت افزایش یابد و Red یک هشدار روشن اما محدود دریافت کند.",
+    description: "آمادگی و حفاظت افزایش یابد و اسرائیل یک هشدار روشن اما محدود دریافت کند.",
   },
   {
     id: "m3_coa_coordinated_response",
@@ -38,7 +38,7 @@ export const informationPolicyOptions: DecisionOption[] = [
   { id: "m3_info_keep_restricted", label: "محرمانه باقی بماند" },
   { id: "m3_info_share_allies", label: "اشتراک محدود با متحدان" },
   { id: "m3_info_public_partial", label: "انتشار عمومی بخشی از شواهد" },
-  { id: "m3_info_public_attribution", label: "انتساب عمومی به Red" },
+  { id: "m3_info_public_attribution", label: "انتساب عمومی به اسرائیل" },
 ];
 
 export const offRampOptions: DecisionOption[] = [
@@ -57,5 +57,4 @@ export const move3ReasonOptions = [
   "مشروعیت سیاسی/حقوقی",
   "حفظ منابع و قابلیت‌های آینده",
   "ایجاد مسیر خروج از بحران",
-  "سایر",
 ];

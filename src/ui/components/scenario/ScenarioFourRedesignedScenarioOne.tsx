@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useRef, useState } from "react";
+import { useEffect, useMemo, useRef, useState, type CSSProperties } from "react";
 import { eventLogger } from "../../../services/analytics/eventLogger";
 import { Card } from "../common/Card";
 import "./ScenarioFourRedesignedScenarioOne.css";
@@ -18,6 +18,34 @@ import {
 } from "./scenario-four/adjudication/move3Adjudicator";
 import { selectRedIntent } from "./scenario-four/adjudication/seededRandom";
 import { createInitialScenarioOneState, cloneState } from "./scenario-four/model/initialState";
+import {
+  calculateOrientationV2,
+} from "./scenario-four/model/orientationModelV2";
+import {
+  applyOptionSelectionV3,
+  calculateAttributionBrier,
+  calculateCognitiveModelV3,
+  type CognitiveModelV3Result,
+  type SelectionTelemetryStateV3,
+} from "./scenario-four/model/cognitiveEngineV3";
+import { buildOpponentObservationAAR } from "./scenario-four/model/aarV3";
+import { ACTOR_LABELS_FA, SCENARIO_FICTION_DISCLAIMER_FA } from "./scenario-four/model/displayLabelsFa";
+import {
+  COGNITIVE_FORMULA_VERSION,
+  COGNITIVE_MODEL_VERSION,
+  ANCHOR_TEST_VERSION,
+  CONSTRUCT_DISTRIBUTION_AUDIT_V3,
+  EXPERT_PANEL_VERSION,
+  OPTION_PROFILE_VERSION,
+  SCENARIO_CONTENT_VERSION,
+} from "./scenario-four/model/cognitiveOptionProfilesV3";
+import {
+  applyResourceRecovery,
+  captureDecisionResourceEvents,
+  getCertainResourceCosts,
+  getResourceLabel,
+  getResourceStatusLabel,
+} from "./scenario-four/model/resourceEngineV2";
 import type {
   DecisionOption,
   DecisionWindowId,
@@ -27,6 +55,10 @@ import type {
   ScenarioOneFinalSnapshot,
   ScenarioOneDecisionRecord,
   ScenarioOneState,
+  ResourceEvent,
+  AttributionEstimateTelemetryV3,
+  DecisionTelemetryV3,
+  EvidenceOpenTelemetryV3,
 } from "./scenario-four/model/types";
 import {
   communicationOptions,
@@ -144,7 +176,7 @@ const windowTitles: Record<DecisionWindowId, string> = {
   m1_reason: "ثبت دلیل",
   m2_investigation: "نقطه تصمیم ۴ — بررسی علت",
   m2_mission: "نقطه تصمیم ۵ — تداوم مأموریت",
-  m2_response: "نقطه تصمیم ۶ — موضع در برابر طرف مقابل",
+  m2_response: "نقطه تصمیم ۶ — موضع در برابر اسرائیل",
   m2_reason: "ثبت دلیل مرحله دوم",
   m3_threshold: "نقطه تصمیم ۷ — آستانه اقدام",
   m3_coa: "نقطه تصمیم ۸ — مسیر اقدام",
@@ -190,23 +222,33 @@ const getPhaseMeta = (phase: Phase) => {
 };
 
 const ScenarioProgress = ({ phase }: { phase: Phase }) => {
-  const reportMode = phase === "final_report" || phase === "dashboard" || phase === "aar";
-  const steps = reportMode
-    ? [
-        { id: "report", label: "گزارش", active: phase === "final_report" || phase === "dashboard", done: phase === "aar" },
-        { id: "aar", label: "تحلیل پس از اقدام", active: phase === "aar", done: false },
-      ]
-    : [
-        { id: "m1", label: "۱. نزدیک‌شدن", active: ["brief", "intel", "dw1", "dw2", "dw3", "reason", "resolving", "update"].includes(phase), done: phase.startsWith("move2") || phase.startsWith("move3") },
-        { id: "m2", label: "۲. اختلال بدون امضا", active: phase.startsWith("move2"), done: phase.startsWith("move3") },
-        { id: "m3", label: "۳. بحران انتساب", active: phase.startsWith("move3"), done: false },
-      ];
+  const steps = [
+    { id: "m1", label: "نزدیک‌شدن" },
+    { id: "m2", label: "اختلال بدون امضا" },
+    { id: "m3", label: "بحران انتساب" },
+    { id: "report", label: "گزارش نهایی" },
+    { id: "aar", label: "تحلیل پس از اقدام" },
+    { id: "dashboard", label: "داشبورد شناختی" },
+  ];
+  const activeIndex = phase.startsWith("move2")
+    ? 1
+    : phase.startsWith("move3")
+      ? 2
+      : phase === "final_report"
+        ? 3
+        : phase === "aar"
+          ? 4
+          : phase === "dashboard"
+            ? 5
+            : 0;
+  const progressPercent = activeIndex / (steps.length - 1) * 100;
   return (
-    <div className="s4-progress" aria-label="پیشرفت سناریو">
-      {steps.map((step) => (
-        <div key={step.id} className={`s4-progress-step${step.active ? " active" : ""}${step.done ? " done" : ""}`}>
-          <span>{step.done ? "✓" : step.active ? "●" : "○"}</span>
-          {step.label}
+    <div className="s4-progress" aria-label="پیشرفت سناریو" style={{ "--s4-progress": `${progressPercent}%` } as CSSProperties}>
+      <div className="s4-progress-track" aria-hidden="true"><i /></div>
+      {steps.map((step, index) => (
+        <div key={step.id} className={`s4-progress-step${index === activeIndex ? " active" : ""}${index < activeIndex ? " done" : ""}`} aria-current={index === activeIndex ? "step" : undefined}>
+          <span>{["۱", "۲", "۳", "۴", "۵", "۶"][index]}</span>
+          <b>{step.label}</b>
         </div>
       ))}
     </div>
@@ -215,12 +257,14 @@ const ScenarioProgress = ({ phase }: { phase: Phase }) => {
 
 const GameplayHeader = ({
   phase,
+  guideActive,
   onHelp,
   onGlossary,
   onEvidence,
   onExit,
 }: {
   phase: Phase;
+  guideActive?: boolean;
   onHelp: () => void;
   onGlossary: () => void;
   onEvidence: () => void;
@@ -228,16 +272,18 @@ const GameplayHeader = ({
 }) => {
   const meta = getPhaseMeta(phase);
   return (
-    <header className="s4-gameplay-header">
+    <header className={`s4-gameplay-header${guideActive ? " guide-active" : ""}`}>
       <div>
         <strong>حریم خاکستری مدار</strong>
-        <span>{meta.move} | {meta.subtitle}</span>
+        <span className="s4-current-stage"><em>{meta.move}</em><small>| {meta.subtitle}</small></span>
       </div>
       <div className="s4-header-center">{meta.decision}</div>
-      <div className="s4-header-actions">
-        <button className="s4-button s4-button-secondary" type="button" onClick={onHelp}>راهنما</button>
-        <button className="s4-button s4-button-secondary" type="button" onClick={onGlossary}>واژه‌نامه</button>
-        <button className="s4-button s4-button-secondary" type="button" onClick={onEvidence}>شواهد</button>
+      <div className={`s4-header-actions${guideActive ? " guide-active" : ""}`}>
+        <div className={`s4-header-tools${guideActive ? " guide-active" : ""}`}>
+          <button className="s4-button s4-button-secondary" type="button" onClick={onHelp}>راهنما</button>
+          <button className="s4-button s4-button-secondary" type="button" onClick={onGlossary}>واژه‌نامه</button>
+          <button className="s4-button s4-button-secondary" type="button" onClick={onEvidence}>شواهد</button>
+        </div>
         <button className="s4-button s4-button-ghost" type="button" onClick={onExit}>خروج</button>
       </div>
     </header>
@@ -253,7 +299,8 @@ const HelpPanel = ({ onClose }: { onClose: () => void }) => (
       </div>
       <section><h3>چطور تصمیم بگیرم؟</h3><p>اطلاعات را بخوانید، محدودیت منابع را ببینید و تصمیمی را انتخاب کنید که با ارزیابی شما از وضعیت سازگار است. سناریو پاسخ صحیح واحد ندارد.</p></section>
       <section><h3>اعداد چرا پنهان‌اند؟</h3><p>هدف بازی آزمون تصمیم در شرایط واقعی‌تر است. شما وضعیت را به‌صورت کیفی می‌بینید، در حالی که موتور داخلی متغیرهای دقیق را برای تحلیل ثبت می‌کند.</p></section>
-      <section><h3>آیا طرف مقابل همیشه دشمن است؟</h3><p>خیر. نیت واقعی طرف مقابل (Red) در هر اجرا پنهان است و می‌تواند از آزمون واکنش تا فشار یا حتی رفتار غیرخصمانه اما مبهم متفاوت باشد.</p></section>
+      <section><h3>آیا اسرائیل همیشه دشمن فرض می‌شود؟</h3><p>خیر. نیت واقعی اسرائیل در هر اجرا پنهان است و می‌تواند از آزمون واکنش تا فشار یا حتی رفتار غیرخصمانه اما مبهم متفاوت باشد.</p></section>
+      <section><h3>یادآوری روایی</h3><p>{SCENARIO_FICTION_DISCLAIMER_FA}</p></section>
       <section><h3>آیا می‌توانم تصمیمم را تغییر دهم؟</h3><p>تا قبل از ثبت نهایی هر نقطه تصمیم، بله. تغییر انتخاب برای تحلیل فرایند تصمیم ثبت می‌شود.</p></section>
     </div>
   </div>
@@ -265,8 +312,8 @@ const GlossaryPanel = ({ onClose }: { onClose: () => void }) => {
     ["انتساب مسئولیت", "فرایند ارزیابی اینکه چه کسی یا چه عاملی در یک رخداد نقش داشته است."],
     ["هماهنگی کاهش خطر", "ارتباط یا سازوکاری برای کاهش احتمال برخورد، سوءبرداشت یا تداخل ناخواسته."],
     ["مسیر کاهش تنش", "گزینه‌ای برای خروج از مسیر تشدید بدون الزام به حل کامل اختلاف."],
-    ["انسجام ائتلاف", "میزان هم‌سویی و اعتماد میان تیم آبی و متحدان در مدیریت بحران."],
-    ["ریسک افشای اطلاعات", "میزان اطلاعاتی که رفتار، ظرفیت، اولویت یا منابع تیم آبی را قابل برداشت می‌کند."],
+    ["انسجام ائتلاف", "میزان هم‌سویی و اعتماد میان ایران و متحدانش در مدیریت بحران."],
+    ["ریسک افشای اطلاعات", "میزان اطلاعاتی که رفتار، ظرفیت، اولویت یا منابع ایران را قابل برداشت می‌کند."],
     ["برگشت‌پذیری", "میزان امکان بازگشت از یک تصمیم یا تغییر آن بدون هزینه بسیار بالا."],
   ];
   return (
@@ -286,6 +333,47 @@ const GlossaryPanel = ({ onClose }: { onClose: () => void }) => {
   );
 };
 
+const ToolbarGuideModal = ({ onClose }: { onClose: () => void }) => (
+  <div className="s4-modal-backdrop s4-toolbar-guide-backdrop" role="dialog" aria-modal="true" aria-labelledby="s4-toolbar-guide-title">
+    <div className="s4-modal s4-toolbar-guide">
+      <span className="s4-toolbar-guide-arrow" aria-hidden="true">↖</span>
+      <h2 id="s4-toolbar-guide-title">آشنایی با ابزارهای سناریو</h2>
+      <p className="s4-toolbar-guide-intro">
+        در بالای پنل سه ابزار در دسترس شماست که در طول سناریو می‌توانید هر زمان به آن‌ها مراجعه کنید:
+      </p>
+      <div className="s4-toolbar-guide-items">
+        <section className="s4-toolbar-guide-item">
+          <strong>راهنما</strong>
+          <p>روش تصمیم‌گیری، قواعد سناریو و نکته‌های لازم برای پیش‌برد مراحل را توضیح می‌دهد.</p>
+        </section>
+        <section className="s4-toolbar-guide-item">
+          <strong>واژه‌نامه</strong>
+          <p>معنای اصطلاحات تخصصی و مفاهیم کلیدی به‌کاررفته در سناریو را نمایش می‌دهد.</p>
+        </section>
+        <section className="s4-toolbar-guide-item">
+          <strong>شواهد</strong>
+          <p>همه شواهدی را که تا این لحظه کشف کرده‌اید یک‌جا نگه می‌دارد تا بتوانید دوباره مرورشان کنید.</p>
+        </section>
+      </div>
+      <div className="s4-toolbar-guide-action">
+        <button className="primary" type="button" autoFocus onClick={onClose}>متوجه شدم</button>
+      </div>
+    </div>
+  </div>
+);
+
+const DecisionInfoGuideModal = ({ onClose }: { onClose: () => void }) => (
+  <div className="s4-modal-backdrop s4-info-guide-backdrop" role="dialog" aria-modal="true" aria-labelledby="s4-info-guide-title">
+    <div className="s4-modal s4-modal-small s4-info-guide-modal">
+      <span className="s4-info-guide-arrow" aria-hidden="true">↙</span>
+      <span className="s4-info-guide-symbol" aria-hidden="true">ⓘ</span>
+      <h2 id="s4-info-guide-title">توضیحات بیشتر گزینه‌ها</h2>
+      <p>دکمه ⓘ کنار هر گزینه، توضیحات تکمیلی همان تصمیم را نمایش می‌دهد. مشاهده توضیحات بیشتر می‌تواند به انتخاب‌های بهتر منجر شود.</p>
+      <button className="primary" type="button" autoFocus onClick={onClose}>متوجه شدم</button>
+    </div>
+  </div>
+);
+
 const StatusPanel = ({ state }: { state: ScenarioOneState }) => {
   const rows: Array<{ key: keyof ScenarioOneState["visible"]; label: string }> = [
     { key: "missionContinuity", label: "تداوم مأموریت" },
@@ -303,7 +391,7 @@ const StatusPanel = ({ state }: { state: ScenarioOneState }) => {
     <Card>
       <h3 style={{ marginTop: 0 }}>وضعیت قابل مشاهده</h3>
       <div style={{ display: "grid", gap: "0.55rem" }}>
-        {rows.map((row) => (
+        {[...rows, ...detailRows].map((row) => (
           <div
             key={row.key}
             className="s4-status-row"
@@ -317,20 +405,6 @@ const StatusPanel = ({ state }: { state: ScenarioOneState }) => {
           </div>
         ))}
       </div>
-      <details className="s4-status-details">
-        <summary>جزئیات بیشتر</summary>
-        <div style={{ display: "grid", gap: "0.55rem", marginTop: "0.65rem" }}>
-          {detailRows.map((row) => (
-            <div key={row.key} className="s4-status-row" title={statusTooltips[row.key]}>
-              <div>
-                <span>{row.label}</span>
-                <div className="s4-status-track"><div style={{ width: `${state.visible[row.key]}%` }} /></div>
-              </div>
-              <strong>{qualitativeStatus(row.key, state.visible[row.key])}</strong>
-            </div>
-          ))}
-        </div>
-      </details>
     </Card>
   );
 };
@@ -339,47 +413,72 @@ const statusTooltips: Record<keyof ScenarioOneState["visible"], string> = {
   missionContinuity: "نشان می‌دهد مأموریت A-17 تا چه حد پایدار و قابل ادامه است.",
   situationAwareness: "نشان می‌دهد تصویر اطلاعاتی شما از وضعیت تا چه حد کامل و منسجم است.",
   escalationPressure: "نشان می‌دهد بحران تا چه حد به سمت تشدید حرکت کرده است.",
-  operationalReadiness: "نشان می‌دهد تیم آبی برای حفاظت و بازیابی تا چه حد آماده است.",
+  operationalReadiness: "نشان می‌دهد ایران برای حفاظت و بازیابی تا چه حد آماده است.",
   coalitionCohesion: "نشان می‌دهد متحدان تا چه حد با ارزیابی و مسیر اقدام شما هم‌سو هستند.",
   informationExposure: "نشان می‌دهد چه مقدار از ظرفیت، اولویت یا الگوی رفتاری شما قابل برداشت شده است.",
   strategicLegitimacy: "نشان می‌دهد موضع شما از نظر سیاسی/حقوقی تا چه حد قابل دفاع است.",
 };
 
-const ResourcePanel = ({ state }: { state: ScenarioOneState }) => {
+const ResourcePanel = ({
+  state,
+  recentEvents,
+  history,
+}: {
+  state: ScenarioOneState;
+  recentEvents: ResourceEvent[];
+  history: ResourceEvent[];
+}) => {
   const rows = [
     ["ظرفیت SSA", state.resources.ssaCapacity, "ظرفیت آگاهی موقعیتی فضایی برای تحلیل و رصد تکمیلی."],
     ["ظرفیت حفاظتی", state.resources.protectiveCapacity, "توان فنی/عملیاتی برای حفاظت، پشتیبان‌سازی و بازیابی."],
     ["سرمایه سیاسی", state.resources.politicalCapital, "فضای مانور سیاسی برای پیام، ائتلاف و پاسخ رسمی."],
-    ["بودجه افشای اطلاعات", state.resources.disclosureBudget, "ظرفیت اشتراک یا انتشار اطلاعات بدون آسیب به منابع و روش‌ها."],
+    ["ظرفیت افشای امن", state.resources.disclosureBudget, "مقدار اطلاعات حساسی که هنوز می‌توان بدون هزینه غیرقابل قبول به اشتراک گذاشت."],
   ] as const;
+  const keys = ["ssaCapacity", "protectiveCapacity", "politicalCapital", "disclosureBudget"] as const;
+  const statusTone = (value: number) => value >= 85 ? "abundant" : value >= 70 ? "good" : value >= 50 ? "pressure" : "limited";
   return (
     <Card>
-      <h3 style={{ marginTop: 0 }}>منابع باقی‌مانده</h3>
+      <h3 style={{ marginTop: 0 }}>ظرفیت منابع</h3>
       <div className="s4-resource-list s4-resource-grid">
-        {rows.map(([label, value, title]) => (
-          <div key={label} className="s4-resource-row" title={title}>
-            <span>{label}</span>
-            <div className="s4-resource-track"><div style={{ width: `${value}%` }} /></div>
-            <strong>{qualitativeResource(value)}</strong>
-          </div>
-        ))}
+        {rows.map(([label, value, title], index) => {
+          const recent = [...recentEvents].reverse().find((event) => event.resource === keys[index]);
+          return (
+            <div key={label} className="s4-resource-row" title={title}>
+              <div className="s4-resource-heading">
+                <span>{label}</span>
+                <small className={`s4-resource-status ${statusTone(value)}`}>{getResourceStatusLabel(value)}</small>
+              </div>
+              <div className="s4-resource-track"><div style={{ width: `${value}%` }} /></div>
+              <strong className="s4-resource-value">
+                <b>{value} / 100</b>
+                {recent && <i className={recent.delta > 0 ? "positive" : "negative"}>{recent.delta > 0 ? "+" : ""}{recent.delta}</i>}
+              </strong>
+            </div>
+          );
+        })}
       </div>
+      <details className="s4-resource-history">
+        <summary>چرا تغییر کرد؟</summary>
+        {history.length === 0 ? <p>هنوز تغییری ثبت نشده است.</p> : (
+          <div>
+            {[...history].reverse().slice(0, 12).map((event) => (
+              <p key={event.id}>
+                <strong>{getResourceLabel(event.resource)} {event.delta > 0 ? "+" : ""}{event.delta}</strong>
+                <span>{event.rationale}</span>
+              </p>
+            ))}
+          </div>
+        )}
+      </details>
     </Card>
   );
 };
 
-const qualitativeResource = (value: number) => {
-  if (value < 20) return "بسیار محدود";
-  if (value < 45) return "محدود";
-  if (value < 70) return "قابل مدیریت";
-  return "مناسب";
-};
-
 const incidentCauseLabel = (cause?: string) => {
   const labels: Record<string, string> = {
-    red_reversible_interference: "مداخله برگشت‌پذیر منتسب به Red",
+    red_reversible_interference: "مداخله برگشت‌پذیر منتسب به اسرائیل",
     technical_fault: "نقص فنی داخلی",
-    environmental_or_external: "عامل محیطی یا خارجی غیرمنتسب به Red",
+    environmental_or_external: "عامل محیطی یا خارجی غیرمنتسب به اسرائیل",
     mixed_cause: "ترکیب چند عامل",
   };
   return cause ? labels[cause] ?? cause : "ثبت نشده";
@@ -387,9 +486,9 @@ const incidentCauseLabel = (cause?: string) => {
 
 const truthAttributionLabel = (attribution: string) => {
   const labels: Record<string, string> = {
-    red: "نقش Red تأیید می‌شود",
-    non_red: "رخداد اصلی به Red منتسب نبود",
-    mixed: "Red تنها بخشی از علت بود",
+    red: "نقش اسرائیل تأیید می‌شود",
+    non_red: "نقش مستقیم اسرائیل در علت اصلی تأیید نشد",
+    mixed: "اسرائیل در بخشی از رخداد نقش داشت",
   };
   return labels[attribution] ?? attribution;
 };
@@ -429,6 +528,7 @@ const OrbitalScene = ({
   investigationChoice,
   move2ResponseChoice,
   move3Coa,
+  primaryEndState,
 }: {
   phase: Phase;
   protectionChoice?: string;
@@ -438,6 +538,7 @@ const OrbitalScene = ({
   investigationChoice?: string;
   move2ResponseChoice?: string;
   move3Coa?: string;
+  primaryEndState?: string;
 }) => {
   const blueX =
     protectionChoice === "m1_p_mission_reposition" && phase !== "dw2" ? 34 : 40;
@@ -453,6 +554,10 @@ const OrbitalScene = ({
             : redAction === "maintain_pressure" || redAction === "increase_non_destructive_pressure"
               ? 55
           : 66;
+  const blueMapX = blueX * 8;
+  const redMapX = redX * 8;
+  const proximityLabel =
+    Math.abs(redX - blueX) <= 18 ? "فاصله نزدیک" : Math.abs(redX - blueX) <= 30 ? "فاصله تحت پایش" : "فاصله در حال افزایش";
   const showHalo =
     protectionChoice === "m1_p_visible_protection" ||
     protectionChoice === "m1_p_mission_reposition";
@@ -465,7 +570,21 @@ const OrbitalScene = ({
   const showOffRamp = Boolean(state?.flags.m2OffRampOfferedByRed || state?.flags.m2OffRampOfferedByBlue || move3Coa === "m3_coa_negotiated_deescalation");
   const publicWarning = communicationChoice === "m1_c_public_warning";
   const privateMessage = communicationChoice === "m1_c_private" || communicationChoice === "m1_c_private_allied" || move2ResponseChoice === "m2_r_request_explanation";
-  const orbitalCaption =
+  const finalSceneCaptions: Record<string, string> = {
+    calm_crisis_control: "وضعیت مداری: بحران کنترل شده و اسرائیل عملاً از مسیر فشار فاصله گرفته است.",
+    costly_deterrence: "وضعیت مداری: اسرائیل فاصله گرفته، اما کنترل بحران برای ایران پرهزینه بوده است.",
+    persistent_ambiguity: "وضعیت مداری: مأموریت ادامه دارد، اما رفتار اسرائیل همچنان چندتعبیری و حل‌نشده است.",
+    coalition_fracture: "وضعیت مداری: بحران ادامه دارد و شکاف میان متحدان ایران توان پاسخ هماهنگ را کاهش داده است.",
+    escalation_spiral: "وضعیت مداری: فشار بحران شدید است و مسیر تشدید ادامه دارد.",
+    intelligence_failure: "وضعیت مداری: نتیجه عملیاتی زیر سایه انتساب نادرست و ادعای فراتر از شواهد قرار گرفته است.",
+    negotiated_deescalation: "وضعیت مداری: مسیر کاهش تنش با پذیرش یا فاصله‌گذاری متقابل اسرائیل فعال شده است.",
+    strategic_information_opportunity: "وضعیت مداری: بحران نسبی مهار شده و فرصت شناخت بیشتر باقی مانده است.",
+    mixed_crisis_containment: "وضعیت مداری: بحران تا حدی مهار شده، اما بخشی از ریسک‌ها باقی مانده است.",
+  };
+  const finalSceneCaption = primaryEndState && ["final_report", "aar", "dashboard"].includes(phase)
+    ? finalSceneCaptions[primaryEndState]
+    : undefined;
+  const orbitalCaption = finalSceneCaption ?? (
     phase.startsWith("move2")
       ? showFallback
         ? "وضعیت A-17: بخشی از سرویس به ظرفیت پشتیبان منتقل شده است."
@@ -474,128 +593,148 @@ const OrbitalScene = ({
         ? showOffRamp
           ? "وضعیت مداری: مسیر کاهش تنش یا فاصله‌گذاری روی میز است."
           : "وضعیت بحران: تصمیم نهایی درباره اقدام و سیاست اطلاعاتی در حال شکل‌گیری است."
+        : redAction === "deescalate_and_separate"
+          ? "وضعیت مداری: اسرائیل فاصله خود را افزایش داده و فشار بحران کاهش یافته است."
+          : redAction === "accept_interim_offramp"
+            ? "وضعیت مداری: اسرائیل مسیر موقت کاهش تنش را پذیرفته است."
         : redAction === "break_off"
           ? "وضعیت مداری: R-31 فاصله خود را افزایش داده است."
           : redAction === "slow_approach"
             ? "وضعیت مداری: سرعت نزدیک‌شدن R-31 کاهش یافته است."
             : redAction === "continue_approach"
               ? "وضعیت مداری: روند نزدیک‌شدن R-31 ادامه دارد."
-              : "وضعیت مداری: رفتار R-31 هنوز چندتعبیری است.";
+              : "وضعیت مداری: رفتار R-31 هنوز چندتعبیری است."
+  );
 
   return (
     <Card>
       <h3 className="s4-tactical-title">اکنون چه اتفاقی می‌افتد؟</h3>
       <div className="s4-orbital-frame">
-        <svg className="s4-orbital-svg" viewBox="0 0 100 56">
-          <ellipse
-            cx="50"
-            cy="29"
-            rx="39"
-            ry="16"
-            fill="none"
-            stroke="rgba(148,163,184,0.38)"
-            strokeDasharray="2 2"
-          />
-          <ellipse
-            cx="50"
-            cy="29"
-            rx="30"
-            ry="11"
-            fill="none"
-            stroke="rgba(56,189,248,0.24)"
-          />
+        <svg className="s4-orbital-svg" viewBox="0 0 800 450" role="img" aria-label={`نقشه مداری A-17 و R-31؛ ${proximityLabel}`}>
+          <defs>
+            <linearGradient id="s4-space-background" x1="0" x2="1" y1="0" y2="1">
+              <stop offset="0%" stopColor="#020617" />
+              <stop offset="52%" stopColor="#07152e" />
+              <stop offset="100%" stopColor="#160b2f" />
+            </linearGradient>
+            <radialGradient id="s4-earth-body" cx="45%" cy="20%" r="78%">
+              <stop offset="0%" stopColor="#38bdf8" stopOpacity="0.82" />
+              <stop offset="42%" stopColor="#1d4ed8" />
+              <stop offset="100%" stopColor="#020617" />
+            </radialGradient>
+            <radialGradient id="s4-earth-glow" cx="50%" cy="50%" r="50%">
+              <stop offset="65%" stopColor="#38bdf8" stopOpacity="0" />
+              <stop offset="86%" stopColor="#38bdf8" stopOpacity="0.26" />
+              <stop offset="100%" stopColor="#bae6fd" stopOpacity="0" />
+            </radialGradient>
+            <linearGradient id="s4-sensor-cone" x1="0" x2="1">
+              <stop offset="0%" stopColor="#38bdf8" stopOpacity="0.34" />
+              <stop offset="100%" stopColor="#38bdf8" stopOpacity="0" />
+            </linearGradient>
+            <clipPath id="s4-earth-clip">
+              <circle cx="400" cy="610" r="305" />
+            </clipPath>
+            <filter id="s4-blue-glow"><feGaussianBlur stdDeviation="7" /></filter>
+            <filter id="s4-red-glow"><feGaussianBlur stdDeviation="7" /></filter>
+          </defs>
+          <rect width="800" height="450" rx="18" fill="url(#s4-space-background)" />
+          {Array.from({ length: 48 }, (_, index) => (
+            <circle
+              key={`s4-star-${index}`}
+              cx={14 + ((index * 137) % 772)}
+              cy={12 + ((index * 71) % 315)}
+              r={index % 7 === 0 ? 1.7 : index % 3 === 0 ? 1.1 : 0.7}
+              fill="#e0f2fe"
+              opacity={0.25 + (index % 4) * 0.13}
+            />
+          ))}
+          <circle cx="400" cy="610" r="340" fill="url(#s4-earth-glow)" />
+          <circle cx="400" cy="610" r="305" fill="url(#s4-earth-body)" opacity="0.72" />
+          <g clipPath="url(#s4-earth-clip)" opacity="0.46">
+            <path d="M100 380 C180 342 246 360 302 402 C350 438 414 410 466 444 C528 484 592 428 708 492 L760 690 L70 690 Z" fill="#25a879" />
+            <path d="M390 342 C464 326 544 358 574 412 C596 452 570 478 632 522 C676 554 706 590 730 652 L350 670 C326 592 368 540 340 480 C312 418 326 358 390 342 Z" fill="#8ab65a" opacity="0.7" />
+            <path d="M86 432 C240 374 520 382 714 452" fill="none" stroke="#e0f2fe" strokeWidth="9" strokeLinecap="round" opacity="0.18" />
+            <path d="M140 506 C270 454 532 470 682 536" fill="none" stroke="#bae6fd" strokeWidth="7" strokeLinecap="round" opacity="0.14" />
+          </g>
+          <circle cx="400" cy="610" r="305" fill="none" stroke="#bae6fd" strokeWidth="3" opacity="0.38" />
+          <ellipse cx="400" cy="218" rx="344" ry="142" transform="rotate(-7 400 218)" fill="none" stroke="rgba(203,213,225,0.3)" strokeWidth="1.5" strokeDasharray="7 8" />
+          <ellipse cx="400" cy="218" rx="292" ry="108" transform="rotate(5 400 218)" fill="none" stroke="rgba(56,189,248,0.58)" strokeWidth="2" />
+          <ellipse cx="400" cy="218" rx="238" ry="79" transform="rotate(-3 400 218)" fill="none" stroke="rgba(251,146,60,0.5)" strokeWidth="1.6" strokeDasharray="9 7" />
+          <path d="M74 331 C238 266 548 260 726 332" fill="none" stroke="rgba(248,113,113,0.48)" strokeWidth="1.8" strokeDasharray="10 8" />
+          <text x="650" y="45" textAnchor="end" fill="#7dd3fc" fontSize="14" fontWeight="700">LEO / گذر مداری فعال</text>
+          <text x="615" y="68" textAnchor="end" fill="#94a3b8" fontSize="12">پنجره پایش مشترک • داده تخمینی</text>
           {protectionChoice === "m1_p_mission_reposition" && (
             <path
-              d="M40 29 C36 23, 31 24, 27 31"
+              d={`M${blueMapX} 220 C${blueMapX - 34} 176, ${blueMapX - 76} 184, ${blueMapX - 112} 235`}
               fill="none"
               stroke="rgba(34,197,94,0.72)"
-              strokeWidth="0.7"
-              strokeDasharray="2 1"
+              strokeWidth="3"
+              strokeDasharray="10 7"
             />
           )}
           {redAction === "send_routine_explanation" && (
             <line
-              x1={redX - 3}
-              y1="26"
-              x2={blueX + 3}
-              y2="29"
+              x1={redMapX - 28}
+              y1="176"
+              x2={blueMapX + 28}
+              y2="212"
               stroke="rgba(125,211,252,0.75)"
-              strokeDasharray="1 1"
+              strokeWidth="2"
+              strokeDasharray="7 6"
             />
           )}
           {showTracking && (
-            <path d={`M${blueX + 2} 27 C49 19, 59 17, ${redX - 2} 23`} fill="none" stroke="rgba(56,189,248,0.68)" strokeWidth="0.7" strokeDasharray="1.5 1" />
+            <path d={`M${blueMapX + 18} 210 L${redMapX - 22} 142 L${redMapX - 18} 202 Z`} fill="url(#s4-sensor-cone)" stroke="rgba(56,189,248,0.58)" strokeWidth="1.5" strokeDasharray="6 5" />
           )}
           {showCommercial && (
-            <path d={`M18 42 C35 35, 48 31, ${redX} 24`} fill="none" stroke="rgba(168,85,247,0.72)" strokeWidth="0.7" strokeDasharray="2 1" />
+            <g>
+              <path d={`M112 326 C244 278, 356 232, ${redMapX} 174`} fill="none" stroke="rgba(168,85,247,0.72)" strokeWidth="2" strokeDasharray="8 6" />
+              <circle cx="112" cy="326" r="7" fill="#a855f7" /><text x="126" y="330" fill="#d8b4fe" fontSize="12">حسگر تجاری</text>
+            </g>
           )}
           {showAlly && (
-            <path d={`M83 45 C71 36, 59 31, ${blueX} 29`} fill="none" stroke="rgba(34,197,94,0.72)" strokeWidth="0.7" strokeDasharray="2 1" />
+            <g>
+              <path d={`M690 326 C610 274, 508 238, ${blueMapX} 218`} fill="none" stroke="rgba(34,197,94,0.72)" strokeWidth="2" strokeDasharray="8 6" />
+              <circle cx="690" cy="326" r="7" fill="#22c55e" /><text x="674" y="350" textAnchor="end" fill="#bbf7d0" fontSize="12">حسگر متحد</text>
+            </g>
           )}
           {showOffRamp && (
-            <path d={`M${blueX} 31 C48 37, 59 38, ${redX} 31`} fill="none" stroke="rgba(34,197,94,0.8)" strokeWidth="0.9" />
+            <path d={`M${blueMapX} 244 C392 304, 490 310, ${redMapX} 222`} fill="none" stroke="rgba(34,197,94,0.86)" strokeWidth="3" />
           )}
           {privateMessage && (
-            <line x1={blueX + 3} y1="28" x2={redX - 3} y2="24" stroke="rgba(125,211,252,0.75)" strokeDasharray="1 1" />
+            <line x1={blueMapX + 30} y1="214" x2={redMapX - 30} y2="178" stroke="rgba(125,211,252,0.82)" strokeWidth="2" strokeDasharray="6 5" />
           )}
           {publicWarning && (
-            <circle cx={blueX} cy="29" r="13" fill="none" stroke="rgba(251,191,36,0.5)" strokeWidth="0.7" strokeDasharray="2 2" />
+            <circle cx={blueMapX} cy="220" r="74" fill="none" stroke="rgba(251,191,36,0.68)" strokeWidth="2.5" strokeDasharray="10 8"><animate attributeName="r" values="60;82;60" dur="2s" repeatCount="indefinite" /></circle>
           )}
-          <circle cx={blueX} cy="29" r="3.2" fill="rgba(56,189,248,0.2)" />
+          <line x1={blueMapX + 32} y1="220" x2={redMapX - 32} y2="177" stroke="rgba(251,191,36,0.74)" strokeWidth="2" strokeDasharray="5 6" />
+          <text x={(blueMapX + redMapX) / 2} y="174" textAnchor="middle" fill="#fde68a" fontSize="13" fontWeight="700">{proximityLabel}</text>
+          <circle cx={blueMapX} cy="220" r="34" fill="#38bdf8" opacity="0.16" filter="url(#s4-blue-glow)" />
           {showHalo && (
             <circle
-              cx={blueX}
-              cy="29"
-              r="7.5"
+              cx={blueMapX}
+              cy="220"
+              r="48"
               fill="none"
               stroke="rgba(34,197,94,0.75)"
-              strokeWidth="0.8"
+              strokeWidth="3"
             />
           )}
-          {showCovert && <circle cx={blueX} cy="29" r="5.7" fill="rgba(34,197,94,0.18)" />}
-          {showFallback && <circle cx={blueX - 8} cy="36" r="2.4" fill="rgba(34,197,94,0.72)" />}
-          <circle cx={redX} cy="24" r="3" fill="rgba(248,113,113,0.18)" />
-          {showSecondAsset && <circle cx={72} cy={16} r="2.2" fill="rgba(251,191,36,0.22)" stroke="rgba(251,191,36,0.75)" strokeWidth="0.5" />}
+          {showCovert && <circle cx={blueMapX} cy="220" r="42" fill="rgba(34,197,94,0.16)" stroke="rgba(34,197,94,0.46)" strokeWidth="2" strokeDasharray="5 6" />}
+          {showFallback && <g><circle cx={blueMapX - 92} cy="286" r="9" fill="#22c55e" /><text x={blueMapX - 76} y="291" fill="#bbf7d0" fontSize="12">ظرفیت پشتیبان</text></g>}
+          <circle cx={redMapX} cy="176" r="34" fill="#f87171" opacity="0.15" filter="url(#s4-red-glow)" />
+          {showSecondAsset && <g><circle cx="654" cy="104" r="12" fill="rgba(251,191,36,0.3)" stroke="#fbbf24" strokeWidth="2" /><text x="634" y="82" textAnchor="middle" fill="#fde68a" fontSize="12">دارایی دوم</text></g>}
+          <image href={friendlySatelliteAsset} x={blueMapX - 34} y="186" width="68" height="68" preserveAspectRatio="xMidYMid meet" />
+          <image href={unknownSatelliteAsset} x={redMapX - 34} y="142" width="68" height="68" preserveAspectRatio="xMidYMid meet" />
+          <g transform={`translate(${blueMapX - 50} 257)`}>
+            <rect width="100" height="27" rx="7" fill="rgba(8,47,73,0.9)" stroke="rgba(56,189,248,0.72)" />
+            <text x="50" y="18" textAnchor="middle" fill="#e0f2fe" fontSize="13" fontWeight="800">A-17 • {ACTOR_LABELS_FA.blue}</text>
+          </g>
+          <g transform={`translate(${redMapX - 60} 106)`}>
+            <rect width="120" height="27" rx="7" fill="rgba(69,10,10,0.88)" stroke="rgba(248,113,113,0.72)" />
+            <text x="60" y="18" textAnchor="middle" fill="#fee2e2" fontSize="13" fontWeight="800">R-31 • {ACTOR_LABELS_FA.red}</text>
+          </g>
         </svg>
-        <img
-          src={friendlySatelliteAsset}
-          alt="A-17"
-          style={{
-            position: "absolute",
-            width: 54,
-            right: `${100 - blueX}%`,
-            top: "48%",
-            transform: "translate(50%, -50%)",
-            filter: "drop-shadow(0 0 16px rgba(56,189,248,0.55))",
-          }}
-        />
-        <img
-          src={unknownSatelliteAsset}
-          alt="R-31"
-          style={{
-            position: "absolute",
-            width: 54,
-            right: `${100 - redX}%`,
-            top: "38%",
-            transform: "translate(50%, -50%)",
-            filter: "drop-shadow(0 0 16px rgba(248,113,113,0.45))",
-            transition: "right 0.6s ease",
-          }}
-        />
-        <div
-          style={{
-            position: "absolute",
-            insetInline: "1rem",
-            bottom: "0.8rem",
-            display: "flex",
-            justifyContent: "space-between",
-            color: "var(--text-muted)",
-            fontSize: "0.86rem",
-          }}
-        >
-          <span><span className="s4-ltr">A-17</span> / تیم آبی</span>
-          <span><span className="s4-ltr">R-31</span> / وضعیت نامشخص</span>
-        </div>
         {phase.startsWith("move2") || phase.startsWith("move3") ? (
           <div className="s4-service-badge">افت کیفیت سرویس</div>
         ) : null}
@@ -614,6 +753,7 @@ const DecisionWindow = ({
   selectedId,
   onSelect,
   onConfirm,
+  infoGuideActive,
 }: {
   title: string;
   context?: string;
@@ -623,6 +763,7 @@ const DecisionWindow = ({
   selectedId?: string;
   onSelect: (optionId: string) => void;
   onConfirm: () => void;
+  infoGuideActive?: boolean;
 }) => (
   <DecisionWindowInner
     title={title}
@@ -633,6 +774,7 @@ const DecisionWindow = ({
     selectedId={selectedId}
     onSelect={onSelect}
     onConfirm={onConfirm}
+    infoGuideActive={infoGuideActive}
   />
 );
 
@@ -645,6 +787,7 @@ const DecisionWindowInner = ({
   selectedId,
   onSelect,
   onConfirm,
+  infoGuideActive,
 }: {
   title: string;
   context?: string;
@@ -654,6 +797,7 @@ const DecisionWindowInner = ({
   selectedId?: string;
   onSelect: (optionId: string) => void;
   onConfirm: () => void;
+  infoGuideActive?: boolean;
 }) => {
   const [detailOption, setDetailOption] = useState<DecisionOption | null>(null);
   const selectedOption = options.find((option) => option.id === selectedId);
@@ -661,7 +805,7 @@ const DecisionWindowInner = ({
   const decisionOrdinal = getDecisionOrdinalFromTitle(title);
   return (
     <Card>
-      <div className={`s4-decision-window${compact ? " compact" : ""}`}>
+      <div className={`s4-decision-window${compact ? " compact" : ""}${infoGuideActive ? " info-guide-active" : ""}`}>
         <div>
           {decisionOrdinal && <span className="s4-decision-kicker">نقطه تصمیم {decisionOrdinal} از ۹</span>}
           <h2>{title}</h2>
@@ -675,17 +819,23 @@ const DecisionWindowInner = ({
           {why && <p className="s4-decision-why"><strong>چرا مهم است؟</strong> {why}</p>}
         </div>
         <div className="s4-options-grid">
-          {options.map((option) => {
+          {options.map((option, optionIndex) => {
             const active = option.id === selectedId;
+            const certainCosts = getCertainResourceCosts(option.id);
             return (
               <div key={option.id} className={`s4-option-card${active ? " selected" : ""}`}>
                 <button type="button" onClick={() => onSelect(option.id)}>
                   <strong>{option.label}</strong>
                   {option.description && <span>{option.description}</span>}
+                  {certainCosts.length > 0 && (
+                    <small className="s4-option-resource-cost">
+                      هزینه قطعی منابع: {certainCosts.map((cost) => `${cost.label} ${cost.delta}`).join("، ")}
+                    </small>
+                  )}
                 </button>
                 <button
                   type="button"
-                  className="s4-option-info"
+                  className={`s4-option-info${infoGuideActive && optionIndex === 0 ? " guide-target" : ""}`}
                   aria-label={`جزئیات ${option.label}`}
                   onClick={() => setDetailOption(option)}
                 >
@@ -704,12 +854,12 @@ const DecisionWindowInner = ({
         <div className="s4-modal-backdrop" role="dialog" aria-modal="true">
           <div className="s4-modal s4-modal-small">
             <div className="s4-modal-header">
-              <h2>جزئیات این تصمیم</h2>
+              <h4>جزئیات این تصمیم</h4>
               <button onClick={() => setDetailOption(null)}>بستن</button>
             </div>
-            <h3>{detailOption.label}</h3>
+            <h2>{detailOption.label}</h2>
             <p>{detailOption.description ?? "این گزینه یک مسیر فشرده برای ثبت دلیل یا اولویت تصمیم است."}</p>
-            <p className="hint">این توضیح پیامد عددی یا پاسخ درست/غلط را نشان نمی‌دهد. نتیجه به وضعیت ذخیره‌شده، منابع و واکنش بازیگران وابسته است.</p>
+            <p className="hint">مشاهده توضیحات بیشتر می‌تواند به انتخاب‌های بهتر منجر شود.</p>
           </div>
         </div>
       )}
@@ -732,25 +882,25 @@ const introScreens: Record<Extract<Phase, "intro_title" | "intro_narrative" | "i
   intro_narrative: {
     title: "روایت بحران",
     body:
-      "مدار پایین زمین هرگز کاملاً آرام نیست.\n\nصدها دارایی فضایی در مسیرهای مختلف حرکت می‌کنند؛ برخی برای ارتباط، برخی برای تصویربرداری، برخی برای پایش و برخی برای سرویس و بازرسی ماهواره‌های دیگر.\n\nدر چنین محیطی، نزدیک‌شدن یک ماهواره به ماهواره دیگر لزوماً یک اقدام خصمانه نیست. اما وقتی روابط سیاسی روی زمین پرتنش باشد، همان مانور عادی می‌تواند معنای دیگری پیدا کند.\n\nطی چند روز گذشته، سامانه‌های پایش شما تغییر کوچکی در رفتار یک دارایی فضایی متعلق به طرف مقابل ثبت کرده‌اند. این دارایی با شناسه R-31 رسماً برای عملیات خدماتی و بازرسی مداری معرفی شده است.\n\nاکنون مسیر آن تغییر کرده است. فاصله R-31 با یکی از دارایی‌های مهم شما، A-17، در حال کاهش است.\n\nهنوز هیچ حمله‌ای رخ نداده است. هیچ اختلالی به‌طور قطعی به طرف مقابل نسبت داده نشده است. و هیچ مدرکی وجود ندارد که ثابت کند نزدیک‌شدن R-31 مقدمه یک اقدام خصمانه است.\n\nاز این لحظه، هر تصمیم شما فقط وضعیت A-17 را تغییر نمی‌دهد. طرف مقابل رفتار شما را می‌بیند و تفسیر می‌کند. متحدان درباره قضاوت شما تصمیم می‌گیرند. اپراتورهای تجاری ممکن است همکاری کنند یا محتاط‌تر شوند.",
+      "مدار پایین زمین هرگز کاملاً آرام نیست.\n\nصدها دارایی فضایی در مسیرهای مختلف حرکت می‌کنند؛ برخی برای ارتباط، برخی برای تصویربرداری، برخی برای پایش و برخی برای سرویس و بازرسی ماهواره‌های دیگر.\n\nدر چنین محیطی، نزدیک‌شدن یک ماهواره به ماهواره دیگر لزوماً یک اقدام خصمانه نیست. اما وقتی روابط سیاسی روی زمین پرتنش باشد، همان مانور عادی می‌تواند معنای دیگری پیدا کند.\n\nطی چند روز گذشته، سامانه‌های پایش ایران تغییر کوچکی در رفتار یک دارایی فضایی متعلق به اسرائیل ثبت کرده‌اند. این دارایی با شناسه R-31 رسماً برای عملیات خدماتی و بازرسی مداری معرفی شده است.\n\nاکنون مسیر آن تغییر کرده است. فاصله R-31 با A-17، دارایی فضایی ایران، در حال کاهش است.\n\nهنوز هیچ حمله‌ای رخ نداده است. هیچ اختلالی به‌طور قطعی به اسرائیل نسبت داده نشده است. و هیچ مدرکی وجود ندارد که ثابت کند نزدیک‌شدن R-31 مقدمه یک اقدام خصمانه است.\n\nاز این لحظه، هر تصمیم شما فقط وضعیت A-17 را تغییر نمی‌دهد. اسرائیل رفتار ایران را می‌بیند و تفسیر می‌کند. متحدان ایران درباره قضاوت شما تصمیم می‌گیرند. اپراتورهای تجاری ممکن است همکاری کنند یا محتاط‌تر شوند.",
     cta: "نقش من در این بحران چیست؟",
   },
   intro_role: {
     title: "نقش شما",
     body:
-      "شما رئیس سلول تصمیم‌گیری عملیات فضایی تیم آبی هستید.\n\nوظیفه شما هدایت مستقیم یک ماهواره یا اجرای یک اقدام فنی خاص نیست. شما باید اطلاعات را ارزیابی کنید، میان گزینه‌های مختلف تعادل برقرار کنید و تصمیم‌هایی بگیرید که پیامد عملیاتی، اطلاعاتی، سیاسی و راهبردی دارند.\n\nدر طول سناریو با سه نوع مسئله روبه‌رو می‌شوید:\n- چه مقدار اطلاعات برای تصمیم کافی است؟\n- چه زمانی حفاظت باید آشکار یا پنهان باشد؟\n- چه زمانی پیام، فشار، همکاری یا کاهش تنش مناسب‌تر است؟\n\nطرف مقابل نیز مستقل تصمیم می‌گیرد. بنابراین یک انتخاب مشابه همیشه نتیجه یکسانی ایجاد نمی‌کند.\n\nدر این سناریو پاسخ صحیح واحد وجود ندارد.",
+      "شما رئیس سلول تصمیم‌گیری عملیات فضایی ایران هستید.\n\nوظیفه شما هدایت مستقیم یک ماهواره یا اجرای یک اقدام فنی خاص نیست. شما باید اطلاعات را ارزیابی کنید، میان گزینه‌های مختلف تعادل برقرار کنید و تصمیم‌هایی بگیرید که پیامد عملیاتی، اطلاعاتی، سیاسی و راهبردی دارند.\n\nدر طول سناریو با سه نوع مسئله روبه‌رو می‌شوید:\n- چه مقدار اطلاعات برای تصمیم کافی است؟\n- چه زمانی حفاظت باید آشکار یا پنهان باشد؟\n- چه زمانی پیام، فشار، همکاری یا کاهش تنش مناسب‌تر است؟\n\nاسرائیل نیز مستقل تصمیم می‌گیرد. بنابراین یک انتخاب مشابه همیشه نتیجه یکسانی ایجاد نمی‌کند.\n\nدر این سناریو پاسخ صحیح واحد وجود ندارد.",
     cta: "اهداف مأموریت",
   },
   intro_objectives: {
     title: "اهداف مأموریت",
     body:
-      "۱. حفظ تداوم مأموریت: تا حد امکان عملکرد A-17 و خدمات وابسته به آن حفظ شود.\n\n۲. افزایش شناخت: میان نشانه، فرضیه و شواهد قابل اتکا تفاوت بگذارید.\n\n۳. کنترل تشدید: از تبدیل سوءبرداشت یا حادثه محدود به بحران بزرگ‌تر جلوگیری کنید.\n\n۴. حفظ گزینه‌های آینده: همه منابع، اطلاعات و سرمایه سیاسی را در ابتدای بحران مصرف نکنید.\n\n۵. مدیریت ائتلاف: متحدان می‌توانند منبع قدرت و اطلاعات باشند، اما حمایت آن‌ها خودکار نیست.\n\n۶. حفظ انضباط اطلاعاتی: اشتراک اطلاعات می‌تواند اعتماد بسازد؛ افشای بیش از حد نیز هزینه دارد.",
+      "۱. حفظ تداوم مأموریت: تا حد امکان عملکرد A-17 و خدمات وابسته به آن حفظ شود.\n\n۲. افزایش شناخت: میان نشانه، فرضیه و شواهد قابل اتکا تفاوت بگذارید.\n\n۳. کنترل تشدید: از تبدیل سوءبرداشت یا حادثه محدود به بحران بزرگ‌تر جلوگیری کنید.\n\n۴. حفظ گزینه‌های آینده: همه منابع، اطلاعات و سرمایه سیاسی را در ابتدای بحران مصرف نکنید.\n\n۵. مدیریت ائتلاف: متحدان ایران می‌توانند منبع قدرت و اطلاعات باشند، اما حمایت آن‌ها خودکار نیست.\n\n۶. پرهیز از ادعای فراتر از شواهد: اشتراک اطلاعات می‌تواند اعتماد بسازد؛ ادعا یا افشای بیش از شواهد نیز هزینه دارد.",
     cta: "قواعد سناریو",
   },
   intro_rules: {
     title: "چگونه بازی می‌کنید؟",
     body:
-      "اطلاعات کامل نیست: همه داده‌ها از ابتدا در دسترس نیستند و بعضی گزارش‌ها ممکن است ناقص یا متناقض باشند.\n\nطرف مقابل مستقل است: R-31 و بازیگر Red مستقیماً از گزینه شما به یک پاسخ ثابت نمی‌روند؛ رفتار آن‌ها بر اساس هدف و برداشتشان از اقدامات قابل مشاهده شما تعیین می‌شود.\n\nتصمیم‌ها حافظه دارند: منابع، اعتماد، افشای اطلاعات و وضعیت بحران از مرحله‌ای به مرحله بعد منتقل می‌شوند.\n\nاعداد موتور پنهان‌اند: شما به‌جای امتیازهای خام، وضعیت را مانند یک تصمیم‌گیرنده واقعی به‌صورت کیفی می‌بینید.\n\nحقیقت بعداً آشکار می‌شود: در پایان بازی، ابتدا نتیجه مأموریت را می‌بینید. سپس در تحلیل پس از اقدام مشخص می‌شود واقعاً چه رخ داده بود.",
+      "اطلاعات کامل نیست: همه داده‌ها از ابتدا در دسترس نیستند و بعضی گزارش‌ها ممکن است ناقص یا متناقض باشند.\n\nاسرائیل مستقل است: R-31 مستقیماً از گزینه شما به یک پاسخ ثابت نمی‌رود؛ رفتار آن بر اساس هدف و برداشت از اقدامات قابل مشاهده ایران تعیین می‌شود.\n\nتصمیم‌ها حافظه دارند: منابع، اعتماد، افشای اطلاعات و وضعیت بحران از مرحله‌ای به مرحله بعد منتقل می‌شوند.\n\nوضعیت‌های نامطمئن کیفی نمایش داده می‌شوند، اما مقدار دقیق منابع خودی همیشه قابل مشاهده است. موتور داخلی متغیرهای پنهان را برای تحلیل ثبت می‌کند.\n\nحقیقت بعداً آشکار می‌شود: در پایان بازی، ابتدا نتیجه مأموریت را می‌بینید. سپس در تحلیل پس از اقدام مشخص می‌شود واقعاً چه رخ داده بود.",
     cta: "آغاز مرحله اول: نزدیک‌شدن",
   },
 };
@@ -777,12 +927,12 @@ const EvidenceCard = ({
   card,
   source,
   sensitivity,
-  onOpen,
+  onToggle,
 }: {
   card: { id: string; title: string; status: string; text: string };
   source: string;
   sensitivity: string;
-  onOpen: () => void;
+  onToggle: (open: boolean) => void;
 }) => {
   const badgeVariant =
     card.status.includes("تأیید") || card.status.includes("confirmed")
@@ -794,7 +944,7 @@ const EvidenceCard = ({
           : "preliminary";
   return (
     <details className="s4-evidence-card" onToggle={(event) => {
-      if ((event.currentTarget as HTMLDetailsElement).open) onOpen();
+      onToggle((event.currentTarget as HTMLDetailsElement).open);
     }}>
       <summary>
         <span>{card.title}</span>
@@ -864,7 +1014,6 @@ const decisionWeight: Record<string, number> = {
 const average = (values: number[]) =>
   values.length ? values.reduce((sum, value) => sum + value, 0) / values.length : null;
 
-const clamp100 = (value: number) => Math.max(0, Math.min(100, Math.round(value)));
 const metricLabel = (value: number) => {
   if (value < 30) return "پایین";
   if (value < 55) return "متوسط";
@@ -873,11 +1022,11 @@ const metricLabel = (value: number) => {
 };
 const operationalStrategicBand = (value: number | null) => {
   if (value == null) return "داده کافی ثبت نشده";
-  if (value < -0.45) return "رویکرد عملیاتی";
-  if (value < -0.15) return "متمایل به عملیاتی";
-  if (value <= 0.15) return "رویکرد ترکیبی";
-  if (value <= 0.45) return "متمایل به راهبردی";
-  return "رویکرد راهبردی";
+  if (value < -0.45) return "گرایش عملیاتی مشخص";
+  if (value < -0.15) return "تمایل عملیاتی";
+  if (value <= 0.15) return "مرکز طیف";
+  if (value <= 0.45) return "تمایل راهبردی";
+  return "گرایش راهبردی مشخص";
 };
 
 const CognitiveDashboard = ({
@@ -885,59 +1034,64 @@ const CognitiveDashboard = ({
   move2,
   move3,
   finalSnapshot,
-  state,
+  resourceEvents,
+  isAdmin,
 }: {
   move1: ScenarioOneDecisionRecord[];
   move2: ScenarioOneDecisionRecord[];
   move3: ScenarioOneDecisionRecord[];
   finalSnapshot: ScenarioOneFinalSnapshot;
-  state: ScenarioOneState;
+  resourceEvents: ResourceEvent[];
+  isAdmin: boolean;
 }) => {
   const all = [...move1, ...move2, ...move3];
-  const weights = all.map((item) => decisionWeight[item.selectedOptionId]).filter((value): value is number => typeof value === "number");
-  const index = average(weights);
+  const cognitiveV3 = finalSnapshot.cognitiveScoresV3 as unknown as CognitiveModelV3Result;
+  const orientationV2 = isAdmin ? calculateOrientationV2(all, { evidenceInteractionValid: true, timingLogsConsistent: true }) : null;
+  const index = cognitiveV3?.orientation.overall ?? null;
   const perMove = [
-    ["مرحله ۱", average(move1.map((item) => decisionWeight[item.selectedOptionId]).filter((value): value is number => typeof value === "number"))],
-    ["مرحله ۲", average(move2.map((item) => decisionWeight[item.selectedOptionId]).filter((value): value is number => typeof value === "number"))],
-    ["مرحله ۳", average(move3.map((item) => decisionWeight[item.selectedOptionId]).filter((value): value is number => typeof value === "number"))],
+    ["مرحله ۱", cognitiveV3?.orientation.perMove.move1],
+    ["مرحله ۲", cognitiveV3?.orientation.perMove.move2],
+    ["مرحله ۳", cognitiveV3?.orientation.perMove.move3],
   ] as const;
-  const avgDecisionSeconds = average(all.map((item) => item.responseTimeMs / 1000));
-  const totalRevisions = all.reduce((sum, item) => sum + item.changeCount, 0);
-  const maxDecisionMs = Math.max(...all.map((item) => item.responseTimeMs), 1);
+  const maxDecisionMs = Math.max(...all.map((item) => item.telemetryV3?.activeDecisionMs ?? item.responseTimeMs), 1);
   const openedEvidenceCount = new Set([
     ...finalSnapshot.move1.evidenceSeen,
     ...finalSnapshot.move2.evidenceSeen,
     ...finalSnapshot.move3.evidenceSeen,
   ]).size;
-  const dimensions = [
-    ["جست‌وجوی اطلاعات", clamp100((state.visible.situationAwareness + state.knowledge.systemAttributionConfidence) / 2), "میزان استفاده از مسیرهای شناخت و شواهد در تصمیم‌ها."],
-    ["تفکر مرحله دوم", clamp100((finalSnapshot.finalMetrics.reversibilityScore + finalSnapshot.finalMetrics.decisionCoherenceScore) / 2), "توجه به پیامد مرحله بعد، برگشت‌پذیری و سازگاری تصمیم‌ها."],
-    ["مدل‌سازی طرف مقابل", clamp100(50 + (state.flags.m2OffRampOfferedByBlue ? 15 : 0) + (state.flags.privateCommunication ? 10 : 0)), "توجه به اینکه طرف مقابل فقط رفتار قابل مشاهده شما را می‌بیند."],
-    ["حساسیت به تشدید", finalSnapshot.finalMetrics.escalationControlScore, "توان کنترل فشار تشدید بدون تبدیل بحران به رویارویی بزرگ‌تر."],
-    ["انضباط اطلاعاتی", finalSnapshot.finalMetrics.informationDisciplineScore, "نسبت میان سطح شواهد، اشتراک اطلاعات و ادعای عمومی."],
-    ["انعطاف شناختی", clamp100(45 + (state.knowledge.evidenceIds.length * 4)), "میزان کار با فرضیه‌های مختلف و شواهد چندمنبعی."],
-    ["گرایش ائتلافی", finalSnapshot.finalMetrics.coalitionOutcomeScore, "استفاده از متحدان بدون فرض حمایت خودکار."],
-    ["مدیریت منابع", finalSnapshot.finalMetrics.resourceSustainabilityScore, "حفظ ظرفیت‌ها برای مراحل بعدی بحران."],
-  ] as const;
+  const dimensions: Array<[string, number | null, string]> = [
+    ["جست‌وجوی اطلاعات", cognitiveV3?.scores.informationSeeking ?? null, "میزان استفاده از مسیرهای اطلاعاتی و شواهد مرتبط در تصمیم‌های این اجرا."],
+    ["تفکر مرتبه دوم", cognitiveV3?.scores.secondOrderThinking ?? null, "میزان توجه انتخاب‌ها به پیامد مرحله بعد، واکنش اسرائیل و حفظ گزینه‌های آینده."],
+    ["مدل‌سازی اسرائیل", cognitiveV3?.scores.adversaryModeling ?? null, "میزان توجه تصمیم‌ها به اینکه اسرائیل چه چیزی را مشاهده و چگونه تفسیر می‌کند."],
+    ["حساسیت به تشدید", cognitiveV3?.scores.escalationSensitivity ?? null, "میزان وزنی که تصمیم‌ها به پیامدهای تشدید یا کاهش تنش داده‌اند؛ مقدار بالاتر الزاماً بهتر نیست."],
+    ["پرهیز از ادعای فراتر از شواهد", cognitiveV3?.scores.informationDiscipline ?? null, "تناسب شدت ادعا و افشای اطلاعات با قدرت شواهد موجود در زمان تصمیم. این شاخص بیشتر بر جلوگیری از ادعای بیش از شواهد تمرکز دارد و به‌تنهایی میزان استفاده مؤثر از اطلاعات را نمی‌سنجد."],
+    ["به‌روزرسانی مبتنی بر شواهد", cognitiveV3?.scores.evidenceResponsiveUpdating ?? null, "میزان همسویی تغییر برآورد شما با تغییر شواهد در دسترس."],
+    ["گرایش ائتلافی", cognitiveV3?.scores.coalitionOrientation ?? null, "جایگاه نسبی انتخاب‌ها از یک‌جانبه‌تر تا ائتلافی‌تر نسبت به گزینه‌های موجود."],
+    ["مدیریت منابع", cognitiveV3?.scores.resourceStewardship ?? null, "حفظ ظرفیت‌ها بر اساس هزینه مستقیم انتخاب‌های کاربر، بدون امتیازدادن به بازیابی بازیگران."],
+    ["برنامه‌ریزی و آینده‌نگری", cognitiveV3?.scores.planningForesight ?? null, "این شاخص یک پروکسی رفتاری از برنامه‌ریزی در همین سناریو است و جایگزین آزمون مستقل کارکرد برنامه‌ریزی نیست."],
+    ["یکپارچه‌سازی چندمعیاره", cognitiveV3?.scores.multiDomainIntegration ?? null, "میزان پوشش هم‌زمان حوزه‌های مأموریت، اطلاعات، منابع، ائتلاف، مشروعیت و آینده در انتخاب‌ها."],
+    ["گرایش به پذیرش ریسک", cognitiveV3?.scores.riskPosture == null ? null : (cognitiveV3.scores.riskPosture + 1) * 50, "جایگاه نسبی انتخاب‌ها در طیف ریسک‌گریز تا ریسک‌پذیر نسبت به گزینه‌های همان موقعیت."],
+    ["انسجام تصمیم", cognitiveV3?.scores.decisionCoherence ?? null, "هم‌خوانی دلیل اعلام‌شده با مسیر انتخاب‌ها؛ مقدار پایین به معنی تصمیم اشتباه نیست."],
+  ];
 
   return (
     <Card>
       <div className="s4-dashboard">
         <section className="s4-dashboard-hero">
-          <h2>طیف عملیاتی–راهبردی</h2>
+          <h2>طیف جهت‌گیری تصمیم عملیاتی–راهبردی در این اجرا</h2>
           {index == null ? (
             <p>داده کافی برای این شاخص ثبت نشده است.</p>
           ) : (
             <>
               <div className="s4-spectrum" dir="ltr">
                 <span>عملیاتی</span>
-                <div><i style={{ insetInlineStart: `${((index + 1) / 2) * 100}%` }} /></div>
+                <div><i style={{ insetInlineStart: `${cognitiveV3.orientation.markerPercent}%` }} /></div>
                 <span>راهبردی</span>
               </div>
               <p>
-                در این اجرا: <strong>{operationalStrategicBand(index)}</strong> ({index.toFixed(2)}). سمت عملیاتی به اقدام سریع، حفاظت و فشار آشکار نزدیک‌تر است؛
-                سمت راهبردی به جمع‌آوری شواهد، کنترل تشدید، ائتلاف و برگشت‌پذیری نزدیک‌تر است. هیچ‌کدام ذاتاً خوب یا بد نیست.
+                شاخص کل: <strong>{index >= 0 ? "+" : ""}{index.toFixed(2)}</strong> — {operationalStrategicBand(index)}. تفسیر: <strong>{cognitiveV3.orientation.interpretation}</strong>.
               </p>
+              <p className="hint">عملیاتی یا راهبردی بودن به‌خودی‌خود به معنی درست/غلط یا خوب/بد بودن تصمیم نیست.</p>
             </>
           )}
           <div className="s4-per-move">
@@ -945,23 +1099,38 @@ const CognitiveDashboard = ({
               <span key={label}>{label}: {value == null ? "داده ناکافی" : value.toFixed(2)}</span>
             ))}
           </div>
+          <div className="s4-orientation-supporting">
+            <span><strong>{cognitiveV3?.orientation.operationalStrength == null ? "—" : `${cognitiveV3.orientation.operationalStrength.toFixed(0)} / 100`}</strong>قدرت عملیاتی</span>
+            <span><strong>{cognitiveV3?.orientation.strategicStrength == null ? "—" : `${cognitiveV3.orientation.strategicStrength.toFixed(0)} / 100`}</strong>قدرت راهبردی</span>
+            <span><strong>{cognitiveV3?.orientation.integration == null ? "—" : `${cognitiveV3.orientation.integration.toFixed(0)} / 100`}</strong>یکپارچگی عملیاتی–راهبردی</span>
+            <span><strong>{cognitiveV3?.orientation.dispersion == null ? "—" : cognitiveV3.orientation.dispersion.toFixed(2)}</strong>{cognitiveV3?.orientation.dispersionLabel}</span>
+            <span><strong>{cognitiveV3 ? `${cognitiveV3.dataCompleteness.overall.toFixed(0)}٪` : "—"}</strong>کامل‌بودن داده</span>
+            <span><strong>آزمایشی</strong>وضعیت اعتبار مدل: در حال اعتبارسنجی</span>
+          </div>
+          {cognitiveV3?.orientation.dispersion != null && cognitiveV3.orientation.dispersion > .15 && Math.abs(index ?? 0) <= .15 && (
+            <p>میانگین سه مرحله نزدیک مرکز است، اما جهت‌گیری میان مراحل تغییر کرده؛ این نتیجه بیشتر یک رویکرد وابسته به موقعیت را نشان می‌دهد تا گرایشی ثابت.</p>
+          )}
+          <p className="s4-proxy-boundary">این شاخص‌ها فقط الگوی تصمیم‌گیری ثبت‌شده در همین اجرای سناریو را توصیف می‌کنند و تشخیص شخصیت یا آزمون روان‌سنجی قطعی محسوب نمی‌شوند.</p>
         </section>
         <section>
-          <h3>ابعاد شناختی ثبت‌شده</h3>
+          <h3>شاخص‌های رفتاری تصمیم‌گیری</h3>
           <div className="s4-bars">
             {dimensions.map(([label, value, text]) => (
               <div key={label} title={text}>
                 <span>{label}</span>
-                <div><i style={{ width: `${value}%` }} /></div>
-                <strong>{value} — {metricLabel(value)}</strong>
+                <div><i style={{ width: `${value ?? 0}%` }} /></div>
+                <strong>{value == null ? "داده کافی برای این شاخص ثبت نشده است." : `${value.toFixed(0)} — ${metricLabel(value)}`}</strong>
                 <small>{text}</small>
               </div>
             ))}
           </div>
         </section>
         <section>
-          <h3>خلاصه تصمیم</h3>
-          <p>۹ نقطه تصمیم اصلی، میانگین زمان تصمیم {avgDecisionSeconds == null ? "داده ناکافی" : `${avgDecisionSeconds.toFixed(1)} ثانیه`}، بازنگری انتخاب {totalRevisions} بار، شواهد بازشده {openedEvidenceCount} مورد.</p>
+          <h3>تله‌متری توصیفی تصمیم</h3>
+          <p>۹ نقطه تصمیم اصلی، میانه زمان فعال تصمیم {cognitiveV3?.timing.medianActiveDecisionMs == null ? "داده ناکافی" : `${(cognitiveV3.timing.medianActiveDecisionMs / 1000).toFixed(1)} ثانیه`}، دامنه میان‌چارکی {cognitiveV3?.timing.iqrActiveDecisionMs == null ? "داده ناکافی" : `${(cognitiveV3.timing.iqrActiveDecisionMs / 1000).toFixed(1)} ثانیه`}، بازنگری انتخاب {cognitiveV3?.timing.totalRevisions ?? 0} بار در {cognitiveV3?.timing.revisedWindows ?? 0} پنجره، شواهد بازشده {openedEvidenceCount} مورد.</p>
+          <p>زمان مطالعه فعال شواهد: {((cognitiveV3?.timing.totalEvidenceDwellMs ?? 0) / 1000).toFixed(1)} ثانیه. زمان واکنش فقط توصیفی است و در شاخص جهت‌گیری یا کیفیت تصمیم دخالت ندارد.</p>
+          <p>طولانی‌ترین تصمیم: {cognitiveV3?.timing.longestDecision ? `${windowTitles[cognitiveV3.timing.longestDecision.windowId as DecisionWindowId]}، ${(cognitiveV3.timing.longestDecision.activeDecisionMs / 1000).toFixed(1)} ثانیه` : "داده ناکافی"}؛ کوتاه‌ترین تصمیم: {cognitiveV3?.timing.shortestDecision ? `${windowTitles[cognitiveV3.timing.shortestDecision.windowId as DecisionWindowId]}، ${(cognitiveV3.timing.shortestDecision.activeDecisionMs / 1000).toFixed(1)} ثانیه` : "داده ناکافی"}.</p>
+          <p>تغییر انتخاب اول تا نهایی: {cognitiveV3?.timing.firstToFinalChanges.length ?? 0} پنجره؛ نرخ بازنگری پس از مشاهده شواهد مرتبط: {cognitiveV3?.timing.evidenceTriggeredRevisionRate == null ? "داده کافی ثبت نشده است" : `${cognitiveV3.timing.evidenceTriggeredRevisionRate.toFixed(0)}٪`}.</p>
           <p>وضعیت پایانی: {endStatePersianLabel(finalSnapshot.primaryEndState)}</p>
         </section>
         <section>
@@ -972,6 +1141,7 @@ const CognitiveDashboard = ({
             ))}
           </div>
           <p>این اعداد برآوردهای خود شما هستند و تا تحلیل پس از اقدام به معنای درست/غلط بودن قضاوت نیستند.</p>
+          <p>هم‌سویی برآورد با قدرت شواهد قابل مشاهده: {cognitiveV3?.attribution.meanEvidenceAlignment == null ? "داده کافی ثبت نشده است" : `${cognitiveV3.attribution.meanEvidenceAlignment.toFixed(0)} / 100`}.</p>
         </section>
         <section>
           <h3>زمان تصمیم و بازنگری</h3>
@@ -979,8 +1149,8 @@ const CognitiveDashboard = ({
             {all.map((item) => (
               <div key={`${item.windowId}-${item.selectedOptionId}`}>
                 <span>{windowTitles[item.windowId]}</span>
-                <div><i style={{ width: `${Math.max(4, (item.responseTimeMs / maxDecisionMs) * 100)}%` }} /></div>
-                <strong>{(item.responseTimeMs / 1000).toFixed(1)} ثانیه</strong>
+                <div><i style={{ width: `${Math.max(4, ((item.telemetryV3?.activeDecisionMs ?? item.responseTimeMs) / maxDecisionMs) * 100)}%` }} /></div>
+                <strong>{((item.telemetryV3?.activeDecisionMs ?? item.responseTimeMs) / 1000).toFixed(1)} ثانیه فعال</strong>
                 <small>بازنگری: {item.changeCount}</small>
               </div>
             ))}
@@ -988,29 +1158,70 @@ const CognitiveDashboard = ({
         </section>
         <section>
           <h3>مسیر منابع</h3>
-          <div className="s4-resource-lines">
+          <div className="s4-resource-paths">
             {[
-              ["SSA", "ssaCapacity"],
-              ["حفاظتی", "protectiveCapacity"],
-              ["سیاسی", "politicalCapital"],
-              ["افشا", "disclosureBudget"],
+              ["ظرفیت SSA", "ssaCapacity"],
+              ["ظرفیت حفاظتی", "protectiveCapacity"],
+              ["سرمایه سیاسی", "politicalCapital"],
+              ["ظرفیت افشای امن", "disclosureBudget"],
             ].map(([label, key]) => {
               const points = [
                 finalSnapshot.move1.stateBefore.resources,
-                finalSnapshot.move1.stateAfter.resources,
-                finalSnapshot.move2.stateAfter.resources,
+                move2[0]?.stateBefore.resources ?? finalSnapshot.move1.stateAfter.resources,
+                move3[0]?.stateBefore.resources ?? finalSnapshot.move2.stateAfter.resources,
                 finalSnapshot.move3.stateAfter.resources,
               ].map((resources) => resources[key as keyof typeof resources]);
+              const stageLabels = ["شروع", "پس از مرحله ۱", "پس از مرحله ۲", "پس از مرحله ۳"];
               return (
-                <div key={label}>
+                <div className="s4-resource-path-row" key={label}>
                   <strong>{label}</strong>
-                  {points.map((value, index) => <span key={`${label}-${index}`} style={{ height: `${Math.max(8, value)}%` }} title={`${value}`} />)}
+                  <div className="s4-resource-path-stages">
+                    {points.map((value, index) => {
+                      const delta = index === 0 ? 0 : value - points[index - 1];
+                      return (
+                        <div key={`${label}-${index}`} className="s4-resource-path-stage">
+                          <span>{stageLabels[index]}</span>
+                          <b>{value} / 100</b>
+                          <div><i style={{ width: `${value}%` }} /></div>
+                          <small className={delta > 0 ? "positive" : delta < 0 ? "negative" : ""}>
+                            {index === 0 ? "مقدار اولیه" : delta === 0 ? "بدون تغییر" : `${delta > 0 ? "+" : ""}${delta}`}
+                          </small>
+                        </div>
+                      );
+                    })}
+                  </div>
                 </div>
               );
             })}
           </div>
-          <div className="s4-resource-axis"><span>شروع</span><span>مرحله ۱</span><span>مرحله ۲</span><span>مرحله ۳</span></div>
+          <details className="s4-resource-dashboard-causes">
+            <summary>علت تغییرات اصلی منابع</summary>
+            {(["ssaCapacity", "protectiveCapacity", "politicalCapital", "disclosureBudget"] as const).map((resource) => {
+              const events = resourceEvents.filter((event) => event.resource === resource);
+              return (
+                <div key={resource}>
+                  <strong>{getResourceLabel(resource)}</strong>
+                  <span>{events.length ? events.map((event) => `${event.delta > 0 ? "+" : ""}${event.delta} — ${event.rationale}`).join(" | ") : "بدون تغییر"}</span>
+                </div>
+              );
+            })}
+          </details>
         </section>
+        {isAdmin && (
+          <section className="s4-admin-methodology">
+            <h3>روش‌شناسی و داده خام مدیر</h3>
+            <p>مدل {finalSnapshot.measurementModelVersion} | فرمول {finalSnapshot.formulaVersion} | پروفایل {finalSnapshot.optionProfileVersion} | آزمون لنگر {finalSnapshot.anchorTestVersion} | پنل خبره {finalSnapshot.expertPanelVersion}</p>
+            <p>oldOSI: {finalSnapshot.oldOSI?.toFixed(4) ?? "null"} | V2: {orientationV2?.overall?.toFixed(4) ?? "null"} | V3: {index?.toFixed(4) ?? "null"}</p>
+            <p><strong>کیفیت فرایند پاسخ: {cognitiveV3?.responseProcess.status === "caution" ? "نیازمند احتیاط" : "بدون هشدار چندگانه"}</strong></p>
+            <details><summary>پرچم‌های توصیفی فرایند پاسخ</summary><pre>{JSON.stringify(cognitiveV3?.responseProcess ?? null, null, 2)}</pre></details>
+            <details><summary>ممیزی به‌روزرسانی مبتنی بر شواهد</summary><pre>{JSON.stringify(cognitiveV3?.attribution.evidenceUpdatingAudit ?? [], null, 2)}</pre></details>
+            <details><summary>هشدارهای توزیع سازه‌ها</summary><pre>{JSON.stringify(CONSTRUCT_DISTRIBUTION_AUDIT_V3, null, 2)}</pre><p>هشدارها جریمه بازیکن نیستند و فقط برای ممیزی مدل نمایش داده می‌شوند.</p></details>
+            <details><summary>ورودی‌های فرمول و مقادیر هر پنجره</summary><pre>{JSON.stringify(cognitiveV3?.perWindow ?? [], null, 2)}</pre></details>
+            <details><summary>کامل‌بودن داده و علت مقادیر گمشده</summary><pre>{JSON.stringify({ components: cognitiveV3?.dataCompleteness.components, missing: cognitiveV3?.missingReasons }, null, 2)}</pre></details>
+            <details><summary>همه ویژگی‌ها و خروجی‌های مشتق‌شده</summary><pre>{JSON.stringify(cognitiveV3 ?? null, null, 2)}</pre></details>
+            <details><summary>تله‌متری خام V3</summary><pre>{JSON.stringify(finalSnapshot.decisionTelemetryV3 ?? [], null, 2)}</pre></details>
+          </section>
+        )}
       </div>
     </Card>
   );
@@ -1027,9 +1238,20 @@ export const ScenarioFourRedesignedScenarioOne = ({
   const runIdRef = useRef<string>("");
   const startedAtRef = useRef(new Date().toISOString());
   const windowStartedAtRef = useRef(getNow());
-  const firstSelectedRef = useRef<string | null>(null);
-  const changeCountRef = useRef(0);
+  const windowEnteredAtRef = useRef(new Date().toISOString());
+  const selectionStateRef = useRef<SelectionTelemetryStateV3>({ optionChangeCount: 0, selectionTimeline: [] });
   const stateBeforeWindowRef = useRef<ScenarioOneState | null>(null);
+  const evidenceAvailableRef = useRef<string[]>([]);
+  const evidenceTimelineRef = useRef<EvidenceOpenTelemetryV3[]>([]);
+  const evidenceTimelineStartIndexRef = useRef(0);
+  const openEvidenceRef = useRef(new Map<string, { index: number; startedAt: number }>());
+  const decisionTelemetryRef = useRef<DecisionTelemetryV3[]>([]);
+  const attributionTelemetryRef = useRef<AttributionEstimateTelemetryV3[]>([]);
+  const helpOpenedRef = useRef(false);
+  const glossaryOpenedRef = useRef(false);
+  const activeDecisionAccumulatedRef = useRef(0);
+  const activeDecisionStartedRef = useRef<number | null>(null);
+  const confirmLockedRef = useRef(false);
 
   const [phase, setPhase] = useState<Phase>("intro_title");
   const [state, setState] = useState<ScenarioOneState>(() => {
@@ -1089,7 +1311,35 @@ export const ScenarioFourRedesignedScenarioOne = ({
   const [helpOpen, setHelpOpen] = useState(false);
   const [glossaryOpen, setGlossaryOpen] = useState(false);
   const [evidenceReviewOpen, setEvidenceReviewOpen] = useState(false);
+  const [toolbarGuideOpen, setToolbarGuideOpen] = useState(true);
+  const [decisionInfoGuideOpen, setDecisionInfoGuideOpen] = useState(true);
   const [exitConfirmOpen, setExitConfirmOpen] = useState(false);
+  const [resourceEvents, setResourceEvents] = useState<ResourceEvent[]>([]);
+  const [recentResourceEvents, setRecentResourceEvents] = useState<ResourceEvent[]>([]);
+  const resourceDeltaTimerRef = useRef<number | null>(null);
+
+  const publishResourceEvents = (events: ResourceEvent[]) => {
+    if (!events.length) return;
+    setResourceEvents((current) => [...current, ...events]);
+    setRecentResourceEvents(events);
+    for (const event of events) {
+      logScenarioFour(event.kind === "user_cost" ? "resource_change" : "resource_recovery", scenarioId, nodeId, {
+        moveId: event.moveId,
+        resource: event.resource,
+        resource_source: event.source,
+        before: event.before,
+        delta: event.delta,
+        after: event.after,
+        rationale: event.rationale,
+      });
+    }
+    if (resourceDeltaTimerRef.current != null) window.clearTimeout(resourceDeltaTimerRef.current);
+    resourceDeltaTimerRef.current = window.setTimeout(() => setRecentResourceEvents([]), 2600);
+  };
+
+  useEffect(() => () => {
+    if (resourceDeltaTimerRef.current != null) window.clearTimeout(resourceDeltaTimerRef.current);
+  }, []);
 
   useEffect(() => {
     onCompletionUiActiveChange?.(
@@ -1115,15 +1365,98 @@ export const ScenarioFourRedesignedScenarioOne = ({
     }
   }, [nodeId, phase, scenarioId]);
 
+  useEffect(() => {
+    const pause = () => {
+      if (activeDecisionStartedRef.current == null) return;
+      activeDecisionAccumulatedRef.current += getNow() - activeDecisionStartedRef.current;
+      activeDecisionStartedRef.current = null;
+    };
+    const resume = () => {
+      if (document.visibilityState === "visible" && document.hasFocus() && activeDecisionStartedRef.current == null) {
+        activeDecisionStartedRef.current = getNow();
+      }
+    };
+    const onVisibility = () => document.visibilityState === "hidden" ? pause() : resume();
+    window.addEventListener("blur", pause);
+    window.addEventListener("focus", resume);
+    document.addEventListener("visibilitychange", onVisibility);
+    return () => {
+      window.removeEventListener("blur", pause);
+      window.removeEventListener("focus", resume);
+      document.removeEventListener("visibilitychange", onVisibility);
+    };
+  }, []);
+
+  const currentActiveDecisionMs = () => activeDecisionAccumulatedRef.current +
+    (activeDecisionStartedRef.current == null ? 0 : getNow() - activeDecisionStartedRef.current);
+
+  const snapshotEvidenceTimeline = () => {
+    const now = getNow();
+    const closedAt = new Date().toISOString();
+    for (const [evidenceId, open] of openEvidenceRef.current) {
+      const item = evidenceTimelineRef.current[open.index];
+      item.closedAt = closedAt;
+      item.activeDwellMs = (item.activeDwellMs ?? 0) + Math.max(0, now - open.startedAt);
+      openEvidenceRef.current.delete(evidenceId);
+    }
+    return evidenceTimelineRef.current.slice(evidenceTimelineStartIndexRef.current).map((item) => ({ ...item }));
+  };
+
+  const buildDecisionTelemetry = (
+    moveId: "move_1" | "move_2" | "move_3",
+    windowId: DecisionWindowId,
+    finalSelectedOptionId: string,
+    before: ScenarioOneState,
+    after: ScenarioOneState,
+    reason?: string
+  ): DecisionTelemetryV3 => ({
+    runId: runIdRef.current,
+    moveId,
+    windowId,
+    enteredAt: windowEnteredAtRef.current,
+    confirmedAt: new Date().toISOString(),
+    elapsedMs: Math.max(0, getNow() - windowStartedAtRef.current),
+    activeDecisionMs: currentActiveDecisionMs(),
+    firstSelectedOptionId: selectionStateRef.current.firstSelectedOptionId ?? finalSelectedOptionId,
+    finalSelectedOptionId,
+    optionChangeCount: selectionStateRef.current.optionChangeCount,
+    selectionTimeline: [...selectionStateRef.current.selectionTimeline],
+    evidenceAvailableIds: [...evidenceAvailableRef.current],
+    evidenceOpenedIds: [...new Set(evidenceTimelineRef.current.map((item) => item.evidenceId))],
+    evidenceOpenTimeline: snapshotEvidenceTimeline(),
+    helpOpened: helpOpenedRef.current,
+    glossaryOpened: glossaryOpenedRef.current,
+    playerAttributionEstimateBefore: before.knowledge.playerAttributionEstimate,
+    playerAttributionEstimateAfter: after.knowledge.playerAttributionEstimate,
+    systemAttributionConfidenceVisibleAtDecision: before.knowledge.systemAttributionConfidence,
+    statedReasonId: reason,
+    statedReasonText: reason,
+    resourcesBefore: { ...before.resources },
+    resourcesAfterUserAction: { ...after.resources },
+  });
+
+  const appendDecisionTelemetry = (telemetry: DecisionTelemetryV3) => {
+    const existing = decisionTelemetryRef.current.findIndex((item) => item.windowId === telemetry.windowId);
+    if (existing >= 0) decisionTelemetryRef.current[existing] = telemetry;
+    else decisionTelemetryRef.current.push(telemetry);
+  };
+
   const enterWindow = (
     windowId: DecisionWindowId,
     moveId: "move_1" | "move_2" | "move_3",
     sourceState: ScenarioOneState = state
   ) => {
     setSelectedId(undefined);
-    firstSelectedRef.current = null;
-    changeCountRef.current = 0;
+    selectionStateRef.current = { optionChangeCount: 0, selectionTimeline: [], firstSelectedOptionId: undefined, finalSelectedOptionId: undefined };
+    evidenceTimelineStartIndexRef.current = decisionTelemetryRef.current.length === 0 ? 0 : evidenceTimelineRef.current.length;
     windowStartedAtRef.current = getNow();
+    windowEnteredAtRef.current = new Date().toISOString();
+    evidenceAvailableRef.current = [...sourceState.knowledge.evidenceIds];
+    helpOpenedRef.current = false;
+    glossaryOpenedRef.current = false;
+    activeDecisionAccumulatedRef.current = 0;
+    activeDecisionStartedRef.current = document.visibilityState === "visible" && document.hasFocus() ? getNow() : null;
+    confirmLockedRef.current = false;
     stateBeforeWindowRef.current = cloneState(sourceState);
     logScenarioFour("s1_decision_window_enter", scenarioId, nodeId, {
       moveId,
@@ -1154,16 +1487,16 @@ export const ScenarioFourRedesignedScenarioOne = ({
     windowId: DecisionWindowId,
     moveId: "move_1" | "move_2" | "move_3" = "move_1"
   ) => {
-    if (!firstSelectedRef.current) {
-      firstSelectedRef.current = optionId;
-    } else if (selectedId && selectedId !== optionId) {
-      changeCountRef.current += 1;
+    const previous = selectionStateRef.current;
+    const next = applyOptionSelectionV3(previous, optionId, new Date().toISOString());
+    selectionStateRef.current = next;
+    if (next.optionChangeCount > previous.optionChangeCount) {
       logScenarioFour("s1_option_change", scenarioId, nodeId, {
         moveId,
         windowId,
-        fromOptionId: selectedId,
+        fromOptionId: previous.finalSelectedOptionId,
         toOptionId: optionId,
-        changeCount: changeCountRef.current,
+        changeCount: next.optionChangeCount,
       });
     }
     setSelectedId(optionId);
@@ -1178,22 +1511,29 @@ export const ScenarioFourRedesignedScenarioOne = ({
     windowId: "m1_information" | "m1_protection" | "m1_communication",
     nextPhase: Phase
   ) => {
-    if (!selectedId) return;
+    if (!selectedId || confirmLockedRef.current) return;
+    confirmLockedRef.current = true;
     const before = stateBeforeWindowRef.current ?? cloneState(state);
     const after = applyBlueDecision(state, windowId, selectedId, rngSeed);
-    const elapsed = getNow() - windowStartedAtRef.current;
+    const decisionResourceEvents = captureDecisionResourceEvents(before.resources, after.resources, selectedId, "move_1");
+    const telemetryV3 = buildDecisionTelemetry("move_1", windowId, selectedId, before, after);
+    const elapsed = telemetryV3.elapsedMs;
     const record: ScenarioOneDecisionRecord = {
       moveId: "move_1",
       windowId,
       selectedOptionId: selectedId,
-      firstSelectedOptionId: firstSelectedRef.current ?? selectedId,
-      changeCount: changeCountRef.current,
+      firstSelectedOptionId: selectionStateRef.current.firstSelectedOptionId ?? selectedId,
+      changeCount: selectionStateRef.current.optionChangeCount,
       responseTimeMs: elapsed,
       stateBefore: before,
       stateAfter: after,
       resourcesBefore: before.resources,
       resourcesAfter: after.resources,
+      resourceEvents: decisionResourceEvents,
+      telemetryV3,
     };
+    appendDecisionTelemetry(telemetryV3);
+    publishResourceEvents(decisionResourceEvents);
     setState(after);
     setDecisions((items) => [...items, record]);
     setChoices((current) => ({
@@ -1228,7 +1568,10 @@ export const ScenarioFourRedesignedScenarioOne = ({
   };
 
   const confirmReason = () => {
-    if (!selectedId) return;
+    if (!selectedId || confirmLockedRef.current) return;
+    confirmLockedRef.current = true;
+    const reasonState = stateBeforeWindowRef.current ?? state;
+    appendDecisionTelemetry(buildDecisionTelemetry("move_1", "m1_reason", selectedId, reasonState, state, selectedId));
     setChoices((current) => ({ ...current, reason: selectedId }));
     logScenarioFour("s1_reason_capture", scenarioId, nodeId, {
       moveId: "move_1",
@@ -1295,8 +1638,15 @@ export const ScenarioFourRedesignedScenarioOne = ({
 
   const startMove2 = () => {
     if (!snapshot) return;
+    const recovery = applyResourceRecovery(snapshot.stateAfter, "m1_to_m2", {
+      choices,
+      redAction: snapshot.redAction,
+      allyAction: snapshot.allyAction,
+      commercialAction: snapshot.commercialAction,
+    });
+    publishResourceEvents(recovery.events);
     const next = initializeMove2Incident(
-      snapshot.stateAfter,
+      recovery.state,
       `${rngSeed}:move2:${snapshot.completedAt}`
     );
     setMove2StartedAt(new Date().toISOString());
@@ -1330,6 +1680,19 @@ export const ScenarioFourRedesignedScenarioOne = ({
     if (phaseName === "m3_final") {
       next.knowledge.playerAttributionEstimateFinal = value;
     }
+    const estimateTelemetry: AttributionEstimateTelemetryV3 = {
+      phase: phaseName,
+      playerEstimate: value,
+      systemEvidenceConfidence: state.knowledge.systemAttributionConfidence,
+      recordedAt: new Date().toISOString(),
+    };
+    const priorEstimateIndex = attributionTelemetryRef.current.findIndex((item) => item.phase === phaseName);
+    if (priorEstimateIndex >= 0) attributionTelemetryRef.current[priorEstimateIndex] = estimateTelemetry;
+    else attributionTelemetryRef.current.push(estimateTelemetry);
+    if (phaseName === "m2_post_investigation") {
+      const decision = decisionTelemetryRef.current.find((item) => item.windowId === "m2_investigation");
+      if (decision) decision.playerAttributionEstimateAfter = value;
+    }
     setState(next);
     logScenarioFour("s1_attribution_estimate", scenarioId, nodeId, {
       phase: phaseName,
@@ -1341,22 +1704,29 @@ export const ScenarioFourRedesignedScenarioOne = ({
     windowId: "m2_investigation" | "m2_mission" | "m2_response",
     nextPhase: Phase
   ) => {
-    if (!selectedId) return;
+    if (!selectedId || confirmLockedRef.current) return;
+    confirmLockedRef.current = true;
     const before = stateBeforeWindowRef.current ?? cloneState(state);
     const after = applyMove2Decision(state, windowId, selectedId, `${rngSeed}:move2`);
-    const elapsed = getNow() - windowStartedAtRef.current;
+    const decisionResourceEvents = captureDecisionResourceEvents(before.resources, after.resources, selectedId, "move_2");
+    const telemetryV3 = buildDecisionTelemetry("move_2", windowId, selectedId, before, after);
+    const elapsed = telemetryV3.elapsedMs;
     const record: ScenarioOneDecisionRecord = {
-      moveId: "move_3",
+      moveId: "move_2",
       windowId,
       selectedOptionId: selectedId,
-      firstSelectedOptionId: firstSelectedRef.current ?? selectedId,
-      changeCount: changeCountRef.current,
+      firstSelectedOptionId: selectionStateRef.current.firstSelectedOptionId ?? selectedId,
+      changeCount: selectionStateRef.current.optionChangeCount,
       responseTimeMs: elapsed,
       stateBefore: before,
       stateAfter: after,
       resourcesBefore: before.resources,
       resourcesAfter: after.resources,
+      resourceEvents: decisionResourceEvents,
+      telemetryV3,
     };
+    appendDecisionTelemetry(telemetryV3);
+    publishResourceEvents(decisionResourceEvents);
     setState(after);
     setMove2Decisions((items) => [...items, record]);
     setMove2Choices((current) => ({
@@ -1385,7 +1755,10 @@ export const ScenarioFourRedesignedScenarioOne = ({
   };
 
   const confirmMove2Reason = () => {
-    if (!selectedId || !snapshot) return;
+    if (!selectedId || !snapshot || confirmLockedRef.current) return;
+    confirmLockedRef.current = true;
+    const reasonState = stateBeforeWindowRef.current ?? state;
+    appendDecisionTelemetry(buildDecisionTelemetry("move_2", "m2_reason", selectedId, reasonState, state, selectedId));
     const finalChoices = { ...move2Choices, reason: selectedId };
     setMove2Choices(finalChoices);
     logScenarioFour("s1_reason_capture", scenarioId, nodeId, {
@@ -1394,7 +1767,7 @@ export const ScenarioFourRedesignedScenarioOne = ({
     });
     const result = adjudicateMove2({
       startedAt: move2StartedAt ?? new Date().toISOString(),
-      stateBefore: snapshot.stateAfter,
+      stateBefore: move2Decisions[0]?.stateBefore ?? snapshot.stateAfter,
       stateAfterBlue: state,
       attributionEstimatePre: move2AttributionPre,
       attributionEstimatePost: move2AttributionPost,
@@ -1443,8 +1816,19 @@ export const ScenarioFourRedesignedScenarioOne = ({
 
   const startMove3 = () => {
     if (!move2Snapshot) return;
+    const recovery = applyResourceRecovery(move2Snapshot.stateAfter, "m2_to_m3", {
+      choices: {
+        investigation: move2Choices.investigation,
+        mission: move2Choices.mission,
+        response: move2Choices.response,
+      },
+      redAction: move2Snapshot.redAction,
+      allyAction: move2Snapshot.allyAction,
+      commercialAction: move2Snapshot.commercialAction,
+    });
+    publishResourceEvents(recovery.events);
     const next = initializeMove3Severity(
-      move2Snapshot.stateAfter,
+      recovery.state,
       move2Snapshot,
       `${rngSeed}:move3`
     );
@@ -1462,22 +1846,29 @@ export const ScenarioFourRedesignedScenarioOne = ({
     windowId: "m3_threshold" | "m3_coa" | "m3_info" | "m3_offramp",
     nextPhase: Phase
   ) => {
-    if (!selectedId) return;
+    if (!selectedId || confirmLockedRef.current) return;
+    confirmLockedRef.current = true;
     const before = stateBeforeWindowRef.current ?? cloneState(state);
     const after = applyMove3Decision(state, windowId, selectedId);
-    const elapsed = getNow() - windowStartedAtRef.current;
+    const decisionResourceEvents = captureDecisionResourceEvents(before.resources, after.resources, selectedId, "move_3");
+    const telemetryV3 = buildDecisionTelemetry("move_3", windowId, selectedId, before, after);
+    const elapsed = telemetryV3.elapsedMs;
     const record: ScenarioOneDecisionRecord = {
-      moveId: "move_1",
+      moveId: "move_3",
       windowId,
       selectedOptionId: selectedId,
-      firstSelectedOptionId: firstSelectedRef.current ?? selectedId,
-      changeCount: changeCountRef.current,
+      firstSelectedOptionId: selectionStateRef.current.firstSelectedOptionId ?? selectedId,
+      changeCount: selectionStateRef.current.optionChangeCount,
       responseTimeMs: elapsed,
       stateBefore: before,
       stateAfter: after,
       resourcesBefore: before.resources,
       resourcesAfter: after.resources,
+      resourceEvents: decisionResourceEvents,
+      telemetryV3,
     };
+    appendDecisionTelemetry(telemetryV3);
+    publishResourceEvents(decisionResourceEvents);
     const nextChoices = {
       ...move3Choices,
       threshold: windowId === "m3_threshold" ? selectedId : move3Choices.threshold,
@@ -1503,7 +1894,10 @@ export const ScenarioFourRedesignedScenarioOne = ({
   };
 
   const confirmMove3Reason = () => {
-    if (!selectedId || !snapshot || !move2Snapshot) return;
+    if (!selectedId || !snapshot || !move2Snapshot || confirmLockedRef.current) return;
+    confirmLockedRef.current = true;
+    const reasonState = stateBeforeWindowRef.current ?? state;
+    appendDecisionTelemetry(buildDecisionTelemetry("move_3", "m3_reason", selectedId, reasonState, state, selectedId));
     const finalChoices = { ...move3Choices, reason: selectedId };
     setMove3Choices(finalChoices);
     logScenarioFour("s1_reason_capture", scenarioId, nodeId, {
@@ -1524,6 +1918,40 @@ export const ScenarioFourRedesignedScenarioOne = ({
       decisions: move3Decisions,
       evidenceSeen,
       rngSeed: `${rngSeed}:move3`,
+    });
+    result.finalSnapshot.resourceEvents = resourceEvents;
+    const allCoreDecisions = [...decisions, ...move2Decisions, ...move3Decisions];
+    const legacyOsi = average(allCoreDecisions.map((item) => decisionWeight[item.selectedOptionId]).filter((value): value is number => typeof value === "number"));
+    const orientationV2 = calculateOrientationV2(allCoreDecisions, {
+      evidenceInteractionValid: true,
+      timingLogsConsistent: true,
+    });
+    const cognitiveV3 = calculateCognitiveModelV3({
+      records: allCoreDecisions,
+      telemetry: decisionTelemetryRef.current,
+      attributionEstimates: attributionTelemetryRef.current,
+      reasons: { move_1: choices.reason, move_2: move2Choices.reason, move_3: selectedId },
+      resourceEvents,
+    });
+    result.finalSnapshot.measurementModelVersion = COGNITIVE_MODEL_VERSION;
+    result.finalSnapshot.formulaVersion = COGNITIVE_FORMULA_VERSION;
+    result.finalSnapshot.optionProfileVersion = OPTION_PROFILE_VERSION;
+    result.finalSnapshot.scenarioContentVersion = SCENARIO_CONTENT_VERSION;
+    result.finalSnapshot.expertPanelVersion = EXPERT_PANEL_VERSION;
+    result.finalSnapshot.anchorTestVersion = ANCHOR_TEST_VERSION;
+    result.finalSnapshot.decisionTelemetryV3 = [...decisionTelemetryRef.current];
+    result.finalSnapshot.attributionTelemetryV3 = [...attributionTelemetryRef.current];
+    result.finalSnapshot.oldOSI = legacyOsi;
+    result.finalSnapshot.cognitiveScoresV3 = cognitiveV3 as unknown as Record<string, unknown>;
+    logScenarioFour("s4_orientation_models", scenarioId, nodeId, {
+      measurementModelVersion: COGNITIVE_MODEL_VERSION,
+      oldOSI: legacyOsi,
+      v2OSI: orientationV2.overall,
+      newOSI: cognitiveV3.orientation.overall,
+      newMoveIndices: cognitiveV3.orientation.perMove,
+      integrationScore: cognitiveV3.orientation.integration,
+      dispersion: cognitiveV3.orientation.dispersion,
+      dataCompleteness: cognitiveV3.dataCompleteness.overall,
     });
     setMove3Snapshot(result.move3);
     setFinalSnapshot(result.finalSnapshot);
@@ -1553,12 +1981,25 @@ export const ScenarioFourRedesignedScenarioOne = ({
     setPhase("final_report");
   };
 
-  const openIntelCard = (cardId: string) => {
-    setEvidenceSeen((items) => (items.includes(cardId) ? items : [...items, cardId]));
-    logScenarioFour("s1_intel_card_open", scenarioId, nodeId, {
-      moveId: "move_1",
-      evidenceId: cardId,
-    });
+  const trackEvidenceToggle = (cardId: string, sourceType: string, open: boolean) => {
+    if (open) {
+      setEvidenceSeen((items) => (items.includes(cardId) ? items : [...items, cardId]));
+      const item: EvidenceOpenTelemetryV3 = { evidenceId: cardId, sourceType, openedAt: new Date().toISOString() };
+      evidenceTimelineRef.current.push(item);
+      openEvidenceRef.current.set(cardId, { index: evidenceTimelineRef.current.length - 1, startedAt: getNow() });
+      logScenarioFour("s1_intel_card_open", scenarioId, nodeId, {
+        moveId: `move_${state.move}`,
+        evidenceId: cardId,
+        sourceType,
+      });
+      return;
+    }
+    const active = openEvidenceRef.current.get(cardId);
+    if (!active) return;
+    const item = evidenceTimelineRef.current[active.index];
+    item.closedAt = new Date().toISOString();
+    item.activeDwellMs = (item.activeDwellMs ?? 0) + Math.max(0, getNow() - active.startedAt);
+    openEvidenceRef.current.delete(cardId);
   };
 
   const unlockedIntel = intelCards.filter((card) => state.knowledge.evidenceIds.includes(card.id));
@@ -1575,6 +2016,12 @@ export const ScenarioFourRedesignedScenarioOne = ({
     state.knowledge.evidenceIds.includes(card.id)
   );
   const latestRedAction = move3Snapshot?.redAction ?? move2Snapshot?.redAction ?? snapshot?.redAction;
+  const attributionBrier = finalSnapshot
+    ? calculateAttributionBrier(move3Snapshot?.playerAttributionEstimateFinal, finalSnapshot.hiddenAarData.trueIncidentAttribution)
+    : null;
+  const opponentObservationAar = snapshot && move2Snapshot && move3Snapshot
+    ? buildOpponentObservationAAR({ move1Snapshot: snapshot, move2Snapshot, move3Snapshot })
+    : [];
 
   if (phase.startsWith("intro")) {
     return (
@@ -1588,11 +2035,14 @@ export const ScenarioFourRedesignedScenarioOne = ({
     <div className="s4-shell">
       <GameplayHeader
         phase={phase}
+        guideActive={toolbarGuideOpen}
         onHelp={() => {
+          helpOpenedRef.current = true;
           setHelpOpen(true);
           logScenarioFour("s4_help_open", scenarioId, nodeId, { phase });
         }}
         onGlossary={() => {
+          glossaryOpenedRef.current = true;
           setGlossaryOpen(true);
           logScenarioFour("s4_glossary_open", scenarioId, nodeId, { phase });
         }}
@@ -1602,18 +2052,6 @@ export const ScenarioFourRedesignedScenarioOne = ({
       <ScenarioProgress phase={phase} />
       <div className="s4-layout">
         <div className="s4-main">
-          <Card>
-            <div style={{ display: "grid", gap: "0.75rem" }}>
-              <span className="s4-badge s4-badge-analytical">
-                سناریو ۴ / حریم خاکستری مدار / مرحله ۱
-              </span>
-              <h1 style={{ margin: 0 }}>حریم خاکستری مدار</h1>
-              <p className="subtitle" style={{ margin: 0 }}>
-                تمرین تصمیم‌گیری فضایی در شرایط اطلاعات ناقص و انتساب نامطمئن
-              </p>
-            </div>
-          </Card>
-
           {phase === "brief" && (
             <Card>
               <h2 style={{ marginTop: 0 }}>وضعیت اولیه</h2>
@@ -1645,7 +2083,7 @@ export const ScenarioFourRedesignedScenarioOne = ({
                     card={card}
                     source={card.id.includes("COMM") ? "اپراتور تجاری" : "رصد نظامی"}
                     sensitivity={card.id === "E_BASE_03" ? "تحلیلی" : "عادی"}
-                    onOpen={() => openIntelCard(card.id)}
+                    onToggle={(open) => trackEvidenceToggle(card.id, card.id.includes("COMM") ? "commercial" : "military_ssa", open)}
                   />
                 ))}
               </div>
@@ -1664,6 +2102,7 @@ export const ScenarioFourRedesignedScenarioOne = ({
               question="برای کاهش عدم قطعیت، اولویت اطلاعاتی شما چیست؟"
               why="نوع اطلاعاتی که ابتدا دنبال می‌کنید، کیفیت شناخت مرحله‌های بعد و میزان مصرف منابع را تغییر می‌دهد."
               options={informationOptions}
+              infoGuideActive={decisionInfoGuideOpen}
               selectedId={selectedId}
               onSelect={(id) => handleSelect(id, "m1_information")}
               onConfirm={() => confirmDecision("m1_information", "dw2")}
@@ -1687,7 +2126,7 @@ export const ScenarioFourRedesignedScenarioOne = ({
                 title={windowTitles.m1_protection}
                 context="A-17 هنوز مختل نشده، اما نزدیک‌شدن R-31 ممکن است نیاز به تغییر وضعیت حفاظتی ایجاد کند."
                 question="با اطلاعات فعلی، وضعیت حفاظتی A-17 چگونه تغییر کند؟"
-                why="اقدام حفاظتی می‌تواند پنهان، آشکار، برگشت‌پذیر یا پرهزینه باشد و طرف مقابل فقط بخش قابل مشاهده آن را می‌بیند."
+                why="اقدام حفاظتی می‌تواند پنهان، آشکار، برگشت‌پذیر یا پرهزینه باشد و اسرائیل فقط بخش قابل مشاهده آن را می‌بیند."
                 options={protectionOptions}
                 selectedId={selectedId}
                 onSelect={(id) => handleSelect(id, "m1_protection")}
@@ -1771,15 +2210,6 @@ export const ScenarioFourRedesignedScenarioOne = ({
                 <button className="primary" onClick={startMove2}>
                   ورود به مرحله ۲
                 </button>
-                {isAdmin && (
-                  <button
-                    onClick={() =>
-                      eventLogger.exportToText("scenario4-redesigned-s1-move1-log.txt")
-                    }
-                  >
-                    خروجی لاگ
-                  </button>
-                )}
               </div>
             </Card>
           )}
@@ -1791,7 +2221,7 @@ export const ScenarioFourRedesignedScenarioOne = ({
                 چند ساعت پس از نخستین رویارویی مداری، A-17 برای مدت کوتاهی با افت کیفیت سرویس روبه‌رو شده است.
                 {"\n"}بخشی از عملکرد بازیابی شده، اما تیم فنی هنوز علت را مشخص نکرده است.
                 {"\n\n"}در همان بازه زمانی، R-31 همچنان در محیط عملیاتی حضور دارد.
-                {"\n"}همچنین یک تغییر رفتاری محدود در یک دارایی دیگر متعلق به Red ثبت شده است.
+                {"\n"}همچنین یک تغییر رفتاری محدود در یک دارایی دیگر متعلق به اسرائیل ثبت شده است.
                 {"\n\n"}در حال حاضر چهار فرضیه در بررسی است:
                 {"\n"}- نقص داخلی
                 {"\n"}- عامل محیطی یا تداخل غیرخصمانه
@@ -1817,7 +2247,7 @@ export const ScenarioFourRedesignedScenarioOne = ({
           {phase === "move2_attr_pre" && (
             <Card>
               <h2 style={{ marginTop: 0 }}>برآورد اولیه انتساب</h2>
-              <p>با اطلاعات فعلی، احتمال می‌دهید Red در افت سرویس A-17 نقش داشته باشد؟</p>
+              <p>با اطلاعات فعلی، احتمال می‌دهید اسرائیل در افت سرویس A-17 نقش داشته باشد؟</p>
               <input
                 type="range"
                 min={0}
@@ -1856,7 +2286,11 @@ export const ScenarioFourRedesignedScenarioOne = ({
                         card={card}
                         source={card.id.includes("TECH") ? "تیم فنی" : card.id.includes("ALLY") ? "متحد" : card.id.includes("COMM") ? "اپراتور تجاری" : "رصد نظامی"}
                         sensitivity="محدود"
-                        onOpen={() => openIntelCard(card.id)}
+                        onToggle={(open) => trackEvidenceToggle(
+                          card.id,
+                          card.id.includes("TECH") ? "technical" : card.id.includes("ALLY") ? "ally" : card.id.includes("COMM") ? "commercial" : "military_ssa",
+                          open
+                        )}
                       />
                     ))}
                 </div>
@@ -1880,7 +2314,7 @@ export const ScenarioFourRedesignedScenarioOne = ({
               {state.flags.m2IntelDelay && (
                 <p className="hint">به دلیل فشار بر ظرفیت تحلیل، بخشی از داده تکمیلی با تأخیر در دسترس قرار می‌گیرد.</p>
               )}
-              <p>پس از اطلاعات جدید، اکنون احتمال نقش Red را چقدر می‌دانید؟</p>
+              <p>پس از اطلاعات جدید، اکنون احتمال نقش اسرائیل را چقدر می‌دانید؟</p>
               <input
                 type="range"
                 min={0}
@@ -1930,9 +2364,9 @@ export const ScenarioFourRedesignedScenarioOne = ({
               )}
               <DecisionWindow
                 title={windowTitles.m2_response}
-                context="اکنون باید نسبت به رفتار طرف مقابل و افت سرویس موضع بگیرید، بدون اینکه انتساب قطعی داشته باشید."
-                question="در برابر مجموعه رفتارهای Red و افت سرویس، چه موضعی اتخاذ شود؟"
-                why="پاسخ شما برای Red، متحدان و محیط عمومی قابل تفسیر است و می‌تواند مسیر کاهش تنش یا فشار را باز کند."
+                context="اکنون باید نسبت به رفتار اسرائیل و افت سرویس موضع بگیرید، بدون اینکه انتساب قطعی داشته باشید."
+                question="در برابر مجموعه رفتارهای اسرائیل و افت سرویس، چه موضعی اتخاذ شود؟"
+                why="پاسخ شما برای اسرائیل، متحدان ایران و محیط عمومی قابل تفسیر است و می‌تواند مسیر کاهش تنش یا فشار را باز کند."
                 options={responseOptions}
                 selectedId={selectedId}
                 onSelect={(id) => handleSelect(id, "m2_response", "move_2")}
@@ -1975,7 +2409,7 @@ export const ScenarioFourRedesignedScenarioOne = ({
               <p style={{ whiteSpace: "pre-wrap", lineHeight: 1.9 }}>
                 بحران وارد مرحله جدیدی شده است.
                 {"\n\n"}A-17 اکنون با افت عملکرد جدی‌تری روبه‌رو است. بخشی از سرویس‌ها با تأخیر یا کیفیت پایین‌تر ادامه دارند و تیم فنی در حال تثبیت وضعیت است.
-                {"\n\n"}هم‌زمان، داده‌های جدیدی از منابع نظامی، تجاری و متحدان در دسترس قرار گرفته است. برخی شواهد ارتباط میان رفتار Red و رخدادهای اخیر را تقویت می‌کنند؛ اما هنوز یک توضیح جایگزین به‌طور کامل رد نشده است.
+                {"\n\n"}هم‌زمان، داده‌های جدیدی از منابع نظامی، تجاری و متحدان در دسترس قرار گرفته است. برخی شواهد ارتباط میان رفتار اسرائیل و رخدادهای اخیر را تقویت می‌کنند؛ اما هنوز یک توضیح جایگزین به‌طور کامل رد نشده است.
                 {"\n\n"}اکنون مسئله فقط تشخیص علت نیست. باید تعیین کنید آیا سطح فعلی اطمینان برای اقدام کافی است، چه نوع پاسخی متناسب است، و چه میزان از شواهد باید با متحدان یا افکار عمومی به اشتراک گذاشته شود.
               </p>
               {state.flags.m2FallbackActivated && <p className="hint">ظرفیت پشتیبان فعال است و اثر مأموریتی افت جدید را کاهش داده است.</p>}
@@ -2025,7 +2459,7 @@ export const ScenarioFourRedesignedScenarioOne = ({
           {phase === "move3_attr_final" && (
             <Card>
               <h2 style={{ marginTop: 0 }}>برآورد نهایی انتساب</h2>
-              <p>با جمع‌بندی شواهد موجود، احتمال می‌دهید Red در رخداد اخیر نقش داشته باشد؟</p>
+              <p>با جمع‌بندی شواهد موجود، احتمال می‌دهید اسرائیل در رخداد اخیر نقش داشته باشد؟</p>
               <input
                 type="range"
                 min={0}
@@ -2093,7 +2527,7 @@ export const ScenarioFourRedesignedScenarioOne = ({
               title={windowTitles.m3_info}
               context="پس از انتخاب مسیر اقدام، باید تعیین کنید شواهد و انتساب چگونه مدیریت شوند."
               question="شواهد و انتساب بحران چگونه مدیریت شود؟"
-              why="انتشار یا محدودسازی اطلاعات روی مشروعیت، ائتلاف، افشای منابع و واکنش طرف مقابل اثر می‌گذارد."
+              why="انتشار یا محدودسازی اطلاعات روی مشروعیت، ائتلاف، افشای منابع و واکنش اسرائیل اثر می‌گذارد."
               options={informationPolicyOptions}
               selectedId={selectedId}
               onSelect={(id) => handleSelect(id, "m3_info", "move_3")}
@@ -2113,9 +2547,9 @@ export const ScenarioFourRedesignedScenarioOne = ({
           {phase === "move3_offramp" && (
             <DecisionWindow
               title={windowTitles.m3_offramp}
-              context="یک مسیر کاهش تنش فعال یا قابل ایجاد است، اما موفقیت آن به واکنش طرف مقابل وابسته می‌ماند."
+              context="یک مسیر کاهش تنش فعال یا قابل ایجاد است، اما موفقیت آن به واکنش اسرائیل وابسته می‌ماند."
               question="در مورد سازوکار فاصله‌گذاری/کاهش تنش موجود چه تصمیمی گرفته شود؟"
-              why="مسیر کاهش تنش می‌تواند تشدید را کنترل کند، اما ممکن است از سوی Red پذیرفته، رد یا بهره‌برداری شود."
+              why="مسیر کاهش تنش می‌تواند تشدید را کنترل کند، اما ممکن است از سوی اسرائیل پذیرفته، رد یا بهره‌برداری شود."
               options={offRampOptions}
               selectedId={selectedId}
               onSelect={(id) => handleSelect(id, "m3_offramp", "move_3")}
@@ -2168,17 +2602,8 @@ export const ScenarioFourRedesignedScenarioOne = ({
                     setPhase("aar");
                   }}
                 >
-                  ورود به تحلیل پس از اقدام
+                  پایان سناریو و ورود به تحلیل پس از اقدام
                 </button>
-                <button
-                  onClick={() => {
-                    logScenarioFour("s4_cognitive_dashboard_view", scenarioId, nodeId, { runId: finalSnapshot.runId });
-                    setPhase("dashboard");
-                  }}
-                >
-                  مشاهده داشبورد شناختی
-                </button>
-                <button onClick={onComplete}>پایان سناریو</button>
               </div>
             </Card>
           )}
@@ -2190,14 +2615,11 @@ export const ScenarioFourRedesignedScenarioOne = ({
                 move2={move2Decisions}
                 move3={move3Decisions}
                 finalSnapshot={finalSnapshot}
-                state={state}
+                resourceEvents={resourceEvents}
+                isAdmin={isAdmin}
               />
               <div style={{ display: "flex", gap: "0.75rem", flexWrap: "wrap" }}>
-                <button className="primary" onClick={() => setPhase("final_report")}>بازگشت به گزارش</button>
-                <button onClick={() => {
-                  logScenarioFour("s1_aar_open", scenarioId, nodeId, { runId: finalSnapshot.runId, from: "dashboard" });
-                  setPhase("aar");
-                }}>مشاهده تحلیل پس از اقدام</button>
+                <button className="primary" onClick={onComplete}>پایان سناریو</button>
               </div>
             </>
           )}
@@ -2209,7 +2631,7 @@ export const ScenarioFourRedesignedScenarioOne = ({
                 از این بخش به بعد، اطلاعاتی نمایش داده می‌شود که بازیکن در زمان تصمیم‌گیری به آن دسترسی نداشت.
               </div>
               <div className="s4-aar-truth">
-                <section><span>نیت واقعی Red</span><strong>{redIntentPersianLabel(finalSnapshot.hiddenAarData.trueRedIntent)}</strong></section>
+                <section><span>نیت واقعی اسرائیل</span><strong>{redIntentPersianLabel(finalSnapshot.hiddenAarData.trueRedIntent)}</strong></section>
                 <section><span>علت رخداد مرحله دوم</span><strong>{incidentCauseLabel(finalSnapshot.hiddenAarData.move2IncidentCause)}</strong></section>
                 <section><span>انتساب واقعی</span><strong>{truthAttributionLabel(finalSnapshot.hiddenAarData.trueIncidentAttribution)}</strong></section>
               </div>
@@ -2219,17 +2641,31 @@ export const ScenarioFourRedesignedScenarioOne = ({
                 <span>بعد بررسی: {move2Snapshot?.attributionEstimatePost}</span>
                 <span>پایان بحران: {move3Snapshot?.playerAttributionEstimateFinal}</span>
               </div>
-              <h3>طرف مقابل چه چیزی دید؟</h3>
+              <div className="s4-aar-brier">
+                <p>برآورد نهایی شما: <strong>{attributionBrier ? `${attributionBrier.estimate.toFixed(0)}٪` : "داده کافی ثبت نشده است"}</strong></p>
+                <p>{attributionBrier?.outcome === 1 ? "در این رخداد، نقش اسرائیل در زنجیره علت تأیید شد." : "در این رخداد، نقش مستقیم اسرائیل در علت اصلی تأیید نشد."}</p>
+                <p>امتیاز Brier: <strong>{attributionBrier?.brier.toFixed(2) ?? "—"}</strong> — هرچه کمتر بهتر</p>
+                <p>مهارت نسبت به مبنای خنثی 50/50: <strong>{attributionBrier?.brierSkillScore == null ? "—" : attributionBrier.brierSkillScore.toFixed(2)}</strong></p>
+              </div>
+              <p className="hint">این نتیجه فقط امتیاز Brier همین رخداد را توصیف می‌کند؛ ارزیابی پایداری برآورد به چند رخداد مستقل نیاز دارد.</p>
+              <h3>اسرائیل چه چیزی مشاهده کرد؟</h3>
               <div className="s4-red-observation-table">
-                <div><strong>مرحله</strong><strong>دیده شد</strong><strong>دیده نشد</strong></div>
-                <div><span>مرحله ۱</span><span>حفاظت آشکار، پیام عمومی/خصوصی، سیگنال ائتلاف</span><span>افزایش SSA پنهان، دلیل تصمیم، زمان پاسخ</span></div>
-                <div><span>مرحله ۲</span><span>fallback قابل مشاهده، درخواست رسمی، مسیر کاهش تنش</span><span>برآورد انتساب بازیکن، بررسی فنی داخلی</span></div>
-                <div><span>مرحله ۳</span><span>مسیر اقدام، سیاست عمومی، انسجام ائتلاف</span><span>حقیقت پنهان و ارزیابی‌های داخلی بازیگران</span></div>
+                <div><strong>مرحله</strong><strong>قابل مشاهده برای اسرائیل</strong><strong>غیرقابل مشاهده برای اسرائیل</strong></div>
+                {opponentObservationAar.map((row, index) => (
+                  <div key={row.moveId}>
+                    <span>مرحله {index + 1}</span>
+                    <span>{row.visibleToIsrael.join("، ")}</span>
+                    <span>{row.hiddenFromIsrael.join("، ")}</span>
+                  </div>
+                ))}
               </div>
               <p className="hint">
-                طرف مقابل در طول اجرا فقط سیگنال‌های قابل مشاهده، وضعیت عمومی/ائتلافی و مسیرهای کاهش تنش را دید؛ برآوردهای انتساب بازیکن، علت پنهان و بررسی‌های داخلی قابل مشاهده نبودند.
+                این فهرست مستقیماً از سیگنال‌های ثبت‌شده در همین اجرا ساخته شده است؛ برآوردهای داخلی، دلیل تصمیم و حقیقت پنهان برای اسرائیل قابل مشاهده نبودند.
               </p>
-              <button className="primary" onClick={onComplete}>پایان سناریو</button>
+              <button className="primary" onClick={() => {
+                logScenarioFour("s4_cognitive_dashboard_view", scenarioId, nodeId, { runId: finalSnapshot.runId, from: "aar" });
+                setPhase("dashboard");
+              }}>مشاهده داشبورد شناختی</button>
             </Card>
           )}
         </div>
@@ -2244,9 +2680,12 @@ export const ScenarioFourRedesignedScenarioOne = ({
             investigationChoice={move2Choices.investigation}
             move2ResponseChoice={move2Choices.response}
             move3Coa={move3Choices.coa}
+            primaryEndState={finalSnapshot?.primaryEndState}
           />
-          <StatusPanel state={state} />
-          <ResourcePanel state={state} />
+          <div className="s4-sidebar-panels">
+            <StatusPanel state={state} />
+            <ResourcePanel state={state} recentEvents={recentResourceEvents} history={resourceEvents} />
+          </div>
           {isAdmin && (
             <Card>
               <h3 style={{ marginTop: 0 }}>پنل اشکال‌زدایی مدیر</h3>
@@ -2265,6 +2704,10 @@ export const ScenarioFourRedesignedScenarioOne = ({
           )}
         </div>
       </div>
+      {toolbarGuideOpen && <ToolbarGuideModal onClose={() => setToolbarGuideOpen(false)} />}
+      {phase === "dw1" && decisionInfoGuideOpen && (
+        <DecisionInfoGuideModal onClose={() => setDecisionInfoGuideOpen(false)} />
+      )}
       {helpOpen && <HelpPanel onClose={() => setHelpOpen(false)} />}
       {glossaryOpen && <GlossaryPanel onClose={() => setGlossaryOpen(false)} />}
       {evidenceReviewOpen && (
@@ -2282,7 +2725,11 @@ export const ScenarioFourRedesignedScenarioOne = ({
                   card={card}
                   source={card.id.includes("ALLY") ? "متحد" : card.id.includes("COMM") ? "اپراتور تجاری" : card.id.includes("TECH") ? "تیم فنی" : "رصد نظامی"}
                   sensitivity="محدود"
-                  onOpen={() => openIntelCard(card.id)}
+                  onToggle={(open) => trackEvidenceToggle(
+                    card.id,
+                    card.id.includes("ALLY") ? "ally" : card.id.includes("COMM") ? "commercial" : card.id.includes("TECH") ? "technical" : "military_ssa",
+                    open
+                  )}
                 />
               ))}
             </div>
