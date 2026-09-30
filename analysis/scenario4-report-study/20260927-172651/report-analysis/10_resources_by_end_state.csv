@@ -1,0 +1,37 @@
+end_state,end_state_fa,resource,min,mean,p05,p50,p95
+escalation_spiral,مارپیچ تشدید,ssaCapacity,44,77.859,59,84,85
+escalation_spiral,مارپیچ تشدید,protectiveCapacity,7,33.325,11,33,57
+escalation_spiral,مارپیچ تشدید,politicalCapital,22,47.443,35,47,60
+escalation_spiral,مارپیچ تشدید,disclosureBudget,18,54.895,40,57,70
+intelligence_failure,شکست اطلاعاتی,ssaCapacity,44,76.794,55,78,85
+intelligence_failure,شکست اطلاعاتی,protectiveCapacity,11,51.707,25,52,79
+intelligence_failure,شکست اطلاعاتی,politicalCapital,22,52.37,37,52,69
+intelligence_failure,شکست اطلاعاتی,disclosureBudget,18,49.752,37,51,57
+coalition_fracture,شکاف ائتلافی,ssaCapacity,61,79.98,69,84,85
+coalition_fracture,شکاف ائتلافی,protectiveCapacity,11,53.329,27,54,76
+coalition_fracture,شکاف ائتلافی,politicalCapital,33,48.299,40,47,61
+coalition_fracture,شکاف ائتلافی,disclosureBudget,40,55.869,49,57,57
+negotiated_deescalation,کاهش تنش مذاکره‌شده,ssaCapacity,44,77.524,57,84,85
+negotiated_deescalation,کاهش تنش مذاکره‌شده,protectiveCapacity,11,55.928,31,57,82
+negotiated_deescalation,کاهش تنش مذاکره‌شده,politicalCapital,23,55.868,40,55,73
+negotiated_deescalation,کاهش تنش مذاکره‌شده,disclosureBudget,26,61.718,47,63,75
+calm_crisis_control,مهار آرام بحران,ssaCapacity,44,76.978,57,78,85
+calm_crisis_control,مهار آرام بحران,protectiveCapacity,21,50.813,31,53,71
+calm_crisis_control,مهار آرام بحران,politicalCapital,29,53.929,40,54,68
+calm_crisis_control,مهار آرام بحران,disclosureBudget,28,54.948,41,55,67
+costly_deterrence,بازدارندگی پرهزینه,ssaCapacity,44,76.545,55,82,85
+costly_deterrence,بازدارندگی پرهزینه,protectiveCapacity,15,38.603,21,36,59
+costly_deterrence,بازدارندگی پرهزینه,politicalCapital,25,48.609,36,48,62
+costly_deterrence,بازدارندگی پرهزینه,disclosureBudget,24,51.318,38,51,64
+persistent_ambiguity,ابهام پایدار,ssaCapacity,44,79.846,67,85,85
+persistent_ambiguity,ابهام پایدار,protectiveCapacity,7,50.741,25,51,77
+persistent_ambiguity,ابهام پایدار,politicalCapital,20,53.298,38,53,70
+persistent_ambiguity,ابهام پایدار,disclosureBudget,18,57.766,42,58,75
+strategic_information_opportunity,فرصت اطلاعاتی راهبردی,ssaCapacity,44,73.056,52,74,85
+strategic_information_opportunity,فرصت اطلاعاتی راهبردی,protectiveCapacity,15,56.339,31,57,80
+strategic_information_opportunity,فرصت اطلاعاتی راهبردی,politicalCapital,20,53.249,37,53,70
+strategic_information_opportunity,فرصت اطلاعاتی راهبردی,disclosureBudget,18,59.049,43,59,75
+mixed_crisis_containment,مهار نسبی بحران,ssaCapacity,44,65.84,52,67,85
+mixed_crisis_containment,مهار نسبی بحران,protectiveCapacity,7,44.166,21,44,70
+mixed_crisis_containment,مهار نسبی بحران,politicalCapital,20,51.141,35,51,67
+mixed_crisis_containment,مهار نسبی بحران,disclosureBudget,18,56.072,39,57,75

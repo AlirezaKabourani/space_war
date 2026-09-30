@@ -1,0 +1,10 @@
+end_state,end_state_fa,count,share,percent,reachable
+escalation_spiral,مارپیچ تشدید,60765,0.007275502873563219,0.728,true
+intelligence_failure,شکست اطلاعاتی,648000,0.07758620689655173,7.759,true
+coalition_fracture,شکاف ائتلافی,17484,0.002093390804597701,0.209,true
+negotiated_deescalation,کاهش تنش مذاکره‌شده,2644704,0.3166551724137931,31.666,true
+calm_crisis_control,مهار آرام بحران,41601,0.0049809626436781605,0.498,true
+costly_deterrence,بازدارندگی پرهزینه,33822,0.004049568965517242,0.405,true
+persistent_ambiguity,ابهام پایدار,3261705,0.3905298132183908,39.053,true
+strategic_information_opportunity,فرصت اطلاعاتی راهبردی,1353813,0.1620944683908046,16.209,true
+mixed_crisis_containment,مهار نسبی بحران,290106,0.03473491379310345,3.473,true

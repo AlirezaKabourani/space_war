@@ -1,0 +1,13 @@
+phase,resource,start_baseline,count,min,mean,p05,p50,p95
+move1,ssaCapacity,85,400,67,78.5,67,77,85
+move1,protectiveCapacity,85,400,57,71,57,67,85
+move1,politicalCapital,85,400,65,75.9,65,75,85
+move1,disclosureBudget,75,400,61,70.9,61,70,75
+move2,ssaCapacity,85,60000,50,74.75,50,79,85
+move2,protectiveCapacity,85,60000,29,59.133,33,61,80
+move2,politicalCapital,85,60000,45,67.36,55,67,79
+move2,disclosureBudget,75,60000,48,68.767,59,69,75
+final,ssaCapacity,85,8352000,44,77.245,55,82,85
+final,protectiveCapacity,85,8352000,7,52.967,27,53,79
+final,politicalCapital,85,8352000,20,53.888,38,54,71
+final,disclosureBudget,75,8352000,18,58.48,43,58,75

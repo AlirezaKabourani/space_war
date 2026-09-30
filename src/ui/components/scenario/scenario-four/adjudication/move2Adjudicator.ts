@@ -1,5 +1,6 @@
 import { seededNoise, selectWeighted } from "./seededRandom.ts";
 import { clampScenarioOneState, cloneState } from "../model/initialState.ts";
+import { canAffordResourceCosts, recordUserResourceSpend } from "../model/resourceEngineV2.ts";
 import type {
   AllyMove2Action,
   CommercialMove2Action,
@@ -17,6 +18,53 @@ export interface Move2Choices {
   response: string;
   reason: string;
 }
+
+export type CommercialValidationResult = "consistent" | "ambiguous" | "unavailable";
+
+export const getInvestigationConfidenceDelta = ({
+  optionId,
+  cause,
+  attribution,
+  allyTrust,
+  commercialResult,
+  conflictingCommercialData = false,
+}: {
+  optionId: string;
+  cause?: Move2IncidentCause;
+  attribution: ScenarioOneState["hidden"]["trueIncidentAttribution"];
+  allyTrust: number;
+  commercialResult?: CommercialValidationResult;
+  conflictingCommercialData?: boolean;
+}) => {
+  if (optionId === "m2_a_technical_diagnostics") {
+    if (cause === "technical_fault") return -18;
+    if (cause === "environmental_or_external") return -12;
+    if (cause === "mixed_cause") return 8;
+    return 10;
+  }
+  if (optionId === "m2_a_second_sensor") {
+    if (cause === "red_reversible_interference") return 40;
+    if (cause === "mixed_cause") return 27;
+    if (cause === "technical_fault") return -12;
+    return -10;
+  }
+  if (optionId === "m2_a_ally_intel") {
+    const reliable = allyTrust >= 70;
+    if (attribution === "red") return reliable ? 30 : 22;
+    if (attribution === "mixed") return reliable ? 20 : 14;
+    return reliable ? -10 : -6;
+  }
+  if (optionId === "m2_a_commercial_validation") {
+    let delta = commercialResult === "consistent"
+      ? attribution === "red" ? 22 : attribution === "mixed" ? 14 : -8
+      : commercialResult === "ambiguous"
+        ? attribution === "red" ? 6 : attribution === "mixed" ? 3 : -5
+        : -2;
+    if (conflictingCommercialData) delta = Math.min(delta, 2);
+    return delta;
+  }
+  return 0;
+};
 
 const addEvidence = (state: ScenarioOneState, evidenceId: string) => {
   if (!state.knowledge.evidenceIds.includes(evidenceId)) {
@@ -93,9 +141,9 @@ export const applyMove2Decision = (
   optionId: string,
   seed: string
 ) => {
+  if (!canAffordResourceCosts(state.resources, optionId)) return cloneState(state);
   const next = cloneState(state);
   const cause = next.hidden.move2IncidentCause;
-  const attributionIsRed = next.hidden.trueIncidentAttribution === "red";
 
   if (windowId === "m2_investigation") {
     if (optionId === "m2_a_technical_diagnostics") {
@@ -104,17 +152,19 @@ export const applyMove2Decision = (
       next.visible.missionContinuity -= 1;
       next.knowledge.technicalFaultProbability =
         cause === "technical_fault" ? 70 : cause === "mixed_cause" ? 45 : 25;
+      next.knowledge.systemAttributionConfidence += getInvestigationConfidenceDelta({
+        optionId,
+        cause,
+        attribution: next.hidden.trueIncidentAttribution,
+        allyTrust: next.hidden.allyTrust,
+      });
       if (cause === "technical_fault") {
-        next.knowledge.systemAttributionConfidence -= 10;
         addEvidence(next, "E_M2_TECH_STRONG");
       } else if (cause === "mixed_cause") {
-        next.knowledge.systemAttributionConfidence += 3;
         addEvidence(next, "E_M2_TECH_MIXED");
       } else if (cause === "red_reversible_interference") {
-        next.knowledge.systemAttributionConfidence += 1;
         addEvidence(next, "E_M2_TECH_INCONCLUSIVE");
       } else {
-        next.knowledge.systemAttributionConfidence -= 5;
         addEvidence(next, "E_M2_TECH_INCONCLUSIVE");
       }
     }
@@ -123,15 +173,12 @@ export const applyMove2Decision = (
       next.visible.situationAwareness += 16;
       next.visible.informationExposure += 3;
       next.flags.m2RapidValidationRequested = true;
-      next.knowledge.systemAttributionConfidence +=
-        6 +
-        (cause === "red_reversible_interference"
-          ? 8
-          : cause === "mixed_cause"
-            ? 4
-            : cause === "technical_fault"
-              ? -2
-              : -3);
+      next.knowledge.systemAttributionConfidence += getInvestigationConfidenceDelta({
+        optionId,
+        cause,
+        attribution: next.hidden.trueIncidentAttribution,
+        allyTrust: next.hidden.allyTrust,
+      });
     }
     if (optionId === "m2_a_ally_intel") {
       next.resources.politicalCapital -= 8;
@@ -139,16 +186,16 @@ export const applyMove2Decision = (
       next.visible.coalitionCohesion += 3;
       next.visible.informationExposure += 4;
       next.visible.situationAwareness += next.hidden.allyTrust >= 60 ? 14 : 7;
-      next.knowledge.systemAttributionConfidence +=
-        next.hidden.trueIncidentAttribution === "red"
-          ? 7
-          : next.hidden.trueIncidentAttribution === "mixed"
-            ? 3
-            : -4;
+      next.knowledge.systemAttributionConfidence += getInvestigationConfidenceDelta({
+        optionId,
+        cause,
+        attribution: next.hidden.trueIncidentAttribution,
+        allyTrust: next.hidden.allyTrust,
+      });
       addEvidence(next, "E_M2_ALLY_01");
     }
     if (optionId === "m2_a_commercial_validation") {
-      const result = selectWeighted(`${seed}:m2:commercial-validation`, [
+      const result = selectWeighted<CommercialValidationResult>(`${seed}:m2:commercial-validation`, [
         { value: "consistent", weight: 45 },
         { value: "ambiguous", weight: 35 },
         { value: "unavailable", weight: 20 },
@@ -156,9 +203,16 @@ export const applyMove2Decision = (
       next.resources.politicalCapital -= 3;
       next.resources.ssaCapacity -= 6;
       next.visible.situationAwareness += result === "unavailable" ? 5 : 10;
-      next.knowledge.systemAttributionConfidence += attributionIsRed ? 4 : -2;
+      next.knowledge.systemAttributionConfidence += getInvestigationConfidenceDelta({
+        optionId,
+        cause,
+        attribution: next.hidden.trueIncidentAttribution,
+        allyTrust: next.hidden.allyTrust,
+        commercialResult: result,
+        conflictingCommercialData: next.flags.conflictingCommercialData,
+      });
       if (result === "unavailable") next.flags.m2CommercialRestriction = true;
-      addEvidence(next, "E_M2_COMM_01");
+      else addEvidence(next, "E_M2_COMM_01");
     }
     if (optionId === "m2_a_act_with_current_data") {
       next.visible.missionContinuity += 2;
@@ -253,6 +307,7 @@ export const applyMove2Decision = (
     }
   }
 
+  recordUserResourceSpend(next, optionId);
   return clampScenarioOneState(next);
 };
 
@@ -498,59 +553,5 @@ export const adjudicateMove2 = ({
     previousMoveSnapshotRef,
   };
 
-  const update = [
-    {
-      title: "وضعیت A-17",
-      text:
-        snapshot.stateAfter.visible.missionContinuity >= 75
-          ? "سرویس اصلی پایدار شده، اما علت افت قبلی هنوز قطعی نیست."
-          : "سرویس A-17 ادامه دارد، اما کیفیت مأموریت هنوز تحت فشار است.",
-    },
-    {
-      title: "وضعیت تداوم مأموریت",
-      text: snapshot.stateAfter.flags.m2FallbackActivated
-        ? "بخشی از بار به ظرفیت پشتیبان منتقل شده و وابستگی به A-17 کاهش یافته است."
-        : "مأموریت هنوز عمدتاً به A-17 متکی است.",
-    },
-    {
-      title: "ارزیابی علت حادثه",
-      text:
-        snapshot.stateAfter.knowledge.systemAttributionConfidence >= 55
-          ? "شواهد احتمال مداخله خارجی را افزایش داده‌اند، اما انتساب قطعی هنوز شکل نگرفته است."
-          : "شواهد همچنان چندفرضیه‌ای است و نقص داخلی یا عامل غیرخصمانه کاملاً رد نشده است.",
-    },
-    {
-      title: "رفتار اسرائیل",
-      text:
-        redAction === "offer_mutual_separation"
-          ? "اسرائیل مسیر فاصله‌گذاری متقابل را پیشنهاد داده است."
-          : redAction === "introduce_second_asset"
-            ? "یک دارایی دیگر اسرائیل در محیط عملیاتی مشاهده شده است."
-            : "اسرائیل همچنان در محیط عملیاتی حضور دارد و رفتار آن قابل تفسیر چندگانه است.",
-    },
-    {
-      title: "وضعیت ائتلاف",
-      text:
-        allyAction === "reject_public_attribution"
-          ? "متحد درباره انتساب قطعی احتیاط کرده و اصطکاک ائتلافی ایجاد شده است."
-          : "مسیر هماهنگی با متحدان باز مانده، اما حمایت مکانیکی یا نامحدود نیست.",
-    },
-    {
-      title: "محیط تجاری/رسانه‌ای",
-      text:
-        commercialAction === "partial_data_only" || commercialAction === "pause_sensitive_sharing"
-          ? "دسترسی تجاری به داده‌های دقیق‌تر محدود شده است."
-          : "محیط تجاری هنوز امکان داده تکمیلی محدود را حفظ کرده است.",
-    },
-    {
-      title: "منابع باقی‌مانده",
-      text: "مصرف منابع Move 1 و Move 2 در وضعیت بعدی حفظ شده و به Move 3 منتقل می‌شود.",
-    },
-    {
-      title: "ارزیابی انتقال به Move 3",
-      text: "بحران اکنون حول آستانه اقدام در شرایط انتساب ناقص شکل گرفته است.",
-    },
-  ];
-
-  return { snapshot, situationUpdate: update };
+  return { snapshot };
 };

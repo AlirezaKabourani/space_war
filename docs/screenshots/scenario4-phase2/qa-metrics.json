@@ -1,0 +1,230 @@
+[
+  {
+    "label": "1440x900",
+    "index": 1,
+    "title": "حریم خاکستری مدار",
+    "viewport": [
+      1440,
+      900
+    ],
+    "documentHeight": 900,
+    "contentTop": 40,
+    "contentBottom": 323,
+    "headingTop": 75,
+    "headingBottom": 132,
+    "headingLineHeight": "50.544px",
+    "ctaBottom": 323,
+    "ctaVisible": true,
+    "clipped": false,
+    "direction": "rtl"
+  },
+  {
+    "label": "1440x900",
+    "index": 2,
+    "title": "روایت بحران",
+    "viewport": [
+      1440,
+      900
+    ],
+    "documentHeight": 900,
+    "contentTop": 40,
+    "contentBottom": 654,
+    "headingTop": 56,
+    "headingBottom": 113,
+    "headingLineHeight": "50.544px",
+    "ctaBottom": 654,
+    "ctaVisible": true,
+    "clipped": false,
+    "direction": "rtl"
+  },
+  {
+    "label": "1440x900",
+    "index": 3,
+    "title": "نقش شما",
+    "viewport": [
+      1440,
+      900
+    ],
+    "documentHeight": 900,
+    "contentTop": 40,
+    "contentBottom": 599,
+    "headingTop": 56,
+    "headingBottom": 113,
+    "headingLineHeight": "50.544px",
+    "ctaBottom": 599,
+    "ctaVisible": true,
+    "clipped": false,
+    "direction": "rtl"
+  },
+  {
+    "label": "1440x900",
+    "index": 4,
+    "title": "اهداف مأموریت",
+    "viewport": [
+      1440,
+      900
+    ],
+    "documentHeight": 900,
+    "contentTop": 40,
+    "contentBottom": 475,
+    "headingTop": 56,
+    "headingBottom": 113,
+    "headingLineHeight": "50.544px",
+    "ctaBottom": 475,
+    "ctaVisible": true,
+    "clipped": false,
+    "direction": "rtl"
+  },
+  {
+    "label": "1440x900",
+    "index": 5,
+    "title": "چگونه بازی می‌کنید؟",
+    "viewport": [
+      1440,
+      900
+    ],
+    "documentHeight": 900,
+    "contentTop": 40,
+    "contentBottom": 498,
+    "headingTop": 56,
+    "headingBottom": 113,
+    "headingLineHeight": "50.544px",
+    "ctaBottom": 498,
+    "ctaVisible": true,
+    "clipped": false,
+    "direction": "rtl"
+  },
+  {
+    "label": "1440x900",
+    "index": 6,
+    "title": "پیش از شروع",
+    "viewport": [
+      1440,
+      900
+    ],
+    "documentHeight": 900,
+    "contentTop": 40,
+    "contentBottom": 458,
+    "headingTop": 56,
+    "headingBottom": 113,
+    "headingLineHeight": "50.544px",
+    "ctaBottom": 458,
+    "ctaVisible": true,
+    "clipped": false,
+    "direction": "rtl"
+  },
+  {
+    "label": "1366x768",
+    "index": 1,
+    "title": "حریم خاکستری مدار",
+    "viewport": [
+      1366,
+      768
+    ],
+    "documentHeight": 768,
+    "contentTop": 40,
+    "contentBottom": 320,
+    "headingTop": 75,
+    "headingBottom": 130,
+    "headingLineHeight": "47.9466px",
+    "ctaBottom": 320,
+    "ctaVisible": true,
+    "clipped": false,
+    "direction": "rtl"
+  },
+  {
+    "label": "1366x768",
+    "index": 2,
+    "title": "روایت بحران",
+    "viewport": [
+      1366,
+      768
+    ],
+    "documentHeight": 768,
+    "contentTop": 40,
+    "contentBottom": 651,
+    "headingTop": 56,
+    "headingBottom": 110,
+    "headingLineHeight": "47.9466px",
+    "ctaBottom": 651,
+    "ctaVisible": true,
+    "clipped": false,
+    "direction": "rtl"
+  },
+  {
+    "label": "1366x768",
+    "index": 3,
+    "title": "نقش شما",
+    "viewport": [
+      1366,
+      768
+    ],
+    "documentHeight": 768,
+    "contentTop": 40,
+    "contentBottom": 596,
+    "headingTop": 56,
+    "headingBottom": 110,
+    "headingLineHeight": "47.9466px",
+    "ctaBottom": 596,
+    "ctaVisible": true,
+    "clipped": false,
+    "direction": "rtl"
+  },
+  {
+    "label": "1366x768",
+    "index": 4,
+    "title": "اهداف مأموریت",
+    "viewport": [
+      1366,
+      768
+    ],
+    "documentHeight": 768,
+    "contentTop": 40,
+    "contentBottom": 472,
+    "headingTop": 56,
+    "headingBottom": 110,
+    "headingLineHeight": "47.9466px",
+    "ctaBottom": 472,
+    "ctaVisible": true,
+    "clipped": false,
+    "direction": "rtl"
+  },
+  {
+    "label": "1366x768",
+    "index": 5,
+    "title": "چگونه بازی می‌کنید؟",
+    "viewport": [
+      1366,
+      768
+    ],
+    "documentHeight": 768,
+    "contentTop": 40,
+    "contentBottom": 541,
+    "headingTop": 56,
+    "headingBottom": 110,
+    "headingLineHeight": "47.9466px",
+    "ctaBottom": 541,
+    "ctaVisible": true,
+    "clipped": false,
+    "direction": "rtl"
+  },
+  {
+    "label": "1366x768",
+    "index": 6,
+    "title": "پیش از شروع",
+    "viewport": [
+      1366,
+      768
+    ],
+    "documentHeight": 768,
+    "contentTop": 40,
+    "contentBottom": 455,
+    "headingTop": 56,
+    "headingBottom": 110,
+    "headingLineHeight": "47.9466px",
+    "ctaBottom": 455,
+    "ctaVisible": true,
+    "clipped": false,
+    "direction": "rtl"
+  }
+]

@@ -1,0 +1,480 @@
+[
+  {
+    "expected": "escalation_spiral",
+    "actual": "escalation_spiral",
+    "redAction": "deny_and_hold",
+    "choices": {
+      "threshold": "m3_t_insufficient",
+      "coa": "m3_coa_contain_understand",
+      "informationPolicy": "m3_info_keep_restricted",
+      "offRamp": "",
+      "reason": "حفظ مأموریت"
+    },
+    "metrics": {
+      "missionOutcomeScore": 65,
+      "informationQualityScore": 50,
+      "escalationControlScore": 60,
+      "coalitionOutcomeScore": 65,
+      "resourceSustainabilityScore": 60,
+      "informationDisciplineScore": 65,
+      "strategicLegitimacyScore": 65,
+      "resilienceScore": 60,
+      "reversibilityScore": 65,
+      "decisionCoherenceScore": 65,
+      "attributionCalibrationScore": 60
+    },
+    "state": {
+      "visible": {
+        "missionContinuity": 70,
+        "situationAwareness": 38,
+        "escalationPressure": 75,
+        "operationalReadiness": 55,
+        "coalitionCohesion": 65,
+        "informationExposure": 20,
+        "strategicLegitimacy": 70
+      },
+      "flags": {
+        "sharedWithAlly": false,
+        "publicWarningIssued": false,
+        "visibleProtectionUsed": false,
+        "mediaInjectTriggered": false,
+        "conflictingCommercialData": false,
+        "redLearnedBlueThreshold": false,
+        "privateCommunication": false
+      },
+      "confidence": 65,
+      "truth": "non_red"
+    },
+    "narrative": {
+      "id": "escalation_spiral",
+      "title": "مارپیچ تشدید",
+      "shortSummary": "چرخه واکنش متقابل از کنترل خارج شد و فشار تشدید به سطح بحرانی رسید.",
+      "closingLine": "اولویت بعدی، توقف چرخه تشدید و بازکردن یک کانال کاهش خطر است."
+    }
+  },
+  {
+    "expected": "intelligence_failure",
+    "actual": "intelligence_failure",
+    "redAction": "deny_and_hold",
+    "choices": {
+      "threshold": "m3_t_insufficient",
+      "coa": "m3_coa_contain_understand",
+      "informationPolicy": "m3_info_keep_restricted",
+      "offRamp": "",
+      "reason": "حفظ مأموریت"
+    },
+    "metrics": {
+      "missionOutcomeScore": 65,
+      "informationQualityScore": 50,
+      "escalationControlScore": 60,
+      "coalitionOutcomeScore": 65,
+      "resourceSustainabilityScore": 60,
+      "informationDisciplineScore": 30,
+      "strategicLegitimacyScore": 65,
+      "resilienceScore": 60,
+      "reversibilityScore": 65,
+      "decisionCoherenceScore": 65,
+      "attributionCalibrationScore": 60
+    },
+    "state": {
+      "visible": {
+        "missionContinuity": 70,
+        "situationAwareness": 38,
+        "escalationPressure": 45,
+        "operationalReadiness": 55,
+        "coalitionCohesion": 65,
+        "informationExposure": 20,
+        "strategicLegitimacy": 70
+      },
+      "flags": {
+        "sharedWithAlly": false,
+        "publicWarningIssued": false,
+        "visibleProtectionUsed": false,
+        "mediaInjectTriggered": false,
+        "conflictingCommercialData": false,
+        "redLearnedBlueThreshold": false,
+        "privateCommunication": false,
+        "m3PublicAttribution": true
+      },
+      "confidence": 65,
+      "truth": "non_red"
+    },
+    "narrative": {
+      "id": "intelligence_failure",
+      "title": "شکست اطلاعاتی",
+      "shortSummary": "سطح ادعا یا اقدام از قدرت شواهد قابل دفاع جلوتر رفت و هزینه اطلاعاتی/مشروعیتی بر نتیجه بحران غلبه کرد.",
+      "closingLine": "مسئله اصلی پس از بحران، بازسازی اعتبار اطلاعاتی و بازنگری در آستانه انتساب است."
+    }
+  },
+  {
+    "expected": "coalition_fracture",
+    "actual": "coalition_fracture",
+    "redAction": "deny_and_hold",
+    "choices": {
+      "threshold": "m3_t_insufficient",
+      "coa": "m3_coa_contain_understand",
+      "informationPolicy": "m3_info_keep_restricted",
+      "offRamp": "",
+      "reason": "حفظ مأموریت"
+    },
+    "metrics": {
+      "missionOutcomeScore": 65,
+      "informationQualityScore": 50,
+      "escalationControlScore": 60,
+      "coalitionOutcomeScore": 65,
+      "resourceSustainabilityScore": 60,
+      "informationDisciplineScore": 65,
+      "strategicLegitimacyScore": 65,
+      "resilienceScore": 60,
+      "reversibilityScore": 65,
+      "decisionCoherenceScore": 65,
+      "attributionCalibrationScore": 60
+    },
+    "state": {
+      "visible": {
+        "missionContinuity": 70,
+        "situationAwareness": 38,
+        "escalationPressure": 45,
+        "operationalReadiness": 55,
+        "coalitionCohesion": 30,
+        "informationExposure": 20,
+        "strategicLegitimacy": 70
+      },
+      "flags": {
+        "sharedWithAlly": false,
+        "publicWarningIssued": false,
+        "visibleProtectionUsed": false,
+        "mediaInjectTriggered": false,
+        "conflictingCommercialData": false,
+        "redLearnedBlueThreshold": false,
+        "privateCommunication": false
+      },
+      "confidence": 65,
+      "truth": "non_red"
+    },
+    "narrative": {
+      "id": "coalition_fracture",
+      "title": "شکاف ائتلافی",
+      "shortSummary": "اختلاف درباره شواهد یا شدت پاسخ، توان اقدام هماهنگ را به‌طور جدی محدود کرد.",
+      "closingLine": "آزادی عمل آینده به ترمیم اعتماد و توافق بر معیارهای مشترک انتساب وابسته است."
+    }
+  },
+  {
+    "expected": "negotiated_deescalation",
+    "actual": "negotiated_deescalation",
+    "redAction": "accept_interim_offramp",
+    "choices": {
+      "threshold": "m3_t_insufficient",
+      "coa": "m3_coa_negotiated_deescalation",
+      "informationPolicy": "m3_info_keep_restricted",
+      "offRamp": "accept_as_interim",
+      "reason": "حفظ مأموریت"
+    },
+    "metrics": {
+      "missionOutcomeScore": 65,
+      "informationQualityScore": 50,
+      "escalationControlScore": 60,
+      "coalitionOutcomeScore": 65,
+      "resourceSustainabilityScore": 60,
+      "informationDisciplineScore": 65,
+      "strategicLegitimacyScore": 65,
+      "resilienceScore": 60,
+      "reversibilityScore": 65,
+      "decisionCoherenceScore": 65,
+      "attributionCalibrationScore": 60
+    },
+    "state": {
+      "visible": {
+        "missionContinuity": 70,
+        "situationAwareness": 38,
+        "escalationPressure": 45,
+        "operationalReadiness": 55,
+        "coalitionCohesion": 65,
+        "informationExposure": 20,
+        "strategicLegitimacy": 70
+      },
+      "flags": {
+        "sharedWithAlly": false,
+        "publicWarningIssued": false,
+        "visibleProtectionUsed": false,
+        "mediaInjectTriggered": false,
+        "conflictingCommercialData": false,
+        "redLearnedBlueThreshold": false,
+        "privateCommunication": false
+      },
+      "confidence": 65,
+      "truth": "non_red"
+    },
+    "narrative": {
+      "id": "negotiated_deescalation",
+      "title": "کاهش تنش مذاکره‌شده",
+      "shortSummary": "یک مسیر کاهش تنش با اقدام متقابل واقعی همراه شد و فاصله‌گذاری از سطح پیشنهاد عبور کرد.",
+      "closingLine": "بحران مهار شده، اما پایداری نتیجه به اجرای سازوکار و ادامه پایش وابسته است."
+    }
+  },
+  {
+    "expected": "calm_crisis_control",
+    "actual": "calm_crisis_control",
+    "redAction": "deescalate_and_separate",
+    "choices": {
+      "threshold": "m3_t_insufficient",
+      "coa": "m3_coa_contain_understand",
+      "informationPolicy": "m3_info_keep_restricted",
+      "offRamp": "",
+      "reason": "حفظ مأموریت"
+    },
+    "metrics": {
+      "missionOutcomeScore": 80,
+      "informationQualityScore": 50,
+      "escalationControlScore": 75,
+      "coalitionOutcomeScore": 70,
+      "resourceSustainabilityScore": 60,
+      "informationDisciplineScore": 65,
+      "strategicLegitimacyScore": 65,
+      "resilienceScore": 60,
+      "reversibilityScore": 65,
+      "decisionCoherenceScore": 65,
+      "attributionCalibrationScore": 60
+    },
+    "state": {
+      "visible": {
+        "missionContinuity": 70,
+        "situationAwareness": 38,
+        "escalationPressure": 45,
+        "operationalReadiness": 55,
+        "coalitionCohesion": 65,
+        "informationExposure": 20,
+        "strategicLegitimacy": 70
+      },
+      "flags": {
+        "sharedWithAlly": false,
+        "publicWarningIssued": false,
+        "visibleProtectionUsed": false,
+        "mediaInjectTriggered": false,
+        "conflictingCommercialData": false,
+        "redLearnedBlueThreshold": false,
+        "privateCommunication": false
+      },
+      "confidence": 65,
+      "truth": "non_red"
+    },
+    "narrative": {
+      "id": "calm_crisis_control",
+      "title": "مهار آرام بحران",
+      "shortSummary": "مأموریت حفظ شد و فشار تشدید بدون نیاز به اقدام برگشت‌ناپذیر کنترل شد.",
+      "closingLine": "ابهام ممکن است کاملاً حذف نشده باشد، اما بحران وارد مسیر کنترل‌شده شده است."
+    }
+  },
+  {
+    "expected": "costly_deterrence",
+    "actual": "costly_deterrence",
+    "redAction": "deescalate_and_separate",
+    "choices": {
+      "threshold": "m3_t_insufficient",
+      "coa": "m3_coa_contain_understand",
+      "informationPolicy": "m3_info_keep_restricted",
+      "offRamp": "",
+      "reason": "حفظ مأموریت"
+    },
+    "metrics": {
+      "missionOutcomeScore": 60,
+      "informationQualityScore": 50,
+      "escalationControlScore": 60,
+      "coalitionOutcomeScore": 65,
+      "resourceSustainabilityScore": 60,
+      "informationDisciplineScore": 65,
+      "strategicLegitimacyScore": 65,
+      "resilienceScore": 60,
+      "reversibilityScore": 65,
+      "decisionCoherenceScore": 65,
+      "attributionCalibrationScore": 60
+    },
+    "state": {
+      "visible": {
+        "missionContinuity": 70,
+        "situationAwareness": 38,
+        "escalationPressure": 45,
+        "operationalReadiness": 55,
+        "coalitionCohesion": 65,
+        "informationExposure": 60,
+        "strategicLegitimacy": 70
+      },
+      "flags": {
+        "sharedWithAlly": false,
+        "publicWarningIssued": false,
+        "visibleProtectionUsed": false,
+        "mediaInjectTriggered": false,
+        "conflictingCommercialData": false,
+        "redLearnedBlueThreshold": false,
+        "privateCommunication": false
+      },
+      "confidence": 65,
+      "truth": "non_red"
+    },
+    "narrative": {
+      "id": "costly_deterrence",
+      "title": "بازدارندگی پرهزینه",
+      "shortSummary": "رفتار اسرائیل تغییر کرد، اما دستیابی به این نتیجه با هزینه قابل توجه منابع، افشا یا سرمایه سیاسی همراه بود.",
+      "closingLine": "اثر بازدارنده ایجاد شده، اما ظرفیت گزینه‌های بعدی کاهش یافته است."
+    }
+  },
+  {
+    "expected": "persistent_ambiguity",
+    "actual": "persistent_ambiguity",
+    "redAction": "pause_for_assessment",
+    "choices": {
+      "threshold": "m3_t_insufficient",
+      "coa": "m3_coa_contain_understand",
+      "informationPolicy": "m3_info_keep_restricted",
+      "offRamp": "",
+      "reason": "حفظ مأموریت"
+    },
+    "metrics": {
+      "missionOutcomeScore": 65,
+      "informationQualityScore": 50,
+      "escalationControlScore": 60,
+      "coalitionOutcomeScore": 65,
+      "resourceSustainabilityScore": 60,
+      "informationDisciplineScore": 65,
+      "strategicLegitimacyScore": 65,
+      "resilienceScore": 60,
+      "reversibilityScore": 65,
+      "decisionCoherenceScore": 65,
+      "attributionCalibrationScore": 60
+    },
+    "state": {
+      "visible": {
+        "missionContinuity": 70,
+        "situationAwareness": 38,
+        "escalationPressure": 45,
+        "operationalReadiness": 55,
+        "coalitionCohesion": 65,
+        "informationExposure": 20,
+        "strategicLegitimacy": 70
+      },
+      "flags": {
+        "sharedWithAlly": false,
+        "publicWarningIssued": false,
+        "visibleProtectionUsed": false,
+        "mediaInjectTriggered": false,
+        "conflictingCommercialData": false,
+        "redLearnedBlueThreshold": false,
+        "privateCommunication": false
+      },
+      "confidence": 40,
+      "truth": "non_red"
+    },
+    "narrative": {
+      "id": "persistent_ambiguity",
+      "title": "ابهام پایدار",
+      "shortSummary": "مأموریت حفظ شد، اما علت رخداد و معنای رفتار اسرائیل همچنان به نتیجه قطعی نرسید.",
+      "closingLine": "پایش، حفظ گزینه‌های برگشت‌پذیر و جلوگیری از تبدیل ابهام به قطعیت کاذب همچنان ضروری است."
+    }
+  },
+  {
+    "expected": "strategic_information_opportunity",
+    "actual": "strategic_information_opportunity",
+    "redAction": "pause_for_assessment",
+    "choices": {
+      "threshold": "m3_t_insufficient",
+      "coa": "m3_coa_contain_understand",
+      "informationPolicy": "m3_info_keep_restricted",
+      "offRamp": "",
+      "reason": "حفظ مأموریت"
+    },
+    "metrics": {
+      "missionOutcomeScore": 65,
+      "informationQualityScore": 75,
+      "escalationControlScore": 60,
+      "coalitionOutcomeScore": 65,
+      "resourceSustainabilityScore": 60,
+      "informationDisciplineScore": 65,
+      "strategicLegitimacyScore": 65,
+      "resilienceScore": 60,
+      "reversibilityScore": 65,
+      "decisionCoherenceScore": 65,
+      "attributionCalibrationScore": 60
+    },
+    "state": {
+      "visible": {
+        "missionContinuity": 70,
+        "situationAwareness": 38,
+        "escalationPressure": 45,
+        "operationalReadiness": 55,
+        "coalitionCohesion": 65,
+        "informationExposure": 20,
+        "strategicLegitimacy": 70
+      },
+      "flags": {
+        "sharedWithAlly": false,
+        "publicWarningIssued": false,
+        "visibleProtectionUsed": false,
+        "mediaInjectTriggered": false,
+        "conflictingCommercialData": false,
+        "redLearnedBlueThreshold": false,
+        "privateCommunication": false
+      },
+      "confidence": 65,
+      "truth": "non_red"
+    },
+    "narrative": {
+      "id": "strategic_information_opportunity",
+      "title": "فرصت اطلاعاتی راهبردی",
+      "shortSummary": "بحران بدون فروپاشی مأموریت مهار شد و هم‌زمان شناخت قابل استفاده‌ای از رفتار، واکنش‌ها و منابع اطلاعاتی ایجاد شد.",
+      "closingLine": "ارزش اصلی نتیجه در تبدیل داده این بحران به شناخت قابل استفاده برای بحران بعدی است."
+    }
+  },
+  {
+    "expected": "mixed_crisis_containment",
+    "actual": "mixed_crisis_containment",
+    "redAction": "deny_and_hold",
+    "choices": {
+      "threshold": "m3_t_insufficient",
+      "coa": "m3_coa_contain_understand",
+      "informationPolicy": "m3_info_keep_restricted",
+      "offRamp": "",
+      "reason": "حفظ مأموریت"
+    },
+    "metrics": {
+      "missionOutcomeScore": 65,
+      "informationQualityScore": 50,
+      "escalationControlScore": 60,
+      "coalitionOutcomeScore": 65,
+      "resourceSustainabilityScore": 60,
+      "informationDisciplineScore": 65,
+      "strategicLegitimacyScore": 65,
+      "resilienceScore": 60,
+      "reversibilityScore": 65,
+      "decisionCoherenceScore": 65,
+      "attributionCalibrationScore": 60
+    },
+    "state": {
+      "visible": {
+        "missionContinuity": 70,
+        "situationAwareness": 38,
+        "escalationPressure": 45,
+        "operationalReadiness": 55,
+        "coalitionCohesion": 65,
+        "informationExposure": 20,
+        "strategicLegitimacy": 70
+      },
+      "flags": {
+        "sharedWithAlly": false,
+        "publicWarningIssued": false,
+        "visibleProtectionUsed": false,
+        "mediaInjectTriggered": false,
+        "conflictingCommercialData": false,
+        "redLearnedBlueThreshold": false,
+        "privateCommunication": false
+      },
+      "confidence": 65,
+      "truth": "non_red"
+    },
+    "narrative": {
+      "id": "mixed_crisis_containment",
+      "title": "مهار نسبی بحران",
+      "shortSummary": "بخشی از اهداف حفظ شد، اما هزینه‌ها یا ابهام‌های مهم اجازه یک نتیجه روشن‌تر را نداد.",
+      "closingLine": "بحران مهار شده، اما چند مسئله عملیاتی یا سیاسی برای مرحله پس از بحران باقی مانده است."
+    }
+  }
+]

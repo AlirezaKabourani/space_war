@@ -1,0 +1,204 @@
+{
+  "generatedAt": "2026-09-27T08:17:52.120Z",
+  "iterationsPerProfile": 50000,
+  "profiles": {
+    "current": {
+      "baseline": {
+        "ssaCapacity": 100,
+        "protectiveCapacity": 100,
+        "politicalCapital": 100,
+        "disclosureBudget": 100
+      },
+      "move1": {
+        "paths": 50000,
+        "means": {
+          "ssaCapacity": 93.49,
+          "protectiveCapacity": 85.95,
+          "politicalCapital": 90.91,
+          "disclosureBudget": 95.92
+        },
+        "below70": 0,
+        "below50": 0,
+        "below30": 0,
+        "exactZero": 0
+      },
+      "move2": {
+        "paths": 50000,
+        "means": {
+          "ssaCapacity": 89.72,
+          "protectiveCapacity": 74.09,
+          "politicalCapital": 82.41,
+          "disclosureBudget": 93.77
+        },
+        "below70": 0.41992,
+        "below50": 0.05016,
+        "below30": 0,
+        "exactZero": 0
+      },
+      "final": {
+        "paths": 50000,
+        "means": {
+          "ssaCapacity": 91.94,
+          "protectiveCapacity": 65.92,
+          "politicalCapital": 69.21,
+          "disclosureBudget": 82.7
+        },
+        "below70": 0.79066,
+        "below50": 0.16364,
+        "below30": 0.0038,
+        "exactZero": 0
+      },
+      "blockedAttempts": 0,
+      "blockedByOption": {}
+    },
+    "A": {
+      "baseline": {
+        "ssaCapacity": 85,
+        "protectiveCapacity": 85,
+        "politicalCapital": 85,
+        "disclosureBudget": 75
+      },
+      "move1": {
+        "paths": 50000,
+        "means": {
+          "ssaCapacity": 78.49,
+          "protectiveCapacity": 70.95,
+          "politicalCapital": 75.91,
+          "disclosureBudget": 70.92
+        },
+        "below70": 0.79948,
+        "below50": 0,
+        "below30": 0,
+        "exactZero": 0
+      },
+      "move2": {
+        "paths": 50000,
+        "means": {
+          "ssaCapacity": 74.72,
+          "protectiveCapacity": 59.09,
+          "politicalCapital": 67.41,
+          "disclosureBudget": 68.77
+        },
+        "below70": 0.95332,
+        "below50": 0.2721,
+        "below30": 0.00922,
+        "exactZero": 0
+      },
+      "final": {
+        "paths": 50000,
+        "means": {
+          "ssaCapacity": 76.94,
+          "protectiveCapacity": 50.92,
+          "politicalCapital": 54.21,
+          "disclosureBudget": 57.7
+        },
+        "below70": 0.99774,
+        "below50": 0.67166,
+        "below30": 0.0994,
+        "exactZero": 0
+      },
+      "blockedAttempts": 0,
+      "blockedByOption": {}
+    },
+    "B": {
+      "baseline": {
+        "ssaCapacity": 80,
+        "protectiveCapacity": 80,
+        "politicalCapital": 80,
+        "disclosureBudget": 70
+      },
+      "move1": {
+        "paths": 50000,
+        "means": {
+          "ssaCapacity": 73.49,
+          "protectiveCapacity": 65.95,
+          "politicalCapital": 70.91,
+          "disclosureBudget": 65.92
+        },
+        "below70": 0.84986,
+        "below50": 0,
+        "below30": 0,
+        "exactZero": 0
+      },
+      "move2": {
+        "paths": 50000,
+        "means": {
+          "ssaCapacity": 69.72,
+          "protectiveCapacity": 54.09,
+          "politicalCapital": 62.41,
+          "disclosureBudget": 63.77
+        },
+        "below70": 0.9903,
+        "below50": 0.42546,
+        "below30": 0.05016,
+        "exactZero": 0
+      },
+      "final": {
+        "paths": 50000,
+        "means": {
+          "ssaCapacity": 71.94,
+          "protectiveCapacity": 45.92,
+          "politicalCapital": 49.21,
+          "disclosureBudget": 52.7
+        },
+        "below70": 0.99966,
+        "below50": 0.81926,
+        "below30": 0.16952,
+        "exactZero": 0
+      },
+      "blockedAttempts": 0,
+      "blockedByOption": {}
+    },
+    "C": {
+      "baseline": {
+        "ssaCapacity": 75,
+        "protectiveCapacity": 75,
+        "politicalCapital": 75,
+        "disclosureBudget": 65
+      },
+      "move1": {
+        "paths": 50000,
+        "means": {
+          "ssaCapacity": 68.48,
+          "protectiveCapacity": 60.95,
+          "politicalCapital": 65.91,
+          "disclosureBudget": 60.92
+        },
+        "below70": 1,
+        "below50": 0.24952,
+        "below30": 0,
+        "exactZero": 0
+      },
+      "move2": {
+        "paths": 50000,
+        "means": {
+          "ssaCapacity": 64.69,
+          "protectiveCapacity": 49.08,
+          "politicalCapital": 57.4,
+          "disclosureBudget": 58.77
+        },
+        "below70": 1,
+        "below50": 0.5742,
+        "below30": 0.11758,
+        "exactZero": 0
+      },
+      "final": {
+        "paths": 50000,
+        "means": {
+          "ssaCapacity": 66.91,
+          "protectiveCapacity": 40.94,
+          "politicalCapital": 44.19,
+          "disclosureBudget": 47.68
+        },
+        "below70": 1,
+        "below50": 0.93506,
+        "below30": 0.31562,
+        "exactZero": 0
+      },
+      "blockedAttempts": 20,
+      "blockedByOption": {
+        "m3_coa_unilateral_strong": 20
+      }
+    }
+  }
+}

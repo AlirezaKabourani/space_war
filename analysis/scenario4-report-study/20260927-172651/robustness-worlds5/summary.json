@@ -1,0 +1,4046 @@
+{
+  "metadata": {
+    "generatedAt": "2026-09-27T14:09:25.115Z",
+    "worlds": 5,
+    "intents": [
+      "probe",
+      "intelligence_collection",
+      "coercion",
+      "alliance_fracture",
+      "benign_ambiguous"
+    ],
+    "summaryOnly": true,
+    "maxPaths": null,
+    "resourceProfile": "A",
+    "resourceBaseline": {
+      "ssaCapacity": 85,
+      "protectiveCapacity": 85,
+      "politicalCapital": 85,
+      "disclosureBudget": 75
+    },
+    "note": "Reasons and player attribution slider values are held constant because they do not alter the primary end-state resolver.",
+    "deterministicTimestampSalt": {
+      "move1": "2030-01-01T00:00:01.000Z",
+      "move2": "2030-01-01T00:00:02.000Z"
+    },
+    "durationSeconds": 2944.65,
+    "pathsPerSecond": 14182
+  },
+  "totalPaths": 41760000,
+  "endStates": {
+    "escalation_spiral": 306435,
+    "intelligence_failure": 4165440,
+    "coalition_fracture": 84516,
+    "negotiated_deescalation": 14144928,
+    "calm_crisis_control": 295017,
+    "costly_deterrence": 196059,
+    "persistent_ambiguity": 16266582,
+    "strategic_information_opportunity": 5269572,
+    "mixed_crisis_containment": 1031451
+  },
+  "byIntent": {
+    "probe": {
+      "escalation_spiral": 0,
+      "intelligence_failure": 720000,
+      "coalition_fracture": 13104,
+      "negotiated_deescalation": 3139512,
+      "calm_crisis_control": 70680,
+      "costly_deterrence": 35190,
+      "persistent_ambiguity": 2910183,
+      "strategic_information_opportunity": 244227,
+      "mixed_crisis_containment": 67104
+    },
+    "intelligence_collection": {
+      "escalation_spiral": 6195,
+      "intelligence_failure": 1435200,
+      "coalition_fracture": 4320,
+      "negotiated_deescalation": 2676408,
+      "calm_crisis_control": 0,
+      "costly_deterrence": 0,
+      "persistent_ambiguity": 2883222,
+      "strategic_information_opportunity": 130821,
+      "mixed_crisis_containment": 63834
+    },
+    "coercion": {
+      "escalation_spiral": 300240,
+      "intelligence_failure": 354240,
+      "coalition_fracture": 9600,
+      "negotiated_deescalation": 98880,
+      "calm_crisis_control": 37848,
+      "costly_deterrence": 76017,
+      "persistent_ambiguity": 4138374,
+      "strategic_information_opportunity": 1500885,
+      "mixed_crisis_containment": 683916
+    },
+    "alliance_fracture": {
+      "escalation_spiral": 0,
+      "intelligence_failure": 360000,
+      "coalition_fracture": 26388,
+      "negotiated_deescalation": 461328,
+      "calm_crisis_control": 0,
+      "costly_deterrence": 0,
+      "persistent_ambiguity": 3124629,
+      "strategic_information_opportunity": 3075021,
+      "mixed_crisis_containment": 152634
+    },
+    "benign_ambiguous": {
+      "escalation_spiral": 0,
+      "intelligence_failure": 1296000,
+      "coalition_fracture": 31104,
+      "negotiated_deescalation": 7768800,
+      "calm_crisis_control": 186489,
+      "costly_deterrence": 84852,
+      "persistent_ambiguity": 3210174,
+      "strategic_information_opportunity": 318618,
+      "mixed_crisis_containment": 63963
+    }
+  },
+  "byWorld": {
+    "0": {
+      "escalation_spiral": 60765,
+      "intelligence_failure": 648000,
+      "coalition_fracture": 17484,
+      "negotiated_deescalation": 2644704,
+      "calm_crisis_control": 41601,
+      "costly_deterrence": 33822,
+      "persistent_ambiguity": 3261705,
+      "strategic_information_opportunity": 1353813,
+      "mixed_crisis_containment": 290106
+    },
+    "1": {
+      "escalation_spiral": 78177,
+      "intelligence_failure": 358800,
+      "coalition_fracture": 23436,
+      "negotiated_deescalation": 2979648,
+      "calm_crisis_control": 53913,
+      "costly_deterrence": 41811,
+      "persistent_ambiguity": 3176244,
+      "strategic_information_opportunity": 1326690,
+      "mixed_crisis_containment": 313281
+    },
+    "2": {
+      "escalation_spiral": 26157,
+      "intelligence_failure": 1073040,
+      "coalition_fracture": 17460,
+      "negotiated_deescalation": 2739180,
+      "calm_crisis_control": 50994,
+      "costly_deterrence": 32193,
+      "persistent_ambiguity": 3442275,
+      "strategic_information_opportunity": 896280,
+      "mixed_crisis_containment": 74421
+    },
+    "3": {
+      "escalation_spiral": 78735,
+      "intelligence_failure": 1078800,
+      "coalition_fracture": 13068,
+      "negotiated_deescalation": 2867460,
+      "calm_crisis_control": 122658,
+      "costly_deterrence": 73089,
+      "persistent_ambiguity": 3204507,
+      "strategic_information_opportunity": 803412,
+      "mixed_crisis_containment": 110271
+    },
+    "4": {
+      "escalation_spiral": 62601,
+      "intelligence_failure": 1006800,
+      "coalition_fracture": 13068,
+      "negotiated_deescalation": 2913936,
+      "calm_crisis_control": 25851,
+      "costly_deterrence": 15144,
+      "persistent_ambiguity": 3181851,
+      "strategic_information_opportunity": 889377,
+      "mixed_crisis_containment": 243372
+    }
+  },
+  "examples": {
+    "escalation_spiral": [
+      {
+        "world": 0,
+        "intent": "intelligence_collection",
+        "signature": "1-2-4|1-4-5|1-5-4|O-",
+        "incidentCause": "red_reversible_interference",
+        "trueIncidentAttribution": "red",
+        "redFinalAction": "deny_and_hold",
+        "mission": 80,
+        "escalation": 75,
+        "coalition": 33,
+        "informationQuality": 55,
+        "systemAttributionConfidence": 30
+      },
+      {
+        "world": 0,
+        "intent": "intelligence_collection",
+        "signature": "1-2-4|1-4-5|2-5-4|O-",
+        "incidentCause": "red_reversible_interference",
+        "trueIncidentAttribution": "red",
+        "redFinalAction": "deny_and_hold",
+        "mission": 80,
+        "escalation": 75,
+        "coalition": 33,
+        "informationQuality": 55,
+        "systemAttributionConfidence": 30
+      },
+      {
+        "world": 0,
+        "intent": "intelligence_collection",
+        "signature": "1-2-4|1-4-5|3-5-4|O-",
+        "incidentCause": "red_reversible_interference",
+        "trueIncidentAttribution": "red",
+        "redFinalAction": "deny_and_hold",
+        "mission": 80,
+        "escalation": 75,
+        "coalition": 33,
+        "informationQuality": 55,
+        "systemAttributionConfidence": 30
+      },
+      {
+        "world": 0,
+        "intent": "intelligence_collection",
+        "signature": "1-2-4|3-4-5|1-5-4|O-",
+        "incidentCause": "red_reversible_interference",
+        "trueIncidentAttribution": "red",
+        "redFinalAction": "deny_and_hold",
+        "mission": 81,
+        "escalation": 75,
+        "coalition": 36,
+        "informationQuality": 55,
+        "systemAttributionConfidence": 42
+      },
+      {
+        "world": 0,
+        "intent": "intelligence_collection",
+        "signature": "1-2-4|3-4-5|2-5-4|O-",
+        "incidentCause": "red_reversible_interference",
+        "trueIncidentAttribution": "red",
+        "redFinalAction": "deny_and_hold",
+        "mission": 81,
+        "escalation": 75,
+        "coalition": 36,
+        "informationQuality": 55,
+        "systemAttributionConfidence": 42
+      },
+      {
+        "world": 0,
+        "intent": "intelligence_collection",
+        "signature": "1-2-4|3-4-5|3-5-4|O-",
+        "incidentCause": "red_reversible_interference",
+        "trueIncidentAttribution": "red",
+        "redFinalAction": "deny_and_hold",
+        "mission": 81,
+        "escalation": 75,
+        "coalition": 36,
+        "informationQuality": 55,
+        "systemAttributionConfidence": 42
+      },
+      {
+        "world": 0,
+        "intent": "intelligence_collection",
+        "signature": "1-2-4|4-4-5|1-5-4|O-",
+        "incidentCause": "red_reversible_interference",
+        "trueIncidentAttribution": "red",
+        "redFinalAction": "deny_and_hold",
+        "mission": 81,
+        "escalation": 75,
+        "coalition": 33,
+        "informationQuality": 55,
+        "systemAttributionConfidence": 26
+      },
+      {
+        "world": 0,
+        "intent": "intelligence_collection",
+        "signature": "1-2-4|4-4-5|2-5-4|O-",
+        "incidentCause": "red_reversible_interference",
+        "trueIncidentAttribution": "red",
+        "redFinalAction": "deny_and_hold",
+        "mission": 81,
+        "escalation": 75,
+        "coalition": 33,
+        "informationQuality": 55,
+        "systemAttributionConfidence": 26
+      },
+      {
+        "world": 0,
+        "intent": "intelligence_collection",
+        "signature": "1-2-4|4-4-5|3-5-4|O-",
+        "incidentCause": "red_reversible_interference",
+        "trueIncidentAttribution": "red",
+        "redFinalAction": "deny_and_hold",
+        "mission": 81,
+        "escalation": 75,
+        "coalition": 33,
+        "informationQuality": 55,
+        "systemAttributionConfidence": 26
+      },
+      {
+        "world": 0,
+        "intent": "intelligence_collection",
+        "signature": "1-2-4|5-4-5|1-5-4|O-",
+        "incidentCause": "red_reversible_interference",
+        "trueIncidentAttribution": "red",
+        "redFinalAction": "deny_and_hold",
+        "mission": 83,
+        "escalation": 75,
+        "coalition": 33,
+        "informationQuality": 44,
+        "systemAttributionConfidence": 20
+      },
+      {
+        "world": 0,
+        "intent": "intelligence_collection",
+        "signature": "1-2-4|5-4-5|2-5-4|O-",
+        "incidentCause": "red_reversible_interference",
+        "trueIncidentAttribution": "red",
+        "redFinalAction": "deny_and_hold",
+        "mission": 83,
+        "escalation": 75,
+        "coalition": 33,
+        "informationQuality": 44,
+        "systemAttributionConfidence": 20
+      },
+      {
+        "world": 0,
+        "intent": "intelligence_collection",
+        "signature": "1-2-4|5-4-5|3-5-4|O-",
+        "incidentCause": "red_reversible_interference",
+        "trueIncidentAttribution": "red",
+        "redFinalAction": "deny_and_hold",
+        "mission": 83,
+        "escalation": 75,
+        "coalition": 33,
+        "informationQuality": 44,
+        "systemAttributionConfidence": 20
+      },
+      {
+        "world": 0,
+        "intent": "intelligence_collection",
+        "signature": "1-3-4|1-4-4|1-5-4|O-",
+        "incidentCause": "red_reversible_interference",
+        "trueIncidentAttribution": "red",
+        "redFinalAction": "deny_and_hold",
+        "mission": 77,
+        "escalation": 76,
+        "coalition": 42,
+        "informationQuality": 56,
+        "systemAttributionConfidence": 30
+      },
+      {
+        "world": 0,
+        "intent": "intelligence_collection",
+        "signature": "1-3-4|1-4-4|2-5-4|O-",
+        "incidentCause": "red_reversible_interference",
+        "trueIncidentAttribution": "red",
+        "redFinalAction": "deny_and_hold",
+        "mission": 77,
+        "escalation": 76,
+        "coalition": 42,
+        "informationQuality": 56,
+        "systemAttributionConfidence": 30
+      },
+      {
+        "world": 0,
+        "intent": "intelligence_collection",
+        "signature": "1-3-4|1-4-4|3-5-4|O-",
+        "incidentCause": "red_reversible_interference",
+        "trueIncidentAttribution": "red",
+        "redFinalAction": "deny_and_hold",
+        "mission": 77,
+        "escalation": 76,
+        "coalition": 42,
+        "informationQuality": 56,
+        "systemAttributionConfidence": 30
+      },
+      {
+        "world": 0,
+        "intent": "intelligence_collection",
+        "signature": "1-3-4|1-4-5|1-5-4|O-",
+        "incidentCause": "red_reversible_interference",
+        "trueIncidentAttribution": "red",
+        "redFinalAction": "deny_and_hold",
+        "mission": 77,
+        "escalation": 77,
+        "coalition": 33,
+        "informationQuality": 56,
+        "systemAttributionConfidence": 30
+      },
+      {
+        "world": 0,
+        "intent": "intelligence_collection",
+        "signature": "1-3-4|1-4-5|2-5-4|O-",
+        "incidentCause": "red_reversible_interference",
+        "trueIncidentAttribution": "red",
+        "redFinalAction": "deny_and_hold",
+        "mission": 77,
+        "escalation": 77,
+        "coalition": 33,
+        "informationQuality": 56,
+        "systemAttributionConfidence": 30
+      },
+      {
+        "world": 0,
+        "intent": "intelligence_collection",
+        "signature": "1-3-4|1-4-5|3-5-4|O-",
+        "incidentCause": "red_reversible_interference",
+        "trueIncidentAttribution": "red",
+        "redFinalAction": "deny_and_hold",
+        "mission": 77,
+        "escalation": 77,
+        "coalition": 33,
+        "informationQuality": 56,
+        "systemAttributionConfidence": 30
+      },
+      {
+        "world": 0,
+        "intent": "intelligence_collection",
+        "signature": "1-3-4|2-4-4|1-5-4|O-",
+        "incidentCause": "red_reversible_interference",
+        "trueIncidentAttribution": "red",
+        "redFinalAction": "deny_and_hold",
+        "mission": 78,
+        "escalation": 75,
+        "coalition": 83,
+        "informationQuality": 66,
+        "systemAttributionConfidence": 60
+      },
+      {
+        "world": 0,
+        "intent": "intelligence_collection",
+        "signature": "1-3-4|2-4-4|2-5-4|O-",
+        "incidentCause": "red_reversible_interference",
+        "trueIncidentAttribution": "red",
+        "redFinalAction": "deny_and_hold",
+        "mission": 78,
+        "escalation": 75,
+        "coalition": 83,
+        "informationQuality": 66,
+        "systemAttributionConfidence": 60
+      }
+    ],
+    "intelligence_failure": [
+      {
+        "world": 0,
+        "intent": "benign_ambiguous",
+        "signature": "1-1-1|1-1-1|1-1-4|O1",
+        "incidentCause": "environmental_or_external",
+        "trueIncidentAttribution": "non_red",
+        "redFinalAction": "deny_and_hold",
+        "mission": 79,
+        "escalation": 5,
+        "coalition": 65,
+        "informationQuality": 61,
+        "systemAttributionConfidence": 8
+      },
+      {
+        "world": 0,
+        "intent": "benign_ambiguous",
+        "signature": "1-1-1|1-1-1|1-1-4|O2",
+        "incidentCause": "environmental_or_external",
+        "trueIncidentAttribution": "non_red",
+        "redFinalAction": "deny_and_hold",
+        "mission": 79,
+        "escalation": 8,
+        "coalition": 65,
+        "informationQuality": 61,
+        "systemAttributionConfidence": 8
+      },
+      {
+        "world": 0,
+        "intent": "benign_ambiguous",
+        "signature": "1-1-1|1-1-1|1-1-4|O3",
+        "incidentCause": "environmental_or_external",
+        "trueIncidentAttribution": "non_red",
+        "redFinalAction": "deny_and_hold",
+        "mission": 79,
+        "escalation": 10,
+        "coalition": 65,
+        "informationQuality": 61,
+        "systemAttributionConfidence": 8
+      },
+      {
+        "world": 0,
+        "intent": "benign_ambiguous",
+        "signature": "1-1-1|1-1-1|1-1-4|O4",
+        "incidentCause": "environmental_or_external",
+        "trueIncidentAttribution": "non_red",
+        "redFinalAction": "deny_and_hold",
+        "mission": 79,
+        "escalation": 15,
+        "coalition": 65,
+        "informationQuality": 61,
+        "systemAttributionConfidence": 8
+      },
+      {
+        "world": 0,
+        "intent": "benign_ambiguous",
+        "signature": "1-1-1|1-1-1|1-2-4|O1",
+        "incidentCause": "environmental_or_external",
+        "trueIncidentAttribution": "non_red",
+        "redFinalAction": "deny_and_hold",
+        "mission": 81,
+        "escalation": 14,
+        "coalition": 65,
+        "informationQuality": 54,
+        "systemAttributionConfidence": 8
+      },
+      {
+        "world": 0,
+        "intent": "benign_ambiguous",
+        "signature": "1-1-1|1-1-1|1-2-4|O2",
+        "incidentCause": "environmental_or_external",
+        "trueIncidentAttribution": "non_red",
+        "redFinalAction": "deny_and_hold",
+        "mission": 81,
+        "escalation": 17,
+        "coalition": 65,
+        "informationQuality": 54,
+        "systemAttributionConfidence": 8
+      },
+      {
+        "world": 0,
+        "intent": "benign_ambiguous",
+        "signature": "1-1-1|1-1-1|1-2-4|O3",
+        "incidentCause": "environmental_or_external",
+        "trueIncidentAttribution": "non_red",
+        "redFinalAction": "deny_and_hold",
+        "mission": 81,
+        "escalation": 19,
+        "coalition": 65,
+        "informationQuality": 54,
+        "systemAttributionConfidence": 8
+      },
+      {
+        "world": 0,
+        "intent": "benign_ambiguous",
+        "signature": "1-1-1|1-1-1|1-2-4|O4",
+        "incidentCause": "environmental_or_external",
+        "trueIncidentAttribution": "non_red",
+        "redFinalAction": "deny_and_hold",
+        "mission": 81,
+        "escalation": 24,
+        "coalition": 65,
+        "informationQuality": 54,
+        "systemAttributionConfidence": 8
+      },
+      {
+        "world": 0,
+        "intent": "benign_ambiguous",
+        "signature": "1-1-1|1-1-1|1-3-4|O1",
+        "incidentCause": "environmental_or_external",
+        "trueIncidentAttribution": "non_red",
+        "redFinalAction": "deny_and_hold",
+        "mission": 80,
+        "escalation": 14,
+        "coalition": 77,
+        "informationQuality": 54,
+        "systemAttributionConfidence": 8
+      },
+      {
+        "world": 0,
+        "intent": "benign_ambiguous",
+        "signature": "1-1-1|1-1-1|1-3-4|O2",
+        "incidentCause": "environmental_or_external",
+        "trueIncidentAttribution": "non_red",
+        "redFinalAction": "deny_and_hold",
+        "mission": 80,
+        "escalation": 17,
+        "coalition": 77,
+        "informationQuality": 54,
+        "systemAttributionConfidence": 8
+      },
+      {
+        "world": 0,
+        "intent": "benign_ambiguous",
+        "signature": "1-1-1|1-1-1|1-3-4|O3",
+        "incidentCause": "environmental_or_external",
+        "trueIncidentAttribution": "non_red",
+        "redFinalAction": "deny_and_hold",
+        "mission": 80,
+        "escalation": 19,
+        "coalition": 77,
+        "informationQuality": 54,
+        "systemAttributionConfidence": 8
+      },
+      {
+        "world": 0,
+        "intent": "benign_ambiguous",
+        "signature": "1-1-1|1-1-1|1-3-4|O4",
+        "incidentCause": "environmental_or_external",
+        "trueIncidentAttribution": "non_red",
+        "redFinalAction": "deny_and_hold",
+        "mission": 80,
+        "escalation": 24,
+        "coalition": 77,
+        "informationQuality": 54,
+        "systemAttributionConfidence": 8
+      },
+      {
+        "world": 0,
+        "intent": "benign_ambiguous",
+        "signature": "1-1-1|1-1-1|1-4-4|O1",
+        "incidentCause": "environmental_or_external",
+        "trueIncidentAttribution": "non_red",
+        "redFinalAction": "deny_and_hold",
+        "mission": 79,
+        "escalation": 3,
+        "coalition": 65,
+        "informationQuality": 54,
+        "systemAttributionConfidence": 8
+      },
+      {
+        "world": 0,
+        "intent": "benign_ambiguous",
+        "signature": "1-1-1|1-1-1|1-4-4|O2",
+        "incidentCause": "environmental_or_external",
+        "trueIncidentAttribution": "non_red",
+        "redFinalAction": "deny_and_hold",
+        "mission": 79,
+        "escalation": 6,
+        "coalition": 65,
+        "informationQuality": 54,
+        "systemAttributionConfidence": 8
+      },
+      {
+        "world": 0,
+        "intent": "benign_ambiguous",
+        "signature": "1-1-1|1-1-1|1-4-4|O3",
+        "incidentCause": "environmental_or_external",
+        "trueIncidentAttribution": "non_red",
+        "redFinalAction": "deny_and_hold",
+        "mission": 79,
+        "escalation": 8,
+        "coalition": 65,
+        "informationQuality": 54,
+        "systemAttributionConfidence": 8
+      },
+      {
+        "world": 0,
+        "intent": "benign_ambiguous",
+        "signature": "1-1-1|1-1-1|1-4-4|O4",
+        "incidentCause": "environmental_or_external",
+        "trueIncidentAttribution": "non_red",
+        "redFinalAction": "deny_and_hold",
+        "mission": 79,
+        "escalation": 13,
+        "coalition": 65,
+        "informationQuality": 54,
+        "systemAttributionConfidence": 8
+      },
+      {
+        "world": 0,
+        "intent": "benign_ambiguous",
+        "signature": "1-1-1|1-1-1|1-5-4|O1",
+        "incidentCause": "environmental_or_external",
+        "trueIncidentAttribution": "non_red",
+        "redFinalAction": "deny_and_hold",
+        "mission": 80,
+        "escalation": 23,
+        "coalition": 65,
+        "informationQuality": 54,
+        "systemAttributionConfidence": 8
+      },
+      {
+        "world": 0,
+        "intent": "benign_ambiguous",
+        "signature": "1-1-1|1-1-1|1-5-4|O2",
+        "incidentCause": "environmental_or_external",
+        "trueIncidentAttribution": "non_red",
+        "redFinalAction": "deny_and_hold",
+        "mission": 80,
+        "escalation": 26,
+        "coalition": 65,
+        "informationQuality": 54,
+        "systemAttributionConfidence": 8
+      },
+      {
+        "world": 0,
+        "intent": "benign_ambiguous",
+        "signature": "1-1-1|1-1-1|1-5-4|O3",
+        "incidentCause": "environmental_or_external",
+        "trueIncidentAttribution": "non_red",
+        "redFinalAction": "deny_and_hold",
+        "mission": 80,
+        "escalation": 28,
+        "coalition": 65,
+        "informationQuality": 54,
+        "systemAttributionConfidence": 8
+      },
+      {
+        "world": 0,
+        "intent": "benign_ambiguous",
+        "signature": "1-1-1|1-1-1|1-5-4|O4",
+        "incidentCause": "environmental_or_external",
+        "trueIncidentAttribution": "non_red",
+        "redFinalAction": "deny_and_hold",
+        "mission": 80,
+        "escalation": 33,
+        "coalition": 65,
+        "informationQuality": 54,
+        "systemAttributionConfidence": 8
+      }
+    ],
+    "coalition_fracture": [
+      {
+        "world": 0,
+        "intent": "probe",
+        "signature": "1-1-4|1-1-5|1-1-4|O-",
+        "incidentCause": "mixed_cause",
+        "trueIncidentAttribution": "mixed",
+        "redFinalAction": "deny_and_hold",
+        "mission": 79,
+        "escalation": 45,
+        "coalition": 33,
+        "informationQuality": 62,
+        "systemAttributionConfidence": 28
+      },
+      {
+        "world": 0,
+        "intent": "probe",
+        "signature": "1-1-4|1-1-5|1-2-4|O-",
+        "incidentCause": "mixed_cause",
+        "trueIncidentAttribution": "mixed",
+        "redFinalAction": "deny_and_hold",
+        "mission": 81,
+        "escalation": 54,
+        "coalition": 33,
+        "informationQuality": 55,
+        "systemAttributionConfidence": 28
+      },
+      {
+        "world": 0,
+        "intent": "probe",
+        "signature": "1-1-4|1-1-5|1-4-4|O1",
+        "incidentCause": "mixed_cause",
+        "trueIncidentAttribution": "mixed",
+        "redFinalAction": "accept_interim_offramp",
+        "mission": 79,
+        "escalation": 22,
+        "coalition": 33,
+        "informationQuality": 55,
+        "systemAttributionConfidence": 28
+      },
+      {
+        "world": 0,
+        "intent": "probe",
+        "signature": "1-1-4|1-1-5|1-4-4|O2",
+        "incidentCause": "mixed_cause",
+        "trueIncidentAttribution": "mixed",
+        "redFinalAction": "accept_interim_offramp",
+        "mission": 79,
+        "escalation": 25,
+        "coalition": 33,
+        "informationQuality": 55,
+        "systemAttributionConfidence": 28
+      },
+      {
+        "world": 0,
+        "intent": "probe",
+        "signature": "1-1-4|1-1-5|1-4-4|O3",
+        "incidentCause": "mixed_cause",
+        "trueIncidentAttribution": "mixed",
+        "redFinalAction": "accept_interim_offramp",
+        "mission": 79,
+        "escalation": 27,
+        "coalition": 33,
+        "informationQuality": 55,
+        "systemAttributionConfidence": 28
+      },
+      {
+        "world": 0,
+        "intent": "probe",
+        "signature": "1-1-4|1-1-5|1-4-4|O4",
+        "incidentCause": "mixed_cause",
+        "trueIncidentAttribution": "mixed",
+        "redFinalAction": "accept_interim_offramp",
+        "mission": 79,
+        "escalation": 32,
+        "coalition": 33,
+        "informationQuality": 55,
+        "systemAttributionConfidence": 28
+      },
+      {
+        "world": 0,
+        "intent": "probe",
+        "signature": "1-1-4|1-1-5|1-5-4|O-",
+        "incidentCause": "mixed_cause",
+        "trueIncidentAttribution": "mixed",
+        "redFinalAction": "deny_and_hold",
+        "mission": 80,
+        "escalation": 63,
+        "coalition": 33,
+        "informationQuality": 55,
+        "systemAttributionConfidence": 28
+      },
+      {
+        "world": 0,
+        "intent": "probe",
+        "signature": "1-1-4|1-1-5|2-1-4|O-",
+        "incidentCause": "mixed_cause",
+        "trueIncidentAttribution": "mixed",
+        "redFinalAction": "deny_and_hold",
+        "mission": 79,
+        "escalation": 45,
+        "coalition": 33,
+        "informationQuality": 62,
+        "systemAttributionConfidence": 28
+      },
+      {
+        "world": 0,
+        "intent": "probe",
+        "signature": "1-1-4|1-1-5|2-2-4|O-",
+        "incidentCause": "mixed_cause",
+        "trueIncidentAttribution": "mixed",
+        "redFinalAction": "deny_and_hold",
+        "mission": 81,
+        "escalation": 54,
+        "coalition": 33,
+        "informationQuality": 55,
+        "systemAttributionConfidence": 28
+      },
+      {
+        "world": 0,
+        "intent": "probe",
+        "signature": "1-1-4|1-1-5|2-4-4|O1",
+        "incidentCause": "mixed_cause",
+        "trueIncidentAttribution": "mixed",
+        "redFinalAction": "accept_interim_offramp",
+        "mission": 79,
+        "escalation": 22,
+        "coalition": 33,
+        "informationQuality": 55,
+        "systemAttributionConfidence": 28
+      },
+      {
+        "world": 0,
+        "intent": "probe",
+        "signature": "1-1-4|1-1-5|2-4-4|O2",
+        "incidentCause": "mixed_cause",
+        "trueIncidentAttribution": "mixed",
+        "redFinalAction": "accept_interim_offramp",
+        "mission": 79,
+        "escalation": 25,
+        "coalition": 33,
+        "informationQuality": 55,
+        "systemAttributionConfidence": 28
+      },
+      {
+        "world": 0,
+        "intent": "probe",
+        "signature": "1-1-4|1-1-5|2-4-4|O3",
+        "incidentCause": "mixed_cause",
+        "trueIncidentAttribution": "mixed",
+        "redFinalAction": "accept_interim_offramp",
+        "mission": 79,
+        "escalation": 27,
+        "coalition": 33,
+        "informationQuality": 55,
+        "systemAttributionConfidence": 28
+      },
+      {
+        "world": 0,
+        "intent": "probe",
+        "signature": "1-1-4|1-1-5|2-4-4|O4",
+        "incidentCause": "mixed_cause",
+        "trueIncidentAttribution": "mixed",
+        "redFinalAction": "accept_interim_offramp",
+        "mission": 79,
+        "escalation": 32,
+        "coalition": 33,
+        "informationQuality": 55,
+        "systemAttributionConfidence": 28
+      },
+      {
+        "world": 0,
+        "intent": "probe",
+        "signature": "1-1-4|1-1-5|2-5-4|O-",
+        "incidentCause": "mixed_cause",
+        "trueIncidentAttribution": "mixed",
+        "redFinalAction": "deny_and_hold",
+        "mission": 80,
+        "escalation": 63,
+        "coalition": 33,
+        "informationQuality": 55,
+        "systemAttributionConfidence": 28
+      },
+      {
+        "world": 0,
+        "intent": "probe",
+        "signature": "1-1-4|1-1-5|3-1-4|O-",
+        "incidentCause": "mixed_cause",
+        "trueIncidentAttribution": "mixed",
+        "redFinalAction": "deny_and_hold",
+        "mission": 79,
+        "escalation": 45,
+        "coalition": 33,
+        "informationQuality": 62,
+        "systemAttributionConfidence": 28
+      },
+      {
+        "world": 0,
+        "intent": "probe",
+        "signature": "1-1-4|1-1-5|3-2-4|O-",
+        "incidentCause": "mixed_cause",
+        "trueIncidentAttribution": "mixed",
+        "redFinalAction": "deny_and_hold",
+        "mission": 81,
+        "escalation": 54,
+        "coalition": 33,
+        "informationQuality": 55,
+        "systemAttributionConfidence": 28
+      },
+      {
+        "world": 0,
+        "intent": "probe",
+        "signature": "1-1-4|1-1-5|3-4-4|O1",
+        "incidentCause": "mixed_cause",
+        "trueIncidentAttribution": "mixed",
+        "redFinalAction": "accept_interim_offramp",
+        "mission": 79,
+        "escalation": 22,
+        "coalition": 33,
+        "informationQuality": 55,
+        "systemAttributionConfidence": 28
+      },
+      {
+        "world": 0,
+        "intent": "probe",
+        "signature": "1-1-4|1-1-5|3-4-4|O2",
+        "incidentCause": "mixed_cause",
+        "trueIncidentAttribution": "mixed",
+        "redFinalAction": "accept_interim_offramp",
+        "mission": 79,
+        "escalation": 25,
+        "coalition": 33,
+        "informationQuality": 55,
+        "systemAttributionConfidence": 28
+      },
+      {
+        "world": 0,
+        "intent": "probe",
+        "signature": "1-1-4|1-1-5|3-4-4|O3",
+        "incidentCause": "mixed_cause",
+        "trueIncidentAttribution": "mixed",
+        "redFinalAction": "accept_interim_offramp",
+        "mission": 79,
+        "escalation": 27,
+        "coalition": 33,
+        "informationQuality": 55,
+        "systemAttributionConfidence": 28
+      },
+      {
+        "world": 0,
+        "intent": "probe",
+        "signature": "1-1-4|1-1-5|3-4-4|O4",
+        "incidentCause": "mixed_cause",
+        "trueIncidentAttribution": "mixed",
+        "redFinalAction": "accept_interim_offramp",
+        "mission": 79,
+        "escalation": 32,
+        "coalition": 33,
+        "informationQuality": 55,
+        "systemAttributionConfidence": 28
+      }
+    ],
+    "negotiated_deescalation": [
+      {
+        "world": 0,
+        "intent": "probe",
+        "signature": "1-1-1|1-1-1|1-4-1|O1",
+        "incidentCause": "mixed_cause",
+        "trueIncidentAttribution": "mixed",
+        "redFinalAction": "accept_interim_offramp",
+        "mission": 79,
+        "escalation": 0,
+        "coalition": 74,
+        "informationQuality": 60,
+        "systemAttributionConfidence": 28
+      },
+      {
+        "world": 0,
+        "intent": "probe",
+        "signature": "1-1-1|1-1-1|1-4-1|O2",
+        "incidentCause": "mixed_cause",
+        "trueIncidentAttribution": "mixed",
+        "redFinalAction": "accept_interim_offramp",
+        "mission": 79,
+        "escalation": 0,
+        "coalition": 74,
+        "informationQuality": 60,
+        "systemAttributionConfidence": 28
+      },
+      {
+        "world": 0,
+        "intent": "probe",
+        "signature": "1-1-1|1-1-1|1-4-1|O3",
+        "incidentCause": "mixed_cause",
+        "trueIncidentAttribution": "mixed",
+        "redFinalAction": "accept_interim_offramp",
+        "mission": 79,
+        "escalation": 0,
+        "coalition": 74,
+        "informationQuality": 60,
+        "systemAttributionConfidence": 28
+      },
+      {
+        "world": 0,
+        "intent": "probe",
+        "signature": "1-1-1|1-1-1|1-4-1|O4",
+        "incidentCause": "mixed_cause",
+        "trueIncidentAttribution": "mixed",
+        "redFinalAction": "accept_interim_offramp",
+        "mission": 79,
+        "escalation": 0,
+        "coalition": 74,
+        "informationQuality": 60,
+        "systemAttributionConfidence": 28
+      },
+      {
+        "world": 0,
+        "intent": "probe",
+        "signature": "1-1-1|1-1-1|1-4-2|O1",
+        "incidentCause": "mixed_cause",
+        "trueIncidentAttribution": "mixed",
+        "redFinalAction": "accept_interim_offramp",
+        "mission": 79,
+        "escalation": 0,
+        "coalition": 82,
+        "informationQuality": 60,
+        "systemAttributionConfidence": 28
+      },
+      {
+        "world": 0,
+        "intent": "probe",
+        "signature": "1-1-1|1-1-1|1-4-2|O2",
+        "incidentCause": "mixed_cause",
+        "trueIncidentAttribution": "mixed",
+        "redFinalAction": "accept_interim_offramp",
+        "mission": 79,
+        "escalation": 0,
+        "coalition": 82,
+        "informationQuality": 60,
+        "systemAttributionConfidence": 28
+      },
+      {
+        "world": 0,
+        "intent": "probe",
+        "signature": "1-1-1|1-1-1|1-4-2|O3",
+        "incidentCause": "mixed_cause",
+        "trueIncidentAttribution": "mixed",
+        "redFinalAction": "accept_interim_offramp",
+        "mission": 79,
+        "escalation": 0,
+        "coalition": 82,
+        "informationQuality": 60,
+        "systemAttributionConfidence": 28
+      },
+      {
+        "world": 0,
+        "intent": "probe",
+        "signature": "1-1-1|1-1-1|1-4-2|O4",
+        "incidentCause": "mixed_cause",
+        "trueIncidentAttribution": "mixed",
+        "redFinalAction": "accept_interim_offramp",
+        "mission": 79,
+        "escalation": 0,
+        "coalition": 82,
+        "informationQuality": 60,
+        "systemAttributionConfidence": 28
+      },
+      {
+        "world": 0,
+        "intent": "probe",
+        "signature": "1-1-1|1-1-1|1-4-3|O1",
+        "incidentCause": "mixed_cause",
+        "trueIncidentAttribution": "mixed",
+        "redFinalAction": "accept_interim_offramp",
+        "mission": 79,
+        "escalation": 0,
+        "coalition": 76,
+        "informationQuality": 60,
+        "systemAttributionConfidence": 28
+      },
+      {
+        "world": 0,
+        "intent": "probe",
+        "signature": "1-1-1|1-1-1|1-4-3|O2",
+        "incidentCause": "mixed_cause",
+        "trueIncidentAttribution": "mixed",
+        "redFinalAction": "accept_interim_offramp",
+        "mission": 79,
+        "escalation": 0,
+        "coalition": 76,
+        "informationQuality": 60,
+        "systemAttributionConfidence": 28
+      },
+      {
+        "world": 0,
+        "intent": "probe",
+        "signature": "1-1-1|1-1-1|1-4-3|O3",
+        "incidentCause": "mixed_cause",
+        "trueIncidentAttribution": "mixed",
+        "redFinalAction": "accept_interim_offramp",
+        "mission": 79,
+        "escalation": 0,
+        "coalition": 76,
+        "informationQuality": 60,
+        "systemAttributionConfidence": 28
+      },
+      {
+        "world": 0,
+        "intent": "probe",
+        "signature": "1-1-1|1-1-1|1-4-3|O4",
+        "incidentCause": "mixed_cause",
+        "trueIncidentAttribution": "mixed",
+        "redFinalAction": "accept_interim_offramp",
+        "mission": 79,
+        "escalation": 4,
+        "coalition": 76,
+        "informationQuality": 60,
+        "systemAttributionConfidence": 28
+      },
+      {
+        "world": 0,
+        "intent": "probe",
+        "signature": "1-1-1|1-1-1|1-4-4|O1",
+        "incidentCause": "mixed_cause",
+        "trueIncidentAttribution": "mixed",
+        "redFinalAction": "accept_interim_offramp",
+        "mission": 79,
+        "escalation": 2,
+        "coalition": 65,
+        "informationQuality": 60,
+        "systemAttributionConfidence": 28
+      },
+      {
+        "world": 0,
+        "intent": "probe",
+        "signature": "1-1-1|1-1-1|1-4-4|O2",
+        "incidentCause": "mixed_cause",
+        "trueIncidentAttribution": "mixed",
+        "redFinalAction": "accept_interim_offramp",
+        "mission": 79,
+        "escalation": 5,
+        "coalition": 65,
+        "informationQuality": 60,
+        "systemAttributionConfidence": 28
+      },
+      {
+        "world": 0,
+        "intent": "probe",
+        "signature": "1-1-1|1-1-1|1-4-4|O3",
+        "incidentCause": "mixed_cause",
+        "trueIncidentAttribution": "mixed",
+        "redFinalAction": "accept_interim_offramp",
+        "mission": 79,
+        "escalation": 7,
+        "coalition": 65,
+        "informationQuality": 60,
+        "systemAttributionConfidence": 28
+      },
+      {
+        "world": 0,
+        "intent": "probe",
+        "signature": "1-1-1|1-1-1|1-4-4|O4",
+        "incidentCause": "mixed_cause",
+        "trueIncidentAttribution": "mixed",
+        "redFinalAction": "accept_interim_offramp",
+        "mission": 79,
+        "escalation": 12,
+        "coalition": 65,
+        "informationQuality": 60,
+        "systemAttributionConfidence": 28
+      },
+      {
+        "world": 0,
+        "intent": "probe",
+        "signature": "1-1-1|1-1-1|2-4-1|O1",
+        "incidentCause": "mixed_cause",
+        "trueIncidentAttribution": "mixed",
+        "redFinalAction": "accept_interim_offramp",
+        "mission": 79,
+        "escalation": 0,
+        "coalition": 74,
+        "informationQuality": 60,
+        "systemAttributionConfidence": 28
+      },
+      {
+        "world": 0,
+        "intent": "probe",
+        "signature": "1-1-1|1-1-1|2-4-1|O2",
+        "incidentCause": "mixed_cause",
+        "trueIncidentAttribution": "mixed",
+        "redFinalAction": "accept_interim_offramp",
+        "mission": 79,
+        "escalation": 0,
+        "coalition": 74,
+        "informationQuality": 60,
+        "systemAttributionConfidence": 28
+      },
+      {
+        "world": 0,
+        "intent": "probe",
+        "signature": "1-1-1|1-1-1|2-4-1|O3",
+        "incidentCause": "mixed_cause",
+        "trueIncidentAttribution": "mixed",
+        "redFinalAction": "accept_interim_offramp",
+        "mission": 79,
+        "escalation": 0,
+        "coalition": 74,
+        "informationQuality": 60,
+        "systemAttributionConfidence": 28
+      },
+      {
+        "world": 0,
+        "intent": "probe",
+        "signature": "1-1-1|1-1-1|2-4-1|O4",
+        "incidentCause": "mixed_cause",
+        "trueIncidentAttribution": "mixed",
+        "redFinalAction": "accept_interim_offramp",
+        "mission": 79,
+        "escalation": 0,
+        "coalition": 74,
+        "informationQuality": 60,
+        "systemAttributionConfidence": 28
+      }
+    ],
+    "calm_crisis_control": [
+      {
+        "world": 0,
+        "intent": "coercion",
+        "signature": "1-1-1|1-2-1|1-3-1|O-",
+        "incidentCause": "red_reversible_interference",
+        "trueIncidentAttribution": "red",
+        "redFinalAction": "deescalate_and_separate",
+        "mission": 86,
+        "escalation": 25,
+        "coalition": 89,
+        "informationQuality": 62,
+        "systemAttributionConfidence": 30
+      },
+      {
+        "world": 0,
+        "intent": "coercion",
+        "signature": "1-1-1|1-2-1|1-3-2|O-",
+        "incidentCause": "red_reversible_interference",
+        "trueIncidentAttribution": "red",
+        "redFinalAction": "deescalate_and_separate",
+        "mission": 86,
+        "escalation": 25,
+        "coalition": 97,
+        "informationQuality": 62,
+        "systemAttributionConfidence": 30
+      },
+      {
+        "world": 0,
+        "intent": "coercion",
+        "signature": "1-1-1|1-2-1|1-3-3|O-",
+        "incidentCause": "red_reversible_interference",
+        "trueIncidentAttribution": "red",
+        "redFinalAction": "deescalate_and_separate",
+        "mission": 86,
+        "escalation": 29,
+        "coalition": 91,
+        "informationQuality": 62,
+        "systemAttributionConfidence": 30
+      },
+      {
+        "world": 0,
+        "intent": "coercion",
+        "signature": "1-1-1|1-2-1|2-3-1|O-",
+        "incidentCause": "red_reversible_interference",
+        "trueIncidentAttribution": "red",
+        "redFinalAction": "deescalate_and_separate",
+        "mission": 86,
+        "escalation": 25,
+        "coalition": 89,
+        "informationQuality": 62,
+        "systemAttributionConfidence": 30
+      },
+      {
+        "world": 0,
+        "intent": "coercion",
+        "signature": "1-1-1|1-2-1|2-3-2|O-",
+        "incidentCause": "red_reversible_interference",
+        "trueIncidentAttribution": "red",
+        "redFinalAction": "deescalate_and_separate",
+        "mission": 86,
+        "escalation": 25,
+        "coalition": 97,
+        "informationQuality": 62,
+        "systemAttributionConfidence": 30
+      },
+      {
+        "world": 0,
+        "intent": "coercion",
+        "signature": "1-1-1|1-2-1|2-3-3|O-",
+        "incidentCause": "red_reversible_interference",
+        "trueIncidentAttribution": "red",
+        "redFinalAction": "deescalate_and_separate",
+        "mission": 86,
+        "escalation": 29,
+        "coalition": 91,
+        "informationQuality": 62,
+        "systemAttributionConfidence": 30
+      },
+      {
+        "world": 0,
+        "intent": "coercion",
+        "signature": "1-1-1|1-2-1|3-3-1|O-",
+        "incidentCause": "red_reversible_interference",
+        "trueIncidentAttribution": "red",
+        "redFinalAction": "deescalate_and_separate",
+        "mission": 86,
+        "escalation": 25,
+        "coalition": 89,
+        "informationQuality": 62,
+        "systemAttributionConfidence": 30
+      },
+      {
+        "world": 0,
+        "intent": "coercion",
+        "signature": "1-1-1|1-2-1|3-3-2|O-",
+        "incidentCause": "red_reversible_interference",
+        "trueIncidentAttribution": "red",
+        "redFinalAction": "deescalate_and_separate",
+        "mission": 86,
+        "escalation": 25,
+        "coalition": 97,
+        "informationQuality": 62,
+        "systemAttributionConfidence": 30
+      },
+      {
+        "world": 0,
+        "intent": "coercion",
+        "signature": "1-1-1|1-2-1|3-3-3|O-",
+        "incidentCause": "red_reversible_interference",
+        "trueIncidentAttribution": "red",
+        "redFinalAction": "deescalate_and_separate",
+        "mission": 86,
+        "escalation": 29,
+        "coalition": 91,
+        "informationQuality": 62,
+        "systemAttributionConfidence": 30
+      },
+      {
+        "world": 0,
+        "intent": "coercion",
+        "signature": "1-1-1|1-2-2|1-3-1|O-",
+        "incidentCause": "red_reversible_interference",
+        "trueIncidentAttribution": "red",
+        "redFinalAction": "deescalate_and_separate",
+        "mission": 86,
+        "escalation": 26,
+        "coalition": 89,
+        "informationQuality": 62,
+        "systemAttributionConfidence": 30
+      },
+      {
+        "world": 0,
+        "intent": "coercion",
+        "signature": "1-1-1|1-2-2|1-3-2|O-",
+        "incidentCause": "red_reversible_interference",
+        "trueIncidentAttribution": "red",
+        "redFinalAction": "deescalate_and_separate",
+        "mission": 86,
+        "escalation": 26,
+        "coalition": 97,
+        "informationQuality": 62,
+        "systemAttributionConfidence": 30
+      },
+      {
+        "world": 0,
+        "intent": "coercion",
+        "signature": "1-1-1|1-2-2|1-3-3|O-",
+        "incidentCause": "red_reversible_interference",
+        "trueIncidentAttribution": "red",
+        "redFinalAction": "deescalate_and_separate",
+        "mission": 86,
+        "escalation": 30,
+        "coalition": 91,
+        "informationQuality": 62,
+        "systemAttributionConfidence": 30
+      },
+      {
+        "world": 0,
+        "intent": "coercion",
+        "signature": "1-1-1|1-2-2|2-3-1|O-",
+        "incidentCause": "red_reversible_interference",
+        "trueIncidentAttribution": "red",
+        "redFinalAction": "deescalate_and_separate",
+        "mission": 86,
+        "escalation": 26,
+        "coalition": 89,
+        "informationQuality": 62,
+        "systemAttributionConfidence": 30
+      },
+      {
+        "world": 0,
+        "intent": "coercion",
+        "signature": "1-1-1|1-2-2|2-3-2|O-",
+        "incidentCause": "red_reversible_interference",
+        "trueIncidentAttribution": "red",
+        "redFinalAction": "deescalate_and_separate",
+        "mission": 86,
+        "escalation": 26,
+        "coalition": 97,
+        "informationQuality": 62,
+        "systemAttributionConfidence": 30
+      },
+      {
+        "world": 0,
+        "intent": "coercion",
+        "signature": "1-1-1|1-2-2|2-3-3|O-",
+        "incidentCause": "red_reversible_interference",
+        "trueIncidentAttribution": "red",
+        "redFinalAction": "deescalate_and_separate",
+        "mission": 86,
+        "escalation": 30,
+        "coalition": 91,
+        "informationQuality": 62,
+        "systemAttributionConfidence": 30
+      },
+      {
+        "world": 0,
+        "intent": "coercion",
+        "signature": "1-1-1|1-2-2|3-3-1|O-",
+        "incidentCause": "red_reversible_interference",
+        "trueIncidentAttribution": "red",
+        "redFinalAction": "deescalate_and_separate",
+        "mission": 86,
+        "escalation": 26,
+        "coalition": 89,
+        "informationQuality": 62,
+        "systemAttributionConfidence": 30
+      },
+      {
+        "world": 0,
+        "intent": "coercion",
+        "signature": "1-1-1|1-2-2|3-3-2|O-",
+        "incidentCause": "red_reversible_interference",
+        "trueIncidentAttribution": "red",
+        "redFinalAction": "deescalate_and_separate",
+        "mission": 86,
+        "escalation": 26,
+        "coalition": 97,
+        "informationQuality": 62,
+        "systemAttributionConfidence": 30
+      },
+      {
+        "world": 0,
+        "intent": "coercion",
+        "signature": "1-1-1|1-2-2|3-3-3|O-",
+        "incidentCause": "red_reversible_interference",
+        "trueIncidentAttribution": "red",
+        "redFinalAction": "deescalate_and_separate",
+        "mission": 86,
+        "escalation": 30,
+        "coalition": 91,
+        "informationQuality": 62,
+        "systemAttributionConfidence": 30
+      },
+      {
+        "world": 0,
+        "intent": "coercion",
+        "signature": "1-1-1|1-2-3|1-3-1|O-",
+        "incidentCause": "red_reversible_interference",
+        "trueIncidentAttribution": "red",
+        "redFinalAction": "deescalate_and_separate",
+        "mission": 86,
+        "escalation": 28,
+        "coalition": 89,
+        "informationQuality": 62,
+        "systemAttributionConfidence": 30
+      },
+      {
+        "world": 0,
+        "intent": "coercion",
+        "signature": "1-1-1|1-2-3|1-3-2|O-",
+        "incidentCause": "red_reversible_interference",
+        "trueIncidentAttribution": "red",
+        "redFinalAction": "deescalate_and_separate",
+        "mission": 86,
+        "escalation": 28,
+        "coalition": 97,
+        "informationQuality": 62,
+        "systemAttributionConfidence": 30
+      }
+    ],
+    "costly_deterrence": [
+      {
+        "world": 0,
+        "intent": "coercion",
+        "signature": "1-1-1|1-2-4|1-3-3|O-",
+        "incidentCause": "red_reversible_interference",
+        "trueIncidentAttribution": "red",
+        "redFinalAction": "deescalate_and_separate",
+        "mission": 86,
+        "escalation": 34,
+        "coalition": 100,
+        "informationQuality": 62,
+        "systemAttributionConfidence": 30
+      },
+      {
+        "world": 0,
+        "intent": "coercion",
+        "signature": "1-1-1|1-2-4|2-3-3|O-",
+        "incidentCause": "red_reversible_interference",
+        "trueIncidentAttribution": "red",
+        "redFinalAction": "deescalate_and_separate",
+        "mission": 86,
+        "escalation": 34,
+        "coalition": 100,
+        "informationQuality": 62,
+        "systemAttributionConfidence": 30
+      },
+      {
+        "world": 0,
+        "intent": "coercion",
+        "signature": "1-1-1|1-2-4|3-3-3|O-",
+        "incidentCause": "red_reversible_interference",
+        "trueIncidentAttribution": "red",
+        "redFinalAction": "deescalate_and_separate",
+        "mission": 86,
+        "escalation": 34,
+        "coalition": 100,
+        "informationQuality": 62,
+        "systemAttributionConfidence": 30
+      },
+      {
+        "world": 0,
+        "intent": "coercion",
+        "signature": "1-1-1|1-2-5|1-3-3|O-",
+        "incidentCause": "red_reversible_interference",
+        "trueIncidentAttribution": "red",
+        "redFinalAction": "deescalate_and_separate",
+        "mission": 86,
+        "escalation": 35,
+        "coalition": 91,
+        "informationQuality": 62,
+        "systemAttributionConfidence": 30
+      },
+      {
+        "world": 0,
+        "intent": "coercion",
+        "signature": "1-1-1|1-2-5|2-3-3|O-",
+        "incidentCause": "red_reversible_interference",
+        "trueIncidentAttribution": "red",
+        "redFinalAction": "deescalate_and_separate",
+        "mission": 86,
+        "escalation": 35,
+        "coalition": 91,
+        "informationQuality": 62,
+        "systemAttributionConfidence": 30
+      },
+      {
+        "world": 0,
+        "intent": "coercion",
+        "signature": "1-1-1|1-2-5|3-3-3|O-",
+        "incidentCause": "red_reversible_interference",
+        "trueIncidentAttribution": "red",
+        "redFinalAction": "deescalate_and_separate",
+        "mission": 86,
+        "escalation": 35,
+        "coalition": 91,
+        "informationQuality": 62,
+        "systemAttributionConfidence": 30
+      },
+      {
+        "world": 0,
+        "intent": "coercion",
+        "signature": "1-1-1|1-5-3|1-3-3|O-",
+        "incidentCause": "red_reversible_interference",
+        "trueIncidentAttribution": "red",
+        "redFinalAction": "deescalate_and_separate",
+        "mission": 88,
+        "escalation": 32,
+        "coalition": 91,
+        "informationQuality": 62,
+        "systemAttributionConfidence": 30
+      },
+      {
+        "world": 0,
+        "intent": "coercion",
+        "signature": "1-1-1|1-5-3|2-3-3|O-",
+        "incidentCause": "red_reversible_interference",
+        "trueIncidentAttribution": "red",
+        "redFinalAction": "deescalate_and_separate",
+        "mission": 88,
+        "escalation": 32,
+        "coalition": 91,
+        "informationQuality": 62,
+        "systemAttributionConfidence": 30
+      },
+      {
+        "world": 0,
+        "intent": "coercion",
+        "signature": "1-1-1|1-5-3|3-3-3|O-",
+        "incidentCause": "red_reversible_interference",
+        "trueIncidentAttribution": "red",
+        "redFinalAction": "deescalate_and_separate",
+        "mission": 88,
+        "escalation": 32,
+        "coalition": 91,
+        "informationQuality": 62,
+        "systemAttributionConfidence": 30
+      },
+      {
+        "world": 0,
+        "intent": "coercion",
+        "signature": "1-1-1|1-5-4|1-3-3|O-",
+        "incidentCause": "red_reversible_interference",
+        "trueIncidentAttribution": "red",
+        "redFinalAction": "deescalate_and_separate",
+        "mission": 88,
+        "escalation": 34,
+        "coalition": 100,
+        "informationQuality": 62,
+        "systemAttributionConfidence": 30
+      },
+      {
+        "world": 0,
+        "intent": "coercion",
+        "signature": "1-1-1|1-5-4|2-3-3|O-",
+        "incidentCause": "red_reversible_interference",
+        "trueIncidentAttribution": "red",
+        "redFinalAction": "deescalate_and_separate",
+        "mission": 88,
+        "escalation": 34,
+        "coalition": 100,
+        "informationQuality": 62,
+        "systemAttributionConfidence": 30
+      },
+      {
+        "world": 0,
+        "intent": "coercion",
+        "signature": "1-1-1|1-5-4|3-3-3|O-",
+        "incidentCause": "red_reversible_interference",
+        "trueIncidentAttribution": "red",
+        "redFinalAction": "deescalate_and_separate",
+        "mission": 88,
+        "escalation": 34,
+        "coalition": 100,
+        "informationQuality": 62,
+        "systemAttributionConfidence": 30
+      },
+      {
+        "world": 0,
+        "intent": "coercion",
+        "signature": "1-1-1|1-5-5|1-3-3|O-",
+        "incidentCause": "red_reversible_interference",
+        "trueIncidentAttribution": "red",
+        "redFinalAction": "deescalate_and_separate",
+        "mission": 88,
+        "escalation": 35,
+        "coalition": 91,
+        "informationQuality": 62,
+        "systemAttributionConfidence": 30
+      },
+      {
+        "world": 0,
+        "intent": "coercion",
+        "signature": "1-1-1|1-5-5|2-3-3|O-",
+        "incidentCause": "red_reversible_interference",
+        "trueIncidentAttribution": "red",
+        "redFinalAction": "deescalate_and_separate",
+        "mission": 88,
+        "escalation": 35,
+        "coalition": 91,
+        "informationQuality": 62,
+        "systemAttributionConfidence": 30
+      },
+      {
+        "world": 0,
+        "intent": "coercion",
+        "signature": "1-1-1|1-5-5|3-3-3|O-",
+        "incidentCause": "red_reversible_interference",
+        "trueIncidentAttribution": "red",
+        "redFinalAction": "deescalate_and_separate",
+        "mission": 88,
+        "escalation": 35,
+        "coalition": 91,
+        "informationQuality": 62,
+        "systemAttributionConfidence": 30
+      },
+      {
+        "world": 0,
+        "intent": "coercion",
+        "signature": "1-1-1|2-2-3|1-3-3|O-",
+        "incidentCause": "red_reversible_interference",
+        "trueIncidentAttribution": "red",
+        "redFinalAction": "deescalate_and_separate",
+        "mission": 87,
+        "escalation": 32,
+        "coalition": 91,
+        "informationQuality": 72,
+        "systemAttributionConfidence": 60
+      },
+      {
+        "world": 0,
+        "intent": "coercion",
+        "signature": "1-1-1|2-2-3|2-3-3|O-",
+        "incidentCause": "red_reversible_interference",
+        "trueIncidentAttribution": "red",
+        "redFinalAction": "deescalate_and_separate",
+        "mission": 87,
+        "escalation": 32,
+        "coalition": 91,
+        "informationQuality": 72,
+        "systemAttributionConfidence": 60
+      },
+      {
+        "world": 0,
+        "intent": "coercion",
+        "signature": "1-1-1|2-2-3|3-3-3|O-",
+        "incidentCause": "red_reversible_interference",
+        "trueIncidentAttribution": "red",
+        "redFinalAction": "deescalate_and_separate",
+        "mission": 87,
+        "escalation": 32,
+        "coalition": 91,
+        "informationQuality": 72,
+        "systemAttributionConfidence": 60
+      },
+      {
+        "world": 0,
+        "intent": "coercion",
+        "signature": "1-1-1|2-2-4|1-3-3|O-",
+        "incidentCause": "red_reversible_interference",
+        "trueIncidentAttribution": "red",
+        "redFinalAction": "deescalate_and_separate",
+        "mission": 87,
+        "escalation": 34,
+        "coalition": 100,
+        "informationQuality": 72,
+        "systemAttributionConfidence": 60
+      },
+      {
+        "world": 0,
+        "intent": "coercion",
+        "signature": "1-1-1|2-2-4|2-3-3|O-",
+        "incidentCause": "red_reversible_interference",
+        "trueIncidentAttribution": "red",
+        "redFinalAction": "deescalate_and_separate",
+        "mission": 87,
+        "escalation": 34,
+        "coalition": 100,
+        "informationQuality": 72,
+        "systemAttributionConfidence": 60
+      }
+    ],
+    "persistent_ambiguity": [
+      {
+        "world": 0,
+        "intent": "probe",
+        "signature": "1-1-1|1-1-1|1-1-1|O-",
+        "incidentCause": "mixed_cause",
+        "trueIncidentAttribution": "mixed",
+        "redFinalAction": "maintain_ambiguous_pressure",
+        "mission": 75,
+        "escalation": 22,
+        "coalition": 71,
+        "informationQuality": 67,
+        "systemAttributionConfidence": 28
+      },
+      {
+        "world": 0,
+        "intent": "probe",
+        "signature": "1-1-1|1-1-1|1-1-2|O-",
+        "incidentCause": "mixed_cause",
+        "trueIncidentAttribution": "mixed",
+        "redFinalAction": "maintain_ambiguous_pressure",
+        "mission": 75,
+        "escalation": 22,
+        "coalition": 79,
+        "informationQuality": 67,
+        "systemAttributionConfidence": 28
+      },
+      {
+        "world": 0,
+        "intent": "probe",
+        "signature": "1-1-1|1-1-1|1-1-3|O-",
+        "incidentCause": "mixed_cause",
+        "trueIncidentAttribution": "mixed",
+        "redFinalAction": "deny_and_hold",
+        "mission": 79,
+        "escalation": 19,
+        "coalition": 73,
+        "informationQuality": 67,
+        "systemAttributionConfidence": 28
+      },
+      {
+        "world": 0,
+        "intent": "probe",
+        "signature": "1-1-1|1-1-1|1-1-4|O-",
+        "incidentCause": "mixed_cause",
+        "trueIncidentAttribution": "mixed",
+        "redFinalAction": "deny_and_hold",
+        "mission": 79,
+        "escalation": 25,
+        "coalition": 65,
+        "informationQuality": 67,
+        "systemAttributionConfidence": 28
+      },
+      {
+        "world": 0,
+        "intent": "probe",
+        "signature": "1-1-1|1-1-1|1-2-1|O-",
+        "incidentCause": "mixed_cause",
+        "trueIncidentAttribution": "mixed",
+        "redFinalAction": "maintain_ambiguous_pressure",
+        "mission": 77,
+        "escalation": 31,
+        "coalition": 71,
+        "informationQuality": 60,
+        "systemAttributionConfidence": 28
+      },
+      {
+        "world": 0,
+        "intent": "probe",
+        "signature": "1-1-1|1-1-1|1-2-2|O-",
+        "incidentCause": "mixed_cause",
+        "trueIncidentAttribution": "mixed",
+        "redFinalAction": "maintain_ambiguous_pressure",
+        "mission": 77,
+        "escalation": 31,
+        "coalition": 79,
+        "informationQuality": 60,
+        "systemAttributionConfidence": 28
+      },
+      {
+        "world": 0,
+        "intent": "probe",
+        "signature": "1-1-1|1-1-1|1-2-3|O-",
+        "incidentCause": "mixed_cause",
+        "trueIncidentAttribution": "mixed",
+        "redFinalAction": "deny_and_hold",
+        "mission": 81,
+        "escalation": 28,
+        "coalition": 73,
+        "informationQuality": 60,
+        "systemAttributionConfidence": 28
+      },
+      {
+        "world": 0,
+        "intent": "probe",
+        "signature": "1-1-1|1-1-1|1-2-4|O-",
+        "incidentCause": "mixed_cause",
+        "trueIncidentAttribution": "mixed",
+        "redFinalAction": "deny_and_hold",
+        "mission": 81,
+        "escalation": 34,
+        "coalition": 65,
+        "informationQuality": 60,
+        "systemAttributionConfidence": 28
+      },
+      {
+        "world": 0,
+        "intent": "probe",
+        "signature": "1-1-1|1-1-1|1-3-1|O-",
+        "incidentCause": "mixed_cause",
+        "trueIncidentAttribution": "mixed",
+        "redFinalAction": "maintain_ambiguous_pressure",
+        "mission": 76,
+        "escalation": 31,
+        "coalition": 89,
+        "informationQuality": 60,
+        "systemAttributionConfidence": 28
+      },
+      {
+        "world": 0,
+        "intent": "probe",
+        "signature": "1-1-1|1-1-1|1-3-2|O-",
+        "incidentCause": "mixed_cause",
+        "trueIncidentAttribution": "mixed",
+        "redFinalAction": "maintain_ambiguous_pressure",
+        "mission": 76,
+        "escalation": 31,
+        "coalition": 97,
+        "informationQuality": 60,
+        "systemAttributionConfidence": 28
+      },
+      {
+        "world": 0,
+        "intent": "probe",
+        "signature": "1-1-1|1-1-1|1-3-3|O-",
+        "incidentCause": "mixed_cause",
+        "trueIncidentAttribution": "mixed",
+        "redFinalAction": "deny_and_hold",
+        "mission": 80,
+        "escalation": 28,
+        "coalition": 91,
+        "informationQuality": 60,
+        "systemAttributionConfidence": 28
+      },
+      {
+        "world": 0,
+        "intent": "probe",
+        "signature": "1-1-1|1-1-1|1-3-4|O-",
+        "incidentCause": "mixed_cause",
+        "trueIncidentAttribution": "mixed",
+        "redFinalAction": "deny_and_hold",
+        "mission": 80,
+        "escalation": 34,
+        "coalition": 77,
+        "informationQuality": 60,
+        "systemAttributionConfidence": 28
+      },
+      {
+        "world": 0,
+        "intent": "probe",
+        "signature": "1-1-1|1-1-1|1-5-1|O-",
+        "incidentCause": "mixed_cause",
+        "trueIncidentAttribution": "mixed",
+        "redFinalAction": "maintain_ambiguous_pressure",
+        "mission": 76,
+        "escalation": 40,
+        "coalition": 71,
+        "informationQuality": 60,
+        "systemAttributionConfidence": 28
+      },
+      {
+        "world": 0,
+        "intent": "probe",
+        "signature": "1-1-1|1-1-1|1-5-2|O-",
+        "incidentCause": "mixed_cause",
+        "trueIncidentAttribution": "mixed",
+        "redFinalAction": "maintain_ambiguous_pressure",
+        "mission": 76,
+        "escalation": 40,
+        "coalition": 79,
+        "informationQuality": 60,
+        "systemAttributionConfidence": 28
+      },
+      {
+        "world": 0,
+        "intent": "probe",
+        "signature": "1-1-1|1-1-1|1-5-3|O-",
+        "incidentCause": "mixed_cause",
+        "trueIncidentAttribution": "mixed",
+        "redFinalAction": "deny_and_hold",
+        "mission": 80,
+        "escalation": 37,
+        "coalition": 73,
+        "informationQuality": 60,
+        "systemAttributionConfidence": 28
+      },
+      {
+        "world": 0,
+        "intent": "probe",
+        "signature": "1-1-1|1-1-1|1-5-4|O-",
+        "incidentCause": "mixed_cause",
+        "trueIncidentAttribution": "mixed",
+        "redFinalAction": "deny_and_hold",
+        "mission": 80,
+        "escalation": 43,
+        "coalition": 65,
+        "informationQuality": 60,
+        "systemAttributionConfidence": 28
+      },
+      {
+        "world": 0,
+        "intent": "probe",
+        "signature": "1-1-1|1-1-1|2-1-1|O-",
+        "incidentCause": "mixed_cause",
+        "trueIncidentAttribution": "mixed",
+        "redFinalAction": "maintain_ambiguous_pressure",
+        "mission": 75,
+        "escalation": 22,
+        "coalition": 71,
+        "informationQuality": 67,
+        "systemAttributionConfidence": 28
+      },
+      {
+        "world": 0,
+        "intent": "probe",
+        "signature": "1-1-1|1-1-1|2-1-2|O-",
+        "incidentCause": "mixed_cause",
+        "trueIncidentAttribution": "mixed",
+        "redFinalAction": "maintain_ambiguous_pressure",
+        "mission": 75,
+        "escalation": 22,
+        "coalition": 79,
+        "informationQuality": 67,
+        "systemAttributionConfidence": 28
+      },
+      {
+        "world": 0,
+        "intent": "probe",
+        "signature": "1-1-1|1-1-1|2-1-3|O-",
+        "incidentCause": "mixed_cause",
+        "trueIncidentAttribution": "mixed",
+        "redFinalAction": "deny_and_hold",
+        "mission": 79,
+        "escalation": 19,
+        "coalition": 73,
+        "informationQuality": 67,
+        "systemAttributionConfidence": 28
+      },
+      {
+        "world": 0,
+        "intent": "probe",
+        "signature": "1-1-1|1-1-1|2-1-4|O-",
+        "incidentCause": "mixed_cause",
+        "trueIncidentAttribution": "mixed",
+        "redFinalAction": "deny_and_hold",
+        "mission": 79,
+        "escalation": 25,
+        "coalition": 65,
+        "informationQuality": 67,
+        "systemAttributionConfidence": 28
+      }
+    ],
+    "strategic_information_opportunity": [
+      {
+        "world": 0,
+        "intent": "probe",
+        "signature": "2-1-1|2-1-1|1-1-1|O-",
+        "incidentCause": "mixed_cause",
+        "trueIncidentAttribution": "mixed",
+        "redFinalAction": "maintain_ambiguous_pressure",
+        "mission": 76,
+        "escalation": 22,
+        "coalition": 71,
+        "informationQuality": 89,
+        "systemAttributionConfidence": 59
+      },
+      {
+        "world": 0,
+        "intent": "probe",
+        "signature": "2-1-1|2-1-1|1-1-2|O-",
+        "incidentCause": "mixed_cause",
+        "trueIncidentAttribution": "mixed",
+        "redFinalAction": "maintain_ambiguous_pressure",
+        "mission": 76,
+        "escalation": 22,
+        "coalition": 79,
+        "informationQuality": 89,
+        "systemAttributionConfidence": 59
+      },
+      {
+        "world": 0,
+        "intent": "probe",
+        "signature": "2-1-1|2-1-1|1-1-3|O-",
+        "incidentCause": "mixed_cause",
+        "trueIncidentAttribution": "mixed",
+        "redFinalAction": "maintain_ambiguous_pressure",
+        "mission": 76,
+        "escalation": 26,
+        "coalition": 73,
+        "informationQuality": 89,
+        "systemAttributionConfidence": 59
+      },
+      {
+        "world": 0,
+        "intent": "probe",
+        "signature": "2-1-1|2-1-1|1-1-4|O-",
+        "incidentCause": "mixed_cause",
+        "trueIncidentAttribution": "mixed",
+        "redFinalAction": "deny_and_hold",
+        "mission": 80,
+        "escalation": 25,
+        "coalition": 77,
+        "informationQuality": 89,
+        "systemAttributionConfidence": 59
+      },
+      {
+        "world": 0,
+        "intent": "probe",
+        "signature": "2-1-1|2-1-1|1-2-1|O-",
+        "incidentCause": "mixed_cause",
+        "trueIncidentAttribution": "mixed",
+        "redFinalAction": "maintain_ambiguous_pressure",
+        "mission": 78,
+        "escalation": 31,
+        "coalition": 71,
+        "informationQuality": 82,
+        "systemAttributionConfidence": 59
+      },
+      {
+        "world": 0,
+        "intent": "probe",
+        "signature": "2-1-1|2-1-1|1-2-2|O-",
+        "incidentCause": "mixed_cause",
+        "trueIncidentAttribution": "mixed",
+        "redFinalAction": "maintain_ambiguous_pressure",
+        "mission": 78,
+        "escalation": 31,
+        "coalition": 79,
+        "informationQuality": 82,
+        "systemAttributionConfidence": 59
+      },
+      {
+        "world": 0,
+        "intent": "probe",
+        "signature": "2-1-1|2-1-1|1-2-3|O-",
+        "incidentCause": "mixed_cause",
+        "trueIncidentAttribution": "mixed",
+        "redFinalAction": "maintain_ambiguous_pressure",
+        "mission": 78,
+        "escalation": 35,
+        "coalition": 73,
+        "informationQuality": 82,
+        "systemAttributionConfidence": 59
+      },
+      {
+        "world": 0,
+        "intent": "probe",
+        "signature": "2-1-1|2-1-1|1-2-4|O-",
+        "incidentCause": "mixed_cause",
+        "trueIncidentAttribution": "mixed",
+        "redFinalAction": "deny_and_hold",
+        "mission": 82,
+        "escalation": 34,
+        "coalition": 77,
+        "informationQuality": 82,
+        "systemAttributionConfidence": 59
+      },
+      {
+        "world": 0,
+        "intent": "probe",
+        "signature": "2-1-1|2-1-1|1-3-1|O-",
+        "incidentCause": "mixed_cause",
+        "trueIncidentAttribution": "mixed",
+        "redFinalAction": "maintain_ambiguous_pressure",
+        "mission": 77,
+        "escalation": 31,
+        "coalition": 89,
+        "informationQuality": 82,
+        "systemAttributionConfidence": 59
+      },
+      {
+        "world": 0,
+        "intent": "probe",
+        "signature": "2-1-1|2-1-1|1-3-2|O-",
+        "incidentCause": "mixed_cause",
+        "trueIncidentAttribution": "mixed",
+        "redFinalAction": "maintain_ambiguous_pressure",
+        "mission": 77,
+        "escalation": 31,
+        "coalition": 97,
+        "informationQuality": 82,
+        "systemAttributionConfidence": 59
+      },
+      {
+        "world": 0,
+        "intent": "probe",
+        "signature": "2-1-1|2-1-1|1-3-3|O-",
+        "incidentCause": "mixed_cause",
+        "trueIncidentAttribution": "mixed",
+        "redFinalAction": "maintain_ambiguous_pressure",
+        "mission": 77,
+        "escalation": 35,
+        "coalition": 91,
+        "informationQuality": 82,
+        "systemAttributionConfidence": 59
+      },
+      {
+        "world": 0,
+        "intent": "probe",
+        "signature": "2-1-1|2-1-1|1-3-4|O-",
+        "incidentCause": "mixed_cause",
+        "trueIncidentAttribution": "mixed",
+        "redFinalAction": "deny_and_hold",
+        "mission": 81,
+        "escalation": 34,
+        "coalition": 95,
+        "informationQuality": 82,
+        "systemAttributionConfidence": 59
+      },
+      {
+        "world": 0,
+        "intent": "probe",
+        "signature": "2-1-1|2-1-1|1-5-1|O-",
+        "incidentCause": "mixed_cause",
+        "trueIncidentAttribution": "mixed",
+        "redFinalAction": "maintain_ambiguous_pressure",
+        "mission": 77,
+        "escalation": 40,
+        "coalition": 71,
+        "informationQuality": 82,
+        "systemAttributionConfidence": 59
+      },
+      {
+        "world": 0,
+        "intent": "probe",
+        "signature": "2-1-1|2-1-1|1-5-2|O-",
+        "incidentCause": "mixed_cause",
+        "trueIncidentAttribution": "mixed",
+        "redFinalAction": "maintain_ambiguous_pressure",
+        "mission": 77,
+        "escalation": 40,
+        "coalition": 79,
+        "informationQuality": 82,
+        "systemAttributionConfidence": 59
+      },
+      {
+        "world": 0,
+        "intent": "probe",
+        "signature": "2-1-1|2-1-1|1-5-3|O-",
+        "incidentCause": "mixed_cause",
+        "trueIncidentAttribution": "mixed",
+        "redFinalAction": "maintain_ambiguous_pressure",
+        "mission": 77,
+        "escalation": 44,
+        "coalition": 73,
+        "informationQuality": 82,
+        "systemAttributionConfidence": 59
+      },
+      {
+        "world": 0,
+        "intent": "probe",
+        "signature": "2-1-1|2-1-1|1-5-4|O-",
+        "incidentCause": "mixed_cause",
+        "trueIncidentAttribution": "mixed",
+        "redFinalAction": "deny_and_hold",
+        "mission": 81,
+        "escalation": 43,
+        "coalition": 77,
+        "informationQuality": 82,
+        "systemAttributionConfidence": 59
+      },
+      {
+        "world": 0,
+        "intent": "probe",
+        "signature": "2-1-1|2-1-1|2-1-1|O-",
+        "incidentCause": "mixed_cause",
+        "trueIncidentAttribution": "mixed",
+        "redFinalAction": "maintain_ambiguous_pressure",
+        "mission": 76,
+        "escalation": 22,
+        "coalition": 71,
+        "informationQuality": 89,
+        "systemAttributionConfidence": 59
+      },
+      {
+        "world": 0,
+        "intent": "probe",
+        "signature": "2-1-1|2-1-1|2-1-2|O-",
+        "incidentCause": "mixed_cause",
+        "trueIncidentAttribution": "mixed",
+        "redFinalAction": "maintain_ambiguous_pressure",
+        "mission": 76,
+        "escalation": 22,
+        "coalition": 79,
+        "informationQuality": 89,
+        "systemAttributionConfidence": 59
+      },
+      {
+        "world": 0,
+        "intent": "probe",
+        "signature": "2-1-1|2-1-1|2-1-3|O-",
+        "incidentCause": "mixed_cause",
+        "trueIncidentAttribution": "mixed",
+        "redFinalAction": "maintain_ambiguous_pressure",
+        "mission": 76,
+        "escalation": 26,
+        "coalition": 73,
+        "informationQuality": 89,
+        "systemAttributionConfidence": 59
+      },
+      {
+        "world": 0,
+        "intent": "probe",
+        "signature": "2-1-1|2-1-1|2-1-4|O-",
+        "incidentCause": "mixed_cause",
+        "trueIncidentAttribution": "mixed",
+        "redFinalAction": "deny_and_hold",
+        "mission": 80,
+        "escalation": 25,
+        "coalition": 77,
+        "informationQuality": 89,
+        "systemAttributionConfidence": 59
+      }
+    ],
+    "mixed_crisis_containment": [
+      {
+        "world": 0,
+        "intent": "probe",
+        "signature": "2-1-1|2-1-3|1-5-3|O-",
+        "incidentCause": "mixed_cause",
+        "trueIncidentAttribution": "mixed",
+        "redFinalAction": "maintain_ambiguous_pressure",
+        "mission": 77,
+        "escalation": 47,
+        "coalition": 73,
+        "informationQuality": 82,
+        "systemAttributionConfidence": 59
+      },
+      {
+        "world": 0,
+        "intent": "probe",
+        "signature": "2-1-1|2-1-3|1-5-4|O-",
+        "incidentCause": "mixed_cause",
+        "trueIncidentAttribution": "mixed",
+        "redFinalAction": "deny_and_hold",
+        "mission": 81,
+        "escalation": 46,
+        "coalition": 77,
+        "informationQuality": 82,
+        "systemAttributionConfidence": 59
+      },
+      {
+        "world": 0,
+        "intent": "probe",
+        "signature": "2-1-1|2-1-3|2-5-3|O-",
+        "incidentCause": "mixed_cause",
+        "trueIncidentAttribution": "mixed",
+        "redFinalAction": "maintain_ambiguous_pressure",
+        "mission": 77,
+        "escalation": 47,
+        "coalition": 73,
+        "informationQuality": 82,
+        "systemAttributionConfidence": 59
+      },
+      {
+        "world": 0,
+        "intent": "probe",
+        "signature": "2-1-1|2-1-3|2-5-4|O-",
+        "incidentCause": "mixed_cause",
+        "trueIncidentAttribution": "mixed",
+        "redFinalAction": "deny_and_hold",
+        "mission": 81,
+        "escalation": 46,
+        "coalition": 77,
+        "informationQuality": 82,
+        "systemAttributionConfidence": 59
+      },
+      {
+        "world": 0,
+        "intent": "probe",
+        "signature": "2-1-1|2-1-3|3-5-3|O-",
+        "incidentCause": "mixed_cause",
+        "trueIncidentAttribution": "mixed",
+        "redFinalAction": "maintain_ambiguous_pressure",
+        "mission": 77,
+        "escalation": 47,
+        "coalition": 73,
+        "informationQuality": 82,
+        "systemAttributionConfidence": 59
+      },
+      {
+        "world": 0,
+        "intent": "probe",
+        "signature": "2-1-1|2-1-3|3-5-4|O-",
+        "incidentCause": "mixed_cause",
+        "trueIncidentAttribution": "mixed",
+        "redFinalAction": "deny_and_hold",
+        "mission": 81,
+        "escalation": 46,
+        "coalition": 77,
+        "informationQuality": 82,
+        "systemAttributionConfidence": 59
+      },
+      {
+        "world": 0,
+        "intent": "probe",
+        "signature": "2-1-1|2-1-4|1-5-3|O-",
+        "incidentCause": "mixed_cause",
+        "trueIncidentAttribution": "mixed",
+        "redFinalAction": "maintain_ambiguous_pressure",
+        "mission": 77,
+        "escalation": 49,
+        "coalition": 85,
+        "informationQuality": 82,
+        "systemAttributionConfidence": 59
+      },
+      {
+        "world": 0,
+        "intent": "probe",
+        "signature": "2-1-1|2-1-4|1-5-4|O-",
+        "incidentCause": "mixed_cause",
+        "trueIncidentAttribution": "mixed",
+        "redFinalAction": "deny_and_hold",
+        "mission": 81,
+        "escalation": 48,
+        "coalition": 89,
+        "informationQuality": 82,
+        "systemAttributionConfidence": 59
+      },
+      {
+        "world": 0,
+        "intent": "probe",
+        "signature": "2-1-1|2-1-4|2-5-3|O-",
+        "incidentCause": "mixed_cause",
+        "trueIncidentAttribution": "mixed",
+        "redFinalAction": "maintain_ambiguous_pressure",
+        "mission": 77,
+        "escalation": 49,
+        "coalition": 85,
+        "informationQuality": 82,
+        "systemAttributionConfidence": 59
+      },
+      {
+        "world": 0,
+        "intent": "probe",
+        "signature": "2-1-1|2-1-4|2-5-4|O-",
+        "incidentCause": "mixed_cause",
+        "trueIncidentAttribution": "mixed",
+        "redFinalAction": "deny_and_hold",
+        "mission": 81,
+        "escalation": 48,
+        "coalition": 89,
+        "informationQuality": 82,
+        "systemAttributionConfidence": 59
+      },
+      {
+        "world": 0,
+        "intent": "probe",
+        "signature": "2-1-1|2-1-4|3-5-3|O-",
+        "incidentCause": "mixed_cause",
+        "trueIncidentAttribution": "mixed",
+        "redFinalAction": "maintain_ambiguous_pressure",
+        "mission": 77,
+        "escalation": 49,
+        "coalition": 85,
+        "informationQuality": 82,
+        "systemAttributionConfidence": 59
+      },
+      {
+        "world": 0,
+        "intent": "probe",
+        "signature": "2-1-1|2-1-4|3-5-4|O-",
+        "incidentCause": "mixed_cause",
+        "trueIncidentAttribution": "mixed",
+        "redFinalAction": "deny_and_hold",
+        "mission": 81,
+        "escalation": 48,
+        "coalition": 89,
+        "informationQuality": 82,
+        "systemAttributionConfidence": 59
+      },
+      {
+        "world": 0,
+        "intent": "probe",
+        "signature": "2-1-1|2-1-5|1-5-1|O-",
+        "incidentCause": "mixed_cause",
+        "trueIncidentAttribution": "mixed",
+        "redFinalAction": "maintain_ambiguous_pressure",
+        "mission": 77,
+        "escalation": 46,
+        "coalition": 71,
+        "informationQuality": 82,
+        "systemAttributionConfidence": 59
+      },
+      {
+        "world": 0,
+        "intent": "probe",
+        "signature": "2-1-1|2-1-5|1-5-2|O-",
+        "incidentCause": "mixed_cause",
+        "trueIncidentAttribution": "mixed",
+        "redFinalAction": "maintain_ambiguous_pressure",
+        "mission": 77,
+        "escalation": 46,
+        "coalition": 79,
+        "informationQuality": 82,
+        "systemAttributionConfidence": 59
+      },
+      {
+        "world": 0,
+        "intent": "probe",
+        "signature": "2-1-1|2-1-5|1-5-3|O-",
+        "incidentCause": "mixed_cause",
+        "trueIncidentAttribution": "mixed",
+        "redFinalAction": "maintain_ambiguous_pressure",
+        "mission": 77,
+        "escalation": 50,
+        "coalition": 73,
+        "informationQuality": 82,
+        "systemAttributionConfidence": 59
+      },
+      {
+        "world": 0,
+        "intent": "probe",
+        "signature": "2-1-1|2-1-5|1-5-4|O-",
+        "incidentCause": "mixed_cause",
+        "trueIncidentAttribution": "mixed",
+        "redFinalAction": "deny_and_hold",
+        "mission": 81,
+        "escalation": 49,
+        "coalition": 77,
+        "informationQuality": 82,
+        "systemAttributionConfidence": 59
+      },
+      {
+        "world": 0,
+        "intent": "probe",
+        "signature": "2-1-1|2-1-5|2-5-1|O-",
+        "incidentCause": "mixed_cause",
+        "trueIncidentAttribution": "mixed",
+        "redFinalAction": "maintain_ambiguous_pressure",
+        "mission": 77,
+        "escalation": 46,
+        "coalition": 71,
+        "informationQuality": 82,
+        "systemAttributionConfidence": 59
+      },
+      {
+        "world": 0,
+        "intent": "probe",
+        "signature": "2-1-1|2-1-5|2-5-2|O-",
+        "incidentCause": "mixed_cause",
+        "trueIncidentAttribution": "mixed",
+        "redFinalAction": "maintain_ambiguous_pressure",
+        "mission": 77,
+        "escalation": 46,
+        "coalition": 79,
+        "informationQuality": 82,
+        "systemAttributionConfidence": 59
+      },
+      {
+        "world": 0,
+        "intent": "probe",
+        "signature": "2-1-1|2-1-5|2-5-3|O-",
+        "incidentCause": "mixed_cause",
+        "trueIncidentAttribution": "mixed",
+        "redFinalAction": "maintain_ambiguous_pressure",
+        "mission": 77,
+        "escalation": 50,
+        "coalition": 73,
+        "informationQuality": 82,
+        "systemAttributionConfidence": 59
+      },
+      {
+        "world": 0,
+        "intent": "probe",
+        "signature": "2-1-1|2-1-5|2-5-4|O-",
+        "incidentCause": "mixed_cause",
+        "trueIncidentAttribution": "mixed",
+        "redFinalAction": "deny_and_hold",
+        "mission": 81,
+        "escalation": 49,
+        "coalition": 77,
+        "informationQuality": 82,
+        "systemAttributionConfidence": 59
+      }
+    ]
+  },
+  "hiddenWorlds": [
+    {
+      "world": 0,
+      "worldSeed": "scenario4-exhaustive-world-0",
+      "intent": "probe",
+      "incidentCause": "mixed_cause",
+      "trueIncidentAttribution": "mixed"
+    },
+    {
+      "world": 0,
+      "worldSeed": "scenario4-exhaustive-world-0",
+      "intent": "intelligence_collection",
+      "incidentCause": "red_reversible_interference",
+      "trueIncidentAttribution": "red"
+    },
+    {
+      "world": 0,
+      "worldSeed": "scenario4-exhaustive-world-0",
+      "intent": "coercion",
+      "incidentCause": "red_reversible_interference",
+      "trueIncidentAttribution": "red"
+    },
+    {
+      "world": 0,
+      "worldSeed": "scenario4-exhaustive-world-0",
+      "intent": "alliance_fracture",
+      "incidentCause": "mixed_cause",
+      "trueIncidentAttribution": "mixed"
+    },
+    {
+      "world": 0,
+      "worldSeed": "scenario4-exhaustive-world-0",
+      "intent": "benign_ambiguous",
+      "incidentCause": "environmental_or_external",
+      "trueIncidentAttribution": "non_red"
+    },
+    {
+      "world": 1,
+      "worldSeed": "scenario4-exhaustive-world-1",
+      "intent": "probe",
+      "incidentCause": "mixed_cause",
+      "trueIncidentAttribution": "mixed"
+    },
+    {
+      "world": 1,
+      "worldSeed": "scenario4-exhaustive-world-1",
+      "intent": "intelligence_collection",
+      "incidentCause": "technical_fault",
+      "trueIncidentAttribution": "non_red"
+    },
+    {
+      "world": 1,
+      "worldSeed": "scenario4-exhaustive-world-1",
+      "intent": "coercion",
+      "incidentCause": "red_reversible_interference",
+      "trueIncidentAttribution": "red"
+    },
+    {
+      "world": 1,
+      "worldSeed": "scenario4-exhaustive-world-1",
+      "intent": "alliance_fracture",
+      "incidentCause": "red_reversible_interference",
+      "trueIncidentAttribution": "red"
+    },
+    {
+      "world": 1,
+      "worldSeed": "scenario4-exhaustive-world-1",
+      "intent": "benign_ambiguous",
+      "incidentCause": "red_reversible_interference",
+      "trueIncidentAttribution": "red"
+    },
+    {
+      "world": 2,
+      "worldSeed": "scenario4-exhaustive-world-2",
+      "intent": "probe",
+      "incidentCause": "environmental_or_external",
+      "trueIncidentAttribution": "non_red"
+    },
+    {
+      "world": 2,
+      "worldSeed": "scenario4-exhaustive-world-2",
+      "intent": "intelligence_collection",
+      "incidentCause": "environmental_or_external",
+      "trueIncidentAttribution": "non_red"
+    },
+    {
+      "world": 2,
+      "worldSeed": "scenario4-exhaustive-world-2",
+      "intent": "coercion",
+      "incidentCause": "environmental_or_external",
+      "trueIncidentAttribution": "non_red"
+    },
+    {
+      "world": 2,
+      "worldSeed": "scenario4-exhaustive-world-2",
+      "intent": "alliance_fracture",
+      "incidentCause": "red_reversible_interference",
+      "trueIncidentAttribution": "red"
+    },
+    {
+      "world": 2,
+      "worldSeed": "scenario4-exhaustive-world-2",
+      "intent": "benign_ambiguous",
+      "incidentCause": "mixed_cause",
+      "trueIncidentAttribution": "mixed"
+    },
+    {
+      "world": 3,
+      "worldSeed": "scenario4-exhaustive-world-3",
+      "intent": "probe",
+      "incidentCause": "technical_fault",
+      "trueIncidentAttribution": "non_red"
+    },
+    {
+      "world": 3,
+      "worldSeed": "scenario4-exhaustive-world-3",
+      "intent": "intelligence_collection",
+      "incidentCause": "technical_fault",
+      "trueIncidentAttribution": "non_red"
+    },
+    {
+      "world": 3,
+      "worldSeed": "scenario4-exhaustive-world-3",
+      "intent": "coercion",
+      "incidentCause": "mixed_cause",
+      "trueIncidentAttribution": "mixed"
+    },
+    {
+      "world": 3,
+      "worldSeed": "scenario4-exhaustive-world-3",
+      "intent": "alliance_fracture",
+      "incidentCause": "environmental_or_external",
+      "trueIncidentAttribution": "non_red"
+    },
+    {
+      "world": 3,
+      "worldSeed": "scenario4-exhaustive-world-3",
+      "intent": "benign_ambiguous",
+      "incidentCause": "red_reversible_interference",
+      "trueIncidentAttribution": "red"
+    },
+    {
+      "world": 4,
+      "worldSeed": "scenario4-exhaustive-world-4",
+      "intent": "probe",
+      "incidentCause": "mixed_cause",
+      "trueIncidentAttribution": "mixed"
+    },
+    {
+      "world": 4,
+      "worldSeed": "scenario4-exhaustive-world-4",
+      "intent": "intelligence_collection",
+      "incidentCause": "technical_fault",
+      "trueIncidentAttribution": "non_red"
+    },
+    {
+      "world": 4,
+      "worldSeed": "scenario4-exhaustive-world-4",
+      "intent": "coercion",
+      "incidentCause": "red_reversible_interference",
+      "trueIncidentAttribution": "red"
+    },
+    {
+      "world": 4,
+      "worldSeed": "scenario4-exhaustive-world-4",
+      "intent": "alliance_fracture",
+      "incidentCause": "mixed_cause",
+      "trueIncidentAttribution": "mixed"
+    },
+    {
+      "world": 4,
+      "worldSeed": "scenario4-exhaustive-world-4",
+      "intent": "benign_ambiguous",
+      "incidentCause": "environmental_or_external",
+      "trueIncidentAttribution": "non_red"
+    }
+  ],
+  "confidence": {
+    "overall": {
+      "count": 41760000,
+      "min": 2,
+      "max": 72,
+      "p05": 10,
+      "p25": 20,
+      "p50": 29,
+      "p75": 42,
+      "p95": 60,
+      "thresholdCoverage": {
+        "gte35": {
+          "count": 15117120,
+          "share": 0.362
+        },
+        "gte40": {
+          "count": 12121920,
+          "share": 0.2902758620689655
+        },
+        "gte45": {
+          "count": 8879040,
+          "share": 0.21262068965517242
+        },
+        "gte50": {
+          "count": 6917760,
+          "share": 0.1656551724137931
+        },
+        "gte55": {
+          "count": 5077440,
+          "share": 0.12158620689655172
+        },
+        "gte60": {
+          "count": 2615040,
+          "share": 0.06262068965517241
+        },
+        "gte70": {
+          "count": 691200,
+          "share": 0.016551724137931035
+        }
+      },
+      "histogram": {
+        "2": 288000,
+        "6": 144000,
+        "8": 1008000,
+        "10": 1002240,
+        "11": 288000,
+        "12": 460800,
+        "13": 144000,
+        "14": 956160,
+        "15": 417600,
+        "16": 763200,
+        "17": 835200,
+        "18": 1463040,
+        "19": 1215360,
+        "20": 3628800,
+        "21": 345600,
+        "22": 1267200,
+        "23": 642240,
+        "24": 763200,
+        "26": 1431360,
+        "27": 763200,
+        "28": 2361600,
+        "29": 2088000,
+        "30": 1036800,
+        "31": 129600,
+        "32": 2404800,
+        "34": 794880,
+        "35": 547200,
+        "36": 417600,
+        "37": 561600,
+        "38": 777600,
+        "39": 691200,
+        "40": 904320,
+        "42": 2010240,
+        "43": 328320,
+        "45": 144000,
+        "46": 665280,
+        "47": 561600,
+        "48": 141120,
+        "49": 449280,
+        "50": 604800,
+        "51": 354240,
+        "52": 112320,
+        "54": 768960,
+        "55": 417600,
+        "56": 561600,
+        "58": 368640,
+        "59": 1114560,
+        "60": 691200,
+        "62": 138240,
+        "68": 403200,
+        "69": 691200,
+        "72": 691200
+      }
+    },
+    "byIntent": {
+      "probe": {
+        "count": 7200000,
+        "min": 2,
+        "max": 59,
+        "p05": 10,
+        "p25": 20,
+        "p50": 28,
+        "p75": 40,
+        "p95": 56,
+        "thresholdCoverage": {
+          "gte35": {
+            "count": 2361600,
+            "share": 0.328
+          },
+          "gte40": {
+            "count": 1915200,
+            "share": 0.266
+          },
+          "gte45": {
+            "count": 1353600,
+            "share": 0.188
+          },
+          "gte50": {
+            "count": 619200,
+            "share": 0.086
+          },
+          "gte55": {
+            "count": 576000,
+            "share": 0.08
+          },
+          "gte60": {
+            "count": 0,
+            "share": 0
+          },
+          "gte70": {
+            "count": 0,
+            "share": 0
+          }
+        },
+        "histogram": {
+          "2": 72000,
+          "8": 144000,
+          "10": 172800,
+          "11": 72000,
+          "12": 144000,
+          "14": 187200,
+          "16": 144000,
+          "17": 144000,
+          "18": 244800,
+          "19": 187200,
+          "20": 720000,
+          "21": 144000,
+          "22": 216000,
+          "23": 100800,
+          "24": 144000,
+          "26": 259200,
+          "27": 72000,
+          "28": 504000,
+          "29": 360000,
+          "30": 72000,
+          "32": 489600,
+          "34": 244800,
+          "35": 72000,
+          "36": 144000,
+          "37": 216000,
+          "38": 14400,
+          "40": 259200,
+          "42": 187200,
+          "43": 115200,
+          "45": 72000,
+          "46": 244800,
+          "47": 216000,
+          "48": 28800,
+          "49": 172800,
+          "52": 43200,
+          "55": 144000,
+          "56": 216000,
+          "59": 216000
+        }
+      },
+      "intelligence_collection": {
+        "count": 7200000,
+        "min": 2,
+        "max": 72,
+        "p05": 8,
+        "p25": 14,
+        "p50": 20,
+        "p75": 28,
+        "p95": 54,
+        "thresholdCoverage": {
+          "gte35": {
+            "count": 864000,
+            "share": 0.12
+          },
+          "gte40": {
+            "count": 648000,
+            "share": 0.09
+          },
+          "gte45": {
+            "count": 460800,
+            "share": 0.064
+          },
+          "gte50": {
+            "count": 446400,
+            "share": 0.062
+          },
+          "gte55": {
+            "count": 360000,
+            "share": 0.05
+          },
+          "gte60": {
+            "count": 230400,
+            "share": 0.032
+          },
+          "gte70": {
+            "count": 72000,
+            "share": 0.01
+          }
+        },
+        "histogram": {
+          "2": 216000,
+          "6": 72000,
+          "8": 374400,
+          "10": 345600,
+          "11": 216000,
+          "12": 57600,
+          "13": 72000,
+          "14": 446400,
+          "15": 216000,
+          "16": 216000,
+          "17": 288000,
+          "18": 259200,
+          "19": 302400,
+          "20": 720000,
+          "22": 302400,
+          "23": 201600,
+          "24": 216000,
+          "26": 374400,
+          "27": 288000,
+          "28": 288000,
+          "29": 360000,
+          "30": 144000,
+          "32": 360000,
+          "35": 72000,
+          "38": 72000,
+          "39": 72000,
+          "40": 57600,
+          "42": 129600,
+          "48": 14400,
+          "50": 14400,
+          "51": 14400,
+          "54": 57600,
+          "58": 72000,
+          "59": 57600,
+          "60": 72000,
+          "62": 14400,
+          "69": 72000,
+          "72": 72000
+        }
+      },
+      "coercion": {
+        "count": 7200000,
+        "min": 8,
+        "max": 72,
+        "p05": 16,
+        "p25": 24,
+        "p50": 35,
+        "p75": 50,
+        "p95": 69,
+        "thresholdCoverage": {
+          "gte35": {
+            "count": 3628800,
+            "share": 0.504
+          },
+          "gte40": {
+            "count": 3038400,
+            "share": 0.422
+          },
+          "gte45": {
+            "count": 2347200,
+            "share": 0.326
+          },
+          "gte50": {
+            "count": 2073600,
+            "share": 0.288
+          },
+          "gte55": {
+            "count": 1252800,
+            "share": 0.174
+          },
+          "gte60": {
+            "count": 835200,
+            "share": 0.116
+          },
+          "gte70": {
+            "count": 216000,
+            "share": 0.03
+          }
+        },
+        "histogram": {
+          "8": 72000,
+          "10": 86400,
+          "12": 72000,
+          "14": 57600,
+          "16": 144000,
+          "17": 72000,
+          "18": 302400,
+          "19": 129600,
+          "20": 576000,
+          "21": 72000,
+          "22": 144000,
+          "23": 14400,
+          "24": 72000,
+          "26": 201600,
+          "27": 72000,
+          "28": 360000,
+          "29": 360000,
+          "30": 288000,
+          "32": 417600,
+          "34": 57600,
+          "35": 72000,
+          "37": 72000,
+          "38": 230400,
+          "39": 216000,
+          "40": 144000,
+          "42": 532800,
+          "43": 14400,
+          "45": 72000,
+          "46": 57600,
+          "47": 72000,
+          "48": 14400,
+          "49": 57600,
+          "50": 302400,
+          "51": 187200,
+          "52": 14400,
+          "54": 316800,
+          "56": 72000,
+          "58": 100800,
+          "59": 244800,
+          "60": 216000,
+          "62": 43200,
+          "68": 144000,
+          "69": 216000,
+          "72": 216000
+        }
+      },
+      "alliance_fracture": {
+        "count": 7200000,
+        "min": 6,
+        "max": 72,
+        "p05": 12,
+        "p25": 26,
+        "p50": 36,
+        "p75": 47,
+        "p95": 60,
+        "thresholdCoverage": {
+          "gte35": {
+            "count": 3700800,
+            "share": 0.514
+          },
+          "gte40": {
+            "count": 3124800,
+            "share": 0.434
+          },
+          "gte45": {
+            "count": 2073600,
+            "share": 0.288
+          },
+          "gte50": {
+            "count": 1497600,
+            "share": 0.208
+          },
+          "gte55": {
+            "count": 1152000,
+            "share": 0.16
+          },
+          "gte60": {
+            "count": 460800,
+            "share": 0.064
+          },
+          "gte70": {
+            "count": 144000,
+            "share": 0.02
+          }
+        },
+        "histogram": {
+          "6": 72000,
+          "8": 158400,
+          "10": 86400,
+          "12": 57600,
+          "13": 72000,
+          "14": 57600,
+          "15": 72000,
+          "17": 72000,
+          "18": 216000,
+          "19": 129600,
+          "20": 576000,
+          "22": 86400,
+          "23": 14400,
+          "24": 72000,
+          "26": 129600,
+          "27": 72000,
+          "28": 432000,
+          "29": 360000,
+          "30": 144000,
+          "32": 360000,
+          "34": 259200,
+          "35": 72000,
+          "36": 144000,
+          "37": 144000,
+          "38": 72000,
+          "39": 144000,
+          "40": 288000,
+          "42": 590400,
+          "43": 172800,
+          "46": 259200,
+          "47": 144000,
+          "48": 57600,
+          "49": 115200,
+          "50": 28800,
+          "51": 100800,
+          "52": 28800,
+          "54": 187200,
+          "55": 144000,
+          "56": 144000,
+          "58": 144000,
+          "59": 259200,
+          "60": 144000,
+          "62": 28800,
+          "69": 144000,
+          "72": 144000
+        }
+      },
+      "benign_ambiguous": {
+        "count": 12960000,
+        "min": 8,
+        "max": 72,
+        "p05": 12,
+        "p25": 20,
+        "p50": 29,
+        "p75": 40,
+        "p95": 68,
+        "thresholdCoverage": {
+          "gte35": {
+            "count": 4561920,
+            "share": 0.352
+          },
+          "gte40": {
+            "count": 3395520,
+            "share": 0.262
+          },
+          "gte45": {
+            "count": 2643840,
+            "share": 0.204
+          },
+          "gte50": {
+            "count": 2280960,
+            "share": 0.176
+          },
+          "gte55": {
+            "count": 1736640,
+            "share": 0.134
+          },
+          "gte60": {
+            "count": 1088640,
+            "share": 0.084
+          },
+          "gte70": {
+            "count": 259200,
+            "share": 0.02
+          }
+        },
+        "histogram": {
+          "8": 259200,
+          "10": 311040,
+          "12": 129600,
+          "14": 207360,
+          "15": 129600,
+          "16": 259200,
+          "17": 259200,
+          "18": 440640,
+          "19": 466560,
+          "20": 1036800,
+          "21": 129600,
+          "22": 518400,
+          "23": 311040,
+          "24": 259200,
+          "26": 466560,
+          "27": 259200,
+          "28": 777600,
+          "29": 648000,
+          "30": 388800,
+          "31": 129600,
+          "32": 777600,
+          "34": 233280,
+          "35": 259200,
+          "36": 129600,
+          "37": 129600,
+          "38": 388800,
+          "39": 259200,
+          "40": 155520,
+          "42": 570240,
+          "43": 25920,
+          "46": 103680,
+          "47": 129600,
+          "48": 25920,
+          "49": 103680,
+          "50": 259200,
+          "51": 51840,
+          "52": 25920,
+          "54": 207360,
+          "55": 129600,
+          "56": 129600,
+          "58": 51840,
+          "59": 336960,
+          "60": 259200,
+          "62": 51840,
+          "68": 259200,
+          "69": 259200,
+          "72": 259200
+        }
+      }
+    },
+    "byIncidentCause": {
+      "mixed_cause": {
+        "count": 11232000,
+        "min": 16,
+        "max": 59,
+        "p05": 20,
+        "p25": 29,
+        "p50": 37,
+        "p75": 46,
+        "p95": 56,
+        "thresholdCoverage": {
+          "gte35": {
+            "count": 6318720,
+            "share": 0.5625641025641026
+          },
+          "gte40": {
+            "count": 5109120,
+            "share": 0.45487179487179485
+          },
+          "gte45": {
+            "count": 3556800,
+            "share": 0.31666666666666665
+          },
+          "gte50": {
+            "count": 1653120,
+            "share": 0.14717948717948717
+          },
+          "gte55": {
+            "count": 1540800,
+            "share": 0.1371794871794872
+          },
+          "gte60": {
+            "count": 0,
+            "share": 0
+          },
+          "gte70": {
+            "count": 0,
+            "share": 0
+          }
+        },
+        "histogram": {
+          "16": 72000,
+          "18": 288000,
+          "20": 633600,
+          "23": 201600,
+          "26": 216000,
+          "27": 144000,
+          "28": 979200,
+          "29": 561600,
+          "30": 144000,
+          "31": 129600,
+          "32": 878400,
+          "34": 665280,
+          "35": 201600,
+          "36": 417600,
+          "37": 561600,
+          "38": 28800,
+          "40": 673920,
+          "42": 550080,
+          "43": 328320,
+          "45": 144000,
+          "46": 665280,
+          "47": 561600,
+          "48": 83520,
+          "49": 449280,
+          "52": 112320,
+          "55": 417600,
+          "56": 561600,
+          "59": 561600
+        }
+      },
+      "red_reversible_interference": {
+        "count": 13824000,
+        "min": 18,
+        "max": 72,
+        "p05": 20,
+        "p25": 30,
+        "p50": 40,
+        "p75": 58,
+        "p95": 69,
+        "thresholdCoverage": {
+          "gte35": {
+            "count": 8798400,
+            "share": 0.6364583333333333
+          },
+          "gte40": {
+            "count": 7012800,
+            "share": 0.5072916666666667
+          },
+          "gte45": {
+            "count": 5322240,
+            "share": 0.385
+          },
+          "gte50": {
+            "count": 5264640,
+            "share": 0.38083333333333336
+          },
+          "gte55": {
+            "count": 3536640,
+            "share": 0.25583333333333336
+          },
+          "gte60": {
+            "count": 2615040,
+            "share": 0.18916666666666668
+          },
+          "gte70": {
+            "count": 691200,
+            "share": 0.05
+          }
+        },
+        "histogram": {
+          "18": 417600,
+          "20": 979200,
+          "26": 475200,
+          "27": 129600,
+          "28": 691200,
+          "29": 691200,
+          "30": 820800,
+          "32": 691200,
+          "34": 129600,
+          "35": 345600,
+          "38": 748800,
+          "39": 691200,
+          "40": 230400,
+          "42": 1460160,
+          "48": 57600,
+          "50": 604800,
+          "51": 354240,
+          "54": 768960,
+          "58": 368640,
+          "59": 552960,
+          "60": 691200,
+          "62": 138240,
+          "68": 403200,
+          "69": 691200,
+          "72": 691200
+        }
+      },
+      "environmental_or_external": {
+        "count": 10944000,
+        "min": 6,
+        "max": 32,
+        "p05": 8,
+        "p25": 15,
+        "p50": 20,
+        "p75": 24,
+        "p95": 29,
+        "thresholdCoverage": {
+          "gte35": {
+            "count": 0,
+            "share": 0
+          },
+          "gte40": {
+            "count": 0,
+            "share": 0
+          },
+          "gte45": {
+            "count": 0,
+            "share": 0
+          },
+          "gte50": {
+            "count": 0,
+            "share": 0
+          },
+          "gte55": {
+            "count": 0,
+            "share": 0
+          },
+          "gte60": {
+            "count": 0,
+            "share": 0
+          },
+          "gte70": {
+            "count": 0,
+            "share": 0
+          }
+        },
+        "histogram": {
+          "6": 144000,
+          "8": 720000,
+          "10": 656640,
+          "12": 388800,
+          "13": 144000,
+          "14": 437760,
+          "15": 273600,
+          "16": 403200,
+          "17": 547200,
+          "18": 627840,
+          "19": 984960,
+          "20": 1368000,
+          "21": 273600,
+          "22": 979200,
+          "23": 239040,
+          "24": 547200,
+          "26": 437760,
+          "27": 273600,
+          "28": 403200,
+          "29": 547200,
+          "32": 547200
+        }
+      },
+      "technical_fault": {
+        "count": 5760000,
+        "min": 2,
+        "max": 32,
+        "p05": 2,
+        "p25": 14,
+        "p50": 19,
+        "p75": 26,
+        "p95": 30,
+        "thresholdCoverage": {
+          "gte35": {
+            "count": 0,
+            "share": 0
+          },
+          "gte40": {
+            "count": 0,
+            "share": 0
+          },
+          "gte45": {
+            "count": 0,
+            "share": 0
+          },
+          "gte50": {
+            "count": 0,
+            "share": 0
+          },
+          "gte55": {
+            "count": 0,
+            "share": 0
+          },
+          "gte60": {
+            "count": 0,
+            "share": 0
+          },
+          "gte70": {
+            "count": 0,
+            "share": 0
+          }
+        },
+        "histogram": {
+          "2": 288000,
+          "8": 288000,
+          "10": 345600,
+          "11": 288000,
+          "12": 72000,
+          "14": 518400,
+          "15": 144000,
+          "16": 288000,
+          "17": 288000,
+          "18": 129600,
+          "19": 230400,
+          "20": 648000,
+          "21": 72000,
+          "22": 288000,
+          "23": 201600,
+          "24": 216000,
+          "26": 302400,
+          "27": 216000,
+          "28": 288000,
+          "29": 288000,
+          "30": 72000,
+          "32": 288000
+        }
+      }
+    }
+  },
+  "resources": {
+    "profile": "A",
+    "baseline": {
+      "ssaCapacity": 85,
+      "protectiveCapacity": 85,
+      "politicalCapital": 85,
+      "disclosureBudget": 75
+    },
+    "blockedAttemptsTotal": 0,
+    "blockedAttemptsByOption": {},
+    "phases": {
+      "move1": {
+        "paths": 2000,
+        "resources": {
+          "ssaCapacity": {
+            "count": 2000,
+            "min": 67,
+            "max": 85,
+            "mean": 78.5,
+            "p05": 67,
+            "p50": 77,
+            "p95": 85
+          },
+          "protectiveCapacity": {
+            "count": 2000,
+            "min": 57,
+            "max": 85,
+            "mean": 71,
+            "p05": 57,
+            "p50": 67,
+            "p95": 85
+          },
+          "politicalCapital": {
+            "count": 2000,
+            "min": 65,
+            "max": 85,
+            "mean": 75.9,
+            "p05": 65,
+            "p50": 75,
+            "p95": 85
+          },
+          "disclosureBudget": {
+            "count": 2000,
+            "min": 61,
+            "max": 75,
+            "mean": 70.9,
+            "p05": 61,
+            "p50": 70,
+            "p95": 75
+          }
+        },
+        "thresholdShares": {
+          "below70": 0.8,
+          "below50": 0,
+          "below30": 0,
+          "exactZero": 0
+        }
+      },
+      "move2": {
+        "paths": 300000,
+        "resources": {
+          "ssaCapacity": {
+            "count": 300000,
+            "min": 50,
+            "max": 85,
+            "mean": 74.75,
+            "p05": 50,
+            "p50": 79,
+            "p95": 85
+          },
+          "protectiveCapacity": {
+            "count": 300000,
+            "min": 29,
+            "max": 85,
+            "mean": 59.133,
+            "p05": 33,
+            "p50": 61,
+            "p95": 80
+          },
+          "politicalCapital": {
+            "count": 300000,
+            "min": 45,
+            "max": 85,
+            "mean": 67.408,
+            "p05": 55,
+            "p50": 68,
+            "p95": 79
+          },
+          "disclosureBudget": {
+            "count": 300000,
+            "min": 48,
+            "max": 75,
+            "mean": 68.767,
+            "p05": 59,
+            "p50": 69,
+            "p95": 75
+          }
+        },
+        "thresholdShares": {
+          "below70": 0.95387,
+          "below50": 0.2701,
+          "below30": 0.008333333333333333,
+          "exactZero": 0
+        }
+      },
+      "final": {
+        "paths": 41760000,
+        "resources": {
+          "ssaCapacity": {
+            "count": 41760000,
+            "min": 44,
+            "max": 85,
+            "mean": 77.249,
+            "p05": 55,
+            "p50": 82,
+            "p95": 85
+          },
+          "protectiveCapacity": {
+            "count": 41760000,
+            "min": 7,
+            "max": 85,
+            "mean": 52.967,
+            "p05": 27,
+            "p50": 53,
+            "p95": 79
+          },
+          "politicalCapital": {
+            "count": 41760000,
+            "min": 20,
+            "max": 85,
+            "mean": 53.929,
+            "p05": 38,
+            "p50": 54,
+            "p95": 71
+          },
+          "disclosureBudget": {
+            "count": 41760000,
+            "min": 18,
+            "max": 75,
+            "mean": 58.491,
+            "p05": 43,
+            "p50": 58,
+            "p95": 75
+          }
+        },
+        "thresholdShares": {
+          "below70": 0.997554382183908,
+          "below50": 0.6373676005747126,
+          "below30": 0.0785926724137931,
+          "exactZero": 0
+        }
+      }
+    },
+    "byEndState": {
+      "escalation_spiral": {
+        "ssaCapacity": {
+          "count": 306435,
+          "min": 44,
+          "max": 85,
+          "mean": 77.739,
+          "p05": 59,
+          "p50": 84,
+          "p95": 85
+        },
+        "protectiveCapacity": {
+          "count": 306435,
+          "min": 7,
+          "max": 77,
+          "mean": 32.207,
+          "p05": 11,
+          "p50": 31,
+          "p95": 57
+        },
+        "politicalCapital": {
+          "count": 306435,
+          "min": 22,
+          "max": 71,
+          "mean": 47.513,
+          "p05": 35,
+          "p50": 47,
+          "p95": 60
+        },
+        "disclosureBudget": {
+          "count": 306435,
+          "min": 18,
+          "max": 75,
+          "mean": 55.012,
+          "p05": 39,
+          "p50": 57,
+          "p95": 70
+        }
+      },
+      "intelligence_failure": {
+        "ssaCapacity": {
+          "count": 4165440,
+          "min": 44,
+          "max": 85,
+          "mean": 77.214,
+          "p05": 55,
+          "p50": 82,
+          "p95": 85
+        },
+        "protectiveCapacity": {
+          "count": 4165440,
+          "min": 7,
+          "max": 85,
+          "mean": 53.274,
+          "p05": 27,
+          "p50": 53,
+          "p95": 79
+        },
+        "politicalCapital": {
+          "count": 4165440,
+          "min": 20,
+          "max": 77,
+          "mean": 49.153,
+          "p05": 35,
+          "p50": 49,
+          "p95": 65
+        },
+        "disclosureBudget": {
+          "count": 4165440,
+          "min": 18,
+          "max": 57,
+          "mean": 49.956,
+          "p05": 37,
+          "p50": 51,
+          "p95": 57
+        }
+      },
+      "coalition_fracture": {
+        "ssaCapacity": {
+          "count": 84516,
+          "min": 61,
+          "max": 85,
+          "mean": 79.259,
+          "p05": 67,
+          "p50": 84,
+          "p95": 85
+        },
+        "protectiveCapacity": {
+          "count": 84516,
+          "min": 11,
+          "max": 82,
+          "mean": 51.108,
+          "p05": 23,
+          "p50": 53,
+          "p95": 76
+        },
+        "politicalCapital": {
+          "count": 84516,
+          "min": 33,
+          "max": 64,
+          "mean": 48.764,
+          "p05": 40,
+          "p50": 48,
+          "p95": 61
+        },
+        "disclosureBudget": {
+          "count": 84516,
+          "min": 40,
+          "max": 57,
+          "mean": 56.046,
+          "p05": 49,
+          "p50": 57,
+          "p95": 57
+        }
+      },
+      "negotiated_deescalation": {
+        "ssaCapacity": {
+          "count": 14144928,
+          "min": 44,
+          "max": 85,
+          "mean": 77.255,
+          "p05": 55,
+          "p50": 82,
+          "p95": 85
+        },
+        "protectiveCapacity": {
+          "count": 14144928,
+          "min": 11,
+          "max": 85,
+          "mean": 55.343,
+          "p05": 29,
+          "p50": 57,
+          "p95": 81
+        },
+        "politicalCapital": {
+          "count": 14144928,
+          "min": 23,
+          "max": 85,
+          "mean": 56.341,
+          "p05": 41,
+          "p50": 56,
+          "p95": 73
+        },
+        "disclosureBudget": {
+          "count": 14144928,
+          "min": 26,
+          "max": 75,
+          "mean": 62.054,
+          "p05": 48,
+          "p50": 63,
+          "p95": 75
+        }
+      },
+      "calm_crisis_control": {
+        "ssaCapacity": {
+          "count": 295017,
+          "min": 44,
+          "max": 85,
+          "mean": 77.029,
+          "p05": 55,
+          "p50": 78,
+          "p95": 85
+        },
+        "protectiveCapacity": {
+          "count": 295017,
+          "min": 15,
+          "max": 79,
+          "mean": 50.007,
+          "p05": 27,
+          "p50": 51,
+          "p95": 71
+        },
+        "politicalCapital": {
+          "count": 295017,
+          "min": 27,
+          "max": 77,
+          "mean": 53.87,
+          "p05": 40,
+          "p50": 54,
+          "p95": 68
+        },
+        "disclosureBudget": {
+          "count": 295017,
+          "min": 24,
+          "max": 75,
+          "mean": 55.334,
+          "p05": 41,
+          "p50": 55,
+          "p95": 69
+        }
+      },
+      "costly_deterrence": {
+        "ssaCapacity": {
+          "count": 196059,
+          "min": 44,
+          "max": 85,
+          "mean": 76.428,
+          "p05": 52,
+          "p50": 82,
+          "p95": 85
+        },
+        "protectiveCapacity": {
+          "count": 196059,
+          "min": 15,
+          "max": 79,
+          "mean": 40.97,
+          "p05": 21,
+          "p50": 41,
+          "p95": 63
+        },
+        "politicalCapital": {
+          "count": 196059,
+          "min": 25,
+          "max": 77,
+          "mean": 49.553,
+          "p05": 37,
+          "p50": 49,
+          "p95": 63
+        },
+        "disclosureBudget": {
+          "count": 196059,
+          "min": 24,
+          "max": 75,
+          "mean": 52.218,
+          "p05": 38,
+          "p50": 52,
+          "p95": 67
+        }
+      },
+      "persistent_ambiguity": {
+        "ssaCapacity": {
+          "count": 16266582,
+          "min": 44,
+          "max": 85,
+          "mean": 79.352,
+          "p05": 65,
+          "p50": 84,
+          "p95": 85
+        },
+        "protectiveCapacity": {
+          "count": 16266582,
+          "min": 7,
+          "max": 85,
+          "mean": 50.608,
+          "p05": 25,
+          "p50": 51,
+          "p95": 77
+        },
+        "politicalCapital": {
+          "count": 16266582,
+          "min": 20,
+          "max": 85,
+          "mean": 53.553,
+          "p05": 38,
+          "p50": 53,
+          "p95": 70
+        },
+        "disclosureBudget": {
+          "count": 16266582,
+          "min": 18,
+          "max": 75,
+          "mean": 57.894,
+          "p05": 42,
+          "p50": 58,
+          "p95": 75
+        }
+      },
+      "strategic_information_opportunity": {
+        "ssaCapacity": {
+          "count": 5269572,
+          "min": 44,
+          "max": 85,
+          "mean": 72.996,
+          "p05": 52,
+          "p50": 74,
+          "p95": 85
+        },
+        "protectiveCapacity": {
+          "count": 5269572,
+          "min": 11,
+          "max": 85,
+          "mean": 56.951,
+          "p05": 31,
+          "p50": 58,
+          "p95": 80
+        },
+        "politicalCapital": {
+          "count": 5269572,
+          "min": 20,
+          "max": 85,
+          "mean": 53.464,
+          "p05": 37,
+          "p50": 53,
+          "p95": 70
+        },
+        "disclosureBudget": {
+          "count": 5269572,
+          "min": 18,
+          "max": 75,
+          "mean": 58.629,
+          "p05": 43,
+          "p50": 59,
+          "p95": 75
+        }
+      },
+      "mixed_crisis_containment": {
+        "ssaCapacity": {
+          "count": 1031451,
+          "min": 44,
+          "max": 85,
+          "mean": 65.775,
+          "p05": 52,
+          "p50": 67,
+          "p95": 85
+        },
+        "protectiveCapacity": {
+          "count": 1031451,
+          "min": 7,
+          "max": 85,
+          "mean": 45.447,
+          "p05": 21,
+          "p50": 45,
+          "p95": 71
+        },
+        "politicalCapital": {
+          "count": 1031451,
+          "min": 20,
+          "max": 85,
+          "mean": 51.634,
+          "p05": 36,
+          "p50": 52,
+          "p95": 67
+        },
+        "disclosureBudget": {
+          "count": 1031451,
+          "min": 18,
+          "max": 75,
+          "mean": 56.164,
+          "p05": 39,
+          "p50": 57,
+          "p95": 75
+        }
+      }
+    },
+    "pathCost": {
+      "userSpent": {
+        "count": 41760000,
+        "min": 12,
+        "max": 194,
+        "mean": 100.255,
+        "p05": 61,
+        "p50": 100,
+        "p95": 140
+      },
+      "recovered": {
+        "count": 41760000,
+        "min": 0,
+        "max": 37,
+        "mean": 12.892,
+        "p05": 4,
+        "p50": 12,
+        "p95": 24
+      },
+      "netConsumed": {
+        "count": 41760000,
+        "min": 12,
+        "max": 186,
+        "mean": 87.363,
+        "p05": 48,
+        "p50": 87,
+        "p95": 128
+      }
+    },
+    "representativePaths": {
+      "low": {
+        "signature": "1-1-1|5-1-1|1-4-1|O1",
+        "intent": "probe",
+        "userSpent": 12,
+        "recovered": 0,
+        "finalResources": {
+          "ssaCapacity": 85,
+          "protectiveCapacity": 85,
+          "politicalCapital": 73,
+          "disclosureBudget": 75
+        },
+        "endState": "negotiated_deescalation"
+      },
+      "medium": {
+        "signature": "1-1-1|1-2-5|1-3-4|O-",
+        "intent": "probe",
+        "userSpent": 100,
+        "recovered": 8,
+        "finalResources": {
+          "ssaCapacity": 85,
+          "protectiveCapacity": 59,
+          "politicalCapital": 49,
+          "disclosureBudget": 45
+        },
+        "endState": "persistent_ambiguity"
+      },
+      "high": {
+        "signature": "2-4-3|2-5-4|1-3-4|O-",
+        "intent": "probe",
+        "userSpent": 194,
+        "recovered": 12,
+        "finalResources": {
+          "ssaCapacity": 52,
+          "protectiveCapacity": 29,
+          "politicalCapital": 38,
+          "disclosureBudget": 29
+        },
+        "endState": "mixed_crisis_containment"
+      }
+    }
+  }
+}

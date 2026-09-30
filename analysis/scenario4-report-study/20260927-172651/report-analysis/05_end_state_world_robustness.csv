@@ -1,0 +1,10 @@
+end_state,end_state_fa,worlds,mean_share,mean_percent,min_percent,max_percent,spread_percentage_points,std_percentage_points,reachable_in_all_worlds
+escalation_spiral,مارپیچ تشدید,5,0.007338002873563218,0.734,0.313,0.943,0.630,0.229,true
+intelligence_failure,شکست اطلاعاتی,5,0.0997471264367816,9.975,4.296,12.917,8.621,3.417,true
+coalition_fracture,شکاف ائتلافی,5,0.0020238505747126436,0.202,0.156,0.281,0.124,0.046,true
+negotiated_deescalation,کاهش تنش مذاکره‌شده,5,0.33871954022988504,33.872,31.666,35.676,4.010,1.451,true
+calm_crisis_control,مهار آرام بحران,5,0.0070645833333333324,0.706,0.310,1.469,1.159,0.399,true
+costly_deterrence,بازدارندگی پرهزینه,5,0.004694899425287357,0.469,0.181,0.875,0.694,0.228,true
+persistent_ambiguity,ابهام پایدار,5,0.3895254310344828,38.953,38.030,41.215,3.185,1.188,true
+strategic_information_opportunity,فرصت اطلاعاتی راهبردی,5,0.12618706896551726,12.619,9.619,16.209,6.590,2.828,true
+mixed_crisis_containment,مهار نسبی بحران,5,0.024699497126436782,2.470,0.891,3.751,2.860,1.154,true

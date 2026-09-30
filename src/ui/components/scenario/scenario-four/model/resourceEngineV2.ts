@@ -1,4 +1,8 @@
-import { clampScenarioOneState, cloneState } from "./initialState.ts";
+import {
+  SCENARIO4_INITIAL_RESOURCE_BASELINE,
+  clampScenarioOneState,
+  cloneState,
+} from "./initialState.ts";
 import type {
   AllyAction,
   AllyMove2Action,
@@ -63,7 +67,7 @@ export const resourceConsequenceAudit: ResourceAuditEntry[] = [
 
   audit("m3_threshold", "m3_t_insufficient", {}, "ثبت آستانه پایین اطمینان", "محدودشدن دامنه ادعای بعدی", "برآورد شناختی به‌تنهایی منبع مصرف نمی‌کند."),
   audit("m3_threshold", "m3_t_sufficient_limited", {}, "اجازه اقدام محدود", "پذیرش عدم قطعیت باقی‌مانده", "تعیین آستانه به‌تنهایی تخصیص عملیاتی نیست."),
-  audit("m3_threshold", "m3_t_sufficient_strong", {}, "اجازه اقدام قاطع‌تر", "ریسک اقدام بر پایه شواهد ناکامل", "تعیین آستانه به‌تنهایی منبع مصرف نمی‌کند."),
+  audit("m3_threshold", "m3_t_sufficient_strong", {}, "اجازه اقدام با دامنه بیشتر", "ریسک اقدام بر پایه شواهد ناکامل", "تعیین آستانه به‌تنهایی منبع مصرف نمی‌کند."),
   audit("m3_coa", "m3_coa_contain_understand", { ssaCapacity: -8, protectiveCapacity: -6 }, "شناخت، مهار و تداوم", "ادامه تعهد رصد و حفاظت", "مهار همراه شناخت به حسگر و حفاظت محدود نیاز دارد."),
   audit("m3_coa", "m3_coa_controlled_deterrence", { protectiveCapacity: -16, politicalCapital: -8 }, "بازدارندگی و آمادگی کنترل‌شده", "هزینه عملیاتی و پیام سیاسی", "بازدارندگی کنترل‌شده ظرفیت حفاظتی و اعتبار سیاسی را ترکیب می‌کند."),
   audit("m3_coa", "m3_coa_coordinated_response", { politicalCapital: -18, disclosureBudget: -12, protectiveCapacity: -8 }, "انسجام، مشروعیت و پاسخ مشترک", "تعهد چندمنبعی و افشای بیشتر", "پاسخ هماهنگ بیشترین هماهنگی و اشتراک را می‌طلبد."),
@@ -95,7 +99,80 @@ export const getResourceStatusLabel = (value: number) => {
   if (value < 50) return "محدود";
   if (value < 70) return "تحت فشار";
   if (value < 85) return "مناسب";
-  return "فراوان";
+  return "ظرفیت بالا";
+};
+
+export const RESOURCE_UX_COPY_FA = Object.freeze({
+  directCostLabel: "هزینه مستقیم منابع:",
+  noDirectCost: "هزینه مستقیم منابع: ندارد",
+  pressureWarning: "این انتخاب ذخیره این منبع را کاهش می‌دهد و انعطاف شما را در تصمیم‌های بعدی کمتر می‌کند.",
+  limitedWarning: "این انتخاب این منبع را وارد وضعیت محدود می‌کند و فضای مانور شما را برای تصمیم‌های بعدی کاهش می‌دهد.",
+  criticalWarning: "این انتخاب این منبع را وارد وضعیت بحرانی می‌کند و انعطاف شما را برای تصمیم‌های بعدی به‌شدت کاهش می‌دهد.",
+  persistentLimitedWarning: "این منبع محدود شده است و ذخیره کمتری برای تصمیم‌های بعدی در اختیار دارید.",
+  persistentCriticalWarning: "این منبع در وضعیت بحرانی است و ظرفیت باقی‌مانده برای تصمیم‌های بعدی بسیار محدود شده است.",
+  exhaustedWarning: "ظرفیت قابل تخصیص این منبع باقی نمانده است.",
+  insufficientResource: "منبع کافی برای این انتخاب وجود ندارد.",
+});
+
+export const getProjectedScarcityWarning = (projected: number, crossesBand: boolean) => {
+  if (!crossesBand || projected >= 70) return undefined;
+  if (projected < 30) return RESOURCE_UX_COPY_FA.criticalWarning;
+  if (projected < 50) return RESOURCE_UX_COPY_FA.limitedWarning;
+  return RESOURCE_UX_COPY_FA.pressureWarning;
+};
+
+export const getPersistentResourceWarning = (value: number) => {
+  if (value === 0) return RESOURCE_UX_COPY_FA.exhaustedWarning;
+  if (value < 30) return RESOURCE_UX_COPY_FA.persistentCriticalWarning;
+  if (value < 50) return RESOURCE_UX_COPY_FA.persistentLimitedWarning;
+  return undefined;
+};
+
+export const getResourceStatusTone = (value: number) => {
+  if (value < 30) return "critical";
+  if (value < 50) return "limited";
+  if (value < 70) return "pressure";
+  if (value < 85) return "good";
+  return "abundant";
+};
+
+export const getStateResourceBaseline = (state: Pick<ScenarioOneState, "resourceBaseline">) =>
+  state.resourceBaseline ?? SCENARIO4_INITIAL_RESOURCE_BASELINE;
+
+export const getResourceProjection = (
+  resources: ScenarioOneState["resources"],
+  optionId: string,
+) => {
+  const costs = getCertainResourceCosts(optionId);
+  const items = costs.map((cost) => {
+    const current = resources[cost.resource];
+    const projected = current + cost.delta;
+    return {
+      ...cost,
+      current,
+      projected: Math.max(0, projected),
+      affordable: projected >= 0,
+      beforeStatus: getResourceStatusLabel(current),
+      afterStatus: getResourceStatusLabel(Math.max(0, projected)),
+      crossesBand: getResourceStatusLabel(current) !== getResourceStatusLabel(Math.max(0, projected)),
+    };
+  });
+  return { items, affordable: items.every((item) => item.affordable) };
+};
+
+export const canAffordResourceCosts = (
+  resources: ScenarioOneState["resources"],
+  optionId: string,
+) => getResourceProjection(resources, optionId).affordable;
+
+export const recordUserResourceSpend = (state: ScenarioOneState, optionId: string) => {
+  state.resourceAccounting ??= {
+    userSpent: { ssaCapacity: 0, protectiveCapacity: 0, politicalCapital: 0, disclosureBudget: 0 },
+    recovered: { ssaCapacity: 0, protectiveCapacity: 0, politicalCapital: 0, disclosureBudget: 0 },
+  };
+  for (const { resource, delta } of getCertainResourceCosts(optionId)) {
+    state.resourceAccounting.userSpent[resource] += Math.abs(delta);
+  }
 };
 
 export const captureDecisionResourceEvents = (
@@ -157,11 +234,17 @@ export const applyResourceRecovery = (
     if (context.commercialAction === "offer_followup_data" || context.allyAction === "share_partial_intel") planned.push({ resource: "disclosureBudget", delta: 2, source: "شاهد تازه قابل‌انتشار", rationale: "شاهد غیرحساس تازه ظرفیت افشای امن محدودی ایجاد کرد." });
   }
   const events: ResourceEvent[] = [];
+  const recoveryCeiling = getStateResourceBaseline(next);
   for (const item of planned) {
     const before = next.resources[item.resource];
-    next.resources[item.resource] = Math.max(0, Math.min(100, before + item.delta));
+    next.resources[item.resource] = Math.max(0, Math.min(recoveryCeiling[item.resource], before + item.delta));
     const delta = next.resources[item.resource] - before;
     if (!delta) continue;
+    next.resourceAccounting ??= {
+      userSpent: { ssaCapacity: 0, protectiveCapacity: 0, politicalCapital: 0, disclosureBudget: 0 },
+      recovered: { ssaCapacity: 0, protectiveCapacity: 0, politicalCapital: 0, disclosureBudget: 0 },
+    };
+    next.resourceAccounting.recovered[item.resource] += delta;
     events.push({ id: `${transition}:${item.resource}:${events.length}:${Date.now()}`, moveId: transition === "m1_to_m2" ? "move_1" : "move_2", kind: "transition_recovery", resource: item.resource, source: item.source, sourceActorId: "transition_engine", rationale: item.rationale, before, delta, after: next.resources[item.resource], timestamp: new Date().toISOString() });
   }
   return { state: clampScenarioOneState(next), events };
@@ -171,4 +254,11 @@ export const getCertainResourceCosts = (optionId: string) => {
   const entry = resourceAuditByOption[optionId];
   if (!entry) return [];
   return (Object.entries(entry.deltas) as Array<[ResourceKey, number]>).filter(([, delta]) => delta < 0).map(([resource, delta]) => ({ resource, label: resourceLabels[resource], delta }));
+};
+
+export const formatDirectResourceCost = (optionId: string) => {
+  const costs = getCertainResourceCosts(optionId);
+  if (costs.length === 0) return RESOURCE_UX_COPY_FA.noDirectCost;
+  const summary = costs.map(({ label, delta }) => `${label} −${Math.abs(delta)}`).join("، ");
+  return `${RESOURCE_UX_COPY_FA.directCostLabel} ${summary}`;
 };

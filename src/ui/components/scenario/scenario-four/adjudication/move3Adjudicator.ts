@@ -1,5 +1,10 @@
 import { seededNoise } from "./seededRandom.ts";
 import { clampScenarioOneState, cloneState } from "../model/initialState.ts";
+import {
+  canAffordResourceCosts,
+  getStateResourceBaseline,
+  recordUserResourceSpend,
+} from "../model/resourceEngineV2.ts";
 import type {
   AllyFinalAction,
   FinalBlueObservation,
@@ -14,6 +19,8 @@ import type {
   ScenarioOneFinalSnapshot,
   ScenarioOneState,
 } from "../model/types";
+import { buildNarrativeContext } from "../narrative/buildNarrativeContext.ts";
+import { finalReportToSections, getFinalReport } from "../narrative/narrativeSelectors.ts";
 
 export interface Move3Choices {
   threshold: string;
@@ -25,6 +32,15 @@ export interface Move3Choices {
 
 const scoreClamp = (value: number) => Math.max(0, Math.min(100, Math.round(value)));
 
+export const getAttributionConfidenceBandFa = (confidence: number) => {
+  if (confidence < 20) return "بسیار ضعیف";
+  if (confidence < 40) return "ضعیف";
+  if (confidence < 55) return "متوسط";
+  if (confidence < 70) return "نسبتاً قوی";
+  if (confidence < 85) return "قوی";
+  return "بسیار قوی";
+};
+
 export const initializeMove3Severity = (
   state: ScenarioOneState,
   previousMove2: Move2Snapshot,
@@ -32,7 +48,7 @@ export const initializeMove3Severity = (
 ): ScenarioOneState => {
   const next = cloneState(state);
   next.move = 3;
-  if (next.hidden.move3ImpactSeverity) return clampScenarioOneState(next);
+  if (next.knowledge.serviceImpactSeverity) return clampScenarioOneState(next);
 
   let severityIndex = 1;
   if (previousMove2.redAction === "maintain_pressure" && next.hidden.trueIncidentAttribution === "red") {
@@ -46,7 +62,7 @@ export const initializeMove3Severity = (
   }
   const severity: Move3ImpactSeverity =
     severityIndex <= 0 ? "limited" : severityIndex >= 2 ? "severe" : "significant";
-  next.hidden.move3ImpactSeverity = severity;
+  next.knowledge.serviceImpactSeverity = severity;
   next.visible.missionContinuity -= severity === "limited" ? 4 : severity === "significant" ? 9 : 15;
   next.visible.operationalReadiness -= severity === "severe" ? 5 : 2;
   return clampScenarioOneState(next);
@@ -58,13 +74,19 @@ export const buildConfidencePackage = (state: ScenarioOneState) => {
     {
       source: "Military SSA",
       status: "تحلیلی",
-      confidence: confidence >= 60 ? "بالا" : confidence >= 40 ? "متوسط" : "پایین",
+      confidence: getAttributionConfidenceBandFa(confidence),
       finding:
-        confidence >= 60
-          ? "هم‌بستگی رفتاری و زمانی قابل توجه است، اما نیت قطعی از آن استخراج نمی‌شود."
-          : confidence >= 40
-            ? "هم‌بستگی متوسط دیده می‌شود و برای انتساب قطعی کافی نیست."
-            : "هم‌بستگی موجود محدود و چندتعبیری است.",
+        confidence >= 85
+          ? "چند منبع مستقل هم‌بستگی بسیار قوی نشان می‌دهند، اما این جمع‌بندی همچنان برآورد تحلیلی است."
+          : confidence >= 70
+            ? "چند منبع مستقل هم‌بستگی قوی نشان می‌دهند، بدون آنکه نیت قطعی از آن استخراج شود."
+            : confidence >= 55
+              ? "هم‌بستگی نسبتاً قوی است، اما توضیح‌های جایگزین به‌طور کامل رد نشده‌اند."
+              : confidence >= 40
+                ? "هم‌بستگی متوسط دیده می‌شود و برای انتساب قطعی کافی نیست."
+                : confidence >= 20
+                  ? "هم‌بستگی موجود ضعیف و چندتعبیری است."
+                  : "شواهد موجود بیشتر با توضیح‌های غیرانتسابی سازگار است و هم‌بستگی بسیار ضعیف باقی مانده است.",
       sensitivity: "اشتراک‌پذیری محدود",
     },
     {
@@ -106,6 +128,7 @@ export const applyMove3Decision = (
   windowId: "m3_threshold" | "m3_coa" | "m3_info" | "m3_offramp",
   optionId: string
 ) => {
+  if (!canAffordResourceCosts(state.resources, optionId)) return cloneState(state);
   const next = cloneState(state);
   if (windowId === "m3_coa") {
     if (optionId === "m3_coa_contain_understand") {
@@ -198,6 +221,7 @@ export const applyMove3Decision = (
       next.hidden.redPerceptionBlueResolve += 4;
     }
   }
+  recordUserResourceSpend(next, optionId);
   return clampScenarioOneState(next);
 };
 
@@ -374,12 +398,15 @@ const computeMetrics = (
         : choices.threshold === "m3_t_sufficient_strong" && choices.informationPolicy === "m3_info_public_attribution"
           ? 75
           : 65;
-  const resourceValues = Object.values(state.resources);
-  const totalResourceSpent = Math.max(0, 400 - resourceValues.reduce((sum, value) => sum + value, 0));
+  const resourceKeys = Object.keys(state.resources) as Array<keyof ScenarioOneState["resources"]>;
+  const baseline = getStateResourceBaseline(state);
+  const resourceValues = resourceKeys.map((key) => state.resources[key]);
+  const baselineValues = resourceKeys.map((key) => baseline[key]);
+  const totalResourceSpent = Object.values(state.resourceAccounting?.userSpent ?? {}).reduce((sum, value) => sum + value, 0);
   const protectedMissionValue = state.visible.missionContinuity * 0.75 + state.visible.operationalReadiness * 0.25;
   const missionBenefitPerCost = scoreClamp((protectedMissionValue / Math.max(35, totalResourceSpent)) * 100);
-  const reserveAtCriticalMoment = scoreClamp(resourceValues.reduce((sum, value) => sum + value, 0) / resourceValues.length);
-  const avoidedExhaustion = resourceValues.filter((value) => value >= 20).length * 25;
+  const reserveAtCriticalMoment = scoreClamp(resourceValues.reduce((sum, value, index) => sum + (value / Math.max(1, baselineValues[index])) * 100, 0) / resourceValues.length);
+  const avoidedExhaustion = resourceValues.filter((value, index) => value >= baselineValues[index] * 0.2).length * 25;
   const recoveryUtilization = state.flags.m2MissionLoadReduced || state.flags.m2FallbackActivated ? 75 : 50;
   const resourceEfficiency = scoreClamp(
     missionBenefitPerCost * 0.4 +
@@ -471,34 +498,6 @@ export const resolvePrimaryEndState = ({
   return { primary: "mixed_crisis_containment", tags };
 };
 
-export const getEndStateExplanation = (context: FinalEndStateContext, endState?: FinalEndState) => {
-  const primary = endState ?? resolvePrimaryEndState(context).primary;
-  const explanations: Record<FinalEndState, string> = {
-    calm_crisis_control: "مأموریت و انسجام حفظ شد، فشار تشدید کنترل ماند و اسرائیل نیز عملاً از مسیر فشار فاصله گرفت.",
-    costly_deterrence: "فاصله‌گیری اسرائیل حاصل شد، اما هزینه منابع یا افشای اطلاعات برای ایران بالا بود.",
-    persistent_ambiguity: "مأموریت حفظ شد، اما انتساب همچنان حل‌نشده و رفتار اسرائیل چندتعبیری باقی ماند.",
-    coalition_fracture: "کاهش شدید انسجام متحدان، امکان اقدام هماهنگ را محدود کرد.",
-    escalation_spiral: "فشار تشدید به سطح شدید رسید و واکنش اسرائیل نیز مسیر بحران را تندتر کرد.",
-    intelligence_failure: "ادعای عمومی فراتر از شواهد با حقیقت رخداد سازگار نبود و بر نتیجه غلبه کرد.",
-    negotiated_deescalation: "یک مسیر کاهش تنش واقعاً پیشنهاد شد و با پذیرش یا فاصله‌گذاری متقابل اسرائیل همراه بود.",
-    strategic_information_opportunity: "کنترل نسبی بحران همراه با شناخت بهتر، امکان بهره‌برداری اطلاعاتی بعدی ایجاد کرد.",
-    mixed_crisis_containment: "بخشی از اهداف حفظ شد، اما نتیجه در مأموریت، تشدید یا انسجام کاملاً مطلوب نبود.",
-  };
-  return explanations[primary];
-};
-
-const endStateLabel: Record<FinalEndState, string> = {
-  calm_crisis_control: "مهار آرام بحران",
-  costly_deterrence: "بازدارندگی پرهزینه",
-  persistent_ambiguity: "ابهام پایدار",
-  coalition_fracture: "شکاف ائتلافی",
-  escalation_spiral: "مارپیچ تشدید",
-  intelligence_failure: "شکست اطلاعاتی",
-  negotiated_deescalation: "کاهش تنش مذاکره‌شده",
-  strategic_information_opportunity: "فرصت اطلاعاتی راهبردی",
-  mixed_crisis_containment: "مهار نسبی بحران",
-};
-
 export const adjudicateMove3 = ({
   runId,
   scenarioId,
@@ -513,6 +512,7 @@ export const adjudicateMove3 = ({
   decisions,
   evidenceSeen,
   rngSeed,
+  includeNarrative = true,
 }: {
   runId: string;
   scenarioId: string;
@@ -527,6 +527,7 @@ export const adjudicateMove3 = ({
   decisions: ScenarioOneDecisionRecord[];
   evidenceSeen: string[];
   rngSeed: string;
+  includeNarrative?: boolean;
 }) => {
   const observed = buildFinalObservation(choices, stateAfterBlue);
   const redAction = resolveRedMove3(stateAfterBlue, observed, choices, rngSeed);
@@ -541,7 +542,6 @@ export const adjudicateMove3 = ({
   const metrics = computeMetrics(finalState, choices, redAction);
   const finalContext: FinalEndStateContext = { state: finalState, metrics, redAction, choices };
   const endState = resolvePrimaryEndState(finalContext);
-  const endStateExplanation = getEndStateExplanation(finalContext, endState.primary);
 
   const move3: Move3Snapshot = {
     moveId: "move_3",
@@ -564,28 +564,6 @@ export const adjudicateMove3 = ({
     rngSeed,
   };
 
-  const playerFacingReport = [
-    {
-      title: "مسیر بحران",
-      text: "بحران از رفتار مداری مبهم شروع شد، در Move 2 به افت سرویس با انتساب نامطمئن رسید و در Move 3 به تصمیم درباره آستانه اقدام تبدیل شد.",
-    },
-    {
-      title: "وضعیت مأموریت",
-      text:
-        finalState.visible.missionContinuity >= 70
-          ? "مأموریت اصلی حفظ شده و تاب‌آوری قابل قبول باقی مانده است."
-          : "مأموریت ادامه دارد، اما بخشی از کیفیت یا ظرفیت آن تحت فشار است.",
-    },
-    {
-      title: "تحول شناخت",
-      text: `برآوردهای شما درباره احتمال نقش اسرائیل از ${move2.attributionEstimatePre} به ${move2.attributionEstimatePost} و سپس ${playerAttributionEstimateFinal} رسید.`,
-    },
-    {
-      title: "End State",
-      text: `${endStateLabel[endState.primary]}: ${endStateExplanation}`,
-    },
-  ];
-
   const finalSnapshot: ScenarioOneFinalSnapshot = {
     runId,
     scenarioId,
@@ -597,7 +575,7 @@ export const adjudicateMove3 = ({
     primaryEndState: endState.primary,
     secondaryOutcomeTags: endState.tags,
     finalMetrics: metrics,
-    playerFacingReport,
+    playerFacingReport: [],
     hiddenAarData: {
       trueRedIntent: finalState.hidden.trueRedIntent,
       trueIncidentAttribution: finalState.hidden.trueIncidentAttribution,
@@ -614,6 +592,21 @@ export const adjudicateMove3 = ({
     },
     completedAt: new Date().toISOString(),
   };
+
+  const playerFacingReport = includeNarrative
+    ? finalReportToSections(getFinalReport(buildNarrativeContext({
+        runId,
+        phase: "report",
+        move: 3,
+        state: finalState,
+        move1,
+        move2,
+        move3,
+        finalSnapshot,
+        decisions: [...move1.decisions, ...move2.decisions, ...move3.decisions],
+      })))
+    : [];
+  finalSnapshot.playerFacingReport = playerFacingReport;
 
   return { move3, finalSnapshot, playerFacingReport };
 };

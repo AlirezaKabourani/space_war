@@ -1,0 +1,28 @@
+incident_cause,true_incident_attribution,cause_paths,end_state,end_state_fa,paths_to_end_state,p_end_given_cause,p_end_given_cause_percent
+mixed_cause,mixed,2880000,escalation_spiral,مارپیچ تشدید,0,0,0.000
+mixed_cause,mixed,2880000,intelligence_failure,شکست اطلاعاتی,0,0,0.000
+mixed_cause,mixed,2880000,coalition_fracture,شکاف ائتلافی,10464,0.0036333333333333335,0.363
+mixed_cause,mixed,2880000,negotiated_deescalation,کاهش تنش مذاکره‌شده,669696,0.23253333333333334,23.253
+mixed_cause,mixed,2880000,calm_crisis_control,مهار آرام بحران,0,0,0.000
+mixed_cause,mixed,2880000,costly_deterrence,بازدارندگی پرهزینه,0,0,0.000
+mixed_cause,mixed,2880000,persistent_ambiguity,ابهام پایدار,1312905,0.4558697916666667,45.587
+mixed_cause,mixed,2880000,strategic_information_opportunity,فرصت اطلاعاتی راهبردی,846237,0.2938322916666667,29.383
+mixed_cause,mixed,2880000,mixed_crisis_containment,مهار نسبی بحران,40698,0.01413125,1.413
+red_reversible_interference,red,2880000,escalation_spiral,مارپیچ تشدید,60765,0.021098958333333334,2.110
+red_reversible_interference,red,2880000,intelligence_failure,شکست اطلاعاتی,0,0,0.000
+red_reversible_interference,red,2880000,coalition_fracture,شکاف ائتلافی,7020,0.0024375,0.244
+red_reversible_interference,red,2880000,negotiated_deescalation,کاهش تنش مذاکره‌شده,695808,0.2416,24.160
+red_reversible_interference,red,2880000,calm_crisis_control,مهار آرام بحران,10308,0.0035791666666666667,0.358
+red_reversible_interference,red,2880000,costly_deterrence,بازدارندگی پرهزینه,20502,0.00711875,0.712
+red_reversible_interference,red,2880000,persistent_ambiguity,ابهام پایدار,1330206,0.4618770833333333,46.188
+red_reversible_interference,red,2880000,strategic_information_opportunity,فرصت اطلاعاتی راهبردی,505983,0.17568854166666667,17.569
+red_reversible_interference,red,2880000,mixed_crisis_containment,مهار نسبی بحران,249408,0.0866,8.660
+environmental_or_external,non_red,2592000,escalation_spiral,مارپیچ تشدید,0,0,0.000
+environmental_or_external,non_red,2592000,intelligence_failure,شکست اطلاعاتی,648000,0.25,25.000
+environmental_or_external,non_red,2592000,coalition_fracture,شکاف ائتلافی,0,0,0.000
+environmental_or_external,non_red,2592000,negotiated_deescalation,کاهش تنش مذاکره‌شده,1279200,0.4935185185185185,49.352
+environmental_or_external,non_red,2592000,calm_crisis_control,مهار آرام بحران,31293,0.012072916666666666,1.207
+environmental_or_external,non_red,2592000,costly_deterrence,بازدارندگی پرهزینه,13320,0.005138888888888889,0.514
+environmental_or_external,non_red,2592000,persistent_ambiguity,ابهام پایدار,618594,0.2386550925925926,23.866
+environmental_or_external,non_red,2592000,strategic_information_opportunity,فرصت اطلاعاتی راهبردی,1593,0.0006145833333333333,0.061
+environmental_or_external,non_red,2592000,mixed_crisis_containment,مهار نسبی بحران,0,0,0.000

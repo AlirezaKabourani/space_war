@@ -1,0 +1,46 @@
+option_id,label_fa
+m1_i_passive,پایش مستمر با ظرفیت موجود
+m1_i_dedicated_ssa,تخصیص پایش اختصاصی SSA
+m1_i_commercial,اعتبارسنجی با داده تجاری مستقل
+m1_i_allied_network,فعال‌سازی شبکه اطلاعاتی متحدان
+m1_p_hold,عدم تغییر وضعیت حفاظتی
+m1_p_covert_readiness,افزایش آمادگی پنهان
+m1_p_visible_protection,حفاظت آشکار و برگشت‌پذیر
+m1_p_mission_reposition,بازآرایی محسوس مأموریت
+m1_c_none,عدم ارسال پیام
+m1_c_private,تنش‌زدایی خصوصی
+m1_c_allies,هماهنگی با متحدان
+m1_c_public_warning,هشدار عمومی
+m1_c_private_allied,تماس خصوصی همراه هماهنگی محدود متحدان
+m2_a_technical_diagnostics,عیب‌یابی فنی
+m2_a_second_sensor,اعتبارسنجی با حسگر دوم
+m2_a_ally_intel,درخواست اطلاعات متحد
+m2_a_commercial_validation,اعتبارسنجی تجاری
+m2_a_act_with_current_data,اقدام با داده موجود
+m2_m_continue_normal,ادامه مأموریت عادی
+m2_m_activate_fallback,فعال‌سازی ظرفیت پشتیبان
+m2_m_reduce_load,کاهش بار مأموریت
+m2_m_protective_reconfiguration,بازآرایی حفاظتی
+m2_m_split_service,تقسیم سرویس
+m2_r_no_counteraction,عدم اقدام متقابل
+m2_r_request_explanation,درخواست توضیح رسمی
+m2_r_private_warning,هشدار خصوصی
+m2_r_joint_allied_response,پاسخ مشترک با متحدان
+m2_r_request_defensive_authority,درخواست اختیار دفاعی
+m2_r_deconfliction_offer,پیشنهاد رفع اصطکاک/فاصله‌گذاری
+m3_t_insufficient,شواهد برای اقدام کافی نیست
+m3_t_sufficient_limited,برای اقدام محدود و برگشت‌پذیر کافی است
+m3_t_sufficient_strong,برای اقدام گسترده‌تر کافی است
+m3_coa_contain_understand,مهار و شناخت
+m3_coa_controlled_deterrence,بازدارندگی کنترل‌شده
+m3_coa_coordinated_response,پاسخ هماهنگ ائتلافی
+m3_coa_negotiated_deescalation,کاهش تنش مذاکره‌شده
+m3_coa_unilateral_strong,اقدام یک‌جانبه قوی‌تر
+m3_info_keep_restricted,حفظ اطلاعات در سطح محدود
+m3_info_share_allies,اشتراک با متحدان
+m3_info_public_partial,انتشار عمومی جزئی
+m3_info_public_attribution,انتساب عمومی
+accept_as_interim,پذیرش موقت
+renegotiate_terms,مذاکره مجدد شروط
+keep_channel_open_no_commitment,باز نگه‌داشتن کانال بدون تعهد
+reject,رد مسیر کاهش تنش

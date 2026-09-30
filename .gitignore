@@ -27,3 +27,7 @@ yarn-error.log*
 *.njsproj
 *.sln
 *.sw?
+
+all-paths.csv.gz
+
+analysis/scenario4-report-study/*/structural-world1/all-paths.csv.gz

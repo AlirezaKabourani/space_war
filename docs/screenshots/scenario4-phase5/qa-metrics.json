@@ -1,0 +1,241 @@
+{
+  "captures": [
+    {
+      "name": "opening",
+      "width": 1440,
+      "height": 900,
+      "horizontalOverflow": false,
+      "debugPanel": false,
+      "hiddenLeak": false,
+      "scrollHeight": 1151
+    },
+    {
+      "name": "opening",
+      "width": 1366,
+      "height": 768,
+      "horizontalOverflow": false,
+      "debugPanel": false,
+      "hiddenLeak": false,
+      "scrollHeight": 1019
+    },
+    {
+      "name": "evidence",
+      "width": 1440,
+      "height": 900,
+      "horizontalOverflow": false,
+      "debugPanel": false,
+      "hiddenLeak": false,
+      "scrollHeight": 1151
+    },
+    {
+      "name": "evidence",
+      "width": 1366,
+      "height": 768,
+      "horizontalOverflow": false,
+      "debugPanel": false,
+      "hiddenLeak": false,
+      "scrollHeight": 1019
+    },
+    {
+      "name": "final-attribution",
+      "width": 1440,
+      "height": 900,
+      "horizontalOverflow": false,
+      "debugPanel": false,
+      "hiddenLeak": false,
+      "scrollHeight": 1143
+    },
+    {
+      "name": "final-attribution",
+      "width": 1366,
+      "height": 768,
+      "horizontalOverflow": false,
+      "debugPanel": false,
+      "hiddenLeak": false,
+      "scrollHeight": 1019
+    },
+    {
+      "name": "decision-1",
+      "width": 1440,
+      "height": 900,
+      "horizontalOverflow": false,
+      "debugPanel": false,
+      "hiddenLeak": false,
+      "scrollHeight": 1143
+    },
+    {
+      "name": "decision-1",
+      "width": 1366,
+      "height": 768,
+      "horizontalOverflow": false,
+      "debugPanel": false,
+      "hiddenLeak": false,
+      "scrollHeight": 1019
+    },
+    {
+      "name": "decision-2",
+      "width": 1440,
+      "height": 900,
+      "horizontalOverflow": false,
+      "debugPanel": false,
+      "hiddenLeak": false,
+      "scrollHeight": 1143
+    },
+    {
+      "name": "decision-2",
+      "width": 1366,
+      "height": 768,
+      "horizontalOverflow": false,
+      "debugPanel": false,
+      "hiddenLeak": false,
+      "scrollHeight": 1019
+    },
+    {
+      "name": "decision-3",
+      "width": 1440,
+      "height": 900,
+      "horizontalOverflow": false,
+      "debugPanel": false,
+      "hiddenLeak": false,
+      "scrollHeight": 1151
+    },
+    {
+      "name": "decision-3",
+      "width": 1366,
+      "height": 768,
+      "horizontalOverflow": false,
+      "debugPanel": false,
+      "hiddenLeak": false,
+      "scrollHeight": 1019
+    },
+    {
+      "name": "offramp",
+      "width": 1440,
+      "height": 900,
+      "horizontalOverflow": false,
+      "debugPanel": false,
+      "hiddenLeak": false,
+      "scrollHeight": 1151
+    },
+    {
+      "name": "offramp",
+      "width": 1366,
+      "height": 768,
+      "horizontalOverflow": false,
+      "debugPanel": false,
+      "hiddenLeak": false,
+      "scrollHeight": 1019
+    },
+    {
+      "name": "reason",
+      "width": 1440,
+      "height": 900,
+      "horizontalOverflow": false,
+      "debugPanel": false,
+      "hiddenLeak": false,
+      "scrollHeight": 1151
+    },
+    {
+      "name": "reason",
+      "width": 1366,
+      "height": 768,
+      "horizontalOverflow": false,
+      "debugPanel": false,
+      "hiddenLeak": false,
+      "scrollHeight": 1019
+    },
+    {
+      "name": "summary",
+      "width": 1440,
+      "height": 900,
+      "horizontalOverflow": false,
+      "debugPanel": false,
+      "hiddenLeak": false,
+      "scrollHeight": 1069
+    },
+    {
+      "name": "summary",
+      "width": 1366,
+      "height": 768,
+      "horizontalOverflow": false,
+      "debugPanel": false,
+      "hiddenLeak": false,
+      "scrollHeight": 950
+    },
+    {
+      "name": "final-report",
+      "width": 1440,
+      "height": 900,
+      "horizontalOverflow": false,
+      "debugPanel": false,
+      "hiddenLeak": false,
+      "scrollHeight": 1082
+    },
+    {
+      "name": "final-report",
+      "width": 1366,
+      "height": 768,
+      "horizontalOverflow": false,
+      "debugPanel": false,
+      "hiddenLeak": false,
+      "scrollHeight": 950
+    },
+    {
+      "name": "aar-top",
+      "width": 1440,
+      "height": 900,
+      "horizontalOverflow": false,
+      "debugPanel": false,
+      "hiddenLeak": false,
+      "scrollHeight": 1082
+    },
+    {
+      "name": "aar-top",
+      "width": 1366,
+      "height": 768,
+      "horizontalOverflow": false,
+      "debugPanel": false,
+      "hiddenLeak": false,
+      "scrollHeight": 950
+    },
+    {
+      "name": "aar-attribution",
+      "width": 1440,
+      "height": 900,
+      "horizontalOverflow": false,
+      "debugPanel": false,
+      "hiddenLeak": false,
+      "scrollHeight": 1082
+    },
+    {
+      "name": "aar-attribution",
+      "width": 1366,
+      "height": 768,
+      "horizontalOverflow": false,
+      "debugPanel": false,
+      "hiddenLeak": false,
+      "scrollHeight": 950
+    },
+    {
+      "name": "aar-israel-saw",
+      "width": 1440,
+      "height": 900,
+      "horizontalOverflow": false,
+      "debugPanel": false,
+      "hiddenLeak": false,
+      "scrollHeight": 1082
+    },
+    {
+      "name": "aar-israel-saw",
+      "width": 1366,
+      "height": 768,
+      "horizontalOverflow": false,
+      "debugPanel": false,
+      "hiddenLeak": false,
+      "scrollHeight": 950
+    }
+  ],
+  "horizontalOverflowCount": 0,
+  "debugPanelCount": 0,
+  "hiddenLeakCount": 0
+}

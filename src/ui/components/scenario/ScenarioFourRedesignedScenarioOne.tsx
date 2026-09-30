@@ -13,7 +13,6 @@ import {
 import {
   adjudicateMove3,
   applyMove3Decision,
-  buildConfidencePackage,
   initializeMove3Severity,
 } from "./scenario-four/adjudication/move3Adjudicator";
 import { selectRedIntent } from "./scenario-four/adjudication/seededRandom";
@@ -29,7 +28,7 @@ import {
   type SelectionTelemetryStateV3,
 } from "./scenario-four/model/cognitiveEngineV3";
 import { buildOpponentObservationAAR } from "./scenario-four/model/aarV3";
-import { ACTOR_LABELS_FA, SCENARIO_FICTION_DISCLAIMER_FA } from "./scenario-four/model/displayLabelsFa";
+import { ACTOR_LABELS_FA } from "./scenario-four/model/displayLabelsFa";
 import {
   COGNITIVE_FORMULA_VERSION,
   COGNITIVE_MODEL_VERSION,
@@ -41,10 +40,18 @@ import {
 } from "./scenario-four/model/cognitiveOptionProfilesV3";
 import {
   applyResourceRecovery,
+  canAffordResourceCosts,
   captureDecisionResourceEvents,
+  formatDirectResourceCost,
   getCertainResourceCosts,
+  getPersistentResourceWarning,
+  getProjectedScarcityWarning,
+  getResourceProjection,
   getResourceLabel,
   getResourceStatusLabel,
+  getResourceStatusTone,
+  getStateResourceBaseline,
+  RESOURCE_UX_COPY_FA,
 } from "./scenario-four/model/resourceEngineV2";
 import type {
   DecisionOption,
@@ -81,6 +88,50 @@ import {
   offRampOptions,
   thresholdOptions,
 } from "./scenario-four/moves/move3";
+import { buildNarrativeContext } from "./scenario-four/narrative/buildNarrativeContext";
+import {
+  END_STATE_LABELS_FA,
+  END_STATE_NARRATIVES_FA,
+  GLOSSARY_ENTRIES_FA,
+  HELP_SECTIONS_FA,
+  AAR_TRUTH_LABELS_FA,
+  ACTOR_REACTION_COPY_FA,
+  MOVE1_NARRATIVE_COPY_FA,
+  MOVE2_NARRATIVE_COPY_FA,
+  MOVE3_NARRATIVE_COPY_FA,
+} from "./scenario-four/narrative/narrativeCatalogFa";
+import {
+  canRenderAdminDebugPanel,
+  canRenderNarrativeTrace,
+  attributionQualitativeLabel,
+  buildAarRunSummary,
+  buildAarTurningPoints,
+  formatAttributionTrajectory,
+  getAarResultMeaning,
+  getBrierPlainLanguageInterpretation,
+  getBssPlainLanguageInterpretation,
+  getFinalEstimateExplanation,
+  getInjectNarrativeDefinition,
+  getIntroScreen,
+  getMove1CommunicationContext,
+  getMove1OpeningNarrative,
+  getMove1ProtectionContext,
+  getMove1SceneCaption,
+  getMove2OpeningNarrative,
+  getMove2ResourceConsequence,
+  getMove2SceneCaption,
+  getMove3EvidencePackage,
+  getMove3OpeningNarrative,
+  getMove3SceneCaption,
+  getMoveSituationUpdate,
+  getTruthExplanation,
+} from "./scenario-four/narrative/narrativeSelectors";
+import type {
+  InjectNarrativeDefinition,
+  IntroNarrativeScreen,
+  NarrativeSection,
+  Scenario4NarrativePhase,
+} from "./scenario-four/narrative/narrativeTypes";
 
 interface ScenarioFourRedesignedScenarioOneProps {
   scenarioId: string | number;
@@ -90,11 +141,14 @@ interface ScenarioFourRedesignedScenarioOneProps {
   onComplete: () => void;
 }
 
+type DisplayDecisionOption = DecisionOption & { tradeoff?: string };
+
 type Phase =
   | "intro_title"
   | "intro_narrative"
   | "intro_role"
   | "intro_objectives"
+  | "intro_how_to"
   | "intro_rules"
   | "brief"
   | "intel"
@@ -120,6 +174,7 @@ type Phase =
   | "move3_dw9"
   | "move3_offramp"
   | "move3_reason"
+  | "move3_update"
   | "final_report"
   | "dashboard"
   | "aar";
@@ -170,19 +225,19 @@ const attributionLabel = (value: number) => {
 };
 
 const windowTitles: Record<DecisionWindowId, string> = {
-  m1_information: "نقطه تصمیم ۱ — اولویت اطلاعاتی",
-  m1_protection: "نقطه تصمیم ۲ — وضعیت حفاظتی",
-  m1_communication: "نقطه تصمیم ۳ — ارتباطات",
-  m1_reason: "ثبت دلیل",
-  m2_investigation: "نقطه تصمیم ۴ — بررسی علت",
-  m2_mission: "نقطه تصمیم ۵ — تداوم مأموریت",
-  m2_response: "نقطه تصمیم ۶ — موضع در برابر اسرائیل",
-  m2_reason: "ثبت دلیل مرحله دوم",
-  m3_threshold: "نقطه تصمیم ۷ — آستانه اقدام",
-  m3_coa: "نقطه تصمیم ۸ — مسیر اقدام",
-  m3_info: "نقطه تصمیم ۹ — سیاست اطلاعاتی",
-  m3_offramp: "مسیر کاهش تنش",
-  m3_reason: "ثبت دلیل نهایی",
+  m1_information: MOVE1_NARRATIVE_COPY_FA.decisions.information.title,
+  m1_protection: MOVE1_NARRATIVE_COPY_FA.decisions.protection.title,
+  m1_communication: MOVE1_NARRATIVE_COPY_FA.decisions.communication.title,
+  m1_reason: MOVE1_NARRATIVE_COPY_FA.decisions.reason.title,
+  m2_investigation: MOVE2_NARRATIVE_COPY_FA.decisions.investigation.title,
+  m2_mission: MOVE2_NARRATIVE_COPY_FA.decisions.mission.title,
+  m2_response: MOVE2_NARRATIVE_COPY_FA.decisions.response.title,
+  m2_reason: MOVE2_NARRATIVE_COPY_FA.decisions.reason.title,
+  m3_threshold: MOVE3_NARRATIVE_COPY_FA.decisions.threshold.title,
+  m3_coa: MOVE3_NARRATIVE_COPY_FA.decisions.coa.title,
+  m3_info: MOVE3_NARRATIVE_COPY_FA.decisions.information.title,
+  m3_offramp: MOVE3_NARRATIVE_COPY_FA.decisions.offRamp.title,
+  m3_reason: MOVE3_NARRATIVE_COPY_FA.decisions.reason.title,
 };
 
 const getDecisionOrdinalFromTitle = (title: string) => {
@@ -297,25 +352,14 @@ const HelpPanel = ({ onClose }: { onClose: () => void }) => (
         <h2>راهنما</h2>
         <button onClick={onClose}>بستن</button>
       </div>
-      <section><h3>چطور تصمیم بگیرم؟</h3><p>اطلاعات را بخوانید، محدودیت منابع را ببینید و تصمیمی را انتخاب کنید که با ارزیابی شما از وضعیت سازگار است. سناریو پاسخ صحیح واحد ندارد.</p></section>
-      <section><h3>اعداد چرا پنهان‌اند؟</h3><p>هدف بازی آزمون تصمیم در شرایط واقعی‌تر است. شما وضعیت را به‌صورت کیفی می‌بینید، در حالی که موتور داخلی متغیرهای دقیق را برای تحلیل ثبت می‌کند.</p></section>
-      <section><h3>آیا اسرائیل همیشه دشمن فرض می‌شود؟</h3><p>خیر. نیت واقعی اسرائیل در هر اجرا پنهان است و می‌تواند از آزمون واکنش تا فشار یا حتی رفتار غیرخصمانه اما مبهم متفاوت باشد.</p></section>
-      <section><h3>یادآوری روایی</h3><p>{SCENARIO_FICTION_DISCLAIMER_FA}</p></section>
-      <section><h3>آیا می‌توانم تصمیمم را تغییر دهم؟</h3><p>تا قبل از ثبت نهایی هر نقطه تصمیم، بله. تغییر انتخاب برای تحلیل فرایند تصمیم ثبت می‌شود.</p></section>
+      {HELP_SECTIONS_FA.map((section) => (
+        <section key={section.id}><h3>{section.title}</h3><p>{section.body}</p></section>
+      ))}
     </div>
   </div>
 );
 
 const GlossaryPanel = ({ onClose }: { onClose: () => void }) => {
-  const terms = [
-    ["آگاهی موقعیتی فضایی (SSA)", "توان گردآوری و تحلیل داده درباره موقعیت، حرکت و رفتار دارایی‌های فضایی."],
-    ["انتساب مسئولیت", "فرایند ارزیابی اینکه چه کسی یا چه عاملی در یک رخداد نقش داشته است."],
-    ["هماهنگی کاهش خطر", "ارتباط یا سازوکاری برای کاهش احتمال برخورد، سوءبرداشت یا تداخل ناخواسته."],
-    ["مسیر کاهش تنش", "گزینه‌ای برای خروج از مسیر تشدید بدون الزام به حل کامل اختلاف."],
-    ["انسجام ائتلاف", "میزان هم‌سویی و اعتماد میان ایران و متحدانش در مدیریت بحران."],
-    ["ریسک افشای اطلاعات", "میزان اطلاعاتی که رفتار، ظرفیت، اولویت یا منابع ایران را قابل برداشت می‌کند."],
-    ["برگشت‌پذیری", "میزان امکان بازگشت از یک تصمیم یا تغییر آن بدون هزینه بسیار بالا."],
-  ];
   return (
     <div className="s4-modal-backdrop" role="dialog" aria-modal="true">
       <div className="s4-modal">
@@ -324,8 +368,8 @@ const GlossaryPanel = ({ onClose }: { onClose: () => void }) => {
           <button onClick={onClose}>بستن</button>
         </div>
         <div className="s4-glossary-list">
-          {terms.map(([term, text]) => (
-            <section key={term}><h3>{term}</h3><p>{text}</p></section>
+          {GLOSSARY_ENTRIES_FA.map((entry) => (
+            <section key={entry.id}><h3><bdi>{entry.term}</bdi></h3><p>{entry.definition}</p></section>
           ))}
         </div>
       </div>
@@ -429,16 +473,26 @@ const ResourcePanel = ({
   history: ResourceEvent[];
 }) => {
   const rows = [
-    ["ظرفیت SSA", state.resources.ssaCapacity, "ظرفیت آگاهی موقعیتی فضایی برای تحلیل و رصد تکمیلی."],
+    ["ظرفیت SSA", state.resources.ssaCapacity, "ظرفیت آگاهی موقعیتی فضایی (SSA) برای تحلیل و رصد تکمیلی."],
     ["ظرفیت حفاظتی", state.resources.protectiveCapacity, "توان فنی/عملیاتی برای حفاظت، پشتیبان‌سازی و بازیابی."],
     ["سرمایه سیاسی", state.resources.politicalCapital, "فضای مانور سیاسی برای پیام، ائتلاف و پاسخ رسمی."],
     ["ظرفیت افشای امن", state.resources.disclosureBudget, "مقدار اطلاعات حساسی که هنوز می‌توان بدون هزینه غیرقابل قبول به اشتراک گذاشت."],
   ] as const;
   const keys = ["ssaCapacity", "protectiveCapacity", "politicalCapital", "disclosureBudget"] as const;
-  const statusTone = (value: number) => value >= 85 ? "abundant" : value >= 70 ? "good" : value >= 50 ? "pressure" : "limited";
+  const warningRows = rows.filter(([, value]) => value < 50);
   return (
     <Card>
       <h3 style={{ marginTop: 0 }}>ظرفیت منابع</h3>
+      {warningRows.length > 0 && (
+        <div className={`s4-resource-alert ${warningRows.some(([, value]) => value === 0) ? "exhausted" : warningRows.some(([, value]) => value < 30) ? "critical" : "limited"}`} role="alert">
+          {warningRows.map(([label, value]) => (
+            <p key={label}>
+              <strong>{label}: {value} ({getResourceStatusLabel(value)})</strong>
+              <span>{getPersistentResourceWarning(value)}</span>
+            </p>
+          ))}
+        </div>
+      )}
       <div className="s4-resource-list s4-resource-grid">
         {rows.map(([label, value, title], index) => {
           const recent = [...recentEvents].reverse().find((event) => event.resource === keys[index]);
@@ -446,11 +500,11 @@ const ResourcePanel = ({
             <div key={label} className="s4-resource-row" title={title}>
               <div className="s4-resource-heading">
                 <span>{label}</span>
-                <small className={`s4-resource-status ${statusTone(value)}`}>{getResourceStatusLabel(value)}</small>
+                <small className={`s4-resource-status ${getResourceStatusTone(value)}`}>{getResourceStatusLabel(value)}</small>
               </div>
-              <div className="s4-resource-track"><div style={{ width: `${value}%` }} /></div>
+              <div className="s4-resource-track"><div className={getResourceStatusTone(value)} style={{ width: `${value}%` }} /></div>
               <strong className="s4-resource-value">
-                <b>{value} / 100</b>
+                <b><bdi dir="ltr">{value} / 100</bdi> · شروع <bdi>{state.resourceBaseline?.[keys[index]] ?? 100}</bdi></b>
                 {recent && <i className={recent.delta > 0 ? "positive" : "negative"}>{recent.delta > 0 ? "+" : ""}{recent.delta}</i>}
               </strong>
             </div>
@@ -470,53 +524,9 @@ const ResourcePanel = ({
           </div>
         )}
       </details>
+      <p className="s4-resource-boundary">مقادیر منابع، ظرفیت‌های نرمال‌شده درون این سناریو هستند و نباید به‌عنوان اندازه‌گیری یا برآورد تجربی ظرفیت واقعی هیچ کشور یا سازمانی تفسیر شوند.</p>
     </Card>
   );
-};
-
-const incidentCauseLabel = (cause?: string) => {
-  const labels: Record<string, string> = {
-    red_reversible_interference: "مداخله برگشت‌پذیر منتسب به اسرائیل",
-    technical_fault: "نقص فنی داخلی",
-    environmental_or_external: "عامل محیطی یا خارجی غیرمنتسب به اسرائیل",
-    mixed_cause: "ترکیب چند عامل",
-  };
-  return cause ? labels[cause] ?? cause : "ثبت نشده";
-};
-
-const truthAttributionLabel = (attribution: string) => {
-  const labels: Record<string, string> = {
-    red: "نقش اسرائیل تأیید می‌شود",
-    non_red: "نقش مستقیم اسرائیل در علت اصلی تأیید نشد",
-    mixed: "اسرائیل در بخشی از رخداد نقش داشت",
-  };
-  return labels[attribution] ?? attribution;
-};
-
-const redIntentPersianLabel = (intent: string) => {
-  const labels: Record<string, string> = {
-    probe: "آزمون واکنش",
-    coercion: "اعمال فشار",
-    intelligence_collection: "جمع‌آوری اطلاعات",
-    alliance_fracture: "ایجاد شکاف ائتلافی",
-    benign_ambiguous: "رفتار غیرخصمانه اما مبهم",
-  };
-  return labels[intent] ?? intent;
-};
-
-const endStatePersianLabel = (endState: string) => {
-  const labels: Record<string, string> = {
-    calm_crisis_control: "مهار آرام بحران",
-    costly_deterrence: "بازدارندگی پرهزینه",
-    persistent_ambiguity: "ابهام پایدار",
-    coalition_fracture: "شکاف ائتلافی",
-    escalation_spiral: "مارپیچ تشدید",
-    intelligence_failure: "شکست اطلاعاتی",
-    negotiated_deescalation: "کاهش تنش مذاکره‌شده",
-    strategic_information_opportunity: "فرصت اطلاعاتی راهبردی",
-    mixed_crisis_containment: "مهار نسبی بحران",
-  };
-  return labels[endState] ?? endState;
 };
 
 const OrbitalScene = ({
@@ -570,40 +580,15 @@ const OrbitalScene = ({
   const showOffRamp = Boolean(state?.flags.m2OffRampOfferedByRed || state?.flags.m2OffRampOfferedByBlue || move3Coa === "m3_coa_negotiated_deescalation");
   const publicWarning = communicationChoice === "m1_c_public_warning";
   const privateMessage = communicationChoice === "m1_c_private" || communicationChoice === "m1_c_private_allied" || move2ResponseChoice === "m2_r_request_explanation";
-  const finalSceneCaptions: Record<string, string> = {
-    calm_crisis_control: "وضعیت مداری: بحران کنترل شده و اسرائیل عملاً از مسیر فشار فاصله گرفته است.",
-    costly_deterrence: "وضعیت مداری: اسرائیل فاصله گرفته، اما کنترل بحران برای ایران پرهزینه بوده است.",
-    persistent_ambiguity: "وضعیت مداری: مأموریت ادامه دارد، اما رفتار اسرائیل همچنان چندتعبیری و حل‌نشده است.",
-    coalition_fracture: "وضعیت مداری: بحران ادامه دارد و شکاف میان متحدان ایران توان پاسخ هماهنگ را کاهش داده است.",
-    escalation_spiral: "وضعیت مداری: فشار بحران شدید است و مسیر تشدید ادامه دارد.",
-    intelligence_failure: "وضعیت مداری: نتیجه عملیاتی زیر سایه انتساب نادرست و ادعای فراتر از شواهد قرار گرفته است.",
-    negotiated_deescalation: "وضعیت مداری: مسیر کاهش تنش با پذیرش یا فاصله‌گذاری متقابل اسرائیل فعال شده است.",
-    strategic_information_opportunity: "وضعیت مداری: بحران نسبی مهار شده و فرصت شناخت بیشتر باقی مانده است.",
-    mixed_crisis_containment: "وضعیت مداری: بحران تا حدی مهار شده، اما بخشی از ریسک‌ها باقی مانده است.",
-  };
   const finalSceneCaption = primaryEndState && ["final_report", "aar", "dashboard"].includes(phase)
-    ? finalSceneCaptions[primaryEndState]
+    ? END_STATE_NARRATIVES_FA[primaryEndState as keyof typeof END_STATE_NARRATIVES_FA]?.shortSummary
     : undefined;
   const orbitalCaption = finalSceneCaption ?? (
     phase.startsWith("move2")
-      ? showFallback
-        ? "وضعیت A-17: بخشی از سرویس به ظرفیت پشتیبان منتقل شده است."
-        : "وضعیت A-17: افت کیفیت سرویس ثبت شده و علت قطعی نیست."
+      ? getMove2SceneCaption(redAction)
       : phase.startsWith("move3")
-        ? showOffRamp
-          ? "وضعیت مداری: مسیر کاهش تنش یا فاصله‌گذاری روی میز است."
-          : "وضعیت بحران: تصمیم نهایی درباره اقدام و سیاست اطلاعاتی در حال شکل‌گیری است."
-        : redAction === "deescalate_and_separate"
-          ? "وضعیت مداری: اسرائیل فاصله خود را افزایش داده و فشار بحران کاهش یافته است."
-          : redAction === "accept_interim_offramp"
-            ? "وضعیت مداری: اسرائیل مسیر موقت کاهش تنش را پذیرفته است."
-        : redAction === "break_off"
-          ? "وضعیت مداری: R-31 فاصله خود را افزایش داده است."
-          : redAction === "slow_approach"
-            ? "وضعیت مداری: سرعت نزدیک‌شدن R-31 کاهش یافته است."
-            : redAction === "continue_approach"
-              ? "وضعیت مداری: روند نزدیک‌شدن R-31 ادامه دارد."
-              : "وضعیت مداری: رفتار R-31 هنوز چندتعبیری است."
+        ? getMove3SceneCaption(redAction)
+        : getMove1SceneCaption(redAction)
   );
 
   return (
@@ -746,6 +731,7 @@ const OrbitalScene = ({
 
 const DecisionWindow = ({
   title,
+  intro,
   context,
   question,
   why,
@@ -754,19 +740,23 @@ const DecisionWindow = ({
   onSelect,
   onConfirm,
   infoGuideActive,
+  resources,
 }: {
   title: string;
+  intro?: string;
   context?: string;
   question: string;
   why?: string;
-  options: DecisionOption[];
+  options: DisplayDecisionOption[];
   selectedId?: string;
   onSelect: (optionId: string) => void;
   onConfirm: () => void;
   infoGuideActive?: boolean;
+  resources: ScenarioOneState["resources"];
 }) => (
   <DecisionWindowInner
     title={title}
+    intro={intro}
     context={context}
     question={question}
     why={why}
@@ -775,11 +765,13 @@ const DecisionWindow = ({
     onSelect={onSelect}
     onConfirm={onConfirm}
     infoGuideActive={infoGuideActive}
+    resources={resources}
   />
 );
 
 const DecisionWindowInner = ({
   title,
+  intro,
   context,
   question,
   why,
@@ -788,27 +780,33 @@ const DecisionWindowInner = ({
   onSelect,
   onConfirm,
   infoGuideActive,
+  resources,
 }: {
   title: string;
+  intro?: string;
   context?: string;
   question: string;
   why?: string;
-  options: DecisionOption[];
+  options: DisplayDecisionOption[];
   selectedId?: string;
   onSelect: (optionId: string) => void;
   onConfirm: () => void;
   infoGuideActive?: boolean;
+  resources: ScenarioOneState["resources"];
 }) => {
-  const [detailOption, setDetailOption] = useState<DecisionOption | null>(null);
+  const [detailOption, setDetailOption] = useState<DisplayDecisionOption | null>(null);
   const selectedOption = options.find((option) => option.id === selectedId);
+  const selectedProjection = selectedId ? getResourceProjection(resources, selectedId) : undefined;
+  const selectedDirectCost = selectedId ? formatDirectResourceCost(selectedId) : undefined;
   const compact = options.length >= 6 || options.every((option) => !option.description);
   const decisionOrdinal = getDecisionOrdinalFromTitle(title);
   return (
-    <Card>
+    <Card className="s4-decision-panel">
       <div className={`s4-decision-window${compact ? " compact" : ""}${infoGuideActive ? " info-guide-active" : ""}`}>
         <div>
           {decisionOrdinal && <span className="s4-decision-kicker">نقطه تصمیم {decisionOrdinal} از ۹</span>}
           <h2>{title}</h2>
+          {intro && <p className="s4-decision-intro">{intro}</p>}
           {context && (
             <div className="s4-decision-context">
               <strong>چه اتفاقی افتاده؟</strong>
@@ -818,13 +816,15 @@ const DecisionWindowInner = ({
           <p className="s4-decision-question">{question}</p>
           {why && <p className="s4-decision-why"><strong>چرا مهم است؟</strong> {why}</p>}
         </div>
+        {selectedDirectCost && <p className="s4-resource-consequence s4-current-resource-cost" role="status" aria-live="polite">{selectedDirectCost}</p>}
         <div className="s4-options-grid">
           {options.map((option, optionIndex) => {
             const active = option.id === selectedId;
             const certainCosts = getCertainResourceCosts(option.id);
+            const projection = getResourceProjection(resources, option.id);
             return (
-              <div key={option.id} className={`s4-option-card${active ? " selected" : ""}`}>
-                <button type="button" onClick={() => onSelect(option.id)}>
+              <div key={option.id} className={`s4-option-card${active ? " selected" : ""}${!projection.affordable ? " unavailable" : ""}`}>
+                <button type="button" disabled={!projection.affordable} onClick={() => onSelect(option.id)}>
                   <strong>{option.label}</strong>
                   {option.description && <span>{option.description}</span>}
                   {certainCosts.length > 0 && (
@@ -832,6 +832,7 @@ const DecisionWindowInner = ({
                       هزینه قطعی منابع: {certainCosts.map((cost) => `${cost.label} ${cost.delta}`).join("، ")}
                     </small>
                   )}
+                  {!projection.affordable && <small className="s4-option-resource-shortfall">{RESOURCE_UX_COPY_FA.insufficientResource}</small>}
                 </button>
                 <button
                   type="button"
@@ -846,8 +847,28 @@ const DecisionWindowInner = ({
           })}
         </div>
         <div className="s4-confirm-bar">
-          <span>انتخاب شما: <strong>{selectedOption?.label ?? "هنوز انتخاب نشده"}</strong></span>
-          <button className="primary s4-button s4-button-primary" disabled={!selectedId} onClick={onConfirm}>ثبت تصمیم</button>
+          {selectedProjection && selectedProjection.items.length > 0 && (
+            <div className="s4-resource-projection" aria-live="polite">
+              <strong>برآورد منابع پس از ثبت این تصمیم</strong>
+              <div>
+                {selectedProjection.items.map((item) => (
+                  <span key={item.resource} className={item.crossesBand ? `crosses ${getResourceStatusTone(item.projected)}` : ""}>
+                    {item.label}: از {item.current} به {item.projected} ({item.delta}) · {item.afterStatus}
+                  </span>
+                ))}
+              </div>
+              <div className="s4-resource-projection-warnings">
+                {selectedProjection.items.map((item) => {
+                  const warning = getProjectedScarcityWarning(item.projected, item.crossesBand);
+                  return warning ? <small key={item.resource}><strong>{item.label}:</strong> {warning}</small> : null;
+                })}
+              </div>
+            </div>
+          )}
+          <div className="s4-confirm-actions">
+            <span>انتخاب شما: <strong>{selectedOption?.label ?? "هنوز انتخاب نشده"}</strong></span>
+            <button className="primary s4-button s4-button-primary" disabled={!selectedId || !selectedProjection?.affordable} onClick={onConfirm}>ثبت تصمیم</button>
+          </div>
         </div>
       </div>
       {detailOption && (
@@ -859,6 +880,9 @@ const DecisionWindowInner = ({
             </div>
             <h2>{detailOption.label}</h2>
             <p>{detailOption.description ?? "این گزینه یک مسیر فشرده برای ثبت دلیل یا اولویت تصمیم است."}</p>
+            {detailOption.tradeoff && (
+              <p className="s4-option-tradeoff"><strong>{MOVE1_NARRATIVE_COPY_FA.ui.tradeoffLabel}:</strong> {detailOption.tradeoff}</p>
+            )}
             <p className="hint">مشاهده توضیحات بیشتر می‌تواند به انتخاب‌های بهتر منجر شود.</p>
           </div>
         </div>
@@ -867,55 +891,36 @@ const DecisionWindowInner = ({
   );
 };
 
-const introScreens: Record<Extract<Phase, "intro_title" | "intro_narrative" | "intro_role" | "intro_objectives" | "intro_rules">, {
-  title: string;
-  subtitle?: string;
-  body?: string;
-  cta: string;
-}> = {
-  intro_title: {
-    title: "حریم خاکستری مدار",
-    subtitle: "همه تهدیدها با شلیک آغاز نمی‌شوند.",
-    body: "سناریو ۴ | بازی جنگ فضایی تصمیم‌محور",
-    cta: "ادامه",
-  },
-  intro_narrative: {
-    title: "روایت بحران",
-    body:
-      "مدار پایین زمین هرگز کاملاً آرام نیست.\n\nصدها دارایی فضایی در مسیرهای مختلف حرکت می‌کنند؛ برخی برای ارتباط، برخی برای تصویربرداری، برخی برای پایش و برخی برای سرویس و بازرسی ماهواره‌های دیگر.\n\nدر چنین محیطی، نزدیک‌شدن یک ماهواره به ماهواره دیگر لزوماً یک اقدام خصمانه نیست. اما وقتی روابط سیاسی روی زمین پرتنش باشد، همان مانور عادی می‌تواند معنای دیگری پیدا کند.\n\nطی چند روز گذشته، سامانه‌های پایش ایران تغییر کوچکی در رفتار یک دارایی فضایی متعلق به اسرائیل ثبت کرده‌اند. این دارایی با شناسه R-31 رسماً برای عملیات خدماتی و بازرسی مداری معرفی شده است.\n\nاکنون مسیر آن تغییر کرده است. فاصله R-31 با A-17، دارایی فضایی ایران، در حال کاهش است.\n\nهنوز هیچ حمله‌ای رخ نداده است. هیچ اختلالی به‌طور قطعی به اسرائیل نسبت داده نشده است. و هیچ مدرکی وجود ندارد که ثابت کند نزدیک‌شدن R-31 مقدمه یک اقدام خصمانه است.\n\nاز این لحظه، هر تصمیم شما فقط وضعیت A-17 را تغییر نمی‌دهد. اسرائیل رفتار ایران را می‌بیند و تفسیر می‌کند. متحدان ایران درباره قضاوت شما تصمیم می‌گیرند. اپراتورهای تجاری ممکن است همکاری کنند یا محتاط‌تر شوند.",
-    cta: "نقش من در این بحران چیست؟",
-  },
-  intro_role: {
-    title: "نقش شما",
-    body:
-      "شما رئیس سلول تصمیم‌گیری عملیات فضایی ایران هستید.\n\nوظیفه شما هدایت مستقیم یک ماهواره یا اجرای یک اقدام فنی خاص نیست. شما باید اطلاعات را ارزیابی کنید، میان گزینه‌های مختلف تعادل برقرار کنید و تصمیم‌هایی بگیرید که پیامد عملیاتی، اطلاعاتی، سیاسی و راهبردی دارند.\n\nدر طول سناریو با سه نوع مسئله روبه‌رو می‌شوید:\n- چه مقدار اطلاعات برای تصمیم کافی است؟\n- چه زمانی حفاظت باید آشکار یا پنهان باشد؟\n- چه زمانی پیام، فشار، همکاری یا کاهش تنش مناسب‌تر است؟\n\nاسرائیل نیز مستقل تصمیم می‌گیرد. بنابراین یک انتخاب مشابه همیشه نتیجه یکسانی ایجاد نمی‌کند.\n\nدر این سناریو پاسخ صحیح واحد وجود ندارد.",
-    cta: "اهداف مأموریت",
-  },
-  intro_objectives: {
-    title: "اهداف مأموریت",
-    body:
-      "۱. حفظ تداوم مأموریت: تا حد امکان عملکرد A-17 و خدمات وابسته به آن حفظ شود.\n\n۲. افزایش شناخت: میان نشانه، فرضیه و شواهد قابل اتکا تفاوت بگذارید.\n\n۳. کنترل تشدید: از تبدیل سوءبرداشت یا حادثه محدود به بحران بزرگ‌تر جلوگیری کنید.\n\n۴. حفظ گزینه‌های آینده: همه منابع، اطلاعات و سرمایه سیاسی را در ابتدای بحران مصرف نکنید.\n\n۵. مدیریت ائتلاف: متحدان ایران می‌توانند منبع قدرت و اطلاعات باشند، اما حمایت آن‌ها خودکار نیست.\n\n۶. پرهیز از ادعای فراتر از شواهد: اشتراک اطلاعات می‌تواند اعتماد بسازد؛ ادعا یا افشای بیش از شواهد نیز هزینه دارد.",
-    cta: "قواعد سناریو",
-  },
-  intro_rules: {
-    title: "چگونه بازی می‌کنید؟",
-    body:
-      "اطلاعات کامل نیست: همه داده‌ها از ابتدا در دسترس نیستند و بعضی گزارش‌ها ممکن است ناقص یا متناقض باشند.\n\nاسرائیل مستقل است: R-31 مستقیماً از گزینه شما به یک پاسخ ثابت نمی‌رود؛ رفتار آن بر اساس هدف و برداشت از اقدامات قابل مشاهده ایران تعیین می‌شود.\n\nتصمیم‌ها حافظه دارند: منابع، اعتماد، افشای اطلاعات و وضعیت بحران از مرحله‌ای به مرحله بعد منتقل می‌شوند.\n\nوضعیت‌های نامطمئن کیفی نمایش داده می‌شوند، اما مقدار دقیق منابع خودی همیشه قابل مشاهده است. موتور داخلی متغیرهای پنهان را برای تحلیل ثبت می‌کند.\n\nحقیقت بعداً آشکار می‌شود: در پایان بازی، ابتدا نتیجه مأموریت را می‌بینید. سپس در تحلیل پس از اقدام مشخص می‌شود واقعاً چه رخ داده بود.",
-    cta: "آغاز مرحله اول: نزدیک‌شدن",
-  },
-};
-
-const IntroScreen = ({ phase, onNext }: { phase: keyof typeof introScreens; onNext: () => void }) => {
-  const screen = introScreens[phase];
+const IntroScreen = ({ phase, onNext }: { phase: IntroNarrativeScreen["id"]; onNext: () => void }) => {
+  const screen = getIntroScreen(phase);
   return (
     <div className="s4-intro-shell">
       <OrbitalScene phase={phase} />
       <Card>
         <div className="s4-intro-content">
-          <span className="s4-kicker">سناریو ۴ | بازی جنگ فضایی</span>
+          {screen.kicker && <span className="s4-kicker">{screen.kicker}</span>}
           <h1>{screen.title}</h1>
           {screen.subtitle && <h2>{screen.subtitle}</h2>}
+          {screen.supportLine && <p className="s4-intro-support">{screen.supportLine}</p>}
           {screen.body && <p>{screen.body}</p>}
+          {screen.closingLine && <p className="s4-intro-callout">{screen.closingLine}</p>}
+          {screen.callout && <p className="s4-intro-callout">{screen.callout}</p>}
+          {screen.items && (
+            <div className="s4-intro-item-grid">
+              {screen.items.map((item) => (
+                <section key={item.title}>
+                  <h3>{item.title}</h3>
+                  <p>{item.body}</p>
+                </section>
+              ))}
+            </div>
+          )}
+          {screen.rules && (
+            <ul className="s4-intro-rules">
+              {screen.rules.map((rule) => <li key={rule}>{rule}</li>)}
+            </ul>
+          )}
+          {screen.disclaimer && <p className="s4-intro-disclaimer">{screen.disclaimer}</p>}
           <button className="primary" onClick={onNext}>{screen.cta}</button>
         </div>
       </Card>
@@ -923,13 +928,18 @@ const IntroScreen = ({ phase, onNext }: { phase: keyof typeof introScreens; onNe
   );
 };
 
+const NarrativeTraceForAdmin = ({ section, enabled }: { section: NarrativeSection; enabled: boolean }) =>
+  enabled && section.trace
+    ? <small className="hint">{section.trace.narrativeId} · {section.trace.sourceIds.join(", ")}</small>
+    : null;
+
 const EvidenceCard = ({
   card,
   source,
   sensitivity,
   onToggle,
 }: {
-  card: { id: string; title: string; status: string; text: string };
+  card: { id: string; title: string; status: string; text: string; limitation?: string };
   source: string;
   sensitivity: string;
   onToggle: (open: boolean) => void;
@@ -960,11 +970,33 @@ const EvidenceCard = ({
           eventLogger.log({ type: "s4_evidence_detail_open", detail: { evidenceId: card.id } });
         }
       }}>
-        <summary>این گزارش چه چیزی را ثابت نمی‌کند؟</summary>
-        <p>این گزارش به‌تنهایی نیت، مسئولیت قطعی یا بهترین مسیر اقدام را ثابت نمی‌کند؛ فقط بخشی از تصویر را روشن‌تر می‌کند.</p>
+        <summary>{MOVE1_NARRATIVE_COPY_FA.ui.evidenceLimitationLabel}</summary>
+        <p>{card.limitation ?? MOVE1_NARRATIVE_COPY_FA.ui.genericEvidenceLimitation}</p>
       </details>
     </details>
   );
+};
+
+const Move1InjectNotice = ({
+  definition,
+  onContinue,
+}: {
+  definition: InjectNarrativeDefinition;
+  onContinue?: () => void;
+}) => (
+  <Card>
+    <div className="s4-move1-inject">
+      <h2>{definition.title}</h2>
+      <p><strong>{MOVE1_NARRATIVE_COPY_FA.ui.injectWhatHappenedLabel}</strong> {definition.whatHappened}</p>
+      <p><strong>{MOVE1_NARRATIVE_COPY_FA.ui.injectWhyItMattersLabel}</strong> {definition.whyItMatters}</p>
+      {definition.cta && onContinue && <button className="primary" type="button" onClick={onContinue}>{definition.cta}</button>}
+    </div>
+  </Card>
+);
+
+const Move2ResourceNotice = ({ record }: { record?: ScenarioOneDecisionRecord }) => {
+  if (!record) return null;
+  return <p className="s4-resource-consequence" role="status">{getMove2ResourceConsequence(record.resourceEvents)}</p>;
 };
 
 const decisionWeight: Record<string, number> = {
@@ -1073,6 +1105,21 @@ const CognitiveDashboard = ({
     ["گرایش به پذیرش ریسک", cognitiveV3?.scores.riskPosture == null ? null : (cognitiveV3.scores.riskPosture + 1) * 50, "جایگاه نسبی انتخاب‌ها در طیف ریسک‌گریز تا ریسک‌پذیر نسبت به گزینه‌های همان موقعیت."],
     ["انسجام تصمیم", cognitiveV3?.scores.decisionCoherence ?? null, "هم‌خوانی دلیل اعلام‌شده با مسیر انتخاب‌ها؛ مقدار پایین به معنی تصمیم اشتباه نیست."],
   ];
+  const resourceNames: Record<keyof ScenarioOneState["resources"], string> = {
+    ssaCapacity: "ظرفیت SSA",
+    protectiveCapacity: "ظرفیت حفاظتی",
+    politicalCapital: "سرمایه سیاسی",
+    disclosureBudget: "ظرفیت افشای امن",
+  };
+  const finalResourceEntries = (Object.entries(finalSnapshot.finalState.resources) as Array<[keyof ScenarioOneState["resources"], number]>);
+  const finalResourceBaseline = getStateResourceBaseline(finalSnapshot.finalState);
+  const mostPressuredResource = [...finalResourceEntries].sort(([keyA, valueA], [keyB, valueB]) =>
+    valueA / finalResourceBaseline[keyA] - valueB / finalResourceBaseline[keyB]
+  )[0];
+  const minimumFinalResource = Math.min(...finalResourceEntries.map(([, value]) => value));
+  const anyCriticalResource = finalResourceEntries.some(([, value]) => value < 30);
+  const totalUserSpent = Object.values(finalSnapshot.finalState.resourceAccounting?.userSpent ?? {}).reduce((sum, value) => sum + value, 0);
+  const totalRecovered = Object.values(finalSnapshot.finalState.resourceAccounting?.recovered ?? {}).reduce((sum, value) => sum + value, 0);
 
   return (
     <Card>
@@ -1131,7 +1178,7 @@ const CognitiveDashboard = ({
           <p>زمان مطالعه فعال شواهد: {((cognitiveV3?.timing.totalEvidenceDwellMs ?? 0) / 1000).toFixed(1)} ثانیه. زمان واکنش فقط توصیفی است و در شاخص جهت‌گیری یا کیفیت تصمیم دخالت ندارد.</p>
           <p>طولانی‌ترین تصمیم: {cognitiveV3?.timing.longestDecision ? `${windowTitles[cognitiveV3.timing.longestDecision.windowId as DecisionWindowId]}، ${(cognitiveV3.timing.longestDecision.activeDecisionMs / 1000).toFixed(1)} ثانیه` : "داده ناکافی"}؛ کوتاه‌ترین تصمیم: {cognitiveV3?.timing.shortestDecision ? `${windowTitles[cognitiveV3.timing.shortestDecision.windowId as DecisionWindowId]}، ${(cognitiveV3.timing.shortestDecision.activeDecisionMs / 1000).toFixed(1)} ثانیه` : "داده ناکافی"}.</p>
           <p>تغییر انتخاب اول تا نهایی: {cognitiveV3?.timing.firstToFinalChanges.length ?? 0} پنجره؛ نرخ بازنگری پس از مشاهده شواهد مرتبط: {cognitiveV3?.timing.evidenceTriggeredRevisionRate == null ? "داده کافی ثبت نشده است" : `${cognitiveV3.timing.evidenceTriggeredRevisionRate.toFixed(0)}٪`}.</p>
-          <p>وضعیت پایانی: {endStatePersianLabel(finalSnapshot.primaryEndState)}</p>
+          <p>وضعیت پایانی: {END_STATE_LABELS_FA[finalSnapshot.primaryEndState]}</p>
         </section>
         <section>
           <h3>مسیر اطمینان انتساب</h3>
@@ -1158,6 +1205,13 @@ const CognitiveDashboard = ({
         </section>
         <section>
           <h3>مسیر منابع</h3>
+          <div className="s4-resource-summary">
+            <span><strong>{minimumFinalResource}</strong>کمترین ذخیره پایانی</span>
+            <span><strong>{resourceNames[mostPressuredResource[0]]}</strong>پرفشارترین منبع</span>
+            <span><strong>{anyCriticalResource ? "بله" : "خیر"}</strong>ورود به سطح بحرانی</span>
+            <span><strong>{totalUserSpent}</strong>مصرف مستقیم انتخاب‌ها</span>
+            <span><strong>{totalRecovered}</strong>بازیابی بین مراحل</span>
+          </div>
           <div className="s4-resource-paths">
             {[
               ["ظرفیت SSA", "ssaCapacity"],
@@ -1167,8 +1221,8 @@ const CognitiveDashboard = ({
             ].map(([label, key]) => {
               const points = [
                 finalSnapshot.move1.stateBefore.resources,
-                move2[0]?.stateBefore.resources ?? finalSnapshot.move1.stateAfter.resources,
-                move3[0]?.stateBefore.resources ?? finalSnapshot.move2.stateAfter.resources,
+                finalSnapshot.move1.stateAfter.resources,
+                finalSnapshot.move2.stateAfter.resources,
                 finalSnapshot.move3.stateAfter.resources,
               ].map((resources) => resources[key as keyof typeof resources]);
               const stageLabels = ["شروع", "پس از مرحله ۱", "پس از مرحله ۲", "پس از مرحله ۳"];
@@ -1181,7 +1235,7 @@ const CognitiveDashboard = ({
                       return (
                         <div key={`${label}-${index}`} className="s4-resource-path-stage">
                           <span>{stageLabels[index]}</span>
-                          <b>{value} / 100</b>
+                          <b dir="ltr">{value} / 100</b>
                           <div><i style={{ width: `${value}%` }} /></div>
                           <small className={delta > 0 ? "positive" : delta < 0 ? "negative" : ""}>
                             {index === 0 ? "مقدار اولیه" : delta === 0 ? "بدون تغییر" : `${delta > 0 ? "+" : ""}${delta}`}
@@ -1206,6 +1260,7 @@ const CognitiveDashboard = ({
               );
             })}
           </details>
+          <p className="s4-resource-boundary">مقادیر منابع، ظرفیت‌های نرمال‌شده درون این سناریو هستند و نباید به‌عنوان اندازه‌گیری یا برآورد تجربی ظرفیت واقعی هیچ کشور یا سازمانی تفسیر شوند.</p>
         </section>
         {isAdmin && (
           <section className="s4-admin-methodology">
@@ -1254,6 +1309,7 @@ export const ScenarioFourRedesignedScenarioOne = ({
   const confirmLockedRef = useRef(false);
 
   const [phase, setPhase] = useState<Phase>("intro_title");
+  const [narrativeDebugEnabled, setNarrativeDebugEnabled] = useState(false);
   const [state, setState] = useState<ScenarioOneState>(() => {
     const storedRun = localStorage.getItem(RUN_KEY);
     const run =
@@ -1285,7 +1341,6 @@ export const ScenarioFourRedesignedScenarioOne = ({
   const [move2Snapshot, setMove2Snapshot] = useState<Move2Snapshot | null>(null);
   const [move3Snapshot, setMove3Snapshot] = useState<Move3Snapshot | null>(null);
   const [finalSnapshot, setFinalSnapshot] = useState<ScenarioOneFinalSnapshot | null>(null);
-  const [situationUpdate, setSituationUpdate] = useState<Array<{ title: string; text: string }>>([]);
   const [redScores, setRedScores] = useState<Record<string, number> | null>(null);
   const [checkpointCount, setCheckpointCount] = useState(0);
   const [move2Choices, setMove2Choices] = useState({
@@ -1302,6 +1357,7 @@ export const ScenarioFourRedesignedScenarioOne = ({
     reason: "",
   });
   const [move2Decisions, setMove2Decisions] = useState<ScenarioOneDecisionRecord[]>([]);
+  const [move2InvestigationInjects, setMove2InvestigationInjects] = useState<string[]>([]);
   const [move3Decisions, setMove3Decisions] = useState<ScenarioOneDecisionRecord[]>([]);
   const [move2AttributionPre, setMove2AttributionPre] = useState(50);
   const [move2AttributionPost, setMove2AttributionPost] = useState(50);
@@ -1313,6 +1369,7 @@ export const ScenarioFourRedesignedScenarioOne = ({
   const [evidenceReviewOpen, setEvidenceReviewOpen] = useState(false);
   const [toolbarGuideOpen, setToolbarGuideOpen] = useState(true);
   const [decisionInfoGuideOpen, setDecisionInfoGuideOpen] = useState(true);
+  const [move1ConflictAcknowledged, setMove1ConflictAcknowledged] = useState(false);
   const [exitConfirmOpen, setExitConfirmOpen] = useState(false);
   const [resourceEvents, setResourceEvents] = useState<ResourceEvent[]>([]);
   const [recentResourceEvents, setRecentResourceEvents] = useState<ResourceEvent[]>([]);
@@ -1345,6 +1402,7 @@ export const ScenarioFourRedesignedScenarioOne = ({
     onCompletionUiActiveChange?.(
       phase === "update" ||
         phase === "move2_update" ||
+        phase === "move3_update" ||
         phase === "final_report" ||
         phase === "dashboard" ||
         phase === "aar"
@@ -1511,7 +1569,7 @@ export const ScenarioFourRedesignedScenarioOne = ({
     windowId: "m1_information" | "m1_protection" | "m1_communication",
     nextPhase: Phase
   ) => {
-    if (!selectedId || confirmLockedRef.current) return;
+    if (!selectedId || !canAffordResourceCosts(state.resources, selectedId) || confirmLockedRef.current) return;
     confirmLockedRef.current = true;
     const before = stateBeforeWindowRef.current ?? cloneState(state);
     const after = applyBlueDecision(state, windowId, selectedId, rngSeed);
@@ -1593,7 +1651,6 @@ export const ScenarioFourRedesignedScenarioOne = ({
       rngSeed,
     });
     setSnapshot(result.snapshot);
-    setSituationUpdate(result.situationUpdate);
     setRedScores(result.redScores);
     localStorage.setItem(STORAGE_KEY, JSON.stringify(result.snapshot));
     localStorage.setItem(
@@ -1704,10 +1761,16 @@ export const ScenarioFourRedesignedScenarioOne = ({
     windowId: "m2_investigation" | "m2_mission" | "m2_response",
     nextPhase: Phase
   ) => {
-    if (!selectedId || confirmLockedRef.current) return;
+    if (!selectedId || !canAffordResourceCosts(state.resources, selectedId) || confirmLockedRef.current) return;
     confirmLockedRef.current = true;
     const before = stateBeforeWindowRef.current ?? cloneState(state);
     const after = applyMove2Decision(state, windowId, selectedId, `${rngSeed}:move2`);
+    if (windowId === "m2_investigation") {
+      setMove2InvestigationInjects([
+        ...(after.flags.m2IntelDelay ? ["m2_inject_2b_intelligence_delay"] : []),
+        ...(after.flags.m2CommercialRestriction ? ["m2_inject_2c_commercial_restriction"] : []),
+      ]);
+    }
     const decisionResourceEvents = captureDecisionResourceEvents(before.resources, after.resources, selectedId, "move_2");
     const telemetryV3 = buildDecisionTelemetry("move_2", windowId, selectedId, before, after);
     const elapsed = telemetryV3.elapsedMs;
@@ -1778,7 +1841,6 @@ export const ScenarioFourRedesignedScenarioOne = ({
       previousMoveSnapshotRef: snapshot.completedAt,
     });
     setMove2Snapshot(result.snapshot);
-    setSituationUpdate(result.situationUpdate);
     setState(result.snapshot.stateAfter);
     localStorage.setItem(
       "space-war.scenario4.redesigned-s1.move2.snapshot",
@@ -1846,7 +1908,7 @@ export const ScenarioFourRedesignedScenarioOne = ({
     windowId: "m3_threshold" | "m3_coa" | "m3_info" | "m3_offramp",
     nextPhase: Phase
   ) => {
-    if (!selectedId || confirmLockedRef.current) return;
+    if (!selectedId || !canAffordResourceCosts(state.resources, selectedId) || confirmLockedRef.current) return;
     confirmLockedRef.current = true;
     const before = stateBeforeWindowRef.current ?? cloneState(state);
     const after = applyMove3Decision(state, windowId, selectedId);
@@ -1978,7 +2040,7 @@ export const ScenarioFourRedesignedScenarioOne = ({
       runId: runIdRef.current,
       completedAt: result.finalSnapshot.completedAt,
     });
-    setPhase("final_report");
+    setPhase("move3_update");
   };
 
   const trackEvidenceToggle = (cardId: string, sourceType: string, open: boolean) => {
@@ -2004,7 +2066,7 @@ export const ScenarioFourRedesignedScenarioOne = ({
 
   const unlockedIntel = intelCards.filter((card) => state.knowledge.evidenceIds.includes(card.id));
   const goNextIntro = () => {
-    const order: Phase[] = ["intro_title", "intro_narrative", "intro_role", "intro_objectives", "intro_rules", "brief"];
+    const order: Phase[] = ["intro_title", "intro_narrative", "intro_role", "intro_objectives", "intro_how_to", "intro_rules", "brief"];
     const current = order.indexOf(phase);
     const next = order[current + 1] ?? "brief";
     if (next === "brief") {
@@ -2016,17 +2078,107 @@ export const ScenarioFourRedesignedScenarioOne = ({
     state.knowledge.evidenceIds.includes(card.id)
   );
   const latestRedAction = move3Snapshot?.redAction ?? move2Snapshot?.redAction ?? snapshot?.redAction;
-  const attributionBrier = finalSnapshot
+  const attributionBrier = phase === "aar" && finalSnapshot
     ? calculateAttributionBrier(move3Snapshot?.playerAttributionEstimateFinal, finalSnapshot.hiddenAarData.trueIncidentAttribution)
+    : null;
+  const aarEstimatePre = move2Snapshot?.attributionEstimatePre;
+  const aarEstimatePost = move2Snapshot?.attributionEstimatePost;
+  const aarEstimateFinal = move3Snapshot?.playerAttributionEstimateFinal;
+  const aarTruth = phase === "aar" ? finalSnapshot?.hiddenAarData.trueIncidentAttribution : undefined;
+  const aarTruthExplanation = aarTruth ? getTruthExplanation(aarTruth) : MOVE3_NARRATIVE_COPY_FA.aar.unavailable;
+  const aarTrajectory = typeof aarEstimatePre === "number" && typeof aarEstimatePost === "number" && typeof aarEstimateFinal === "number"
+    ? formatAttributionTrajectory(aarEstimatePre, aarEstimatePost, aarEstimateFinal)
+    : MOVE3_NARRATIVE_COPY_FA.aar.unavailable;
+  const aarBrierInterpretation = attributionBrier
+    ? getBrierPlainLanguageInterpretation(attributionBrier.brier)
+    : MOVE3_NARRATIVE_COPY_FA.aar.unavailable;
+  const aarEstimateExplanation = attributionBrier
+    ? getFinalEstimateExplanation(attributionBrier.estimate, attributionBrier.brier)
+    : MOVE3_NARRATIVE_COPY_FA.aar.unavailable;
+  const aarResultMeaning = attributionBrier && aarTruth
+    ? getAarResultMeaning(attributionBrier.estimate, aarTruth)
+    : MOVE3_NARRATIVE_COPY_FA.aar.unavailable;
+  const aarThresholdLabel = thresholdOptions.find((option) => option.id === move3Choices.threshold)?.label ?? MOVE3_NARRATIVE_COPY_FA.aar.unavailable;
+  const aarActionLabel = crisisCoaOptions.find((option) => option.id === move3Choices.coa)?.label ?? MOVE3_NARRATIVE_COPY_FA.aar.unavailable;
+  const aarIntentLabel = phase === "aar" && finalSnapshot ? AAR_TRUTH_LABELS_FA.intent[finalSnapshot.hiddenAarData.trueRedIntent] : MOVE3_NARRATIVE_COPY_FA.aar.unavailable;
+  const aarCauseLabel = phase === "aar" && finalSnapshot?.hiddenAarData.move2IncidentCause
+    ? AAR_TRUTH_LABELS_FA.cause[finalSnapshot.hiddenAarData.move2IncidentCause]
+    : MOVE3_NARRATIVE_COPY_FA.aar.unavailable;
+  const aarIsraelActionBody = move3Snapshot?.redAction
+    ? ACTOR_REACTION_COPY_FA[`israel:${move3Snapshot.redAction}`]?.body ?? MOVE3_NARRATIVE_COPY_FA.aar.unavailable
+    : MOVE3_NARRATIVE_COPY_FA.aar.unavailable;
+  const aarTurningPoints = typeof aarEstimatePre === "number" && typeof aarEstimatePost === "number" && typeof aarEstimateFinal === "number" && move3Choices.threshold && move3Choices.coa
+    ? buildAarTurningPoints({
+        pre: aarEstimatePre,
+        post: aarEstimatePost,
+        final: aarEstimateFinal,
+        thresholdId: move3Choices.threshold,
+        thresholdLabel: aarThresholdLabel,
+        actionId: move3Choices.coa,
+        actionLabel: aarActionLabel,
+        israelActionBody: aarIsraelActionBody,
+        intentLabel: aarIntentLabel,
+      })
+    : [];
+  const aarRunSummary = typeof aarEstimateFinal === "number" && aarTruth
+    ? buildAarRunSummary({
+        finalEstimate: aarEstimateFinal,
+        visibleConfidence: state.knowledge.systemAttributionConfidence,
+        thresholdLabel: aarThresholdLabel,
+        intentLabel: aarIntentLabel,
+        causeLabel: aarCauseLabel,
+        truth: aarTruth,
+      })
     : null;
   const opponentObservationAar = snapshot && move2Snapshot && move3Snapshot
     ? buildOpponentObservationAAR({ move1Snapshot: snapshot, move2Snapshot, move3Snapshot })
     : [];
+  const narrativePhase: Scenario4NarrativePhase = phase.startsWith("intro")
+    ? "intro"
+    : phase === "final_report"
+      ? "report"
+      : phase === "aar"
+        ? "aar"
+        : phase === "dashboard"
+          ? "dashboard"
+          : phase.startsWith("move3")
+            ? "move3"
+            : phase.startsWith("move2")
+              ? "move2"
+              : "move1";
+  const narrativeMove: 1 | 2 | 3 | undefined = narrativePhase === "move1"
+    ? 1
+    : narrativePhase === "move2"
+      ? 2
+      : ["move3", "report", "aar", "dashboard"].includes(narrativePhase)
+        ? 3
+        : undefined;
+  const narrativeContext = buildNarrativeContext({
+    runId: runIdRef.current,
+    phase: narrativePhase,
+    move: narrativeMove,
+    state,
+    move1: snapshot,
+    move2: move2Snapshot,
+    move3: move3Snapshot,
+    finalSnapshot,
+    decisions: [...decisions, ...move2Decisions, ...move3Decisions],
+    telemetry: decisionTelemetryRef.current,
+    openedEvidenceIds: evidenceSeen,
+  });
+  const latestMove2Decision = move2Decisions[move2Decisions.length - 1];
+  const move3EvidencePackage = getMove3EvidencePackage(narrativeContext);
+  const showNarrativeTrace = canRenderNarrativeTrace(isAdmin, narrativeDebugEnabled);
+  const showAdminDebugPanel = canRenderAdminDebugPanel(isAdmin);
+  const showMove1ConflictInject = phase === "dw2" &&
+    choices.information === "m1_i_commercial" &&
+    state.flags.conflictingCommercialData &&
+    !move1ConflictAcknowledged;
 
   if (phase.startsWith("intro")) {
     return (
       <div className="s4-shell">
-        <IntroScreen phase={phase as keyof typeof introScreens} onNext={goNextIntro} />
+        <IntroScreen phase={phase as IntroNarrativeScreen["id"]} onNext={goNextIntro} />
       </div>
     );
   }
@@ -2053,20 +2205,16 @@ export const ScenarioFourRedesignedScenarioOne = ({
       <div className="s4-layout">
         <div className="s4-main">
           {phase === "brief" && (
-            <Card>
-              <h2 style={{ marginTop: 0 }}>وضعیت اولیه</h2>
-              <p style={{ whiteSpace: "pre-wrap", lineHeight: 1.95 }}>
-                سامانه پایش مداری تغییر غیرعادی در الگوی حرکت R-31 ثبت کرده است.
-                {"\n"}این دارایی که رسماً برای مأموریت‌های سرویس و بازرسی مداری معرفی شده،
-                {"\n"}طی آخرین پنجره رصدی از الگوی معمول خود فاصله گرفته و فاصله‌اش با A-17 کاهش یافته است.
-                {"\n\n"}هیچ اختلالی در A-17 مشاهده نشده است.
-                {"\n"}هیچ اقدام خصمانه‌ای تأیید نشده است.
-                {"\n\n"}تحلیل اولیه سه احتمال را مطرح می‌کند:
-                {"\n"}- مأموریت فنی یا آزمایشی
-                {"\n"}- جمع‌آوری اطلاعات درباره واکنش شما
-                {"\n"}- ایجاد فشار و آزمون خطوط قرمز
-                {"\n\n"}اطلاعات موجود برای انتساب نیت کافی نیست.
-              </p>
+            <Card className="s4-move1-panel">
+              {getMove1OpeningNarrative(narrativeContext).map((section) => (
+                <section key={section.id}>
+                  {section.kicker && <span className="s4-kicker">{section.kicker}</span>}
+                  <h2 style={{ marginTop: 0 }}>{section.title}</h2>
+                  <p style={{ whiteSpace: "pre-wrap", lineHeight: 1.95 }}>{section.body}</p>
+                  {section.closingLine && <p className="s4-move1-closing-prompt">{section.closingLine}</p>}
+                  <NarrativeTraceForAdmin section={section} enabled={showNarrativeTrace} />
+                </section>
+              ))}
               <button className="primary" onClick={() => moveToPhase("intel")}>
                 مشاهده بسته اطلاعاتی
               </button>
@@ -2074,7 +2222,7 @@ export const ScenarioFourRedesignedScenarioOne = ({
           )}
 
           {phase === "intel" && (
-            <Card>
+            <Card className="s4-move1-panel">
               <h2 style={{ marginTop: 0 }}>بسته اطلاعاتی اولیه</h2>
               <div style={{ display: "grid", gap: "0.75rem" }}>
                 {unlockedIntel.map((card) => (
@@ -2098,9 +2246,10 @@ export const ScenarioFourRedesignedScenarioOne = ({
           {phase === "dw1" && (
             <DecisionWindow
               title={windowTitles.m1_information}
-              context="رفتار R-31 هنوز چندتعبیری است و برای کاهش عدم قطعیت فقط یک اولویت اطلاعاتی فوری قابل انتخاب است."
-              question="برای کاهش عدم قطعیت، اولویت اطلاعاتی شما چیست؟"
-              why="نوع اطلاعاتی که ابتدا دنبال می‌کنید، کیفیت شناخت مرحله‌های بعد و میزان مصرف منابع را تغییر می‌دهد."
+              resources={state.resources}
+              context={MOVE1_NARRATIVE_COPY_FA.decisions.information.context}
+              question={MOVE1_NARRATIVE_COPY_FA.decisions.information.question}
+              why={MOVE1_NARRATIVE_COPY_FA.decisions.information.why}
               options={informationOptions}
               infoGuideActive={decisionInfoGuideOpen}
               selectedId={selectedId}
@@ -2111,47 +2260,35 @@ export const ScenarioFourRedesignedScenarioOne = ({
 
           {phase === "dw2" && (
             <>
-              {choices.information === "m1_i_commercial" &&
-                state.flags.conflictingCommercialData && (
-                  <Card>
-                    <p style={{ margin: 0, lineHeight: 1.9 }}>
-                      داده تجاری جدید با تحلیل سنسور اصلی کاملاً منطبق نیست.
-                      سامانه تجاری کاهش فاصله را تأیید می‌کند، اما نرخ تغییر مسیر
-                      R-31 را کمتر از برآورد نظامی گزارش می‌دهد. علت اختلاف هنوز
-                      مشخص نیست.
-                    </p>
-                  </Card>
-                )}
-              <DecisionWindow
-                title={windowTitles.m1_protection}
-                context="A-17 هنوز مختل نشده، اما نزدیک‌شدن R-31 ممکن است نیاز به تغییر وضعیت حفاظتی ایجاد کند."
-                question="با اطلاعات فعلی، وضعیت حفاظتی A-17 چگونه تغییر کند؟"
-                why="اقدام حفاظتی می‌تواند پنهان، آشکار، برگشت‌پذیر یا پرهزینه باشد و اسرائیل فقط بخش قابل مشاهده آن را می‌بیند."
-                options={protectionOptions}
-                selectedId={selectedId}
-                onSelect={(id) => handleSelect(id, "m1_protection")}
-                onConfirm={() => confirmDecision("m1_protection", "dw3")}
-              />
+              {showMove1ConflictInject ? (
+                <Move1InjectNotice
+                  definition={getInjectNarrativeDefinition("m1_inject_1a_conflicting_data")}
+                  onContinue={() => setMove1ConflictAcknowledged(true)}
+                />
+              ) : (
+                <DecisionWindow
+                  title={windowTitles.m1_protection}
+                  resources={state.resources}
+                  context={getMove1ProtectionContext(narrativeContext)}
+                  question={MOVE1_NARRATIVE_COPY_FA.decisions.protection.question}
+                  why={MOVE1_NARRATIVE_COPY_FA.decisions.protection.why}
+                  options={protectionOptions}
+                  selectedId={selectedId}
+                  onSelect={(id) => handleSelect(id, "m1_protection")}
+                  onConfirm={() => confirmDecision("m1_protection", "dw3")}
+                />
+              )}
             </>
           )}
 
           {phase === "dw3" && (
             <>
-              {choices.protection === "m1_p_mission_reposition" &&
-                state.visible.situationAwareness < 55 && (
-                  <Card>
-                    <p style={{ margin: 0, lineHeight: 1.9 }}>
-                      تیم تحلیل اطلاعاتی هشدار می‌دهد که تغییر محسوس وضعیت مأموریت
-                      پیش از تعیین نیت R-31 ممکن است اطلاعاتی درباره حساسیت A-17
-                      در اختیار ناظر خارجی قرار دهد.
-                    </p>
-                  </Card>
-                )}
               <DecisionWindow
                 title={windowTitles.m1_communication}
-                context="پس از تعیین وضعیت حفاظتی، باید تصمیم بگیرید آیا پیام یا هماهنگی لازم است یا نه."
-                question="آیا باید درباره رفتار R-31 پیام ارسال شود؟"
-                why="پیام می‌تواند مشروعیت و کنترل تنش بسازد، اما ممکن است ردپای اطلاعاتی یا فشار عمومی ایجاد کند."
+                resources={state.resources}
+                context={getMove1CommunicationContext(narrativeContext)}
+                question={MOVE1_NARRATIVE_COPY_FA.decisions.communication.question}
+                why={MOVE1_NARRATIVE_COPY_FA.decisions.communication.why}
                 options={communicationOptions}
                 selectedId={selectedId}
                 onSelect={(id) => handleSelect(id, "m1_communication")}
@@ -2161,14 +2298,18 @@ export const ScenarioFourRedesignedScenarioOne = ({
           )}
 
           {phase === "reason" && (
-            <DecisionWindow
-              title="ثبت دلیل"
-              question="مهم‌ترین عامل در مجموعه تصمیم‌های این مرحله چه بود؟"
-              options={reasonOptions.map((label) => ({ id: label, label }))}
-              selectedId={selectedId}
-              onSelect={(id) => handleSelect(id, "m1_reason")}
-              onConfirm={confirmReason}
-            />
+            <>
+              <DecisionWindow
+                title={windowTitles.m1_reason}
+                resources={state.resources}
+                intro={MOVE1_NARRATIVE_COPY_FA.decisions.reason.intro}
+                question={MOVE1_NARRATIVE_COPY_FA.decisions.reason.question}
+                options={[...reasonOptions]}
+                selectedId={selectedId}
+                onSelect={(id) => handleSelect(id, "m1_reason")}
+                onConfirm={confirmReason}
+              />
+            </>
           )}
 
           {phase === "resolving" && (
@@ -2179,34 +2320,23 @@ export const ScenarioFourRedesignedScenarioOne = ({
           )}
 
           {phase === "update" && snapshot && (
-            <Card>
-              <h2 style={{ marginTop: 0 }}>به‌روزرسانی وضعیت</h2>
+            <Card className="s4-move1-panel">
+              <h2 style={{ marginTop: 0 }}>{MOVE1_NARRATIVE_COPY_FA.update.title}</h2>
+              <p className="s4-stage-update-subhead">{MOVE1_NARRATIVE_COPY_FA.update.subhead}</p>
               <div className="s4-stage-update-grid">
-                {situationUpdate.map((section) => (
-                  <section key={section.title}>
+                {getMoveSituationUpdate(narrativeContext).map((section) => (
+                  <section key={section.id}>
                     <h3 style={{ margin: 0, color: "var(--accent)" }}>
                       {section.title}
                     </h3>
                     <p style={{ margin: "0.25rem 0 0", lineHeight: 1.85 }}>
-                      {section.text}
+                      {section.body}
                     </p>
+                    <NarrativeTraceForAdmin section={section} enabled={showNarrativeTrace} />
                   </section>
                 ))}
               </div>
-              {snapshot.injectsTriggered.length > 0 && (
-                <div
-                  style={{
-                    marginTop: "1rem",
-                    border: "1px solid rgba(245,158,11,0.45)",
-                    borderRadius: 8,
-                    padding: "0.8rem",
-                    background: "rgba(120,53,15,0.16)",
-                  }}
-                >
-                  رخدادهای شرطی این مرحله برای تحلیل پس از اقدام ثبت شدند.
-                </div>
-              )}
-              <div style={{ display: "flex", gap: "0.75rem", marginTop: "1rem", flexWrap: "wrap" }}>
+              <div className="s4-move1-action-bar" style={{ display: "flex", gap: "0.75rem", marginTop: "1rem", flexWrap: "wrap" }}>
                 <button className="primary" onClick={startMove2}>
                   ورود به مرحله ۲
                 </button>
@@ -2215,39 +2345,26 @@ export const ScenarioFourRedesignedScenarioOne = ({
           )}
 
           {phase === "move2_brief" && snapshot && (
-            <Card>
-              <h2 style={{ marginTop: 0 }}>مرحله ۲ — اختلال بدون امضا</h2>
-              <p style={{ whiteSpace: "pre-wrap", lineHeight: 1.9 }}>
-                چند ساعت پس از نخستین رویارویی مداری، A-17 برای مدت کوتاهی با افت کیفیت سرویس روبه‌رو شده است.
-                {"\n"}بخشی از عملکرد بازیابی شده، اما تیم فنی هنوز علت را مشخص نکرده است.
-                {"\n\n"}در همان بازه زمانی، R-31 همچنان در محیط عملیاتی حضور دارد.
-                {"\n"}همچنین یک تغییر رفتاری محدود در یک دارایی دیگر متعلق به اسرائیل ثبت شده است.
-                {"\n\n"}در حال حاضر چهار فرضیه در بررسی است:
-                {"\n"}- نقص داخلی
-                {"\n"}- عامل محیطی یا تداخل غیرخصمانه
-                {"\n"}- مداخله خارجی نامشخص
-                {"\n"}- ارتباط احتمالی با رفتار R-31
-                {"\n\n"}وجود هم‌زمان این رخدادها، احتمال ارتباط را افزایش می‌دهد؛ اما هنوز برای انتساب قطعی کافی نیست.
-              </p>
-              {snapshot.redAction === "break_off" && (
-                <p className="hint">R-31 در مرحله ۱ فاصله گرفته بود؛ رخداد پس از آن انتساب مسئولیت را پیچیده‌تر می‌کند.</p>
-              )}
-              {snapshot.redAction === "continue_approach" && (
-                <p className="hint">R-31 همچنان نزدیک‌تر از وضعیت پایه در محیط عملیاتی باقی مانده است.</p>
-              )}
-              {state.flags.mediaInjectTriggered && (
-                <p className="hint">به دلیل توجه رسانه‌ای قبلی، رخداد جدید حساسیت عمومی بیشتری دارد.</p>
-              )}
+            <Card className="s4-move1-panel">
+              {getMove2OpeningNarrative(narrativeContext).map((section, index) => (
+                <section key={section.id}>
+                  {section.kicker && <span className="s4-kicker">{section.kicker}</span>}
+                  {index === 0 && <h2 style={{ marginTop: 0 }}>{section.title}</h2>}
+                  <p className={index === 0 ? undefined : "hint"} style={{ whiteSpace: "pre-wrap", lineHeight: 1.9 }}>{section.body}</p>
+                  {section.closingLine && <p className="s4-move1-closing-prompt">{section.closingLine}</p>}
+                  <NarrativeTraceForAdmin section={section} enabled={showNarrativeTrace} />
+                </section>
+              ))}
               <button className="primary" onClick={() => setPhase("move2_attr_pre")}>
-                ثبت برآورد اولیه
+                {MOVE2_NARRATIVE_COPY_FA.cta.recordInitialEstimate}
               </button>
             </Card>
           )}
 
           {phase === "move2_attr_pre" && (
             <Card>
-              <h2 style={{ marginTop: 0 }}>برآورد اولیه انتساب</h2>
-              <p>با اطلاعات فعلی، احتمال می‌دهید اسرائیل در افت سرویس A-17 نقش داشته باشد؟</p>
+              <h2 style={{ marginTop: 0 }}>{MOVE2_NARRATIVE_COPY_FA.attribution.initialTitle}</h2>
+              <p>{MOVE2_NARRATIVE_COPY_FA.attribution.initialQuestion}</p>
               <input
                 type="range"
                 min={0}
@@ -2258,6 +2375,7 @@ export const ScenarioFourRedesignedScenarioOne = ({
                 style={{ width: "100%" }}
               />
               <strong>{move2AttributionPre} — {attributionLabel(move2AttributionPre)}</strong>
+              <p className="hint">{MOVE2_NARRATIVE_COPY_FA.attribution.initialHelper}</p>
               <div style={{ marginTop: "1rem" }}>
                 <button
                   className="primary"
@@ -2267,7 +2385,7 @@ export const ScenarioFourRedesignedScenarioOne = ({
                     enterWindow("m2_investigation", "move_2", state);
                   }}
                 >
-                  ادامه به بررسی علت
+                  {MOVE2_NARRATIVE_COPY_FA.cta.continueToInvestigation}
                 </button>
               </div>
             </Card>
@@ -2276,7 +2394,7 @@ export const ScenarioFourRedesignedScenarioOne = ({
           {phase === "move2_dw4" && (
             <>
               <Card>
-                <h2 style={{ marginTop: 0 }}>بسته شواهد مرحله ۲</h2>
+                <h2 style={{ marginTop: 0 }}>{MOVE2_NARRATIVE_COPY_FA.evidencePackageTitle}</h2>
                 <div style={{ display: "grid", gap: "0.75rem" }}>
                   {move2EvidenceCards
                     .filter((card) => state.knowledge.evidenceIds.includes(card.id))
@@ -2297,9 +2415,10 @@ export const ScenarioFourRedesignedScenarioOne = ({
               </Card>
               <DecisionWindow
                 title={windowTitles.m2_investigation}
-                context="افت سرویس واقعی رخ داده، اما علت آن هنوز میان چند فرضیه تقسیم شده است."
-                question="برای روشن‌ترشدن علت افت سرویس، کدام اقدام اطلاعاتی را در اولویت قرار می‌دهید؟"
-                why="این تصمیم جهت شواهد بعدی را تعیین می‌کند، اما هیچ مسیر بررسی به‌تنهایی حقیقت پنهان را تضمین نمی‌کند."
+                resources={state.resources}
+                context={MOVE2_NARRATIVE_COPY_FA.decisions.investigation.context}
+                question={MOVE2_NARRATIVE_COPY_FA.decisions.investigation.question}
+                why={MOVE2_NARRATIVE_COPY_FA.decisions.investigation.why}
                 options={investigationOptions}
                 selectedId={selectedId}
                 onSelect={(id) => handleSelect(id, "m2_investigation", "move_2")}
@@ -2309,43 +2428,67 @@ export const ScenarioFourRedesignedScenarioOne = ({
           )}
 
           {phase === "move2_attr_post" && (
-            <Card>
-              <h2 style={{ marginTop: 0 }}>برآورد پس از بررسی</h2>
-              {state.flags.m2IntelDelay && (
-                <p className="hint">به دلیل فشار بر ظرفیت تحلیل، بخشی از داده تکمیلی با تأخیر در دسترس قرار می‌گیرد.</p>
+            <>
+              <Move2ResourceNotice record={latestMove2Decision} />
+              {move2EvidenceCards.some((card) => !["E_M2_01", "E_M2_02", "E_M2_03"].includes(card.id) && state.knowledge.evidenceIds.includes(card.id)) && (
+                <Card>
+                  <h2 style={{ marginTop: 0 }}>{MOVE2_NARRATIVE_COPY_FA.postInvestigationEvidenceTitle}</h2>
+                  <div style={{ display: "grid", gap: "0.75rem" }}>
+                    {move2EvidenceCards
+                      .filter((card) => !["E_M2_01", "E_M2_02", "E_M2_03"].includes(card.id) && state.knowledge.evidenceIds.includes(card.id))
+                      .map((card) => (
+                        <EvidenceCard
+                          key={`post-${card.id}`}
+                          card={card}
+                          source={card.id.includes("TECH") ? "تیم فنی" : card.id.includes("ALLY") ? "متحد" : "اپراتور تجاری"}
+                          sensitivity="محدود"
+                          onToggle={(open) => trackEvidenceToggle(card.id, card.id.includes("TECH") ? "technical" : card.id.includes("ALLY") ? "ally" : "commercial", open)}
+                        />
+                      ))}
+                  </div>
+                </Card>
               )}
-              <p>پس از اطلاعات جدید، اکنون احتمال نقش اسرائیل را چقدر می‌دانید؟</p>
-              <input
-                type="range"
-                min={0}
-                max={100}
-                step={5}
-                value={move2AttributionPost}
-                onChange={(event) => setMove2AttributionPost(Number(event.target.value))}
-                style={{ width: "100%" }}
-              />
-              <strong>{move2AttributionPost} — {attributionLabel(move2AttributionPost)}</strong>
-              <div style={{ marginTop: "1rem" }}>
-                <button
-                  className="primary"
-                  onClick={() => {
-                    saveAttributionEstimate(move2AttributionPost, "m2_post_investigation");
-                    setPhase("move2_dw5");
-                    enterWindow("m2_mission", "move_2", state);
-                  }}
-                >
-                  ادامه به تداوم مأموریت
-                </button>
-              </div>
-            </Card>
+              {move2InvestigationInjects.map((injectId) => (
+                <Move1InjectNotice key={injectId} definition={getInjectNarrativeDefinition(injectId)} />
+              ))}
+              <Card>
+                <h2 style={{ marginTop: 0 }}>{MOVE2_NARRATIVE_COPY_FA.attribution.postTitle}</h2>
+                <p className="s4-attribution-previous">{MOVE2_NARRATIVE_COPY_FA.attribution.previousEstimate(move2AttributionPre)}</p>
+                <p>{MOVE2_NARRATIVE_COPY_FA.attribution.postQuestion}</p>
+                <input
+                  type="range"
+                  min={0}
+                  max={100}
+                  step={5}
+                  value={move2AttributionPost}
+                  onChange={(event) => setMove2AttributionPost(Number(event.target.value))}
+                  style={{ width: "100%" }}
+                />
+                <strong>{move2AttributionPost} — {attributionLabel(move2AttributionPost)}</strong>
+                <p className="hint">{MOVE2_NARRATIVE_COPY_FA.attribution.postHelper}</p>
+                <div style={{ marginTop: "1rem" }}>
+                  <button
+                    className="primary"
+                    onClick={() => {
+                      saveAttributionEstimate(move2AttributionPost, "m2_post_investigation");
+                      setPhase("move2_dw5");
+                      enterWindow("m2_mission", "move_2", state);
+                    }}
+                  >
+                    {MOVE2_NARRATIVE_COPY_FA.cta.continueToMission}
+                  </button>
+                </div>
+              </Card>
+            </>
           )}
 
           {phase === "move2_dw5" && (
             <DecisionWindow
               title={windowTitles.m2_mission}
-              context="A-17 بخشی از عملکرد خود را بازیابی کرده، اما ریسک وابستگی به یک ظرفیت اصلی باقی است."
-              question="با توجه به افت سرویس و وضعیت فعلی، تداوم مأموریت A-17 چگونه مدیریت شود؟"
-              why="تداوم مأموریت، تاب‌آوری، مصرف ظرفیت حفاظتی و ریسک افشای اطلاعات در این تصمیم به هم گره خورده‌اند."
+              resources={state.resources}
+              context={MOVE2_NARRATIVE_COPY_FA.decisions.mission.context}
+              question={MOVE2_NARRATIVE_COPY_FA.decisions.mission.question}
+              why={MOVE2_NARRATIVE_COPY_FA.decisions.mission.why}
               options={missionOptions}
               selectedId={selectedId}
               onSelect={(id) => handleSelect(id, "m2_mission", "move_2")}
@@ -2355,18 +2498,14 @@ export const ScenarioFourRedesignedScenarioOne = ({
 
           {phase === "move2_dw6" && (
             <>
-              {state.flags.m2CommercialRestriction && (
-                <Card>
-                  <p style={{ margin: 0, lineHeight: 1.9 }}>
-                    اپراتور تجاری اعلام کرده بخشی از داده‌های دقیق‌تر را به دلیل حساسیت حقوقی و تجاری فعلاً منتشر نمی‌کند.
-                  </p>
-                </Card>
+              {state.flags.m2CommercialRestriction && !move2InvestigationInjects.includes("m2_inject_2c_commercial_restriction") && (
+                <Move1InjectNotice definition={getInjectNarrativeDefinition("m2_inject_2c_commercial_restriction")} />
               )}
               <DecisionWindow
                 title={windowTitles.m2_response}
-                context="اکنون باید نسبت به رفتار اسرائیل و افت سرویس موضع بگیرید، بدون اینکه انتساب قطعی داشته باشید."
-                question="در برابر مجموعه رفتارهای اسرائیل و افت سرویس، چه موضعی اتخاذ شود؟"
-                why="پاسخ شما برای اسرائیل، متحدان ایران و محیط عمومی قابل تفسیر است و می‌تواند مسیر کاهش تنش یا فشار را باز کند."
+                resources={state.resources}
+                question={MOVE2_NARRATIVE_COPY_FA.decisions.response.question}
+                why={MOVE2_NARRATIVE_COPY_FA.decisions.response.why}
                 options={responseOptions}
                 selectedId={selectedId}
                 onSelect={(id) => handleSelect(id, "m2_response", "move_2")}
@@ -2376,69 +2515,68 @@ export const ScenarioFourRedesignedScenarioOne = ({
           )}
 
           {phase === "move2_reason" && (
-            <DecisionWindow
-              title={windowTitles.m2_reason}
-              question="در این مرحله کدام عامل بیشترین وزن را در تصمیم شما داشت؟"
-              options={move2ReasonOptions.map((label) => ({ id: label, label }))}
-              selectedId={selectedId}
-              onSelect={(id) => handleSelect(id, "m2_reason", "move_2")}
-              onConfirm={confirmMove2Reason}
-            />
+            <>
+              <DecisionWindow
+                title={windowTitles.m2_reason}
+                resources={state.resources}
+                intro={MOVE2_NARRATIVE_COPY_FA.decisions.reason.intro}
+                question={MOVE2_NARRATIVE_COPY_FA.decisions.reason.question}
+                options={[...move2ReasonOptions]}
+                selectedId={selectedId}
+                onSelect={(id) => handleSelect(id, "m2_reason", "move_2")}
+                onConfirm={confirmMove2Reason}
+              />
+            </>
           )}
 
           {phase === "move2_update" && move2Snapshot && (
-            <Card>
-              <h2 style={{ marginTop: 0 }}>به‌روزرسانی مرحله ۲</h2>
+            <Card className="s4-move1-panel">
+              <h2 style={{ marginTop: 0 }}>{MOVE2_NARRATIVE_COPY_FA.update.title}</h2>
+              <p className="s4-stage-update-subhead">{MOVE2_NARRATIVE_COPY_FA.update.subhead}</p>
               <div className="s4-stage-update-grid">
-                {situationUpdate.map((section) => (
-                  <section key={section.title}>
+                {getMoveSituationUpdate(narrativeContext).map((section) => (
+                  <section key={section.id}>
                     <h3 style={{ margin: 0, color: "var(--accent)" }}>{section.title}</h3>
-                    <p style={{ margin: "0.25rem 0 0", lineHeight: 1.85 }}>{section.text}</p>
+                    <p style={{ margin: "0.25rem 0 0", lineHeight: 1.85 }}>{section.body}</p>
+                    <NarrativeTraceForAdmin section={section} enabled={showNarrativeTrace} />
                   </section>
                 ))}
               </div>
-              <div style={{ marginTop: "1rem" }}>
-                <button className="primary" onClick={startMove3}>ورود به مرحله ۳</button>
+              <div className="s4-move1-action-bar" style={{ marginTop: "1rem" }}>
+                <button className="primary" onClick={startMove3}>{MOVE2_NARRATIVE_COPY_FA.cta.continueToMove3}</button>
               </div>
             </Card>
           )}
 
           {phase === "move3_brief" && move2Snapshot && (
             <Card>
-              <h2 style={{ marginTop: 0 }}>مرحله ۳ — بحران انتساب</h2>
-              <p style={{ whiteSpace: "pre-wrap", lineHeight: 1.9 }}>
-                بحران وارد مرحله جدیدی شده است.
-                {"\n\n"}A-17 اکنون با افت عملکرد جدی‌تری روبه‌رو است. بخشی از سرویس‌ها با تأخیر یا کیفیت پایین‌تر ادامه دارند و تیم فنی در حال تثبیت وضعیت است.
-                {"\n\n"}هم‌زمان، داده‌های جدیدی از منابع نظامی، تجاری و متحدان در دسترس قرار گرفته است. برخی شواهد ارتباط میان رفتار اسرائیل و رخدادهای اخیر را تقویت می‌کنند؛ اما هنوز یک توضیح جایگزین به‌طور کامل رد نشده است.
-                {"\n\n"}اکنون مسئله فقط تشخیص علت نیست. باید تعیین کنید آیا سطح فعلی اطمینان برای اقدام کافی است، چه نوع پاسخی متناسب است، و چه میزان از شواهد باید با متحدان یا افکار عمومی به اشتراک گذاشته شود.
-              </p>
-              {state.flags.m2FallbackActivated && <p className="hint">ظرفیت پشتیبان فعال است و اثر مأموریتی افت جدید را کاهش داده است.</p>}
-              {state.flags.m2OffRampOfferedByRed && <p className="hint">یک پیشنهاد فاصله‌گذاری از مرحله ۲ باز مانده است.</p>}
-              {state.flags.m2CoalitionFriction && <p className="hint">اصطکاک ائتلافی قبلی روی سیاست اطلاعاتی مرحله ۳ اثر می‌گذارد.</p>}
+              {getMove3OpeningNarrative(narrativeContext).map((section, index) => (
+                <section key={section.id}>
+                  {index === 0 && section.kicker && <span className="s4-kicker">{section.kicker}</span>}
+                  {index === 0 && <h2 style={{ marginTop: 0 }}>{section.title}</h2>}
+                  <p className={index === 0 ? undefined : "hint"} style={{ whiteSpace: "pre-wrap", lineHeight: 1.9 }}>{section.body}</p>
+                  {section.closingLine && <p className="s4-move1-closing-prompt">{section.closingLine}</p>}
+                  <NarrativeTraceForAdmin section={section} enabled={showNarrativeTrace} />
+                </section>
+              ))}
               <button className="primary" onClick={() => setPhase("move3_confidence")}>
-                مشاهده بسته اطمینان نهایی
+                {MOVE3_NARRATIVE_COPY_FA.evidence.title}
               </button>
             </Card>
           )}
 
           {phase === "move3_confidence" && (
             <Card>
-              <h2 style={{ marginTop: 0 }}>بسته اطمینان نهایی</h2>
+              <h2 style={{ marginTop: 0 }}>{MOVE3_NARRATIVE_COPY_FA.evidence.title}</h2>
               <div style={{ display: "grid", gap: "0.75rem" }}>
-                {buildConfidencePackage(state).map((item) => (
-                  <div
-                    key={item.source}
-                    style={{
-                      border: "1px solid var(--border-soft)",
-                      borderRadius: 8,
-                      padding: "0.75rem",
-                      background: "rgba(15,23,42,0.72)",
-                    }}
-                  >
-                    <strong>{item.source} — {item.status} — اطمینان {item.confidence}</strong>
-                    <p style={{ margin: "0.35rem 0", lineHeight: 1.8 }}>{item.finding}</p>
-                    <span className="hint">{item.sensitivity}</span>
-                  </div>
+                {move3EvidencePackage.map((card) => (
+                  <EvidenceCard
+                    key={card.id}
+                    card={card}
+                    source={card.source === "technical" ? "تیم فنی" : card.source === "orbital" ? "رصد مداری" : card.source === "ally" ? "متحد" : "اپراتور تجاری"}
+                    sensitivity="محدود"
+                    onToggle={(open) => trackEvidenceToggle(card.id, card.source, open)}
+                  />
                 ))}
               </div>
               <button
@@ -2451,15 +2589,16 @@ export const ScenarioFourRedesignedScenarioOne = ({
                   setPhase("move3_attr_final");
                 }}
               >
-                ثبت برآورد نهایی
+                {MOVE3_NARRATIVE_COPY_FA.evidence.cta}
               </button>
             </Card>
           )}
 
           {phase === "move3_attr_final" && (
             <Card>
-              <h2 style={{ marginTop: 0 }}>برآورد نهایی انتساب</h2>
-              <p>با جمع‌بندی شواهد موجود، احتمال می‌دهید اسرائیل در رخداد اخیر نقش داشته باشد؟</p>
+              <h2 style={{ marginTop: 0 }}>{MOVE3_NARRATIVE_COPY_FA.attribution.title}</h2>
+              <p className="s4-attribution-previous">{MOVE3_NARRATIVE_COPY_FA.attribution.previous(move2AttributionPre, move2AttributionPost)}</p>
+              <p>{MOVE3_NARRATIVE_COPY_FA.attribution.question}</p>
               <input
                 type="range"
                 min={0}
@@ -2470,6 +2609,7 @@ export const ScenarioFourRedesignedScenarioOne = ({
                 style={{ width: "100%" }}
               />
               <strong>{move3AttributionFinal} — {attributionLabel(move3AttributionFinal)}</strong>
+              <p className="hint">{MOVE3_NARRATIVE_COPY_FA.attribution.helper}</p>
               <div style={{ marginTop: "1rem" }}>
                 <button
                   className="primary"
@@ -2479,7 +2619,7 @@ export const ScenarioFourRedesignedScenarioOne = ({
                     enterWindow("m3_threshold", "move_3", state);
                   }}
                 >
-                  ادامه به آستانه اقدام
+                  {MOVE3_NARRATIVE_COPY_FA.attribution.cta}
                 </button>
               </div>
             </Card>
@@ -2488,9 +2628,10 @@ export const ScenarioFourRedesignedScenarioOne = ({
           {phase === "move3_dw7" && (
             <DecisionWindow
               title={windowTitles.m3_threshold}
-              context="بسته شواهد نهایی تصویر را روشن‌تر کرده، اما هنوز همه توضیح‌های جایگزین حذف نشده‌اند."
-              question="آیا سطح فعلی اطلاعات را برای اقدام راهبردی کافی می‌دانید؟"
-              why="آستانه اقدام نشان می‌دهد با چه میزان عدم قطعیت حاضر به حرکت راهبردی هستید."
+              resources={state.resources}
+              context={MOVE3_NARRATIVE_COPY_FA.decisions.threshold.context}
+              question={MOVE3_NARRATIVE_COPY_FA.decisions.threshold.question}
+              why={MOVE3_NARRATIVE_COPY_FA.decisions.threshold.why}
               options={thresholdOptions}
               selectedId={selectedId}
               onSelect={(id) => handleSelect(id, "m3_threshold", "move_3")}
@@ -2507,27 +2648,32 @@ export const ScenarioFourRedesignedScenarioOne = ({
           )}
 
           {phase === "move3_dw8" && (
-            <DecisionWindow
-              title={windowTitles.m3_coa}
-              context="بحران اکنون به انتخاب مسیر اقدام رسیده است؛ مسیر انتخابی شما همه ابعاد مأموریت، ائتلاف و تشدید را تحت تأثیر قرار می‌دهد."
-              question="در این مرحله، مسیر اقدام اصلی شما چیست؟"
-              why="مسیر اقدام با آستانه انتساب شما الزاماً هم‌خوان یا ناهم‌خوان می‌شود؛ سیستم این را برای تحلیل ثبت می‌کند، اما در لحظه قضاوت نمی‌کند."
-              options={crisisCoaOptions}
-              selectedId={selectedId}
-              onSelect={(id) => handleSelect(id, "m3_coa", "move_3")}
-              onConfirm={() => {
-                logScenarioFour("s1_m3_coa_confirm", scenarioId, nodeId, { coa: selectedId });
-                confirmMove3Decision("m3_coa", "move3_dw9");
-              }}
-            />
+            <>
+              <DecisionWindow
+                title={windowTitles.m3_coa}
+                resources={state.resources}
+                context={MOVE3_NARRATIVE_COPY_FA.decisions.coa.context}
+                question={MOVE3_NARRATIVE_COPY_FA.decisions.coa.question}
+                why={MOVE3_NARRATIVE_COPY_FA.decisions.coa.why}
+                options={crisisCoaOptions}
+                selectedId={selectedId}
+                onSelect={(id) => handleSelect(id, "m3_coa", "move_3")}
+                onConfirm={() => {
+                  logScenarioFour("s1_m3_coa_confirm", scenarioId, nodeId, { coa: selectedId });
+                  confirmMove3Decision("m3_coa", "move3_dw9");
+                }}
+              />
+            </>
           )}
 
           {phase === "move3_dw9" && (
-            <DecisionWindow
+            <>
+              <DecisionWindow
               title={windowTitles.m3_info}
-              context="پس از انتخاب مسیر اقدام، باید تعیین کنید شواهد و انتساب چگونه مدیریت شوند."
-              question="شواهد و انتساب بحران چگونه مدیریت شود؟"
-              why="انتشار یا محدودسازی اطلاعات روی مشروعیت، ائتلاف، افشای منابع و واکنش اسرائیل اثر می‌گذارد."
+              resources={state.resources}
+              context={MOVE3_NARRATIVE_COPY_FA.decisions.information.context}
+              question={MOVE3_NARRATIVE_COPY_FA.decisions.information.question}
+              why={MOVE3_NARRATIVE_COPY_FA.decisions.information.why}
               options={informationPolicyOptions}
               selectedId={selectedId}
               onSelect={(id) => handleSelect(id, "m3_info", "move_3")}
@@ -2541,15 +2687,18 @@ export const ScenarioFourRedesignedScenarioOne = ({
                 });
                 confirmMove3Decision("m3_info", needsOffRamp ? "move3_offramp" : "move3_reason");
               }}
-            />
+              />
+            </>
           )}
 
           {phase === "move3_offramp" && (
-            <DecisionWindow
+            <>
+              <DecisionWindow
               title={windowTitles.m3_offramp}
-              context="یک مسیر کاهش تنش فعال یا قابل ایجاد است، اما موفقیت آن به واکنش اسرائیل وابسته می‌ماند."
-              question="در مورد سازوکار فاصله‌گذاری/کاهش تنش موجود چه تصمیمی گرفته شود؟"
-              why="مسیر کاهش تنش می‌تواند تشدید را کنترل کند، اما ممکن است از سوی اسرائیل پذیرفته، رد یا بهره‌برداری شود."
+              resources={state.resources}
+              context={MOVE3_NARRATIVE_COPY_FA.decisions.offRamp.context}
+              question={MOVE3_NARRATIVE_COPY_FA.decisions.offRamp.question}
+              why={MOVE3_NARRATIVE_COPY_FA.decisions.offRamp.why}
               options={offRampOptions}
               selectedId={selectedId}
               onSelect={(id) => handleSelect(id, "m3_offramp", "move_3")}
@@ -2559,37 +2708,60 @@ export const ScenarioFourRedesignedScenarioOne = ({
                 });
                 confirmMove3Decision("m3_offramp", "move3_reason");
               }}
-            />
+              />
+            </>
           )}
 
           {phase === "move3_reason" && (
-            <DecisionWindow
+            <>
+              <DecisionWindow
               title={windowTitles.m3_reason}
-              question="مهم‌ترین عامل در تصمیم نهایی شما چه بود؟"
-              options={move3ReasonOptions.map((label) => ({ id: label, label }))}
+              resources={state.resources}
+              intro={MOVE3_NARRATIVE_COPY_FA.decisions.reason.intro}
+              question={MOVE3_NARRATIVE_COPY_FA.decisions.reason.question}
+              options={move3ReasonOptions}
               selectedId={selectedId}
               onSelect={(id) => handleSelect(id, "m3_reason", "move_3")}
               onConfirm={confirmMove3Reason}
-            />
+              />
+            </>
+          )}
+
+          {phase === "move3_update" && finalSnapshot && (
+            <Card className="s4-move1-panel">
+              <h2 style={{ marginTop: 0 }}>{MOVE3_NARRATIVE_COPY_FA.update.title}</h2>
+              <div className="s4-stage-update-grid">
+                {getMoveSituationUpdate(narrativeContext).map((section) => (
+                  <section key={section.id}>
+                    <h3 style={{ margin: 0, color: "var(--accent)" }}>{section.title}</h3>
+                    <p style={{ margin: "0.25rem 0 0", lineHeight: 1.85 }}>{section.body}</p>
+                    <NarrativeTraceForAdmin section={section} enabled={showNarrativeTrace} />
+                  </section>
+                ))}
+              </div>
+              <div className="s4-move1-action-bar" style={{ marginTop: "1rem" }}>
+                <button className="primary" onClick={() => setPhase("final_report")}>{MOVE3_NARRATIVE_COPY_FA.update.cta}</button>
+              </div>
+            </Card>
           )}
 
           {phase === "final_report" && finalSnapshot && (
             <Card>
               <div className="s4-final-hero">
                 <span>وضعیت پایانی</span>
-                <h2>{endStatePersianLabel(finalSnapshot.primaryEndState)}</h2>
-                <p>{finalSnapshot.playerFacingReport.find((section) => section.title === "End State")?.text ?? "نتیجه بر اساس مسیر کامل تصمیم‌ها و واکنش بازیگران شکل گرفت."}</p>
+                <h2>{END_STATE_LABELS_FA[finalSnapshot.primaryEndState]}</h2>
+                <p>{END_STATE_NARRATIVES_FA[finalSnapshot.primaryEndState].shortSummary}</p>
               </div>
               <div className="s4-final-mini">
                 <section><strong>مأموریت</strong><span>{qualitativeStatus("missionContinuity", state.visible.missionContinuity)}</span></section>
                 <section><strong>ائتلاف</strong><span>{qualitativeStatus("coalitionCohesion", state.visible.coalitionCohesion)}</span></section>
                 <section><strong>تشدید</strong><span>{qualitativeStatus("escalationPressure", state.visible.escalationPressure)}</span></section>
               </div>
-              <h2 style={{ marginTop: "1rem" }}>گزارش نهایی بازیکن</h2>
+              <h2 style={{ marginTop: "1rem" }}>{MOVE3_NARRATIVE_COPY_FA.finalReport.title}</h2>
               <div className="s4-report-sections">
                 {finalSnapshot.playerFacingReport.map((section) => (
                   <section key={section.title}>
-                    <h3>{section.title === "End State" ? "وضعیت پایانی" : section.title}</h3>
+                    <h3>{section.title}</h3>
                     <p style={{ margin: "0.25rem 0 0", lineHeight: 1.85 }}>{section.text}</p>
                   </section>
                 ))}
@@ -2602,7 +2774,7 @@ export const ScenarioFourRedesignedScenarioOne = ({
                     setPhase("aar");
                   }}
                 >
-                  پایان سناریو و ورود به تحلیل پس از اقدام
+                  {MOVE3_NARRATIVE_COPY_FA.finalReport.cta}
                 </button>
               </div>
             </Card>
@@ -2626,46 +2798,125 @@ export const ScenarioFourRedesignedScenarioOne = ({
 
           {phase === "aar" && finalSnapshot && (
             <Card>
-              <h2 style={{ marginTop: 0 }}>تحلیل پس از اقدام — افشای حقیقت پنهان</h2>
+              <h2 style={{ marginTop: 0 }}>{MOVE3_NARRATIVE_COPY_FA.aar.title}</h2>
               <div className="s4-aar-warning">
-                از این بخش به بعد، اطلاعاتی نمایش داده می‌شود که بازیکن در زمان تصمیم‌گیری به آن دسترسی نداشت.
+                {MOVE3_NARRATIVE_COPY_FA.aar.intro}
               </div>
+              <h3>{MOVE3_NARRATIVE_COPY_FA.aar.truthSectionTitle}</h3>
               <div className="s4-aar-truth">
-                <section><span>نیت واقعی اسرائیل</span><strong>{redIntentPersianLabel(finalSnapshot.hiddenAarData.trueRedIntent)}</strong></section>
-                <section><span>علت رخداد مرحله دوم</span><strong>{incidentCauseLabel(finalSnapshot.hiddenAarData.move2IncidentCause)}</strong></section>
-                <section><span>انتساب واقعی</span><strong>{truthAttributionLabel(finalSnapshot.hiddenAarData.trueIncidentAttribution)}</strong></section>
+                <section><span>{MOVE3_NARRATIVE_COPY_FA.aar.intentTitle}</span><strong>{aarIntentLabel}</strong></section>
+                <section><span>{MOVE3_NARRATIVE_COPY_FA.aar.causeTitle}</span><strong>{aarCauseLabel}</strong></section>
+                <section><span>{MOVE3_NARRATIVE_COPY_FA.aar.truthTitle}</span><strong>{AAR_TRUTH_LABELS_FA.attribution[finalSnapshot.hiddenAarData.trueIncidentAttribution]}</strong></section>
               </div>
-              <h3>شما چه فکر می‌کردید؟</h3>
-              <div className="s4-aar-estimates">
-                <span>قبل بررسی: {move2Snapshot?.attributionEstimatePre}</span>
-                <span>بعد بررسی: {move2Snapshot?.attributionEstimatePost}</span>
-                <span>پایان بحران: {move3Snapshot?.playerAttributionEstimateFinal}</span>
+              <p className="hint">{MOVE3_NARRATIVE_COPY_FA.aar.truthNote}</p>
+
+              <h3>{MOVE3_NARRATIVE_COPY_FA.aar.estimatesTitle}</h3>
+              <div className="s4-aar-estimates" aria-label={MOVE3_NARRATIVE_COPY_FA.aar.estimatesTitle}>
+                {[
+                  [MOVE3_NARRATIVE_COPY_FA.aar.estimateBefore, aarEstimatePre],
+                  [MOVE3_NARRATIVE_COPY_FA.aar.estimateAfter, aarEstimatePost],
+                  [MOVE3_NARRATIVE_COPY_FA.aar.estimateFinal, aarEstimateFinal],
+                ].map(([label, value]) => (
+                  <section key={String(label)}>
+                    <span>{label}</span>
+                    <strong>{typeof value === "number" ? `${value}٪ — ${attributionQualitativeLabel(value)}` : MOVE3_NARRATIVE_COPY_FA.aar.unavailable}</strong>
+                  </section>
+                ))}
               </div>
-              <div className="s4-aar-brier">
-                <p>برآورد نهایی شما: <strong>{attributionBrier ? `${attributionBrier.estimate.toFixed(0)}٪` : "داده کافی ثبت نشده است"}</strong></p>
-                <p>{attributionBrier?.outcome === 1 ? "در این رخداد، نقش اسرائیل در زنجیره علت تأیید شد." : "در این رخداد، نقش مستقیم اسرائیل در علت اصلی تأیید نشد."}</p>
-                <p>امتیاز Brier: <strong>{attributionBrier?.brier.toFixed(2) ?? "—"}</strong> — هرچه کمتر بهتر</p>
-                <p>مهارت نسبت به مبنای خنثی 50/50: <strong>{attributionBrier?.brierSkillScore == null ? "—" : attributionBrier.brierSkillScore.toFixed(2)}</strong></p>
+              <p className="s4-aar-trajectory">{aarTrajectory}</p>
+
+              <h3>{MOVE3_NARRATIVE_COPY_FA.aar.brierTitle}</h3>
+              <div className="s4-aar-evaluation">
+                <p className="s4-aar-final-estimate"><strong>{MOVE3_NARRATIVE_COPY_FA.aar.finalEstimate(attributionBrier ? `${attributionBrier.estimate.toFixed(0)}٪` : MOVE3_NARRATIVE_COPY_FA.aar.unavailable)}</strong></p>
+                <p>{aarTruthExplanation}</p>
+                <p>{aarEstimateExplanation}</p>
+                <div className="s4-brier-score-card">
+                  <span>{MOVE3_NARRATIVE_COPY_FA.aar.brierScoreLabel}</span>
+                  <strong>{attributionBrier?.brier.toFixed(2) ?? "—"}</strong>
+                </div>
+                <p>{MOVE3_NARRATIVE_COPY_FA.aar.brierHelp}</p>
+                <div className="s4-brier-scale" aria-label="مقیاس امتیاز Brier">
+                  <div className="s4-brier-scale-track" aria-hidden="true" />
+                  <section><strong>0.00</strong><span>{MOVE3_NARRATIVE_COPY_FA.aar.scalePerfect}</span></section>
+                  <section><strong>0.25</strong><span>{MOVE3_NARRATIVE_COPY_FA.aar.scaleNeutral}</span></section>
+                  <section><strong>1.00</strong><span>{MOVE3_NARRATIVE_COPY_FA.aar.scaleFar}</span></section>
+                </div>
+                <p className="s4-aar-interpretation">{aarBrierInterpretation}</p>
+
+                <details className="s4-aar-statistics">
+                  <summary>{MOVE3_NARRATIVE_COPY_FA.aar.statisticsTitle}</summary>
+                  <div>
+                    <p className="s4-aar-formula">{MOVE3_NARRATIVE_COPY_FA.aar.brierFormula}</p>
+                    <p>{MOVE3_NARRATIVE_COPY_FA.aar.probabilityDefinition}</p>
+                    <p>{MOVE3_NARRATIVE_COPY_FA.aar.outcomeDefinition}</p>
+                    <ul>
+                      <li>{MOVE3_NARRATIVE_COPY_FA.aar.outcomeOneDefinition}</li>
+                      <li>{MOVE3_NARRATIVE_COPY_FA.aar.outcomeZeroDefinition}</li>
+                    </ul>
+                    {attributionBrier && (
+                      <div className="s4-aar-run-calculation">
+                        <p>p = {(attributionBrier.estimate / 100).toFixed(2)}</p>
+                        <p>y = {attributionBrier.outcome}</p>
+                        <p>Brier = ({(attributionBrier.estimate / 100).toFixed(2)} − {attributionBrier.outcome})² = {attributionBrier.brier.toFixed(2)}</p>
+                        <p>{MOVE3_NARRATIVE_COPY_FA.aar.bssTitle} = {attributionBrier.brierSkillScore == null ? "—" : attributionBrier.brierSkillScore.toFixed(2)}</p>
+                        {attributionBrier.brierSkillScore != null && <p>{getBssPlainLanguageInterpretation(attributionBrier.brierSkillScore)}</p>}
+                      </div>
+                    )}
+                    <p>{MOVE3_NARRATIVE_COPY_FA.aar.bssHelp}</p>
+                  </div>
+                </details>
               </div>
-              <p className="hint">این نتیجه فقط امتیاز Brier همین رخداد را توصیف می‌کند؛ ارزیابی پایداری برآورد به چند رخداد مستقل نیاز دارد.</p>
-              <h3>اسرائیل چه چیزی مشاهده کرد؟</h3>
-              <div className="s4-red-observation-table">
-                <div><strong>مرحله</strong><strong>قابل مشاهده برای اسرائیل</strong><strong>غیرقابل مشاهده برای اسرائیل</strong></div>
+
+              <section className="s4-aar-meaning">
+                <h3>{MOVE3_NARRATIVE_COPY_FA.aar.meaningTitle}</h3>
+                <p>{aarResultMeaning}</p>
+                <p className="hint">{MOVE3_NARRATIVE_COPY_FA.aar.boundary}</p>
+              </section>
+
+              <h3>{MOVE3_NARRATIVE_COPY_FA.aar.israelSawTitle}</h3>
+              <p>{MOVE3_NARRATIVE_COPY_FA.aar.observationIntro}</p>
+              <div className="s4-red-observation-table two-column">
+                <div><strong>مرحله</strong><strong>{MOVE3_NARRATIVE_COPY_FA.aar.visibleColumn}</strong></div>
                 {opponentObservationAar.map((row, index) => (
                   <div key={row.moveId}>
-                    <span>مرحله {index + 1}</span>
+                    <span>{MOVE3_NARRATIVE_COPY_FA.aar.stage(index + 1)}</span>
                     <span>{row.visibleToIsrael.join("، ")}</span>
-                    <span>{row.hiddenFromIsrael.join("، ")}</span>
                   </div>
                 ))}
               </div>
-              <p className="hint">
-                این فهرست مستقیماً از سیگنال‌های ثبت‌شده در همین اجرا ساخته شده است؛ برآوردهای داخلی، دلیل تصمیم و حقیقت پنهان برای اسرائیل قابل مشاهده نبودند.
-              </p>
+              <h3>{MOVE3_NARRATIVE_COPY_FA.aar.israelHiddenTitle}</h3>
+              <div className="s4-red-observation-table two-column">
+                <div><strong>مرحله</strong><strong>{MOVE3_NARRATIVE_COPY_FA.aar.hiddenColumn}</strong></div>
+                {opponentObservationAar.map((row, index) => (
+                  <div key={`hidden-${row.moveId}`}><span>{MOVE3_NARRATIVE_COPY_FA.aar.stage(index + 1)}</span><span>{row.hiddenFromIsrael.join("، ")}</span></div>
+                ))}
+              </div>
+              <h3>{MOVE3_NARRATIVE_COPY_FA.aar.milestonesTitle}</h3>
+              <div className="s4-aar-turning-points">
+                {aarTurningPoints.map((point, index) => (
+                  <section key={point.id}>
+                    <h4>{index + 1}. {point.title}</h4>
+                    <p>{point.body}</p>
+                    <strong>{MOVE3_NARRATIVE_COPY_FA.aar.whyImportant}</strong>
+                    <p>{point.why}</p>
+                  </section>
+                ))}
+              </div>
+
+              {aarRunSummary && (
+                <>
+                  <h3>{MOVE3_NARRATIVE_COPY_FA.aar.runSummaryTitle}</h3>
+                  <div className="s4-aar-run-summary">
+                    <section><h4>{MOVE3_NARRATIVE_COPY_FA.aar.knownTitle}</h4><p>{aarRunSummary.known}</p></section>
+                    <section><h4>{MOVE3_NARRATIVE_COPY_FA.aar.revealedTitle}</h4><p>{aarRunSummary.revealed}</p></section>
+                    <section><h4>{MOVE3_NARRATIVE_COPY_FA.aar.differenceTitle}</h4><p>{aarRunSummary.difference}</p></section>
+                  </div>
+                </>
+              )}
               <button className="primary" onClick={() => {
                 logScenarioFour("s4_cognitive_dashboard_view", scenarioId, nodeId, { runId: finalSnapshot.runId, from: "aar" });
                 setPhase("dashboard");
-              }}>مشاهده داشبورد شناختی</button>
+              }}>{MOVE3_NARRATIVE_COPY_FA.aar.dashboardCta}</button>
             </Card>
           )}
         </div>
@@ -2686,10 +2937,13 @@ export const ScenarioFourRedesignedScenarioOne = ({
             <StatusPanel state={state} />
             <ResourcePanel state={state} recentEvents={recentResourceEvents} history={resourceEvents} />
           </div>
-          {isAdmin && (
+          {showAdminDebugPanel && (
             <Card>
               <h3 style={{ marginTop: 0 }}>پنل اشکال‌زدایی مدیر</h3>
               <div style={{ display: "grid", gap: "0.45rem", fontSize: "0.88rem" }}>
+                <button type="button" onClick={() => setNarrativeDebugEnabled((current) => !current)}>
+                  {narrativeDebugEnabled ? "پنهان‌کردن فراداده روایت" : "نمایش فراداده روایت"}
+                </button>
                 <span>Intent مخفی: {state.hidden.trueRedIntent}</span>
                 <span>Seed: {rngSeed}</span>
                 <span>Checkpointها: {checkpointCount}</span>

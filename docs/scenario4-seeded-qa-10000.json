@@ -1,0 +1,151 @@
+{
+  "requestedRuns": 10000,
+  "completedRuns": 10000,
+  "endStates": {
+    "negotiated_deescalation": 1658,
+    "persistent_ambiguity": 5158,
+    "escalation_spiral": 170,
+    "strategic_information_opportunity": 1221,
+    "mixed_crisis_containment": 436,
+    "intelligence_failure": 1131,
+    "calm_crisis_control": 144,
+    "costly_deterrence": 70,
+    "coalition_fracture": 12
+  },
+  "actorActions": {
+    "israel": {
+      "continue_approach": 5553,
+      "continue_ambiguous_activity": 2482,
+      "accept_interim_offramp": 1369,
+      "maintain_pressure": 2028,
+      "increase_non_destructive_pressure": 1859,
+      "slow_approach": 3010,
+      "pause_and_observe": 2780,
+      "maintain_ambiguous_pressure": 1254,
+      "pause_for_assessment": 1154,
+      "deny_and_hold": 2247,
+      "issue_denial": 1493,
+      "exploit_coalition_friction": 1439,
+      "send_routine_explanation": 1361,
+      "deescalate_and_separate": 678,
+      "offer_mutual_separation": 1079,
+      "reduce_proximity": 137,
+      "break_off": 69,
+      "hold_position": 7,
+      "introduce_second_asset": 1
+    },
+    "ally": {
+      "quiet_support": 15019,
+      "support_joint_message": 1653,
+      "support_deconfliction": 1580,
+      "propose_deconfliction": 1628,
+      "distance_from_public_claim": 2198,
+      "no_action": 3496,
+      "request_restraint": 266,
+      "request_more_information": 1555,
+      "support_controlled_response": 1549,
+      "request_more_evidence": 770,
+      "reject_public_attribution": 286
+    },
+    "commercial": {
+      "no_new_data": 7554,
+      "partial_data_only": 3647,
+      "public_attention_expands": 4988,
+      "offer_followup_data": 7828,
+      "neutral_public_statement": 869,
+      "commercial_posture_neutral": 5012,
+      "warn_about_public_release": 102
+    }
+  },
+  "injects": {
+    "m1_inject_1c_media": 3405,
+    "m2_inject_2c_commercial_restriction": 3647,
+    "m3_offramp_reciprocated": 1369,
+    "m1_inject_1b_ally_request": 3019,
+    "m2_inject_2b_intelligence_delay": 2031,
+    "m2_inject_2d_red_offramp": 1079,
+    "m2_inject_2e_coalition_friction": 286,
+    "m1_inject_1a_conflicting_data": 485
+  },
+  "intents": {
+    "intelligence_collection": 2512,
+    "coercion": 2028,
+    "probe": 3023,
+    "alliance_fracture": 1493,
+    "benign_ambiguous": 944
+  },
+  "incidentAttribution": {
+    "mixed": 2037,
+    "red": 3323,
+    "non_red": 4640
+  },
+  "missingMappings": [],
+  "assertionFailures": [],
+  "undefinedNarrativeCount": 0,
+  "actorCoverage": {
+    "israel": [
+      "accept_interim_offramp",
+      "break_off",
+      "continue_ambiguous_activity",
+      "continue_approach",
+      "deescalate_and_separate",
+      "deny_and_hold",
+      "exploit_coalition_friction",
+      "hold_position",
+      "increase_non_destructive_pressure",
+      "introduce_second_asset",
+      "issue_denial",
+      "maintain_ambiguous_pressure",
+      "maintain_pressure",
+      "offer_mutual_separation",
+      "pause_and_observe",
+      "pause_for_assessment",
+      "reduce_proximity",
+      "send_routine_explanation",
+      "slow_approach"
+    ],
+    "ally": [
+      "distance_from_public_claim",
+      "no_action",
+      "propose_deconfliction",
+      "quiet_support",
+      "reject_public_attribution",
+      "request_more_evidence",
+      "request_more_information",
+      "request_restraint",
+      "support_controlled_response",
+      "support_deconfliction",
+      "support_joint_message"
+    ],
+    "commercial": [
+      "commercial_posture_neutral",
+      "neutral_public_statement",
+      "no_new_data",
+      "offer_followup_data",
+      "partial_data_only",
+      "public_attention_expands",
+      "warn_about_public_release"
+    ]
+  },
+  "injectCoverage": [
+    "m1_inject_1a_conflicting_data",
+    "m1_inject_1b_ally_request",
+    "m1_inject_1c_media",
+    "m2_inject_2b_intelligence_delay",
+    "m2_inject_2c_commercial_restriction",
+    "m2_inject_2d_red_offramp",
+    "m2_inject_2e_coalition_friction",
+    "m3_offramp_reciprocated"
+  ],
+  "endStateCoverage": [
+    "calm_crisis_control",
+    "coalition_fracture",
+    "costly_deterrence",
+    "escalation_spiral",
+    "intelligence_failure",
+    "mixed_crisis_containment",
+    "negotiated_deescalation",
+    "persistent_ambiguity",
+    "strategic_information_opportunity"
+  ]
+}

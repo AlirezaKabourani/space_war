@@ -3,6 +3,7 @@ import { resolveAllyActor } from "../actors/allyActor.ts";
 import { resolveCommercialActor } from "../actors/commercialActor.ts";
 import { resolveRedActor } from "../actors/redActor.ts";
 import { clampScenarioOneState, cloneState } from "../model/initialState.ts";
+import { canAffordResourceCosts, recordUserResourceSpend } from "../model/resourceEngineV2.ts";
 import type {
   AllyAction,
   CommercialAction,
@@ -23,7 +24,6 @@ export interface MoveOneChoices {
 export interface AdjudicationResult {
   snapshot: MoveSnapshot;
   redScores: Record<RedMove1Action, number>;
-  situationUpdate: Array<{ title: string; text: string }>;
 }
 
 const addEvidence = (state: ScenarioOneState, evidenceId: string) => {
@@ -38,6 +38,7 @@ export const applyBlueDecision = (
   optionId: string,
   seed: string
 ) => {
+  if (!canAffordResourceCosts(state.resources, optionId)) return cloneState(state);
   const next = cloneState(state);
   const random = createSeededRandom(`${seed}:${windowId}:${optionId}`);
 
@@ -47,16 +48,17 @@ export const applyBlueDecision = (
       next.resources.ssaCapacity -= 18;
       next.visible.situationAwareness += 15;
       next.visible.informationExposure += 2;
-      next.knowledge.systemAttributionConfidence += 8;
+      next.knowledge.systemAttributionConfidence += 12;
       addEvidence(next, "E_SSA_01");
     }
     if (optionId === "m1_i_commercial") {
       next.resources.ssaCapacity -= 8;
       next.resources.politicalCapital -= 2;
       next.visible.situationAwareness += 12;
-      next.knowledge.systemAttributionConfidence += 5;
+      next.knowledge.systemAttributionConfidence += 8;
       next.hidden.commercialTrust += 3;
       if (random() >= 0.8) {
+        next.knowledge.systemAttributionConfidence -= 10;
         next.flags.conflictingCommercialData = true;
         addEvidence(next, "E_COMM_CONFLICT_01");
       }
@@ -67,7 +69,7 @@ export const applyBlueDecision = (
       next.visible.situationAwareness += 14;
       next.visible.coalitionCohesion += 4;
       next.visible.informationExposure += 5;
-      next.knowledge.systemAttributionConfidence += 6;
+      next.knowledge.systemAttributionConfidence += 9;
       next.hidden.allyTrust += 5;
       next.flags.sharedWithAlly = true;
     }
@@ -138,6 +140,7 @@ export const applyBlueDecision = (
     }
   }
 
+  recordUserResourceSpend(next, optionId);
   return clampScenarioOneState(next);
 };
 
@@ -281,65 +284,6 @@ const applyCommercialConsequences = (
   return clampScenarioOneState(next);
 };
 
-const generateSituationUpdate = (
-  state: ScenarioOneState,
-  redAction: RedMove1Action,
-  allyAction: AllyAction,
-  commercialAction: CommercialAction
-) => [
-  {
-    title: "وضعیت مأموریت",
-    text:
-      state.visible.missionContinuity >= 80
-        ? "A-17 بدون اختلال به فعالیت خود ادامه می‌دهد و مأموریت در وضعیت بسیار پایدار باقی مانده است."
-        : "A-17 به فعالیت خود ادامه می‌دهد، اما بخشی از انعطاف عملیاتی مأموریت تحت فشار قرار گرفته است.",
-  },
-  {
-    title: "رفتار R-31",
-    text:
-      redAction === "continue_approach"
-        ? "روند نزدیکی ادامه دارد و هنوز نشانه قطعی از اقدام خصمانه ثبت نشده است."
-        : redAction === "slow_approach"
-          ? "نرخ نزدیک‌شدن کاهش یافته، اما دارایی از محدوده خارج نشده است."
-          : redAction === "hold_position"
-            ? "موقعیت نسبی R-31 تثبیت شده و حرکت تازه‌ای دیده نمی‌شود."
-            : redAction === "send_routine_explanation"
-              ? "اپراتور R-31 رفتار فعلی را بخشی از مأموریت عادی اعلام کرده است."
-              : "R-31 فاصله خود را افزایش داده، اما علت تصمیم آن هنوز قطعی نیست.",
-  },
-  {
-    title: "تصویر اطلاعاتی",
-    text:
-      state.visible.situationAwareness >= 50
-        ? "داده‌های تازه تصویر دقیق‌تری از حرکت ساخته‌اند، اما نیت عملیات همچنان نامشخص است."
-        : "اطلاعات موجود هنوز محدود است و برای انتساب نیت کافی نیست.",
-  },
-  {
-    title: "وضعیت ائتلاف",
-    text:
-      allyAction === "quiet_support" || allyAction === "public_support"
-        ? "متحد منطقه‌ای از ادامه هماهنگی حمایت کرده و مسیر تبادل اطلاعات باز مانده است."
-        : allyAction === "distance_from_blue"
-          ? "متحد منطقه‌ای ایران با احتیاط بیشتری عمل می‌کند و از موضع ایران فاصله گرفته است."
-          : allyAction === "request_more_information"
-            ? "متحد منطقه‌ای درخواست داده تکمیلی کرده و منتظر روشن‌تر شدن شواهد است."
-            : "وضعیت ائتلاف تغییر عمده‌ای نشان نمی‌دهد.",
-  },
-  {
-    title: "محیط عمومی / تجاری",
-    text:
-      state.flags.mediaInjectTriggered
-        ? "منابع رسانه‌ای از افزایش تنش مداری خبر داده‌اند، بدون اینکه اقدام خصمانه‌ای تأیید شده باشد."
-        : commercialAction === "offer_followup_data"
-          ? "اپراتور تجاری برای داده تکمیلی اعلام آمادگی کرده است."
-          : "بحران هنوز توجه گسترده رسانه‌ای یا تجاری پیدا نکرده است.",
-  },
-  {
-    title: "ارزیابی",
-    text: "هیچ اقدام خصمانه‌ای به‌طور قطعی تأیید نشده و عدم قطعیت برای Move 2 باقی است.",
-  },
-];
-
 export const adjudicateMoveOne = ({
   startedAt,
   stateBefore,
@@ -394,11 +338,5 @@ export const adjudicateMoveOne = ({
   return {
     snapshot,
     redScores: red.candidateUtilityScores,
-    situationUpdate: generateSituationUpdate(
-      stateAfter,
-      red.selectedAction,
-      allyAction,
-      commercialAction
-    ),
   };
 };

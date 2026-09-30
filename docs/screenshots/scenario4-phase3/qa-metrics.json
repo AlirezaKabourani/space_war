@@ -1,0 +1,434 @@
+[
+  {
+    "viewportLabel": "1440x900",
+    "screen": "opening",
+    "title": "مرحله اول — نزدیک‌شدن",
+    "viewport": [
+      1440,
+      900
+    ],
+    "direction": "rtl",
+    "bodyHorizontalOverflow": 0,
+    "mainOverflow": 60,
+    "mainRect": {
+      "top": 182.9375,
+      "bottom": 886.9375,
+      "left": 79,
+      "right": 907.671875
+    },
+    "cardRect": null,
+    "questionRect": null,
+    "ctaRect": {
+      "top": 836.9375,
+      "bottom": 878.9375,
+      "left": 728.796875,
+      "right": 886.671875
+    },
+    "ctaVisible": true,
+    "optionCards": 0
+  },
+  {
+    "viewportLabel": "1440x900",
+    "screen": "evidence",
+    "title": "بسته اطلاعاتی اولیه",
+    "viewport": [
+      1440,
+      900
+    ],
+    "direction": "rtl",
+    "bodyHorizontalOverflow": 0,
+    "mainOverflow": 0,
+    "mainRect": {
+      "top": 182.9375,
+      "bottom": 720.859375,
+      "left": 79,
+      "right": 907.671875
+    },
+    "cardRect": null,
+    "questionRect": null,
+    "ctaRect": {
+      "top": 661.859375,
+      "bottom": 703.859375,
+      "left": 770.078125,
+      "right": 886.671875
+    },
+    "ctaVisible": true,
+    "optionCards": 0
+  },
+  {
+    "viewportLabel": "1440x900",
+    "screen": "decision-1",
+    "title": "تصمیم ۱ از ۳ — کاهش ابهام",
+    "viewport": [
+      1440,
+      900
+    ],
+    "direction": "rtl",
+    "bodyHorizontalOverflow": 0,
+    "mainOverflow": 0,
+    "mainRect": {
+      "top": 182.9375,
+      "bottom": 776.6875,
+      "left": 79,
+      "right": 907.671875
+    },
+    "cardRect": null,
+    "questionRect": {
+      "top": 366.9375,
+      "bottom": 393.328125,
+      "left": 100,
+      "right": 886.671875
+    },
+    "ctaRect": {
+      "top": 719.296875,
+      "bottom": 761.296875,
+      "left": 100,
+      "right": 194.234375
+    },
+    "ctaVisible": true,
+    "optionCards": 4
+  },
+  {
+    "viewportLabel": "1440x900",
+    "screen": "decision-2",
+    "title": "تصمیم ۲ از ۳ — حفاظت از A-17",
+    "viewport": [
+      1440,
+      900
+    ],
+    "direction": "rtl",
+    "bodyHorizontalOverflow": 0,
+    "mainOverflow": 0,
+    "mainRect": {
+      "top": 182.9375,
+      "bottom": 866.65625,
+      "left": 79,
+      "right": 907.671875
+    },
+    "cardRect": null,
+    "questionRect": {
+      "top": 456.90625,
+      "bottom": 483.296875,
+      "left": 100,
+      "right": 886.671875
+    },
+    "ctaRect": {
+      "top": 809.265625,
+      "bottom": 851.265625,
+      "left": 100,
+      "right": 194.234375
+    },
+    "ctaVisible": true,
+    "optionCards": 4
+  },
+  {
+    "viewportLabel": "1440x900",
+    "screen": "decision-3",
+    "title": "تصمیم ۳ از ۳ — پیام و سیگنال",
+    "viewport": [
+      1440,
+      900
+    ],
+    "direction": "rtl",
+    "bodyHorizontalOverflow": 0,
+    "mainOverflow": 130,
+    "mainRect": {
+      "top": 182.9375,
+      "bottom": 886.9375,
+      "left": 79,
+      "right": 907.671875
+    },
+    "cardRect": null,
+    "questionRect": {
+      "top": 456.90625,
+      "bottom": 483.296875,
+      "left": 110,
+      "right": 886.671875
+    },
+    "ctaRect": {
+      "top": 834.546875,
+      "bottom": 876.546875,
+      "left": 110,
+      "right": 204.234375
+    },
+    "ctaVisible": true,
+    "optionCards": 5
+  },
+  {
+    "viewportLabel": "1440x900",
+    "screen": "reason",
+    "title": "ثبت دلیل",
+    "viewport": [
+      1440,
+      900
+    ],
+    "direction": "rtl",
+    "bodyHorizontalOverflow": 0,
+    "mainOverflow": 0,
+    "mainRect": {
+      "top": 182.9375,
+      "bottom": 671.296875,
+      "left": 79,
+      "right": 907.671875
+    },
+    "cardRect": null,
+    "questionRect": {
+      "top": 376.125,
+      "bottom": 402.515625,
+      "left": 100,
+      "right": 886.671875
+    },
+    "ctaRect": {
+      "top": 613.90625,
+      "bottom": 655.90625,
+      "left": 100,
+      "right": 194.234375
+    },
+    "ctaVisible": true,
+    "optionCards": 6
+  },
+  {
+    "viewportLabel": "1440x900",
+    "screen": "update",
+    "title": "جمع‌بندی مرحله اول",
+    "viewport": [
+      1440,
+      900
+    ],
+    "direction": "rtl",
+    "bodyHorizontalOverflow": 0,
+    "mainOverflow": 38,
+    "mainRect": {
+      "top": 182.9375,
+      "bottom": 886.9375,
+      "left": 79,
+      "right": 907.671875
+    },
+    "cardRect": null,
+    "questionRect": null,
+    "ctaRect": {
+      "top": 836.9375,
+      "bottom": 878.9375,
+      "left": 770.078125,
+      "right": 886.671875
+    },
+    "ctaVisible": true,
+    "optionCards": 0
+  },
+  {
+    "viewportLabel": "1366x768",
+    "screen": "opening",
+    "title": "مرحله اول — نزدیک‌شدن",
+    "viewport": [
+      1366,
+      768
+    ],
+    "direction": "rtl",
+    "bodyHorizontalOverflow": 0,
+    "mainOverflow": 192,
+    "mainRect": {
+      "top": 182.9375,
+      "bottom": 754.9375,
+      "left": 79,
+      "right": 858.34375
+    },
+    "cardRect": null,
+    "questionRect": null,
+    "ctaRect": {
+      "top": 704.9375,
+      "bottom": 746.9375,
+      "left": 679.46875,
+      "right": 837.34375
+    },
+    "ctaVisible": true,
+    "optionCards": 0
+  },
+  {
+    "viewportLabel": "1366x768",
+    "screen": "evidence",
+    "title": "بسته اطلاعاتی اولیه",
+    "viewport": [
+      1366,
+      768
+    ],
+    "direction": "rtl",
+    "bodyHorizontalOverflow": 0,
+    "mainOverflow": 0,
+    "mainRect": {
+      "top": 182.9375,
+      "bottom": 720.859375,
+      "left": 79,
+      "right": 858.34375
+    },
+    "cardRect": null,
+    "questionRect": null,
+    "ctaRect": {
+      "top": 661.859375,
+      "bottom": 703.859375,
+      "left": 720.75,
+      "right": 837.34375
+    },
+    "ctaVisible": true,
+    "optionCards": 0
+  },
+  {
+    "viewportLabel": "1366x768",
+    "screen": "decision-1",
+    "title": "تصمیم ۱ از ۳ — کاهش ابهام",
+    "viewport": [
+      1366,
+      768
+    ],
+    "direction": "rtl",
+    "bodyHorizontalOverflow": 0,
+    "mainOverflow": 22,
+    "mainRect": {
+      "top": 182.9375,
+      "bottom": 754.9375,
+      "left": 79,
+      "right": 858.34375
+    },
+    "cardRect": null,
+    "questionRect": {
+      "top": 366.9375,
+      "bottom": 393.328125,
+      "left": 110,
+      "right": 837.34375
+    },
+    "ctaRect": {
+      "top": 702.546875,
+      "bottom": 744.546875,
+      "left": 110,
+      "right": 204.234375
+    },
+    "ctaVisible": true,
+    "optionCards": 4
+  },
+  {
+    "viewportLabel": "1366x768",
+    "screen": "decision-2",
+    "title": "تصمیم ۲ از ۳ — حفاظت از A-17",
+    "viewport": [
+      1366,
+      768
+    ],
+    "direction": "rtl",
+    "bodyHorizontalOverflow": 0,
+    "mainOverflow": 133,
+    "mainRect": {
+      "top": 182.9375,
+      "bottom": 754.9375,
+      "left": 79,
+      "right": 858.34375
+    },
+    "cardRect": null,
+    "questionRect": {
+      "top": 456.90625,
+      "bottom": 483.296875,
+      "left": 110,
+      "right": 837.34375
+    },
+    "ctaRect": {
+      "top": 702.546875,
+      "bottom": 744.546875,
+      "left": 110,
+      "right": 204.234375
+    },
+    "ctaVisible": true,
+    "optionCards": 4
+  },
+  {
+    "viewportLabel": "1366x768",
+    "screen": "decision-3",
+    "title": "تصمیم ۳ از ۳ — پیام و سیگنال",
+    "viewport": [
+      1366,
+      768
+    ],
+    "direction": "rtl",
+    "bodyHorizontalOverflow": 0,
+    "mainOverflow": 262,
+    "mainRect": {
+      "top": 182.9375,
+      "bottom": 754.9375,
+      "left": 79,
+      "right": 858.34375
+    },
+    "cardRect": null,
+    "questionRect": {
+      "top": 456.90625,
+      "bottom": 483.296875,
+      "left": 110,
+      "right": 837.34375
+    },
+    "ctaRect": {
+      "top": 702.546875,
+      "bottom": 744.546875,
+      "left": 110,
+      "right": 204.234375
+    },
+    "ctaVisible": true,
+    "optionCards": 5
+  },
+  {
+    "viewportLabel": "1366x768",
+    "screen": "reason",
+    "title": "ثبت دلیل",
+    "viewport": [
+      1366,
+      768
+    ],
+    "direction": "rtl",
+    "bodyHorizontalOverflow": 0,
+    "mainOverflow": 0,
+    "mainRect": {
+      "top": 182.9375,
+      "bottom": 671.296875,
+      "left": 79,
+      "right": 858.34375
+    },
+    "cardRect": null,
+    "questionRect": {
+      "top": 376.125,
+      "bottom": 402.515625,
+      "left": 100,
+      "right": 837.34375
+    },
+    "ctaRect": {
+      "top": 613.90625,
+      "bottom": 655.90625,
+      "left": 100,
+      "right": 194.234375
+    },
+    "ctaVisible": true,
+    "optionCards": 6
+  },
+  {
+    "viewportLabel": "1366x768",
+    "screen": "update",
+    "title": "جمع‌بندی مرحله اول",
+    "viewport": [
+      1366,
+      768
+    ],
+    "direction": "rtl",
+    "bodyHorizontalOverflow": 0,
+    "mainOverflow": 200,
+    "mainRect": {
+      "top": 182.9375,
+      "bottom": 754.9375,
+      "left": 79,
+      "right": 858.34375
+    },
+    "cardRect": null,
+    "questionRect": null,
+    "ctaRect": {
+      "top": 704.9375,
+      "bottom": 746.9375,
+      "left": 720.75,
+      "right": 837.34375
+    },
+    "ctaVisible": true,
+    "optionCards": 0
+  }
+]

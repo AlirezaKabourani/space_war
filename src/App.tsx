@@ -5,6 +5,7 @@ import { ScenarioRunner } from "./ui/components/scenario/ScenarioRunner";
 import { AllScenarios, type ScenarioId } from "./scenarios";
 import { eventLogger } from "./services/analytics/eventLogger";
 import scenario2IntroBackground from "../assets/s2/A1.png";
+import { SCENARIO4_ENTRY_COPY_FA } from "./ui/components/scenario/scenario-four/narrative/narrativeCatalogFa";
 
 type ProfileRole = "admin" | "player";
 
@@ -26,6 +27,8 @@ interface Scenario {
   introText?: string;
   introBackgroundImage?: string;
   image?: string;
+  badges?: readonly string[];
+  ctaLabel?: string;
 }
 
 interface Question {
@@ -266,16 +269,14 @@ const SCENARIOS: Scenario[] = [
   },
   {
     id: 4,
-    title: "۴ — حریم خاکستری مدار",
-    introTitle: "سناریو ۴ — حریم خاکستری مدار",
-    summary: "مدیریت یک بحران مداری سه‌مرحله‌ای؛ از نزدیک‌شدن مبهم R-31 تا اختلال A-17 و تصمیم نهایی درباره انتساب، پاسخ و کاهش تنش.",
+    title: SCENARIO4_ENTRY_COPY_FA.title,
+    introTitle: SCENARIO4_ENTRY_COPY_FA.title,
+    summary: SCENARIO4_ENTRY_COPY_FA.subtitle,
     image: "/images/scenario4.png",
-    descriptionPreview: "شما رئیس سلول تصمیم‌گیری عملیات فضایی ایران هستید. باید با منابع محدود، شواهد چندمنبعی و نیت نامعلوم اسرائیل، تداوم مأموریت A-17 را حفظ و مسیر بحران را مدیریت کنید.",
-    fullDescription: `R-31، یک دارایی فضایی دوکاربردی متعلق به اسرائیل، از الگوی معمول خود خارج شده و فاصله‌اش با ماهواره مهم A-17 ایران را کاهش داده است. هنوز حمله یا نیت خصمانه‌ای تأیید نشده و رفتار مشاهده‌شده می‌تواند از یک مأموریت فنی تا آزمون واکنش، جمع‌آوری اطلاعات یا اعمال فشار معنا داشته باشد.
-
-شما در نقش رئیس سلول تصمیم‌گیری عملیات فضایی ایران، بحران را در سه مرحله مدیریت می‌کنید: نزدیک‌شدن مداری مبهم، اختلال بدون امضای قطعی، و بحران نهایی انتساب. در ۹ نقطه تصمیم باید اولویت اطلاعاتی، وضعیت حفاظتی، ارتباط با اسرائیل و متحدان ایران، بررسی علت اختلال، تداوم مأموریت، مسیر پاسخ و سیاست انتشار شواهد را تعیین کنید.
-
-منابع SSA، ظرفیت حفاظتی، سرمایه سیاسی و ظرفیت افشای امن محدودند و تصمیم‌های شما می‌توانند آن‌ها را مصرف یا در شرایط منطقی بازیابی کنند. اسرائیل، متحدان ایران و اپراتور تجاری نیز مستقل واکنش نشان می‌دهند؛ بنابراین نتیجه فقط به یک انتخاب وابسته نیست. هدف سناریو یافتن یک پاسخ صحیح ثابت نیست، بلکه تمرین تصمیم‌گیری عملیاتی–راهبردی در شرایط اطلاعات ناقص، کنترل تشدید، حفظ گزینه‌های آینده و سنجش پیامدهای هر اقدام است.`
+    descriptionPreview: SCENARIO4_ENTRY_COPY_FA.shortDescription,
+    fullDescription: `${SCENARIO4_ENTRY_COPY_FA.subtitle}\n\n${SCENARIO4_ENTRY_COPY_FA.shortDescription}`,
+    badges: SCENARIO4_ENTRY_COPY_FA.badges,
+    ctaLabel: SCENARIO4_ENTRY_COPY_FA.cta,
   },
   {
     id: 5,
@@ -2241,6 +2242,11 @@ const [expandedScenarioId, setExpandedScenarioId] = useState<number | null>(null
                           return preview.length > 140 ? `${preview.slice(0, 140)}…` : preview;
                         })()}
                   </p>
+                  {scenario.badges && (
+                    <div className="scenario-badges" aria-label="ویژگی‌های سناریو">
+                      {scenario.badges.map((badge) => <span key={badge}>{badge}</span>)}
+                    </div>
+                  )}
 
                   <div className="scenario-actions">
                     <button
@@ -2277,7 +2283,7 @@ const [expandedScenarioId, setExpandedScenarioId] = useState<number | null>(null
                       disabled={!unlocked}
                       onClick={() => handleOpenScenario(scenario.id)}
                     >
-                      {unlocked ? "شروع سناریو" : "قفل شده"}
+                      {unlocked ? (scenario.ctaLabel ?? "شروع سناریو") : "قفل شده"}
                     </button>
                   </div>
                 </div>

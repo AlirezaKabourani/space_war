@@ -2,6 +2,7 @@ import type {
   AttributionEstimateTelemetryV3,
   DecisionTelemetryV3,
   ResourceEvent,
+  ResourceKey,
   ScenarioOneDecisionRecord,
   TrueIncidentAttribution,
 } from "./types";
@@ -20,6 +21,7 @@ import {
   type CognitiveOptionProfileV3,
   type CoreDecisionWindowV3,
 } from "./cognitiveOptionProfilesV3.ts";
+import { SCENARIO4_INITIAL_RESOURCE_BASELINE } from "./initialState.ts";
 
 const EPSILON = 1e-6;
 const clamp = (value: number, min = 0, max = 1) => Math.max(min, Math.min(max, value));
@@ -292,9 +294,9 @@ export const calculateCognitiveModelV3 = (input: CognitiveModelV3Input): Cogniti
   const coalition = weightedMean([...latest.entries()].map(([windowId, record]) => [adjustedProfileMetric(windowId, record.selectedOptionId, "coalitionOrientation"), COGNITIVE_OPTION_PROFILES_V3[record.selectedOptionId].diagnosticity.coalitionOrientation]));
   const risk = weightedMean([...latest.entries()].map(([windowId, record]) => [adjustedProfileMetric(windowId, record.selectedOptionId, "riskExposure"), COGNITIVE_OPTION_PROFILES_V3[record.selectedOptionId].diagnosticity.riskPosture]));
   const userCosts = input.resourceEvents.filter((event) => event.kind === "user_cost");
-  const shadow = { ssaCapacity: 100, protectiveCapacity: 100, politicalCapital: 100, disclosureBudget: 100 };
-  userCosts.forEach((event) => { shadow[event.resource] = clamp(shadow[event.resource] + event.delta, 0, 100); });
-  const resourcePenalty = Math.min(.30, Object.values(shadow).filter((value) => value < 15).length * .10);
+  const shadow: Record<ResourceKey, number> = { ...SCENARIO4_INITIAL_RESOURCE_BASELINE };
+  userCosts.forEach((event) => { shadow[event.resource] = clamp(shadow[event.resource] + event.delta, 0, SCENARIO4_INITIAL_RESOURCE_BASELINE[event.resource]); });
+  const resourcePenalty = Math.min(.30, Object.entries(shadow).filter(([resource, value]) => value / SCENARIO4_INITIAL_RESOURCE_BASELINE[resource as keyof typeof shadow] < .20).length * .10);
   const stewardshipBase = weightedMean(selectedProfiles.map((profile) => [.50 * profile.resourceStewardship + .30 * profile.contingencyPlanning + .20 * profile.reversibilityPreference, profile.diagnosticity.resourceStewardship]));
   const multiDomain = profileScore((profile) => {
     const values = [profile.domainMission, profile.domainInformation, profile.domainEscalation, profile.domainCoalition, profile.domainResources, profile.domainLegitimacy, profile.domainFutureOptions];

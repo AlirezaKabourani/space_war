@@ -1,0 +1,28 @@
+severity,severity_paths,end_state,end_state_fa,paths_to_end_state,p_end_given_severity,p_end_given_severity_percent
+significant,2750400,escalation_spiral,مارپیچ تشدید,30363,0.011039485165794066,1.104
+significant,2750400,intelligence_failure,شکست اطلاعاتی,202800,0.0737347294938918,7.373
+significant,2750400,coalition_fracture,شکاف ائتلافی,4068,0.0014790575916230366,0.148
+significant,2750400,negotiated_deescalation,کاهش تنش مذاکره‌شده,836304,0.304066317626527,30.407
+significant,2750400,calm_crisis_control,مهار آرام بحران,14628,0.005318499127399651,0.532
+significant,2750400,costly_deterrence,بازدارندگی پرهزینه,6360,0.00231239092495637,0.231
+significant,2750400,persistent_ambiguity,ابهام پایدار,1098444,0.3993760907504363,39.938
+significant,2750400,strategic_information_opportunity,فرصت اطلاعاتی راهبردی,457026,0.16616710296684117,16.617
+significant,2750400,mixed_crisis_containment,مهار نسبی بحران,100407,0.03650632635253054,3.651
+limited,5136000,escalation_spiral,مارپیچ تشدید,18324,0.0035677570093457945,0.357
+limited,5136000,intelligence_failure,شکست اطلاعاتی,445200,0.0866822429906542,8.668
+limited,5136000,coalition_fracture,شکاف ائتلافی,12876,0.0025070093457943924,0.251
+limited,5136000,negotiated_deescalation,کاهش تنش مذاکره‌شده,1808400,0.35210280373831776,35.210
+limited,5136000,calm_crisis_control,مهار آرام بحران,26973,0.005251752336448598,0.525
+limited,5136000,costly_deterrence,بازدارندگی پرهزینه,27462,0.00534696261682243,0.535
+limited,5136000,persistent_ambiguity,ابهام پایدار,1916007,0.37305432242990655,37.305
+limited,5136000,strategic_information_opportunity,فرصت اطلاعاتی راهبردی,749130,0.1458586448598131,14.586
+limited,5136000,mixed_crisis_containment,مهار نسبی بحران,131628,0.025628504672897196,2.563
+severe,465600,escalation_spiral,مارپیچ تشدید,12078,0.025940721649484536,2.594
+severe,465600,intelligence_failure,شکست اطلاعاتی,0,0,0.000
+severe,465600,coalition_fracture,شکاف ائتلافی,540,0.0011597938144329897,0.116
+severe,465600,negotiated_deescalation,کاهش تنش مذاکره‌شده,0,0,0.000
+severe,465600,calm_crisis_control,مهار آرام بحران,0,0,0.000
+severe,465600,costly_deterrence,بازدارندگی پرهزینه,0,0,0.000
+severe,465600,persistent_ambiguity,ابهام پایدار,247254,0.5310438144329896,53.104
+severe,465600,strategic_information_opportunity,فرصت اطلاعاتی راهبردی,147657,0.3171327319587629,31.713
+severe,465600,mixed_crisis_containment,مهار نسبی بحران,58071,0.1247229381443299,12.472

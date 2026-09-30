@@ -1,0 +1,46 @@
+intent,intent_fa,design_weight,end_state,end_state_fa,count,intent_total_paths,within_intent_share,within_intent_percent
+probe,آزمون آستانه‌ها,0.3,escalation_spiral,مارپیچ تشدید,0,1440000,0,0.000
+probe,آزمون آستانه‌ها,0.3,intelligence_failure,شکست اطلاعاتی,0,1440000,0,0.000
+probe,آزمون آستانه‌ها,0.3,coalition_fracture,شکاف ائتلافی,4032,1440000,0.0028,0.280
+probe,آزمون آستانه‌ها,0.3,negotiated_deescalation,کاهش تنش مذاکره‌شده,669696,1440000,0.4650666666666667,46.507
+probe,آزمون آستانه‌ها,0.3,calm_crisis_control,مهار آرام بحران,0,1440000,0,0.000
+probe,آزمون آستانه‌ها,0.3,costly_deterrence,بازدارندگی پرهزینه,0,1440000,0,0.000
+probe,آزمون آستانه‌ها,0.3,persistent_ambiguity,ابهام پایدار,651072,1440000,0.45213333333333333,45.213
+probe,آزمون آستانه‌ها,0.3,strategic_information_opportunity,فرصت اطلاعاتی راهبردی,90036,1440000,0.062525,6.252
+probe,آزمون آستانه‌ها,0.3,mixed_crisis_containment,مهار نسبی بحران,25164,1440000,0.017475,1.748
+intelligence_collection,جمع‌آوری اطلاعات,0.25,escalation_spiral,مارپیچ تشدید,1170,1440000,0.0008125,0.081
+intelligence_collection,جمع‌آوری اطلاعات,0.25,intelligence_failure,شکست اطلاعاتی,0,1440000,0,0.000
+intelligence_collection,جمع‌آوری اطلاعات,0.25,coalition_fracture,شکاف ائتلافی,4320,1440000,0.003,0.300
+intelligence_collection,جمع‌آوری اطلاعات,0.25,negotiated_deescalation,کاهش تنش مذاکره‌شده,669408,1440000,0.46486666666666665,46.487
+intelligence_collection,جمع‌آوری اطلاعات,0.25,calm_crisis_control,مهار آرام بحران,0,1440000,0,0.000
+intelligence_collection,جمع‌آوری اطلاعات,0.25,costly_deterrence,بازدارندگی پرهزینه,0,1440000,0,0.000
+intelligence_collection,جمع‌آوری اطلاعات,0.25,persistent_ambiguity,ابهام پایدار,573294,1440000,0.3981208333333333,39.812
+intelligence_collection,جمع‌آوری اطلاعات,0.25,strategic_information_opportunity,فرصت اطلاعاتی راهبردی,127974,1440000,0.08887083333333333,8.887
+intelligence_collection,جمع‌آوری اطلاعات,0.25,mixed_crisis_containment,مهار نسبی بحران,63834,1440000,0.04432916666666667,4.433
+coercion,اعمال فشار,0.2,escalation_spiral,مارپیچ تشدید,59595,1440000,0.04138541666666667,4.139
+coercion,اعمال فشار,0.2,intelligence_failure,شکست اطلاعاتی,0,1440000,0,0.000
+coercion,اعمال فشار,0.2,coalition_fracture,شکاف ائتلافی,2700,1440000,0.001875,0.188
+coercion,اعمال فشار,0.2,negotiated_deescalation,کاهش تنش مذاکره‌شده,26400,1440000,0.018333333333333333,1.833
+coercion,اعمال فشار,0.2,calm_crisis_control,مهار آرام بحران,10308,1440000,0.007158333333333333,0.716
+coercion,اعمال فشار,0.2,costly_deterrence,بازدارندگی پرهزینه,20502,1440000,0.0142375,1.424
+coercion,اعمال فشار,0.2,persistent_ambiguity,ابهام پایدار,756912,1440000,0.5256333333333333,52.563
+coercion,اعمال فشار,0.2,strategic_information_opportunity,فرصت اطلاعاتی راهبردی,378009,1440000,0.26250625,26.251
+coercion,اعمال فشار,0.2,mixed_crisis_containment,مهار نسبی بحران,185574,1440000,0.12887083333333332,12.887
+alliance_fracture,ایجاد شکاف ائتلافی,0.15,escalation_spiral,مارپیچ تشدید,0,1440000,0,0.000
+alliance_fracture,ایجاد شکاف ائتلافی,0.15,intelligence_failure,شکست اطلاعاتی,0,1440000,0,0.000
+alliance_fracture,ایجاد شکاف ائتلافی,0.15,coalition_fracture,شکاف ائتلافی,6432,1440000,0.0044666666666666665,0.447
+alliance_fracture,ایجاد شکاف ائتلافی,0.15,negotiated_deescalation,کاهش تنش مذاکره‌شده,0,1440000,0,0.000
+alliance_fracture,ایجاد شکاف ائتلافی,0.15,calm_crisis_control,مهار آرام بحران,0,1440000,0,0.000
+alliance_fracture,ایجاد شکاف ائتلافی,0.15,costly_deterrence,بازدارندگی پرهزینه,0,1440000,0,0.000
+alliance_fracture,ایجاد شکاف ائتلافی,0.15,persistent_ambiguity,ابهام پایدار,661833,1440000,0.45960625,45.961
+alliance_fracture,ایجاد شکاف ائتلافی,0.15,strategic_information_opportunity,فرصت اطلاعاتی راهبردی,756201,1440000,0.5251395833333333,52.514
+alliance_fracture,ایجاد شکاف ائتلافی,0.15,mixed_crisis_containment,مهار نسبی بحران,15534,1440000,0.0107875,1.079
+benign_ambiguous,رفتار مبهم/غیرخصمانه,0.1,escalation_spiral,مارپیچ تشدید,0,2592000,0,0.000
+benign_ambiguous,رفتار مبهم/غیرخصمانه,0.1,intelligence_failure,شکست اطلاعاتی,648000,2592000,0.25,25.000
+benign_ambiguous,رفتار مبهم/غیرخصمانه,0.1,coalition_fracture,شکاف ائتلافی,0,2592000,0,0.000
+benign_ambiguous,رفتار مبهم/غیرخصمانه,0.1,negotiated_deescalation,کاهش تنش مذاکره‌شده,1279200,2592000,0.4935185185185185,49.352
+benign_ambiguous,رفتار مبهم/غیرخصمانه,0.1,calm_crisis_control,مهار آرام بحران,31293,2592000,0.012072916666666666,1.207
+benign_ambiguous,رفتار مبهم/غیرخصمانه,0.1,costly_deterrence,بازدارندگی پرهزینه,13320,2592000,0.005138888888888889,0.514
+benign_ambiguous,رفتار مبهم/غیرخصمانه,0.1,persistent_ambiguity,ابهام پایدار,618594,2592000,0.2386550925925926,23.866
+benign_ambiguous,رفتار مبهم/غیرخصمانه,0.1,strategic_information_opportunity,فرصت اطلاعاتی راهبردی,1593,2592000,0.0006145833333333333,0.061
+benign_ambiguous,رفتار مبهم/غیرخصمانه,0.1,mixed_crisis_containment,مهار نسبی بحران,0,2592000,0,0.000

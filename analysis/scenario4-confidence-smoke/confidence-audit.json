@@ -1,0 +1,299 @@
+{
+  "overall": {
+    "count": 1000,
+    "min": 23,
+    "max": 23,
+    "p05": 23,
+    "p25": 23,
+    "p50": 23,
+    "p75": 23,
+    "p95": 23,
+    "thresholdCoverage": {
+      "gte35": {
+        "count": 0,
+        "share": 0
+      },
+      "gte40": {
+        "count": 0,
+        "share": 0
+      },
+      "gte45": {
+        "count": 0,
+        "share": 0
+      },
+      "gte50": {
+        "count": 0,
+        "share": 0
+      },
+      "gte55": {
+        "count": 0,
+        "share": 0
+      },
+      "gte60": {
+        "count": 0,
+        "share": 0
+      },
+      "gte70": {
+        "count": 0,
+        "share": 0
+      }
+    },
+    "histogram": {
+      "23": 1000
+    }
+  },
+  "byIntent": {
+    "probe": {
+      "count": 1000,
+      "min": 23,
+      "max": 23,
+      "p05": 23,
+      "p25": 23,
+      "p50": 23,
+      "p75": 23,
+      "p95": 23,
+      "thresholdCoverage": {
+        "gte35": {
+          "count": 0,
+          "share": 0
+        },
+        "gte40": {
+          "count": 0,
+          "share": 0
+        },
+        "gte45": {
+          "count": 0,
+          "share": 0
+        },
+        "gte50": {
+          "count": 0,
+          "share": 0
+        },
+        "gte55": {
+          "count": 0,
+          "share": 0
+        },
+        "gte60": {
+          "count": 0,
+          "share": 0
+        },
+        "gte70": {
+          "count": 0,
+          "share": 0
+        }
+      },
+      "histogram": {
+        "23": 1000
+      }
+    },
+    "intelligence_collection": {
+      "count": 0,
+      "min": null,
+      "max": null,
+      "p05": null,
+      "p25": null,
+      "p50": null,
+      "p75": null,
+      "p95": null,
+      "thresholdCoverage": {
+        "gte35": {
+          "count": 0,
+          "share": 0
+        },
+        "gte40": {
+          "count": 0,
+          "share": 0
+        },
+        "gte45": {
+          "count": 0,
+          "share": 0
+        },
+        "gte50": {
+          "count": 0,
+          "share": 0
+        },
+        "gte55": {
+          "count": 0,
+          "share": 0
+        },
+        "gte60": {
+          "count": 0,
+          "share": 0
+        },
+        "gte70": {
+          "count": 0,
+          "share": 0
+        }
+      },
+      "histogram": {}
+    },
+    "coercion": {
+      "count": 0,
+      "min": null,
+      "max": null,
+      "p05": null,
+      "p25": null,
+      "p50": null,
+      "p75": null,
+      "p95": null,
+      "thresholdCoverage": {
+        "gte35": {
+          "count": 0,
+          "share": 0
+        },
+        "gte40": {
+          "count": 0,
+          "share": 0
+        },
+        "gte45": {
+          "count": 0,
+          "share": 0
+        },
+        "gte50": {
+          "count": 0,
+          "share": 0
+        },
+        "gte55": {
+          "count": 0,
+          "share": 0
+        },
+        "gte60": {
+          "count": 0,
+          "share": 0
+        },
+        "gte70": {
+          "count": 0,
+          "share": 0
+        }
+      },
+      "histogram": {}
+    },
+    "alliance_fracture": {
+      "count": 0,
+      "min": null,
+      "max": null,
+      "p05": null,
+      "p25": null,
+      "p50": null,
+      "p75": null,
+      "p95": null,
+      "thresholdCoverage": {
+        "gte35": {
+          "count": 0,
+          "share": 0
+        },
+        "gte40": {
+          "count": 0,
+          "share": 0
+        },
+        "gte45": {
+          "count": 0,
+          "share": 0
+        },
+        "gte50": {
+          "count": 0,
+          "share": 0
+        },
+        "gte55": {
+          "count": 0,
+          "share": 0
+        },
+        "gte60": {
+          "count": 0,
+          "share": 0
+        },
+        "gte70": {
+          "count": 0,
+          "share": 0
+        }
+      },
+      "histogram": {}
+    },
+    "benign_ambiguous": {
+      "count": 0,
+      "min": null,
+      "max": null,
+      "p05": null,
+      "p25": null,
+      "p50": null,
+      "p75": null,
+      "p95": null,
+      "thresholdCoverage": {
+        "gte35": {
+          "count": 0,
+          "share": 0
+        },
+        "gte40": {
+          "count": 0,
+          "share": 0
+        },
+        "gte45": {
+          "count": 0,
+          "share": 0
+        },
+        "gte50": {
+          "count": 0,
+          "share": 0
+        },
+        "gte55": {
+          "count": 0,
+          "share": 0
+        },
+        "gte60": {
+          "count": 0,
+          "share": 0
+        },
+        "gte70": {
+          "count": 0,
+          "share": 0
+        }
+      },
+      "histogram": {}
+    }
+  },
+  "byIncidentCause": {
+    "mixed_cause": {
+      "count": 1000,
+      "min": 23,
+      "max": 23,
+      "p05": 23,
+      "p25": 23,
+      "p50": 23,
+      "p75": 23,
+      "p95": 23,
+      "thresholdCoverage": {
+        "gte35": {
+          "count": 0,
+          "share": 0
+        },
+        "gte40": {
+          "count": 0,
+          "share": 0
+        },
+        "gte45": {
+          "count": 0,
+          "share": 0
+        },
+        "gte50": {
+          "count": 0,
+          "share": 0
+        },
+        "gte55": {
+          "count": 0,
+          "share": 0
+        },
+        "gte60": {
+          "count": 0,
+          "share": 0
+        },
+        "gte70": {
+          "count": 0,
+          "share": 0
+        }
+      },
+      "histogram": {
+        "23": 1000
+      }
+    }
+  }
+}

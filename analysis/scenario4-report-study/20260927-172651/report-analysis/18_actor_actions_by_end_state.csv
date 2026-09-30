@@ -1,0 +1,316 @@
+actor_field,action,action_paths,end_state,end_state_fa,paths_to_end_state,p_end_given_action,p_end_given_action_percent
+m1_red_action,continue_approach,3456000,escalation_spiral,مارپیچ تشدید,59643,0.0172578125,1.726
+m1_red_action,continue_approach,3456000,intelligence_failure,شکست اطلاعاتی,0,0,0.000
+m1_red_action,continue_approach,3456000,coalition_fracture,شکاف ائتلافی,6957,0.0020130208333333332,0.201
+m1_red_action,continue_approach,3456000,negotiated_deescalation,کاهش تنش مذاکره‌شده,695952,0.201375,20.137
+m1_red_action,continue_approach,3456000,calm_crisis_control,مهار آرام بحران,10308,0.002982638888888889,0.298
+m1_red_action,continue_approach,3456000,costly_deterrence,بازدارندگی پرهزینه,20502,0.0059322916666666664,0.593
+m1_red_action,continue_approach,3456000,persistent_ambiguity,ابهام پایدار,1593267,0.46101475694444444,46.101
+m1_red_action,continue_approach,3456000,strategic_information_opportunity,فرصت اطلاعاتی راهبردی,855018,0.24740104166666665,24.740
+m1_red_action,continue_approach,3456000,mixed_crisis_containment,مهار نسبی بحران,214353,0.0620234375,6.202
+m1_ally_action,no_action,2923200,escalation_spiral,مارپیچ تشدید,11124,0.0038054187192118226,0.381
+m1_ally_action,no_action,2923200,intelligence_failure,شکست اطلاعاتی,226800,0.07758620689655173,7.759
+m1_ally_action,no_action,2923200,coalition_fracture,شکاف ائتلافی,0,0,0.000
+m1_ally_action,no_action,2923200,negotiated_deescalation,کاهش تنش مذاکره‌شده,930432,0.31829228243021346,31.829
+m1_ally_action,no_action,2923200,calm_crisis_control,مهار آرام بحران,11733,0.004013752052545156,0.401
+m1_ally_action,no_action,2923200,costly_deterrence,بازدارندگی پرهزینه,14649,0.005011288998357964,0.501
+m1_ally_action,no_action,2923200,persistent_ambiguity,ابهام پایدار,1177251,0.4027268062397373,40.273
+m1_ally_action,no_action,2923200,strategic_information_opportunity,فرصت اطلاعاتی راهبردی,454968,0.15564039408866995,15.564
+m1_ally_action,no_action,2923200,mixed_crisis_containment,مهار نسبی بحران,96243,0.03292385057471264,3.292
+m1_commercial_action,no_new_data,6264000,escalation_spiral,مارپیچ تشدید,45537,0.007269636015325671,0.727
+m1_commercial_action,no_new_data,6264000,intelligence_failure,شکست اطلاعاتی,486000,0.07758620689655173,7.759
+m1_commercial_action,no_new_data,6264000,coalition_fracture,شکاف ائتلافی,11076,0.001768199233716475,0.177
+m1_commercial_action,no_new_data,6264000,negotiated_deescalation,کاهش تنش مذاکره‌شده,1992672,0.3181149425287356,31.811
+m1_commercial_action,no_new_data,6264000,calm_crisis_control,مهار آرام بحران,31539,0.005034961685823755,0.503
+m1_commercial_action,no_new_data,6264000,costly_deterrence,بازدارندگی پرهزینه,26664,0.004256704980842912,0.426
+m1_commercial_action,no_new_data,6264000,persistent_ambiguity,ابهام پایدار,2498979,0.39894300766283525,39.894
+m1_commercial_action,no_new_data,6264000,strategic_information_opportunity,فرصت اطلاعاتی راهبردی,944949,0.15085392720306515,15.085
+m1_commercial_action,no_new_data,6264000,mixed_crisis_containment,مهار نسبی بحران,226584,0.03617241379310345,3.617
+m2_red_action,pause_and_observe,960000,escalation_spiral,مارپیچ تشدید,0,0,0.000
+m2_red_action,pause_and_observe,960000,intelligence_failure,شکست اطلاعاتی,0,0,0.000
+m2_red_action,pause_and_observe,960000,coalition_fracture,شکاف ائتلافی,4032,0.0042,0.420
+m2_red_action,pause_and_observe,960000,negotiated_deescalation,کاهش تنش مذاکره‌شده,477696,0.4976,49.760
+m2_red_action,pause_and_observe,960000,calm_crisis_control,مهار آرام بحران,0,0,0.000
+m2_red_action,pause_and_observe,960000,costly_deterrence,بازدارندگی پرهزینه,0,0,0.000
+m2_red_action,pause_and_observe,960000,persistent_ambiguity,ابهام پایدار,406272,0.4232,42.320
+m2_red_action,pause_and_observe,960000,strategic_information_opportunity,فرصت اطلاعاتی راهبردی,49293,0.051346875,5.135
+m2_red_action,pause_and_observe,960000,mixed_crisis_containment,مهار نسبی بحران,22707,0.023653125,2.365
+m2_ally_action,quiet_support,4243200,escalation_spiral,مارپیچ تشدید,17373,0.0040943156108597285,0.409
+m2_ally_action,quiet_support,4243200,intelligence_failure,شکست اطلاعاتی,408000,0.09615384615384616,9.615
+m2_ally_action,quiet_support,4243200,coalition_fracture,شکاف ائتلافی,0,0,0.000
+m2_ally_action,quiet_support,4243200,negotiated_deescalation,کاهش تنش مذاکره‌شده,1488000,0.3506787330316742,35.068
+m2_ally_action,quiet_support,4243200,calm_crisis_control,مهار آرام بحران,8868,0.002089932126696833,0.209
+m2_ally_action,quiet_support,4243200,costly_deterrence,بازدارندگی پرهزینه,12243,0.0028853223981900452,0.289
+m2_ally_action,quiet_support,4243200,persistent_ambiguity,ابهام پایدار,1519599,0.35812570701357466,35.813
+m2_ally_action,quiet_support,4243200,strategic_information_opportunity,فرصت اطلاعاتی راهبردی,657321,0.15491162330316743,15.491
+m2_ally_action,quiet_support,4243200,mixed_crisis_containment,مهار نسبی بحران,131796,0.03106052036199095,3.106
+m2_commercial_action,offer_followup_data,4491888,escalation_spiral,مارپیچ تشدید,6591,0.001467311740631111,0.147
+m2_commercial_action,offer_followup_data,4491888,intelligence_failure,شکست اطلاعاتی,259104,0.057682649255724985,5.768
+m2_commercial_action,offer_followup_data,4491888,coalition_fracture,شکاف ائتلافی,0,0,0.000
+m2_commercial_action,offer_followup_data,4491888,negotiated_deescalation,کاهش تنش مذاکره‌شده,1244436,0.27704074545046536,27.704
+m2_commercial_action,offer_followup_data,4491888,calm_crisis_control,مهار آرام بحران,26064,0.00580245990104829,0.580
+m2_commercial_action,offer_followup_data,4491888,costly_deterrence,بازدارندگی پرهزینه,9549,0.002125832166785993,0.213
+m2_commercial_action,offer_followup_data,4491888,persistent_ambiguity,ابهام پایدار,1791525,0.39883563437022473,39.884
+m2_commercial_action,offer_followup_data,4491888,strategic_information_opportunity,فرصت اطلاعاتی راهبردی,1039530,0.23142384672102242,23.142
+m2_commercial_action,offer_followup_data,4491888,mixed_crisis_containment,مهار نسبی بحران,115089,0.025621520394097094,2.562
+m3_red_action,maintain_ambiguous_pressure,537600,escalation_spiral,مارپیچ تشدید,0,0,0.000
+m3_red_action,maintain_ambiguous_pressure,537600,intelligence_failure,شکست اطلاعاتی,0,0,0.000
+m3_red_action,maintain_ambiguous_pressure,537600,coalition_fracture,شکاف ائتلافی,0,0,0.000
+m3_red_action,maintain_ambiguous_pressure,537600,negotiated_deescalation,کاهش تنش مذاکره‌شده,0,0,0.000
+m3_red_action,maintain_ambiguous_pressure,537600,calm_crisis_control,مهار آرام بحران,0,0,0.000
+m3_red_action,maintain_ambiguous_pressure,537600,costly_deterrence,بازدارندگی پرهزینه,0,0,0.000
+m3_red_action,maintain_ambiguous_pressure,537600,persistent_ambiguity,ابهام پایدار,451200,0.8392857142857143,83.929
+m3_red_action,maintain_ambiguous_pressure,537600,strategic_information_opportunity,فرصت اطلاعاتی راهبردی,68274,0.12699776785714287,12.700
+m3_red_action,maintain_ambiguous_pressure,537600,mixed_crisis_containment,مهار نسبی بحران,18126,0.03371651785714286,3.372
+m3_ally_action,quiet_support,3093279,escalation_spiral,مارپیچ تشدید,0,0,0.000
+m3_ally_action,quiet_support,3093279,intelligence_failure,شکست اطلاعاتی,0,0,0.000
+m3_ally_action,quiet_support,3093279,coalition_fracture,شکاف ائتلافی,0,0,0.000
+m3_ally_action,quiet_support,3093279,negotiated_deescalation,کاهش تنش مذاکره‌شده,853200,0.2758238102673571,27.582
+m3_ally_action,quiet_support,3093279,calm_crisis_control,مهار آرام بحران,22932,0.007413492284401116,0.741
+m3_ally_action,quiet_support,3093279,costly_deterrence,بازدارندگی پرهزینه,10203,0.0032984415566782044,0.330
+m3_ally_action,quiet_support,3093279,persistent_ambiguity,ابهام پایدار,1480398,0.47858534584174267,47.859
+m3_ally_action,quiet_support,3093279,strategic_information_opportunity,فرصت اطلاعاتی راهبردی,559239,0.1807916453704952,18.079
+m3_ally_action,quiet_support,3093279,mixed_crisis_containment,مهار نسبی بحران,167307,0.054087264679325724,5.409
+m3_red_action,deny_and_hold,1761000,escalation_spiral,مارپیچ تشدید,1377,0.0007819420783645656,0.078
+m3_red_action,deny_and_hold,1761000,intelligence_failure,شکست اطلاعاتی,648000,0.3679727427597956,36.797
+m3_red_action,deny_and_hold,1761000,coalition_fracture,شکاف ائتلافی,3456,0.00196252129471891,0.196
+m3_red_action,deny_and_hold,1761000,negotiated_deescalation,کاهش تنش مذاکره‌شده,0,0,0.000
+m3_red_action,deny_and_hold,1761000,calm_crisis_control,مهار آرام بحران,0,0,0.000
+m3_red_action,deny_and_hold,1761000,costly_deterrence,بازدارندگی پرهزینه,0,0,0.000
+m3_red_action,deny_and_hold,1761000,persistent_ambiguity,ابهام پایدار,1036854,0.5887870528109029,58.879
+m3_red_action,deny_and_hold,1761000,strategic_information_opportunity,فرصت اطلاعاتی راهبردی,39189,0.02225383304940375,2.225
+m3_red_action,deny_and_hold,1761000,mixed_crisis_containment,مهار نسبی بحران,32124,0.01824190800681431,1.824
+m3_ally_action,distance_from_public_claim,1800000,escalation_spiral,مارپیچ تشدید,27387,0.015215,1.521
+m3_ally_action,distance_from_public_claim,1800000,intelligence_failure,شکست اطلاعاتی,648000,0.36,36.000
+m3_ally_action,distance_from_public_claim,1800000,coalition_fracture,شکاف ائتلافی,17484,0.009713333333333333,0.971
+m3_ally_action,distance_from_public_claim,1800000,negotiated_deescalation,کاهش تنش مذاکره‌شده,263904,0.14661333333333335,14.661
+m3_ally_action,distance_from_public_claim,1800000,calm_crisis_control,مهار آرام بحران,0,0,0.000
+m3_ally_action,distance_from_public_claim,1800000,costly_deterrence,بازدارندگی پرهزینه,0,0,0.000
+m3_ally_action,distance_from_public_claim,1800000,persistent_ambiguity,ابهام پایدار,686802,0.38155666666666666,38.156
+m3_ally_action,distance_from_public_claim,1800000,strategic_information_opportunity,فرصت اطلاعاتی راهبردی,156423,0.08690166666666667,8.690
+m3_ally_action,distance_from_public_claim,1800000,mixed_crisis_containment,مهار نسبی بحران,0,0,0.000
+m3_ally_action,support_controlled_response,1069200,escalation_spiral,مارپیچ تشدید,4305,0.004026374859708193,0.403
+m3_ally_action,support_controlled_response,1069200,intelligence_failure,شکست اطلاعاتی,0,0,0.000
+m3_ally_action,support_controlled_response,1069200,coalition_fracture,شکاف ائتلافی,0,0,0.000
+m3_ally_action,support_controlled_response,1069200,negotiated_deescalation,کاهش تنش مذاکره‌شده,310800,0.29068462401795736,29.068
+m3_ally_action,support_controlled_response,1069200,calm_crisis_control,مهار آرام بحران,18669,0.017460718294051627,1.746
+m3_ally_action,support_controlled_response,1069200,costly_deterrence,بازدارندگی پرهزینه,23619,0.022090347923681256,2.209
+m3_ally_action,support_controlled_response,1069200,persistent_ambiguity,ابهام پایدار,499140,0.4668350168350168,46.684
+m3_ally_action,support_controlled_response,1069200,strategic_information_opportunity,فرصت اطلاعاتی راهبردی,161373,0.1509287317620651,15.093
+m3_ally_action,support_controlled_response,1069200,mixed_crisis_containment,مهار نسبی بحران,51294,0.047974186307519644,4.797
+m3_red_action,accept_interim_offramp,1344000,escalation_spiral,مارپیچ تشدید,0,0,0.000
+m3_red_action,accept_interim_offramp,1344000,intelligence_failure,شکست اطلاعاتی,0,0,0.000
+m3_red_action,accept_interim_offramp,1344000,coalition_fracture,شکاف ائتلافی,4896,0.003642857142857143,0.364
+m3_red_action,accept_interim_offramp,1344000,negotiated_deescalation,کاهش تنش مذاکره‌شده,1339104,0.9963571428571428,99.636
+m3_red_action,accept_interim_offramp,1344000,calm_crisis_control,مهار آرام بحران,0,0,0.000
+m3_red_action,accept_interim_offramp,1344000,costly_deterrence,بازدارندگی پرهزینه,0,0,0.000
+m3_red_action,accept_interim_offramp,1344000,persistent_ambiguity,ابهام پایدار,0,0,0.000
+m3_red_action,accept_interim_offramp,1344000,strategic_information_opportunity,فرصت اطلاعاتی راهبردی,0,0,0.000
+m3_red_action,accept_interim_offramp,1344000,mixed_crisis_containment,مهار نسبی بحران,0,0,0.000
+m3_ally_action,support_deconfliction,2275200,escalation_spiral,مارپیچ تشدید,132,0.000058016877637130804,0.006
+m3_ally_action,support_deconfliction,2275200,intelligence_failure,شکست اطلاعاتی,0,0,0.000
+m3_ally_action,support_deconfliction,2275200,coalition_fracture,شکاف ائتلافی,0,0,0.000
+m3_ally_action,support_deconfliction,2275200,negotiated_deescalation,کاهش تنش مذاکره‌شده,1216800,0.5348101265822784,53.481
+m3_ally_action,support_deconfliction,2275200,calm_crisis_control,مهار آرام بحران,0,0,0.000
+m3_ally_action,support_deconfliction,2275200,costly_deterrence,بازدارندگی پرهزینه,0,0,0.000
+m3_ally_action,support_deconfliction,2275200,persistent_ambiguity,ابهام پایدار,539049,0.23692378691983124,23.692
+m3_ally_action,support_deconfliction,2275200,strategic_information_opportunity,فرصت اطلاعاتی راهبردی,476778,0.20955432489451475,20.955
+m3_ally_action,support_deconfliction,2275200,mixed_crisis_containment,مهار نسبی بحران,42441,0.018653744725738396,1.865
+m2_ally_action,support_joint_message,938112,escalation_spiral,مارپیچ تشدید,11955,0.0127436809250921,1.274
+m2_ally_action,support_joint_message,938112,intelligence_failure,شکست اطلاعاتی,46560,0.04963160049119934,4.963
+m2_ally_action,support_joint_message,938112,coalition_fracture,شکاف ائتلافی,0,0,0.000
+m2_ally_action,support_joint_message,938112,negotiated_deescalation,کاهش تنش مذاکره‌شده,235680,0.25122799836266885,25.123
+m2_ally_action,support_joint_message,938112,calm_crisis_control,مهار آرام بحران,32088,0.03420487106017192,3.420
+m2_ally_action,support_joint_message,938112,costly_deterrence,بازدارندگی پرهزینه,17388,0.018535100286532952,1.854
+m2_ally_action,support_joint_message,938112,persistent_ambiguity,ابهام پایدار,388863,0.41451660356119524,41.452
+m2_ally_action,support_joint_message,938112,strategic_information_opportunity,فرصت اطلاعاتی راهبردی,157683,0.16808547380270158,16.809
+m2_ally_action,support_joint_message,938112,mixed_crisis_containment,مهار نسبی بحران,47895,0.051054671510437986,5.105
+m2_red_action,offer_mutual_separation,2880000,escalation_spiral,مارپیچ تشدید,0,0,0.000
+m2_red_action,offer_mutual_separation,2880000,intelligence_failure,شکست اطلاعاتی,600000,0.20833333333333334,20.833
+m2_red_action,offer_mutual_separation,2880000,coalition_fracture,شکاف ائتلافی,0,0,0.000
+m2_red_action,offer_mutual_separation,2880000,negotiated_deescalation,کاهش تنش مذاکره‌شده,1422000,0.49375,49.375
+m2_red_action,offer_mutual_separation,2880000,calm_crisis_control,مهار آرام بحران,0,0,0.000
+m2_red_action,offer_mutual_separation,2880000,costly_deterrence,بازدارندگی پرهزینه,0,0,0.000
+m2_red_action,offer_mutual_separation,2880000,persistent_ambiguity,ابهام پایدار,814800,0.28291666666666665,28.292
+m2_red_action,offer_mutual_separation,2880000,strategic_information_opportunity,فرصت اطلاعاتی راهبردی,40743,0.014146875,1.415
+m2_red_action,offer_mutual_separation,2880000,mixed_crisis_containment,مهار نسبی بحران,2457,0.000853125,0.085
+m2_ally_action,propose_deconfliction,2400000,escalation_spiral,مارپیچ تشدید,8028,0.003345,0.334
+m2_ally_action,propose_deconfliction,2400000,intelligence_failure,شکست اطلاعاتی,120000,0.05,5.000
+m2_ally_action,propose_deconfliction,2400000,coalition_fracture,شکاف ائتلافی,0,0,0.000
+m2_ally_action,propose_deconfliction,2400000,negotiated_deescalation,کاهش تنش مذاکره‌شده,656400,0.2735,27.350
+m2_ally_action,propose_deconfliction,2400000,calm_crisis_control,مهار آرام بحران,0,0,0.000
+m2_ally_action,propose_deconfliction,2400000,costly_deterrence,بازدارندگی پرهزینه,0,0,0.000
+m2_ally_action,propose_deconfliction,2400000,persistent_ambiguity,ابهام پایدار,1026180,0.427575,42.758
+m2_ally_action,propose_deconfliction,2400000,strategic_information_opportunity,فرصت اطلاعاتی راهبردی,514272,0.21428,21.428
+m2_ally_action,propose_deconfliction,2400000,mixed_crisis_containment,مهار نسبی بحران,75120,0.0313,3.130
+m1_ally_action,quiet_support,4176000,escalation_spiral,مارپیچ تشدید,14952,0.0035804597701149425,0.358
+m1_ally_action,quiet_support,4176000,intelligence_failure,شکست اطلاعاتی,324000,0.07758620689655173,7.759
+m1_ally_action,quiet_support,4176000,coalition_fracture,شکاف ائتلافی,0,0,0.000
+m1_ally_action,quiet_support,4176000,negotiated_deescalation,کاهش تنش مذاکره‌شده,1320192,0.31613793103448273,31.614
+m1_ally_action,quiet_support,4176000,calm_crisis_control,مهار آرام بحران,26487,0.006342672413793104,0.634
+m1_ally_action,quiet_support,4176000,costly_deterrence,بازدارندگی پرهزینه,11304,0.002706896551724138,0.271
+m1_ally_action,quiet_support,4176000,persistent_ambiguity,ابهام پایدار,1504791,0.3603426724137931,36.034
+m1_ally_action,quiet_support,4176000,strategic_information_opportunity,فرصت اطلاعاتی راهبردی,842958,0.20185775862068966,20.186
+m1_ally_action,quiet_support,4176000,mixed_crisis_containment,مهار نسبی بحران,131316,0.031445402298850574,3.145
+m1_ally_action,request_more_information,1252800,escalation_spiral,مارپیچ تشدید,34689,0.02768917624521073,2.769
+m1_ally_action,request_more_information,1252800,intelligence_failure,شکست اطلاعاتی,97200,0.07758620689655173,7.759
+m1_ally_action,request_more_information,1252800,coalition_fracture,شکاف ائتلافی,17484,0.013955938697318008,1.396
+m1_ally_action,request_more_information,1252800,negotiated_deescalation,کاهش تنش مذاکره‌شده,394080,0.3145593869731801,31.456
+m1_ally_action,request_more_information,1252800,calm_crisis_control,مهار آرام بحران,3381,0.002698754789272031,0.270
+m1_ally_action,request_more_information,1252800,costly_deterrence,بازدارندگی پرهزینه,7869,0.006281130268199234,0.628
+m1_ally_action,request_more_information,1252800,persistent_ambiguity,ابهام پایدار,579663,0.4626939655172414,46.269
+m1_ally_action,request_more_information,1252800,strategic_information_opportunity,فرصت اطلاعاتی راهبردی,55887,0.044609674329501914,4.461
+m1_ally_action,request_more_information,1252800,mixed_crisis_containment,مهار نسبی بحران,62547,0.0499257662835249,4.993
+m2_ally_action,request_more_evidence,565632,escalation_spiral,مارپیچ تشدید,14946,0.026423540393754243,2.642
+m2_ally_action,request_more_evidence,565632,intelligence_failure,شکست اطلاعاتی,50400,0.08910386965376782,8.910
+m2_ally_action,request_more_evidence,565632,coalition_fracture,شکاف ائتلافی,0,0,0.000
+m2_ally_action,request_more_evidence,565632,negotiated_deescalation,کاهش تنش مذاکره‌شده,195168,0.34504412763068565,34.504
+m2_ally_action,request_more_evidence,565632,calm_crisis_control,مهار آرام بحران,0,0,0.000
+m2_ally_action,request_more_evidence,565632,costly_deterrence,بازدارندگی پرهزینه,2769,0.004895409029192125,0.490
+m2_ally_action,request_more_evidence,565632,persistent_ambiguity,ابهام پایدار,243639,0.43073765274949083,43.074
+m2_ally_action,request_more_evidence,565632,strategic_information_opportunity,فرصت اطلاعاتی راهبردی,23415,0.0413961727766463,4.140
+m2_ally_action,request_more_evidence,565632,mixed_crisis_containment,مهار نسبی بحران,35295,0.062399227766463,6.240
+m2_commercial_action,partial_data_only,3283200,escalation_spiral,مارپیچ تشدید,46266,0.01409173976608187,1.409
+m2_commercial_action,partial_data_only,3283200,intelligence_failure,شکست اطلاعاتی,388800,0.11842105263157894,11.842
+m2_commercial_action,partial_data_only,3283200,coalition_fracture,شکاف ائتلافی,17484,0.005325292397660819,0.533
+m2_commercial_action,partial_data_only,3283200,negotiated_deescalation,کاهش تنش مذاکره‌شده,1305504,0.39763157894736845,39.763
+m2_commercial_action,partial_data_only,3283200,calm_crisis_control,مهار آرام بحران,15441,0.0047030336257309945,0.470
+m2_commercial_action,partial_data_only,3283200,costly_deterrence,بازدارندگی پرهزینه,18456,0.005621345029239766,0.562
+m2_commercial_action,partial_data_only,3283200,persistent_ambiguity,ابهام پایدار,1230510,0.37478983918128655,37.479
+m2_commercial_action,partial_data_only,3283200,strategic_information_opportunity,فرصت اطلاعاتی راهبردی,141237,0.04301809210526316,4.302
+m2_commercial_action,partial_data_only,3283200,mixed_crisis_containment,مهار نسبی بحران,119502,0.03639802631578947,3.640
+m2_ally_action,reject_public_attribution,205056,escalation_spiral,مارپیچ تشدید,8463,0.041271652621722846,4.127
+m2_ally_action,reject_public_attribution,205056,intelligence_failure,شکست اطلاعاتی,23040,0.11235955056179775,11.236
+m2_ally_action,reject_public_attribution,205056,coalition_fracture,شکاف ائتلافی,17484,0.08526451310861423,8.526
+m2_ally_action,reject_public_attribution,205056,negotiated_deescalation,کاهش تنش مذاکره‌شده,69456,0.3387172284644195,33.872
+m2_ally_action,reject_public_attribution,205056,calm_crisis_control,مهار آرام بحران,645,0.0031454822097378276,0.315
+m2_ally_action,reject_public_attribution,205056,costly_deterrence,بازدارندگی پرهزینه,1422,0.006934691011235955,0.693
+m2_ally_action,reject_public_attribution,205056,persistent_ambiguity,ابهام پایدار,83424,0.4068352059925094,40.684
+m2_ally_action,reject_public_attribution,205056,strategic_information_opportunity,فرصت اطلاعاتی راهبردی,1122,0.005471676029962547,0.547
+m2_ally_action,reject_public_attribution,205056,mixed_crisis_containment,مهار نسبی بحران,0,0,0.000
+m3_ally_action,request_restraint,114321,escalation_spiral,مارپیچ تشدید,28941,0.2531555882121395,25.316
+m3_ally_action,request_restraint,114321,intelligence_failure,شکست اطلاعاتی,0,0,0.000
+m3_ally_action,request_restraint,114321,coalition_fracture,شکاف ائتلافی,0,0,0.000
+m3_ally_action,request_restraint,114321,negotiated_deescalation,کاهش تنش مذاکره‌شده,0,0,0.000
+m3_ally_action,request_restraint,114321,calm_crisis_control,مهار آرام بحران,0,0,0.000
+m3_ally_action,request_restraint,114321,costly_deterrence,بازدارندگی پرهزینه,0,0,0.000
+m3_ally_action,request_restraint,114321,persistent_ambiguity,ابهام پایدار,56316,0.49261290576534494,49.261
+m3_ally_action,request_restraint,114321,strategic_information_opportunity,فرصت اطلاعاتی راهبردی,0,0,0.000
+m3_ally_action,request_restraint,114321,mixed_crisis_containment,مهار نسبی بحران,29064,0.25423150602251554,25.423
+m1_red_action,slow_approach,2016000,escalation_spiral,مارپیچ تشدید,1122,0.0005565476190476191,0.056
+m1_red_action,slow_approach,2016000,intelligence_failure,شکست اطلاعاتی,0,0,0.000
+m1_red_action,slow_approach,2016000,coalition_fracture,شکاف ائتلافی,4095,0.00203125,0.203
+m1_red_action,slow_approach,2016000,negotiated_deescalation,کاهش تنش مذاکره‌شده,669552,0.3321190476190476,33.212
+m1_red_action,slow_approach,2016000,calm_crisis_control,مهار آرام بحران,0,0,0.000
+m1_red_action,slow_approach,2016000,costly_deterrence,بازدارندگی پرهزینه,0,0,0.000
+m1_red_action,slow_approach,2016000,persistent_ambiguity,ابهام پایدار,840102,0.4167172619047619,41.672
+m1_red_action,slow_approach,2016000,strategic_information_opportunity,فرصت اطلاعاتی راهبردی,432297,0.2144330357142857,21.443
+m1_red_action,slow_approach,2016000,mixed_crisis_containment,مهار نسبی بحران,68832,0.03414285714285714,3.414
+m2_commercial_action,neutral_public_statement,576912,escalation_spiral,مارپیچ تشدید,7908,0.01370746318329312,1.371
+m2_commercial_action,neutral_public_statement,576912,intelligence_failure,شکست اطلاعاتی,96,0.00016640319494134288,0.017
+m2_commercial_action,neutral_public_statement,576912,coalition_fracture,شکاف ائتلافی,0,0,0.000
+m2_commercial_action,neutral_public_statement,576912,negotiated_deescalation,کاهش تنش مذاکره‌شده,94764,0.1642607538064731,16.426
+m2_commercial_action,neutral_public_statement,576912,calm_crisis_control,مهار آرام بحران,96,0.00016640319494134288,0.017
+m2_commercial_action,neutral_public_statement,576912,costly_deterrence,بازدارندگی پرهزینه,5817,0.010082993593476995,1.008
+m2_commercial_action,neutral_public_statement,576912,persistent_ambiguity,ابهام پایدار,239670,0.4154359763707463,41.544
+m2_commercial_action,neutral_public_statement,576912,strategic_information_opportunity,فرصت اطلاعاتی راهبردی,173046,0.29995215908145434,29.995
+m2_commercial_action,neutral_public_statement,576912,mixed_crisis_containment,مهار نسبی بحران,55515,0.09622784757467344,9.623
+m1_commercial_action,offer_followup_data,1944000,escalation_spiral,مارپیچ تشدید,3645,0.001875,0.188
+m1_commercial_action,offer_followup_data,1944000,intelligence_failure,شکست اطلاعاتی,162000,0.08333333333333333,8.333
+m1_commercial_action,offer_followup_data,1944000,coalition_fracture,شکاف ائتلافی,4068,0.0020925925925925925,0.209
+m1_commercial_action,offer_followup_data,1944000,negotiated_deescalation,کاهش تنش مذاکره‌شده,618144,0.3179753086419753,31.798
+m1_commercial_action,offer_followup_data,1944000,calm_crisis_control,مهار آرام بحران,10062,0.005175925925925926,0.518
+m1_commercial_action,offer_followup_data,1944000,costly_deterrence,بازدارندگی پرهزینه,5895,0.0030324074074074073,0.303
+m1_commercial_action,offer_followup_data,1944000,persistent_ambiguity,ابهام پایدار,687486,0.35364506172839505,35.365
+m1_commercial_action,offer_followup_data,1944000,strategic_information_opportunity,فرصت اطلاعاتی راهبردی,404664,0.20816049382716048,20.816
+m1_commercial_action,offer_followup_data,1944000,mixed_crisis_containment,مهار نسبی بحران,48036,0.024709876543209875,2.471
+m2_red_action,continue_ambiguous_activity,1440000,escalation_spiral,مارپیچ تشدید,1170,0.0008125,0.081
+m2_red_action,continue_ambiguous_activity,1440000,intelligence_failure,شکست اطلاعاتی,0,0,0.000
+m2_red_action,continue_ambiguous_activity,1440000,coalition_fracture,شکاف ائتلافی,4320,0.003,0.300
+m2_red_action,continue_ambiguous_activity,1440000,negotiated_deescalation,کاهش تنش مذاکره‌شده,669408,0.46486666666666665,46.487
+m2_red_action,continue_ambiguous_activity,1440000,calm_crisis_control,مهار آرام بحران,0,0,0.000
+m2_red_action,continue_ambiguous_activity,1440000,costly_deterrence,بازدارندگی پرهزینه,0,0,0.000
+m2_red_action,continue_ambiguous_activity,1440000,persistent_ambiguity,ابهام پایدار,573294,0.3981208333333333,39.812
+m2_red_action,continue_ambiguous_activity,1440000,strategic_information_opportunity,فرصت اطلاعاتی راهبردی,127974,0.08887083333333333,8.887
+m2_red_action,continue_ambiguous_activity,1440000,mixed_crisis_containment,مهار نسبی بحران,63834,0.04432916666666667,4.433
+m3_red_action,pause_for_assessment,528000,escalation_spiral,مارپیچ تشدید,21,0.000039772727272727275,0.004
+m3_red_action,pause_for_assessment,528000,intelligence_failure,شکست اطلاعاتی,0,0,0.000
+m3_red_action,pause_for_assessment,528000,coalition_fracture,شکاف ائتلافی,0,0,0.000
+m3_red_action,pause_for_assessment,528000,negotiated_deescalation,کاهش تنش مذاکره‌شده,0,0,0.000
+m3_red_action,pause_for_assessment,528000,calm_crisis_control,مهار آرام بحران,0,0,0.000
+m3_red_action,pause_for_assessment,528000,costly_deterrence,بازدارندگی پرهزینه,0,0,0.000
+m3_red_action,pause_for_assessment,528000,persistent_ambiguity,ابهام پایدار,374400,0.7090909090909091,70.909
+m3_red_action,pause_for_assessment,528000,strategic_information_opportunity,فرصت اطلاعاتی راهبردی,112263,0.21261931818181817,21.262
+m3_red_action,pause_for_assessment,528000,mixed_crisis_containment,مهار نسبی بحران,41316,0.07825,7.825
+m1_commercial_action,warn_about_public_release,144000,escalation_spiral,مارپیچ تشدید,11583,0.0804375,8.044
+m1_commercial_action,warn_about_public_release,144000,intelligence_failure,شکست اطلاعاتی,0,0,0.000
+m1_commercial_action,warn_about_public_release,144000,coalition_fracture,شکاف ائتلافی,2340,0.01625,1.625
+m1_commercial_action,warn_about_public_release,144000,negotiated_deescalation,کاهش تنش مذاکره‌شده,33888,0.23533333333333334,23.533
+m1_commercial_action,warn_about_public_release,144000,calm_crisis_control,مهار آرام بحران,0,0,0.000
+m1_commercial_action,warn_about_public_release,144000,costly_deterrence,بازدارندگی پرهزینه,1263,0.008770833333333334,0.877
+m1_commercial_action,warn_about_public_release,144000,persistent_ambiguity,ابهام پایدار,75240,0.5225,52.250
+m1_commercial_action,warn_about_public_release,144000,strategic_information_opportunity,فرصت اطلاعاتی راهبردی,4200,0.029166666666666667,2.917
+m1_commercial_action,warn_about_public_release,144000,mixed_crisis_containment,مهار نسبی بحران,15486,0.10754166666666666,10.754
+m2_red_action,maintain_pressure,1440000,escalation_spiral,مارپیچ تشدید,59595,0.04138541666666667,4.139
+m2_red_action,maintain_pressure,1440000,intelligence_failure,شکست اطلاعاتی,0,0,0.000
+m2_red_action,maintain_pressure,1440000,coalition_fracture,شکاف ائتلافی,2700,0.001875,0.188
+m2_red_action,maintain_pressure,1440000,negotiated_deescalation,کاهش تنش مذاکره‌شده,26400,0.018333333333333333,1.833
+m2_red_action,maintain_pressure,1440000,calm_crisis_control,مهار آرام بحران,10308,0.007158333333333333,0.716
+m2_red_action,maintain_pressure,1440000,costly_deterrence,بازدارندگی پرهزینه,20502,0.0142375,1.424
+m2_red_action,maintain_pressure,1440000,persistent_ambiguity,ابهام پایدار,756912,0.5256333333333333,52.563
+m2_red_action,maintain_pressure,1440000,strategic_information_opportunity,فرصت اطلاعاتی راهبردی,378009,0.26250625,26.251
+m2_red_action,maintain_pressure,1440000,mixed_crisis_containment,مهار نسبی بحران,185574,0.12887083333333332,12.887
+m3_red_action,increase_non_destructive_pressure,1353600,escalation_spiral,مارپیچ تشدید,59367,0.04385859929078014,4.386
+m3_red_action,increase_non_destructive_pressure,1353600,intelligence_failure,شکست اطلاعاتی,0,0,0.000
+m3_red_action,increase_non_destructive_pressure,1353600,coalition_fracture,شکاف ائتلافی,2700,0.0019946808510638296,0.199
+m3_red_action,increase_non_destructive_pressure,1353600,negotiated_deescalation,کاهش تنش مذاکره‌شده,0,0,0.000
+m3_red_action,increase_non_destructive_pressure,1353600,calm_crisis_control,مهار آرام بحران,0,0,0.000
+m3_red_action,increase_non_destructive_pressure,1353600,costly_deterrence,بازدارندگی پرهزینه,0,0,0.000
+m3_red_action,increase_non_destructive_pressure,1353600,persistent_ambiguity,ابهام پایدار,733308,0.5417464539007092,54.175
+m3_red_action,increase_non_destructive_pressure,1353600,strategic_information_opportunity,فرصت اطلاعاتی راهبردی,375258,0.277229609929078,27.723
+m3_red_action,increase_non_destructive_pressure,1353600,mixed_crisis_containment,مهار نسبی بحران,182967,0.1351706560283688,13.517
+m3_red_action,deescalate_and_separate,1387800,escalation_spiral,مارپیچ تشدید,0,0,0.000
+m3_red_action,deescalate_and_separate,1387800,intelligence_failure,شکست اطلاعاتی,0,0,0.000
+m3_red_action,deescalate_and_separate,1387800,coalition_fracture,شکاف ائتلافی,0,0,0.000
+m3_red_action,deescalate_and_separate,1387800,negotiated_deescalation,کاهش تنش مذاکره‌شده,1305600,0.9407695633376567,94.077
+m3_red_action,deescalate_and_separate,1387800,calm_crisis_control,مهار آرام بحران,41601,0.029976221357544314,2.998
+m3_red_action,deescalate_and_separate,1387800,costly_deterrence,بازدارندگی پرهزینه,33822,0.02437094682230869,2.437
+m3_red_action,deescalate_and_separate,1387800,persistent_ambiguity,ابهام پایدار,4110,0.0029615218331171637,0.296
+m3_red_action,deescalate_and_separate,1387800,strategic_information_opportunity,فرصت اطلاعاتی راهبردی,2628,0.0018936446173800259,0.189
+m3_red_action,deescalate_and_separate,1387800,mixed_crisis_containment,مهار نسبی بحران,39,0.000028102031993082577,0.003
+m2_red_action,issue_denial,1440000,escalation_spiral,مارپیچ تشدید,0,0,0.000
+m2_red_action,issue_denial,1440000,intelligence_failure,شکست اطلاعاتی,0,0,0.000
+m2_red_action,issue_denial,1440000,coalition_fracture,شکاف ائتلافی,6432,0.0044666666666666665,0.447
+m2_red_action,issue_denial,1440000,negotiated_deescalation,کاهش تنش مذاکره‌شده,0,0,0.000
+m2_red_action,issue_denial,1440000,calm_crisis_control,مهار آرام بحران,0,0,0.000
+m2_red_action,issue_denial,1440000,costly_deterrence,بازدارندگی پرهزینه,0,0,0.000
+m2_red_action,issue_denial,1440000,persistent_ambiguity,ابهام پایدار,661833,0.45960625,45.961
+m2_red_action,issue_denial,1440000,strategic_information_opportunity,فرصت اطلاعاتی راهبردی,756201,0.5251395833333333,52.514
+m2_red_action,issue_denial,1440000,mixed_crisis_containment,مهار نسبی بحران,15534,0.0107875,1.079
+m3_red_action,exploit_coalition_friction,1440000,escalation_spiral,مارپیچ تشدید,0,0,0.000
+m3_red_action,exploit_coalition_friction,1440000,intelligence_failure,شکست اطلاعاتی,0,0,0.000
+m3_red_action,exploit_coalition_friction,1440000,coalition_fracture,شکاف ائتلافی,6432,0.0044666666666666665,0.447
+m3_red_action,exploit_coalition_friction,1440000,negotiated_deescalation,کاهش تنش مذاکره‌شده,0,0,0.000
+m3_red_action,exploit_coalition_friction,1440000,calm_crisis_control,مهار آرام بحران,0,0,0.000
+m3_red_action,exploit_coalition_friction,1440000,costly_deterrence,بازدارندگی پرهزینه,0,0,0.000
+m3_red_action,exploit_coalition_friction,1440000,persistent_ambiguity,ابهام پایدار,661833,0.45960625,45.961
+m3_red_action,exploit_coalition_friction,1440000,strategic_information_opportunity,فرصت اطلاعاتی راهبردی,756201,0.5251395833333333,52.514
+m3_red_action,exploit_coalition_friction,1440000,mixed_crisis_containment,مهار نسبی بحران,15534,0.0107875,1.079
+m1_red_action,send_routine_explanation,2880000,escalation_spiral,مارپیچ تشدید,0,0,0.000
+m1_red_action,send_routine_explanation,2880000,intelligence_failure,شکست اطلاعاتی,648000,0.225,22.500
+m1_red_action,send_routine_explanation,2880000,coalition_fracture,شکاف ائتلافی,6432,0.0022333333333333333,0.223
+m1_red_action,send_routine_explanation,2880000,negotiated_deescalation,کاهش تنش مذاکره‌شده,1279200,0.44416666666666665,44.417
+m1_red_action,send_routine_explanation,2880000,calm_crisis_control,مهار آرام بحران,31293,0.010865625,1.087
+m1_red_action,send_routine_explanation,2880000,costly_deterrence,بازدارندگی پرهزینه,13320,0.004625,0.462
+m1_red_action,send_routine_explanation,2880000,persistent_ambiguity,ابهام پایدار,828336,0.2876166666666667,28.762
+m1_red_action,send_routine_explanation,2880000,strategic_information_opportunity,فرصت اطلاعاتی راهبردی,66498,0.023089583333333333,2.309
+m1_red_action,send_routine_explanation,2880000,mixed_crisis_containment,مهار نسبی بحران,6921,0.002403125,0.240
+m2_red_action,reduce_proximity,192000,escalation_spiral,مارپیچ تشدید,0,0,0.000
+m2_red_action,reduce_proximity,192000,intelligence_failure,شکست اطلاعاتی,48000,0.25,25.000
+m2_red_action,reduce_proximity,192000,coalition_fracture,شکاف ائتلافی,0,0,0.000
+m2_red_action,reduce_proximity,192000,negotiated_deescalation,کاهش تنش مذاکره‌شده,49200,0.25625,25.625
+m2_red_action,reduce_proximity,192000,calm_crisis_control,مهار آرام بحران,31293,0.162984375,16.298
+m2_red_action,reduce_proximity,192000,costly_deterrence,بازدارندگی پرهزینه,13320,0.069375,6.938
+m2_red_action,reduce_proximity,192000,persistent_ambiguity,ابهام پایدار,48594,0.25309375,25.309
+m2_red_action,reduce_proximity,192000,strategic_information_opportunity,فرصت اطلاعاتی راهبردی,1593,0.008296875,0.830
+m2_red_action,reduce_proximity,192000,mixed_crisis_containment,مهار نسبی بحران,0,0,0.000

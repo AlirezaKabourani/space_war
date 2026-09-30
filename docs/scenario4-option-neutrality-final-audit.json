@@ -1,0 +1,464 @@
+{
+  "columns": [
+    "move",
+    "window",
+    "optionId",
+    "label",
+    "description",
+    "tradeoff",
+    "loadedTermMatches",
+    "status"
+  ],
+  "rows": [
+    {
+      "move": 1,
+      "window": "information",
+      "optionId": "m1_i_passive",
+      "label": "ادامه پایش موجود",
+      "description": "بدون مصرف ظرفیت جدید، پایش فعلی ادامه پیدا کند.",
+      "tradeoff": "منابع حفظ می‌شوند، اما ابهام ممکن است بیشتر باقی بماند.",
+      "loadedTermMatches": [],
+      "status": "pass"
+    },
+    {
+      "move": 1,
+      "window": "information",
+      "optionId": "m1_i_dedicated_ssa",
+      "label": "افزایش پایش اختصاصی SSA",
+      "description": "ظرفیت تحلیل و حسگر بیشتری روی R-31 متمرکز شود.",
+      "tradeoff": "شناخت مستقیم‌تر افزایش می‌یابد، اما ظرفیت SSA مصرف می‌شود.",
+      "loadedTermMatches": [],
+      "status": "pass"
+    },
+    {
+      "move": 1,
+      "window": "information",
+      "optionId": "m1_i_commercial",
+      "label": "دریافت داده تجاری مستقل",
+      "description": "از یک منبع تجاری برای مقایسه مستقل مسیر R-31 استفاده شود.",
+      "tradeoff": "منبع دوم ایجاد می‌شود، اما کیفیت یا دسترسی آن ممکن است محدود باشد.",
+      "loadedTermMatches": [],
+      "status": "pass"
+    },
+    {
+      "move": 1,
+      "window": "information",
+      "optionId": "m1_i_allied_network",
+      "label": "درخواست داده از شبکه متحدان",
+      "description": "برای مقایسه مستقل، داده رصدی متحدان ایران درخواست شود.",
+      "tradeoff": "تنوع منبع بیشتر می‌شود، اما بخشی از وضعیت با متحدان به اشتراک گذاشته می‌شود.",
+      "loadedTermMatches": [],
+      "status": "pass"
+    },
+    {
+      "move": 1,
+      "window": "protection",
+      "optionId": "m1_p_hold",
+      "label": "بدون تغییر",
+      "description": "A-17 در وضعیت فعلی باقی بماند.",
+      "tradeoff": "اثر فوری بر مأموریت و منابع کم است، اما حفاظت اضافی ایجاد نمی‌شود.",
+      "loadedTermMatches": [],
+      "status": "pass"
+    },
+    {
+      "move": 1,
+      "window": "protection",
+      "optionId": "m1_p_covert_readiness",
+      "label": "افزایش آمادگی پنهان",
+      "description": "آمادگی داخلی و اقدامات حفاظتی بدون علامت آشکار افزایش یابد.",
+      "tradeoff": "آمادگی افزایش می‌یابد، با پیام بیرونی محدودتر و مصرف بخشی از ظرفیت حفاظتی.",
+      "loadedTermMatches": [],
+      "status": "pass"
+    },
+    {
+      "move": 1,
+      "window": "protection",
+      "optionId": "m1_p_visible_protection",
+      "label": "اقدام حفاظتی آشکار اما برگشت‌پذیر",
+      "description": "یک اقدام حفاظتی قابل مشاهده اما قابل بازگشت انجام شود.",
+      "tradeoff": "حفاظت افزایش می‌یابد، اما اسرائیل نیز تغییر رفتار ایران را مشاهده می‌کند.",
+      "loadedTermMatches": [],
+      "status": "pass"
+    },
+    {
+      "move": 1,
+      "window": "protection",
+      "optionId": "m1_p_mission_reposition",
+      "label": "تغییر محسوس وضعیت مأموریت",
+      "description": "وضعیت مأموریت A-17 به‌طور محسوس تغییر کند.",
+      "tradeoff": "بیشترین تغییر فوری در وضعیت حفاظتی ایجاد می‌شود، اما هزینه مأموریتی و علامت بیرونی بیشتری دارد.",
+      "loadedTermMatches": [],
+      "status": "pass"
+    },
+    {
+      "move": 1,
+      "window": "communication",
+      "optionId": "m1_c_none",
+      "label": "عدم ارسال پیام",
+      "description": "در این مرحله پیام مستقیمی ارسال نشود.",
+      "tradeoff": "ریسک افشای اطلاعات پایین می‌ماند، اما فرصت اثرگذاری مستقیم بر برداشت اسرائیل استفاده نمی‌شود.",
+      "loadedTermMatches": [],
+      "status": "pass"
+    },
+    {
+      "move": 1,
+      "window": "communication",
+      "optionId": "m1_c_private",
+      "label": "تماس خصوصی برای کاهش خطر",
+      "description": "از کانال خصوصی برای توضیح رفتار و کاهش خطر سوءبرداشت استفاده شود.",
+      "tradeoff": "مسیر ارتباط مستقیم باز می‌شود، بدون ایجاد موضع عمومی.",
+      "loadedTermMatches": [],
+      "status": "pass"
+    },
+    {
+      "move": 1,
+      "window": "communication",
+      "optionId": "m1_c_allies",
+      "label": "هماهنگی با متحدان",
+      "description": "پیش از پیام عمومی، موضع و اطلاعات با متحدان ایران هماهنگ شود.",
+      "tradeoff": "هماهنگی ائتلافی افزایش می‌یابد، اما نیازمند اشتراک بخشی از اطلاعات است.",
+      "loadedTermMatches": [],
+      "status": "pass"
+    },
+    {
+      "move": 1,
+      "window": "communication",
+      "optionId": "m1_c_public_warning",
+      "label": "هشدار عمومی درباره رفتار ناایمن",
+      "description": "بدون انتساب قطعی، درباره رفتار ناایمن هشدار عمومی داده شود.",
+      "tradeoff": "فشار عمومی افزایش می‌یابد، اما توجه رسانه‌ای و هزینه بازگشت از موضع نیز بیشتر می‌شود.",
+      "loadedTermMatches": [],
+      "status": "pass"
+    },
+    {
+      "move": 1,
+      "window": "communication",
+      "optionId": "m1_c_private_allied",
+      "label": "پیام خصوصی + هماهنگی محدود با متحدان",
+      "description": "هم‌زمان یک پیام خصوصی به اسرائیل و هماهنگی محدود با متحدان انجام شود.",
+      "tradeoff": "دو مسیر ارتباطی فعال می‌شود، با هزینه سیاسی و اشتراک اطلاعات بیشتر.",
+      "loadedTermMatches": [],
+      "status": "pass"
+    },
+    {
+      "move": 2,
+      "window": "investigation",
+      "optionId": "m2_a_technical_diagnostics",
+      "label": "تمرکز بر بررسی فنی داخلی",
+      "description": "تیم فنی A-17 بررسی عمیق‌تری روی تله‌متری و سامانه‌های داخلی انجام دهد.",
+      "tradeoff": "به آزمون فرضیه نقص داخلی کمک می‌کند، اما ممکن است علت بیرونی را مستقیم روشن نکند.",
+      "loadedTermMatches": [],
+      "status": "pass"
+    },
+    {
+      "move": 2,
+      "window": "investigation",
+      "optionId": "m2_a_second_sensor",
+      "label": "فعال‌سازی منبع رصد دوم",
+      "description": "یک منبع مستقل دیگر برای بررسی هم‌زمان رفتار مداری و محیط عملیاتی فعال شود.",
+      "tradeoff": "مقایسه مستقل ایجاد می‌شود، اما ظرفیت SSA بیشتری مصرف می‌شود.",
+      "loadedTermMatches": [],
+      "status": "pass"
+    },
+    {
+      "move": 2,
+      "window": "investigation",
+      "optionId": "m2_a_ally_intel",
+      "label": "درخواست داده تکمیلی از متحدان",
+      "description": "از متحدان ایران برای داده رصدی/اطلاعاتی تکمیلی درخواست شود.",
+      "tradeoff": "تنوع منبع افزایش می‌یابد، اما وابستگی و اشتراک اطلاعات ائتلافی بیشتر می‌شود.",
+      "loadedTermMatches": [],
+      "status": "pass"
+    },
+    {
+      "move": 2,
+      "window": "investigation",
+      "optionId": "m2_a_commercial_validation",
+      "label": "اعتبارسنجی تجاری مستقل",
+      "description": "از اپراتور تجاری برای بررسی مستقل زمان و الگوی رخداد استفاده شود.",
+      "tradeoff": "یک منبع غیرنظامی مستقل اضافه می‌شود، اما دسترسی یا دقت داده ممکن است محدود باشد.",
+      "loadedTermMatches": [],
+      "status": "pass"
+    },
+    {
+      "move": 2,
+      "window": "investigation",
+      "optionId": "m2_a_act_with_current_data",
+      "label": "تصمیم با اطلاعات فعلی",
+      "description": "بررسی اضافه متوقف و تصمیم‌های بعدی با شواهد موجود ادامه یابد.",
+      "tradeoff": "زمان و منابع حفظ می‌شوند، اما عدم قطعیت فعلی باقی می‌ماند.",
+      "loadedTermMatches": [],
+      "status": "pass"
+    },
+    {
+      "move": 2,
+      "window": "mission",
+      "optionId": "m2_m_continue_normal",
+      "label": "ادامه مأموریت بدون تغییر",
+      "description": "A-17 با تنظیمات فعلی به مأموریت ادامه دهد.",
+      "tradeoff": "اختلال عملیاتی جدیدی ایجاد نمی‌شود، اما وابستگی به وضعیت فعلی A-17 حفظ می‌شود.",
+      "loadedTermMatches": [],
+      "status": "pass"
+    },
+    {
+      "move": 2,
+      "window": "mission",
+      "optionId": "m2_m_activate_fallback",
+      "label": "فعال‌سازی ظرفیت جایگزین",
+      "description": "بخشی از مأموریت به ظرفیت پشتیبان منتقل شود.",
+      "tradeoff": "تاب‌آوری افزایش می‌یابد، اما ظرفیت حفاظتی/پشتیبان مصرف می‌شود.",
+      "loadedTermMatches": [],
+      "status": "pass"
+    },
+    {
+      "move": 2,
+      "window": "mission",
+      "optionId": "m2_m_reduce_load",
+      "label": "کاهش موقت بار مأموریت",
+      "description": "برای کاهش فشار و حفظ پایداری، بخشی از بار A-17 موقتاً کاهش یابد.",
+      "tradeoff": "ریسک فنی کاهش می‌یابد، اما بخشی از خروجی مأموریت موقتاً کم می‌شود.",
+      "loadedTermMatches": [],
+      "status": "pass"
+    },
+    {
+      "move": 2,
+      "window": "mission",
+      "optionId": "m2_m_protective_reconfiguration",
+      "label": "بازآرایی حفاظتی",
+      "description": "پیکربندی حفاظتی A-17 برای کاهش آسیب‌پذیری تغییر کند.",
+      "tradeoff": "آمادگی افزایش می‌یابد، اما هزینه منابع و علامت قابل مشاهده بیشتری دارد.",
+      "loadedTermMatches": [],
+      "status": "pass"
+    },
+    {
+      "move": 2,
+      "window": "mission",
+      "optionId": "m2_m_split_service",
+      "label": "تقسیم مأموریت میان A-17 و ظرفیت پشتیبان",
+      "description": "بخشی از سرویس هم‌زمان روی A-17 و ظرفیت پشتیبان توزیع شود.",
+      "tradeoff": "وابستگی به یک دارایی کمتر می‌شود، اما منابع بیشتری درگیر می‌شوند.",
+      "loadedTermMatches": [],
+      "status": "pass"
+    },
+    {
+      "move": 2,
+      "window": "response",
+      "optionId": "m2_r_no_counteraction",
+      "label": "فعلاً اقدام متقابل انجام نشود",
+      "description": "در این مرحله اقدام مستقیم علیه اسرائیل انجام نشود و تمرکز بر پایش و تداوم مأموریت بماند.",
+      "tradeoff": "ریسک تشدید پایین می‌ماند، اما فشار مستقیم برای تغییر رفتار اسرائیل ایجاد نمی‌شود.",
+      "loadedTermMatches": [],
+      "status": "pass"
+    },
+    {
+      "move": 2,
+      "window": "response",
+      "optionId": "m2_r_request_explanation",
+      "label": "درخواست توضیح رسمی",
+      "description": "از اسرائیل درباره رفتار R-31 و رخداد اخیر توضیح رسمی خواسته شود.",
+      "tradeoff": "کانال رسمی ایجاد می‌شود، بدون اینکه انتساب قطعی اعلام شود.",
+      "loadedTermMatches": [],
+      "status": "pass"
+    },
+    {
+      "move": 2,
+      "window": "response",
+      "optionId": "m2_r_private_warning",
+      "label": "هشدار خصوصی کنترل‌شده",
+      "description": "از کانال خصوصی درباره ادامه رفتار مبهم و پیامد احتمالی آن هشدار داده شود.",
+      "tradeoff": "پیام بازدارنده مستقیم ایجاد می‌شود، اما سطح تنش می‌تواند اندکی افزایش یابد.",
+      "loadedTermMatches": [],
+      "status": "pass"
+    },
+    {
+      "move": 2,
+      "window": "response",
+      "optionId": "m2_r_joint_allied_response",
+      "label": "پاسخ هماهنگ با متحدان",
+      "description": "موضع و پیام بعدی با متحدان ایران هماهنگ شود.",
+      "tradeoff": "وزن ائتلافی بیشتر می‌شود، اما نیازمند سرمایه سیاسی و اشتراک اطلاعات است.",
+      "loadedTermMatches": [],
+      "status": "pass"
+    },
+    {
+      "move": 2,
+      "window": "response",
+      "optionId": "m2_r_request_defensive_authority",
+      "label": "درخواست مجوز برای اقدام دفاعی برگشت‌پذیر",
+      "description": "برای در دسترس داشتن یک اقدام دفاعی محدود و قابل بازگشت، مجوز لازم درخواست شود.",
+      "tradeoff": "آزادی عمل آینده افزایش می‌یابد، اما می‌تواند به‌عنوان نشانه تشدید آمادگی تفسیر شود.",
+      "loadedTermMatches": [],
+      "status": "pass"
+    },
+    {
+      "move": 2,
+      "window": "response",
+      "optionId": "m2_r_deconfliction_offer",
+      "label": "پیشنهاد فاصله‌گذاری و کاهش خطر متقابل",
+      "description": "به اسرائیل پیشنهاد شود دو طرف فاصله عملیاتی را افزایش دهند و یک سازوکار کاهش خطر را فعال کنند.",
+      "tradeoff": "یک مسیر خروج از بحران ایجاد می‌شود، اما موفقیت آن به واکنش متقابل اسرائیل وابسته است.",
+      "loadedTermMatches": [],
+      "status": "pass"
+    },
+    {
+      "move": 3,
+      "window": "threshold",
+      "optionId": "m3_t_insufficient",
+      "label": "برای انتساب راهبردی هنوز کافی نیست",
+      "description": "شواهد برای تصمیم‌های برگشت‌ناپذیر یا انتساب قطعی کافی تلقی نشود.",
+      "tradeoff": "ریسک اقدام بر مبنای انتساب نادرست کمتر می‌شود، اما ممکن است واکنش قوی‌تر به تأخیر بیفتد.",
+      "loadedTermMatches": [],
+      "status": "pass"
+    },
+    {
+      "move": 3,
+      "window": "threshold",
+      "optionId": "m3_t_sufficient_limited",
+      "label": "برای اقدام محدود و برگشت‌پذیر کافی است",
+      "description": "سطح شواهد برای اقدام محدود، کنترل‌شده و قابل بازگشت کافی تلقی شود.",
+      "tradeoff": "امکان واکنش ایجاد می‌شود، در حالی که بخشی از انعطاف برای اصلاح تصمیم حفظ می‌شود.",
+      "loadedTermMatches": [],
+      "status": "pass"
+    },
+    {
+      "move": 3,
+      "window": "threshold",
+      "optionId": "m3_t_sufficient_strong",
+      "label": "برای اقدام با دامنه بیشتر کافی است",
+      "description": "سطح فعلی شواهد برای اقدام با پیام سیاسی/عملیاتی گسترده‌تر کافی تلقی شود.",
+      "tradeoff": "سیگنال گسترده‌تری ایجاد می‌شود، اما هزینه خطای انتساب و تشدید بالاتر است.",
+      "loadedTermMatches": [],
+      "status": "pass"
+    },
+    {
+      "move": 3,
+      "window": "coa",
+      "optionId": "m3_coa_contain_understand",
+      "label": "مهار و شناخت",
+      "description": "تمرکز بر حفظ مأموریت، جمع‌آوری بیشتر اطلاعات و محدودکردن اقدامات برگشت‌ناپذیر.",
+      "tradeoff": "انعطاف و شناخت حفظ می‌شود، اما فشار مستقیم کمتری برای تغییر رفتار اسرائیل ایجاد می‌کند.",
+      "loadedTermMatches": [],
+      "status": "pass"
+    },
+    {
+      "move": 3,
+      "window": "coa",
+      "optionId": "m3_coa_controlled_deterrence",
+      "label": "بازدارندگی کنترل‌شده",
+      "description": "یک پاسخ محدود و قابل کنترل برای افزایش هزینه ادامه فشار و نشان‌دادن آمادگی ایران اجرا شود.",
+      "tradeoff": "سیگنال بازدارنده تقویت می‌شود، اما فشار تشدید نیز افزایش می‌یابد.",
+      "loadedTermMatches": [],
+      "status": "pass"
+    },
+    {
+      "move": 3,
+      "window": "coa",
+      "optionId": "m3_coa_coordinated_response",
+      "label": "پاسخ هماهنگ ائتلافی",
+      "description": "اقدام و پیام اصلی با متحدان ایران هماهنگ شود.",
+      "tradeoff": "مشروعیت و وزن جمعی بیشتر می‌شود، اما وابستگی به اجماع و اشتراک اطلاعات افزایش می‌یابد.",
+      "loadedTermMatches": [],
+      "status": "pass"
+    },
+    {
+      "move": 3,
+      "window": "coa",
+      "optionId": "m3_coa_negotiated_deescalation",
+      "label": "کاهش تنش مذاکره‌شده",
+      "description": "از مسیر ارتباطی موجود برای فاصله‌گذاری، کاهش خطر و محدودکردن چرخه واکنش متقابل استفاده شود.",
+      "tradeoff": "مسیر خروج از بحران تقویت می‌شود، اما موفقیت به پذیرش و اجرای متقابل وابسته است.",
+      "loadedTermMatches": [],
+      "status": "pass"
+    },
+    {
+      "move": 3,
+      "window": "coa",
+      "optionId": "m3_coa_unilateral_strong",
+      "label": "اقدام یک‌جانبه شدیدتر در سطح حفاظتی/سیاسی",
+      "description": "ایران بدون انتظار برای اجماع گسترده‌تر، فشار حفاظتی یا سیاسی خود را افزایش دهد.",
+      "tradeoff": "آزادی عمل و سرعت بیشتر می‌شود، اما هزینه سیاسی، منابع و خطر تشدید بالاتر است.",
+      "loadedTermMatches": [],
+      "status": "pass"
+    },
+    {
+      "move": 3,
+      "window": "information",
+      "optionId": "m3_info_keep_restricted",
+      "label": "محرمانه باقی بماند",
+      "description": "شواهد و ارزیابی انتساب در سطح داخلی حفظ شود.",
+      "tradeoff": "حفاظت از منابع و روش‌های اطلاعاتی افزایش می‌یابد، اما حمایت بیرونی کمتری ایجاد می‌شود.",
+      "loadedTermMatches": [],
+      "status": "pass"
+    },
+    {
+      "move": 3,
+      "window": "information",
+      "optionId": "m3_info_share_allies",
+      "label": "اشتراک محدود با متحدان",
+      "description": "بخش‌های لازم از شواهد با متحدان ایران به‌صورت محدود به اشتراک گذاشته شود.",
+      "tradeoff": "هماهنگی و ارزیابی مشترک تقویت می‌شود، اما بخشی از اطلاعات حساس افشا می‌شود.",
+      "loadedTermMatches": [],
+      "status": "pass"
+    },
+    {
+      "move": 3,
+      "window": "information",
+      "optionId": "m3_info_public_partial",
+      "label": "انتشار عمومی بخشی از شواهد",
+      "description": "بخش قابل انتشار شواهد بدون افشای کامل منابع منتشر شود.",
+      "tradeoff": "فشار و شفافیت عمومی افزایش می‌یابد، اما امکان بازگشت از موضع و حفاظت منابع محدودتر می‌شود.",
+      "loadedTermMatches": [],
+      "status": "pass"
+    },
+    {
+      "move": 3,
+      "window": "information",
+      "optionId": "m3_info_public_attribution",
+      "label": "انتساب عمومی به اسرائیل",
+      "description": "ایران به‌طور علنی اسرائیل را مسئول رخداد معرفی کند.",
+      "tradeoff": "موضع سیاسی روشن ایجاد می‌شود، اما در صورت ضعف شواهد، هزینه مشروعیت و ائتلافی می‌تواند بالا باشد.",
+      "loadedTermMatches": [],
+      "status": "pass"
+    },
+    {
+      "move": 3,
+      "window": "offRamp",
+      "optionId": "accept_as_interim",
+      "label": "پذیرش موقت",
+      "description": "سازوکار موجود برای یک دوره محدود پذیرفته و اجرا شود.",
+      "tradeoff": "ریسک تشدید فوری کاهش می‌یابد، اما اختلاف اصلی همچنان باز می‌ماند.",
+      "loadedTermMatches": [],
+      "status": "pass"
+    },
+    {
+      "move": 3,
+      "window": "offRamp",
+      "optionId": "renegotiate_terms",
+      "label": "مذاکره دوباره درباره شرایط",
+      "description": "اصل مسیر حفظ شود، اما شرایط فاصله‌گذاری یا نظارت دوباره مذاکره شود.",
+      "tradeoff": "امکان توافق دقیق‌تر ایجاد می‌شود، اما زمان و عدم قطعیت ادامه می‌یابد.",
+      "loadedTermMatches": [],
+      "status": "pass"
+    },
+    {
+      "move": 3,
+      "window": "offRamp",
+      "optionId": "keep_channel_open_no_commitment",
+      "label": "باز نگه‌داشتن کانال بدون تعهد",
+      "description": "کانال ارتباطی حفظ شود، بدون پذیرش تعهد عملیاتی فوری.",
+      "tradeoff": "گزینه خروج از بحران حفظ می‌شود، اما اثر فوری محدودی دارد.",
+      "loadedTermMatches": [],
+      "status": "pass"
+    },
+    {
+      "move": 3,
+      "window": "offRamp",
+      "optionId": "reject",
+      "label": "رد سازوکار",
+      "description": "پیشنهاد موجود پذیرفته نشود و مسیر دیگری دنبال شود.",
+      "tradeoff": "آزادی عمل کامل‌تر حفظ می‌شود، اما یک مسیر کاهش تنش از دست می‌رود.",
+      "loadedTermMatches": [],
+      "status": "pass"
+    }
+  ]
+}

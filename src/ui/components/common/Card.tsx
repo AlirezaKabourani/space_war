@@ -1,10 +1,11 @@
 import type { PropsWithChildren } from "react";
 
-type CardProps = PropsWithChildren;
+type CardProps = PropsWithChildren<{ className?: string }>;
 
-export const Card = ({ children }: CardProps) => {
+export const Card = ({ children, className }: CardProps) => {
   return (
     <div
+      className={className}
       style={{
         background: "var(--bg-panel)",
         borderRadius: "16px",

@@ -1,0 +1,26 @@
+world,intent,intent_fa,incident_cause,true_incident_attribution
+0,probe,آزمون آستانه‌ها,mixed_cause,mixed
+0,intelligence_collection,جمع‌آوری اطلاعات,red_reversible_interference,red
+0,coercion,اعمال فشار,red_reversible_interference,red
+0,alliance_fracture,ایجاد شکاف ائتلافی,mixed_cause,mixed
+0,benign_ambiguous,رفتار مبهم/غیرخصمانه,environmental_or_external,non_red
+1,probe,آزمون آستانه‌ها,mixed_cause,mixed
+1,intelligence_collection,جمع‌آوری اطلاعات,technical_fault,non_red
+1,coercion,اعمال فشار,red_reversible_interference,red
+1,alliance_fracture,ایجاد شکاف ائتلافی,red_reversible_interference,red
+1,benign_ambiguous,رفتار مبهم/غیرخصمانه,red_reversible_interference,red
+2,probe,آزمون آستانه‌ها,environmental_or_external,non_red
+2,intelligence_collection,جمع‌آوری اطلاعات,environmental_or_external,non_red
+2,coercion,اعمال فشار,environmental_or_external,non_red
+2,alliance_fracture,ایجاد شکاف ائتلافی,red_reversible_interference,red
+2,benign_ambiguous,رفتار مبهم/غیرخصمانه,mixed_cause,mixed
+3,probe,آزمون آستانه‌ها,technical_fault,non_red
+3,intelligence_collection,جمع‌آوری اطلاعات,technical_fault,non_red
+3,coercion,اعمال فشار,mixed_cause,mixed
+3,alliance_fracture,ایجاد شکاف ائتلافی,environmental_or_external,non_red
+3,benign_ambiguous,رفتار مبهم/غیرخصمانه,red_reversible_interference,red
+4,probe,آزمون آستانه‌ها,mixed_cause,mixed
+4,intelligence_collection,جمع‌آوری اطلاعات,technical_fault,non_red
+4,coercion,اعمال فشار,red_reversible_interference,red
+4,alliance_fracture,ایجاد شکاف ائتلافی,mixed_cause,mixed
+4,benign_ambiguous,رفتار مبهم/غیرخصمانه,environmental_or_external,non_red

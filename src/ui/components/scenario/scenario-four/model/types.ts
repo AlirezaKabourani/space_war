@@ -32,6 +32,27 @@ export interface ScenarioOneState {
     politicalCapital: number;
     disclosureBudget: number;
   };
+  /** Available capacity at scenario start; distinct from the normalized 0..100 scale ceiling. */
+  resourceBaseline: {
+    ssaCapacity: number;
+    protectiveCapacity: number;
+    politicalCapital: number;
+    disclosureBudget: number;
+  };
+  resourceAccounting: {
+    userSpent: {
+      ssaCapacity: number;
+      protectiveCapacity: number;
+      politicalCapital: number;
+      disclosureBudget: number;
+    };
+    recovered: {
+      ssaCapacity: number;
+      protectiveCapacity: number;
+      politicalCapital: number;
+      disclosureBudget: number;
+    };
+  };
   knowledge: {
     systemAttributionConfidence: number;
     playerAttributionEstimate?: number;
@@ -42,6 +63,8 @@ export interface ScenarioOneState {
     evidenceIds: string[];
     evidenceContradictionLevel?: number;
     technicalFaultProbability?: number;
+    /** Player-observable service impact used by Move 3 narrative. */
+    serviceImpactSeverity?: Move3ImpactSeverity;
   };
   hidden: {
     trueRedIntent: RedIntent;
@@ -53,7 +76,6 @@ export interface ScenarioOneState {
     trueIncidentAttribution: TrueIncidentAttribution;
     move2IncidentCause?: Move2IncidentCause;
     redConfidenceBlueWillEscalate?: number;
-    move3ImpactSeverity?: Move3ImpactSeverity;
   };
   flags: Record<string, boolean>;
 }

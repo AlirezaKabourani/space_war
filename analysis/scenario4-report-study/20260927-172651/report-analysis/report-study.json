@@ -1,0 +1,1431 @@
+{
+  "generatedAt": "2026-09-27T15:00:17.031Z",
+  "sources": {
+    "structuralSummary": "E:\\war\\space_war\\analysis\\scenario4-report-study\\20260927-172651\\structural-world1\\summary.json",
+    "robustnessSummary": "E:\\war\\space_war\\analysis\\scenario4-report-study\\20260927-172651\\robustness-worlds5\\summary.json",
+    "allPaths": "E:\\war\\space_war\\analysis\\scenario4-report-study\\20260927-172651\\structural-world1\\all-paths.csv.gz"
+  },
+  "methodologicalLabels": {
+    "structuralPercentages": "سهم مسیرهای تصمیم در پیمایش exhaustive؛ نه احتمال تجربی",
+    "intentWeightedPercentages": "سهم طراحی با وزن‌های نیت پنهان و فرض توزیع یکنواخت مسیرهای تصمیم؛ نه احتمال واقعی",
+    "worldRobustness": "حساسیت نتایج به seed/hidden world در مدل"
+  },
+  "structuralEndStates": [
+    {
+      "end_state": "escalation_spiral",
+      "end_state_fa": "مارپیچ تشدید",
+      "count": 60765,
+      "share": 0.007275502873563219,
+      "percent": "0.728",
+      "reachable": true
+    },
+    {
+      "end_state": "intelligence_failure",
+      "end_state_fa": "شکست اطلاعاتی",
+      "count": 648000,
+      "share": 0.07758620689655173,
+      "percent": "7.759",
+      "reachable": true
+    },
+    {
+      "end_state": "coalition_fracture",
+      "end_state_fa": "شکاف ائتلافی",
+      "count": 17484,
+      "share": 0.002093390804597701,
+      "percent": "0.209",
+      "reachable": true
+    },
+    {
+      "end_state": "negotiated_deescalation",
+      "end_state_fa": "کاهش تنش مذاکره‌شده",
+      "count": 2644704,
+      "share": 0.3166551724137931,
+      "percent": "31.666",
+      "reachable": true
+    },
+    {
+      "end_state": "calm_crisis_control",
+      "end_state_fa": "مهار آرام بحران",
+      "count": 41601,
+      "share": 0.0049809626436781605,
+      "percent": "0.498",
+      "reachable": true
+    },
+    {
+      "end_state": "costly_deterrence",
+      "end_state_fa": "بازدارندگی پرهزینه",
+      "count": 33822,
+      "share": 0.004049568965517242,
+      "percent": "0.405",
+      "reachable": true
+    },
+    {
+      "end_state": "persistent_ambiguity",
+      "end_state_fa": "ابهام پایدار",
+      "count": 3261705,
+      "share": 0.3905298132183908,
+      "percent": "39.053",
+      "reachable": true
+    },
+    {
+      "end_state": "strategic_information_opportunity",
+      "end_state_fa": "فرصت اطلاعاتی راهبردی",
+      "count": 1353813,
+      "share": 0.1620944683908046,
+      "percent": "16.209",
+      "reachable": true
+    },
+    {
+      "end_state": "mixed_crisis_containment",
+      "end_state_fa": "مهار نسبی بحران",
+      "count": 290106,
+      "share": 0.03473491379310345,
+      "percent": "3.473",
+      "reachable": true
+    }
+  ],
+  "intentWeightedEndStates": [
+    {
+      "end_state": "escalation_spiral",
+      "end_state_fa": "مارپیچ تشدید",
+      "weighted_design_share": 0.008480208333333334,
+      "weighted_design_percent": "0.848",
+      "contribution_by_intent": "probe:0.000pp | intelligence_collection:0.020pp | coercion:0.828pp | alliance_fracture:0.000pp | benign_ambiguous:0.000pp",
+      "interpretation": "سهم طراحی وزن‌دار؛ نه احتمال تجربی دنیای واقعی"
+    },
+    {
+      "end_state": "intelligence_failure",
+      "end_state_fa": "شکست اطلاعاتی",
+      "weighted_design_share": 0.025,
+      "weighted_design_percent": "2.500",
+      "contribution_by_intent": "probe:0.000pp | intelligence_collection:0.000pp | coercion:0.000pp | alliance_fracture:0.000pp | benign_ambiguous:2.500pp",
+      "interpretation": "سهم طراحی وزن‌دار؛ نه احتمال تجربی دنیای واقعی"
+    },
+    {
+      "end_state": "coalition_fracture",
+      "end_state_fa": "شکاف ائتلافی",
+      "weighted_design_share": 0.0026349999999999998,
+      "weighted_design_percent": "0.263",
+      "contribution_by_intent": "probe:0.084pp | intelligence_collection:0.075pp | coercion:0.037pp | alliance_fracture:0.067pp | benign_ambiguous:0.000pp",
+      "interpretation": "سهم طراحی وزن‌دار؛ نه احتمال تجربی دنیای واقعی"
+    },
+    {
+      "end_state": "negotiated_deescalation",
+      "end_state_fa": "کاهش تنش مذاکره‌شده",
+      "weighted_design_share": 0.3087551851851852,
+      "weighted_design_percent": "30.876",
+      "contribution_by_intent": "probe:13.952pp | intelligence_collection:11.622pp | coercion:0.367pp | alliance_fracture:0.000pp | benign_ambiguous:4.935pp",
+      "interpretation": "سهم طراحی وزن‌دار؛ نه احتمال تجربی دنیای واقعی"
+    },
+    {
+      "end_state": "calm_crisis_control",
+      "end_state_fa": "مهار آرام بحران",
+      "weighted_design_share": 0.0026389583333333334,
+      "weighted_design_percent": "0.264",
+      "contribution_by_intent": "probe:0.000pp | intelligence_collection:0.000pp | coercion:0.143pp | alliance_fracture:0.000pp | benign_ambiguous:0.121pp",
+      "interpretation": "سهم طراحی وزن‌دار؛ نه احتمال تجربی دنیای واقعی"
+    },
+    {
+      "end_state": "costly_deterrence",
+      "end_state_fa": "بازدارندگی پرهزینه",
+      "weighted_design_share": 0.003361388888888889,
+      "weighted_design_percent": "0.336",
+      "contribution_by_intent": "probe:0.000pp | intelligence_collection:0.000pp | coercion:0.285pp | alliance_fracture:0.000pp | benign_ambiguous:0.051pp",
+      "interpretation": "سهم طراحی وزن‌دار؛ نه احتمال تجربی دنیای واقعی"
+    },
+    {
+      "end_state": "persistent_ambiguity",
+      "end_state_fa": "ابهام پایدار",
+      "weighted_design_share": 0.43310332175925914,
+      "weighted_design_percent": "43.310",
+      "contribution_by_intent": "probe:13.564pp | intelligence_collection:9.953pp | coercion:10.513pp | alliance_fracture:6.894pp | benign_ambiguous:2.387pp",
+      "interpretation": "سهم طراحی وزن‌دار؛ نه احتمال تجربی دنیای واقعی"
+    },
+    {
+      "end_state": "strategic_information_opportunity",
+      "end_state_fa": "فرصت اطلاعاتی راهبردی",
+      "weighted_design_share": 0.17230885416666664,
+      "weighted_design_percent": "17.231",
+      "contribution_by_intent": "probe:1.876pp | intelligence_collection:2.222pp | coercion:5.250pp | alliance_fracture:7.877pp | benign_ambiguous:0.006pp",
+      "interpretation": "سهم طراحی وزن‌دار؛ نه احتمال تجربی دنیای واقعی"
+    },
+    {
+      "end_state": "mixed_crisis_containment",
+      "end_state_fa": "مهار نسبی بحران",
+      "weighted_design_share": 0.04371708333333334,
+      "weighted_design_percent": "4.372",
+      "contribution_by_intent": "probe:0.524pp | intelligence_collection:1.108pp | coercion:2.577pp | alliance_fracture:0.162pp | benign_ambiguous:0.000pp",
+      "interpretation": "سهم طراحی وزن‌دار؛ نه احتمال تجربی دنیای واقعی"
+    }
+  ],
+  "robustness": [
+    {
+      "end_state": "escalation_spiral",
+      "end_state_fa": "مارپیچ تشدید",
+      "worlds": 5,
+      "mean_share": 0.007338002873563218,
+      "mean_percent": "0.734",
+      "min_percent": "0.313",
+      "max_percent": "0.943",
+      "spread_percentage_points": "0.630",
+      "std_percentage_points": "0.229",
+      "reachable_in_all_worlds": true
+    },
+    {
+      "end_state": "intelligence_failure",
+      "end_state_fa": "شکست اطلاعاتی",
+      "worlds": 5,
+      "mean_share": 0.0997471264367816,
+      "mean_percent": "9.975",
+      "min_percent": "4.296",
+      "max_percent": "12.917",
+      "spread_percentage_points": "8.621",
+      "std_percentage_points": "3.417",
+      "reachable_in_all_worlds": true
+    },
+    {
+      "end_state": "coalition_fracture",
+      "end_state_fa": "شکاف ائتلافی",
+      "worlds": 5,
+      "mean_share": 0.0020238505747126436,
+      "mean_percent": "0.202",
+      "min_percent": "0.156",
+      "max_percent": "0.281",
+      "spread_percentage_points": "0.124",
+      "std_percentage_points": "0.046",
+      "reachable_in_all_worlds": true
+    },
+    {
+      "end_state": "negotiated_deescalation",
+      "end_state_fa": "کاهش تنش مذاکره‌شده",
+      "worlds": 5,
+      "mean_share": 0.33871954022988504,
+      "mean_percent": "33.872",
+      "min_percent": "31.666",
+      "max_percent": "35.676",
+      "spread_percentage_points": "4.010",
+      "std_percentage_points": "1.451",
+      "reachable_in_all_worlds": true
+    },
+    {
+      "end_state": "calm_crisis_control",
+      "end_state_fa": "مهار آرام بحران",
+      "worlds": 5,
+      "mean_share": 0.0070645833333333324,
+      "mean_percent": "0.706",
+      "min_percent": "0.310",
+      "max_percent": "1.469",
+      "spread_percentage_points": "1.159",
+      "std_percentage_points": "0.399",
+      "reachable_in_all_worlds": true
+    },
+    {
+      "end_state": "costly_deterrence",
+      "end_state_fa": "بازدارندگی پرهزینه",
+      "worlds": 5,
+      "mean_share": 0.004694899425287357,
+      "mean_percent": "0.469",
+      "min_percent": "0.181",
+      "max_percent": "0.875",
+      "spread_percentage_points": "0.694",
+      "std_percentage_points": "0.228",
+      "reachable_in_all_worlds": true
+    },
+    {
+      "end_state": "persistent_ambiguity",
+      "end_state_fa": "ابهام پایدار",
+      "worlds": 5,
+      "mean_share": 0.3895254310344828,
+      "mean_percent": "38.953",
+      "min_percent": "38.030",
+      "max_percent": "41.215",
+      "spread_percentage_points": "3.185",
+      "std_percentage_points": "1.188",
+      "reachable_in_all_worlds": true
+    },
+    {
+      "end_state": "strategic_information_opportunity",
+      "end_state_fa": "فرصت اطلاعاتی راهبردی",
+      "worlds": 5,
+      "mean_share": 0.12618706896551726,
+      "mean_percent": "12.619",
+      "min_percent": "9.619",
+      "max_percent": "16.209",
+      "spread_percentage_points": "6.590",
+      "std_percentage_points": "2.828",
+      "reachable_in_all_worlds": true
+    },
+    {
+      "end_state": "mixed_crisis_containment",
+      "end_state_fa": "مهار نسبی بحران",
+      "worlds": 5,
+      "mean_share": 0.024699497126436782,
+      "mean_percent": "2.470",
+      "min_percent": "0.891",
+      "max_percent": "3.751",
+      "spread_percentage_points": "2.860",
+      "std_percentage_points": "1.154",
+      "reachable_in_all_worlds": true
+    }
+  ],
+  "designBalance": {
+    "reachable_end_states": 9,
+    "total_end_states": 9,
+    "normalized_shannon_entropy": 0.6548147941840061,
+    "hhi": 0.2863833078732948,
+    "dominant_end_state": "persistent_ambiguity",
+    "dominant_end_state_fa": "ابهام پایدار",
+    "dominant_share": 0.3905298132183908,
+    "dominant_percent": "39.053",
+    "endings_below_1_percent": 4
+  },
+  "confidence": {
+    "overall": {
+      "count": 8352000,
+      "min": 8,
+      "max": 72,
+      "p05": 14,
+      "p25": 20,
+      "p50": 32,
+      "p75": 43,
+      "p95": 60,
+      "thresholdCoverage": {
+        "gte35": {
+          "count": 3628800,
+          "share": 0.43448275862068964
+        },
+        "gte40": {
+          "count": 2908800,
+          "share": 0.3482758620689655
+        },
+        "gte45": {
+          "count": 1929600,
+          "share": 0.23103448275862068
+        },
+        "gte50": {
+          "count": 1353600,
+          "share": 0.16206896551724137
+        },
+        "gte55": {
+          "count": 1152000,
+          "share": 0.13793103448275862
+        },
+        "gte60": {
+          "count": 460800,
+          "share": 0.05517241379310345
+        },
+        "gte70": {
+          "count": 144000,
+          "share": 0.017241379310344827
+        }
+      },
+      "histogram": {
+        "8": 129600,
+        "10": 155520,
+        "12": 129600,
+        "14": 103680,
+        "16": 129600,
+        "17": 129600,
+        "18": 299520,
+        "19": 233280,
+        "20": 820800,
+        "21": 129600,
+        "22": 259200,
+        "23": 25920,
+        "24": 129600,
+        "26": 247680,
+        "28": 561600,
+        "29": 417600,
+        "30": 144000,
+        "32": 417600,
+        "34": 259200,
+        "35": 144000,
+        "36": 144000,
+        "37": 144000,
+        "38": 144000,
+        "39": 144000,
+        "40": 288000,
+        "42": 518400,
+        "43": 172800,
+        "46": 259200,
+        "47": 144000,
+        "48": 57600,
+        "49": 115200,
+        "50": 28800,
+        "51": 28800,
+        "52": 28800,
+        "54": 115200,
+        "55": 144000,
+        "56": 144000,
+        "58": 144000,
+        "59": 259200,
+        "60": 144000,
+        "62": 28800,
+        "69": 144000,
+        "72": 144000
+      }
+    },
+    "byIntent": {
+      "probe": {
+        "count": 1440000,
+        "min": 20,
+        "max": 59,
+        "p05": 20,
+        "p25": 32,
+        "p50": 40,
+        "p75": 47,
+        "p95": 56,
+        "thresholdCoverage": {
+          "gte35": {
+            "count": 950400,
+            "share": 0.66
+          },
+          "gte40": {
+            "count": 806400,
+            "share": 0.56
+          },
+          "gte45": {
+            "count": 504000,
+            "share": 0.35
+          },
+          "gte50": {
+            "count": 230400,
+            "share": 0.16
+          },
+          "gte55": {
+            "count": 216000,
+            "share": 0.15
+          },
+          "gte60": {
+            "count": 0,
+            "share": 0
+          },
+          "gte70": {
+            "count": 0,
+            "share": 0
+          }
+        },
+        "histogram": {
+          "20": 72000,
+          "28": 144000,
+          "29": 72000,
+          "32": 72000,
+          "34": 129600,
+          "36": 72000,
+          "37": 72000,
+          "40": 86400,
+          "42": 129600,
+          "43": 86400,
+          "46": 129600,
+          "47": 72000,
+          "48": 14400,
+          "49": 57600,
+          "52": 14400,
+          "55": 72000,
+          "56": 72000,
+          "59": 72000
+        }
+      },
+      "intelligence_collection": {
+        "count": 1440000,
+        "min": 18,
+        "max": 72,
+        "p05": 18,
+        "p25": 28,
+        "p50": 38,
+        "p75": 54,
+        "p95": 69,
+        "thresholdCoverage": {
+          "gte35": {
+            "count": 864000,
+            "share": 0.6
+          },
+          "gte40": {
+            "count": 648000,
+            "share": 0.45
+          },
+          "gte45": {
+            "count": 460800,
+            "share": 0.32
+          },
+          "gte50": {
+            "count": 446400,
+            "share": 0.31
+          },
+          "gte55": {
+            "count": 360000,
+            "share": 0.25
+          },
+          "gte60": {
+            "count": 230400,
+            "share": 0.16
+          },
+          "gte70": {
+            "count": 72000,
+            "share": 0.05
+          }
+        },
+        "histogram": {
+          "18": 72000,
+          "20": 144000,
+          "26": 72000,
+          "28": 72000,
+          "29": 72000,
+          "30": 72000,
+          "32": 72000,
+          "35": 72000,
+          "38": 72000,
+          "39": 72000,
+          "40": 57600,
+          "42": 129600,
+          "48": 14400,
+          "50": 14400,
+          "51": 14400,
+          "54": 57600,
+          "58": 72000,
+          "59": 57600,
+          "60": 72000,
+          "62": 14400,
+          "69": 72000,
+          "72": 72000
+        }
+      },
+      "coercion": {
+        "count": 1440000,
+        "min": 18,
+        "max": 72,
+        "p05": 18,
+        "p25": 28,
+        "p50": 38,
+        "p75": 54,
+        "p95": 69,
+        "thresholdCoverage": {
+          "gte35": {
+            "count": 864000,
+            "share": 0.6
+          },
+          "gte40": {
+            "count": 648000,
+            "share": 0.45
+          },
+          "gte45": {
+            "count": 460800,
+            "share": 0.32
+          },
+          "gte50": {
+            "count": 446400,
+            "share": 0.31
+          },
+          "gte55": {
+            "count": 360000,
+            "share": 0.25
+          },
+          "gte60": {
+            "count": 230400,
+            "share": 0.16
+          },
+          "gte70": {
+            "count": 72000,
+            "share": 0.05
+          }
+        },
+        "histogram": {
+          "18": 72000,
+          "20": 144000,
+          "26": 72000,
+          "28": 72000,
+          "29": 72000,
+          "30": 72000,
+          "32": 72000,
+          "35": 72000,
+          "38": 72000,
+          "39": 72000,
+          "40": 57600,
+          "42": 129600,
+          "48": 14400,
+          "50": 14400,
+          "51": 14400,
+          "54": 57600,
+          "58": 72000,
+          "59": 57600,
+          "60": 72000,
+          "62": 14400,
+          "69": 72000,
+          "72": 72000
+        }
+      },
+      "alliance_fracture": {
+        "count": 1440000,
+        "min": 20,
+        "max": 59,
+        "p05": 20,
+        "p25": 32,
+        "p50": 40,
+        "p75": 47,
+        "p95": 56,
+        "thresholdCoverage": {
+          "gte35": {
+            "count": 950400,
+            "share": 0.66
+          },
+          "gte40": {
+            "count": 806400,
+            "share": 0.56
+          },
+          "gte45": {
+            "count": 504000,
+            "share": 0.35
+          },
+          "gte50": {
+            "count": 230400,
+            "share": 0.16
+          },
+          "gte55": {
+            "count": 216000,
+            "share": 0.15
+          },
+          "gte60": {
+            "count": 0,
+            "share": 0
+          },
+          "gte70": {
+            "count": 0,
+            "share": 0
+          }
+        },
+        "histogram": {
+          "20": 72000,
+          "28": 144000,
+          "29": 72000,
+          "32": 72000,
+          "34": 129600,
+          "36": 72000,
+          "37": 72000,
+          "40": 86400,
+          "42": 129600,
+          "43": 86400,
+          "46": 129600,
+          "47": 72000,
+          "48": 14400,
+          "49": 57600,
+          "52": 14400,
+          "55": 72000,
+          "56": 72000,
+          "59": 72000
+        }
+      },
+      "benign_ambiguous": {
+        "count": 2592000,
+        "min": 8,
+        "max": 32,
+        "p05": 8,
+        "p25": 16,
+        "p50": 20,
+        "p75": 22,
+        "p95": 29,
+        "thresholdCoverage": {
+          "gte35": {
+            "count": 0,
+            "share": 0
+          },
+          "gte40": {
+            "count": 0,
+            "share": 0
+          },
+          "gte45": {
+            "count": 0,
+            "share": 0
+          },
+          "gte50": {
+            "count": 0,
+            "share": 0
+          },
+          "gte55": {
+            "count": 0,
+            "share": 0
+          },
+          "gte60": {
+            "count": 0,
+            "share": 0
+          },
+          "gte70": {
+            "count": 0,
+            "share": 0
+          }
+        },
+        "histogram": {
+          "8": 129600,
+          "10": 155520,
+          "12": 129600,
+          "14": 103680,
+          "16": 129600,
+          "17": 129600,
+          "18": 155520,
+          "19": 233280,
+          "20": 388800,
+          "21": 129600,
+          "22": 259200,
+          "23": 25920,
+          "24": 129600,
+          "26": 103680,
+          "28": 129600,
+          "29": 129600,
+          "32": 129600
+        }
+      }
+    },
+    "byIncidentCause": {
+      "mixed_cause": {
+        "count": 2880000,
+        "min": 20,
+        "max": 59,
+        "p05": 20,
+        "p25": 32,
+        "p50": 40,
+        "p75": 47,
+        "p95": 56,
+        "thresholdCoverage": {
+          "gte35": {
+            "count": 1900800,
+            "share": 0.66
+          },
+          "gte40": {
+            "count": 1612800,
+            "share": 0.56
+          },
+          "gte45": {
+            "count": 1008000,
+            "share": 0.35
+          },
+          "gte50": {
+            "count": 460800,
+            "share": 0.16
+          },
+          "gte55": {
+            "count": 432000,
+            "share": 0.15
+          },
+          "gte60": {
+            "count": 0,
+            "share": 0
+          },
+          "gte70": {
+            "count": 0,
+            "share": 0
+          }
+        },
+        "histogram": {
+          "20": 144000,
+          "28": 288000,
+          "29": 144000,
+          "32": 144000,
+          "34": 259200,
+          "36": 144000,
+          "37": 144000,
+          "40": 172800,
+          "42": 259200,
+          "43": 172800,
+          "46": 259200,
+          "47": 144000,
+          "48": 28800,
+          "49": 115200,
+          "52": 28800,
+          "55": 144000,
+          "56": 144000,
+          "59": 144000
+        }
+      },
+      "red_reversible_interference": {
+        "count": 2880000,
+        "min": 18,
+        "max": 72,
+        "p05": 18,
+        "p25": 28,
+        "p50": 38,
+        "p75": 54,
+        "p95": 69,
+        "thresholdCoverage": {
+          "gte35": {
+            "count": 1728000,
+            "share": 0.6
+          },
+          "gte40": {
+            "count": 1296000,
+            "share": 0.45
+          },
+          "gte45": {
+            "count": 921600,
+            "share": 0.32
+          },
+          "gte50": {
+            "count": 892800,
+            "share": 0.31
+          },
+          "gte55": {
+            "count": 720000,
+            "share": 0.25
+          },
+          "gte60": {
+            "count": 460800,
+            "share": 0.16
+          },
+          "gte70": {
+            "count": 144000,
+            "share": 0.05
+          }
+        },
+        "histogram": {
+          "18": 144000,
+          "20": 288000,
+          "26": 144000,
+          "28": 144000,
+          "29": 144000,
+          "30": 144000,
+          "32": 144000,
+          "35": 144000,
+          "38": 144000,
+          "39": 144000,
+          "40": 115200,
+          "42": 259200,
+          "48": 28800,
+          "50": 28800,
+          "51": 28800,
+          "54": 115200,
+          "58": 144000,
+          "59": 115200,
+          "60": 144000,
+          "62": 28800,
+          "69": 144000,
+          "72": 144000
+        }
+      },
+      "environmental_or_external": {
+        "count": 2592000,
+        "min": 8,
+        "max": 32,
+        "p05": 8,
+        "p25": 16,
+        "p50": 20,
+        "p75": 22,
+        "p95": 29,
+        "thresholdCoverage": {
+          "gte35": {
+            "count": 0,
+            "share": 0
+          },
+          "gte40": {
+            "count": 0,
+            "share": 0
+          },
+          "gte45": {
+            "count": 0,
+            "share": 0
+          },
+          "gte50": {
+            "count": 0,
+            "share": 0
+          },
+          "gte55": {
+            "count": 0,
+            "share": 0
+          },
+          "gte60": {
+            "count": 0,
+            "share": 0
+          },
+          "gte70": {
+            "count": 0,
+            "share": 0
+          }
+        },
+        "histogram": {
+          "8": 129600,
+          "10": 155520,
+          "12": 129600,
+          "14": 103680,
+          "16": 129600,
+          "17": 129600,
+          "18": 155520,
+          "19": 233280,
+          "20": 388800,
+          "21": 129600,
+          "22": 259200,
+          "23": 25920,
+          "24": 129600,
+          "26": 103680,
+          "28": 129600,
+          "29": 129600,
+          "32": 129600
+        }
+      }
+    }
+  },
+  "resources": {
+    "profile": "A",
+    "baseline": {
+      "ssaCapacity": 85,
+      "protectiveCapacity": 85,
+      "politicalCapital": 85,
+      "disclosureBudget": 75
+    },
+    "blockedAttemptsTotal": 0,
+    "blockedAttemptsByOption": {},
+    "phases": {
+      "move1": {
+        "paths": 400,
+        "resources": {
+          "ssaCapacity": {
+            "count": 400,
+            "min": 67,
+            "max": 85,
+            "mean": 78.5,
+            "p05": 67,
+            "p50": 77,
+            "p95": 85
+          },
+          "protectiveCapacity": {
+            "count": 400,
+            "min": 57,
+            "max": 85,
+            "mean": 71,
+            "p05": 57,
+            "p50": 67,
+            "p95": 85
+          },
+          "politicalCapital": {
+            "count": 400,
+            "min": 65,
+            "max": 85,
+            "mean": 75.9,
+            "p05": 65,
+            "p50": 75,
+            "p95": 85
+          },
+          "disclosureBudget": {
+            "count": 400,
+            "min": 61,
+            "max": 75,
+            "mean": 70.9,
+            "p05": 61,
+            "p50": 70,
+            "p95": 75
+          }
+        },
+        "thresholdShares": {
+          "below70": 0.8,
+          "below50": 0,
+          "below30": 0,
+          "exactZero": 0
+        }
+      },
+      "move2": {
+        "paths": 60000,
+        "resources": {
+          "ssaCapacity": {
+            "count": 60000,
+            "min": 50,
+            "max": 85,
+            "mean": 74.75,
+            "p05": 50,
+            "p50": 79,
+            "p95": 85
+          },
+          "protectiveCapacity": {
+            "count": 60000,
+            "min": 29,
+            "max": 85,
+            "mean": 59.133,
+            "p05": 33,
+            "p50": 61,
+            "p95": 80
+          },
+          "politicalCapital": {
+            "count": 60000,
+            "min": 45,
+            "max": 85,
+            "mean": 67.36,
+            "p05": 55,
+            "p50": 67,
+            "p95": 79
+          },
+          "disclosureBudget": {
+            "count": 60000,
+            "min": 48,
+            "max": 75,
+            "mean": 68.767,
+            "p05": 59,
+            "p50": 69,
+            "p95": 75
+          }
+        },
+        "thresholdShares": {
+          "below70": 0.9540166666666666,
+          "below50": 0.27016666666666667,
+          "below30": 0.008333333333333333,
+          "exactZero": 0
+        }
+      },
+      "final": {
+        "paths": 8352000,
+        "resources": {
+          "ssaCapacity": {
+            "count": 8352000,
+            "min": 44,
+            "max": 85,
+            "mean": 77.245,
+            "p05": 55,
+            "p50": 82,
+            "p95": 85
+          },
+          "protectiveCapacity": {
+            "count": 8352000,
+            "min": 7,
+            "max": 85,
+            "mean": 52.967,
+            "p05": 27,
+            "p50": 53,
+            "p95": 79
+          },
+          "politicalCapital": {
+            "count": 8352000,
+            "min": 20,
+            "max": 85,
+            "mean": 53.888,
+            "p05": 38,
+            "p50": 54,
+            "p95": 71
+          },
+          "disclosureBudget": {
+            "count": 8352000,
+            "min": 18,
+            "max": 75,
+            "mean": 58.48,
+            "p05": 43,
+            "p50": 58,
+            "p95": 75
+          }
+        },
+        "thresholdShares": {
+          "below70": 0.997540948275862,
+          "below50": 0.6383541666666667,
+          "below30": 0.07866091954022988,
+          "exactZero": 0
+        }
+      }
+    },
+    "byEndState": {
+      "escalation_spiral": {
+        "ssaCapacity": {
+          "count": 60765,
+          "min": 44,
+          "max": 85,
+          "mean": 77.859,
+          "p05": 59,
+          "p50": 84,
+          "p95": 85
+        },
+        "protectiveCapacity": {
+          "count": 60765,
+          "min": 7,
+          "max": 77,
+          "mean": 33.325,
+          "p05": 11,
+          "p50": 33,
+          "p95": 57
+        },
+        "politicalCapital": {
+          "count": 60765,
+          "min": 22,
+          "max": 71,
+          "mean": 47.443,
+          "p05": 35,
+          "p50": 47,
+          "p95": 60
+        },
+        "disclosureBudget": {
+          "count": 60765,
+          "min": 18,
+          "max": 75,
+          "mean": 54.895,
+          "p05": 40,
+          "p50": 57,
+          "p95": 70
+        }
+      },
+      "intelligence_failure": {
+        "ssaCapacity": {
+          "count": 648000,
+          "min": 44,
+          "max": 85,
+          "mean": 76.794,
+          "p05": 55,
+          "p50": 78,
+          "p95": 85
+        },
+        "protectiveCapacity": {
+          "count": 648000,
+          "min": 11,
+          "max": 85,
+          "mean": 51.707,
+          "p05": 25,
+          "p50": 52,
+          "p95": 79
+        },
+        "politicalCapital": {
+          "count": 648000,
+          "min": 22,
+          "max": 77,
+          "mean": 52.37,
+          "p05": 37,
+          "p50": 52,
+          "p95": 69
+        },
+        "disclosureBudget": {
+          "count": 648000,
+          "min": 18,
+          "max": 57,
+          "mean": 49.752,
+          "p05": 37,
+          "p50": 51,
+          "p95": 57
+        }
+      },
+      "coalition_fracture": {
+        "ssaCapacity": {
+          "count": 17484,
+          "min": 61,
+          "max": 85,
+          "mean": 79.98,
+          "p05": 69,
+          "p50": 84,
+          "p95": 85
+        },
+        "protectiveCapacity": {
+          "count": 17484,
+          "min": 11,
+          "max": 82,
+          "mean": 53.329,
+          "p05": 27,
+          "p50": 54,
+          "p95": 76
+        },
+        "politicalCapital": {
+          "count": 17484,
+          "min": 33,
+          "max": 64,
+          "mean": 48.299,
+          "p05": 40,
+          "p50": 47,
+          "p95": 61
+        },
+        "disclosureBudget": {
+          "count": 17484,
+          "min": 40,
+          "max": 57,
+          "mean": 55.869,
+          "p05": 49,
+          "p50": 57,
+          "p95": 57
+        }
+      },
+      "negotiated_deescalation": {
+        "ssaCapacity": {
+          "count": 2644704,
+          "min": 44,
+          "max": 85,
+          "mean": 77.524,
+          "p05": 57,
+          "p50": 84,
+          "p95": 85
+        },
+        "protectiveCapacity": {
+          "count": 2644704,
+          "min": 11,
+          "max": 85,
+          "mean": 55.928,
+          "p05": 31,
+          "p50": 57,
+          "p95": 82
+        },
+        "politicalCapital": {
+          "count": 2644704,
+          "min": 23,
+          "max": 85,
+          "mean": 55.868,
+          "p05": 40,
+          "p50": 55,
+          "p95": 73
+        },
+        "disclosureBudget": {
+          "count": 2644704,
+          "min": 26,
+          "max": 75,
+          "mean": 61.718,
+          "p05": 47,
+          "p50": 63,
+          "p95": 75
+        }
+      },
+      "calm_crisis_control": {
+        "ssaCapacity": {
+          "count": 41601,
+          "min": 44,
+          "max": 85,
+          "mean": 76.978,
+          "p05": 57,
+          "p50": 78,
+          "p95": 85
+        },
+        "protectiveCapacity": {
+          "count": 41601,
+          "min": 21,
+          "max": 79,
+          "mean": 50.813,
+          "p05": 31,
+          "p50": 53,
+          "p95": 71
+        },
+        "politicalCapital": {
+          "count": 41601,
+          "min": 29,
+          "max": 74,
+          "mean": 53.929,
+          "p05": 40,
+          "p50": 54,
+          "p95": 68
+        },
+        "disclosureBudget": {
+          "count": 41601,
+          "min": 28,
+          "max": 69,
+          "mean": 54.948,
+          "p05": 41,
+          "p50": 55,
+          "p95": 67
+        }
+      },
+      "costly_deterrence": {
+        "ssaCapacity": {
+          "count": 33822,
+          "min": 44,
+          "max": 85,
+          "mean": 76.545,
+          "p05": 55,
+          "p50": 82,
+          "p95": 85
+        },
+        "protectiveCapacity": {
+          "count": 33822,
+          "min": 15,
+          "max": 79,
+          "mean": 38.603,
+          "p05": 21,
+          "p50": 36,
+          "p95": 59
+        },
+        "politicalCapital": {
+          "count": 33822,
+          "min": 25,
+          "max": 74,
+          "mean": 48.609,
+          "p05": 36,
+          "p50": 48,
+          "p95": 62
+        },
+        "disclosureBudget": {
+          "count": 33822,
+          "min": 24,
+          "max": 67,
+          "mean": 51.318,
+          "p05": 38,
+          "p50": 51,
+          "p95": 64
+        }
+      },
+      "persistent_ambiguity": {
+        "ssaCapacity": {
+          "count": 3261705,
+          "min": 44,
+          "max": 85,
+          "mean": 79.846,
+          "p05": 67,
+          "p50": 85,
+          "p95": 85
+        },
+        "protectiveCapacity": {
+          "count": 3261705,
+          "min": 7,
+          "max": 85,
+          "mean": 50.741,
+          "p05": 25,
+          "p50": 51,
+          "p95": 77
+        },
+        "politicalCapital": {
+          "count": 3261705,
+          "min": 20,
+          "max": 85,
+          "mean": 53.298,
+          "p05": 38,
+          "p50": 53,
+          "p95": 70
+        },
+        "disclosureBudget": {
+          "count": 3261705,
+          "min": 18,
+          "max": 75,
+          "mean": 57.766,
+          "p05": 42,
+          "p50": 58,
+          "p95": 75
+        }
+      },
+      "strategic_information_opportunity": {
+        "ssaCapacity": {
+          "count": 1353813,
+          "min": 44,
+          "max": 85,
+          "mean": 73.056,
+          "p05": 52,
+          "p50": 74,
+          "p95": 85
+        },
+        "protectiveCapacity": {
+          "count": 1353813,
+          "min": 15,
+          "max": 85,
+          "mean": 56.339,
+          "p05": 31,
+          "p50": 57,
+          "p95": 80
+        },
+        "politicalCapital": {
+          "count": 1353813,
+          "min": 20,
+          "max": 85,
+          "mean": 53.249,
+          "p05": 37,
+          "p50": 53,
+          "p95": 70
+        },
+        "disclosureBudget": {
+          "count": 1353813,
+          "min": 18,
+          "max": 75,
+          "mean": 59.049,
+          "p05": 43,
+          "p50": 59,
+          "p95": 75
+        }
+      },
+      "mixed_crisis_containment": {
+        "ssaCapacity": {
+          "count": 290106,
+          "min": 44,
+          "max": 85,
+          "mean": 65.84,
+          "p05": 52,
+          "p50": 67,
+          "p95": 85
+        },
+        "protectiveCapacity": {
+          "count": 290106,
+          "min": 7,
+          "max": 85,
+          "mean": 44.166,
+          "p05": 21,
+          "p50": 44,
+          "p95": 70
+        },
+        "politicalCapital": {
+          "count": 290106,
+          "min": 20,
+          "max": 85,
+          "mean": 51.141,
+          "p05": 35,
+          "p50": 51,
+          "p95": 67
+        },
+        "disclosureBudget": {
+          "count": 290106,
+          "min": 18,
+          "max": 75,
+          "mean": 56.072,
+          "p05": 39,
+          "p50": 57,
+          "p95": 75
+        }
+      }
+    },
+    "pathCost": {
+      "userSpent": {
+        "count": 8352000,
+        "min": 12,
+        "max": 194,
+        "mean": 100.255,
+        "p05": 61,
+        "p50": 100,
+        "p95": 140
+      },
+      "recovered": {
+        "count": 8352000,
+        "min": 0,
+        "max": 37,
+        "mean": 12.835,
+        "p05": 4,
+        "p50": 12,
+        "p95": 24
+      },
+      "netConsumed": {
+        "count": 8352000,
+        "min": 12,
+        "max": 186,
+        "mean": 87.42,
+        "p05": 48,
+        "p50": 87,
+        "p95": 128
+      }
+    },
+    "representativePaths": {
+      "low": {
+        "signature": "1-1-1|5-1-1|1-4-1|O1",
+        "intent": "probe",
+        "userSpent": 12,
+        "recovered": 0,
+        "finalResources": {
+          "ssaCapacity": 85,
+          "protectiveCapacity": 85,
+          "politicalCapital": 73,
+          "disclosureBudget": 75
+        },
+        "endState": "negotiated_deescalation"
+      },
+      "medium": {
+        "signature": "1-1-1|1-2-5|1-3-4|O-",
+        "intent": "probe",
+        "userSpent": 100,
+        "recovered": 8,
+        "finalResources": {
+          "ssaCapacity": 85,
+          "protectiveCapacity": 59,
+          "politicalCapital": 49,
+          "disclosureBudget": 45
+        },
+        "endState": "persistent_ambiguity"
+      },
+      "high": {
+        "signature": "2-4-3|2-5-4|1-3-4|O-",
+        "intent": "probe",
+        "userSpent": 194,
+        "recovered": 12,
+        "finalResources": {
+          "ssaCapacity": 52,
+          "protectiveCapacity": 29,
+          "politicalCapital": 38,
+          "disclosureBudget": 29
+        },
+        "endState": "mixed_crisis_containment"
+      }
+    }
+  }
+}

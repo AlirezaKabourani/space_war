@@ -1,0 +1,345 @@
+[
+  {
+    "name": "opening",
+    "file": "1440x900-opening.png",
+    "width": 1440,
+    "height": 900,
+    "documentHorizontalOverflow": false,
+    "mainHorizontalOverflow": false,
+    "mainVerticalScroll": false,
+    "visibleCtas": [
+      "ثبت برآورد اولیه"
+    ],
+    "rtl": true,
+    "internalTraceLeak": false,
+    "title": "مرحله دوم — اختلال بدون امضا"
+  },
+  {
+    "name": "opening",
+    "file": "1366x768-opening.png",
+    "width": 1366,
+    "height": 768,
+    "documentHorizontalOverflow": false,
+    "mainHorizontalOverflow": false,
+    "mainVerticalScroll": true,
+    "visibleCtas": [
+      "ثبت برآورد اولیه"
+    ],
+    "rtl": true,
+    "internalTraceLeak": false,
+    "title": "مرحله دوم — اختلال بدون امضا"
+  },
+  {
+    "name": "attribution-1",
+    "file": "1440x900-attribution-1.png",
+    "width": 1440,
+    "height": 900,
+    "documentHorizontalOverflow": false,
+    "mainHorizontalOverflow": false,
+    "mainVerticalScroll": false,
+    "visibleCtas": [
+      "ادامه به بررسی علت"
+    ],
+    "rtl": true,
+    "internalTraceLeak": false,
+    "title": "برآورد اولیه انتساب"
+  },
+  {
+    "name": "attribution-1",
+    "file": "1366x768-attribution-1.png",
+    "width": 1366,
+    "height": 768,
+    "documentHorizontalOverflow": false,
+    "mainHorizontalOverflow": false,
+    "mainVerticalScroll": false,
+    "visibleCtas": [
+      "ادامه به بررسی علت"
+    ],
+    "rtl": true,
+    "internalTraceLeak": false,
+    "title": "برآورد اولیه انتساب"
+  },
+  {
+    "name": "decision-1",
+    "file": "1440x900-decision-1.png",
+    "width": 1440,
+    "height": 900,
+    "documentHorizontalOverflow": false,
+    "mainHorizontalOverflow": false,
+    "mainVerticalScroll": true,
+    "visibleCtas": [
+      "تمرکز بر بررسی فنی داخلی\nتیم فنی A-17 بررسی عمیق‌تری روی تله‌متری و سامانه‌های داخلی انجام دهد.\nهزینه قطعی منابع: ظرفیت SSA -4",
+      "ⓘ",
+      "فعال‌سازی منبع رصد دوم\nیک منبع مستقل دیگر برای بررسی هم‌زمان رفتار مداری و محیط عملیاتی فعال شود.\nهزینه قطعی منابع: ظرفیت SSA -20",
+      "ⓘ",
+      "ثبت تصمیم"
+    ],
+    "rtl": true,
+    "internalTraceLeak": false,
+    "title": "بسته شواهد مرحله دوم"
+  },
+  {
+    "name": "decision-1",
+    "file": "1366x768-decision-1.png",
+    "width": 1366,
+    "height": 768,
+    "documentHorizontalOverflow": false,
+    "mainHorizontalOverflow": false,
+    "mainVerticalScroll": true,
+    "visibleCtas": [
+      "ثبت تصمیم"
+    ],
+    "rtl": true,
+    "internalTraceLeak": false,
+    "title": "بسته شواهد مرحله دوم"
+  },
+  {
+    "name": "inject",
+    "file": "1440x900-inject.png",
+    "width": 1440,
+    "height": 900,
+    "documentHorizontalOverflow": false,
+    "mainHorizontalOverflow": false,
+    "mainVerticalScroll": false,
+    "visibleCtas": [
+      "ادامه به تداوم مأموریت"
+    ],
+    "rtl": true,
+    "internalTraceLeak": false,
+    "title": "تأخیر در داده تکمیلی"
+  },
+  {
+    "name": "inject",
+    "file": "1366x768-inject.png",
+    "width": 1366,
+    "height": 768,
+    "documentHorizontalOverflow": false,
+    "mainHorizontalOverflow": false,
+    "mainVerticalScroll": false,
+    "visibleCtas": [
+      "ادامه به تداوم مأموریت"
+    ],
+    "rtl": true,
+    "internalTraceLeak": false,
+    "title": "تأخیر در داده تکمیلی"
+  },
+  {
+    "name": "attribution-2",
+    "file": "1440x900-attribution-2.png",
+    "width": 1440,
+    "height": 900,
+    "documentHorizontalOverflow": false,
+    "mainHorizontalOverflow": false,
+    "mainVerticalScroll": false,
+    "visibleCtas": [
+      "ادامه به تداوم مأموریت"
+    ],
+    "rtl": true,
+    "internalTraceLeak": false,
+    "title": "تأخیر در داده تکمیلی"
+  },
+  {
+    "name": "attribution-2",
+    "file": "1366x768-attribution-2.png",
+    "width": 1366,
+    "height": 768,
+    "documentHorizontalOverflow": false,
+    "mainHorizontalOverflow": false,
+    "mainVerticalScroll": false,
+    "visibleCtas": [
+      "ادامه به تداوم مأموریت"
+    ],
+    "rtl": true,
+    "internalTraceLeak": false,
+    "title": "تأخیر در داده تکمیلی"
+  },
+  {
+    "name": "decision-2",
+    "file": "1440x900-decision-2.png",
+    "width": 1440,
+    "height": 900,
+    "documentHorizontalOverflow": false,
+    "mainHorizontalOverflow": false,
+    "mainVerticalScroll": true,
+    "visibleCtas": [
+      "ادامه مأموریت بدون تغییر\nA-17 با تنظیمات فعلی به مأموریت ادامه دهد.",
+      "ⓘ",
+      "فعال‌سازی ظرفیت جایگزین\nبخشی از مأموریت به ظرفیت پشتیبان منتقل شود.\nهزینه قطعی منابع: ظرفیت حفاظتی -18",
+      "ⓘ",
+      "کاهش موقت بار مأموریت\nبرای کاهش فشار و حفظ پایداری، بخشی از بار A-17 موقتاً کاهش یابد.\nهزینه قطعی منابع: ظرفیت حفاظتی -5",
+      "ⓘ",
+      "بازآرایی حفاظتی\nپیکربندی حفاظتی A-17 برای کاهش آسیب‌پذیری تغییر کند.\nهزینه قطعی منابع: ظرفیت حفاظتی -14",
+      "ⓘ",
+      "تقسیم مأموریت میان A-17 و ظرفیت پشتیبان\nبخشی از سرویس هم‌زمان روی A-17 و ظرفیت پشتیبان توزیع شود.\nهزینه قطعی منابع: ظرفیت حفاظتی -24",
+      "ⓘ",
+      "ثبت تصمیم"
+    ],
+    "rtl": true,
+    "internalTraceLeak": false,
+    "title": "تصمیم ۲ از ۳ — تداوم مأموریت"
+  },
+  {
+    "name": "decision-2",
+    "file": "1366x768-decision-2.png",
+    "width": 1366,
+    "height": 768,
+    "documentHorizontalOverflow": false,
+    "mainHorizontalOverflow": false,
+    "mainVerticalScroll": true,
+    "visibleCtas": [
+      "ادامه مأموریت بدون تغییر\nA-17 با تنظیمات فعلی به مأموریت ادامه دهد.",
+      "ⓘ",
+      "فعال‌سازی ظرفیت جایگزین\nبخشی از مأموریت به ظرفیت پشتیبان منتقل شود.\nهزینه قطعی منابع: ظرفیت حفاظتی -18",
+      "ⓘ",
+      "کاهش موقت بار مأموریت\nبرای کاهش فشار و حفظ پایداری، بخشی از بار A-17 موقتاً کاهش یابد.\nهزینه قطعی منابع: ظرفیت حفاظتی -5",
+      "ⓘ",
+      "بازآرایی حفاظتی\nپیکربندی حفاظتی A-17 برای کاهش آسیب‌پذیری تغییر کند.\nهزینه قطعی منابع: ظرفیت حفاظتی -14",
+      "ⓘ",
+      "ⓘ",
+      "ثبت تصمیم"
+    ],
+    "rtl": true,
+    "internalTraceLeak": false,
+    "title": "تصمیم ۲ از ۳ — تداوم مأموریت"
+  },
+  {
+    "name": "decision-3",
+    "file": "1440x900-decision-3.png",
+    "width": 1440,
+    "height": 900,
+    "documentHorizontalOverflow": false,
+    "mainHorizontalOverflow": false,
+    "mainVerticalScroll": false,
+    "visibleCtas": [
+      "فعلاً اقدام متقابل انجام نشود\nدر این مرحله اقدام مستقیم علیه اسرائیل انجام نشود و تمرکز بر پایش و تداوم مأموریت بماند.",
+      "ⓘ",
+      "درخواست توضیح رسمی\nاز اسرائیل درباره رفتار R-31 و رخداد اخیر توضیح رسمی خواسته شود.\nهزینه قطعی منابع: سرمایه سیاسی -5",
+      "ⓘ",
+      "هشدار خصوصی کنترل‌شده\nاز کانال خصوصی درباره ادامه رفتار مبهم و پیامد احتمالی آن هشدار داده شود.\nهزینه قطعی منابع: سرمایه سیاسی -7",
+      "ⓘ",
+      "پاسخ هماهنگ با متحدان\nموضع و پیام بعدی با متحدان ایران هماهنگ شود.\nهزینه قطعی منابع: سرمایه سیاسی -14، ظرفیت افشای امن -8",
+      "ⓘ",
+      "درخواست مجوز برای اقدام دفاعی برگشت‌پذیر\nبرای در دسترس داشتن یک اقدام دفاعی محدود و قابل بازگشت، مجوز لازم درخواست شود.\nهزینه قطعی منابع: سرمایه سیاسی -10، ظرفیت حفاظتی -4",
+      "ⓘ",
+      "پیشنهاد فاصله‌گذاری و کاهش خطر متقابل\nبه اسرائیل پیشنهاد شود دو طرف فاصله عملیاتی را افزایش دهند و یک سازوکار کاهش خطر را فعال کنند.\nهزینه قطعی منابع: سرمایه سیاسی -9",
+      "ⓘ",
+      "ثبت تصمیم"
+    ],
+    "rtl": true,
+    "internalTraceLeak": false,
+    "title": "تصمیم ۳ از ۳ — موضع در برابر اسرائیل"
+  },
+  {
+    "name": "decision-3",
+    "file": "1366x768-decision-3.png",
+    "width": 1366,
+    "height": 768,
+    "documentHorizontalOverflow": false,
+    "mainHorizontalOverflow": false,
+    "mainVerticalScroll": true,
+    "visibleCtas": [
+      "فعلاً اقدام متقابل انجام نشود\nدر این مرحله اقدام مستقیم علیه اسرائیل انجام نشود و تمرکز بر پایش و تداوم مأموریت بماند.",
+      "ⓘ",
+      "درخواست توضیح رسمی\nاز اسرائیل درباره رفتار R-31 و رخداد اخیر توضیح رسمی خواسته شود.\nهزینه قطعی منابع: سرمایه سیاسی -5",
+      "ⓘ",
+      "هشدار خصوصی کنترل‌شده\nاز کانال خصوصی درباره ادامه رفتار مبهم و پیامد احتمالی آن هشدار داده شود.\nهزینه قطعی منابع: سرمایه سیاسی -7",
+      "ⓘ",
+      "پاسخ هماهنگ با متحدان\nموضع و پیام بعدی با متحدان ایران هماهنگ شود.\nهزینه قطعی منابع: سرمایه سیاسی -14، ظرفیت افشای امن -8",
+      "ⓘ",
+      "ⓘ",
+      "ⓘ",
+      "ثبت تصمیم"
+    ],
+    "rtl": true,
+    "internalTraceLeak": false,
+    "title": "تصمیم ۳ از ۳ — موضع در برابر اسرائیل"
+  },
+  {
+    "name": "reason",
+    "file": "1440x900-reason.png",
+    "width": 1440,
+    "height": 900,
+    "documentHorizontalOverflow": false,
+    "mainHorizontalOverflow": false,
+    "mainVerticalScroll": false,
+    "visibleCtas": [
+      "افزایش اطمینان درباره علت حادثه",
+      "ⓘ",
+      "حفظ تداوم مأموریت",
+      "ⓘ",
+      "صرفه‌جویی در منابع",
+      "ⓘ",
+      "جلوگیری از تشدید",
+      "ⓘ",
+      "نمایش عزم",
+      "ⓘ",
+      "حفظ ائتلاف",
+      "ⓘ",
+      "ایجاد مسیر کاهش تنش",
+      "ⓘ",
+      "ثبت تصمیم"
+    ],
+    "rtl": true,
+    "internalTraceLeak": false,
+    "title": "ثبت دلیل"
+  },
+  {
+    "name": "reason",
+    "file": "1366x768-reason.png",
+    "width": 1366,
+    "height": 768,
+    "documentHorizontalOverflow": false,
+    "mainHorizontalOverflow": false,
+    "mainVerticalScroll": false,
+    "visibleCtas": [
+      "افزایش اطمینان درباره علت حادثه",
+      "ⓘ",
+      "حفظ تداوم مأموریت",
+      "ⓘ",
+      "صرفه‌جویی در منابع",
+      "ⓘ",
+      "جلوگیری از تشدید",
+      "ⓘ",
+      "نمایش عزم",
+      "ⓘ",
+      "حفظ ائتلاف",
+      "ⓘ",
+      "ایجاد مسیر کاهش تنش",
+      "ⓘ",
+      "ثبت تصمیم"
+    ],
+    "rtl": true,
+    "internalTraceLeak": false,
+    "title": "ثبت دلیل"
+  },
+  {
+    "name": "update",
+    "file": "1440x900-update.png",
+    "width": 1440,
+    "height": 900,
+    "documentHorizontalOverflow": false,
+    "mainHorizontalOverflow": false,
+    "mainVerticalScroll": true,
+    "visibleCtas": [
+      "ورود به مرحله ۳"
+    ],
+    "rtl": true,
+    "internalTraceLeak": false,
+    "title": "جمع‌بندی مرحله دوم"
+  },
+  {
+    "name": "update",
+    "file": "1366x768-update.png",
+    "width": 1366,
+    "height": 768,
+    "documentHorizontalOverflow": false,
+    "mainHorizontalOverflow": false,
+    "mainVerticalScroll": true,
+    "visibleCtas": [
+      "ورود به مرحله ۳"
+    ],
+    "rtl": true,
+    "internalTraceLeak": false,
+    "title": "جمع‌بندی مرحله دوم"
+  }
+]

@@ -1,0 +1,2 @@
+raw_terminal_rows,off_ramp_expanded_rows,off_ramp_expanded_share,branch_corrected_total_mass,intent_and_branch_weighted_total_mass,note
+8352000,6336000,0.7586206896551724,3600000,720000.0000437758,شاخه‌های دارای off-ramp چهار برگ دارند؛ در توزیع policy-neutral هر برگ وزن 1/4 می‌گیرد.

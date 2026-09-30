@@ -63,20 +63,20 @@ assert.equal(resourceConsequenceAudit.length, Object.values(orientationWindows).
 assert.ok(resourceConsequenceAudit.every((entry) => entry.rationale && entry.stateEffects && entry.opportunityCost));
 assert.deepEqual(
   [100, 85, 84, 70, 69, 50, 49, 30, 29, 0].map(getResourceStatusLabel),
-  ["فراوان", "فراوان", "مناسب", "مناسب", "تحت فشار", "تحت فشار", "محدود", "محدود", "بحرانی", "بحرانی"],
+  ["ظرفیت بالا", "ظرفیت بالا", "مناسب", "مناسب", "تحت فشار", "تحت فشار", "محدود", "محدود", "بحرانی", "بحرانی"],
   "resource threshold labels changed"
 );
 
 const state = createInitialScenarioOneState("probe");
 const spentState = structuredClone(state);
-spentState.resources.ssaCapacity = 82;
+spentState.resources.ssaCapacity = 67;
 const decisionEvents = captureDecisionResourceEvents(state.resources, spentState.resources, "m1_i_dedicated_ssa", "move_1");
 assert.equal(decisionEvents[0].delta, -18);
-assert.equal(decisionEvents[0].after, 82);
+assert.equal(decisionEvents[0].after, 67);
 const recovery = applyResourceRecovery(spentState, "m1_to_m2", { choices: { information: "m1_i_dedicated_ssa", protection: "m1_p_hold" } });
-assert.equal(recovery.state.resources.ssaCapacity, 85);
+assert.equal(recovery.state.resources.ssaCapacity, 70);
 assert.ok(recovery.events.every((event) => event.kind === "transition_recovery" && event.rationale));
-assert.equal(recovery.state.resources.disclosureBudget, 100, "disclosure must not receive baseline refill");
+assert.equal(recovery.state.resources.disclosureBudget, 75, "disclosure must not receive baseline refill");
 assert.ok(Object.values(recovery.state.resources).every((value) => value >= 0 && value <= 100));
 
 console.log(JSON.stringify({ orientation: "passed", resources: "passed", randomBaseline }, null, 2));
