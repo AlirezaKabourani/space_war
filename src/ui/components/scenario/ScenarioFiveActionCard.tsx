@@ -1,0 +1,150 @@
+import { useState } from "react";
+import type { ResourceState } from "../../../core/types/scenario";
+import type { ActionCard, SelectedAction } from "./ScenarioFiveTypes";
+
+const categoryLabels: Record<ActionCard["category"], string> = {
+  diagnosis: "تشخیص",
+  navigation: "ناوبری",
+  logistics: "لجستیک",
+  command: "فرماندهی",
+  civilian: "مدنی",
+  deception: "فریب/پراکندگی",
+  risky: "پرریسک",
+};
+
+const resourceLabels: Record<keyof ResourceState, string> = {
+  satelliteISR: "ISR",
+  energy: "ENG",
+  time: "TIME",
+};
+
+const resourceClass: Record<keyof ResourceState, string> = {
+  satelliteISR: "isr",
+  energy: "energy",
+  time: "time",
+};
+
+const getEffectHint = (action: ActionCard) => {
+  const effects = action.effects;
+  const hints: string[] = [];
+  if ((effects.ambiguity ?? 0) < 0) hints.push("ابهام ↓");
+  if ((effects.navigationIntegrity ?? 0) > 0) hints.push("ناوبری ↑");
+  if ((effects.criticalDelivery ?? 0) > 0) hints.push("تحویل ↑");
+  if ((effects.gnssExposureRisk ?? 0) < 0) hints.push("ریسک GNSS ↓");
+  if ((effects.logisticsContinuity ?? 0) > 0) hints.push("لجستیک ↑");
+  if ((effects.escalationRisk ?? 0) < 0) hints.push("تنش ↓");
+  return hints.slice(0, 2).join(" / ") || "اثر عملیاتی مرحله‌ای";
+};
+
+const CostChips = ({
+  cost,
+  unaffordable,
+  risky,
+}: {
+  cost: Partial<ResourceState>;
+  unaffordable?: boolean;
+  risky?: boolean;
+}) => {
+  const entries = (Object.entries(cost) as Array<[keyof ResourceState, number]>).filter(([, value]) => value > 0);
+  if (entries.length === 0) return <span className="s5-cost-chip free">بدون هزینه فوری</span>;
+  return (
+    <>
+      {entries.map(([key, value]) => (
+        <span
+          key={key}
+          className={`s5-cost-chip ${resourceClass[key]} ${unaffordable ? "unaffordable" : ""} ${risky ? "risky" : ""}`}
+        >
+          -{value} {resourceLabels[key]}
+        </span>
+      ))}
+    </>
+  );
+};
+
+export const ScenarioFiveActionCard = ({
+  action,
+  selectedAction,
+  disabledReason,
+  isTargeting = false,
+  riskReason,
+  decisionRole,
+  onPreviewChange,
+  onPick,
+  onRemove,
+}: {
+  action: ActionCard;
+  selectedAction?: SelectedAction;
+  disabledReason?: string;
+  isTargeting?: boolean;
+  riskReason?: string;
+  decisionRole: "main" | "support";
+  onPreviewChange?: (action: ActionCard | null) => void;
+  onPick: () => void;
+  onRemove: () => void;
+}) => {
+  const isSelected = Boolean(selectedAction);
+  const [isHelpOpen, setIsHelpOpen] = useState(false);
+  return (
+    <div
+      className={`s5-action-card ${decisionRole} ${isSelected ? "selected" : ""} ${isTargeting ? "targeting" : ""} ${riskReason ? "risky" : ""} ${disabledReason ? "disabled" : ""}`}
+      onMouseEnter={() => onPreviewChange?.(action)}
+      onMouseLeave={() => onPreviewChange?.(null)}
+      onFocus={() => onPreviewChange?.(action)}
+      onBlur={() => onPreviewChange?.(null)}
+    >
+      <button
+        className="s5-action-card-main"
+        onClick={isSelected ? onRemove : onPick}
+        disabled={Boolean(disabledReason)}
+        type="button"
+      >
+        <div className="s5-action-card-top">
+          <span>{categoryLabels[action.category]}</span>
+          <strong>اثر خودکار</strong>
+        </div>
+        <h4>{action.title}</h4>
+        <p className="s5-action-subtitle">{action.subtitle}</p>
+        <div className="s5-action-objectives">
+          <span>کمک به:</span>
+          {action.objectiveTags.slice(0, 2).map((tag) => <b key={tag}>{tag}</b>)}
+        </div>
+        <div className="s5-action-popovers" aria-label="جزئیات سریع تصمیم">
+          <span tabIndex={0}>
+            اثر احتمالی
+            <em>{action.expectedResult}</em>
+          </span>
+          <span tabIndex={0}>
+            نمایش روی نقشه
+            <em>{action.mapEffect}</em>
+          </span>
+          <span className={`impact impact-${action.missionImpact}`}>اثر: {action.missionImpact}</span>
+        </div>
+        <div className="s5-action-effect">{getEffectHint(action)}</div>
+        <div className="s5-action-costs">
+          <CostChips cost={action.cost} unaffordable={Boolean(disabledReason)} risky={Boolean(riskReason)} />
+        </div>
+        <div className="s5-action-card-foot">
+          <span>{isTargeting ? "پیش‌نمایش فعال" : selectedAction ? "انتخاب شده" : "برای انتخاب کلیک کنید"}</span>
+          {isSelected && <em>انتخاب شده، برای حذف کلیک کنید</em>}
+        </div>
+      </button>
+      <button
+        type="button"
+        className={`s5-action-help-button ${isHelpOpen ? "open" : ""}`}
+        aria-label={`توضیح ${action.title}`}
+        aria-expanded={isHelpOpen}
+        onClick={() => setIsHelpOpen((value) => !value)}
+      >
+        ?
+      </button>
+      {isHelpOpen && (
+        <div className="s5-action-description">
+          <p>{action.description}</p>
+          <p><strong>ریسک:</strong> {action.riskText}</p>
+          <p><strong>کمک به مأموریت:</strong> {action.missionImpact}</p>
+          {(disabledReason || riskReason) && <strong>{disabledReason || riskReason}</strong>}
+        </div>
+      )}
+    </div>
+  );
+};

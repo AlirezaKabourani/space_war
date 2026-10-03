@@ -1,0 +1,233 @@
+import type { ResourceState } from "../../../core/types/scenario";
+
+export type ScenarioFiveMissionStatus = {
+  alphaHealth: number;
+  alphaProgress: number;
+  threatIdentification: number;
+  secondaryConvoyStability: number;
+  resourceReserve: number;
+  ambushRisk: number;
+  logisticsContinuity: number;
+  criticalDelivery: number;
+  navigationIntegrity: number;
+  civilianStability: number;
+  escalationRisk: number;
+  remainingResources: number;
+  ambiguity: number;
+  cumulativeDelay: number;
+  gnssExposureRisk: number;
+};
+
+export type ConvoyStatus =
+  | "moving"
+  | "normal"
+  | "monitored"
+  | "suspicious"
+  | "rerouted"
+  | "paused"
+  | "supported"
+  | "near_threat"
+  | "compromised"
+  | "lost_contact"
+  | "delivered"
+  | "delivered_delayed";
+
+export type Convoy = {
+  id: string;
+  name: string;
+  cargo: string;
+  origin: string;
+  destination: string;
+  priority: number;
+  deadline: number;
+  delay: number;
+  health: number;
+  status: ConvoyStatus;
+  currentZoneId: string;
+  routeId: string;
+  hasFallbackNav: boolean;
+  hasGroundSupport: boolean;
+  gnssTrustLevel: number;
+  progress: number;
+  lastRoundAction?: string;
+};
+
+export type MapZone = {
+  id: string;
+  name: string;
+  x: number;
+  y: number;
+  threatLevel: "safe" | "suspicious" | "jammed" | "unknown";
+  gnssDisruption: number;
+  civilianSensitivity: number;
+  isRevealed: boolean;
+};
+
+export type Route = {
+  id: string;
+  name: string;
+  fromZoneId: string;
+  toZoneId: string;
+  travelCost: number;
+  delayRisk: number;
+  gnssRisk: number;
+  civilianImpact: number;
+  visualStatus: "safe" | "risky" | "danger" | "unknown";
+};
+
+export type ScenarioFiveDecisionWeights = {
+  logisticsWeight: number;
+  criticalDeliveryWeight: number;
+  delayControlWeight: number;
+  resourceEfficiencyWeight: number;
+  navigationIntegrityWeight: number;
+  civilianImpactWeight: number;
+  escalationWeight: number;
+  infoSeekingWeight: number;
+  secondOrderThinkingWeight: number;
+  adversaryModelingWeight: number;
+  cognitiveFlexibilityWeight: number;
+};
+
+export type ActionCard = {
+  id: string;
+  title: string;
+  subtitle: string;
+  description: string;
+  expectedResult: string;
+  mapEffect: string;
+  riskText: string;
+  missionImpact: "زیاد" | "متوسط" | "کم" | "پرریسک";
+  objectiveTags: string[];
+  category: "diagnosis" | "navigation" | "logistics" | "command" | "civilian" | "deception" | "risky";
+  cost: Partial<ResourceState>;
+  effects: Partial<ScenarioFiveMissionStatus>;
+  requirements?: Partial<ResourceState>;
+  targetType?: "convoy" | "zone" | "route" | "global";
+  delayedEffect?: boolean;
+  weights: ScenarioFiveDecisionWeights;
+};
+
+export type SelectedAction = {
+  action: ActionCard;
+  targetId?: string;
+};
+
+export type ScenarioFiveDecisionRecord = {
+  roundId: string;
+  selectedActionIds: string[];
+  selectedTargets: Record<string, string>;
+  responseTimeMs: number;
+  changedActionCount: number;
+  previewOpenCount: number;
+  satelliteISRBefore: number;
+  energyBefore: number;
+  timeBefore: number;
+  satelliteISRAfter: number;
+  energyAfter: number;
+  timeAfter: number;
+  logisticsContinuityBefore: number;
+  criticalDeliveryBefore: number;
+  navigationIntegrityBefore: number;
+  civilianStabilityBefore: number;
+  ambiguityBefore: number;
+  escalationRiskBefore: number;
+  gnssExposureRiskBefore: number;
+  cumulativeDelayBefore: number;
+  logisticsContinuityAfter: number;
+  criticalDeliveryAfter: number;
+  navigationIntegrityAfter: number;
+  civilianStabilityAfter: number;
+  ambiguityAfter: number;
+  escalationRiskAfter: number;
+  gnssExposureRiskAfter: number;
+  cumulativeDelayAfter: number;
+} & ScenarioFiveDecisionWeights;
+
+export type ScenarioFiveRound = {
+  id: string;
+  title: string;
+  alertLevel: "زرد" | "نارنجی" | "قرمز";
+  narrative: string;
+  operationalProblem: string;
+  roundGoal: string;
+  actionIds: string[];
+  mainActionIds: string[];
+  supportActionIds: string[];
+};
+
+export type ScenarioFiveMetrics = {
+  falseGnssRelianceTime: number;
+  isrUsageQuality: number;
+  routeDiversityScore: number;
+  resourceEfficiencyScore: number;
+  secondOrderThinkingScore: number;
+  adversaryModelingScore: number;
+  escalationSensitivityScore: number;
+  informationDisciplineScore: number;
+  cognitiveFlexibilityScore: number;
+  totalChangedActionCount: number;
+  totalPreviewOpenCount: number;
+};
+
+export type ScenarioFiveSummaryData = {
+  missionOutcome: "complete_success" | "limited_success" | "partial_failure" | "failure";
+  missionObjectiveCompletion: number;
+  missionCompletionPercent: number;
+  missionOutcomeLabel: string;
+  primaryObjectiveText: string;
+  primaryObjectiveStatus: "delivered_on_time" | "delivered_delayed" | "rerouted_not_delivered" | "compromised" | "lost";
+  primaryConvoyId: "convoy_medical";
+  primaryConvoyDelay: number;
+  secondaryObjectives: {
+    logisticsMaintained: boolean;
+    ambiguityControlled: boolean;
+    gnssRiskControlled: boolean;
+    civilianStabilityMaintained: boolean;
+    resourcesPreserved: boolean;
+  };
+  subObjectiveNotes: string[];
+  roundTimeline: Array<{
+    roundId: string;
+    roundTitle: string;
+    selectedActions: string[];
+    mapEffects: string[];
+    objectiveEffects: string[];
+    resourceChanges: {
+      satelliteISRDelta: number;
+      energyDelta: number;
+      timeDelta: number;
+    };
+    statusChanges: {
+      logisticsContinuityDelta?: number;
+      criticalDeliveryDelta?: number;
+      navigationIntegrityDelta?: number;
+      civilianStabilityDelta?: number;
+      ambiguityDelta?: number;
+      gnssExposureRiskDelta?: number;
+      cumulativeDelayDelta?: number;
+    };
+  }>;
+  personalizedLessons: string[];
+  keyTurningPoint: string;
+  criticalMistake: string;
+  alphaFinalStatus?: ConvoyStatus;
+  alphaHealth?: number;
+  alphaProgress?: number;
+  threatWasIdentifiedRound?: string;
+  secondaryConvoysDelivered?: number;
+  groundSupportUsed?: boolean;
+  ambushAvoided?: boolean;
+  resourceExhaustion?: boolean;
+  whyThisOutcome?: string[];
+  logisticsResilienceIndex: number;
+  operationalStrategicIndex: number;
+  decisionStyleLabel: string;
+  decisionStyleText: string;
+  criticalDeliveryScore: number;
+  delayControlScore: number;
+  gnssAnomalyDetectionScore: number;
+  navigationCompromiseLevel: number;
+  avgResponseTimeMs: number;
+  learningNotes: string[];
+};

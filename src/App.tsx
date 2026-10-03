@@ -189,7 +189,7 @@ const SCENARIO_TREE_IDS: Partial<Record<number, ScenarioId>> = {
   2: "s2_silent_waves",
   3: "s3_secure_corridor",
   4: "s4_redesigned_scenario_one",
-  // بقیه فعلاً درخت ندارند
+  5: "s5_silent_waves_redesign",
 };
 
 
@@ -280,10 +280,22 @@ const SCENARIOS: Scenario[] = [
   },
   {
     id: 5,
-    title: "افق ناپایدار",
-    summary: "سناریوی پیشرفته آزمایشی با شرایط تصادفی و پیچیده.",
-    image: "/images/scenario5.png",
-    fullDescription: `جهان در آستانه بحرانی تمام‌لایه‌ای قرار دارد. هم‌زمان با اختلال در مدارها، رسانه‌ها شعله‌ور شده‌اند، فشار اقتصادی افزایش یافته و ائتلاف‌های منطقه‌ای در حال تغییرند. در این بازی چندمرحله‌ای، شما رهبر عالی راهبردی هستید که باید با تصمیمات سنجیده، بحران را از انفجار به تعادل برسانید. «افق ناپایدار» پیچیده‌ترین سناریوی سامانه است؛ جایی که تصمیمات شما نه تنها نتیجه نبرد، بلکه آینده سیاست فضایی کشور را رقم می‌زند`
+    title: "امواج خاموش — نسخه بازطراحی",
+    introTitle: "امواج خاموش — نسخه بازطراحی",
+    summary: "مأموریت ۸ راندی مدیریت کاروان‌ها؛ اختلال GNSS از یک هشدار مبهم به تهدید عملیاتی آشکار تبدیل می‌شود.",
+    image: "/images/scenario2.png",
+    descriptionPreview: `چهار کاروان طبق برنامه در حال حرکت‌اند. ابتدا همه‌چیز عادی است، اما یک اختلاف کوچک در داده‌های ناوبری دیده می‌شود. شما باید محل اختلال را پیدا کنید، مسیرهای امن را مدیریت کنید و هم‌زمان شبکه لجستیک را زنده نگه دارید.`,
+    fullDescription: `در این نسخه مأموریت‌محور، شما فرمانده قرارگاه لجستیک هستید. مأموریت اصلی، رساندن همه کاروان‌ها به مقصد تا پایان راند ۸ است. برای موفقیت باید اختلال را به‌موقع شناسایی کنید، مسیرهای امن طراحی کنید، منابع ISR/انرژی/زمان را حفظ کنید، کاروان‌ها را رها نکنید و در صورت آشکار شدن تهدید با مسیر یا منبع اختلال مقابله کنید.`,
+    introBackgroundImage: scenario2IntroBackground,
+    introText: `شما فرمانده قرارگاه لجستیک هستید. چهار کاروان حیاتی و پشتیبانی در مسیرهای مختلف کشور در حال حرکت‌اند. هر کاروان مقصد و مأموریت خودش را دارد و در آغاز هیچ‌کدام به‌عنوان هدف اصلی تهدید شناخته نشده است.
+
+در آغاز همه‌چیز عادی است؛ اما یک اختلال خاموش در داده‌های ناوبری ظاهر می‌شود. ابتدا فقط یک اختلاف کوچک میان گزارش میدانی و GNSS دیده می‌شود. شما باید بدون فرض زودهنگام، محل واقعی اختلال را پیدا کنید.
+
+مأموریت شما در ۸ راند پیش می‌رود: پایش روتین، کشف محل اختلال، پایش مسیر مشکوک، طراحی مسیر امن، مدیریت توقف‌ها و پشتیبانی، تقسیم منابع، مقابله با تهدید آشکار و نتیجه نهایی.
+
+هدف اصلی روشن است: تمام کاروان‌ها باید تا پایان راند ۸ به مقصد برسند. باید منابع را پیش از راندهای پایانی تمام نکنید و اگر یک کاروان به‌عنوان محموله در خطر آشکار شد، آن را بدون رها کردن بقیه شبکه نجات دهید.
+
+در «امواج خاموش»، دشمن دیده نمی‌شود، اما در داده‌ها، مسیرها و اعتماد شما به سامانه ناوبری حضور دارد. هر تصمیم باید روی نقشه دیده شود، منبع مصرف کند و در پایان قابل توضیح باشد.`
   }
 ];
 
@@ -2314,6 +2326,7 @@ const renderScenarioPlay = () => {
   const isScenarioOne = scenarioTreeId === "s1_shadows_low_orbit";
   const isScenarioTwo = scenarioTreeId === "s2_silent_waves";
   const isScenarioFour = scenarioTreeId === "s4_redesigned_scenario_one";
+  const isScenarioFive = scenarioTreeId === "s5_silent_waves_redesign";
   const hideScenarioStopButton =
     Boolean(scenarioTreeId) &&
     (activeScenarioNodeId === "end" || scenarioCompletionUiActive);
@@ -2330,7 +2343,7 @@ const renderScenarioPlay = () => {
     <div
       className={
         "screen scenario-play-screen" +
-        (isScenarioOne || isScenarioTwo || isScenarioFour ? " scenario-one-play-screen" : "")
+        (isScenarioOne || isScenarioTwo || isScenarioFour || isScenarioFive ? " scenario-one-play-screen" : "")
       }
     >
       {/* مودال اینترو در شروع سناریو */}
@@ -2382,10 +2395,10 @@ const renderScenarioPlay = () => {
       <div
         className={
           "card scenario-play-card" +
-          (isScenarioOne || isScenarioTwo || isScenarioFour ? " scenario-one-play-card" : "")
+          (isScenarioOne || isScenarioTwo || isScenarioFour || isScenarioFive ? " scenario-one-play-card" : "")
         }
       >
-        {!isScenarioOne && !isScenarioTwo && !isScenarioFour && (
+        {!isScenarioOne && !isScenarioTwo && !isScenarioFour && !isScenarioFive && (
         <div className="screen-header">
           <div>
             <h2 className="screen-title">{scenario.title}</h2>

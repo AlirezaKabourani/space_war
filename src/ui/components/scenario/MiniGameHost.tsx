@@ -5,6 +5,7 @@ import { ScenarioOneSimulation } from "./ScenarioOneSimulation";
 import { ScenarioThreeDungeon } from "./ScenarioThreeDungeon";
 import { ScenarioTwoSimulation } from "./ScenarioTwoSimulation";
 import { ScenarioFourRedesignedScenarioOne } from "./ScenarioFourRedesignedScenarioOne";
+import { ScenarioFiveSimulation } from "./ScenarioFiveSimulation";
 
 type DecisionStylePreview =
   | "operational_preview"
@@ -72,7 +73,8 @@ interface MiniGameHostProps {
     | "s1_decision_simulation"
     | "s2_gnss_logistics_simulation"
     | "s3_secure_corridor_dungeon"
-    | "s4_redesigned_scenario_one_move1";
+    | "s4_redesigned_scenario_one_move1"
+    | "s5_gnss_logistics_simulation";
   userProfileId?: string;
   onCompletionUiActiveChange?: (active: boolean) => void;
   onComplete: () => void;
@@ -647,6 +649,18 @@ export const MiniGameHost = ({
   if (game === "s4_redesigned_scenario_one_move1") {
     return (
       <ScenarioFourRedesignedScenarioOne
+        scenarioId={scenarioId}
+        nodeId={nodeId}
+        userProfileId={userProfileId}
+        onCompletionUiActiveChange={onCompletionUiActiveChange}
+        onComplete={onComplete}
+      />
+    );
+  }
+
+  if (game === "s5_gnss_logistics_simulation") {
+    return (
+      <ScenarioFiveSimulation
         scenarioId={scenarioId}
         nodeId={nodeId}
         userProfileId={userProfileId}
