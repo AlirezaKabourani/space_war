@@ -1,0 +1,7 @@
+endStateId,mainAuditCount,classification,witnessWorldId,witnessEnvironmentSeed,witnessPolicySeed,orderedActions,orderedTargets,finalDomainSummary
+critical_cargo_lost_or_compromised,64,observed_in_main_audit,,,,,,
+priority_delivered_network_failure,0,not_observed_under_phase8_search,,,,,,
+mission_incomplete_continuity_preserved,0,not_observed_under_phase8_search,,,,,,
+delayed_delivery_persistent_disruption,14076,observed_in_main_audit,,,,,,
+resilient_delivery_unresolved_attribution,10180,observed_in_main_audit,,,,,,
+resilient_delivery_threat_contained,256,observed_in_main_audit,,,,,,

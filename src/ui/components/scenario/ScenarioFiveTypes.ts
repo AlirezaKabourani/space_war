@@ -1,233 +1,87 @@
-import type { ResourceState } from "../../../core/types/scenario";
+import type { CorridorId } from "./scenario-five/model/index";
+import type { CognitiveWindowId, EvidenceTelemetry } from "./scenario-five/model/cognitive/index";
+import type { MissionActionId, MissionConvoyStatus } from "./scenario-five/model/mission/index";
+import type { RuntimeStageId } from "./scenario-five/model/runtime/index";
 
-export type ScenarioFiveMissionStatus = {
-  alphaHealth: number;
-  alphaProgress: number;
-  threatIdentification: number;
-  secondaryConvoyStability: number;
-  resourceReserve: number;
-  ambushRisk: number;
-  logisticsContinuity: number;
-  criticalDelivery: number;
-  navigationIntegrity: number;
-  civilianStability: number;
-  escalationRisk: number;
-  remainingResources: number;
-  ambiguity: number;
-  cumulativeDelay: number;
-  gnssExposureRisk: number;
-};
+export interface ScenarioFivePlayerConvoy {
+  readonly convoyId: "alpha" | "beta" | "gamma" | "delta";
+  readonly corridorId: CorridorId;
+  readonly integrity: number;
+  readonly delayMinutes: number;
+  readonly projectedArrivalMinute: number;
+  readonly deadlineMinute: number;
+  readonly status: MissionConvoyStatus;
+  readonly fallbackNav: boolean;
+  readonly routeHardened: boolean;
+  readonly groundSupport: boolean;
+  readonly escortedNow: boolean;
+}
 
-export type ConvoyStatus =
-  | "moving"
-  | "normal"
-  | "monitored"
-  | "suspicious"
-  | "rerouted"
-  | "paused"
-  | "supported"
-  | "near_threat"
-  | "compromised"
-  | "lost_contact"
-  | "delivered"
-  | "delivered_delayed";
-
-export type Convoy = {
-  id: string;
-  name: string;
-  cargo: string;
-  origin: string;
-  destination: string;
-  priority: number;
-  deadline: number;
-  delay: number;
-  health: number;
-  status: ConvoyStatus;
-  currentZoneId: string;
-  routeId: string;
-  hasFallbackNav: boolean;
-  hasGroundSupport: boolean;
-  gnssTrustLevel: number;
-  progress: number;
-  lastRoundAction?: string;
-};
-
-export type MapZone = {
-  id: string;
-  name: string;
-  x: number;
-  y: number;
-  threatLevel: "safe" | "suspicious" | "jammed" | "unknown";
-  gnssDisruption: number;
-  civilianSensitivity: number;
-  isRevealed: boolean;
-};
-
-export type Route = {
-  id: string;
-  name: string;
-  fromZoneId: string;
-  toZoneId: string;
-  travelCost: number;
-  delayRisk: number;
-  gnssRisk: number;
-  civilianImpact: number;
-  visualStatus: "safe" | "risky" | "danger" | "unknown";
-};
-
-export type ScenarioFiveDecisionWeights = {
-  logisticsWeight: number;
-  criticalDeliveryWeight: number;
-  delayControlWeight: number;
-  resourceEfficiencyWeight: number;
-  navigationIntegrityWeight: number;
-  civilianImpactWeight: number;
-  escalationWeight: number;
-  infoSeekingWeight: number;
-  secondOrderThinkingWeight: number;
-  adversaryModelingWeight: number;
-  cognitiveFlexibilityWeight: number;
-};
-
-export type ActionCard = {
-  id: string;
-  title: string;
-  subtitle: string;
-  description: string;
-  expectedResult: string;
-  mapEffect: string;
-  riskText: string;
-  missionImpact: "زیاد" | "متوسط" | "کم" | "پرریسک";
-  objectiveTags: string[];
-  category: "diagnosis" | "navigation" | "logistics" | "command" | "civilian" | "deception" | "risky";
-  cost: Partial<ResourceState>;
-  effects: Partial<ScenarioFiveMissionStatus>;
-  requirements?: Partial<ResourceState>;
-  targetType?: "convoy" | "zone" | "route" | "global";
-  delayedEffect?: boolean;
-  weights: ScenarioFiveDecisionWeights;
-};
-
-export type SelectedAction = {
-  action: ActionCard;
-  targetId?: string;
-};
-
-export type ScenarioFiveDecisionRecord = {
-  roundId: string;
-  selectedActionIds: string[];
-  selectedTargets: Record<string, string>;
-  responseTimeMs: number;
-  changedActionCount: number;
-  previewOpenCount: number;
-  satelliteISRBefore: number;
-  energyBefore: number;
-  timeBefore: number;
-  satelliteISRAfter: number;
-  energyAfter: number;
-  timeAfter: number;
-  logisticsContinuityBefore: number;
-  criticalDeliveryBefore: number;
-  navigationIntegrityBefore: number;
-  civilianStabilityBefore: number;
-  ambiguityBefore: number;
-  escalationRiskBefore: number;
-  gnssExposureRiskBefore: number;
-  cumulativeDelayBefore: number;
-  logisticsContinuityAfter: number;
-  criticalDeliveryAfter: number;
-  navigationIntegrityAfter: number;
-  civilianStabilityAfter: number;
-  ambiguityAfter: number;
-  escalationRiskAfter: number;
-  gnssExposureRiskAfter: number;
-  cumulativeDelayAfter: number;
-} & ScenarioFiveDecisionWeights;
-
-export type ScenarioFiveRound = {
-  id: string;
-  title: string;
-  alertLevel: "زرد" | "نارنجی" | "قرمز";
-  narrative: string;
-  operationalProblem: string;
-  roundGoal: string;
-  actionIds: string[];
-  mainActionIds: string[];
-  supportActionIds: string[];
-};
-
-export type ScenarioFiveMetrics = {
-  falseGnssRelianceTime: number;
-  isrUsageQuality: number;
-  routeDiversityScore: number;
-  resourceEfficiencyScore: number;
-  secondOrderThinkingScore: number;
-  adversaryModelingScore: number;
-  escalationSensitivityScore: number;
-  informationDisciplineScore: number;
-  cognitiveFlexibilityScore: number;
-  totalChangedActionCount: number;
-  totalPreviewOpenCount: number;
-};
-
-export type ScenarioFiveSummaryData = {
-  missionOutcome: "complete_success" | "limited_success" | "partial_failure" | "failure";
-  missionObjectiveCompletion: number;
-  missionCompletionPercent: number;
-  missionOutcomeLabel: string;
-  primaryObjectiveText: string;
-  primaryObjectiveStatus: "delivered_on_time" | "delivered_delayed" | "rerouted_not_delivered" | "compromised" | "lost";
-  primaryConvoyId: "convoy_medical";
-  primaryConvoyDelay: number;
-  secondaryObjectives: {
-    logisticsMaintained: boolean;
-    ambiguityControlled: boolean;
-    gnssRiskControlled: boolean;
-    civilianStabilityMaintained: boolean;
-    resourcesPreserved: boolean;
+export interface ScenarioFivePlayerViewModel {
+  readonly stageId: RuntimeStageId;
+  readonly phaseId: "A" | "B" | "C" | "D" | null;
+  readonly roundId: 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | null;
+  readonly resources: {
+    readonly isrCapacity: number;
+    readonly supportReserve: number;
+    readonly worldClockMinutes: number;
+    readonly missionHorizonMinutes: 360;
   };
-  subObjectiveNotes: string[];
-  roundTimeline: Array<{
-    roundId: string;
-    roundTitle: string;
-    selectedActions: string[];
-    mapEffects: string[];
-    objectiveEffects: string[];
-    resourceChanges: {
-      satelliteISRDelta: number;
-      energyDelta: number;
-      timeDelta: number;
-    };
-    statusChanges: {
-      logisticsContinuityDelta?: number;
-      criticalDeliveryDelta?: number;
-      navigationIntegrityDelta?: number;
-      civilianStabilityDelta?: number;
-      ambiguityDelta?: number;
-      gnssExposureRiskDelta?: number;
-      cumulativeDelayDelta?: number;
-    };
-  }>;
-  personalizedLessons: string[];
-  keyTurningPoint: string;
-  criticalMistake: string;
-  alphaFinalStatus?: ConvoyStatus;
-  alphaHealth?: number;
-  alphaProgress?: number;
-  threatWasIdentifiedRound?: string;
-  secondaryConvoysDelivered?: number;
-  groundSupportUsed?: boolean;
-  ambushAvoided?: boolean;
-  resourceExhaustion?: boolean;
-  whyThisOutcome?: string[];
-  logisticsResilienceIndex: number;
-  operationalStrategicIndex: number;
-  decisionStyleLabel: string;
-  decisionStyleText: string;
-  criticalDeliveryScore: number;
-  delayControlScore: number;
-  gnssAnomalyDetectionScore: number;
-  navigationCompromiseLevel: number;
-  avgResponseTimeMs: number;
-  learningNotes: string[];
-};
+  readonly convoys: readonly ScenarioFivePlayerConvoy[];
+  readonly visibleEvidence: readonly EvidenceTelemetry[];
+  readonly availableActionIds: readonly MissionActionId[];
+}
+
+export interface ScenarioFiveEvidenceSummary {
+  readonly evidenceId: string;
+  readonly sourceType: EvidenceTelemetry["sourceType"];
+  readonly observedCorridorId: CorridorId | null;
+  readonly direction: EvidenceTelemetry["direction"];
+  readonly strengthBand: EvidenceTelemetry["strengthBand"];
+}
+
+export interface ScenarioFiveEvidenceDetail extends ScenarioFiveEvidenceSummary {
+  readonly qualityLabelVisible: string;
+  readonly limitationVisible: string;
+}
+
+export interface ScenarioFiveOutcomeConvoyChange {
+  readonly corridorId: CorridorId;
+  readonly statusBefore: MissionConvoyStatus;
+  readonly statusAfter: MissionConvoyStatus;
+  readonly integrityBefore: number;
+  readonly integrityAfter: number;
+  readonly delayDelta: number;
+  readonly newMitigations: readonly string[];
+}
+
+export interface ScenarioFiveOutcomeView {
+  readonly roundId: 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8;
+  readonly worldClockBefore: number;
+  readonly worldClockAfter: number;
+  readonly isrSpent: number;
+  readonly supportSpent: number;
+  readonly convoyChanges: readonly ScenarioFiveOutcomeConvoyChange[];
+  readonly newEvidenceCount: number;
+  readonly nextStageId: RuntimeStageId;
+}
+
+export interface ScenarioFiveEvidencePanelProps {
+  readonly evidence: readonly EvidenceTelemetry[];
+  readonly interactive: boolean;
+  readonly expandedEvidenceIds: ReadonlySet<string>;
+  readonly onOpen: (evidenceId: string) => void;
+  readonly onClose: (evidenceId: string) => void;
+}
+
+export interface ScenarioFiveReasonContext {
+  readonly actionId: MissionActionId;
+  readonly targetCorridorId: CorridorId | null;
+}
+
+export interface ScenarioFiveEvidenceEventLink {
+  readonly evidenceId: string;
+  readonly windowId: CognitiveWindowId;
+  readonly openedAtMs: number;
+  readonly closedAtMs: number | null;
+}

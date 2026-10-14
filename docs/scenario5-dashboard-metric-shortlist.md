@@ -1,0 +1,477 @@
+# Scenario 5 Dashboard Metric Shortlist
+
+## A. Scenario 5 — Player Cognitive Dashboard
+
+- **شاخص جهت‌گیری عملیاتی–راهبردی کل / Overall OSI** (`cognitive.osi.overall`) — موقعیت نسبی انتخاب‌ها میان قطب عملیاتی و راهبردی. Scale: -1..1; nullable: yes. Caveat: وابسته به مجموعه گزینه‌های همان پنجره؛ A2 در OSI وارد نمی‌شود؛ اگر همه چهار فاز موجود نباشند Overall null است.
+- **قدرت عملیاتی / Operational Strength** (`cognitive.operational_strength`) — شدت مطلق کدگذاری عملیاتی انتخاب‌ها. Scale: 0..100; nullable: yes. Caveat: وابسته به بارگذاری داخلی گزینه‌ها؛ توانایی ثابت فرد نیست.
+- **قدرت راهبردی / Strategic Strength** (`cognitive.strategic_strength`) — شدت مطلق کدگذاری راهبردی انتخاب‌ها. Scale: 0..100; nullable: yes. Caveat: وابسته به بارگذاری داخلی گزینه‌ها؛ توانایی ثابت فرد نیست.
+- **یکپارچگی عملیاتی–راهبردی / Operational–Strategic Integration** (`cognitive.integration`) — میانگین هارمونیک دو قدرت و حساس به ضعف هر یک. Scale: 0..100; nullable: yes. Caveat: یکپارچگی همین دو loading است و integration عمومی شناختی نیست.
+- **جست‌وجوی اطلاعات / Information Seeking** (`cognitive.information_seeking`) — جست‌وجوی اطلاعات Scale: 0..100; nullable: yes. Caveat: وزن evidence در پنجره‌های بدون evidence حذف و مخرج وزن‌ها بازمقیاس می‌شود؛ exposure با opening برابر فرض شده است.
+- **تفکر مرتبه دوم / Second-Order Thinking** (`cognitive.second_order_thinking`) — تفکر مرتبه دوم Scale: 0..100; nullable: yes. Caveat: وابسته به بارگذاری‌های داخلی و رفتار در همین سناریو؛ هنوز اعتبارسنجی انسانی ندارد.
+- **مدل‌سازی حریف / Adversary Modeling** (`cognitive.adversary_modeling`) — مدل‌سازی حریف Scale: 0..100; nullable: yes. Caveat: وابسته به بارگذاری‌های داخلی و رفتار در همین سناریو؛ هنوز اعتبارسنجی انسانی ندارد.
+- **حساسیت به تشدید / Escalation Sensitivity** (`cognitive.escalation_sensitivity`) — حساسیت به تشدید Scale: 0..100; nullable: yes. Caveat: وابسته به بارگذاری‌های داخلی و رفتار در همین سناریو؛ هنوز اعتبارسنجی انسانی ندارد.
+- **به‌روزرسانی پاسخ‌گو به شواهد / Evidence-Responsive Updating** (`cognitive.evidence_responsive_updating`) — به‌روزرسانی پاسخ‌گو به شواهد Scale: 0..100; nullable: yes. Caveat: null اگر هیچ انتقال checkpoint با تغییر support غیرصفر وجود نداشته باشد؛ حقیقت پنهان و outcome وارد فرمول نمی‌شوند.
+- **امانت‌داری منابع / Resource Stewardship** (`cognitive.resource_stewardship`) — امانت‌داری منابع Scale: 0..100; nullable: yes. Caveat: penalty only at the <=5 thresholds; uses player-visible resources, not hidden truth.
+- **آینده‌نگری برنامه‌ریزی / Planning Foresight** (`cognitive.planning_foresight`) — آینده‌نگری برنامه‌ریزی Scale: 0..100; nullable: yes. Caveat: وابسته به بارگذاری‌های داخلی و رفتار در همین سناریو؛ هنوز اعتبارسنجی انسانی ندارد.
+- **یکپارچگی چنددامنه‌ای / Multi-Domain Integration** (`cognitive.multi_domain_integration`) — یکپارچگی چنددامنه‌ای Scale: 0..100; nullable: yes. Caveat: یکپارچگی تنوع کدگذاری salience گزینه است؛ عملکرد واقعی هم‌زمان در نه دامنه را مستقیماً نمی‌سنجد.
+- **موضع ریسک / Risk Posture** (`cognitive.risk_posture`) — موضع ریسک Scale: -1..1; nullable: yes. Caveat: علامت فقط موقعیت نسبی در گزینه‌های همان موقعیت است؛ ارزش‌گذاری خوب/بد ندارد.
+- **انسجام تصمیم / Decision Coherence** (`cognitive.decision_coherence`) — انسجام تصمیم Scale: 0..100; nullable: yes. Caveat: ماتریس و وزن‌های دلیل طراحی داخلی‌اند؛ null اگر کمتر از دو فاز کامل باشد.
+- **کامل‌بودن کل داده / Overall data completeness** (`completeness.overall`) — میزان موجودبودن و معتبر بودن telemetry لازم، نه کیفیت عملکرد. Scale: 0..100; nullable: no. Caveat: کامل بودن با درست بودن یا اعتبار سازه برابر نیست.
+- **کل بازنگری‌ها / Total revisions** (`revision.total`) — تعداد تغییر انتخاب اقدام پیش از تأیید. Scale: 0..unbounded; nullable: no. Caveat: تغییر target بدون تغییر action ثبت نمی‌شود.
+- **پنجره‌های بازنگری‌شده / Revised windows** (`revision.revised_windows`) — گستره پنجره‌هایی که انتخاب اقدام در آن‌ها تغییر کرده است. Scale: 0..8; nullable: no. Caveat: شدت یا علت بازنگری را نشان نمی‌دهد.
+- **نرخ بازنگری پس از مشاهده شواهد / Evidence-triggered revision rate** (`revision.evidence_triggered_rate`) — نرخ تغییر اقدام در پنجره‌هایی که بعد از انتخاب اولیه شواهد باز شده است. Scale: 0..100; nullable: yes. Caveat: همبستگی زمانی است و علیت شواهد را اثبات نمی‌کند.
+
+## B. Scenario 5 — AAR / Mission Dashboard
+
+- **حالت نهایی مأموریت / Mission end-state ID** (`mission.end_state_id`) — طبقه‌بندی عملیاتی نهایی؛ شاخص شناختی نیست. Scale: 6 active values; nullable: no. Caveat: taxonomy داخلی و آستانه‌ها هنوز externally validated نیستند.
+- **تداوم عملیاتی شبکه / Network continuity** (`mission.network_continuity_percent`) — سهم چهار کاروان دارای یکپارچگی و به‌موقع بودن عملیاتی. Scale: 0|25|50|75|100; nullable: no. Caveat: آستانه داخلی مدل؛ احتمال دنیای واقعی نیست.
+- **مهار تهدید / Threat contained** (`mission.threat_contained`) — وضعیت نهایی مهار طبق قواعد Actor. Scale: true|false; nullable: no. Caveat: قانون داخلی Actor است و از حقیقت پنهان مشتق می‌شود.
+- **تحویل الف تا افق / Alpha delivered by mission horizon** (`mission.critical_delivery.delivered_by_horizon`) — خروجی مأموریتی محموله حیاتی الف. Scale: true|false; nullable: no. Caveat: پارامترهای زمان/آستانه طراحی داخلی‌اند.
+- **تحویل عملیاتی به‌موقع الف / Alpha on-time operational** (`mission.critical_delivery.on_time_operational`) — خروجی مأموریتی محموله حیاتی الف. Scale: true|false; nullable: no. Caveat: پارامترهای زمان/آستانه طراحی داخلی‌اند.
+- **یکپارچگی نهایی الف / Alpha integrity** (`mission.critical_delivery.integrity`) — خروجی مأموریتی محموله حیاتی الف. Scale: 0..100; nullable: no. Caveat: پارامترهای زمان/آستانه طراحی داخلی‌اند.
+- **تأخیر نهایی الف / Alpha delay** (`mission.critical_delivery.delay_minutes`) — خروجی مأموریتی محموله حیاتی الف. Scale: >=0; nullable: no. Caveat: پارامترهای زمان/آستانه طراحی داخلی‌اند.
+- **زمان ورود پیش‌بینی‌شده الف / Alpha projected arrival** (`mission.critical_delivery.projected_arrival_minute`) — خروجی مأموریتی محموله حیاتی الف. Scale: >=0; nullable: no. Caveat: پارامترهای زمان/آستانه طراحی داخلی‌اند.
+- **مهلت الف / Alpha deadline** (`mission.critical_delivery.deadline_minute`) — خروجی مأموریتی محموله حیاتی الف. Scale: 300 fixed; nullable: no. Caveat: پارامترهای زمان/آستانه طراحی داخلی‌اند.
+- **یکپارچگی به تفکیک کاروان / Integrity by convoy** (`convoy.integrity_by_convoy`) — وضعیت/خروجی هر یک از چهار کاروان. Scale: 0..100; nullable: no. Caveat: مقادیر تابع mechanics مصنوعی سناریو هستند.
+- **تأخیر به تفکیک کاروان / Delay by convoy** (`convoy.delay_by_convoy`) — وضعیت/خروجی هر یک از چهار کاروان. Scale: >=0; nullable: no. Caveat: مقادیر تابع mechanics مصنوعی سناریو هستند.
+- **وضعیت به تفکیک کاروان / Status by convoy** (`convoy.status_by_convoy`) — وضعیت/خروجی هر یک از چهار کاروان. Scale: moving|held|delivered|compromised; nullable: no. Caveat: مقادیر تابع mechanics مصنوعی سناریو هستند.
+- **تعداد کاروان تحویل‌شده / Delivered convoy count** (`mission.logistics.delivered_convoy_count`) — تجمیع وضعیت شبکه کاروانی. Scale: 0..4; nullable: no. Caveat: وابسته به آستانه‌های داخلی integrity/time.
+- **تعداد کاروان عملیاتی به‌موقع / On-time operational convoy count** (`mission.logistics.on_time_operational_convoy_count`) — تجمیع وضعیت شبکه کاروانی. Scale: 0..4; nullable: no. Caveat: وابسته به آستانه‌های داخلی integrity/time.
+- **وضعیت انتساب عملیاتی / Operational attribution status** (`mission.operational_attribution_status`) — انتساب عملیاتی بر پایه corroboration قابل‌مشاهده. Scale: resolved|unresolved; nullable: no. Caveat: حقیقت علّی بیرونی را اثبات نمی‌کند.
+- **ISR نهایی / Final ISR** (`resource.final_isr`) — مصرف یا دسترس‌پذیری منابع مأموریت. Scale: 0..100; nullable: no. Caveat: واحد منابع قراردادی سناریو است، نه هزینه واقعی.
+- **ISR مصرف‌شده / ISR spent** (`resource.isr_spent`) — مصرف یا دسترس‌پذیری منابع مأموریت. Scale: 0..100; nullable: no. Caveat: واحد منابع قراردادی سناریو است، نه هزینه واقعی.
+- **پشتیبانی نهایی / Final support reserve** (`resource.final_support`) — مصرف یا دسترس‌پذیری منابع مأموریت. Scale: 0..100; nullable: no. Caveat: واحد منابع قراردادی سناریو است، نه هزینه واقعی.
+- **پشتیبانی مصرف‌شده / Support spent** (`resource.support_spent`) — مصرف یا دسترس‌پذیری منابع مأموریت. Scale: 0..100; nullable: no. Caveat: واحد منابع قراردادی سناریو است، نه هزینه واقعی.
+- **مواجهه نهایی PNT به تفکیک کریدور / Final PNT exposure by corridor** (`domain.pnt.final_exposure_by_corridor`) — تاب‌آوری و مواجهه ناوبری/GNSS در مدل. Scale: 0..100 each; nullable: no. Caveat: PNT exposure یک score داخلی تجمعی است، نه واحد فیزیکی RF.
+- **میانگین مواجهه نهایی PNT / Mean final PNT exposure** (`domain.pnt.mean_final_exposure`) — تاب‌آوری و مواجهه ناوبری/GNSS در مدل. Scale: 0..100; nullable: no. Caveat: PNT exposure یک score داخلی تجمعی است، نه واحد فیزیکی RF.
+- **بیشینه مواجهه نهایی PNT / Maximum final PNT exposure** (`domain.pnt.max_final_exposure`) — تاب‌آوری و مواجهه ناوبری/GNSS در مدل. Scale: 0..100; nullable: no. Caveat: PNT exposure یک score داخلی تجمعی است، نه واحد فیزیکی RF.
+- **کریدورهای دارای ناوبری پشتیبان / Fallback-navigation corridors** (`domain.navigation.fallback_corridor_ids`) — تاب‌آوری و مواجهه ناوبری/GNSS در مدل. Scale: subset of 4; nullable: no. Caveat: PNT exposure یک score داخلی تجمعی است، نه واحد فیزیکی RF.
+- **کریدورهای سخت‌سازی‌شده / Route-hardened corridors** (`domain.navigation.route_hardened_corridor_ids`) — تاب‌آوری و مواجهه ناوبری/GNSS در مدل. Scale: subset of 4; nullable: no. Caveat: PNT exposure یک score داخلی تجمعی است، نه واحد فیزیکی RF.
+- **کریدورهای دارای پشتیبانی زمینی / Ground-support corridors** (`domain.navigation.ground_support_corridor_ids`) — تاب‌آوری و مواجهه ناوبری/GNSS در مدل. Scale: subset of 4; nullable: no. Caveat: PNT exposure یک score داخلی تجمعی است، نه واحد فیزیکی RF.
+- **کل تأخیر نهایی / Total final delay** (`domain.delay.total_final`) — تفکیک منشأ تأخیر مسیرها. Scale: >=0; nullable: no. Caveat: اثر Actor بر اساس mechanics مصنوعی ثبت می‌شود؛ causal claim بیرونی نیست.
+- **میانگین تأخیر نهایی / Mean final delay** (`domain.delay.mean_final`) — تفکیک منشأ تأخیر مسیرها. Scale: >=0; nullable: no. Caveat: اثر Actor بر اساس mechanics مصنوعی ثبت می‌شود؛ causal claim بیرونی نیست.
+- **کل تأخیر افزوده Actor / Total Actor-added delay** (`domain.delay.total_actor_added`) — تفکیک منشأ تأخیر مسیرها. Scale: >=0; nullable: no. Caveat: اثر Actor بر اساس mechanics مصنوعی ثبت می‌شود؛ causal claim بیرونی نیست.
+- **کل تأخیر افزوده بازیکن / Total player-added delay** (`domain.delay.total_player_added`) — تفکیک منشأ تأخیر مسیرها. Scale: >=0; nullable: no. Caveat: اثر Actor بر اساس mechanics مصنوعی ثبت می‌شود؛ causal claim بیرونی نیست.
+- **کل تأخیر بازیابی‌شده بازیکن / Total player-recovered delay** (`domain.delay.total_player_recovered`) — تفکیک منشأ تأخیر مسیرها. Scale: >=0; nullable: no. Caveat: اثر Actor بر اساس mechanics مصنوعی ثبت می‌شود؛ causal claim بیرونی نیست.
+- **تعداد انحراف مسیر / Route-diversion count** (`domain.civilian_proxy.route_diversion_count`) — proxy داخلی برای شدت اختلال محلی/تحویل پزشکی. Scale: >=0; nullable: no. Caveat: این شاخص پیامد واقعی غیرنظامیان را نمی‌سنجد؛ صرفاً proxy مبتنی بر نوع اقدام است.
+- **تعداد عملیات ایست بازرسی / Checkpoint-operation count** (`domain.civilian_proxy.checkpoint_operation_count`) — proxy داخلی برای شدت اختلال محلی/تحویل پزشکی. Scale: >=0; nullable: no. Caveat: این شاخص پیامد واقعی غیرنظامیان را نمی‌سنجد؛ صرفاً proxy مبتنی بر نوع اقدام است.
+- **تعداد پاسخ زمینی / Ground-response count** (`domain.civilian_proxy.ground_response_count`) — proxy داخلی برای شدت اختلال محلی/تحویل پزشکی. Scale: >=0; nullable: no. Caveat: این شاخص پیامد واقعی غیرنظامیان را نمی‌سنجد؛ صرفاً proxy مبتنی بر نوع اقدام است.
+- **تعداد عملیات توقف / Hold-operation count** (`domain.civilian_proxy.hold_operation_count`) — proxy داخلی برای شدت اختلال محلی/تحویل پزشکی. Scale: >=0; nullable: no. Caveat: این شاخص پیامد واقعی غیرنظامیان را نمی‌سنجد؛ صرفاً proxy مبتنی بر نوع اقدام است.
+- **شمار proxy اختلال محلی / Localized disruption event count** (`domain.civilian_proxy.localized_disruption_event_count`) — proxy داخلی برای شدت اختلال محلی/تحویل پزشکی. Scale: >=0; nullable: no. Caveat: این شاخص پیامد واقعی غیرنظامیان را نمی‌سنجد؛ صرفاً proxy مبتنی بر نوع اقدام است.
+- **تأخیر تحویل پزشکی / Medical-delivery delay** (`domain.civilian_proxy.medical_delivery_delay_minutes`) — proxy داخلی برای شدت اختلال محلی/تحویل پزشکی. Scale: >=0; nullable: no. Caveat: این شاخص پیامد واقعی غیرنظامیان را نمی‌سنجد؛ صرفاً proxy مبتنی بر نوع اقدام است.
+- **کمینه یکپارچگی کاروان‌های ثانویه / Secondary minimum integrity** (`domain.network_balance.secondary_minimum_integrity`) — توازن پیامدها یا تمرکز توجه میان شبکه کاروانی. Scale: 0..100; nullable: no. Caveat: HHI فقط تصمیم‌های دارای target را می‌شمارد؛ اقدام‌های بدون target خارج‌اند.
+- **میانگین یکپارچگی کاروان‌های ثانویه / Secondary mean integrity** (`domain.network_balance.secondary_mean_integrity`) — توازن پیامدها یا تمرکز توجه میان شبکه کاروانی. Scale: 0..100; nullable: no. Caveat: HHI فقط تصمیم‌های دارای target را می‌شمارد؛ اقدام‌های بدون target خارج‌اند.
+- **تمرکز توجه هدف‌دار HHI / Targeted-attention HHI** (`domain.network_balance.targeted_attention_hhi`) — توازن پیامدها یا تمرکز توجه میان شبکه کاروانی. Scale: 0.25..1 or null; nullable: yes. Caveat: HHI فقط تصمیم‌های دارای target را می‌شمارد؛ اقدام‌های بدون target خارج‌اند.
+
+## C. Cross-Scenario Cognitive Dashboard Candidates
+
+- **شاخص جهت‌گیری عملیاتی–راهبردی کل / Overall OSI** (`cognitive.osi.overall`) — موقعیت نسبی انتخاب‌ها میان قطب عملیاتی و راهبردی. Scale: -1..1; nullable: yes. Caveat: وابسته به مجموعه گزینه‌های همان پنجره؛ A2 در OSI وارد نمی‌شود؛ اگر همه چهار فاز موجود نباشند Overall null است.
+- **OSI فاز A / Phase A OSI** (`cognitive.osi.phase_a`) — جهت‌گیری نسبی انتخاب‌ها در فاز A. Scale: -1..1; nullable: yes. Caveat: وابسته به مجموعه گزینه‌های همان پنجره؛ A2 در OSI وارد نمی‌شود؛ اگر همه چهار فاز موجود نباشند Overall null است.
+- **OSI فاز B / Phase B OSI** (`cognitive.osi.phase_b`) — جهت‌گیری نسبی انتخاب‌ها در فاز B. Scale: -1..1; nullable: yes. Caveat: وابسته به مجموعه گزینه‌های همان پنجره؛ A2 در OSI وارد نمی‌شود؛ اگر همه چهار فاز موجود نباشند Overall null است.
+- **OSI فاز C / Phase C OSI** (`cognitive.osi.phase_c`) — جهت‌گیری نسبی انتخاب‌ها در فاز C. Scale: -1..1; nullable: yes. Caveat: وابسته به مجموعه گزینه‌های همان پنجره؛ A2 در OSI وارد نمی‌شود؛ اگر همه چهار فاز موجود نباشند Overall null است.
+- **OSI فاز D / Phase D OSI** (`cognitive.osi.phase_d`) — جهت‌گیری نسبی انتخاب‌ها در فاز D. Scale: -1..1; nullable: yes. Caveat: وابسته به مجموعه گزینه‌های همان پنجره؛ A2 در OSI وارد نمی‌شود؛ اگر همه چهار فاز موجود نباشند Overall null است.
+- **قدرت عملیاتی / Operational Strength** (`cognitive.operational_strength`) — شدت مطلق کدگذاری عملیاتی انتخاب‌ها. Scale: 0..100; nullable: yes. Caveat: وابسته به بارگذاری داخلی گزینه‌ها؛ توانایی ثابت فرد نیست.
+- **قدرت راهبردی / Strategic Strength** (`cognitive.strategic_strength`) — شدت مطلق کدگذاری راهبردی انتخاب‌ها. Scale: 0..100; nullable: yes. Caveat: وابسته به بارگذاری داخلی گزینه‌ها؛ توانایی ثابت فرد نیست.
+- **یکپارچگی عملیاتی–راهبردی / Operational–Strategic Integration** (`cognitive.integration`) — میانگین هارمونیک دو قدرت و حساس به ضعف هر یک. Scale: 0..100; nullable: yes. Caveat: یکپارچگی همین دو loading است و integration عمومی شناختی نیست.
+- **پراکندگی جهت‌گیری بین فازها / Orientation dispersion** (`cognitive.dispersion`) — ناهمگنی جهت‌گیری نسبی در فازهای موجود. Scale: 0..1; nullable: yes. Caveat: تعداد فازهای موجود می‌تواند متفاوت باشد؛ پراکندگی بیشتر الزاماً بد نیست.
+- **جست‌وجوی اطلاعات / Information Seeking** (`cognitive.information_seeking`) — جست‌وجوی اطلاعات Scale: 0..100; nullable: yes. Caveat: وزن evidence در پنجره‌های بدون evidence حذف و مخرج وزن‌ها بازمقیاس می‌شود؛ exposure با opening برابر فرض شده است.
+- **تفکر مرتبه دوم / Second-Order Thinking** (`cognitive.second_order_thinking`) — تفکر مرتبه دوم Scale: 0..100; nullable: yes. Caveat: وابسته به بارگذاری‌های داخلی و رفتار در همین سناریو؛ هنوز اعتبارسنجی انسانی ندارد.
+- **مدل‌سازی حریف / Adversary Modeling** (`cognitive.adversary_modeling`) — مدل‌سازی حریف Scale: 0..100; nullable: yes. Caveat: وابسته به بارگذاری‌های داخلی و رفتار در همین سناریو؛ هنوز اعتبارسنجی انسانی ندارد.
+- **حساسیت به تشدید / Escalation Sensitivity** (`cognitive.escalation_sensitivity`) — حساسیت به تشدید Scale: 0..100; nullable: yes. Caveat: وابسته به بارگذاری‌های داخلی و رفتار در همین سناریو؛ هنوز اعتبارسنجی انسانی ندارد.
+- **به‌روزرسانی پاسخ‌گو به شواهد / Evidence-Responsive Updating** (`cognitive.evidence_responsive_updating`) — به‌روزرسانی پاسخ‌گو به شواهد Scale: 0..100; nullable: yes. Caveat: null اگر هیچ انتقال checkpoint با تغییر support غیرصفر وجود نداشته باشد؛ حقیقت پنهان و outcome وارد فرمول نمی‌شوند.
+- **امانت‌داری منابع / Resource Stewardship** (`cognitive.resource_stewardship`) — امانت‌داری منابع Scale: 0..100; nullable: yes. Caveat: penalty only at the <=5 thresholds; uses player-visible resources, not hidden truth.
+- **آینده‌نگری برنامه‌ریزی / Planning Foresight** (`cognitive.planning_foresight`) — آینده‌نگری برنامه‌ریزی Scale: 0..100; nullable: yes. Caveat: وابسته به بارگذاری‌های داخلی و رفتار در همین سناریو؛ هنوز اعتبارسنجی انسانی ندارد.
+- **یکپارچگی چنددامنه‌ای / Multi-Domain Integration** (`cognitive.multi_domain_integration`) — یکپارچگی چنددامنه‌ای Scale: 0..100; nullable: yes. Caveat: یکپارچگی تنوع کدگذاری salience گزینه است؛ عملکرد واقعی هم‌زمان در نه دامنه را مستقیماً نمی‌سنجد.
+- **موضع ریسک / Risk Posture** (`cognitive.risk_posture`) — موضع ریسک Scale: -1..1; nullable: yes. Caveat: علامت فقط موقعیت نسبی در گزینه‌های همان موقعیت است؛ ارزش‌گذاری خوب/بد ندارد.
+- **انسجام تصمیم / Decision Coherence** (`cognitive.decision_coherence`) — انسجام تصمیم Scale: 0..100; nullable: yes. Caveat: ماتریس و وزن‌های دلیل طراحی داخلی‌اند؛ null اگر کمتر از دو فاز کامل باشد.
+- **کامل‌بودن کل داده / Overall data completeness** (`completeness.overall`) — میزان موجودبودن و معتبر بودن telemetry لازم، نه کیفیت عملکرد. Scale: 0..100; nullable: no. Caveat: کامل بودن با درست بودن یا اعتبار سازه برابر نیست.
+- **کامل‌بودن تصمیم‌ها / Decision completeness** (`completeness.decisions`) — میزان موجودبودن و معتبر بودن telemetry لازم، نه کیفیت عملکرد. Scale: 0..100; nullable: no. Caveat: کامل بودن با درست بودن یا اعتبار سازه برابر نیست.
+- **کامل‌بودن زمان‌سنجی / Timing completeness** (`completeness.timing`) — میزان موجودبودن و معتبر بودن telemetry لازم، نه کیفیت عملکرد. Scale: 0..100; nullable: no. Caveat: کامل بودن با درست بودن یا اعتبار سازه برابر نیست.
+- **کامل‌بودن ارجاع شواهد / Evidence-reference completeness** (`completeness.evidence`) — میزان موجودبودن و معتبر بودن telemetry لازم، نه کیفیت عملکرد. Scale: 0..100; nullable: no. Caveat: کامل بودن با درست بودن یا اعتبار سازه برابر نیست.
+- **کامل‌بودن برآوردها / Estimate completeness** (`completeness.estimates`) — میزان موجودبودن و معتبر بودن telemetry لازم، نه کیفیت عملکرد. Scale: 0..100; nullable: no. Caveat: کامل بودن با درست بودن یا اعتبار سازه برابر نیست.
+- **کامل‌بودن دلایل / Reason completeness** (`completeness.reasons`) — میزان موجودبودن و معتبر بودن telemetry لازم، نه کیفیت عملکرد. Scale: 0..100; nullable: no. Caveat: کامل بودن با درست بودن یا اعتبار سازه برابر نیست.
+- **میانه زمان فعال تصمیم / Median active decision time** (`timing.median_active_decision_ms`) — میانه زمان فعال روی صفحه در هشت پنجره. Scale: >=0; nullable: yes. Caveat: سرعت شناختی یا کیفیت تصمیم نیست؛ null بدون زمان معتبر.
+- **دامنه بین‌چارکی زمان فعال تصمیم / Decision-time IQR** (`timing.iqr_active_decision_ms`) — پراکندگی زمان فعال پنجره‌ها. Scale: >=0; nullable: yes. Caveat: با کمتر از یک مقدار null؛ شاخص توانایی نیست.
+- **کل بازنگری‌ها / Total revisions** (`revision.total`) — تعداد تغییر انتخاب اقدام پیش از تأیید. Scale: 0..unbounded; nullable: no. Caveat: تغییر target بدون تغییر action ثبت نمی‌شود.
+- **پنجره‌های بازنگری‌شده / Revised windows** (`revision.revised_windows`) — گستره پنجره‌هایی که انتخاب اقدام در آن‌ها تغییر کرده است. Scale: 0..8; nullable: no. Caveat: شدت یا علت بازنگری را نشان نمی‌دهد.
+- **نرخ بازنگری پس از مشاهده شواهد / Evidence-triggered revision rate** (`revision.evidence_triggered_rate`) — نرخ تغییر اقدام در پنجره‌هایی که بعد از انتخاب اولیه شواهد باز شده است. Scale: 0..100; nullable: yes. Caveat: همبستگی زمانی است و علیت شواهد را اثبات نمی‌کند.
+- **تعداد انتخاب‌های متمایز اقدام / Distinct action-selection count** (`decision.selection_count`) — توصیف رفتار و context تصمیم در یک پنجره. Scale: 0..unbounded; nullable: no. Caveat: وابسته به گزینه‌ها و رابط همین سناریو.
+- **تعداد بازنگری پنجره / Window revision count** (`decision.revision_count`) — توصیف رفتار و context تصمیم در یک پنجره. Scale: 0..unbounded; nullable: no. Caveat: وابسته به گزینه‌ها و رابط همین سناریو.
+- **زمان فعال تصمیم / Active decision time** (`timing.active_decision_ms`) — شاخص زمانی توصیفی تعامل. Scale: >=0; nullable: no. Caveat: timestamp خام به‌تنهایی شاخص عملکرد/شناخت نیست؛ تأخیر دستگاه و وقفه کاربر اثر دارد.
+- **پوشش مشاهده شواهد / Evidence coverage** (`evidence.coverage_percent`) — توصیف exposure و استفاده از شواهد قابل‌مشاهده. Scale: 0..100; nullable: yes. Caveat: بازکردن شاهد معادل فهم یا استفاده علّی از آن نیست.
+- **اطمینان به کریدور / Corridor confidence** (`belief.corridor_confidence`) — برداشت خودگزارش‌شده بازیکن در checkpoint. Scale: 0..100; nullable: no. Caveat: confidence accuracy is evaluated only by separate hidden-audit fields; no global belief score exists.
+- **برآورد اختلال هدفمند / Targeted-interference estimate** (`belief.targeted_interference_estimate`) — برداشت خودگزارش‌شده بازیکن در checkpoint. Scale: 0..100; nullable: no. Caveat: confidence accuracy is evaluated only by separate hidden-audit fields; no global belief score exists.
+- **اطمینان به برآورد اختلال هدفمند / Targeted-interference confidence** (`belief.targeted_interference_confidence`) — برداشت خودگزارش‌شده بازیکن در checkpoint. Scale: 0..100; nullable: no. Caveat: confidence accuracy is evaluated only by separate hidden-audit fields; no global belief score exists.
+- **نرخ checkpointهای کریدور صحیح / Correct-corridor checkpoint rate** (`belief.correct_corridor_rate_percent`) — ارزیابی پس از اجرا از روند تشخیص و انتساب. Scale: 0..100; nullable: yes. Caveat: برای محاسبه از حقیقت پنهان استفاده می‌کند و فقط در AAR/audit مجاز است.
+
+## D. Admin / Research Only
+
+- **نسخه مدل مأموریت / Mission model version** (`provenance.mission_model_version`) — ردیابی نسخه‌ای که شاخص‌ها را تولید کرده است. Scale: version identifier; nullable: no. Caveat: شاخص عملکرد فرد نیست.
+- **نسخه مدل سنجش شناختی / Cognitive measurement model version** (`provenance.cognitive_measurement_model_version`) — ردیابی نسخه‌ای که شاخص‌ها را تولید کرده است. Scale: version identifier; nullable: no. Caveat: شاخص عملکرد فرد نیست.
+- **نسخه فرمول شناختی / Cognitive formula version** (`provenance.cognitive_formula_version`) — ردیابی نسخه‌ای که شاخص‌ها را تولید کرده است. Scale: version identifier; nullable: no. Caveat: شاخص عملکرد فرد نیست.
+- **نسخه پروفایل گزینه / Option-profile version** (`provenance.option_profile_version`) — ردیابی نسخه‌ای که شاخص‌ها را تولید کرده است. Scale: version identifier; nullable: no. Caveat: شاخص عملکرد فرد نیست.
+- **نسخه مدل دلیل / Reason-model version** (`provenance.reason_model_version`) — ردیابی نسخه‌ای که شاخص‌ها را تولید کرده است. Scale: version identifier; nullable: no. Caveat: شاخص عملکرد فرد نیست.
+- **نسخه محتوای سناریو / Scenario-content version** (`provenance.scenario_content_version`) — ردیابی نسخه‌ای که شاخص‌ها را تولید کرده است. Scale: version identifier; nullable: no. Caveat: شاخص عملکرد فرد نیست.
+- **نسخه runtime / Runtime model version** (`provenance.runtime_model_version`) — ردیابی نسخه‌ای که شاخص‌ها را تولید کرده است. Scale: version identifier; nullable: no. Caveat: شاخص عملکرد فرد نیست.
+- **نسخه شاخص‌های تخصصی / Domain-metrics version** (`provenance.domain_metrics_version`) — ردیابی نسخه‌ای که شاخص‌ها را تولید کرده است. Scale: version identifier; nullable: no. Caveat: شاخص عملکرد فرد نیست.
+- **نسخه کالیبراسیون / Calibration version** (`provenance.calibration_version`) — ردیابی نسخه‌ای که شاخص‌ها را تولید کرده است. Scale: version identifier; nullable: no. Caveat: شاخص عملکرد فرد نیست.
+- **وضعیت اعتبار / Validity status** (`provenance.validity_status`) — مرز ادعای علمی خروجی شناختی را مشخص می‌کند. Scale: engineering_not_human_validated; nullable: no. Caveat: اعتبار انسانی یا روان‌سنجی را اثبات نمی‌کند.
+- **وضعیت پنل خبره / Expert-panel version** (`provenance.expert_panel_version`) — نشان می‌دهد بارگذاری‌ها هنوز تأیید پنل خبره ندارند. Scale: not-yet-expert-validated; nullable: no. Caveat: هیچ اعتبار بیرونی ایجاد نمی‌کند.
+- **بارگذاری عملیاتی / Operational loading** (`profile.operational_loading`) — ورودی کدگذاری‌شده برای محاسبه constructها؛ نه خروجی مستقیم رفتار بازیکن. Scale: 0..1; nullable: no. Caveat: وزن طراحی داخلی است و هنوز اعتبارسنجی انسانی ندارد.
+- **بارگذاری راهبردی / Strategic loading** (`profile.strategic_loading`) — ورودی کدگذاری‌شده برای محاسبه constructها؛ نه خروجی مستقیم رفتار بازیکن. Scale: 0..1; nullable: no. Caveat: وزن طراحی داخلی است و هنوز اعتبارسنجی انسانی ندارد.
+- **بارگذاری جست‌وجوی اطلاعات / Information-seeking loading** (`profile.information_seeking`) — ورودی کدگذاری‌شده برای محاسبه constructها؛ نه خروجی مستقیم رفتار بازیکن. Scale: 0..1; nullable: no. Caveat: وزن طراحی داخلی است و هنوز اعتبارسنجی انسانی ندارد.
+- **بارگذاری پیامدهای آتی / Future-consequence loading** (`profile.future_consequence_thinking`) — ورودی کدگذاری‌شده برای محاسبه constructها؛ نه خروجی مستقیم رفتار بازیکن. Scale: 0..1; nullable: no. Caveat: وزن طراحی داخلی است و هنوز اعتبارسنجی انسانی ندارد.
+- **بارگذاری مدل‌سازی حریف / Adversary-modeling loading** (`profile.adversary_modeling`) — ورودی کدگذاری‌شده برای محاسبه constructها؛ نه خروجی مستقیم رفتار بازیکن. Scale: 0..1; nullable: no. Caveat: وزن طراحی داخلی است و هنوز اعتبارسنجی انسانی ندارد.
+- **بارگذاری حساسیت به تشدید / Escalation-sensitivity loading** (`profile.escalation_sensitivity`) — ورودی کدگذاری‌شده برای محاسبه constructها؛ نه خروجی مستقیم رفتار بازیکن. Scale: 0..1; nullable: no. Caveat: وزن طراحی داخلی است و هنوز اعتبارسنجی انسانی ندارد.
+- **بارگذاری ترجیح برگشت‌پذیری / Reversibility-preference loading** (`profile.reversibility_preference`) — ورودی کدگذاری‌شده برای محاسبه constructها؛ نه خروجی مستقیم رفتار بازیکن. Scale: 0..1; nullable: no. Caveat: وزن طراحی داخلی است و هنوز اعتبارسنجی انسانی ندارد.
+- **بارگذاری امانت‌داری منابع / Resource-stewardship loading** (`profile.resource_stewardship`) — ورودی کدگذاری‌شده برای محاسبه constructها؛ نه خروجی مستقیم رفتار بازیکن. Scale: 0..1; nullable: no. Caveat: وزن طراحی داخلی است و هنوز اعتبارسنجی انسانی ندارد.
+- **بارگذاری برنامه‌ریزی اقتضایی / Contingency-planning loading** (`profile.contingency_planning`) — ورودی کدگذاری‌شده برای محاسبه constructها؛ نه خروجی مستقیم رفتار بازیکن. Scale: 0..1; nullable: no. Caveat: وزن طراحی داخلی است و هنوز اعتبارسنجی انسانی ندارد.
+- **بارگذاری مواجهه با ریسک / Risk-exposure loading** (`profile.risk_exposure`) — ورودی کدگذاری‌شده برای محاسبه constructها؛ نه خروجی مستقیم رفتار بازیکن. Scale: 0..1; nullable: no. Caveat: وزن طراحی داخلی است و هنوز اعتبارسنجی انسانی ندارد.
+- **بردار برجستگی دامنه / Domain-salience vector** (`profile.domain_salience`) — ورودی شاخص یکپارچگی چنددامنه‌ای. Scale: 9 domains, each 0..1; omitted=0; nullable: no. Caveat: بردار کدگذاری داخلی گزینه است، نه salience گزارش‌شده توسط فرد.
+- **فاز تصمیم / Decision phase** (`decision.phase_id`) — توصیف رفتار و context تصمیم در یک پنجره. Scale: A|B|C|D; nullable: no. Caveat: وابسته به گزینه‌ها و رابط همین سناریو.
+- **شماره راند / Decision round** (`decision.round_id`) — توصیف رفتار و context تصمیم در یک پنجره. Scale: 1..8; nullable: no. Caveat: وابسته به گزینه‌ها و رابط همین سناریو.
+- **پنجره تصمیم / Decision window** (`decision.window_id`) — توصیف رفتار و context تصمیم در یک پنجره. Scale: 8 canonical windows; nullable: no. Caveat: وابسته به گزینه‌ها و رابط همین سناریو.
+- **گزینه‌های در دسترس / Available action IDs** (`decision.available_action_ids`) — توصیف رفتار و context تصمیم در یک پنجره. Scale: subset of 33 actions; nullable: no. Caveat: وابسته به گزینه‌ها و رابط همین سناریو.
+- **تعداد گزینه‌های در دسترس / Available action count** (`decision.available_action_count`) — توصیف رفتار و context تصمیم در یک پنجره. Scale: 0..33; nullable: no. Caveat: وابسته به گزینه‌ها و رابط همین سناریو.
+- **اولین اقدام انتخابی / First selected action** (`decision.first_action_id`) — توصیف رفتار و context تصمیم در یک پنجره. Scale: 33 actions or null; nullable: yes. Caveat: وابسته به گزینه‌ها و رابط همین سناریو.
+- **تعداد انتخاب‌های متمایز اقدام / Distinct action-selection count** (`decision.selection_count`) — توصیف رفتار و context تصمیم در یک پنجره. Scale: 0..unbounded; nullable: no. Caveat: وابسته به گزینه‌ها و رابط همین سناریو.
+- **کریدور هدف مؤثر / Effective target corridor** (`decision.effective_target_corridor`) — توصیف رفتار و context تصمیم در یک پنجره. Scale: 4 corridors or null; nullable: yes. Caveat: وابسته به گزینه‌ها و رابط همین سناریو.
+- **تعداد شواهد در دسترس هنگام تأیید / Available evidence count** (`decision.available_evidence_count`) — توصیف رفتار و context تصمیم در یک پنجره. Scale: 0..unbounded; nullable: no. Caveat: وابسته به گزینه‌ها و رابط همین سناریو.
+- **تعداد شواهد یکتای بازشده در پنجره / Unique opened-evidence count** (`decision.opened_unique_evidence_count`) — توصیف رفتار و context تصمیم در یک پنجره. Scale: 0..available count; nullable: no. Caveat: وابسته به گزینه‌ها و رابط همین سناریو.
+- **زمان ورود به مرحله / Stage entered timestamp** (`timing.stage_entered_at_ms`) — شاخص زمانی توصیفی تعامل. Scale: >=0; nullable: no. Caveat: timestamp خام به‌تنهایی شاخص عملکرد/شناخت نیست؛ تأخیر دستگاه و وقفه کاربر اثر دارد.
+- **زمان‌های انتخاب اقدام / Action-selection timestamps** (`timing.selection_timestamps_ms`) — شاخص زمانی توصیفی تعامل. Scale: >=0; nullable: no. Caveat: timestamp خام به‌تنهایی شاخص عملکرد/شناخت نیست؛ تأخیر دستگاه و وقفه کاربر اثر دارد.
+- **زمان تأیید تصمیم / Decision confirmation timestamp** (`timing.confirmed_at_ms`) — شاخص زمانی توصیفی تعامل. Scale: >=0; nullable: no. Caveat: timestamp خام به‌تنهایی شاخص عملکرد/شناخت نیست؛ تأخیر دستگاه و وقفه کاربر اثر دارد.
+- **زمان کل سپری‌شده تصمیم / Elapsed decision time** (`timing.elapsed_decision_ms`) — شاخص زمانی توصیفی تعامل. Scale: >=0; nullable: yes. Caveat: timestamp خام به‌تنهایی شاخص عملکرد/شناخت نیست؛ تأخیر دستگاه و وقفه کاربر اثر دارد.
+- **زمان پنهان‌بودن تب / Hidden-tab time** (`timing.hidden_tab_ms`) — شاخص زمانی توصیفی تعامل. Scale: >=0; nullable: no. Caveat: timestamp خام به‌تنهایی شاخص عملکرد/شناخت نیست؛ تأخیر دستگاه و وقفه کاربر اثر دارد.
+- **زمان شروع اجرا / Run start timestamp** (`timing.run_started_at_ms`) — شاخص زمانی توصیفی تعامل. Scale: >=0; nullable: no. Caveat: timestamp خام به‌تنهایی شاخص عملکرد/شناخت نیست؛ تأخیر دستگاه و وقفه کاربر اثر دارد.
+- **زمان تکمیل اجرا / Run completion timestamp** (`timing.run_completed_at_ms`) — شاخص زمانی توصیفی تعامل. Scale: >=0; nullable: yes. Caveat: timestamp خام به‌تنهایی شاخص عملکرد/شناخت نیست؛ تأخیر دستگاه و وقفه کاربر اثر دارد.
+- **زمان مرور پیامد / Outcome-review dwell** (`timing.outcome_review_dwell_ms`) — شاخص زمانی توصیفی تعامل. Scale: >=0; nullable: no. Caveat: timestamp خام به‌تنهایی شاخص عملکرد/شناخت نیست؛ تأخیر دستگاه و وقفه کاربر اثر دارد.
+- **تأخیر ثبت باور / Belief-capture latency** (`timing.belief_capture_latency_ms`) — شاخص زمانی توصیفی تعامل. Scale: >=0; nullable: no. Caveat: timestamp خام به‌تنهایی شاخص عملکرد/شناخت نیست؛ تأخیر دستگاه و وقفه کاربر اثر دارد.
+- **تأخیر ثبت دلیل / Reason-capture latency** (`timing.reason_capture_latency_ms`) — شاخص زمانی توصیفی تعامل. Scale: >=0; nullable: no. Caveat: timestamp خام به‌تنهایی شاخص عملکرد/شناخت نیست؛ تأخیر دستگاه و وقفه کاربر اثر دارد.
+- **نوع منبع شاهد / Evidence source type** (`evidence.source_type`) — ویژگی قابل‌مشاهده شاهد. Scale: 7 source types; nullable: no. Caveat: quality/strength labels are scenario encodings, not external sensor calibration.
+- **کریدور مشاهده‌شده شاهد / Observed evidence corridor** (`evidence.observed_corridor`) — ویژگی قابل‌مشاهده شاهد. Scale: 4 corridors or null; nullable: yes. Caveat: quality/strength labels are scenario encodings, not external sensor calibration.
+- **جهت شاهد / Evidence direction** (`evidence.direction`) — ویژگی قابل‌مشاهده شاهد. Scale: supports_targeted|supports_nonhostile|ambiguous; nullable: no. Caveat: quality/strength labels are scenario encodings, not external sensor calibration.
+- **باند قدرت شاهد / Evidence strength band** (`evidence.strength_band`) — ویژگی قابل‌مشاهده شاهد. Scale: weak|moderate|strong; nullable: no. Caveat: quality/strength labels are scenario encodings, not external sensor calibration.
+- **زمان در دسترس‌شدن شاهد / Evidence availability timestamp** (`evidence.available_at_ms`) — ویژگی قابل‌مشاهده شاهد. Scale: >=0; nullable: no. Caveat: quality/strength labels are scenario encodings, not external sensor calibration.
+- **پنجره‌های مرتبط شاهد / Relevant evidence windows** (`evidence.relevant_window_ids`) — ویژگی قابل‌مشاهده شاهد. Scale: 0..7 windows; nullable: no. Caveat: quality/strength labels are scenario encodings, not external sensor calibration.
+- **تعداد شواهد منتشرشده / Available evidence count** (`evidence.available_count`) — توصیف exposure و استفاده از شواهد قابل‌مشاهده. Scale: 0..unbounded; nullable: no. Caveat: بازکردن شاهد معادل فهم یا استفاده علّی از آن نیست.
+- **تعداد رخدادهای بازکردن شاهد / Evidence-open event count** (`evidence.open_event_count`) — توصیف exposure و استفاده از شواهد قابل‌مشاهده. Scale: 0..unbounded; nullable: no. Caveat: بازکردن شاهد معادل فهم یا استفاده علّی از آن نیست.
+- **تعداد شواهد یکتای بازشده / Unique opened evidence count** (`evidence.opened_unique_count`) — توصیف exposure و استفاده از شواهد قابل‌مشاهده. Scale: 0..available count; nullable: no. Caveat: بازکردن شاهد معادل فهم یا استفاده علّی از آن نیست.
+- **نرخ بازشدن جزئیات شاهد / Evidence detail-open rate** (`evidence.detail_open_rate_percent`) — توصیف exposure و استفاده از شواهد قابل‌مشاهده. Scale: 0..100; nullable: yes. Caveat: بازکردن شاهد معادل فهم یا استفاده علّی از آن نیست.
+- **تأخیر انتشار تا بازکردن شاهد / Evidence release-to-open latency** (`evidence.open_latency_ms`) — توصیف exposure و استفاده از شواهد قابل‌مشاهده. Scale: >=0; nullable: no. Caveat: بازکردن شاهد معادل فهم یا استفاده علّی از آن نیست.
+- **تنوع منابع بازشده / Opened-source diversity** (`evidence.source_diversity`) — توصیف exposure و استفاده از شواهد قابل‌مشاهده. Scale: 0..7; nullable: no. Caveat: بازکردن شاهد معادل فهم یا استفاده علّی از آن نیست.
+- **توزیع نوع منبع شاهد / Evidence source-type distribution** (`evidence.source_type_distribution`) — توصیف exposure و استفاده از شواهد قابل‌مشاهده. Scale: simplex; nullable: no. Caveat: بازکردن شاهد معادل فهم یا استفاده علّی از آن نیست.
+- **توزیع جهت شواهد / Evidence-direction distribution** (`evidence.direction_distribution`) — توصیف exposure و استفاده از شواهد قابل‌مشاهده. Scale: simplex; nullable: no. Caveat: بازکردن شاهد معادل فهم یا استفاده علّی از آن نیست.
+- **توزیع قدرت شواهد / Evidence-strength distribution** (`evidence.strength_distribution`) — توصیف exposure و استفاده از شواهد قابل‌مشاهده. Scale: simplex; nullable: no. Caveat: بازکردن شاهد معادل فهم یا استفاده علّی از آن نیست.
+- **توزیع کریدور شواهد / Evidence corridor distribution** (`evidence.corridor_distribution`) — توصیف exposure و استفاده از شواهد قابل‌مشاهده. Scale: simplex; nullable: no. Caveat: بازکردن شاهد معادل فهم یا استفاده علّی از آن نیست.
+- **درستی کریدور در هر checkpoint / Corridor correctness by checkpoint** (`belief.corridor_correct_by_checkpoint`) — ارزیابی پس از اجرا از روند تشخیص و انتساب. Scale: 0..4 values; nullable: no. Caveat: برای محاسبه از حقیقت پنهان استفاده می‌کند و فقط در AAR/audit مجاز است.
+- **نرخ checkpointهای کریدور صحیح / Correct-corridor checkpoint rate** (`belief.correct_corridor_rate_percent`) — ارزیابی پس از اجرا از روند تشخیص و انتساب. Scale: 0..100; nullable: yes. Caveat: برای محاسبه از حقیقت پنهان استفاده می‌کند و فقط در AAR/audit مجاز است.
+- **اولین checkpoint کریدور صحیح / First correct-corridor checkpoint** (`belief.first_correct_corridor_checkpoint`) — ارزیابی پس از اجرا از روند تشخیص و انتساب. Scale: checkpoint ID or null; nullable: yes. Caveat: برای محاسبه از حقیقت پنهان استفاده می‌کند و فقط در AAR/audit مجاز است.
+- **درستی کریدور نهایی / Final corridor correct** (`belief.final_corridor_correct`) — ارزیابی پس از اجرا از روند تشخیص و انتساب. Scale: true|false|null; nullable: yes. Caveat: برای محاسبه از حقیقت پنهان استفاده می‌کند و فقط در AAR/audit مجاز است.
+- **کریدورهای corroborated / Corroborated corridors** (`belief.corroborated_corridor_ids`) — ارزیابی پس از اجرا از روند تشخیص و انتساب. Scale: subset of 4 corridors; nullable: no. Caveat: برای محاسبه از حقیقت پنهان استفاده می‌کند و فقط در AAR/audit مجاز است.
+- **corroboration کریدور اصلی واقعی / True-primary corridor corroborated** (`belief.true_primary_corroborated`) — ارزیابی پس از اجرا از روند تشخیص و انتساب. Scale: true|false; nullable: no. Caveat: برای محاسبه از حقیقت پنهان استفاده می‌کند و فقط در AAR/audit مجاز است.
+- **ورود پیش‌بینی‌شده به تفکیک کاروان / Projected arrival by convoy** (`convoy.projected_arrival_by_convoy`) — وضعیت/خروجی هر یک از چهار کاروان. Scale: >=0; nullable: no. Caveat: مقادیر تابع mechanics مصنوعی سناریو هستند.
+- **مهلت به تفکیک کاروان / Deadline by convoy** (`convoy.deadline_by_convoy`) — وضعیت/خروجی هر یک از چهار کاروان. Scale: fixed: 300|330|315|345; nullable: no. Caveat: مقادیر تابع mechanics مصنوعی سناریو هستند.
+- **دقیقه تحویل به تفکیک کاروان / Delivered-at minute by convoy** (`convoy.delivered_at_by_convoy`) — وضعیت/خروجی هر یک از چهار کاروان. Scale: >=0|null; nullable: yes. Caveat: مقادیر تابع mechanics مصنوعی سناریو هستند.
+- **مواجهه PNT به تفکیک کاروان / PNT exposure by convoy** (`convoy.pnt_exposure_by_convoy`) — وضعیت/خروجی هر یک از چهار کاروان. Scale: 0..100; nullable: no. Caveat: مقادیر تابع mechanics مصنوعی سناریو هستند.
+- **ناوبری پشتیبان به تفکیک کاروان / Fallback navigation by convoy** (`convoy.fallback_nav_by_convoy`) — وضعیت/خروجی هر یک از چهار کاروان. Scale: true|false; nullable: no. Caveat: مقادیر تابع mechanics مصنوعی سناریو هستند.
+- **سخت‌سازی مسیر به تفکیک کاروان / Route hardening by convoy** (`convoy.route_hardened_by_convoy`) — وضعیت/خروجی هر یک از چهار کاروان. Scale: true|false; nullable: no. Caveat: مقادیر تابع mechanics مصنوعی سناریو هستند.
+- **پشتیبانی زمینی به تفکیک کاروان / Ground support by convoy** (`convoy.ground_support_by_convoy`) — وضعیت/خروجی هر یک از چهار کاروان. Scale: true|false; nullable: no. Caveat: مقادیر تابع mechanics مصنوعی سناریو هستند.
+- **پوشش اسکورت به تفکیک کاروان / Escort-through round by convoy** (`convoy.escort_round_by_convoy`) — وضعیت/خروجی هر یک از چهار کاروان. Scale: 1..8|null; nullable: yes. Caveat: مقادیر تابع mechanics مصنوعی سناریو هستند.
+- **حفاظت موقت به تفکیک کاروان / Temporary protection by convoy** (`convoy.temporary_protection_by_convoy`) — وضعیت/خروجی هر یک از چهار کاروان. Scale: level -1..2 and expiry round|null; nullable: no. Caveat: مقادیر تابع mechanics مصنوعی سناریو هستند.
+- **کمینه گزینه‌های قابل‌اجرا / Minimum available action count** (`resource.minimum_available_action_count`) — مصرف یا دسترس‌پذیری منابع مأموریت. Scale: 0..33; nullable: no. Caveat: واحد منابع قراردادی سناریو است، نه هزینه واقعی.
+- **تعداد پنجره‌های تک‌گزینه‌ای / Single-option window count** (`resource.single_option_window_count`) — مصرف یا دسترس‌پذیری منابع مأموریت. Scale: 0..8; nullable: no. Caveat: واحد منابع قراردادی سناریو است، نه هزینه واقعی.
+- **تأخیر نهایی به تفکیک کریدور / Final delay by corridor** (`domain.delay.final_by_corridor`) — تفکیک منشأ تأخیر مسیرها. Scale: >=0; nullable: no. Caveat: اثر Actor بر اساس mechanics مصنوعی ثبت می‌شود؛ causal claim بیرونی نیست.
+- **تأخیر افزوده Actor به تفکیک کریدور / Actor-added delay by corridor** (`domain.delay.actor_added_by_corridor`) — تفکیک منشأ تأخیر مسیرها. Scale: >=0; nullable: no. Caveat: اثر Actor بر اساس mechanics مصنوعی ثبت می‌شود؛ causal claim بیرونی نیست.
+- **تأخیر افزوده بازیکن به تفکیک کریدور / Player-added delay by corridor** (`domain.delay.player_added_by_corridor`) — تفکیک منشأ تأخیر مسیرها. Scale: >=0; nullable: no. Caveat: اثر Actor بر اساس mechanics مصنوعی ثبت می‌شود؛ causal claim بیرونی نیست.
+- **تأخیر بازیابی‌شده بازیکن به تفکیک کریدور / Player-recovered delay by corridor** (`domain.delay.player_recovered_by_corridor`) — تفکیک منشأ تأخیر مسیرها. Scale: >=0; nullable: no. Caveat: اثر Actor بر اساس mechanics مصنوعی ثبت می‌شود؛ causal claim بیرونی نیست.
+- **هویت تجزیه تأخیر / Delay decomposition identity** (`domain.delay.identity_check`) — تفکیک منشأ تأخیر مسیرها. Scale: true|false; nullable: no. Caveat: اثر Actor بر اساس mechanics مصنوعی ثبت می‌شود؛ causal claim بیرونی نیست.
+- **تعداد تحویل ثانویه / Secondary delivered count** (`domain.network_balance.secondary_delivered_count`) — توازن پیامدها یا تمرکز توجه میان شبکه کاروانی. Scale: 0..3; nullable: no. Caveat: HHI فقط تصمیم‌های دارای target را می‌شمارد؛ اقدام‌های بدون target خارج‌اند.
+- **میانگین تأخیر شبکه / Network mean delay** (`domain.network_balance.mean_delay`) — توازن پیامدها یا تمرکز توجه میان شبکه کاروانی. Scale: >=0; nullable: no. Caveat: HHI فقط تصمیم‌های دارای target را می‌شمارد؛ اقدام‌های بدون target خارج‌اند.
+- **انحراف معیار تأخیر شبکه / Delay population SD** (`domain.network_balance.delay_population_sd`) — توازن پیامدها یا تمرکز توجه میان شبکه کاروانی. Scale: >=0; nullable: no. Caveat: HHI فقط تصمیم‌های دارای target را می‌شمارد؛ اقدام‌های بدون target خارج‌اند.
+- **تعداد تصمیم‌های هدف‌دار / Targeted decision count** (`domain.network_balance.targeted_decision_count`) — توازن پیامدها یا تمرکز توجه میان شبکه کاروانی. Scale: 0..8; nullable: no. Caveat: HHI فقط تصمیم‌های دارای target را می‌شمارد؛ اقدام‌های بدون target خارج‌اند.
+- **تصمیم هدف‌دار به تفکیک کریدور / Targeted decisions by corridor** (`domain.network_balance.targeted_decision_count_by_corridor`) — توازن پیامدها یا تمرکز توجه میان شبکه کاروانی. Scale: 0..8 each; nullable: no. Caveat: HHI فقط تصمیم‌های دارای target را می‌شمارد؛ اقدام‌های بدون target خارج‌اند.
+- **اثر تأخیر اقدام / Action delay effect** (`decision.action_delay_effect`) — ویژگی عملیاتی اقدام یا سیگنال قابل‌مشاهده برای Actor. Scale: action-config dependent; nullable: no. Caveat: پارامتر طراحی داخلی و وابسته به action catalog است.
+- **شدت پاسخ اجراشده / Executed response intensity** (`decision.response_intensity`) — ویژگی عملیاتی اقدام یا سیگنال قابل‌مشاهده برای Actor. Scale: action-config dependent; nullable: no. Caveat: پارامتر طراحی داخلی و وابسته به action catalog است.
+- **امتیاز حفاظت کریدورها / Convoy protection score** (`decision.protection_score_by_corridor`) — ویژگی عملیاتی اقدام یا سیگنال قابل‌مشاهده برای Actor. Scale: action-config dependent; nullable: no. Caveat: پارامتر طراحی داخلی و وابسته به action catalog است.
+- **سیگنال ضعف پوشش شبکه / Network-coverage-weak signal** (`decision.network_coverage_weak_signal`) — ویژگی عملیاتی اقدام یا سیگنال قابل‌مشاهده برای Actor. Scale: action-config dependent; nullable: no. Caveat: پارامتر طراحی داخلی و وابسته به action catalog است.
+- **کم‌حفاظت‌ترین کریدور / Least-protected corridor** (`decision.least_protected_corridor`) — ویژگی عملیاتی اقدام یا سیگنال قابل‌مشاهده برای Actor. Scale: action-config dependent; nullable: no. Caveat: پارامتر طراحی داخلی و وابسته به action catalog است.
+- **شناسه جهان / World ID** (`hidden.world_id`) — descriptor پنهان برای replay، audit و تحلیل robustness. Scale: categorical; nullable: no. Caveat: در حین اجرا نباید به بازیکن یا construct شناختی نشت کند؛ فراوانی synthetic احتمال واقعی نیست.
+- **بذر محیط / Environment seed** (`hidden.environment_seed`) — descriptor پنهان برای replay، audit و تحلیل robustness. Scale: integer; nullable: no. Caveat: در حین اجرا نباید به بازیکن یا construct شناختی نشت کند؛ فراوانی synthetic احتمال واقعی نیست.
+- **کریدور اصلی واقعی / True primary corridor** (`hidden.true_primary_corridor`) — descriptor پنهان برای replay، audit و تحلیل robustness. Scale: categorical; nullable: no. Caveat: در حین اجرا نباید به بازیکن یا construct شناختی نشت کند؛ فراوانی synthetic احتمال واقعی نیست.
+- **پروفایل Actor / Actor profile** (`hidden.actor_profile`) — descriptor پنهان برای replay، audit و تحلیل robustness. Scale: categorical; nullable: no. Caveat: در حین اجرا نباید به بازیکن یا construct شناختی نشت کند؛ فراوانی synthetic احتمال واقعی نیست.
+- **هدف Actor / Actor objective** (`hidden.actor_objective`) — descriptor پنهان برای replay، audit و تحلیل robustness. Scale: categorical; nullable: no. Caveat: در حین اجرا نباید به بازیکن یا construct شناختی نشت کند؛ فراوانی synthetic احتمال واقعی نیست.
+- **حالت اختلال / Primary interference mode** (`hidden.interference_mode`) — descriptor پنهان برای replay، audit و تحلیل robustness. Scale: categorical; nullable: no. Caveat: در حین اجرا نباید به بازیکن یا construct شناختی نشت کند؛ فراوانی synthetic احتمال واقعی نیست.
+- **کریدور فریب اولیه / Initial decoy corridor** (`hidden.initial_decoy_corridor`) — descriptor پنهان برای replay، audit و تحلیل robustness. Scale: categorical|null; nullable: yes. Caveat: در حین اجرا نباید به بازیکن یا construct شناختی نشت کند؛ فراوانی synthetic احتمال واقعی نیست.
+- **کریدور نویز پس‌زمینه / Background-noise corridor** (`hidden.background_noise_corridor`) — descriptor پنهان برای replay، audit و تحلیل robustness. Scale: categorical; nullable: no. Caveat: در حین اجرا نباید به بازیکن یا construct شناختی نشت کند؛ فراوانی synthetic احتمال واقعی نیست.
+- **گونه تأخیر شواهد / Evidence latency variant** (`hidden.evidence_latency_variant`) — descriptor پنهان برای replay، audit و تحلیل robustness. Scale: categorical; nullable: no. Caveat: در حین اجرا نباید به بازیکن یا construct شناختی نشت کند؛ فراوانی synthetic احتمال واقعی نیست.
+- **وضعیت نهایی Actor / Final actor posture** (`hidden.final_actor_posture`) — descriptor پنهان برای replay، audit و تحلیل robustness. Scale: categorical; nullable: no. Caveat: در حین اجرا نباید به بازیکن یا construct شناختی نشت کند؛ فراوانی synthetic احتمال واقعی نیست.
+- **بودجه ریسک نهایی Actor / Final Actor risk budget** (`hidden.final_actor_risk_budget`) — descriptor پنهان برای replay، audit و تحلیل robustness. Scale: number; nullable: no. Caveat: در حین اجرا نباید به بازیکن یا construct شناختی نشت کند؛ فراوانی synthetic احتمال واقعی نیست.
+- **فشار اختلال نهایی / Final disruption pressure** (`hidden.final_disruption_pressure`) — descriptor پنهان برای replay، audit و تحلیل robustness. Scale: low|medium|high; nullable: no. Caveat: در حین اجرا نباید به بازیکن یا construct شناختی نشت کند؛ فراوانی synthetic احتمال واقعی نیست.
+- **جابجایی Actor / Actor relocated** (`hidden.actor_relocated`) — descriptor پنهان برای replay، audit و تحلیل robustness. Scale: boolean; nullable: no. Caveat: در حین اجرا نباید به بازیکن یا construct شناختی نشت کند؛ فراوانی synthetic احتمال واقعی نیست.
+- **آخرین واکنش Actor / Last Actor reaction** (`hidden.last_actor_reaction`) — descriptor پنهان برای replay، audit و تحلیل robustness. Scale: categorical|null; nullable: yes. Caveat: در حین اجرا نباید به بازیکن یا construct شناختی نشت کند؛ فراوانی synthetic احتمال واقعی نیست.
+- **قاعده واکنش Actor / Actor reaction rule** (`hidden.reaction_rule_id`) — descriptor پنهان برای replay، audit و تحلیل robustness. Scale: categorical; nullable: no. Caveat: در حین اجرا نباید به بازیکن یا construct شناختی نشت کند؛ فراوانی synthetic احتمال واقعی نیست.
+- **تعداد تصمیم‌های اثر ثانویه Actor / Secondary Actor-impact decisions** (`hidden.secondary_actor_impact_decision_count`) — descriptor پنهان برای replay، audit و تحلیل robustness. Scale: 0..8; nullable: no. Caveat: در حین اجرا نباید به بازیکن یا construct شناختی نشت کند؛ فراوانی synthetic احتمال واقعی نیست.
+- **رابطه منشأ پنهان شاهد / Hidden evidence provenance relation** (`hidden.evidence_provenance_relation`) — descriptor پنهان برای replay، audit و تحلیل robustness. Scale: primary|decoy_linked|background_noise|other; nullable: no. Caveat: در حین اجرا نباید به بازیکن یا construct شناختی نشت کند؛ فراوانی synthetic احتمال واقعی نیست.
+- **هم‌راستایی دلیل و اقدام / Reason–action alignment** (`reason.alignment_by_action`) — هم‌خوانی کدگذاری‌شده دلیل با profile اقدام. Scale: 0..1; nullable: no. Caveat: وزن طراحی داخلی است و self-report truthfulness را نمی‌سنجد.
+- **انسجام زوج تصمیم‌های فاز / Cross-decision coherence lookup** (`reason.cross_decision_coherence`) — سازگاری طراحی‌شده دو انتخاب همان فاز. Scale: 0.25|0.5|0.75|1|null; nullable: yes. Caveat: قضاوت expert-validated نیست.
+- **توزیع حالت نهایی / End-state distribution** (`multi.end_state_distribution`) — توصیف رفتار مجموعه اجراهای مصنوعی. Scale: six-category counts/rates; nullable: no. Caveat: احتمال یا فراوانی دنیای واقعی نیست و به policy/seed panel وابسته است.
+- **نرخ تحویل الف / Alpha-delivery rate** (`multi.alpha_delivery_rate`) — توصیف رفتار مجموعه اجراهای مصنوعی. Scale: 0..1; nullable: no. Caveat: احتمال یا فراوانی دنیای واقعی نیست و به policy/seed panel وابسته است.
+- **توزیع تداوم شبکه / Network-continuity distribution** (`multi.network_continuity_distribution`) — توصیف رفتار مجموعه اجراهای مصنوعی. Scale: 0|25|50|75|100 distribution; nullable: no. Caveat: احتمال یا فراوانی دنیای واقعی نیست و به policy/seed panel وابسته است.
+- **میانگین تأخیر Actor / Mean Actor delay** (`multi.actor_signature.mean_actor_delay`) — توصیف رفتار مجموعه اجراهای مصنوعی. Scale: dataset-dependent; nullable: no. Caveat: احتمال یا فراوانی دنیای واقعی نیست و به policy/seed panel وابسته است.
+- **میانه تأخیر Actor / Median Actor delay** (`multi.actor_signature.median_actor_delay`) — توصیف رفتار مجموعه اجراهای مصنوعی. Scale: dataset-dependent; nullable: no. Caveat: احتمال یا فراوانی دنیای واقعی نیست و به policy/seed panel وابسته است.
+- **نرخ مهار تهدید Actor / Threat-contained rate by actor** (`multi.actor_signature.threat_contained_rate`) — توصیف رفتار مجموعه اجراهای مصنوعی. Scale: dataset-dependent; nullable: no. Caveat: احتمال یا فراوانی دنیای واقعی نیست و به policy/seed panel وابسته است.
+- **نرخ انتساب حل‌شده Actor / Resolved-attribution rate by actor** (`multi.actor_signature.resolved_attribution_rate`) — توصیف رفتار مجموعه اجراهای مصنوعی. Scale: dataset-dependent; nullable: no. Caveat: احتمال یا فراوانی دنیای واقعی نیست و به policy/seed panel وابسته است.
+- **میانگین تداوم شبکه Actor / Mean network continuity by actor** (`multi.actor_signature.mean_network_continuity`) — توصیف رفتار مجموعه اجراهای مصنوعی. Scale: dataset-dependent; nullable: no. Caveat: احتمال یا فراوانی دنیای واقعی نیست و به policy/seed panel وابسته است.
+- **میانگین تأخیر الف Actor / Mean alpha delay by actor** (`multi.actor_signature.mean_alpha_delay`) — توصیف رفتار مجموعه اجراهای مصنوعی. Scale: dataset-dependent; nullable: no. Caveat: احتمال یا فراوانی دنیای واقعی نیست و به policy/seed panel وابسته است.
+- **نرخ اثر ثانویه Actor / Secondary Actor-impact rate** (`multi.actor_signature.secondary_impact_rate`) — توصیف رفتار مجموعه اجراهای مصنوعی. Scale: dataset-dependent; nullable: no. Caveat: احتمال یا فراوانی دنیای واقعی نیست و به policy/seed panel وابسته است.
+- **اختلاف میانگین تأخیر زوج Actor / Actor-pair mean-delay difference** (`multi.actor_pair.mean_delay_difference`) — توصیف رفتار مجموعه اجراهای مصنوعی. Scale: >=0; nullable: no. Caveat: احتمال یا فراوانی دنیای واقعی نیست و به policy/seed panel وابسته است.
+- **اختلاف نرخ مهار زوج Actor / Actor-pair containment-rate difference** (`multi.actor_pair.threat_contained_rate_difference`) — توصیف رفتار مجموعه اجراهای مصنوعی. Scale: >=0; nullable: no. Caveat: احتمال یا فراوانی دنیای واقعی نیست و به policy/seed panel وابسته است.
+- **فاصله TV توزیع حالت نهایی / Actor-pair end-state TV distance** (`multi.actor_pair.end_state_tv_distance`) — توصیف رفتار مجموعه اجراهای مصنوعی. Scale: >=0; nullable: no. Caveat: احتمال یا فراوانی دنیای واقعی نیست و به policy/seed panel وابسته است.
+- **اختلاف نرخ اثر ثانویه زوج Actor / Actor-pair secondary-impact difference** (`multi.actor_pair.secondary_impact_rate_difference`) — توصیف رفتار مجموعه اجراهای مصنوعی. Scale: >=0; nullable: no. Caveat: احتمال یا فراوانی دنیای واقعی نیست و به policy/seed panel وابسته است.
+- **تمایزپذیری مهندسی زوج Actor / Actor-pair distinguishable** (`multi.actor_pair.distinguishable`) — توصیف رفتار مجموعه اجراهای مصنوعی. Scale: boolean; nullable: no. Caveat: احتمال یا فراوانی دنیای واقعی نیست و به policy/seed panel وابسته است.
+- **سهم حالت نهایی مُد / Modal end-state share** (`multi.seed_sensitivity.modal_end_state_share`) — توصیف رفتار مجموعه اجراهای مصنوعی. Scale: dataset-dependent; nullable: no. Caveat: احتمال یا فراوانی دنیای واقعی نیست و به policy/seed panel وابسته است.
+- **تعداد حالت نهایی یکتا / Unique end-state count** (`multi.seed_sensitivity.unique_end_state_count`) — توصیف رفتار مجموعه اجراهای مصنوعی. Scale: integer; nullable: no. Caveat: احتمال یا فراوانی دنیای واقعی نیست و به policy/seed panel وابسته است.
+- **نرخ تحویل الف در سلول seed / Cell alpha-delivery rate** (`multi.seed_sensitivity.alpha_delivery_rate`) — توصیف رفتار مجموعه اجراهای مصنوعی. Scale: dataset-dependent; nullable: no. Caveat: احتمال یا فراوانی دنیای واقعی نیست و به policy/seed panel وابسته است.
+- **کمینه تداوم شبکه / Minimum network continuity** (`multi.seed_sensitivity.network_continuity_min`) — توصیف رفتار مجموعه اجراهای مصنوعی. Scale: dataset-dependent; nullable: no. Caveat: احتمال یا فراوانی دنیای واقعی نیست و به policy/seed panel وابسته است.
+- **بیشینه تداوم شبکه / Maximum network continuity** (`multi.seed_sensitivity.network_continuity_max`) — توصیف رفتار مجموعه اجراهای مصنوعی. Scale: dataset-dependent; nullable: no. Caveat: احتمال یا فراوانی دنیای واقعی نیست و به policy/seed panel وابسته است.
+- **چارک اول تأخیر الف / Alpha-delay P25** (`multi.seed_sensitivity.alpha_delay_p25`) — توصیف رفتار مجموعه اجراهای مصنوعی. Scale: dataset-dependent; nullable: no. Caveat: احتمال یا فراوانی دنیای واقعی نیست و به policy/seed panel وابسته است.
+- **میانه تأخیر الف / Alpha-delay median** (`multi.seed_sensitivity.alpha_delay_median`) — توصیف رفتار مجموعه اجراهای مصنوعی. Scale: dataset-dependent; nullable: no. Caveat: احتمال یا فراوانی دنیای واقعی نیست و به policy/seed panel وابسته است.
+- **چارک سوم تأخیر الف / Alpha-delay P75** (`multi.seed_sensitivity.alpha_delay_p75`) — توصیف رفتار مجموعه اجراهای مصنوعی. Scale: dataset-dependent; nullable: no. Caveat: احتمال یا فراوانی دنیای واقعی نیست و به policy/seed panel وابسته است.
+- **IQR تأخیر الف / Alpha-delay IQR** (`multi.seed_sensitivity.alpha_delay_iqr`) — توصیف رفتار مجموعه اجراهای مصنوعی. Scale: dataset-dependent; nullable: no. Caveat: احتمال یا فراوانی دنیای واقعی نیست و به policy/seed panel وابسته است.
+- **چارک اول تأخیر Actor / Actor-delay P25** (`multi.seed_sensitivity.actor_delay_p25`) — توصیف رفتار مجموعه اجراهای مصنوعی. Scale: dataset-dependent; nullable: no. Caveat: احتمال یا فراوانی دنیای واقعی نیست و به policy/seed panel وابسته است.
+- **میانه تأخیر Actor / Actor-delay median** (`multi.seed_sensitivity.actor_delay_median`) — توصیف رفتار مجموعه اجراهای مصنوعی. Scale: dataset-dependent; nullable: no. Caveat: احتمال یا فراوانی دنیای واقعی نیست و به policy/seed panel وابسته است.
+- **چارک سوم تأخیر Actor / Actor-delay P75** (`multi.seed_sensitivity.actor_delay_p75`) — توصیف رفتار مجموعه اجراهای مصنوعی. Scale: dataset-dependent; nullable: no. Caveat: احتمال یا فراوانی دنیای واقعی نیست و به policy/seed panel وابسته است.
+- **حساسیت بالای seed / High seed sensitivity** (`multi.seed_sensitivity.high_seed_sensitivity`) — توصیف رفتار مجموعه اجراهای مصنوعی. Scale: boolean; nullable: no. Caveat: احتمال یا فراوانی دنیای واقعی نیست و به policy/seed panel وابسته است.
+- **فراوانی انتخاب اقدام / Action selection count** (`calibration.coverage.action_selection_count`) — توصیف رفتار مجموعه اجراهای مصنوعی. Scale: dataset-dependent; nullable: no. Caveat: احتمال یا فراوانی دنیای واقعی نیست و به policy/seed panel وابسته است.
+- **فراوانی اقدام به تفکیک راند / Action selection by round** (`calibration.coverage.action_selection_by_round`) — توصیف رفتار مجموعه اجراهای مصنوعی. Scale: dataset-dependent; nullable: no. Caveat: احتمال یا فراوانی دنیای واقعی نیست و به policy/seed panel وابسته است.
+- **پوشش target اقدام / Action-target counts** (`calibration.coverage.action_target_counts`) — توصیف رفتار مجموعه اجراهای مصنوعی. Scale: dataset-dependent; nullable: no. Caveat: احتمال یا فراوانی دنیای واقعی نیست و به policy/seed panel وابسته است.
+- **فراوانی fallback سیاست / Policy fallback count** (`calibration.coverage.fallback_selection_count`) — توصیف رفتار مجموعه اجراهای مصنوعی. Scale: dataset-dependent; nullable: no. Caveat: احتمال یا فراوانی دنیای واقعی نیست و به policy/seed panel وابسته است.
+- **طبقه پوشش قانونی target / Target-legality classification** (`calibration.coverage.target_legality_classification`) — توصیف رفتار مجموعه اجراهای مصنوعی. Scale: dataset-dependent; nullable: no. Caveat: احتمال یا فراوانی دنیای واقعی نیست و به policy/seed panel وابسته است.
+- **وضعیت probe صریح target / Explicit target-probe status** (`calibration.coverage.explicit_target_probe_status`) — توصیف رفتار مجموعه اجراهای مصنوعی. Scale: dataset-dependent; nullable: no. Caveat: احتمال یا فراوانی دنیای واقعی نیست و به policy/seed panel وابسته است.
+- **تعداد state ارزیابی‌شده Pareto / Pareto evaluated-state count** (`calibration.pareto.evaluated_state_count`) — توصیف رفتار مجموعه اجراهای مصنوعی. Scale: dataset-dependent; nullable: no. Caveat: احتمال یا فراوانی دنیای واقعی نیست و به policy/seed panel وابسته است.
+- **تعداد state غالب Pareto / Pareto-dominant state count** (`calibration.pareto.dominant_state_count`) — توصیف رفتار مجموعه اجراهای مصنوعی. Scale: dataset-dependent; nullable: no. Caveat: احتمال یا فراوانی دنیای واقعی نیست و به policy/seed panel وابسته است.
+- **سهم غلبه Pareto / Pareto dominance share** (`calibration.pareto.dominance_share`) — توصیف رفتار مجموعه اجراهای مصنوعی. Scale: dataset-dependent; nullable: no. Caveat: احتمال یا فراوانی دنیای واقعی نیست و به policy/seed panel وابسته است.
+- **غلبه همگانی در continuationها / Universal dominance across continuations** (`calibration.pareto.universal_across_continuations`) — توصیف رفتار مجموعه اجراهای مصنوعی. Scale: dataset-dependent; nullable: no. Caveat: احتمال یا فراوانی دنیای واقعی نیست و به policy/seed panel وابسته است.
+- **پوشش state پنجره / Dominance state coverage** (`calibration.pareto.state_coverage`) — توصیف رفتار مجموعه اجراهای مصنوعی. Scale: dataset-dependent; nullable: no. Caveat: احتمال یا فراوانی دنیای واقعی نیست و به policy/seed panel وابسته است.
+- **تعداد شاخه counterfactual / Counterfactual branch count** (`calibration.pareto.counterfactual_branch_count`) — توصیف رفتار مجموعه اجراهای مصنوعی. Scale: dataset-dependent; nullable: no. Caveat: احتمال یا فراوانی دنیای واقعی نیست و به policy/seed panel وابسته است.
+- **نرخ تحویل الف در افق shadow / Shadow-horizon alpha-delivery rate** (`multi.shadow.horizon_alpha_delivery_rate`) — توصیف رفتار مجموعه اجراهای مصنوعی. Scale: 0..1 or count-derived; nullable: no. Caveat: احتمال یا فراوانی دنیای واقعی نیست و به policy/seed panel وابسته است.
+- **نرخ تحویل همه کاروان‌ها در افق shadow / Shadow all-convoy delivery rate** (`multi.shadow.horizon_all_convoy_delivery_rate`) — توصیف رفتار مجموعه اجراهای مصنوعی. Scale: 0..1 or count-derived; nullable: no. Caveat: احتمال یا فراوانی دنیای واقعی نیست و به policy/seed panel وابسته است.
+- **میانگین تعداد تحویل در افق shadow / Shadow mean delivered-convoy count** (`multi.shadow.horizon_mean_delivered_count`) — توصیف رفتار مجموعه اجراهای مصنوعی. Scale: 0..1 or count-derived; nullable: no. Caveat: احتمال یا فراوانی دنیای واقعی نیست و به policy/seed panel وابسته است.
+- **میانگین تداوم با shift مهلت / Shadow-deadline mean continuity** (`multi.shadow.deadline_mean_network_continuity`) — توصیف رفتار مجموعه اجراهای مصنوعی. Scale: 0..1 or count-derived; nullable: no. Caveat: احتمال یا فراوانی دنیای واقعی نیست و به policy/seed panel وابسته است.
+- **نرخ به‌موقع الف با shift مهلت / Shadow alpha on-time rate** (`multi.shadow.deadline_alpha_on_time_rate`) — توصیف رفتار مجموعه اجراهای مصنوعی. Scale: 0..1 or count-derived; nullable: no. Caveat: احتمال یا فراوانی دنیای واقعی نیست و به policy/seed panel وابسته است.
+- **نرخ به‌موقع همه با shift مهلت / Shadow all-convoy on-time rate** (`multi.shadow.deadline_all_convoy_on_time_rate`) — توصیف رفتار مجموعه اجراهای مصنوعی. Scale: 0..1 or count-derived; nullable: no. Caveat: احتمال یا فراوانی دنیای واقعی نیست و به policy/seed panel وابسته است.
+- **امکان‌پذیری مسیر ISR shadow / Shadow ISR path feasibility** (`multi.shadow.resource_isr_path_feasibility`) — توصیف رفتار مجموعه اجراهای مصنوعی. Scale: 0..1 or count-derived; nullable: no. Caveat: احتمال یا فراوانی دنیای واقعی نیست و به policy/seed panel وابسته است.
+- **امکان‌پذیری مسیر پشتیبانی shadow / Shadow support path feasibility** (`multi.shadow.resource_support_path_feasibility`) — توصیف رفتار مجموعه اجراهای مصنوعی. Scale: 0..1 or count-derived; nullable: no. Caveat: احتمال یا فراوانی دنیای واقعی نیست و به policy/seed panel وابسته است.
+- **امکان‌پذیری مسیر هر دو منبع shadow / Shadow both-resource path feasibility** (`multi.shadow.resource_both_path_feasibility`) — توصیف رفتار مجموعه اجراهای مصنوعی. Scale: 0..1 or count-derived; nullable: no. Caveat: احتمال یا فراوانی دنیای واقعی نیست و به policy/seed panel وابسته است.
+- **آمار توزیع شناختی: n / Cognitive distribution n** (`calibration.cognitive_distribution.n`) — توصیف رفتار مجموعه اجراهای مصنوعی. Scale: dataset-dependent; nullable: no. Caveat: احتمال یا فراوانی دنیای واقعی نیست و به policy/seed panel وابسته است.
+- **آمار توزیع شناختی: null_rate / Cognitive distribution null_rate** (`calibration.cognitive_distribution.null_rate`) — توصیف رفتار مجموعه اجراهای مصنوعی. Scale: dataset-dependent; nullable: no. Caveat: احتمال یا فراوانی دنیای واقعی نیست و به policy/seed panel وابسته است.
+- **آمار توزیع شناختی: mean / Cognitive distribution mean** (`calibration.cognitive_distribution.mean`) — توصیف رفتار مجموعه اجراهای مصنوعی. Scale: dataset-dependent; nullable: no. Caveat: احتمال یا فراوانی دنیای واقعی نیست و به policy/seed panel وابسته است.
+- **آمار توزیع شناختی: sd / Cognitive distribution sd** (`calibration.cognitive_distribution.sd`) — توصیف رفتار مجموعه اجراهای مصنوعی. Scale: dataset-dependent; nullable: no. Caveat: احتمال یا فراوانی دنیای واقعی نیست و به policy/seed panel وابسته است.
+- **آمار توزیع شناختی: min / Cognitive distribution min** (`calibration.cognitive_distribution.min`) — توصیف رفتار مجموعه اجراهای مصنوعی. Scale: dataset-dependent; nullable: no. Caveat: احتمال یا فراوانی دنیای واقعی نیست و به policy/seed panel وابسته است.
+- **آمار توزیع شناختی: p05 / Cognitive distribution p05** (`calibration.cognitive_distribution.p05`) — توصیف رفتار مجموعه اجراهای مصنوعی. Scale: dataset-dependent; nullable: no. Caveat: احتمال یا فراوانی دنیای واقعی نیست و به policy/seed panel وابسته است.
+- **آمار توزیع شناختی: p25 / Cognitive distribution p25** (`calibration.cognitive_distribution.p25`) — توصیف رفتار مجموعه اجراهای مصنوعی. Scale: dataset-dependent; nullable: no. Caveat: احتمال یا فراوانی دنیای واقعی نیست و به policy/seed panel وابسته است.
+- **آمار توزیع شناختی: median / Cognitive distribution median** (`calibration.cognitive_distribution.median`) — توصیف رفتار مجموعه اجراهای مصنوعی. Scale: dataset-dependent; nullable: no. Caveat: احتمال یا فراوانی دنیای واقعی نیست و به policy/seed panel وابسته است.
+- **آمار توزیع شناختی: p75 / Cognitive distribution p75** (`calibration.cognitive_distribution.p75`) — توصیف رفتار مجموعه اجراهای مصنوعی. Scale: dataset-dependent; nullable: no. Caveat: احتمال یا فراوانی دنیای واقعی نیست و به policy/seed panel وابسته است.
+- **آمار توزیع شناختی: p95 / Cognitive distribution p95** (`calibration.cognitive_distribution.p95`) — توصیف رفتار مجموعه اجراهای مصنوعی. Scale: dataset-dependent; nullable: no. Caveat: احتمال یا فراوانی دنیای واقعی نیست و به policy/seed panel وابسته است.
+- **آمار توزیع شناختی: max / Cognitive distribution max** (`calibration.cognitive_distribution.max`) — توصیف رفتار مجموعه اجراهای مصنوعی. Scale: dataset-dependent; nullable: no. Caveat: احتمال یا فراوانی دنیای واقعی نیست و به policy/seed panel وابسته است.
+- **آمار توزیع شناختی: floor_percent / Cognitive distribution floor_percent** (`calibration.cognitive_distribution.floor_percent`) — توصیف رفتار مجموعه اجراهای مصنوعی. Scale: dataset-dependent; nullable: no. Caveat: احتمال یا فراوانی دنیای واقعی نیست و به policy/seed panel وابسته است.
+- **آمار توزیع شناختی: ceiling_percent / Cognitive distribution ceiling_percent** (`calibration.cognitive_distribution.ceiling_percent`) — توصیف رفتار مجموعه اجراهای مصنوعی. Scale: dataset-dependent; nullable: no. Caveat: احتمال یا فراوانی دنیای واقعی نیست و به policy/seed panel وابسته است.
+- **آمار توزیع شناختی: warning_flags / Cognitive distribution warning_flags** (`calibration.cognitive_distribution.warning_flags`) — توصیف رفتار مجموعه اجراهای مصنوعی. Scale: dataset-dependent; nullable: no. Caveat: احتمال یا فراوانی دنیای واقعی نیست و به policy/seed panel وابسته است.
+- **میانگین ساختاری OSI / Structural OSI mean** (`calibration.osi.structural_mean`) — توصیف رفتار مجموعه اجراهای مصنوعی. Scale: dataset-dependent; nullable: no. Caveat: احتمال یا فراوانی دنیای واقعی نیست و به policy/seed panel وابسته است.
+- **پاس centering ساختاری OSI / Structural OSI centering pass** (`calibration.osi.structural_pass`) — توصیف رفتار مجموعه اجراهای مصنوعی. Scale: dataset-dependent; nullable: no. Caveat: احتمال یا فراوانی دنیای واقعی نیست و به policy/seed panel وابسته است.
+- **میانگین Monte Carlo OSI / Random-policy OSI mean** (`calibration.osi.monte_carlo_mean`) — توصیف رفتار مجموعه اجراهای مصنوعی. Scale: dataset-dependent; nullable: no. Caveat: احتمال یا فراوانی دنیای واقعی نیست و به policy/seed panel وابسته است.
+- **انحراف معیار Monte Carlo OSI / Random-policy OSI SD** (`calibration.osi.monte_carlo_sd`) — توصیف رفتار مجموعه اجراهای مصنوعی. Scale: dataset-dependent; nullable: no. Caveat: احتمال یا فراوانی دنیای واقعی نیست و به policy/seed panel وابسته است.
+- **بازه Monte Carlo OSI / Random-policy OSI 2.5–97.5 interval** (`calibration.osi.monte_carlo_interval`) — توصیف رفتار مجموعه اجراهای مصنوعی. Scale: dataset-dependent; nullable: no. Caveat: احتمال یا فراوانی دنیای واقعی نیست و به policy/seed panel وابسته است.
+- **توزیع کمینه گزینه‌های در دسترس / Minimum-action availability distribution** (`calibration.resource.minimum_available_action_distribution`) — توصیف رفتار مجموعه اجراهای مصنوعی. Scale: dataset-dependent; nullable: no. Caveat: احتمال یا فراوانی دنیای واقعی نیست و به policy/seed panel وابسته است.
+- **صدک‌های ISR نهایی / Final ISR quantiles** (`calibration.resource.final_isr_quantiles`) — توصیف رفتار مجموعه اجراهای مصنوعی. Scale: dataset-dependent; nullable: no. Caveat: احتمال یا فراوانی دنیای واقعی نیست و به policy/seed panel وابسته است.
+- **صدک‌های پشتیبانی نهایی / Final support quantiles** (`calibration.resource.final_support_quantiles`) — توصیف رفتار مجموعه اجراهای مصنوعی. Scale: dataset-dependent; nullable: no. Caveat: احتمال یا فراوانی دنیای واقعی نیست و به policy/seed panel وابسته است.
+- **پوشش پنل محیط / Environment-panel coverage** (`calibration.audit.environment_panel_coverage`) — توصیف رفتار مجموعه اجراهای مصنوعی. Scale: dataset/status dependent; nullable: no. Caveat: احتمال یا فراوانی دنیای واقعی نیست و به policy/seed panel وابسته است.
+- **تعداد اجرای مأموریت / Mission run count** (`calibration.audit.mission_run_count`) — توصیف رفتار مجموعه اجراهای مصنوعی. Scale: dataset/status dependent; nullable: no. Caveat: احتمال یا فراوانی دنیای واقعی نیست و به policy/seed panel وابسته است.
+- **تعداد اجرای شناختی / Cognitive run count** (`calibration.audit.cognitive_run_count`) — توصیف رفتار مجموعه اجراهای مصنوعی. Scale: dataset/status dependent; nullable: no. Caveat: احتمال یا فراوانی دنیای واقعی نیست و به policy/seed panel وابسته است.
+- **تعداد اجراهای قطعی/تصادفی / Deterministic/random run counts** (`calibration.audit.deterministic_random_run_counts`) — توصیف رفتار مجموعه اجراهای مصنوعی. Scale: dataset/status dependent; nullable: no. Caveat: احتمال یا فراوانی دنیای واقعی نیست و به policy/seed panel وابسته است.
+- **موارد بازپخش قطعی / Deterministic replay cases** (`calibration.audit.deterministic_replay_cases`) — توصیف رفتار مجموعه اجراهای مصنوعی. Scale: dataset/status dependent; nullable: no. Caveat: احتمال یا فراوانی دنیای واقعی نیست و به policy/seed panel وابسته است.
+- **یکتایی seed سیاست / Effective policy-seed uniqueness** (`calibration.audit.effective_policy_seed_uniqueness`) — توصیف رفتار مجموعه اجراهای مصنوعی. Scale: dataset/status dependent; nullable: no. Caveat: احتمال یا فراوانی دنیای واقعی نیست و به policy/seed panel وابسته است.
+- **وضعیت gateهای anchor شناختی / Cognitive anchor-gate status** (`calibration.audit.cognitive_anchor_gate_status`) — توصیف رفتار مجموعه اجراهای مصنوعی. Scale: dataset/status dependent; nullable: no. Caveat: احتمال یا فراوانی دنیای واقعی نیست و به policy/seed panel وابسته است.
+- **وضعیت firewall شناختی / Cognitive firewall status** (`calibration.audit.cognitive_firewall_status`) — توصیف رفتار مجموعه اجراهای مصنوعی. Scale: dataset/status dependent; nullable: no. Caveat: احتمال یا فراوانی دنیای واقعی نیست و به policy/seed panel وابسته است.
+- **توزیع ساعت تصمیم مأموریت / Runtime mission-clock distribution** (`calibration.audit.runtime_clock_distribution`) — توصیف رفتار مجموعه اجراهای مصنوعی. Scale: dataset/status dependent; nullable: no. Caveat: احتمال یا فراوانی دنیای واقعی نیست و به policy/seed panel وابسته است.
+- **اشباع تحویل محموله اصلی / Primary-delivery saturation** (`calibration.audit.primary_delivery_saturation`) — توصیف رفتار مجموعه اجراهای مصنوعی. Scale: dataset/status dependent; nullable: no. Caveat: احتمال یا فراوانی دنیای واقعی نیست و به policy/seed panel وابسته است.
+- **تمرکز نتیجه / Outcome concentration** (`calibration.audit.outcome_concentration`) — توصیف رفتار مجموعه اجراهای مصنوعی. Scale: dataset/status dependent; nullable: no. Caveat: احتمال یا فراوانی دنیای واقعی نیست و به policy/seed panel وابسته است.
+- **تعداد عدم‌انطباق مسیر با 8A / Trajectory-parity mismatch count** (`calibration.audit.trajectory_parity_mismatch_count`) — توصیف رفتار مجموعه اجراهای مصنوعی. Scale: dataset/status dependent; nullable: no. Caveat: احتمال یا فراوانی دنیای واقعی نیست و به policy/seed panel وابسته است.
+- **وضعیت hard gate / Hard-gate status** (`calibration.audit.hard_gate_status`) — توصیف رفتار مجموعه اجراهای مصنوعی. Scale: dataset/status dependent; nullable: no. Caveat: احتمال یا فراوانی دنیای واقعی نیست و به policy/seed panel وابسته است.
+- **وضعیت warning / Engineering warning status** (`calibration.audit.warning_status`) — توصیف رفتار مجموعه اجراهای مصنوعی. Scale: dataset/status dependent; nullable: no. Caveat: احتمال یا فراوانی دنیای واقعی نیست و به policy/seed panel وابسته است.
+- **وضعیت کلی کالیبراسیون / Overall calibration status** (`calibration.audit.overall_calibration_status`) — توصیف رفتار مجموعه اجراهای مصنوعی. Scale: dataset/status dependent; nullable: no. Caveat: احتمال یا فراوانی دنیای واقعی نیست و به policy/seed panel وابسته است.
+- **یکپارچگی آرشیو / Archive integrity** (`calibration.audit.archive_integrity`) — توصیف رفتار مجموعه اجراهای مصنوعی. Scale: dataset/status dependent; nullable: no. Caveat: احتمال یا فراوانی دنیای واقعی نیست و به policy/seed panel وابسته است.
+- **شاهد دسترسی‌پذیری / Reachability witness** (`calibration.reachability.witness`) — توصیف رفتار مجموعه اجراهای مصنوعی. Scale: search dependent; nullable: no. Caveat: احتمال یا فراوانی دنیای واقعی نیست و به policy/seed panel وابسته است.
+- **مرز کمینه تداوم با تحویل الف / Reachability minimum continuity boundary** (`calibration.reachability.boundary_min_continuity`) — توصیف رفتار مجموعه اجراهای مصنوعی. Scale: search dependent; nullable: no. Caveat: احتمال یا فراوانی دنیای واقعی نیست و به policy/seed panel وابسته است.
+- **مرز بیشینه ورود الف / Reachability maximum alpha arrival** (`calibration.reachability.boundary_max_alpha_arrival`) — توصیف رفتار مجموعه اجراهای مصنوعی. Scale: search dependent; nullable: no. Caveat: احتمال یا فراوانی دنیای واقعی نیست و به policy/seed panel وابسته است.
+- **شمارنده‌های جست‌وجوی ساختاری / Structured-search counts** (`calibration.reachability.search_counts`) — توصیف رفتار مجموعه اجراهای مصنوعی. Scale: search dependent; nullable: no. Caveat: احتمال یا فراوانی دنیای واقعی نیست و به policy/seed panel وابسته است.
+
+### Metrics that must NOT appear in the cross-scenario dashboard
+
+- `provenance.mission_model_version` — hidden/audit-only.
+- `provenance.cognitive_measurement_model_version` — hidden/audit-only.
+- `provenance.cognitive_formula_version` — hidden/audit-only.
+- `provenance.option_profile_version` — hidden/audit-only.
+- `provenance.reason_model_version` — hidden/audit-only.
+- `provenance.scenario_content_version` — hidden/audit-only.
+- `provenance.runtime_model_version` — hidden/audit-only.
+- `provenance.domain_metrics_version` — hidden/audit-only.
+- `provenance.calibration_version` — hidden/audit-only.
+- `provenance.validity_status` — hidden/audit-only.
+- `provenance.expert_panel_version` — hidden/audit-only.
+- `profile.operational_loading` — hidden/audit-only.
+- `profile.strategic_loading` — hidden/audit-only.
+- `profile.information_seeking` — hidden/audit-only.
+- `profile.future_consequence_thinking` — hidden/audit-only.
+- `profile.adversary_modeling` — hidden/audit-only.
+- `profile.escalation_sensitivity` — hidden/audit-only.
+- `profile.reversibility_preference` — hidden/audit-only.
+- `profile.resource_stewardship` — hidden/audit-only.
+- `profile.contingency_planning` — hidden/audit-only.
+- `profile.risk_exposure` — hidden/audit-only.
+- `profile.domain_salience` — hidden/audit-only.
+- `cognitive.information_discipline` — not measured.
+- `belief.corridor_correct_by_checkpoint` — hidden/audit-only.
+- `belief.first_correct_corridor_checkpoint` — hidden/audit-only.
+- `belief.final_corridor_correct` — hidden/audit-only.
+- `belief.corroborated_corridor_ids` — hidden/audit-only.
+- `belief.true_primary_corroborated` — hidden/audit-only.
+- `mission.end_state_id` — scenario-specific mission semantics.
+- `mission.network_continuity_percent` — scenario-specific mission semantics.
+- `mission.threat_contained` — hidden/audit-only.
+- `mission.critical_delivery.delivered_by_horizon` — scenario-specific mission semantics.
+- `mission.critical_delivery.on_time_operational` — scenario-specific mission semantics.
+- `mission.critical_delivery.integrity` — scenario-specific mission semantics.
+- `mission.critical_delivery.delay_minutes` — scenario-specific mission semantics.
+- `mission.critical_delivery.projected_arrival_minute` — scenario-specific mission semantics.
+- `mission.critical_delivery.deadline_minute` — scenario-specific mission semantics.
+- `mission.critical_delivery.delivered_at_minute` — scenario-specific mission semantics.
+- `mission.critical_delivery.alpha_targeted_resource_units` — scenario-specific mission semantics.
+- `mission.critical_delivery.total_resource_spent_units` — scenario-specific mission semantics.
+- `mission.critical_delivery.alpha_targeted_resource_share_percent` — scenario-specific mission semantics.
+- `mission.critical_delivery.alpha_targeted_decision_count` — scenario-specific mission semantics.
+- `domain.delay.actor_added_by_corridor` — hidden/audit-only.
+- `domain.delay.total_actor_added` — hidden/audit-only.
+- `domain.delay.identity_check` — hidden/audit-only.
+- `decision.network_coverage_weak_signal` — hidden/audit-only.
+- `decision.least_protected_corridor` — hidden/audit-only.
+- `hidden.world_id` — hidden/audit-only.
+- `hidden.environment_seed` — hidden/audit-only.
+- `hidden.true_primary_corridor` — hidden/audit-only.
+- `hidden.actor_profile` — hidden/audit-only.
+- `hidden.actor_objective` — hidden/audit-only.
+- `hidden.interference_mode` — hidden/audit-only.
+- `hidden.initial_decoy_corridor` — hidden/audit-only.
+- `hidden.background_noise_corridor` — hidden/audit-only.
+- `hidden.evidence_latency_variant` — hidden/audit-only.
+- `hidden.final_actor_posture` — hidden/audit-only.
+- `hidden.final_actor_risk_budget` — hidden/audit-only.
+- `hidden.final_disruption_pressure` — hidden/audit-only.
+- `hidden.actor_relocated` — hidden/audit-only.
+- `hidden.last_actor_reaction` — hidden/audit-only.
+- `hidden.reaction_rule_id` — hidden/audit-only.
+- `hidden.secondary_actor_impact_decision_count` — hidden/audit-only.
+- `hidden.evidence_provenance_relation` — hidden/audit-only.
+- `reason.alignment_by_action` — hidden/audit-only.
+- `reason.cross_decision_coherence` — hidden/audit-only.
+- `multi.end_state_distribution` — hidden/audit-only.
+- `multi.alpha_delivery_rate` — hidden/audit-only.
+- `multi.network_continuity_distribution` — hidden/audit-only.
+- `multi.actor_signature.mean_actor_delay` — hidden/audit-only.
+- `multi.actor_signature.median_actor_delay` — hidden/audit-only.
+- `multi.actor_signature.threat_contained_rate` — hidden/audit-only.
+- `multi.actor_signature.resolved_attribution_rate` — hidden/audit-only.
+- `multi.actor_signature.mean_network_continuity` — hidden/audit-only.
+- `multi.actor_signature.mean_alpha_delay` — hidden/audit-only.
+- `multi.actor_signature.secondary_impact_rate` — hidden/audit-only.
+- `multi.actor_pair.mean_delay_difference` — hidden/audit-only.
+- `multi.actor_pair.threat_contained_rate_difference` — hidden/audit-only.
+- `multi.actor_pair.end_state_tv_distance` — hidden/audit-only.
+- `multi.actor_pair.secondary_impact_rate_difference` — hidden/audit-only.
+- `multi.actor_pair.distinguishable` — hidden/audit-only.
+- `multi.seed_sensitivity.modal_end_state_share` — hidden/audit-only.
+- `multi.seed_sensitivity.unique_end_state_count` — hidden/audit-only.
+- `multi.seed_sensitivity.alpha_delivery_rate` — hidden/audit-only.
+- `multi.seed_sensitivity.network_continuity_min` — hidden/audit-only.
+- `multi.seed_sensitivity.network_continuity_max` — hidden/audit-only.
+- `multi.seed_sensitivity.alpha_delay_p25` — hidden/audit-only.
+- `multi.seed_sensitivity.alpha_delay_median` — hidden/audit-only.
+- `multi.seed_sensitivity.alpha_delay_p75` — hidden/audit-only.
+- `multi.seed_sensitivity.alpha_delay_iqr` — hidden/audit-only.
+- `multi.seed_sensitivity.actor_delay_p25` — hidden/audit-only.
+- `multi.seed_sensitivity.actor_delay_median` — hidden/audit-only.
+- `multi.seed_sensitivity.actor_delay_p75` — hidden/audit-only.
+- `multi.seed_sensitivity.high_seed_sensitivity` — hidden/audit-only.
+- `calibration.coverage.action_selection_count` — hidden/audit-only.
+- `calibration.coverage.action_selection_by_round` — hidden/audit-only.
+- `calibration.coverage.action_target_counts` — hidden/audit-only.
+- `calibration.coverage.fallback_selection_count` — hidden/audit-only.
+- `calibration.coverage.target_legality_classification` — hidden/audit-only.
+- `calibration.coverage.explicit_target_probe_status` — hidden/audit-only.
+- `calibration.pareto.evaluated_state_count` — hidden/audit-only.
+- `calibration.pareto.dominant_state_count` — hidden/audit-only.
+- `calibration.pareto.dominance_share` — hidden/audit-only.
+- `calibration.pareto.universal_across_continuations` — hidden/audit-only.
+- `calibration.pareto.state_coverage` — hidden/audit-only.
+- `calibration.pareto.counterfactual_branch_count` — hidden/audit-only.
+- `multi.shadow.horizon_alpha_delivery_rate` — hidden/audit-only.
+- `multi.shadow.horizon_all_convoy_delivery_rate` — hidden/audit-only.
+- `multi.shadow.horizon_mean_delivered_count` — hidden/audit-only.
+- `multi.shadow.deadline_mean_network_continuity` — hidden/audit-only.
+- `multi.shadow.deadline_alpha_on_time_rate` — hidden/audit-only.
+- `multi.shadow.deadline_all_convoy_on_time_rate` — hidden/audit-only.
+- `multi.shadow.resource_isr_path_feasibility` — hidden/audit-only.
+- `multi.shadow.resource_support_path_feasibility` — hidden/audit-only.
+- `multi.shadow.resource_both_path_feasibility` — hidden/audit-only.
+- `calibration.cognitive_distribution.n` — hidden/audit-only.
+- `calibration.cognitive_distribution.null_rate` — hidden/audit-only.
+- `calibration.cognitive_distribution.mean` — hidden/audit-only.
+- `calibration.cognitive_distribution.sd` — hidden/audit-only.
+- `calibration.cognitive_distribution.min` — hidden/audit-only.
+- `calibration.cognitive_distribution.p05` — hidden/audit-only.
+- `calibration.cognitive_distribution.p25` — hidden/audit-only.
+- `calibration.cognitive_distribution.median` — hidden/audit-only.
+- `calibration.cognitive_distribution.p75` — hidden/audit-only.
+- `calibration.cognitive_distribution.p95` — hidden/audit-only.
+- `calibration.cognitive_distribution.max` — hidden/audit-only.
+- `calibration.cognitive_distribution.floor_percent` — hidden/audit-only.
+- `calibration.cognitive_distribution.ceiling_percent` — hidden/audit-only.
+- `calibration.cognitive_distribution.warning_flags` — hidden/audit-only.
+- `calibration.osi.structural_mean` — hidden/audit-only.
+- `calibration.osi.structural_pass` — hidden/audit-only.
+- `calibration.osi.monte_carlo_mean` — hidden/audit-only.
+- `calibration.osi.monte_carlo_sd` — hidden/audit-only.
+- `calibration.osi.monte_carlo_interval` — hidden/audit-only.
+- `calibration.resource.minimum_available_action_distribution` — hidden/audit-only.
+- `calibration.resource.final_isr_quantiles` — hidden/audit-only.
+- `calibration.resource.final_support_quantiles` — hidden/audit-only.
+- `calibration.audit.environment_panel_coverage` — hidden/audit-only.
+- `calibration.audit.mission_run_count` — hidden/audit-only.
+- `calibration.audit.cognitive_run_count` — hidden/audit-only.
+- `calibration.audit.deterministic_random_run_counts` — hidden/audit-only.
+- `calibration.audit.deterministic_replay_cases` — hidden/audit-only.
+- `calibration.audit.effective_policy_seed_uniqueness` — hidden/audit-only.
+- `calibration.audit.cognitive_anchor_gate_status` — hidden/audit-only.
+- `calibration.audit.cognitive_firewall_status` — hidden/audit-only.
+- `calibration.audit.runtime_clock_distribution` — hidden/audit-only.
+- `calibration.audit.primary_delivery_saturation` — hidden/audit-only.
+- `calibration.audit.outcome_concentration` — hidden/audit-only.
+- `calibration.audit.trajectory_parity_mismatch_count` — hidden/audit-only.
+- `calibration.audit.hard_gate_status` — hidden/audit-only.
+- `calibration.audit.warning_status` — hidden/audit-only.
+- `calibration.audit.overall_calibration_status` — hidden/audit-only.
+- `calibration.audit.archive_integrity` — hidden/audit-only.
+- `calibration.reachability.witness` — hidden/audit-only.
+- `calibration.reachability.boundary_min_continuity` — hidden/audit-only.
+- `calibration.reachability.boundary_max_alpha_arrival` — hidden/audit-only.
+- `calibration.reachability.search_counts` — hidden/audit-only.
+- `not_measured.belief_change_magnitude` — not measured.
+- `not_measured.confidence_change` — not measured.
+- `not_measured.target_change_count` — not measured.
+- `not_measured.global_cognitive_score` — not measured.
+- `not_measured.intelligence_or_ability` — not measured.
+- `not_measured.real_civilian_harm` — not measured.
+- `not_measured.psychometric_validity` — not measured.
+
+No global cognitive score should be created or displayed.

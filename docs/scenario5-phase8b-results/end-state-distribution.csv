@@ -1,0 +1,7 @@
+endStateId,count,rate
+critical_cargo_lost_or_compromised,24,0.000937
+priority_delivered_network_degradation,3520,0.1375
+mission_incomplete_continuity_preserved,0,0
+delivery_complete_threat_persistent,13069,0.510508
+delivery_complete_attribution_unresolved,8956,0.349844
+delivery_complete_threat_contained,31,0.001211

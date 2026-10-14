@@ -1,0 +1,1400 @@
+diff --git a/docs/scenario5-phase5-cognitive-verification.md b/docs/scenario5-phase5-cognitive-verification.md
+new file mode 100644
+index 0000000..179fae2
+--- /dev/null
++++ b/docs/scenario5-phase5-cognitive-verification.md
+@@ -0,0 +1,98 @@
++# 1. Completion summary
++
++The frozen Scenario 5 Phase-5 cognitive measurement foundation was implemented as a pure TypeScript submodule. It calculates scenario-specific behavioral proxies from player-visible decision telemetry only, using the approved provisional profiles and formulas. It contains no UI integration, no global cognitive score, and no claim of empirical, expert, psychometric, diagnostic, personality, aptitude, ability, or objective decision-quality validation.
++
++# 2. Files created
++
++- `src/ui/components/scenario/scenario-five/model/cognitive/types.ts`
++- `src/ui/components/scenario/scenario-five/model/cognitive/versions.ts`
++- `src/ui/components/scenario/scenario-five/model/cognitive/optionProfiles.ts`
++- `src/ui/components/scenario/scenario-five/model/cognitive/evidenceScoring.ts`
++- `src/ui/components/scenario/scenario-five/model/cognitive/reasonModel.ts`
++- `src/ui/components/scenario/scenario-five/model/cognitive/cognitiveEngine.ts`
++- `src/ui/components/scenario/scenario-five/model/cognitive/index.ts`
++- `scripts/verify-s5-phase5-cognitive.ts`
++- `docs/scenario5-phase5-cognitive-verification.md`
++- `docs/scenario5-phase5.patch`
++
++# 3. Frozen-file verification
++
++SHA-256 hashes were recorded before implementation for 36 protected files spanning the approved Phase-3 and Phase-4 models, Scenario 2, existing Scenario 5 UI/gameplay, Scenario 4 Cognitive V3, `App.tsx`, `App.css`, and `package.json`. Every protected-file hash matched after Phase 5.
++
++# 4. Version/profile verification
++
++All seven required version/status strings are exact. The catalog contains exactly 33 unique profiles in mission-catalog order. All scalar and domain values are within 0..1 at one-decimal precision, and exact cross-round scalar/domain spot checks cover all eight rounds. These loadings remain internal provisional project coding pending expert and human validation.
++
++# 5. OSI/strength/integration/dispersion verification
++
++Tests cover the raw orientation formula, actual-set centering and normalization, unavailable/single/no-spread option behavior, nonzero spread and zero adjusted-set mean for every frozen OSI window, operational and strategic anchors, and equal Phase weighting independent of within-Phase window count. Strength ranges, exact harmonic integration including a low-low example, null zero denominator, and exact population standard deviation are verified.
++
++# 6. Information-seeking verification
++
++Tests verify relevant-window and availability filtering, unrelated-evidence exclusion, exact coverage, zero diversity without opens, the K=1 rule, normalized two-source entropy, weighted-available renormalization when no evidence exists, information-loading diagnosticity, and the exclusion of dwell time from scoring.
++
++# 7. Evidence-support/updating verification
++
++Weak/moderate/strong strengths, targeted/ambiguous/nonhostile signs, same-source duplicate collapse, corridor maximum, and neutral no-evidence support are exact. Updating tests cover direction agreement, magnitude alignment, zero-evidence-change omission, fixed adjacent-checkpoint order, and independence from corridor-hypothesis correctness. Hidden provenance is absent from the module.
++
++# 8. Second-order/adversary/escalation verification
++
++Exact weighted second-order scoring is checked in an eligible C2 window. Adversary modeling and escalation sensitivity are checked against their exact profile loadings and frozen eligible windows, with ineligible-window null cases. No observed adversary behavior or reaction can enter the telemetry contract or engine.
++
++# 9. Resource stewardship/planning verification
++
++The exact stewardship base formula, all-eight-snapshot requirement, phase-balanced aggregation, and final visible-resource penalties of 0, 0.05, and 0.10 are verified. Planning uses its exact four-term formula and eligible windows. Random recovery, mission results, and hidden operational effects are absent.
++
++# 10. Multi-criteria/risk verification
++
++Tests verify omitted domains as zero, the exact fixed-domain entropy and mean-salience calculation, and the expected ordering of comparable single-domain and multi-domain examples. Risk uses only actual-set centering and normalization, reaches the expected -1/+1 anchors, and remains explicitly non-normative. No domain-performance measure enters either construct.
++
++# 11. Decision-coherence verification
++
++Every approved cell in the B, C, and D cross-decision matrices is asserted. All seven reason-alignment rubrics are checked exactly. Post-outcome reasons are ineligible, fewer than two reason Phases produces null, and the final 60/40 reason/cross-decision formula is verified.
++
++# 12. Data-completeness verification
++
++Perfect synthetic telemetry produces 100 in every component and overall. Exact reductions for missing decisions, timing, estimates, and reasons are checked. Missing timing remains data-quality absence rather than zero cognitive performance, and completeness is unchanged when profile choices change.
++
++# 13. Telemetry-summary verification
++
++The verifier checks ordinary median, linearly interpolated quartiles and IQR, total revisions, revised-window count, exact evidence-triggered revision rate, and null behavior when timing or eligible evidence-trigger windows are absent.
++
++# 14. Hidden-truth/outcome firewall verification
++
++Static checks across every cognitive source file reject hidden world/Actor state, world/seed identity, end-state/containment resolution, convoy integrity/delivery fields, hidden provenance, Actor reaction, random generation, React imports, and mission-engine/end-resolver imports. The telemetry fixture exposes none of those fields, and the result has no global cognitive score.
++
++# 15. Phase-3/Phase-4 regression results
++
++- Phase-3 verifier: PASS, 86 assertions.
++- Phase-4 verifier: PASS, 464 assertions, including delivered-convoy immutability and active-network signal corrections.
++
++# 16. Typecheck/build/test exact commands and results
++
++- `npx tsc -b` — PASS.
++- `npm run build` — PASS (`tsc -b && vite build`; Vite emitted only its informational chunk-size warning).
++- `npx tsx scripts/verify-s5-phase3-model.ts` — PASS, 86 assertions.
++- `npx tsx scripts/verify-s5-phase4-mission.ts` — PASS, 464 assertions.
++- `npx tsx scripts/verify-s5-phase5-cognitive.ts` — PASS, 388 assertions.
++- `git diff --check` — PASS.
++- `git apply --stat docs/scenario5-phase5.patch` — PASS.
++- `git apply --check --reverse docs/scenario5-phase5.patch` — PASS.
++
++No dependency or package script was added.
++
++# 17. Known intentional omissions
++
++- no UI integration
++- no real eventLogger capture
++- no belief/reason UI
++- no AAR UI
++- no scenario-specific domain-performance scoring
++- no cross-scenario dashboard aggregation
++- no expert validation of loadings/reason model
++- no human validation
++- no interpretation-band calibration
++
++# 18. Statement: `No redesign decisions were made by Codex in Phase 5.`
++
++No redesign decisions were made by Codex in Phase 5.
+diff --git a/scripts/verify-s5-phase5-cognitive.ts b/scripts/verify-s5-phase5-cognitive.ts
+new file mode 100644
+index 0000000..4a2a09a
+--- /dev/null
++++ b/scripts/verify-s5-phase5-cognitive.ts
+@@ -0,0 +1,409 @@
++import assert from "node:assert/strict";
++import { readFileSync, readdirSync } from "node:fs";
++import { fileURLToPath } from "node:url";
++import { MISSION_ACTION_CATALOG } from "../src/ui/components/scenario/scenario-five/model/mission/index.ts";
++import type { MissionActionId } from "../src/ui/components/scenario/scenario-five/model/mission/index.ts";
++import {
++  CROSS_DECISION_COHERENCE_MATRICES,
++  S5_COGNITIVE_FORMULA_VERSION,
++  S5_COGNITIVE_MEASUREMENT_MODEL_VERSION,
++  S5_EXPERT_PANEL_VERSION,
++  S5_OPTION_PROFILE_VERSION,
++  S5_REASON_MODEL_VERSION,
++  S5_SCENARIO_CONTENT_VERSION,
++  S5_VALIDITY_STATUS,
++  SCENARIO5_OPTION_PROFILES,
++  adjustedOrientationForDecision,
++  adjustedRiskForDecision,
++  calculateDataCompleteness,
++  calculateEvidenceResponsiveUpdating,
++  calculateIntegration,
++  calculatePlayerVisibleEvidenceSupport,
++  calculateReasonAlignment,
++  calculateScenario5CognitiveRunResult,
++  calculateTelemetrySummary,
++  getCrossDecisionCoherence,
++  getScenario5OptionProfile,
++  multiCriteriaForProfile,
++  rawOrientation,
++  validateScenario5CognitiveTelemetry,
++} from "../src/ui/components/scenario/scenario-five/model/cognitive/index.ts";
++import type {
++  BeliefTelemetry,
++  CognitiveWindowId,
++  DecisionTelemetry,
++  EvidenceOpenTelemetry,
++  EvidenceTelemetry,
++  PhaseId,
++  ReasonId,
++  Scenario5CognitiveTelemetryBundle,
++} from "../src/ui/components/scenario/scenario-five/model/cognitive/index.ts";
++
++let assertions = 0;
++const check = (condition: unknown, message: string): void => { assert.ok(condition, message); assertions += 1; };
++const equal = (actual: unknown, expected: unknown, message: string): void => { assert.deepEqual(actual, expected, message); assertions += 1; };
++const close = (actual: number | null, expected: number, message: string, tolerance = 1e-9): void => {
++  assert.ok(actual !== null && Math.abs(actual - expected) <= tolerance, `${message}: expected ${expected}, got ${actual}`);
++  assertions += 1;
++};
++const rejects = (fn: () => unknown, pattern: RegExp, message: string): void => { assert.throws(fn, pattern, message); assertions += 1; };
++
++const windowRows = [
++  ["A1_baseline_monitoring", "A", 1], ["A2_evidence_acquisition", "A", 2],
++  ["B1_monitoring_allocation", "B", 3], ["B2_route_policy", "B", 4],
++  ["C1_support_and_checkpoints", "C", 5], ["C2_resource_portfolio", "C", 6],
++  ["D1_crisis_response", "D", 7], ["D2_final_delivery_policy", "D", 8],
++] as const;
++const actionsForRound = (roundId: number): MissionActionId[] =>
++  MISSION_ACTION_CATALOG.filter((item) => item.roundId === roundId).map(({ actionId }) => actionId);
++
++const makeDecision = (
++  windowId: CognitiveWindowId,
++  finalSelectedActionId?: MissionActionId,
++  availableActionIds?: readonly MissionActionId[],
++  evidenceIds: readonly string[] = [],
++): DecisionTelemetry => {
++  const row = windowRows.find(([id]) => id === windowId)!;
++  const available = availableActionIds ? [...availableActionIds] : actionsForRound(row[2]);
++  const final = finalSelectedActionId ?? available[0] ?? null;
++  const revised = row[2] % 2 === 0;
++  const first = revised ? (available[1] ?? final) : final;
++  const enteredAtMs = row[2] * 10_000;
++  return {
++    phaseId: row[1], roundId: row[2], windowId,
++    availableActionIds: available,
++    firstSelectedActionId: first,
++    finalSelectedActionId: final,
++    selectionHistory: first ? [{ actionId: first, selectedAtMs: enteredAtMs + 100 }] : [],
++    enteredAtMs, confirmedAtMs: enteredAtMs + 900, elapsedMs: 900,
++    activeDecisionMs: row[2] * 1000, hiddenTabMs: 0, revisionCount: revised ? 1 : 0,
++    availableEvidenceIds: [...evidenceIds], openedEvidenceIds: [...evidenceIds],
++    playerVisibleResourcesBefore: { isrCapacity: 101 - row[2] * 10, supportReserve: 101 - row[2] * 10 },
++    playerVisibleResourcesAfter: { isrCapacity: 100 - row[2] * 10, supportReserve: 100 - row[2] * 10 },
++  };
++};
++
++const evidenceFor = (windowId: CognitiveWindowId, index: number): EvidenceTelemetry => ({
++  evidenceId: `e${index}`,
++  sourceType: index % 2 === 0 ? "field_report" : "pnt_telemetry",
++  observedCorridorId: "corridor_alpha_east",
++  direction: "supports_targeted",
++  strengthBand: index < 3 ? "weak" : "moderate",
++  relevantWindowIds: [windowId], availableAtMs: index * 10_000,
++  qualityLabelVisible: "visible quality", limitationVisible: "visible limitation",
++});
++
++const perfectEvidence = windowRows.map(([windowId], index) => evidenceFor(windowId, index + 1));
++const perfectDecisions = windowRows.map(([windowId], index) => makeDecision(windowId, undefined, undefined, [perfectEvidence[index]!.evidenceId]));
++const perfectOpens: EvidenceOpenTelemetry[] = perfectDecisions.map((decision, index) => ({
++  evidenceId: perfectEvidence[index]!.evidenceId,
++  windowId: decision.windowId,
++  openedAtMs: decision.enteredAtMs! + 200,
++  closedAtMs: decision.enteredAtMs! + 400,
++  activeDwellMs: 200,
++}));
++const perfectBeliefs: BeliefTelemetry[] = [
++  ["A2_prebelief", 35, ["e1"]], ["A2_postbelief", 50, ["e1", "e2"]],
++  ["C_belief_checkpoint", 65, ["e1", "e2", "e3", "e4"]],
++  ["D_final_belief", 80, perfectEvidence.map(({ evidenceId }) => evidenceId)],
++].map(([checkpointId, estimate, ids], index) => ({
++  checkpointId: checkpointId as BeliefTelemetry["checkpointId"], recordedAtMs: 30_000 + index * 10_000,
++  mostLikelyCorridorId: "corridor_alpha_east", corridorConfidence: 70,
++  targetedInterferenceEstimate: estimate as number, targetedInterferenceConfidence: 75,
++  visibleEvidenceIdsAtCheckpoint: ids as string[],
++}));
++const perfectBundle: Scenario5CognitiveTelemetryBundle = {
++  scenarioId: "s5_silent_waves_redesign", runId: "perfect", startedAtMs: 0, completedAtMs: 100_000,
++  decisions: perfectDecisions, evidence: perfectEvidence, evidenceOpens: perfectOpens, beliefs: perfectBeliefs,
++  reasons: [
++    { phaseId: "B", reasonId: "reason_information_confidence", recordedAtMs: 45_000, capturedBeforeOutcome: true },
++    { phaseId: "C", reasonId: "reason_preserve_resources", recordedAtMs: 65_000, capturedBeforeOutcome: true },
++    { phaseId: "D", reasonId: "reason_limit_actor_reaction", recordedAtMs: 85_000, capturedBeforeOutcome: true },
++  ],
++};
++const bundleWith = (patch: Partial<Scenario5CognitiveTelemetryBundle>): Scenario5CognitiveTelemetryBundle => ({ ...perfectBundle, ...patch });
++
++// Exact versions and profile catalog.
++equal([
++  S5_COGNITIVE_MEASUREMENT_MODEL_VERSION, S5_COGNITIVE_FORMULA_VERSION, S5_OPTION_PROFILE_VERSION,
++  S5_REASON_MODEL_VERSION, S5_SCENARIO_CONTENT_VERSION, S5_EXPERT_PANEL_VERSION, S5_VALIDITY_STATUS,
++], [
++  "s5-cognitive-v3-adapter-v1.0.0", "cognitive-v3-semantic-v1.0.0", "s5-option-profiles-internal-v1.0.0",
++  "s5-reason-model-internal-v1.0.0", "s5-silent-waves-redesign-content-v1.0.0", "not-yet-expert-validated",
++  "experimental_pending_expert_and_human_validation",
++], "exact version constants");
++equal(SCENARIO5_OPTION_PROFILES.length, 33, "exact profile count");
++equal(SCENARIO5_OPTION_PROFILES.map(({ actionId }) => actionId), MISSION_ACTION_CATALOG.map(({ actionId }) => actionId), "profile IDs exactly match mission action catalog");
++for (const item of SCENARIO5_OPTION_PROFILES) {
++  const scalarValues = [item.operationalLoading, item.strategicLoading, item.informationSeeking,
++    item.futureConsequenceThinking, item.adversaryModeling, item.escalationSensitivity,
++    item.reversibilityPreference, item.resourceStewardship, item.contingencyPlanning, item.riskExposure];
++  check(scalarValues.every((value) => value >= 0 && value <= 1 && Number.isInteger(value * 10)), `${item.actionId} scalar profile range and precision`);
++  check(Object.values(item.domainSalience).every((value) => value >= 0 && value <= 1 && Number.isInteger(value * 10)), `${item.actionId} domain range and precision`);
++  equal(getScenario5OptionProfile(item.actionId), item, `${item.actionId} profile lookup`);
++}
++const profileSpots: readonly [MissionActionId, readonly number[], Readonly<Record<string, number>>][] = [
++  ["a1_network_baseline", [.5,.7,.9,.7,.3,.1,.9,.5,.7,.3], { information:.9, network:.7 }],
++  ["a2_ground_liaison", [.6,.6,.9,.6,.4,.3,.5,.4,.7,.5], { navigation:.7, resources:.4 }],
++  ["b1_priority_cargo", [.9,.3,.6,.3,.2,.2,.6,.4,.3,.6], { mission:.9, logistics:.7 }],
++  ["b2_hold_verify", [.4,.7,.9,.6,.4,.7,.9,.5,.6,.4], { information:.9, futureOptions:.6 }],
++  ["c1_ground_recon", [.7,.6,.9,.6,.6,.5,.5,.4,.7,.5], { information:.9, escalation:.5 }],
++  ["c2_balanced", [.6,.9,.6,.9,.6,.5,.8,.9,.9,.3], { resources:.9, network:.9 }],
++  ["d1_deception_routing", [.6,.9,.2,.8,.9,.7,.6,.6,.8,.6], { escalation:.8, futureOptions:.8 }],
++  ["d2_resilient_handoff", [.7,.8,.1,.9,.5,.4,.8,.7,.9,.3], { navigation:.9, futureOptions:.9 }],
++];
++for (const [actionId, values, domains] of profileSpots) {
++  const item = getScenario5OptionProfile(actionId);
++  equal([item.operationalLoading, item.strategicLoading, item.informationSeeking, item.futureConsequenceThinking,
++    item.adversaryModeling, item.escalationSensitivity, item.reversibilityPreference, item.resourceStewardship,
++    item.contingencyPlanning, item.riskExposure], values, `${actionId} exact scalar spot check`);
++  for (const [key, value] of Object.entries(domains)) equal(item.domainSalience[key as keyof typeof item.domainSalience], value, `${actionId} ${key} domain spot check`);
++}
++
++// OSI: raw, centering, actual option set, anchors, and phase balance.
++close(rawOrientation(getScenario5OptionProfile("a1_network_baseline")), .2 / 1.200000001, "raw orientation formula");
++const twoOptionDecision = makeDecision("A1_baseline_monitoring", "a1_preserve_reserve", ["a1_priority_focus", "a1_preserve_reserve"]);
++const rawTwo = ["a1_priority_focus", "a1_preserve_reserve"].map((id) => rawOrientation(getScenario5OptionProfile(id as MissionActionId)));
++const baselineTwo = (rawTwo[0]! + rawTwo[1]!) / 2;
++const maximumTwo = Math.max(...rawTwo.map((value) => Math.abs(value - baselineTwo)));
++close(adjustedOrientationForDecision(twoOptionDecision), (rawTwo[1]! - baselineTwo) / maximumTwo, "centered normalized orientation");
++const withUnavailableProfiles = adjustedOrientationForDecision(twoOptionDecision);
++equal(withUnavailableProfiles, adjustedOrientationForDecision({ ...twoOptionDecision, selectionHistory: [] }), "unavailable profiles cannot influence adjusted score");
++const unavailableProbe = makeDecision("A1_baseline_monitoring", "a1_network_baseline", ["a1_priority_focus", "a1_network_baseline"]);
++check(adjustedOrientationForDecision(unavailableProbe) !== adjustedOrientationForDecision({
++  ...unavailableProbe,
++  availableActionIds: [...unavailableProbe.availableActionIds, "a1_preserve_reserve"],
++}), "profile influences orientation only when added to actual available set");
++equal(adjustedOrientationForDecision(makeDecision("A1_baseline_monitoring", "a1_priority_focus", ["a1_priority_focus"])), null, "single option excluded");
++equal(adjustedOrientationForDecision(makeDecision("A1_baseline_monitoring", "a1_network_baseline", ["a1_network_baseline", "a1_rotating_watch"])), null, "no-spread orientation excluded");
++const osiWindows = windowRows.filter(([id]) => id !== "A2_evidence_acquisition");
++for (const [windowId, , roundId] of osiWindows) {
++  const available = actionsForRound(roundId);
++  const rawValues = available.map((id) => rawOrientation(getScenario5OptionProfile(id)));
++  check(Math.max(...rawValues) - Math.min(...rawValues) > 1e-9, `${windowId} frozen OSI set has spread`);
++  const adjustedAll = available.map((id) => adjustedOrientationForDecision(makeDecision(windowId, id, available))!);
++  close(adjustedAll.reduce((sum, value) => sum + value, 0) / adjustedAll.length, 0, `${windowId} adjusted set mean is zero`, 1e-8);
++}
++const anchorBundle = (selected: readonly MissionActionId[]) => bundleWith({
++  decisions: windowRows.map(([windowId], index) => makeDecision(windowId, selected[index])),
++  evidence: [], evidenceOpens: [], beliefs: [], reasons: [],
++});
++const operationalAnchor = ["a1_priority_focus","a2_focused_pnt","b1_priority_cargo","b2_reroute","c1_fallback_nav","c2_priority_surge","d1_emergency_reroute","d2_critical_delivery_surge"] as const;
++const strategicAnchor = ["a1_preserve_reserve","a2_broad_sweep","b1_split_attention","b2_staged_checkpoints","c1_preserve_mobile_reserve","c2_balanced","d1_deception_routing","d2_continuity_first_finish"] as const;
++check(calculateScenario5CognitiveRunResult(anchorBundle(operationalAnchor)).orientation.overall! < 0, "operational anchor is negative");
++check(calculateScenario5CognitiveRunResult(anchorBundle(strategicAnchor)).orientation.overall! > 0, "strategic anchor is positive");
++const strategicResult = calculateScenario5CognitiveRunResult(anchorBundle(strategicAnchor));
++close(strategicResult.orientation.overall, strategicResult.orientation.phaseScores.reduce((sum, value) => sum + value!, 0) / 4, "four phases receive equal OSI weight");
++const oneBWindow = anchorBundle(strategicAnchor);
++const withoutB2 = bundleWith({ ...oneBWindow, decisions: oneBWindow.decisions.filter(({ windowId }) => windowId !== "B2_route_policy") });
++const withoutB2Result = calculateScenario5CognitiveRunResult(withoutB2);
++close(withoutB2Result.orientation.overall, withoutB2Result.orientation.phaseScores.reduce((sum, value) => sum + value!, 0) / 4, "window count cannot increase phase weight");
++const equalBWindows = anchorBundle(strategicAnchor);
++const equalBDecisions = equalBWindows.decisions.map((decision) => {
++  if (decision.windowId === "B1_monitoring_allocation") return makeDecision(decision.windowId, "b1_split_attention", ["b1_priority_cargo", "b1_split_attention"]);
++  if (decision.windowId === "B2_route_policy") return makeDecision(decision.windowId, "b2_hold_verify", ["b2_reroute", "b2_hold_verify"]);
++  return decision;
++});
++const equalBFull = calculateScenario5CognitiveRunResult(bundleWith({ ...equalBWindows, decisions: equalBDecisions })).orientation.overall;
++const equalBReduced = calculateScenario5CognitiveRunResult(bundleWith({ ...equalBWindows, decisions: equalBDecisions.filter(({ windowId }) => windowId !== "B2_route_policy") })).orientation.overall;
++close(equalBFull, equalBReduced!, "adding an equal-valued window inside phase B does not increase phase weight");
++
++// Strengths, integration, and population dispersion.
++for (const value of [strategicResult.orientation.operationalStrength, strategicResult.orientation.strategicStrength, strategicResult.orientation.integration]) {
++  check(value !== null && value >= 0 && value <= 100, "strength/integration range");
++}
++close(strategicResult.orientation.integration,
++  2 * strategicResult.orientation.operationalStrength! * strategicResult.orientation.strategicStrength!
++    / (strategicResult.orientation.operationalStrength! + strategicResult.orientation.strategicStrength!), "harmonic integration exact");
++check(strategicResult.orientation.integration! < 100, "balanced finite loadings do not look maximally integrated");
++close(calculateIntegration(80, 60), 2 * 80 * 60 / 140, "integration harmonic-mean example");
++close(calculateIntegration(20, 20), 20, "low-low balance remains low integration");
++equal(calculateIntegration(0, 0), null, "zero integration denominator is unavailable");
++const phaseValues = strategicResult.orientation.phaseScores.filter((value): value is number => value !== null);
++const phaseMean = phaseValues.reduce((sum, value) => sum + value, 0) / phaseValues.length;
++close(strategicResult.orientation.dispersion, Math.sqrt(phaseValues.reduce((sum, value) => sum + (value - phaseMean) ** 2, 0) / phaseValues.length), "population SD exact");
++
++// Information seeking coverage, diversity, evidence relevance, renormalization, and dwell firewall.
++const infoDecision = makeDecision("A2_evidence_acquisition", "a2_focused_pnt", undefined, ["info1", "info2"]);
++const infoEvidence: EvidenceTelemetry[] = [
++  { ...evidenceFor("A2_evidence_acquisition", 2), evidenceId: "info1", sourceType: "pnt_telemetry" },
++  { ...evidenceFor("A2_evidence_acquisition", 2), evidenceId: "info2", sourceType: "field_report" },
++  { ...evidenceFor("B1_monitoring_allocation", 3), evidenceId: "unrelated", sourceType: "radio_timing" },
++];
++const infoBundle = (opens: readonly EvidenceOpenTelemetry[], evidence = infoEvidence) => bundleWith({
++  decisions: [infoDecision], evidence, evidenceOpens: opens, beliefs: [], reasons: [],
++});
++const openInfo1: EvidenceOpenTelemetry = { evidenceId: "info1", windowId: "A2_evidence_acquisition", openedAtMs: 20_200, closedAtMs: 20_300, activeDwellMs: 100 };
++close(calculateScenario5CognitiveRunResult(infoBundle([openInfo1])).constructs.informationSeeking, 66.5, "coverage half and zero diversity exact");
++close(calculateScenario5CognitiveRunResult(infoBundle([])).constructs.informationSeeking, 54, "diversity zero with no opened evidence");
++const oneSourceEvidence = [{ ...infoEvidence[0]!, evidenceId: "info1" }];
++const oneSourceDecision = { ...infoDecision, availableEvidenceIds: ["info1"], openedEvidenceIds: ["info1"] };
++close(calculateScenario5CognitiveRunResult(bundleWith({ decisions: [oneSourceDecision], evidence: oneSourceEvidence, evidenceOpens: [openInfo1], beliefs: [], reasons: [] })).constructs.informationSeeking, 94, "K=1 opened source diversity rule");
++const openInfo2: EvidenceOpenTelemetry = { ...openInfo1, evidenceId: "info2", openedAtMs: 20_250 };
++close(calculateScenario5CognitiveRunResult(infoBundle([openInfo1, openInfo2])).constructs.informationSeeking, 94, "two-source entropy diversity exact");
++const noEvidenceDecision = makeDecision("A1_baseline_monitoring", "a1_network_baseline", undefined, []);
++close(calculateScenario5CognitiveRunResult(bundleWith({ decisions: [noEvidenceDecision], evidence: [], evidenceOpens: [], beliefs: [], reasons: [] })).constructs.informationSeeking, 90, "no-evidence diagnostic window renormalizes to option loading");
++const unrelatedAdded = calculateScenario5CognitiveRunResult(infoBundle([openInfo1])).constructs.informationSeeking;
++close(calculateScenario5CognitiveRunResult(infoBundle([openInfo1, { ...openInfo1, evidenceId: "unrelated" }])).constructs.informationSeeking, unrelatedAdded!, "unrelated evidence excluded");
++close(calculateScenario5CognitiveRunResult(infoBundle([{ ...openInfo1, activeDwellMs: 999999 }])).constructs.informationSeeking, unrelatedAdded!, "dwell does not alter score");
++
++// Player-visible evidence support and responsive updating.
++const supportEvidence: EvidenceTelemetry[] = [
++  { ...evidenceFor("A1_baseline_monitoring", 1), evidenceId: "weakT", strengthBand: "weak", direction: "supports_targeted", sourceType: "pnt_telemetry" },
++  { ...evidenceFor("A1_baseline_monitoring", 1), evidenceId: "moderateT", strengthBand: "moderate", direction: "supports_targeted", sourceType: "field_report" },
++  { ...evidenceFor("A1_baseline_monitoring", 1), evidenceId: "strongT", strengthBand: "strong", direction: "supports_targeted", sourceType: "radio_timing" },
++  { ...evidenceFor("A1_baseline_monitoring", 1), evidenceId: "amb", strengthBand: "strong", direction: "ambiguous", sourceType: "ground_recon" },
++  { ...evidenceFor("A1_baseline_monitoring", 1), evidenceId: "non", strengthBand: "strong", direction: "supports_nonhostile", sourceType: "satellite_isr" },
++];
++close(calculatePlayerVisibleEvidenceSupport(supportEvidence, ["weakT"]), .625, "weak targeted support");
++close(calculatePlayerVisibleEvidenceSupport(supportEvidence, ["moderateT"]), .8, "moderate targeted support");
++close(calculatePlayerVisibleEvidenceSupport(supportEvidence, ["strongT"]), .95, "strong targeted support");
++close(calculatePlayerVisibleEvidenceSupport(supportEvidence, ["amb"]), .5, "ambiguous sign exact");
++close(calculatePlayerVisibleEvidenceSupport(supportEvidence, ["non"]), .05, "nonhostile sign exact");
++const duplicateSource = [...supportEvidence, { ...supportEvidence[2]!, evidenceId: "strongSame", sourceType: "pnt_telemetry" as const }];
++close(calculatePlayerVisibleEvidenceSupport(duplicateSource, ["weakT", "strongSame"]), .95, "duplicate source collapses to greatest absolute strength");
++const otherCorridor = { ...supportEvidence[0]!, evidenceId: "otherCorridor", observedCorridorId: "corridor_beta_south" as const, strengthBand: "strong" as const };
++close(calculatePlayerVisibleEvidenceSupport([...supportEvidence, otherCorridor], ["non", "otherCorridor"]), .95, "corridor maximum behavior");
++close(calculatePlayerVisibleEvidenceSupport([], []), .5, "no evidence neutral support");
++const belief = (checkpointId: BeliefTelemetry["checkpointId"], estimate: number, ids: string[]): BeliefTelemetry => ({
++  checkpointId, recordedAtMs: 1, mostLikelyCorridorId: "corridor_delta_west", corridorConfidence: 50,
++  targetedInterferenceEstimate: estimate, targetedInterferenceConfidence: 50, visibleEvidenceIdsAtCheckpoint: ids,
++});
++close(calculateEvidenceResponsiveUpdating([belief("A2_prebelief", 50, []), belief("A2_postbelief", 95, ["strongT"])], supportEvidence), 100, "direction and magnitude agreement exact");
++close(calculateEvidenceResponsiveUpdating([belief("A2_prebelief", 50, []), belief("A2_postbelief", 5, ["strongT"])], supportEvidence), 0, "opposite direction exact");
++close(calculateEvidenceResponsiveUpdating([belief("A2_prebelief", 50, []), belief("A2_postbelief", 75, ["strongT"])], supportEvidence), 84, "magnitude alignment exact");
++equal(calculateEvidenceResponsiveUpdating([belief("A2_prebelief", 50, []), belief("A2_postbelief", 80, [])], supportEvidence), null, "zero evidence delta omitted");
++equal(calculateEvidenceResponsiveUpdating([belief("A2_postbelief", 50, []), belief("C_belief_checkpoint", 95, ["strongT"])], supportEvidence), 100, "checkpoint order uses adjacent CP2 to CP3");
++equal(calculateEvidenceResponsiveUpdating([belief("A2_prebelief", 50, []), belief("A2_postbelief", 95, ["strongT"])], supportEvidence),
++  calculateEvidenceResponsiveUpdating([belief("A2_prebelief", 50, []), { ...belief("A2_postbelief", 95, ["strongT"]), mostLikelyCorridorId: "corridor_gamma_northwest" }], supportEvidence),
++  "corridor hypothesis correctness does not enter score");
++
++// Second order, adversary, escalation, stewardship, and planning formulas/windows.
++const constructBundle = anchorBundle(strategicAnchor);
++const constructResult = calculateScenario5CognitiveRunResult(constructBundle);
++const selectedProfile = getScenario5OptionProfile("c2_balanced");
++const expectedSecond = .35 * selectedProfile.futureConsequenceThinking + .25 * selectedProfile.adversaryModeling
++  + .2 * selectedProfile.reversibilityPreference + .2 * selectedProfile.resourceStewardship;
++const singleC2 = bundleWith({ decisions: [makeDecision("C2_resource_portfolio", "c2_balanced")], evidence: [], evidenceOpens: [], beliefs: [], reasons: [] });
++close(calculateScenario5CognitiveRunResult(singleC2).constructs.secondOrderThinking, 100 * expectedSecond, "second-order exact formula in eligible C2 window");
++close(calculateScenario5CognitiveRunResult(singleC2).constructs.adversaryModeling, 100 * selectedProfile.adversaryModeling, "adversary modeling exact C2 formula");
++const singleD1 = bundleWith({ decisions: [makeDecision("D1_crisis_response", "d1_ground_containment")], evidence: [], evidenceOpens: [], beliefs: [], reasons: [] });
++close(calculateScenario5CognitiveRunResult(singleD1).constructs.escalationSensitivity, 100 * getScenario5OptionProfile("d1_ground_containment").escalationSensitivity, "escalation exact D1 formula");
++equal(calculateScenario5CognitiveRunResult(bundleWith({ decisions: [makeDecision("A1_baseline_monitoring")], evidence: [], evidenceOpens: [], beliefs: [], reasons: [] })).constructs.adversaryModeling, null, "adversary modeling excludes ineligible window");
++equal(calculateScenario5CognitiveRunResult(bundleWith({ decisions: [makeDecision("C1_support_and_checkpoints")], evidence: [], evidenceOpens: [], beliefs: [], reasons: [] })).constructs.escalationSensitivity, null, "escalation excludes ineligible window");
++const missingResources = bundleWith({ decisions: perfectDecisions.map((decision, index) => index === 0 ? { ...decision, playerVisibleResourcesBefore: null } : decision) });
++equal(calculateScenario5CognitiveRunResult(missingResources).constructs.resourceStewardship, null, "missing resource snapshot makes stewardship unavailable");
++const penaltyBundle = (isrCapacity: number, supportReserve: number) => bundleWith({
++  decisions: perfectDecisions.map((decision) => decision.windowId === "D2_final_delivery_policy"
++    ? { ...decision, playerVisibleResourcesAfter: { isrCapacity, supportReserve } } : decision),
++});
++const noPenalty = calculateScenario5CognitiveRunResult(penaltyBundle(10, 10)).constructs.resourceStewardship!;
++const stewardshipEntries = perfectDecisions.map((decision) => {
++  const item = getScenario5OptionProfile(decision.finalSelectedActionId!);
++  return { phaseId: decision.phaseId, value: .5*item.resourceStewardship+.3*item.contingencyPlanning+.2*item.reversibilityPreference };
++});
++const expectedStewardship = ["A","B","C","D"].map((phaseId) => {
++  const values = stewardshipEntries.filter((entry) => entry.phaseId === phaseId).map(({ value }) => value);
++  return values.reduce((sum, value) => sum + value, 0) / values.length;
++}).reduce((sum, value) => sum + value, 0) / 4 * 100;
++close(noPenalty, expectedStewardship, "resource stewardship exact base formula and zero exhaustion penalty");
++close(calculateScenario5CognitiveRunResult(penaltyBundle(5, 10)).constructs.resourceStewardship, Math.max(0, noPenalty - 5), "one exhausted resource penalty 0.05");
++close(calculateScenario5CognitiveRunResult(penaltyBundle(5, 5)).constructs.resourceStewardship, Math.max(0, noPenalty - 10), "two exhausted resources penalty 0.10");
++const c2Planning = .35*selectedProfile.contingencyPlanning+.25*selectedProfile.reversibilityPreference
++  +.2*selectedProfile.resourceStewardship+.2*selectedProfile.futureConsequenceThinking;
++close(calculateScenario5CognitiveRunResult(singleC2).constructs.planningForesight, 100*c2Planning, "planning exact formula in eligible C2 window");
++
++// Multi-criteria entropy/mean salience and relative risk.
++const narrow = { ...getScenario5OptionProfile("a1_network_baseline"), domainSalience: { mission: .9 } };
++const broad = { ...getScenario5OptionProfile("a1_network_baseline"), domainSalience: { mission: .3, information: .3, navigation: .3 } };
++close(multiCriteriaForProfile(narrow), 0, "single-domain normalized entropy is zero");
++const broadTotal = .9;
++const broadEntropy = Math.log(3) / Math.log(9);
++close(multiCriteriaForProfile(broad), broadEntropy * (broadTotal / 9), "multi-domain entropy and mean salience exact");
++check(multiCriteriaForProfile(broad)! > multiCriteriaForProfile(narrow)!, "comparable multi-domain option exceeds narrow option");
++equal(getScenario5OptionProfile("a1_network_baseline").domainSalience.navigation ?? 0, 0, "omitted domain is exactly zero");
++const riskDecision = makeDecision("B2_route_policy", "b2_continue_crosscheck", ["b2_reroute", "b2_continue_crosscheck"]);
++const risks = [.3, .5];
++close(adjustedRiskForDecision(riskDecision), 1, "relative risk high option centered to +1");
++close(adjustedRiskForDecision({ ...riskDecision, finalSelectedActionId: "b2_reroute" }), -1, "relative risk low option centered to -1");
++check(risks[1]! > risks[0]!, "risk polarity is exposure-only and non-normative");
++
++// Exact matrices, seven reason rubrics, validity timing, and 60/40 coherence.
++for (const phaseId of ["B", "C", "D"] as const) {
++  const matrix = CROSS_DECISION_COHERENCE_MATRICES[phaseId];
++  for (const [first, row] of Object.entries(matrix)) {
++    for (const [second, expected] of Object.entries(row)) {
++      equal(getCrossDecisionCoherence(phaseId, first as MissionActionId, second as MissionActionId), expected, `${phaseId} matrix ${first}/${second}`);
++    }
++  }
++}
++const reasonAction = getScenario5OptionProfile("d1_ground_containment");
++const domain = (key: keyof typeof reasonAction.domainSalience) => reasonAction.domainSalience[key] ?? 0;
++const reasonExpected: Readonly<Record<ReasonId, number>> = {
++  reason_mission_speed: .45*reasonAction.operationalLoading+.35*domain("mission")+.2*reasonAction.riskExposure,
++  reason_reduce_exposure: .35*(1-reasonAction.riskExposure)+.25*domain("navigation")+.2*reasonAction.contingencyPlanning+.2*reasonAction.reversibilityPreference,
++  reason_preserve_resources: .6*reasonAction.resourceStewardship+.25*reasonAction.futureConsequenceThinking+.15*reasonAction.reversibilityPreference,
++  reason_network_continuity: .4*domain("network")+.25*domain("logistics")+.2*reasonAction.strategicLoading+.15*reasonAction.contingencyPlanning,
++  reason_information_confidence: .6*reasonAction.informationSeeking+.25*domain("information")+.15*reasonAction.reversibilityPreference,
++  reason_limit_actor_reaction: .4*reasonAction.adversaryModeling+.35*reasonAction.escalationSensitivity+.25*reasonAction.reversibilityPreference,
++  reason_preserve_reversibility: .5*reasonAction.reversibilityPreference+.3*reasonAction.contingencyPlanning+.2*reasonAction.futureConsequenceThinking,
++};
++for (const [reasonId, expected] of Object.entries(reasonExpected)) close(calculateReasonAlignment("d1_ground_containment", reasonId as ReasonId), expected, `${reasonId} exact rubric`);
++const afterOutcomeReasons = perfectBundle.reasons.map((reason) => ({ ...reason, capturedBeforeOutcome: false }));
++equal(calculateScenario5CognitiveRunResult(bundleWith({ reasons: afterOutcomeReasons })).constructs.decisionCoherence, null, "after-outcome reasons invalid for coherence");
++equal(calculateScenario5CognitiveRunResult(bundleWith({ reasons: perfectBundle.reasons.slice(0, 1) })).constructs.decisionCoherence, null, "fewer than two reason phases unavailable");
++const coherenceResult = calculateScenario5CognitiveRunResult(perfectBundle).constructs.decisionCoherence!;
++const phaseReasonAndCross = (["B", "C", "D"] as const).map((phaseId) => {
++  const reason = perfectBundle.reasons.find((item) => item.phaseId === phaseId)!;
++  const decisions = perfectBundle.decisions.filter((item) => item.phaseId === phaseId);
++  const first = decisions[0]!.finalSelectedActionId!; const second = decisions[1]!.finalSelectedActionId!;
++  return { reason: (calculateReasonAlignment(first, reason.reasonId)+calculateReasonAlignment(second, reason.reasonId))/2, cross: getCrossDecisionCoherence(phaseId, first, second)! };
++});
++close(coherenceResult, 100*(.6*phaseReasonAndCross.reduce((s,x)=>s+x.reason,0)/3+.4*phaseReasonAndCross.reduce((s,x)=>s+x.cross,0)/3), "decision coherence exact 60/40 formula");
++
++// Completeness, summary, and malformed-input validation.
++validateScenario5CognitiveTelemetry(perfectBundle);
++equal(calculateDataCompleteness(perfectBundle), { overall:100, decisions:100, timing:100, evidence:100, estimates:100, reasons:100 }, "perfect telemetry completeness 100");
++const missingDecisionCompleteness = calculateDataCompleteness(bundleWith({ decisions: perfectDecisions.slice(0, 7) }));
++close(missingDecisionCompleteness.decisions, 87.5, "missing decision exact completeness reduction");
++close(missingDecisionCompleteness.overall, 90, "missing decision affects decision, timing, and evidence components exactly");
++const missingTimingBundle = bundleWith({ decisions: perfectDecisions.map((decision) => ({ ...decision, activeDecisionMs: null })) });
++equal(calculateDataCompleteness(missingTimingBundle).timing, 0, "missing timing records data quality as zero completeness");
++equal(calculateScenario5CognitiveRunResult(missingTimingBundle).orientation, calculateScenario5CognitiveRunResult(perfectBundle).orientation, "missing timing does not become zero performance");
++equal(calculateDataCompleteness(bundleWith({ beliefs: [], reasons: [] })).estimates, 0, "missing estimates respected");
++equal(calculateDataCompleteness(bundleWith({ beliefs: [], reasons: [] })).reasons, 0, "missing reasons respected");
++const alteredChoices = bundleWith({ decisions: perfectDecisions.map((decision) => ({ ...decision, finalSelectedActionId: decision.availableActionIds.at(-1)! })) });
++equal(calculateDataCompleteness(alteredChoices), calculateDataCompleteness(perfectBundle), "completeness independent of score profile choice");
++equal(calculateTelemetrySummary(perfectBundle), {
++  medianActiveDecisionMs:4500, iqrActiveDecisionMs:3500, totalRevisions:4, revisedWindows:4, evidenceTriggeredRevisionRate:50,
++}, "median, interpolated IQR, revisions, and evidence-triggered revisions exact");
++equal(calculateTelemetrySummary(bundleWith({ decisions: perfectDecisions.map((decision) => ({ ...decision, activeDecisionMs:null })), evidenceOpens:[] })).medianActiveDecisionMs, null, "no valid timing summary is null");
++equal(calculateTelemetrySummary(bundleWith({ evidenceOpens:[] })).evidenceTriggeredRevisionRate, null, "no eligible evidence-trigger window is null");
++
++rejects(() => validateScenario5CognitiveTelemetry(bundleWith({ decisions:[perfectDecisions[0]!, perfectDecisions[0]!] })), /Duplicate decision/, "duplicate decision rejects");
++rejects(() => validateScenario5CognitiveTelemetry(bundleWith({ decisions:[{ ...perfectDecisions[0]!, finalSelectedActionId:"unknown" as MissionActionId }] })), /unknown action/, "unknown profile rejects");
++rejects(() => validateScenario5CognitiveTelemetry(bundleWith({ decisions:[{ ...perfectDecisions[0]!, finalSelectedActionId:"a2_broad_sweep" }] })), /not available/, "unavailable final action rejects");
++rejects(() => validateScenario5CognitiveTelemetry(bundleWith({ decisions:[{ ...perfectDecisions[0]!, phaseId:"B" }] })), /Wrong phase/, "wrong mapping rejects");
++rejects(() => validateScenario5CognitiveTelemetry(bundleWith({ beliefs:[perfectBeliefs[0]!, perfectBeliefs[0]!] })), /Duplicate belief/, "duplicate belief rejects");
++rejects(() => validateScenario5CognitiveTelemetry(bundleWith({ beliefs:[{ ...perfectBeliefs[0]!, corridorConfidence:101 }] })), /outside/, "belief range rejects");
++rejects(() => validateScenario5CognitiveTelemetry(bundleWith({ reasons:[perfectBundle.reasons[0]!, perfectBundle.reasons[0]!] })), /Duplicate reason/, "duplicate reason phase rejects");
++rejects(() => validateScenario5CognitiveTelemetry(bundleWith({ decisions:[{ ...perfectDecisions[0]!, activeDecisionMs:-1 }] })), /nonnegative/, "negative duration rejects");
++rejects(() => validateScenario5CognitiveTelemetry(bundleWith({ evidence:[perfectEvidence[0]!, perfectEvidence[0]!] })), /Duplicate evidence/, "duplicate evidence rejects");
++rejects(() => validateScenario5CognitiveTelemetry(bundleWith({ decisions:[{ ...perfectDecisions[0]!, availableEvidenceIds:["missing"] }] })), /Invalid evidence reference/, "invalid evidence reference rejects");
++
++// Hidden/outcome firewall and architectural regression boundary.
++const cognitiveDirectory = fileURLToPath(new URL("../src/ui/components/scenario/scenario-five/model/cognitive/", import.meta.url));
++const forbidden = [
++  "TrueWorldState", "ActorInternalState", "worldId", "seed", "endState", "resolveMissionEndState",
++  "isThreatContained", "integrity", "deliveredAtMinute", "Math.random", "hiddenProvenance", "ActorReaction", "actorReaction",
++];
++for (const file of readdirSync(cognitiveDirectory).filter((name) => name.endsWith(".ts"))) {
++  const source = readFileSync(`${cognitiveDirectory}/${file}`, "utf8");
++  for (const token of forbidden) check(!source.includes(token), `${file} excludes forbidden token ${token}`);
++  check(!/from\s+["']react(?:\/[^"']*)?["']|import\s+["']react(?:\/[^"']*)?["']/i.test(source), `${file} has no React import`);
++  check(!/missionEngine|endStateResolver/.test(source), `${file} has no mission engine/resolver import`);
++}
++check(!Object.hasOwn(perfectBundle, "worldId") && !Object.hasOwn(perfectBundle, "endState"), "telemetry contract has no hidden/outcome fields");
++check(!Object.hasOwn(calculateScenario5CognitiveRunResult(perfectBundle), "overallCognitiveScore"), "result has no global cognitive score");
++
++console.log(`Scenario 5 Phase-5 cognitive verification passed (${assertions} assertions).`);
+diff --git a/src/ui/components/scenario/scenario-five/model/cognitive/cognitiveEngine.ts b/src/ui/components/scenario/scenario-five/model/cognitive/cognitiveEngine.ts
+new file mode 100644
+index 0000000..a9917bb
+--- /dev/null
++++ b/src/ui/components/scenario/scenario-five/model/cognitive/cognitiveEngine.ts
+@@ -0,0 +1,452 @@
++import { calculateEvidenceResponsiveUpdating } from "./evidenceScoring";
++import { getScenario5OptionProfile, SCENARIO5_OPTION_PROFILES } from "./optionProfiles";
++import { calculateReasonAlignment, getCrossDecisionCoherence } from "./reasonModel";
++import type {
++  CognitiveWindowId,
++  DataCompletenessResult,
++  DecisionTelemetry,
++  DomainSalienceId,
++  OptionCognitiveProfile,
++  PhaseId,
++  Scenario5CognitiveRunResult,
++  Scenario5CognitiveTelemetryBundle,
++  TelemetrySummaryResult,
++} from "./types";
++import {
++  S5_COGNITIVE_FORMULA_VERSION,
++  S5_COGNITIVE_MEASUREMENT_MODEL_VERSION,
++  S5_EXPERT_PANEL_VERSION,
++  S5_OPTION_PROFILE_VERSION,
++  S5_REASON_MODEL_VERSION,
++  S5_SCENARIO_CONTENT_VERSION,
++  S5_VALIDITY_STATUS,
++} from "./versions";
++
++const EPSILON = 1e-9;
++const clamp = (value: number, minimum: number, maximum: number): number => Math.min(maximum, Math.max(minimum, value));
++const mean = (values: readonly number[]): number => values.reduce((sum, value) => sum + value, 0) / values.length;
++const finiteNonnegative = (value: number | null): value is number => value !== null && Number.isFinite(value) && value >= 0;
++
++interface ExpectedWindow {
++  readonly phaseId: PhaseId;
++  readonly roundId: 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8;
++}
++const EXPECTED_WINDOWS: Readonly<Record<CognitiveWindowId, ExpectedWindow>> = {
++  A1_baseline_monitoring: { phaseId: "A", roundId: 1 },
++  A2_evidence_acquisition: { phaseId: "A", roundId: 2 },
++  B1_monitoring_allocation: { phaseId: "B", roundId: 3 },
++  B2_route_policy: { phaseId: "B", roundId: 4 },
++  C1_support_and_checkpoints: { phaseId: "C", roundId: 5 },
++  C2_resource_portfolio: { phaseId: "C", roundId: 6 },
++  D1_crisis_response: { phaseId: "D", roundId: 7 },
++  D2_final_delivery_policy: { phaseId: "D", roundId: 8 },
++};
++const EXPECTED_WINDOW_IDS = Object.keys(EXPECTED_WINDOWS) as CognitiveWindowId[];
++const PROFILE_IDS = new Set<string>(SCENARIO5_OPTION_PROFILES.map(({ actionId }) => actionId));
++const REASON_IDS = new Set([
++  "reason_mission_speed", "reason_reduce_exposure", "reason_preserve_resources", "reason_network_continuity",
++  "reason_information_confidence", "reason_limit_actor_reaction", "reason_preserve_reversibility",
++]);
++const BELIEF_IDS = new Set(["A2_prebelief", "A2_postbelief", "C_belief_checkpoint", "D_final_belief"]);
++
++const assertTimestamp = (value: number | null, label: string): void => {
++  if (value !== null && (!Number.isFinite(value) || value < 0)) throw new Error(`${label} must be finite and nonnegative`);
++};
++const assertAction = (value: string | null, label: string): void => {
++  if (value !== null && !PROFILE_IDS.has(value)) throw new Error(`${label} contains unknown action/profile ID: ${value}`);
++};
++
++export function validateScenario5CognitiveTelemetry(bundle: Scenario5CognitiveTelemetryBundle): void {
++  if (bundle.scenarioId !== "s5_silent_waves_redesign") throw new Error("Invalid Scenario 5 cognitive scenarioId");
++  assertTimestamp(bundle.startedAtMs, "startedAtMs");
++  assertTimestamp(bundle.completedAtMs, "completedAtMs");
++  const evidenceIds = new Set<string>();
++  for (const item of bundle.evidence) {
++    if (evidenceIds.has(item.evidenceId)) throw new Error(`Duplicate evidence ID: ${item.evidenceId}`);
++    evidenceIds.add(item.evidenceId);
++    assertTimestamp(item.availableAtMs, `evidence ${item.evidenceId} availableAtMs`);
++    for (const windowId of item.relevantWindowIds) {
++      if (!(windowId in EXPECTED_WINDOWS)) throw new Error(`Invalid relevant window: ${windowId}`);
++    }
++  }
++
++  const decisionWindows = new Set<CognitiveWindowId>();
++  for (const decision of bundle.decisions) {
++    if (decisionWindows.has(decision.windowId)) throw new Error(`Duplicate decision window: ${decision.windowId}`);
++    decisionWindows.add(decision.windowId);
++    const expected = EXPECTED_WINDOWS[decision.windowId];
++    if (!expected || decision.phaseId !== expected.phaseId || decision.roundId !== expected.roundId) {
++      throw new Error(`Wrong phase/round/window mapping for ${decision.windowId}`);
++    }
++    for (const actionId of decision.availableActionIds) assertAction(actionId, decision.windowId);
++    assertAction(decision.firstSelectedActionId, decision.windowId);
++    assertAction(decision.finalSelectedActionId, decision.windowId);
++    if (decision.finalSelectedActionId !== null && !decision.availableActionIds.includes(decision.finalSelectedActionId)) {
++      throw new Error(`Final action is not available in ${decision.windowId}`);
++    }
++    for (const selection of decision.selectionHistory) {
++      assertAction(selection.actionId, `${decision.windowId} selection`);
++      assertTimestamp(selection.selectedAtMs, `${decision.windowId} selection timestamp`);
++    }
++    for (const [label, value] of [
++      ["enteredAtMs", decision.enteredAtMs], ["confirmedAtMs", decision.confirmedAtMs],
++      ["elapsedMs", decision.elapsedMs], ["activeDecisionMs", decision.activeDecisionMs],
++      ["hiddenTabMs", decision.hiddenTabMs],
++    ] as const) assertTimestamp(value, `${decision.windowId} ${label}`);
++    if (decision.enteredAtMs !== null && decision.confirmedAtMs !== null && decision.confirmedAtMs < decision.enteredAtMs) {
++      throw new Error(`Confirmation precedes entry in ${decision.windowId}`);
++    }
++    if (!Number.isInteger(decision.revisionCount) || decision.revisionCount < 0) throw new Error(`Invalid revision count in ${decision.windowId}`);
++    for (const id of [...decision.availableEvidenceIds, ...decision.openedEvidenceIds]) {
++      if (!evidenceIds.has(id)) throw new Error(`Invalid evidence reference ${id} in ${decision.windowId}`);
++    }
++    if (decision.openedEvidenceIds.some((id) => !decision.availableEvidenceIds.includes(id))) {
++      throw new Error(`Opened evidence was not available in ${decision.windowId}`);
++    }
++  }
++
++  for (const opened of bundle.evidenceOpens) {
++    if (!evidenceIds.has(opened.evidenceId)) throw new Error(`Invalid evidence-open reference: ${opened.evidenceId}`);
++    if (!(opened.windowId in EXPECTED_WINDOWS)) throw new Error(`Invalid evidence-open window: ${opened.windowId}`);
++    assertTimestamp(opened.openedAtMs, `open ${opened.evidenceId}`);
++    assertTimestamp(opened.closedAtMs, `close ${opened.evidenceId}`);
++    assertTimestamp(opened.activeDwellMs, `dwell ${opened.evidenceId}`);
++    if (opened.closedAtMs !== null && opened.closedAtMs < opened.openedAtMs) throw new Error(`Evidence close precedes open: ${opened.evidenceId}`);
++  }
++
++  const checkpoints = new Set<string>();
++  for (const belief of bundle.beliefs) {
++    if (!BELIEF_IDS.has(belief.checkpointId)) throw new Error(`Invalid belief checkpoint: ${belief.checkpointId}`);
++    if (checkpoints.has(belief.checkpointId)) throw new Error(`Duplicate belief checkpoint: ${belief.checkpointId}`);
++    checkpoints.add(belief.checkpointId);
++    assertTimestamp(belief.recordedAtMs, `${belief.checkpointId} recordedAtMs`);
++    for (const value of [belief.corridorConfidence, belief.targetedInterferenceEstimate, belief.targetedInterferenceConfidence]) {
++      if (!Number.isFinite(value) || value < 0 || value > 100) throw new Error(`Belief value outside 0..100 at ${belief.checkpointId}`);
++    }
++    for (const id of belief.visibleEvidenceIdsAtCheckpoint) {
++      if (!evidenceIds.has(id)) throw new Error(`Invalid belief evidence reference: ${id}`);
++    }
++  }
++
++  const reasonPhases = new Set<string>();
++  for (const reason of bundle.reasons) {
++    if (reasonPhases.has(reason.phaseId)) throw new Error(`Duplicate reason phase: ${reason.phaseId}`);
++    reasonPhases.add(reason.phaseId);
++    if (!REASON_IDS.has(reason.reasonId)) throw new Error(`Invalid reason ID: ${reason.reasonId}`);
++    assertTimestamp(reason.recordedAtMs, `${reason.phaseId} reason timestamp`);
++  }
++}
++
++const uniqueAvailableProfiles = (decision: DecisionTelemetry): OptionCognitiveProfile[] =>
++  [...new Set(decision.availableActionIds)].map((actionId) => getScenario5OptionProfile(actionId));
++
++const scoreEligible = (decision: DecisionTelemetry): boolean => decision.finalSelectedActionId !== null
++  && decision.availableActionIds.includes(decision.finalSelectedActionId)
++  && decision.availableActionIds.every((id) => PROFILE_IDS.has(id))
++  && new Set(decision.availableActionIds).size >= 2;
++
++export function rawOrientation(profile: OptionCognitiveProfile): number {
++  return (profile.strategicLoading - profile.operationalLoading)
++    / (profile.strategicLoading + profile.operationalLoading + EPSILON);
++}
++
++const adjustedRelative = (
++  decision: DecisionTelemetry,
++  metric: (profile: OptionCognitiveProfile) => number,
++): number | null => {
++  if (!scoreEligible(decision) || decision.finalSelectedActionId === null) return null;
++  const profiles = uniqueAvailableProfiles(decision);
++  const values = profiles.map(metric);
++  const baseline = mean(values);
++  const centered = values.map((value) => value - baseline);
++  const maximum = Math.max(...centered.map(Math.abs));
++  if (maximum < EPSILON) return null;
++  return clamp((metric(getScenario5OptionProfile(decision.finalSelectedActionId)) - baseline) / maximum, -1, 1);
++};
++
++export function adjustedOrientationForDecision(decision: DecisionTelemetry): number | null {
++  return adjustedRelative(decision, rawOrientation);
++}
++
++export function adjustedRiskForDecision(decision: DecisionTelemetry): number | null {
++  return adjustedRelative(decision, ({ riskExposure }) => riskExposure);
++}
++
++const diagnostic = (decision: DecisionTelemetry, metric: (profile: OptionCognitiveProfile) => number): boolean => {
++  if (!scoreEligible(decision)) return false;
++  const values = uniqueAvailableProfiles(decision).map(metric);
++  return Math.max(...values) - Math.min(...values) + EPSILON >= 0.1;
++};
++
++const phaseBalanced = (entries: readonly { phaseId: PhaseId; value: number }[]): number | null => {
++  const phaseMeans = (["A", "B", "C", "D"] as const).flatMap((phaseId) => {
++    const values = entries.filter((entry) => entry.phaseId === phaseId).map(({ value }) => value);
++    return values.length === 0 ? [] : [mean(values)];
++  });
++  return phaseMeans.length === 0 ? null : mean(phaseMeans);
++};
++
++const scoreMetric = (
++  decisions: readonly DecisionTelemetry[],
++  windows: ReadonlySet<CognitiveWindowId>,
++  metric: (profile: OptionCognitiveProfile) => number,
++): number | null => {
++  const entries = decisions.flatMap((decision) => {
++    if (!windows.has(decision.windowId) || !diagnostic(decision, metric) || decision.finalSelectedActionId === null) return [];
++    return [{ phaseId: decision.phaseId, value: metric(getScenario5OptionProfile(decision.finalSelectedActionId)) }];
++  });
++  const value = phaseBalanced(entries);
++  return value === null ? null : 100 * clamp(value, 0, 1);
++};
++
++const OSI_WINDOWS = new Set<CognitiveWindowId>([
++  "A1_baseline_monitoring", "B1_monitoring_allocation", "B2_route_policy", "C1_support_and_checkpoints",
++  "C2_resource_portfolio", "D1_crisis_response", "D2_final_delivery_policy",
++]);
++const INFO_WINDOWS = new Set<CognitiveWindowId>([
++  "A1_baseline_monitoring", "A2_evidence_acquisition", "B1_monitoring_allocation", "B2_route_policy",
++  "C1_support_and_checkpoints", "C2_resource_portfolio", "D1_crisis_response",
++]);
++const SECOND_ORDER_WINDOWS = OSI_WINDOWS;
++const ADVERSARY_WINDOWS = new Set<CognitiveWindowId>(["C2_resource_portfolio", "D1_crisis_response"]);
++const ESCALATION_WINDOWS = new Set<CognitiveWindowId>(["B2_route_policy", "D1_crisis_response", "D2_final_delivery_policy"]);
++const PLANNING_WINDOWS = new Set<CognitiveWindowId>([
++  "A1_baseline_monitoring", "B2_route_policy", "C1_support_and_checkpoints", "C2_resource_portfolio",
++  "D1_crisis_response", "D2_final_delivery_policy",
++]);
++const MCI_WINDOWS = new Set<CognitiveWindowId>(["B1_monitoring_allocation", "B2_route_policy", "C2_resource_portfolio", "D1_crisis_response"]);
++const RISK_WINDOWS = new Set<CognitiveWindowId>(["B2_route_policy", "C2_resource_portfolio", "D1_crisis_response", "D2_final_delivery_policy"]);
++const ALL_WINDOWS = new Set<CognitiveWindowId>(EXPECTED_WINDOW_IDS);
++
++const secondOrder = (item: OptionCognitiveProfile): number => .35 * item.futureConsequenceThinking
++  + .25 * item.adversaryModeling + .2 * item.reversibilityPreference + .2 * item.resourceStewardship;
++const stewardship = (item: OptionCognitiveProfile): number => .5 * item.resourceStewardship
++  + .3 * item.contingencyPlanning + .2 * item.reversibilityPreference;
++const planning = (item: OptionCognitiveProfile): number => .35 * item.contingencyPlanning
++  + .25 * item.reversibilityPreference + .2 * item.resourceStewardship + .2 * item.futureConsequenceThinking;
++export const DOMAIN_ORDER: readonly DomainSalienceId[] = [
++  "mission", "information", "navigation", "logistics", "resources", "civilian", "escalation", "futureOptions", "network",
++];
++export function multiCriteriaForProfile(item: OptionCognitiveProfile): number | null {
++  const values = DOMAIN_ORDER.map((key) => item.domainSalience[key] ?? 0);
++  const total = values.reduce((sum, value) => sum + value, 0);
++  if (total <= EPSILON) return null;
++  const entropy = -values.reduce((sum, value) => value <= 0 ? sum : sum + (value / total) * Math.log(value / total), 0) / Math.log(9);
++  return clamp(entropy * (total / 9), 0, 1);
++}
++
++export function calculateIntegration(operationalStrength: number | null, strategicStrength: number | null): number | null {
++  if (operationalStrength === null || strategicStrength === null) return null;
++  const denominator = operationalStrength + strategicStrength;
++  return denominator === 0 ? null : clamp(2 * operationalStrength * strategicStrength / denominator, 0, 100);
++}
++
++const orientationResult = (decisions: readonly DecisionTelemetry[]) => {
++  const entries = decisions.flatMap((decision) => {
++    if (!OSI_WINDOWS.has(decision.windowId)) return [];
++    const value = adjustedOrientationForDecision(decision);
++    return value === null ? [] : [{ phaseId: decision.phaseId, value }];
++  });
++  const byPhase = (["A", "B", "C", "D"] as const).map((phaseId) => {
++    const values = entries.filter((entry) => entry.phaseId === phaseId).map(({ value }) => value);
++    return values.length === 0 ? null : clamp(mean(values), -1, 1);
++  }) as [number | null, number | null, number | null, number | null];
++  const overall = byPhase.every((value): value is number => value !== null) ? clamp(mean(byPhase), -1, 1) : null;
++
++  const rawEntries = decisions.flatMap((decision) => {
++    if (!OSI_WINDOWS.has(decision.windowId) || !scoreEligible(decision) || decision.finalSelectedActionId === null) return [];
++    return [{ phaseId: decision.phaseId, profile: getScenario5OptionProfile(decision.finalSelectedActionId) }];
++  });
++  const strength = (key: "operationalLoading" | "strategicLoading"): number | null => {
++    const value = phaseBalanced(rawEntries.map(({ phaseId, profile }) => ({ phaseId, value: profile[key] })));
++    return value === null ? null : clamp(100 * value, 0, 100);
++  };
++  const operationalStrength = strength("operationalLoading");
++  const strategicStrength = strength("strategicLoading");
++  const integration = calculateIntegration(operationalStrength, strategicStrength);
++  const availablePhases = byPhase.filter((value): value is number => value !== null);
++  const dispersion = availablePhases.length < 2
++    ? null
++    : Math.sqrt(mean(availablePhases.map((value) => (value - mean(availablePhases)) ** 2)));
++  return { overall, operationalStrength, strategicStrength, integration, dispersion, phaseScores: byPhase };
++};
++
++const informationSeeking = (bundle: Scenario5CognitiveTelemetryBundle): number | null => {
++  const evidenceById = new Map(bundle.evidence.map((item) => [item.evidenceId, item]));
++  const entries = bundle.decisions.flatMap((decision) => {
++    if (!INFO_WINDOWS.has(decision.windowId) || !scoreEligible(decision) || decision.finalSelectedActionId === null) return [];
++    const relevant = decision.confirmedAtMs === null ? [] : bundle.evidence.filter((item) =>
++      item.relevantWindowIds.includes(decision.windowId) && item.availableAtMs <= decision.confirmedAtMs!);
++    const relevantIds = new Set(relevant.map(({ evidenceId }) => evidenceId));
++    const openedIds = new Set(bundle.evidenceOpens.filter((opened) =>
++      opened.windowId === decision.windowId
++      && relevantIds.has(opened.evidenceId)
++      && decision.enteredAtMs !== null
++      && decision.confirmedAtMs !== null
++      && opened.openedAtMs >= decision.enteredAtMs
++      && opened.openedAtMs <= decision.confirmedAtMs).map(({ evidenceId }) => evidenceId));
++    const selected = getScenario5OptionProfile(decision.finalSelectedActionId);
++    if (!diagnostic(decision, ({ informationSeeking: value }) => value) && relevant.length === 0) return [];
++    const components: { weight: number; value: number }[] = [{ weight: .6, value: selected.informationSeeking }];
++    if (relevant.length > 0) {
++      components.push({ weight: .25, value: openedIds.size / new Set(relevant.map(({ evidenceId }) => evidenceId)).size });
++      const availableSources = new Set(relevant.map(({ sourceType }) => sourceType));
++      let diversity = 0;
++      if (openedIds.size > 0 && availableSources.size === 1) diversity = 1;
++      else if (openedIds.size > 0 && availableSources.size >= 2) {
++        const counts = new Map<string, number>();
++        for (const id of openedIds) {
++          const source = evidenceById.get(id)?.sourceType;
++          if (source) counts.set(source, (counts.get(source) ?? 0) + 1);
++        }
++        diversity = -[...counts.values()].reduce((sum, count) => {
++          const proportion = count / openedIds.size;
++          return sum + proportion * Math.log(proportion);
++        }, 0) / Math.log(availableSources.size);
++      }
++      components.push({ weight: .15, value: clamp(diversity, 0, 1) });
++    }
++    const weighted = components.reduce((sum, component) => sum + component.weight * component.value, 0)
++      / components.reduce((sum, component) => sum + component.weight, 0);
++    return [{ phaseId: decision.phaseId, value: weighted }];
++  });
++  const value = phaseBalanced(entries);
++  return value === null ? null : 100 * clamp(value, 0, 1);
++};
++
++const resourceStewardship = (bundle: Scenario5CognitiveTelemetryBundle): number | null => {
++  if (bundle.decisions.length !== 8 || EXPECTED_WINDOW_IDS.some((windowId) => {
++    const decision = bundle.decisions.find((item) => item.windowId === windowId);
++    return !decision || decision.playerVisibleResourcesBefore === null || decision.playerVisibleResourcesAfter === null;
++  })) return null;
++  const base = scoreMetric(bundle.decisions, ALL_WINDOWS, stewardship);
++  if (base === null) return null;
++  const final = bundle.decisions.find(({ windowId }) => windowId === "D2_final_delivery_policy")!.playerVisibleResourcesAfter!;
++  const penalty = .05 * Number(final.isrCapacity <= 5) + .05 * Number(final.supportReserve <= 5);
++  return 100 * clamp(base / 100 - penalty, 0, 1);
++};
++
++const multiDomainIntegration = (decisions: readonly DecisionTelemetry[]): number | null => {
++  const metric = (item: OptionCognitiveProfile): number => multiCriteriaForProfile(item) ?? 0;
++  return scoreMetric(decisions, MCI_WINDOWS, metric);
++};
++
++const riskPosture = (decisions: readonly DecisionTelemetry[]): number | null => {
++  const entries = decisions.flatMap((decision) => {
++    if (!RISK_WINDOWS.has(decision.windowId)) return [];
++    const value = adjustedRiskForDecision(decision);
++    return value === null ? [] : [{ phaseId: decision.phaseId, value }];
++  });
++  const value = phaseBalanced(entries);
++  return value === null ? null : clamp(value, -1, 1);
++};
++
++const decisionCoherence = (bundle: Scenario5CognitiveTelemetryBundle): number | null => {
++  const windows = { B: ["B1_monitoring_allocation", "B2_route_policy"], C: ["C1_support_and_checkpoints", "C2_resource_portfolio"], D: ["D1_crisis_response", "D2_final_delivery_policy"] } as const;
++  const phases = (["B", "C", "D"] as const).flatMap((phaseId) => {
++    const reason = bundle.reasons.find((item) => item.phaseId === phaseId && item.capturedBeforeOutcome);
++    const first = bundle.decisions.find((item) => item.windowId === windows[phaseId][0]);
++    const second = bundle.decisions.find((item) => item.windowId === windows[phaseId][1]);
++    if (!reason || !first?.finalSelectedActionId || !second?.finalSelectedActionId) return [];
++    const cross = getCrossDecisionCoherence(phaseId, first.finalSelectedActionId, second.finalSelectedActionId);
++    if (cross === null) return [];
++    return [{
++      reason: mean([
++        calculateReasonAlignment(first.finalSelectedActionId, reason.reasonId),
++        calculateReasonAlignment(second.finalSelectedActionId, reason.reasonId),
++      ]),
++      cross,
++    }];
++  });
++  if (phases.length < 2) return null;
++  return 100 * clamp(.6 * mean(phases.map(({ reason }) => reason)) + .4 * mean(phases.map(({ cross }) => cross)), 0, 1);
++};
++
++export function calculateDataCompleteness(bundle: Scenario5CognitiveTelemetryBundle): DataCompletenessResult {
++  const evidenceIds = new Set(bundle.evidence.map(({ evidenceId }) => evidenceId));
++  const validDecisions = bundle.decisions.filter((decision) => {
++    const expected = EXPECTED_WINDOWS[decision.windowId];
++    return expected && expected.phaseId === decision.phaseId && expected.roundId === decision.roundId
++      && decision.finalSelectedActionId !== null && decision.availableActionIds.includes(decision.finalSelectedActionId);
++  }).length;
++  const timingComplete = bundle.decisions.filter((decision) =>
++    finiteNonnegative(decision.enteredAtMs) && finiteNonnegative(decision.confirmedAtMs)
++    && finiteNonnegative(decision.elapsedMs) && finiteNonnegative(decision.activeDecisionMs)
++    && finiteNonnegative(decision.hiddenTabMs) && decision.confirmedAtMs >= decision.enteredAtMs).length;
++  const evidenceComplete = bundle.decisions.filter((decision) =>
++    decision.availableEvidenceIds.every((id) => evidenceIds.has(id))
++    && decision.openedEvidenceIds.every((id) => evidenceIds.has(id) && decision.availableEvidenceIds.includes(id))).length;
++  const validBeliefs = bundle.beliefs.filter((belief) => BELIEF_IDS.has(belief.checkpointId)
++    && [belief.corridorConfidence, belief.targetedInterferenceEstimate, belief.targetedInterferenceConfidence]
++      .every((value) => Number.isFinite(value) && value >= 0 && value <= 100)).length;
++  const validReasons = bundle.reasons.filter((reason) => REASON_IDS.has(reason.reasonId) && reason.capturedBeforeOutcome).length;
++  const decisions = 100 * validDecisions / 8;
++  const timing = 100 * timingComplete / 8;
++  const evidence = 100 * evidenceComplete / 8;
++  const estimates = 100 * validBeliefs / 4;
++  const reasons = 100 * validReasons / 3;
++  return { overall: clamp(.5 * decisions + .15 * timing + .15 * evidence + .1 * estimates + .1 * reasons, 0, 100), decisions, timing, evidence, estimates, reasons };
++}
++
++const quantile = (sorted: readonly number[], probability: number): number => {
++  const index = (sorted.length - 1) * probability;
++  const lower = Math.floor(index);
++  const upper = Math.ceil(index);
++  return sorted[lower]! + (index - lower) * (sorted[upper]! - sorted[lower]!);
++};
++
++export function calculateTelemetrySummary(bundle: Scenario5CognitiveTelemetryBundle): TelemetrySummaryResult {
++  const activeTimes = bundle.decisions.map(({ activeDecisionMs }) => activeDecisionMs)
++    .filter(finiteNonnegative).sort((left, right) => left - right);
++  const medianActiveDecisionMs = activeTimes.length === 0 ? null : quantile(activeTimes, .5);
++  const iqrActiveDecisionMs = activeTimes.length === 0 ? null : quantile(activeTimes, .75) - quantile(activeTimes, .25);
++  const totalRevisions = bundle.decisions.reduce((sum, { revisionCount }) => sum + revisionCount, 0);
++  const revisedWindows = bundle.decisions.filter(({ revisionCount }) => revisionCount > 0).length;
++  const eligible = bundle.decisions.filter((decision) => {
++    const firstSelectionAt = decision.selectionHistory[0]?.selectedAtMs;
++    return firstSelectionAt !== undefined && decision.confirmedAtMs !== null && bundle.evidenceOpens.some((opened) =>
++      opened.windowId === decision.windowId && opened.openedAtMs > firstSelectionAt! && opened.openedAtMs < decision.confirmedAtMs!);
++  });
++  const triggered = eligible.filter((decision) =>
++    decision.firstSelectedActionId !== null && decision.firstSelectedActionId !== decision.finalSelectedActionId).length;
++  return {
++    medianActiveDecisionMs,
++    iqrActiveDecisionMs,
++    totalRevisions,
++    revisedWindows,
++    evidenceTriggeredRevisionRate: eligible.length === 0 ? null : 100 * triggered / eligible.length,
++  };
++}
++
++export function calculateScenario5CognitiveRunResult(
++  bundle: Scenario5CognitiveTelemetryBundle,
++): Scenario5CognitiveRunResult {
++  validateScenario5CognitiveTelemetry(bundle);
++  return {
++    scenarioId: bundle.scenarioId,
++    runId: bundle.runId,
++    measurementModelVersion: S5_COGNITIVE_MEASUREMENT_MODEL_VERSION,
++    formulaVersion: S5_COGNITIVE_FORMULA_VERSION,
++    optionProfileVersion: S5_OPTION_PROFILE_VERSION,
++    scenarioContentVersion: S5_SCENARIO_CONTENT_VERSION,
++    reasonModelVersion: S5_REASON_MODEL_VERSION,
++    expertPanelVersion: S5_EXPERT_PANEL_VERSION,
++    validityStatus: S5_VALIDITY_STATUS,
++    dataCompleteness: calculateDataCompleteness(bundle),
++    orientation: orientationResult(bundle.decisions),
++    constructs: {
++      informationSeeking: informationSeeking(bundle),
++      secondOrderThinking: scoreMetric(bundle.decisions, SECOND_ORDER_WINDOWS, secondOrder),
++      adversaryModeling: scoreMetric(bundle.decisions, ADVERSARY_WINDOWS, ({ adversaryModeling }) => adversaryModeling),
++      escalationSensitivity: scoreMetric(bundle.decisions, ESCALATION_WINDOWS, ({ escalationSensitivity }) => escalationSensitivity),
++      informationDiscipline: null,
++      evidenceResponsiveUpdating: calculateEvidenceResponsiveUpdating(bundle.beliefs, bundle.evidence),
++      resourceStewardship: resourceStewardship(bundle),
++      planningForesight: scoreMetric(bundle.decisions, PLANNING_WINDOWS, planning),
++      multiDomainIntegration: multiDomainIntegration(bundle.decisions),
++      riskPosture: riskPosture(bundle.decisions),
++      decisionCoherence: decisionCoherence(bundle),
++    },
++    telemetrySummary: calculateTelemetrySummary(bundle),
++  };
++}
+diff --git a/src/ui/components/scenario/scenario-five/model/cognitive/evidenceScoring.ts b/src/ui/components/scenario/scenario-five/model/cognitive/evidenceScoring.ts
+new file mode 100644
+index 0000000..8565ca4
+--- /dev/null
++++ b/src/ui/components/scenario/scenario-five/model/cognitive/evidenceScoring.ts
+@@ -0,0 +1,51 @@
++import type { BeliefTelemetry, EvidenceTelemetry } from "./types";
++
++const STRENGTH = { weak: 0.25, moderate: 0.6, strong: 0.9 } as const;
++const DIRECTION = { supports_targeted: 1, ambiguous: 0, supports_nonhostile: -1 } as const;
++const clamp = (value: number, minimum: number, maximum: number): number => Math.min(maximum, Math.max(minimum, value));
++
++export function calculatePlayerVisibleEvidenceSupport(
++  evidence: readonly EvidenceTelemetry[],
++  visibleEvidenceIds: readonly string[],
++): number {
++  const visible = new Set(visibleEvidenceIds);
++  const byCorridor = new Map<string, Map<string, number>>();
++  for (const item of evidence) {
++    if (!visible.has(item.evidenceId) || item.observedCorridorId === null) continue;
++    const signed = STRENGTH[item.strengthBand] * DIRECTION[item.direction];
++    const bySource = byCorridor.get(item.observedCorridorId) ?? new Map<string, number>();
++    const existing = bySource.get(item.sourceType);
++    if (existing === undefined || Math.abs(signed) > Math.abs(existing)) bySource.set(item.sourceType, signed);
++    byCorridor.set(item.observedCorridorId, bySource);
++  }
++  if (byCorridor.size === 0) return 0.5;
++  return Math.max(...[...byCorridor.values()].map((sources) => {
++    const values = [...sources.values()];
++    const signedMean = values.reduce((sum, value) => sum + value, 0) / values.length;
++    return clamp(0.5 + 0.5 * signedMean, 0, 1);
++  }));
++}
++
++const CHECKPOINT_ORDER = ["A2_prebelief", "A2_postbelief", "C_belief_checkpoint", "D_final_belief"] as const;
++
++export function calculateEvidenceResponsiveUpdating(
++  beliefs: readonly BeliefTelemetry[],
++  evidence: readonly EvidenceTelemetry[],
++): number | null {
++  const byCheckpoint = new Map(beliefs.map((item) => [item.checkpointId, item]));
++  const scores: number[] = [];
++  for (let index = 0; index < CHECKPOINT_ORDER.length - 1; index += 1) {
++    const before = byCheckpoint.get(CHECKPOINT_ORDER[index]!);
++    const after = byCheckpoint.get(CHECKPOINT_ORDER[index + 1]!);
++    if (!before || !after) continue;
++    const beforeSupport = calculatePlayerVisibleEvidenceSupport(evidence, before.visibleEvidenceIdsAtCheckpoint);
++    const afterSupport = calculatePlayerVisibleEvidenceSupport(evidence, after.visibleEvidenceIdsAtCheckpoint);
++    const beliefDelta = after.targetedInterferenceEstimate / 100 - before.targetedInterferenceEstimate / 100;
++    const evidenceDelta = afterSupport - beforeSupport;
++    if (Math.abs(evidenceDelta) <= 1e-9) continue;
++    const directionAgreement = Math.sign(beliefDelta) === Math.sign(evidenceDelta) && Math.abs(beliefDelta) > 1e-9 ? 1 : 0;
++    const magnitudeAlignment = 1 - Math.min(Math.abs(beliefDelta - evidenceDelta) / 0.5, 1);
++    scores.push(0.6 * directionAgreement + 0.4 * magnitudeAlignment);
++  }
++  return scores.length === 0 ? null : 100 * scores.reduce((sum, value) => sum + value, 0) / scores.length;
++}
+diff --git a/src/ui/components/scenario/scenario-five/model/cognitive/index.ts b/src/ui/components/scenario/scenario-five/model/cognitive/index.ts
+new file mode 100644
+index 0000000..c3e4102
+--- /dev/null
++++ b/src/ui/components/scenario/scenario-five/model/cognitive/index.ts
+@@ -0,0 +1,35 @@
++export * from "./versions";
++export { SCENARIO5_OPTION_PROFILES, getScenario5OptionProfile } from "./optionProfiles";
++export { calculatePlayerVisibleEvidenceSupport, calculateEvidenceResponsiveUpdating } from "./evidenceScoring";
++export { CROSS_DECISION_COHERENCE_MATRICES, calculateReasonAlignment, getCrossDecisionCoherence } from "./reasonModel";
++export {
++  DOMAIN_ORDER,
++  adjustedOrientationForDecision,
++  adjustedRiskForDecision,
++  calculateDataCompleteness,
++  calculateIntegration,
++  calculateScenario5CognitiveRunResult,
++  calculateTelemetrySummary,
++  multiCriteriaForProfile,
++  rawOrientation,
++  validateScenario5CognitiveTelemetry,
++} from "./cognitiveEngine";
++export type {
++  BeliefCheckpointId,
++  BeliefTelemetry,
++  CognitiveWindowId,
++  DataCompletenessResult,
++  DecisionTelemetry,
++  DomainSalienceId,
++  EvidenceOpenTelemetry,
++  EvidenceTelemetry,
++  OptionCognitiveProfile,
++  PhaseId,
++  ReasonId,
++  ReasonTelemetry,
++  Scenario5CognitiveRunResult,
++  Scenario5CognitiveTelemetryBundle,
++  SelectionTelemetry,
++  TelemetrySummaryResult,
++  VisibleResourceTelemetry,
++} from "./types";
+diff --git a/src/ui/components/scenario/scenario-five/model/cognitive/optionProfiles.ts b/src/ui/components/scenario/scenario-five/model/cognitive/optionProfiles.ts
+new file mode 100644
+index 0000000..87da658
+--- /dev/null
++++ b/src/ui/components/scenario/scenario-five/model/cognitive/optionProfiles.ts
+@@ -0,0 +1,59 @@
++import type { MissionActionId } from "../mission/types";
++import type { DomainSalienceId, OptionCognitiveProfile } from "./types";
++
++type ProfileValues = readonly [number, number, number, number, number, number, number, number, number, number];
++const profile = (
++  actionId: MissionActionId,
++  values: ProfileValues,
++  domainSalience: Partial<Record<DomainSalienceId, number>>,
++): OptionCognitiveProfile => ({
++  actionId,
++  operationalLoading: values[0], strategicLoading: values[1], informationSeeking: values[2],
++  futureConsequenceThinking: values[3], adversaryModeling: values[4], escalationSensitivity: values[5],
++  reversibilityPreference: values[6], resourceStewardship: values[7], contingencyPlanning: values[8],
++  riskExposure: values[9], domainSalience,
++});
++
++export const SCENARIO5_OPTION_PROFILES: readonly OptionCognitiveProfile[] = [
++  profile("a1_network_baseline", [.5,.7,.9,.7,.3,.1,.9,.5,.7,.3], { mission:.3, information:.9, futureOptions:.5, network:.7 }),
++  profile("a1_priority_focus", [.7,.3,.7,.3,.1,.1,.7,.5,.3,.5], { mission:.9, information:.7, logistics:.5, network:.2 }),
++  profile("a1_rotating_watch", [.5,.7,.9,.7,.3,.1,.9,.7,.7,.3], { information:.9, logistics:.4, futureOptions:.6, network:.9 }),
++  profile("a1_preserve_reserve", [.3,.9,.1,.9,.3,.2,.9,.9,.9,.7], { mission:.3, resources:.9, futureOptions:.9, network:.5 }),
++  profile("a2_focused_pnt", [.7,.3,.9,.3,.1,.1,.7,.5,.3,.4], { mission:.5, information:.9, navigation:.7 }),
++  profile("a2_broad_sweep", [.4,.7,.9,.7,.3,.1,.8,.4,.7,.3], { information:.9, futureOptions:.5, network:.9 }),
++  profile("a2_field_radio", [.5,.6,.9,.5,.2,.1,.9,.7,.6,.2], { information:.9, navigation:.6, logistics:.5 }),
++  profile("a2_ground_liaison", [.6,.6,.9,.6,.4,.3,.5,.4,.7,.5], { information:.9, navigation:.7, logistics:.6, resources:.4 }),
++  profile("b1_suspect_focus", [.7,.4,.8,.4,.4,.2,.7,.5,.4,.5], { mission:.6, information:.8, navigation:.6 }),
++  profile("b1_priority_cargo", [.9,.3,.6,.3,.2,.2,.6,.4,.3,.6], { mission:.9, information:.5, logistics:.7 }),
++  profile("b1_split_attention", [.5,.8,.8,.7,.5,.2,.8,.6,.7,.3], { information:.8, resources:.5, futureOptions:.6, network:.9 }),
++  profile("b1_pulse_network", [.5,.7,.7,.7,.4,.2,.9,.8,.7,.4], { information:.7, resources:.7, futureOptions:.6, network:.9 }),
++  profile("b2_continue_crosscheck", [.7,.6,.7,.6,.4,.5,.8,.7,.8,.5], { mission:.7, information:.7, navigation:.9, futureOptions:.6 }),
++  profile("b2_reroute", [.9,.5,.2,.6,.5,.5,.4,.4,.7,.3], { mission:.8, navigation:.9, logistics:.9, resources:.5, civilian:.6 }),
++  profile("b2_staged_checkpoints", [.7,.8,.7,.8,.5,.5,.8,.6,.9,.3], { information:.6, navigation:.8, logistics:.9, civilian:.6, futureOptions:.8 }),
++  profile("b2_hold_verify", [.4,.7,.9,.6,.4,.7,.9,.5,.6,.4], { mission:.6, information:.9, logistics:.6, resources:.4, futureOptions:.6 }),
++  profile("c1_fallback_nav", [.8,.7,.2,.8,.4,.4,.7,.6,.9,.3], { mission:.7, navigation:.9, resources:.6, futureOptions:.9 }),
++  profile("c1_ground_recon", [.7,.6,.9,.6,.6,.5,.5,.4,.7,.5], { information:.9, navigation:.7, logistics:.6, resources:.5, escalation:.5 }),
++  profile("c1_checkpoint_spacing", [.8,.7,.6,.8,.5,.4,.7,.6,.9,.3], { navigation:.8, logistics:.9, resources:.5, civilian:.6, futureOptions:.8 }),
++  profile("c1_preserve_mobile_reserve", [.3,.9,.1,.9,.4,.4,.9,.9,.9,.7], { mission:.4, resources:.9, futureOptions:.9, network:.6 }),
++  profile("c2_isr_heavy", [.6,.5,.9,.5,.4,.3,.6,.3,.5,.5], { information:.9, resources:.8, futureOptions:.5, network:.6 }),
++  profile("c2_mobility_heavy", [.7,.7,.1,.8,.5,.4,.6,.4,.9,.4], { logistics:.8, resources:.9, futureOptions:.8, network:.8 }),
++  profile("c2_balanced", [.6,.9,.6,.9,.6,.5,.8,.9,.9,.3], { information:.5, logistics:.8, resources:.9, futureOptions:.9, network:.9 }),
++  profile("c2_priority_surge", [.9,.4,.7,.3,.3,.4,.3,.2,.3,.7], { mission:.9, information:.6, resources:.8, futureOptions:.3, network:.7 }),
++  profile("d1_emergency_reroute", [.9,.5,.1,.6,.6,.6,.3,.4,.7,.3], { mission:.8, navigation:.9, logistics:.9, civilian:.6, escalation:.6 }),
++  profile("d1_ground_containment", [.9,.7,.8,.6,.9,.9,.2,.3,.5,.8], { mission:.8, information:.7, logistics:.6, civilian:.5, escalation:.9 }),
++  profile("d1_deception_routing", [.6,.9,.2,.8,.9,.7,.6,.6,.8,.6], { mission:.6, information:.4, escalation:.8, futureOptions:.8, network:.7 }),
++  profile("d1_escorted_continuation", [.9,.5,.5,.5,.6,.7,.3,.4,.5,.7], { mission:.9, logistics:.9, resources:.6, escalation:.7 }),
++  profile("d1_hold_confirm", [.4,.8,.9,.7,.6,.8,.9,.6,.7,.4], { mission:.6, information:.9, navigation:.5, escalation:.8, futureOptions:.7 }),
++  profile("d2_critical_delivery_surge", [.9,.4,.1,.3,.3,.6,.2,.3,.3,.7], { mission:.9, logistics:.8, resources:.7, escalation:.5 }),
++  profile("d2_network_balanced_finish", [.7,.9,.1,.8,.6,.6,.6,.8,.8,.4], { mission:.7, logistics:.9, resources:.8, futureOptions:.8, network:.9 }),
++  profile("d2_resilient_handoff", [.7,.8,.1,.9,.5,.4,.8,.7,.9,.3], { mission:.7, navigation:.9, logistics:.8, resources:.6, futureOptions:.9 }),
++  profile("d2_continuity_first_finish", [.5,.9,.1,.9,.5,.5,.7,.8,.9,.4], { mission:.6, logistics:.9, resources:.8, futureOptions:.9, network:.9 }),
++] as const;
++
++const PROFILE_BY_ID = new Map<MissionActionId, OptionCognitiveProfile>(SCENARIO5_OPTION_PROFILES.map((item) => [item.actionId, item]));
++
++export function getScenario5OptionProfile(actionId: MissionActionId): OptionCognitiveProfile {
++  const item = PROFILE_BY_ID.get(actionId);
++  if (!item) throw new Error(`Unknown Scenario 5 cognitive option profile: ${actionId}`);
++  return item;
++}
+diff --git a/src/ui/components/scenario/scenario-five/model/cognitive/reasonModel.ts b/src/ui/components/scenario/scenario-five/model/cognitive/reasonModel.ts
+new file mode 100644
+index 0000000..ffaa09d
+--- /dev/null
++++ b/src/ui/components/scenario/scenario-five/model/cognitive/reasonModel.ts
+@@ -0,0 +1,59 @@
++import type { MissionActionId } from "../mission/types";
++import { getScenario5OptionProfile } from "./optionProfiles";
++import type { OptionCognitiveProfile, ReasonId } from "./types";
++
++const domain = (profile: OptionCognitiveProfile, key: keyof OptionCognitiveProfile["domainSalience"]): number =>
++  profile.domainSalience[key] ?? 0;
++
++export function calculateReasonAlignment(actionId: MissionActionId, reasonId: ReasonId): number {
++  const item = getScenario5OptionProfile(actionId);
++  switch (reasonId) {
++    case "reason_mission_speed":
++      return 0.45 * item.operationalLoading + 0.35 * domain(item, "mission") + 0.2 * item.riskExposure;
++    case "reason_reduce_exposure":
++      return 0.35 * (1 - item.riskExposure) + 0.25 * domain(item, "navigation")
++        + 0.2 * item.contingencyPlanning + 0.2 * item.reversibilityPreference;
++    case "reason_preserve_resources":
++      return 0.6 * item.resourceStewardship + 0.25 * item.futureConsequenceThinking + 0.15 * item.reversibilityPreference;
++    case "reason_network_continuity":
++      return 0.4 * domain(item, "network") + 0.25 * domain(item, "logistics")
++        + 0.2 * item.strategicLoading + 0.15 * item.contingencyPlanning;
++    case "reason_information_confidence":
++      return 0.6 * item.informationSeeking + 0.25 * domain(item, "information") + 0.15 * item.reversibilityPreference;
++    case "reason_limit_actor_reaction":
++      return 0.4 * item.adversaryModeling + 0.35 * item.escalationSensitivity + 0.25 * item.reversibilityPreference;
++    case "reason_preserve_reversibility":
++      return 0.5 * item.reversibilityPreference + 0.3 * item.contingencyPlanning + 0.2 * item.futureConsequenceThinking;
++  }
++}
++
++const B_MATRIX: Readonly<Record<string, Readonly<Record<string, number>>>> = {
++  b1_suspect_focus: { b2_continue_crosscheck: 1, b2_reroute: .75, b2_staged_checkpoints: .75, b2_hold_verify: 1 },
++  b1_priority_cargo: { b2_continue_crosscheck: .75, b2_reroute: .75, b2_staged_checkpoints: .5, b2_hold_verify: .5 },
++  b1_split_attention: { b2_continue_crosscheck: .75, b2_reroute: .5, b2_staged_checkpoints: 1, b2_hold_verify: .75 },
++  b1_pulse_network: { b2_continue_crosscheck: 1, b2_reroute: .5, b2_staged_checkpoints: .75, b2_hold_verify: .75 },
++};
++const C_MATRIX: Readonly<Record<string, Readonly<Record<string, number>>>> = {
++  c1_fallback_nav: { c2_isr_heavy: .5, c2_mobility_heavy: 1, c2_balanced: 1, c2_priority_surge: .75 },
++  c1_ground_recon: { c2_isr_heavy: 1, c2_mobility_heavy: .75, c2_balanced: 1, c2_priority_surge: .5 },
++  c1_checkpoint_spacing: { c2_isr_heavy: .5, c2_mobility_heavy: 1, c2_balanced: 1, c2_priority_surge: .5 },
++  c1_preserve_mobile_reserve: { c2_isr_heavy: .75, c2_mobility_heavy: .5, c2_balanced: 1, c2_priority_surge: .25 },
++};
++const D_MATRIX: Readonly<Record<string, Readonly<Record<string, number>>>> = {
++  d1_emergency_reroute: { d2_critical_delivery_surge: .75, d2_network_balanced_finish: .75, d2_resilient_handoff: 1, d2_continuity_first_finish: .75 },
++  d1_ground_containment: { d2_critical_delivery_surge: .75, d2_network_balanced_finish: 1, d2_resilient_handoff: .5, d2_continuity_first_finish: .75 },
++  d1_deception_routing: { d2_critical_delivery_surge: .5, d2_network_balanced_finish: .75, d2_resilient_handoff: .75, d2_continuity_first_finish: 1 },
++  d1_escorted_continuation: { d2_critical_delivery_surge: 1, d2_network_balanced_finish: .75, d2_resilient_handoff: .5, d2_continuity_first_finish: .5 },
++  d1_hold_confirm: { d2_critical_delivery_surge: .5, d2_network_balanced_finish: .75, d2_resilient_handoff: 1, d2_continuity_first_finish: .75 },
++};
++
++export function getCrossDecisionCoherence(
++  phaseId: "B" | "C" | "D",
++  firstActionId: MissionActionId,
++  secondActionId: MissionActionId,
++): number | null {
++  const matrix = phaseId === "B" ? B_MATRIX : phaseId === "C" ? C_MATRIX : D_MATRIX;
++  return matrix[firstActionId]?.[secondActionId] ?? null;
++}
++
++export const CROSS_DECISION_COHERENCE_MATRICES = { B: B_MATRIX, C: C_MATRIX, D: D_MATRIX } as const;
+diff --git a/src/ui/components/scenario/scenario-five/model/cognitive/types.ts b/src/ui/components/scenario/scenario-five/model/cognitive/types.ts
+new file mode 100644
+index 0000000..1bfc8e1
+--- /dev/null
++++ b/src/ui/components/scenario/scenario-five/model/cognitive/types.ts
+@@ -0,0 +1,176 @@
++import type {
++  CorridorId,
++  EvidenceDirection,
++  EvidenceSourceType,
++  EvidenceStrengthBand,
++} from "../index";
++import type { MissionActionId } from "../mission/types";
++
++export type PhaseId = "A" | "B" | "C" | "D";
++export type CognitiveWindowId =
++  | "A1_baseline_monitoring"
++  | "A2_evidence_acquisition"
++  | "B1_monitoring_allocation"
++  | "B2_route_policy"
++  | "C1_support_and_checkpoints"
++  | "C2_resource_portfolio"
++  | "D1_crisis_response"
++  | "D2_final_delivery_policy";
++export type BeliefCheckpointId = "A2_prebelief" | "A2_postbelief" | "C_belief_checkpoint" | "D_final_belief";
++export type ReasonId =
++  | "reason_mission_speed"
++  | "reason_reduce_exposure"
++  | "reason_preserve_resources"
++  | "reason_network_continuity"
++  | "reason_information_confidence"
++  | "reason_limit_actor_reaction"
++  | "reason_preserve_reversibility";
++export type DomainSalienceId =
++  | "mission" | "information" | "navigation" | "logistics" | "resources"
++  | "civilian" | "escalation" | "futureOptions" | "network";
++
++export interface SelectionTelemetry {
++  readonly actionId: MissionActionId;
++  readonly selectedAtMs: number;
++}
++
++export interface VisibleResourceTelemetry {
++  readonly isrCapacity: number;
++  readonly supportReserve: number;
++}
++
++export interface DecisionTelemetry {
++  readonly phaseId: PhaseId;
++  readonly roundId: 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8;
++  readonly windowId: CognitiveWindowId;
++  readonly availableActionIds: readonly MissionActionId[];
++  readonly firstSelectedActionId: MissionActionId | null;
++  readonly finalSelectedActionId: MissionActionId | null;
++  readonly selectionHistory: readonly SelectionTelemetry[];
++  readonly enteredAtMs: number | null;
++  readonly confirmedAtMs: number | null;
++  readonly elapsedMs: number | null;
++  readonly activeDecisionMs: number | null;
++  readonly hiddenTabMs: number | null;
++  readonly revisionCount: number;
++  readonly availableEvidenceIds: readonly string[];
++  readonly openedEvidenceIds: readonly string[];
++  readonly playerVisibleResourcesBefore: VisibleResourceTelemetry | null;
++  readonly playerVisibleResourcesAfter: VisibleResourceTelemetry | null;
++}
++
++export interface EvidenceTelemetry {
++  readonly evidenceId: string;
++  readonly sourceType: EvidenceSourceType;
++  readonly observedCorridorId: CorridorId | null;
++  readonly direction: EvidenceDirection;
++  readonly strengthBand: EvidenceStrengthBand;
++  readonly relevantWindowIds: readonly CognitiveWindowId[];
++  readonly availableAtMs: number;
++  readonly qualityLabelVisible: string;
++  readonly limitationVisible: string;
++}
++
++export interface EvidenceOpenTelemetry {
++  readonly evidenceId: string;
++  readonly windowId: CognitiveWindowId;
++  readonly openedAtMs: number;
++  readonly closedAtMs: number | null;
++  readonly activeDwellMs: number | null;
++}
++
++export interface BeliefTelemetry {
++  readonly checkpointId: BeliefCheckpointId;
++  readonly recordedAtMs: number;
++  readonly mostLikelyCorridorId: CorridorId;
++  readonly corridorConfidence: number;
++  readonly targetedInterferenceEstimate: number;
++  readonly targetedInterferenceConfidence: number;
++  readonly visibleEvidenceIdsAtCheckpoint: readonly string[];
++}
++
++export interface ReasonTelemetry {
++  readonly phaseId: "B" | "C" | "D";
++  readonly reasonId: ReasonId;
++  readonly recordedAtMs: number;
++  readonly capturedBeforeOutcome: boolean;
++}
++
++export interface Scenario5CognitiveTelemetryBundle {
++  readonly scenarioId: "s5_silent_waves_redesign";
++  readonly runId: string;
++  readonly startedAtMs: number | null;
++  readonly completedAtMs: number | null;
++  readonly decisions: readonly DecisionTelemetry[];
++  readonly evidence: readonly EvidenceTelemetry[];
++  readonly evidenceOpens: readonly EvidenceOpenTelemetry[];
++  readonly beliefs: readonly BeliefTelemetry[];
++  readonly reasons: readonly ReasonTelemetry[];
++}
++
++export interface OptionCognitiveProfile {
++  readonly actionId: MissionActionId;
++  readonly operationalLoading: number;
++  readonly strategicLoading: number;
++  readonly informationSeeking: number;
++  readonly futureConsequenceThinking: number;
++  readonly adversaryModeling: number;
++  readonly escalationSensitivity: number;
++  readonly reversibilityPreference: number;
++  readonly resourceStewardship: number;
++  readonly contingencyPlanning: number;
++  readonly riskExposure: number;
++  readonly domainSalience: Partial<Record<DomainSalienceId, number>>;
++}
++
++export interface DataCompletenessResult {
++  readonly overall: number;
++  readonly decisions: number;
++  readonly timing: number;
++  readonly evidence: number;
++  readonly estimates: number;
++  readonly reasons: number;
++}
++
++export interface TelemetrySummaryResult {
++  readonly medianActiveDecisionMs: number | null;
++  readonly iqrActiveDecisionMs: number | null;
++  readonly totalRevisions: number;
++  readonly revisedWindows: number;
++  readonly evidenceTriggeredRevisionRate: number | null;
++}
++
++export interface Scenario5CognitiveRunResult {
++  readonly scenarioId: "s5_silent_waves_redesign";
++  readonly runId: string;
++  readonly measurementModelVersion: string;
++  readonly formulaVersion: string;
++  readonly optionProfileVersion: string;
++  readonly scenarioContentVersion: string;
++  readonly reasonModelVersion: string;
++  readonly expertPanelVersion: string;
++  readonly validityStatus: string;
++  readonly dataCompleteness: DataCompletenessResult;
++  readonly orientation: {
++    readonly overall: number | null;
++    readonly operationalStrength: number | null;
++    readonly strategicStrength: number | null;
++    readonly integration: number | null;
++    readonly dispersion: number | null;
++    readonly phaseScores: readonly [number | null, number | null, number | null, number | null];
++  };
++  readonly constructs: {
++    readonly informationSeeking: number | null;
++    readonly secondOrderThinking: number | null;
++    readonly adversaryModeling: number | null;
++    readonly escalationSensitivity: number | null;
++    readonly informationDiscipline: null;
++    readonly evidenceResponsiveUpdating: number | null;
++    readonly resourceStewardship: number | null;
++    readonly planningForesight: number | null;
++    readonly multiDomainIntegration: number | null;
++    readonly riskPosture: number | null;
++    readonly decisionCoherence: number | null;
++  };
++  readonly telemetrySummary: TelemetrySummaryResult;
++}
+diff --git a/src/ui/components/scenario/scenario-five/model/cognitive/versions.ts b/src/ui/components/scenario/scenario-five/model/cognitive/versions.ts
+new file mode 100644
+index 0000000..4b5f918
+--- /dev/null
++++ b/src/ui/components/scenario/scenario-five/model/cognitive/versions.ts
+@@ -0,0 +1,7 @@
++export const S5_COGNITIVE_MEASUREMENT_MODEL_VERSION = "s5-cognitive-v3-adapter-v1.0.0";
++export const S5_COGNITIVE_FORMULA_VERSION = "cognitive-v3-semantic-v1.0.0";
++export const S5_OPTION_PROFILE_VERSION = "s5-option-profiles-internal-v1.0.0";
++export const S5_REASON_MODEL_VERSION = "s5-reason-model-internal-v1.0.0";
++export const S5_SCENARIO_CONTENT_VERSION = "s5-silent-waves-redesign-content-v1.0.0";
++export const S5_EXPERT_PANEL_VERSION = "not-yet-expert-validated";
++export const S5_VALIDITY_STATUS = "experimental_pending_expert_and_human_validation";

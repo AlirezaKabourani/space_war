@@ -1,0 +1,161 @@
+{
+  "browser": "chrome.exe",
+  "capturedAt": "2026-10-07T07:54:11.823Z",
+  "initialTransforms": [
+    "translate(428px, 200px)",
+    "translate(541px, 462px)",
+    "translate(289px, 102px)",
+    "translate(428px, 200px)"
+  ],
+  "postTransforms": [
+    "translate(454.286px, 196.429px)",
+    "translate(526.574px, 428.553px)",
+    "translate(307.451px, 115.009px)",
+    "translate(405.92px, 205.52px)"
+  ],
+  "convoyMovementVerified": true,
+  "briefing1366": {
+    "scrollHeight": 768,
+    "scrollWidth": 1366,
+    "noPageScroll": true,
+    "buttonVisible": true
+  },
+  "belief1366": {
+    "noPageScroll": true,
+    "panelFits": true
+  },
+  "reason1366": {
+    "noPageScroll": true,
+    "optionCount": 7,
+    "allOptionsVisible": true,
+    "buttonVisible": true
+  },
+  "metrics": [
+    {
+      "stage": "decision-initial",
+      "width": 1440,
+      "height": 900,
+      "scrollHeight": 900,
+      "scrollWidth": 1440,
+      "noPageScroll": true,
+      "noHorizontalOverflow": true,
+      "mapLeft": 595.390625,
+      "controlLeft": 89,
+      "mapRightOfControls": true,
+      "actionCardCount": 4,
+      "allActionCardsVisible": true,
+      "confirmVisible": true,
+      "markerTransforms": [
+        "translate(428px, 200px)",
+        "translate(541px, 462px)",
+        "translate(289px, 102px)",
+        "translate(428px, 200px)"
+      ]
+    },
+    {
+      "stage": "decision-initial",
+      "width": 1366,
+      "height": 768,
+      "scrollHeight": 768,
+      "scrollWidth": 1366,
+      "noPageScroll": true,
+      "noHorizontalOverflow": true,
+      "mapLeft": 565.796875,
+      "controlLeft": 89,
+      "mapRightOfControls": true,
+      "actionCardCount": 4,
+      "allActionCardsVisible": true,
+      "confirmVisible": true,
+      "markerTransforms": [
+        "translate(428px, 200px)",
+        "translate(541px, 462px)",
+        "translate(289px, 102px)",
+        "translate(428px, 200px)"
+      ]
+    },
+    {
+      "stage": "decision-initial-1280",
+      "width": 1280,
+      "height": 720,
+      "scrollHeight": 720,
+      "scrollWidth": 1280,
+      "noPageScroll": true,
+      "noHorizontalOverflow": true,
+      "mapLeft": 531.390625,
+      "controlLeft": 89,
+      "mapRightOfControls": true,
+      "actionCardCount": 4,
+      "allActionCardsVisible": true,
+      "confirmVisible": true,
+      "markerTransforms": [
+        "translate(428px, 200px)",
+        "translate(541px, 462px)",
+        "translate(289px, 102px)",
+        "translate(428px, 200px)"
+      ]
+    },
+    {
+      "stage": "belief-after-action",
+      "width": 1440,
+      "height": 900,
+      "scrollHeight": 900,
+      "scrollWidth": 1440,
+      "noPageScroll": true,
+      "noHorizontalOverflow": true,
+      "mapLeft": 595.390625,
+      "controlLeft": 89,
+      "mapRightOfControls": true,
+      "actionCardCount": 0,
+      "allActionCardsVisible": null,
+      "confirmVisible": null,
+      "markerTransforms": [
+        "translate(454.286px, 196.429px)",
+        "translate(526.574px, 428.553px)",
+        "translate(307.451px, 115.009px)",
+        "translate(405.92px, 205.52px)"
+      ]
+    },
+    {
+      "stage": "evidence-local-view",
+      "width": 1440,
+      "height": 900,
+      "scrollHeight": 900,
+      "scrollWidth": 1440,
+      "noPageScroll": true,
+      "noHorizontalOverflow": true,
+      "mapLeft": 595.390625,
+      "controlLeft": 89,
+      "mapRightOfControls": true,
+      "actionCardCount": 0,
+      "allActionCardsVisible": null,
+      "confirmVisible": null,
+      "markerTransforms": [
+        "translate(454.286px, 196.429px)",
+        "translate(526.574px, 428.553px)",
+        "translate(307.451px, 115.009px)",
+        "translate(405.92px, 205.52px)"
+      ]
+    },
+    {
+      "stage": "reason",
+      "width": 1440,
+      "height": 900,
+      "scrollHeight": 900,
+      "scrollWidth": 1440,
+      "noPageScroll": true,
+      "noHorizontalOverflow": true,
+      "mapLeft": 595.390625,
+      "controlLeft": 89,
+      "mapRightOfControls": true,
+      "actionCardCount": 0,
+      "allActionCardsVisible": null,
+      "confirmVisible": null,
+      "markerTransforms": [
+        "translate(512.114px, 188.571px)",
+        "translate(494.838px, 354.97px)",
+        "translate(345.542px, 141.864px)",
+        "translate(357.344px, 217.664px)"
+      ]
+    }
+  ]
+}

@@ -1,0 +1,2340 @@
+{
+  "calibrationVersion": "s5-calibration-v1.1.0",
+  "calibrationStatus": "engineering_audit_not_human_validated",
+  "frozenModelVersions": {
+    "mission": "s5-mission-v1.0.2",
+    "cognitive": "s5-cognitive-v3-adapter-v1.0.0",
+    "runtime": "s5-runtime-v1.0.1",
+    "domainMetrics": "s5-domain-metrics-v1.0.0",
+    "phase7UiAar": "07B frozen",
+    "frozenProtectedManifestSha256": "1bd32af62f0667d3864eb7b2b0e7354e70bebe43178cdc8a64a880e8a138bef6",
+    "originalPhase8ArtifactAggregateSha256": "a3df95fe09cb3ab1d2bc7e741ffbeb66dc70b6bd41720faec284fc38a19beaf6"
+  },
+  "runCounts": {
+    "missionMainRuns": 25600,
+    "deterministicMissionRuns": 9216,
+    "randomMissionRuns": 16384,
+    "cognitiveRuns": 7936,
+    "deterministicCognitiveRuns": 3840,
+    "randomCognitiveRuns": 4096,
+    "deterministicReplayCases": 384,
+    "correctedCounterfactualBranches": 40540
+  },
+  "effectivePolicySeedUniqueness": {
+    "m10": {
+      "expected": 16384,
+      "unique": 16384,
+      "pass": true
+    },
+    "c16": {
+      "expected": 4096,
+      "unique": 4096,
+      "pass": true
+    }
+  },
+  "environmentCoverage": {
+    "environmentInstanceCount": 1024,
+    "worldCounts": {
+      "W-corridor_alpha_east-cautious_denial": 64,
+      "W-corridor_alpha_east-deceptive_diversion": 64,
+      "W-corridor_alpha_east-opportunistic_interdiction": 64,
+      "W-corridor_alpha_east-pressure_escalator": 64,
+      "W-corridor_beta_south-cautious_denial": 64,
+      "W-corridor_beta_south-deceptive_diversion": 64,
+      "W-corridor_beta_south-opportunistic_interdiction": 64,
+      "W-corridor_beta_south-pressure_escalator": 64,
+      "W-corridor_gamma_northwest-cautious_denial": 64,
+      "W-corridor_gamma_northwest-deceptive_diversion": 64,
+      "W-corridor_gamma_northwest-opportunistic_interdiction": 64,
+      "W-corridor_gamma_northwest-pressure_escalator": 64,
+      "W-corridor_delta_west-cautious_denial": 64,
+      "W-corridor_delta_west-deceptive_diversion": 64,
+      "W-corridor_delta_west-opportunistic_interdiction": 64,
+      "W-corridor_delta_west-pressure_escalator": 64
+    },
+    "actorCounts": {
+      "cautious_denial": 256,
+      "deceptive_diversion": 256,
+      "opportunistic_interdiction": 256,
+      "pressure_escalator": 256
+    },
+    "primaryCorridorCounts": {
+      "corridor_alpha_east": 256,
+      "corridor_beta_south": 256,
+      "corridor_gamma_northwest": 256,
+      "corridor_delta_west": 256
+    },
+    "latencyVariants": [
+      "early",
+      "late",
+      "nominal"
+    ],
+    "expectedNoiseRelationCount": 44,
+    "observedNoiseRelationCount": 44,
+    "missingNoiseRelations": []
+  },
+  "explicitTargetCoverage": {
+    "observedActionCount": 33,
+    "probeRowCount": 64,
+    "successfulProbeCount": 64,
+    "failedProbeCount": 0,
+    "originalMissingPair": {
+      "actionId": "a2_focused_pnt",
+      "corridorId": "corridor_delta_west",
+      "roundId": 2,
+      "probeStateFound": true,
+      "actionAvailable": true,
+      "targetActive": true,
+      "commitSucceeded": true,
+      "structuralTickAdvanced": true,
+      "classification": "observed_in_main_audit"
+    }
+  },
+  "structuralOsiCentering": {
+    "rowCount": 8,
+    "diagnosticRowCount": 8,
+    "maximumAbsoluteMean": 0,
+    "pass": true
+  },
+  "randomOsiMonteCarlo": {
+    "overall": {
+      "mean": 0.00627,
+      "sd": 0.272155,
+      "p025": -0.535947,
+      "p975": 0.505404,
+      "n": 4096
+    },
+    "phaseA": {
+      "mean": 0.008773,
+      "sd": 0.640906,
+      "p025": -1,
+      "p975": 0.770492,
+      "n": 4096
+    },
+    "phaseB": {
+      "mean": 0.012308,
+      "sd": 0.520806,
+      "p025": -1,
+      "p975": 0.897131,
+      "n": 4096
+    },
+    "phaseC": {
+      "mean": -0.001709,
+      "sd": 0.438596,
+      "p025": -0.674663,
+      "p975": 0.925803,
+      "n": 4096
+    },
+    "phaseD": {
+      "mean": 0.005708,
+      "sd": 0.553038,
+      "p025": -0.845804,
+      "p975": 1,
+      "n": 4096
+    }
+  },
+  "dominanceStateCoverage": [
+    {
+      "windowId": "decision:A1_baseline_monitoring",
+      "uniqueStateCount": 128,
+      "pass": true
+    },
+    {
+      "windowId": "decision:A2_evidence_acquisition",
+      "uniqueStateCount": 128,
+      "pass": true
+    },
+    {
+      "windowId": "decision:B1_monitoring_allocation",
+      "uniqueStateCount": 128,
+      "pass": true
+    },
+    {
+      "windowId": "decision:B2_route_policy",
+      "uniqueStateCount": 128,
+      "pass": true
+    },
+    {
+      "windowId": "decision:C1_support_and_checkpoints",
+      "uniqueStateCount": 128,
+      "pass": true
+    },
+    {
+      "windowId": "decision:C2_resource_portfolio",
+      "uniqueStateCount": 128,
+      "pass": true
+    },
+    {
+      "windowId": "decision:D1_crisis_response",
+      "uniqueStateCount": 128,
+      "pass": true
+    },
+    {
+      "windowId": "decision:D2_final_delivery_policy",
+      "uniqueStateCount": 128,
+      "pass": true
+    }
+  ],
+  "dominanceByContinuation": [
+    {
+      "windowId": "decision:A1_baseline_monitoring",
+      "actionId": "a1_network_baseline",
+      "continuationId": "balanced_network",
+      "evaluatedStateCount": 128,
+      "dominantStateCount": 0,
+      "dominanceShare": 0,
+      "universalAcrossContinuations": false
+    },
+    {
+      "windowId": "decision:A1_baseline_monitoring",
+      "actionId": "a1_priority_focus",
+      "continuationId": "balanced_network",
+      "evaluatedStateCount": 128,
+      "dominantStateCount": 0,
+      "dominanceShare": 0,
+      "universalAcrossContinuations": false
+    },
+    {
+      "windowId": "decision:A1_baseline_monitoring",
+      "actionId": "a1_rotating_watch",
+      "continuationId": "balanced_network",
+      "evaluatedStateCount": 128,
+      "dominantStateCount": 0,
+      "dominanceShare": 0,
+      "universalAcrossContinuations": false
+    },
+    {
+      "windowId": "decision:A1_baseline_monitoring",
+      "actionId": "a1_preserve_reserve",
+      "continuationId": "balanced_network",
+      "evaluatedStateCount": 128,
+      "dominantStateCount": 128,
+      "dominanceShare": 1,
+      "universalAcrossContinuations": false
+    },
+    {
+      "windowId": "decision:A1_baseline_monitoring",
+      "actionId": "a1_network_baseline",
+      "continuationId": "information_heavy",
+      "evaluatedStateCount": 128,
+      "dominantStateCount": 0,
+      "dominanceShare": 0,
+      "universalAcrossContinuations": false
+    },
+    {
+      "windowId": "decision:A1_baseline_monitoring",
+      "actionId": "a1_priority_focus",
+      "continuationId": "information_heavy",
+      "evaluatedStateCount": 128,
+      "dominantStateCount": 0,
+      "dominanceShare": 0,
+      "universalAcrossContinuations": false
+    },
+    {
+      "windowId": "decision:A1_baseline_monitoring",
+      "actionId": "a1_rotating_watch",
+      "continuationId": "information_heavy",
+      "evaluatedStateCount": 128,
+      "dominantStateCount": 0,
+      "dominanceShare": 0,
+      "universalAcrossContinuations": false
+    },
+    {
+      "windowId": "decision:A1_baseline_monitoring",
+      "actionId": "a1_preserve_reserve",
+      "continuationId": "information_heavy",
+      "evaluatedStateCount": 128,
+      "dominantStateCount": 96,
+      "dominanceShare": 0.75,
+      "universalAcrossContinuations": false
+    },
+    {
+      "windowId": "decision:A1_baseline_monitoring",
+      "actionId": "a1_network_baseline",
+      "continuationId": "mobility_resilience",
+      "evaluatedStateCount": 128,
+      "dominantStateCount": 0,
+      "dominanceShare": 0,
+      "universalAcrossContinuations": false
+    },
+    {
+      "windowId": "decision:A1_baseline_monitoring",
+      "actionId": "a1_priority_focus",
+      "continuationId": "mobility_resilience",
+      "evaluatedStateCount": 128,
+      "dominantStateCount": 0,
+      "dominanceShare": 0,
+      "universalAcrossContinuations": false
+    },
+    {
+      "windowId": "decision:A1_baseline_monitoring",
+      "actionId": "a1_rotating_watch",
+      "continuationId": "mobility_resilience",
+      "evaluatedStateCount": 128,
+      "dominantStateCount": 0,
+      "dominanceShare": 0,
+      "universalAcrossContinuations": false
+    },
+    {
+      "windowId": "decision:A1_baseline_monitoring",
+      "actionId": "a1_preserve_reserve",
+      "continuationId": "mobility_resilience",
+      "evaluatedStateCount": 128,
+      "dominantStateCount": 0,
+      "dominanceShare": 0,
+      "universalAcrossContinuations": false
+    },
+    {
+      "windowId": "decision:A1_baseline_monitoring",
+      "actionId": "a1_network_baseline",
+      "continuationId": "low_response_reversible",
+      "evaluatedStateCount": 128,
+      "dominantStateCount": 0,
+      "dominanceShare": 0,
+      "universalAcrossContinuations": false
+    },
+    {
+      "windowId": "decision:A1_baseline_monitoring",
+      "actionId": "a1_priority_focus",
+      "continuationId": "low_response_reversible",
+      "evaluatedStateCount": 128,
+      "dominantStateCount": 0,
+      "dominanceShare": 0,
+      "universalAcrossContinuations": false
+    },
+    {
+      "windowId": "decision:A1_baseline_monitoring",
+      "actionId": "a1_rotating_watch",
+      "continuationId": "low_response_reversible",
+      "evaluatedStateCount": 128,
+      "dominantStateCount": 0,
+      "dominanceShare": 0,
+      "universalAcrossContinuations": false
+    },
+    {
+      "windowId": "decision:A1_baseline_monitoring",
+      "actionId": "a1_preserve_reserve",
+      "continuationId": "low_response_reversible",
+      "evaluatedStateCount": 128,
+      "dominantStateCount": 32,
+      "dominanceShare": 0.25,
+      "universalAcrossContinuations": false
+    },
+    {
+      "windowId": "decision:A2_evidence_acquisition",
+      "actionId": "a2_focused_pnt",
+      "continuationId": "balanced_network",
+      "evaluatedStateCount": 128,
+      "dominantStateCount": 0,
+      "dominanceShare": 0,
+      "universalAcrossContinuations": false
+    },
+    {
+      "windowId": "decision:A2_evidence_acquisition",
+      "actionId": "a2_broad_sweep",
+      "continuationId": "balanced_network",
+      "evaluatedStateCount": 128,
+      "dominantStateCount": 0,
+      "dominanceShare": 0,
+      "universalAcrossContinuations": false
+    },
+    {
+      "windowId": "decision:A2_evidence_acquisition",
+      "actionId": "a2_field_radio",
+      "continuationId": "balanced_network",
+      "evaluatedStateCount": 128,
+      "dominantStateCount": 0,
+      "dominanceShare": 0,
+      "universalAcrossContinuations": false
+    },
+    {
+      "windowId": "decision:A2_evidence_acquisition",
+      "actionId": "a2_ground_liaison",
+      "continuationId": "balanced_network",
+      "evaluatedStateCount": 128,
+      "dominantStateCount": 0,
+      "dominanceShare": 0,
+      "universalAcrossContinuations": false
+    },
+    {
+      "windowId": "decision:A2_evidence_acquisition",
+      "actionId": "a2_focused_pnt",
+      "continuationId": "information_heavy",
+      "evaluatedStateCount": 128,
+      "dominantStateCount": 0,
+      "dominanceShare": 0,
+      "universalAcrossContinuations": false
+    },
+    {
+      "windowId": "decision:A2_evidence_acquisition",
+      "actionId": "a2_broad_sweep",
+      "continuationId": "information_heavy",
+      "evaluatedStateCount": 128,
+      "dominantStateCount": 0,
+      "dominanceShare": 0,
+      "universalAcrossContinuations": false
+    },
+    {
+      "windowId": "decision:A2_evidence_acquisition",
+      "actionId": "a2_field_radio",
+      "continuationId": "information_heavy",
+      "evaluatedStateCount": 128,
+      "dominantStateCount": 0,
+      "dominanceShare": 0,
+      "universalAcrossContinuations": false
+    },
+    {
+      "windowId": "decision:A2_evidence_acquisition",
+      "actionId": "a2_ground_liaison",
+      "continuationId": "information_heavy",
+      "evaluatedStateCount": 128,
+      "dominantStateCount": 0,
+      "dominanceShare": 0,
+      "universalAcrossContinuations": false
+    },
+    {
+      "windowId": "decision:A2_evidence_acquisition",
+      "actionId": "a2_focused_pnt",
+      "continuationId": "mobility_resilience",
+      "evaluatedStateCount": 128,
+      "dominantStateCount": 0,
+      "dominanceShare": 0,
+      "universalAcrossContinuations": false
+    },
+    {
+      "windowId": "decision:A2_evidence_acquisition",
+      "actionId": "a2_broad_sweep",
+      "continuationId": "mobility_resilience",
+      "evaluatedStateCount": 128,
+      "dominantStateCount": 0,
+      "dominanceShare": 0,
+      "universalAcrossContinuations": false
+    },
+    {
+      "windowId": "decision:A2_evidence_acquisition",
+      "actionId": "a2_field_radio",
+      "continuationId": "mobility_resilience",
+      "evaluatedStateCount": 128,
+      "dominantStateCount": 0,
+      "dominanceShare": 0,
+      "universalAcrossContinuations": false
+    },
+    {
+      "windowId": "decision:A2_evidence_acquisition",
+      "actionId": "a2_ground_liaison",
+      "continuationId": "mobility_resilience",
+      "evaluatedStateCount": 128,
+      "dominantStateCount": 0,
+      "dominanceShare": 0,
+      "universalAcrossContinuations": false
+    },
+    {
+      "windowId": "decision:A2_evidence_acquisition",
+      "actionId": "a2_focused_pnt",
+      "continuationId": "low_response_reversible",
+      "evaluatedStateCount": 128,
+      "dominantStateCount": 0,
+      "dominanceShare": 0,
+      "universalAcrossContinuations": false
+    },
+    {
+      "windowId": "decision:A2_evidence_acquisition",
+      "actionId": "a2_broad_sweep",
+      "continuationId": "low_response_reversible",
+      "evaluatedStateCount": 128,
+      "dominantStateCount": 0,
+      "dominanceShare": 0,
+      "universalAcrossContinuations": false
+    },
+    {
+      "windowId": "decision:A2_evidence_acquisition",
+      "actionId": "a2_field_radio",
+      "continuationId": "low_response_reversible",
+      "evaluatedStateCount": 128,
+      "dominantStateCount": 0,
+      "dominanceShare": 0,
+      "universalAcrossContinuations": false
+    },
+    {
+      "windowId": "decision:A2_evidence_acquisition",
+      "actionId": "a2_ground_liaison",
+      "continuationId": "low_response_reversible",
+      "evaluatedStateCount": 128,
+      "dominantStateCount": 0,
+      "dominanceShare": 0,
+      "universalAcrossContinuations": false
+    },
+    {
+      "windowId": "decision:B1_monitoring_allocation",
+      "actionId": "b1_suspect_focus",
+      "continuationId": "balanced_network",
+      "evaluatedStateCount": 128,
+      "dominantStateCount": 0,
+      "dominanceShare": 0,
+      "universalAcrossContinuations": false
+    },
+    {
+      "windowId": "decision:B1_monitoring_allocation",
+      "actionId": "b1_priority_cargo",
+      "continuationId": "balanced_network",
+      "evaluatedStateCount": 128,
+      "dominantStateCount": 0,
+      "dominanceShare": 0,
+      "universalAcrossContinuations": false
+    },
+    {
+      "windowId": "decision:B1_monitoring_allocation",
+      "actionId": "b1_split_attention",
+      "continuationId": "balanced_network",
+      "evaluatedStateCount": 128,
+      "dominantStateCount": 0,
+      "dominanceShare": 0,
+      "universalAcrossContinuations": false
+    },
+    {
+      "windowId": "decision:B1_monitoring_allocation",
+      "actionId": "b1_pulse_network",
+      "continuationId": "balanced_network",
+      "evaluatedStateCount": 128,
+      "dominantStateCount": 116,
+      "dominanceShare": 0.90625,
+      "universalAcrossContinuations": false
+    },
+    {
+      "windowId": "decision:B1_monitoring_allocation",
+      "actionId": "b1_suspect_focus",
+      "continuationId": "information_heavy",
+      "evaluatedStateCount": 128,
+      "dominantStateCount": 0,
+      "dominanceShare": 0,
+      "universalAcrossContinuations": false
+    },
+    {
+      "windowId": "decision:B1_monitoring_allocation",
+      "actionId": "b1_priority_cargo",
+      "continuationId": "information_heavy",
+      "evaluatedStateCount": 128,
+      "dominantStateCount": 0,
+      "dominanceShare": 0,
+      "universalAcrossContinuations": false
+    },
+    {
+      "windowId": "decision:B1_monitoring_allocation",
+      "actionId": "b1_split_attention",
+      "continuationId": "information_heavy",
+      "evaluatedStateCount": 128,
+      "dominantStateCount": 0,
+      "dominanceShare": 0,
+      "universalAcrossContinuations": false
+    },
+    {
+      "windowId": "decision:B1_monitoring_allocation",
+      "actionId": "b1_pulse_network",
+      "continuationId": "information_heavy",
+      "evaluatedStateCount": 128,
+      "dominantStateCount": 81,
+      "dominanceShare": 0.632813,
+      "universalAcrossContinuations": false
+    },
+    {
+      "windowId": "decision:B1_monitoring_allocation",
+      "actionId": "b1_suspect_focus",
+      "continuationId": "mobility_resilience",
+      "evaluatedStateCount": 128,
+      "dominantStateCount": 0,
+      "dominanceShare": 0,
+      "universalAcrossContinuations": false
+    },
+    {
+      "windowId": "decision:B1_monitoring_allocation",
+      "actionId": "b1_priority_cargo",
+      "continuationId": "mobility_resilience",
+      "evaluatedStateCount": 128,
+      "dominantStateCount": 0,
+      "dominanceShare": 0,
+      "universalAcrossContinuations": false
+    },
+    {
+      "windowId": "decision:B1_monitoring_allocation",
+      "actionId": "b1_split_attention",
+      "continuationId": "mobility_resilience",
+      "evaluatedStateCount": 128,
+      "dominantStateCount": 0,
+      "dominanceShare": 0,
+      "universalAcrossContinuations": false
+    },
+    {
+      "windowId": "decision:B1_monitoring_allocation",
+      "actionId": "b1_pulse_network",
+      "continuationId": "mobility_resilience",
+      "evaluatedStateCount": 128,
+      "dominantStateCount": 107,
+      "dominanceShare": 0.835938,
+      "universalAcrossContinuations": false
+    },
+    {
+      "windowId": "decision:B1_monitoring_allocation",
+      "actionId": "b1_suspect_focus",
+      "continuationId": "low_response_reversible",
+      "evaluatedStateCount": 128,
+      "dominantStateCount": 0,
+      "dominanceShare": 0,
+      "universalAcrossContinuations": false
+    },
+    {
+      "windowId": "decision:B1_monitoring_allocation",
+      "actionId": "b1_priority_cargo",
+      "continuationId": "low_response_reversible",
+      "evaluatedStateCount": 128,
+      "dominantStateCount": 0,
+      "dominanceShare": 0,
+      "universalAcrossContinuations": false
+    },
+    {
+      "windowId": "decision:B1_monitoring_allocation",
+      "actionId": "b1_split_attention",
+      "continuationId": "low_response_reversible",
+      "evaluatedStateCount": 128,
+      "dominantStateCount": 0,
+      "dominanceShare": 0,
+      "universalAcrossContinuations": false
+    },
+    {
+      "windowId": "decision:B1_monitoring_allocation",
+      "actionId": "b1_pulse_network",
+      "continuationId": "low_response_reversible",
+      "evaluatedStateCount": 128,
+      "dominantStateCount": 74,
+      "dominanceShare": 0.578125,
+      "universalAcrossContinuations": false
+    },
+    {
+      "windowId": "decision:B2_route_policy",
+      "actionId": "b2_continue_crosscheck",
+      "continuationId": "balanced_network",
+      "evaluatedStateCount": 128,
+      "dominantStateCount": 0,
+      "dominanceShare": 0,
+      "universalAcrossContinuations": false
+    },
+    {
+      "windowId": "decision:B2_route_policy",
+      "actionId": "b2_reroute",
+      "continuationId": "balanced_network",
+      "evaluatedStateCount": 128,
+      "dominantStateCount": 0,
+      "dominanceShare": 0,
+      "universalAcrossContinuations": false
+    },
+    {
+      "windowId": "decision:B2_route_policy",
+      "actionId": "b2_staged_checkpoints",
+      "continuationId": "balanced_network",
+      "evaluatedStateCount": 128,
+      "dominantStateCount": 0,
+      "dominanceShare": 0,
+      "universalAcrossContinuations": false
+    },
+    {
+      "windowId": "decision:B2_route_policy",
+      "actionId": "b2_hold_verify",
+      "continuationId": "balanced_network",
+      "evaluatedStateCount": 128,
+      "dominantStateCount": 0,
+      "dominanceShare": 0,
+      "universalAcrossContinuations": false
+    },
+    {
+      "windowId": "decision:B2_route_policy",
+      "actionId": "b2_continue_crosscheck",
+      "continuationId": "information_heavy",
+      "evaluatedStateCount": 128,
+      "dominantStateCount": 0,
+      "dominanceShare": 0,
+      "universalAcrossContinuations": false
+    },
+    {
+      "windowId": "decision:B2_route_policy",
+      "actionId": "b2_reroute",
+      "continuationId": "information_heavy",
+      "evaluatedStateCount": 128,
+      "dominantStateCount": 0,
+      "dominanceShare": 0,
+      "universalAcrossContinuations": false
+    },
+    {
+      "windowId": "decision:B2_route_policy",
+      "actionId": "b2_staged_checkpoints",
+      "continuationId": "information_heavy",
+      "evaluatedStateCount": 128,
+      "dominantStateCount": 0,
+      "dominanceShare": 0,
+      "universalAcrossContinuations": false
+    },
+    {
+      "windowId": "decision:B2_route_policy",
+      "actionId": "b2_hold_verify",
+      "continuationId": "information_heavy",
+      "evaluatedStateCount": 128,
+      "dominantStateCount": 0,
+      "dominanceShare": 0,
+      "universalAcrossContinuations": false
+    },
+    {
+      "windowId": "decision:B2_route_policy",
+      "actionId": "b2_continue_crosscheck",
+      "continuationId": "mobility_resilience",
+      "evaluatedStateCount": 128,
+      "dominantStateCount": 0,
+      "dominanceShare": 0,
+      "universalAcrossContinuations": false
+    },
+    {
+      "windowId": "decision:B2_route_policy",
+      "actionId": "b2_reroute",
+      "continuationId": "mobility_resilience",
+      "evaluatedStateCount": 128,
+      "dominantStateCount": 0,
+      "dominanceShare": 0,
+      "universalAcrossContinuations": false
+    },
+    {
+      "windowId": "decision:B2_route_policy",
+      "actionId": "b2_staged_checkpoints",
+      "continuationId": "mobility_resilience",
+      "evaluatedStateCount": 128,
+      "dominantStateCount": 0,
+      "dominanceShare": 0,
+      "universalAcrossContinuations": false
+    },
+    {
+      "windowId": "decision:B2_route_policy",
+      "actionId": "b2_hold_verify",
+      "continuationId": "mobility_resilience",
+      "evaluatedStateCount": 128,
+      "dominantStateCount": 0,
+      "dominanceShare": 0,
+      "universalAcrossContinuations": false
+    },
+    {
+      "windowId": "decision:B2_route_policy",
+      "actionId": "b2_continue_crosscheck",
+      "continuationId": "low_response_reversible",
+      "evaluatedStateCount": 128,
+      "dominantStateCount": 0,
+      "dominanceShare": 0,
+      "universalAcrossContinuations": false
+    },
+    {
+      "windowId": "decision:B2_route_policy",
+      "actionId": "b2_reroute",
+      "continuationId": "low_response_reversible",
+      "evaluatedStateCount": 128,
+      "dominantStateCount": 0,
+      "dominanceShare": 0,
+      "universalAcrossContinuations": false
+    },
+    {
+      "windowId": "decision:B2_route_policy",
+      "actionId": "b2_staged_checkpoints",
+      "continuationId": "low_response_reversible",
+      "evaluatedStateCount": 128,
+      "dominantStateCount": 0,
+      "dominanceShare": 0,
+      "universalAcrossContinuations": false
+    },
+    {
+      "windowId": "decision:B2_route_policy",
+      "actionId": "b2_hold_verify",
+      "continuationId": "low_response_reversible",
+      "evaluatedStateCount": 128,
+      "dominantStateCount": 0,
+      "dominanceShare": 0,
+      "universalAcrossContinuations": false
+    },
+    {
+      "windowId": "decision:C1_support_and_checkpoints",
+      "actionId": "c1_fallback_nav",
+      "continuationId": "balanced_network",
+      "evaluatedStateCount": 128,
+      "dominantStateCount": 0,
+      "dominanceShare": 0,
+      "universalAcrossContinuations": false
+    },
+    {
+      "windowId": "decision:C1_support_and_checkpoints",
+      "actionId": "c1_ground_recon",
+      "continuationId": "balanced_network",
+      "evaluatedStateCount": 128,
+      "dominantStateCount": 0,
+      "dominanceShare": 0,
+      "universalAcrossContinuations": false
+    },
+    {
+      "windowId": "decision:C1_support_and_checkpoints",
+      "actionId": "c1_checkpoint_spacing",
+      "continuationId": "balanced_network",
+      "evaluatedStateCount": 128,
+      "dominantStateCount": 0,
+      "dominanceShare": 0,
+      "universalAcrossContinuations": false
+    },
+    {
+      "windowId": "decision:C1_support_and_checkpoints",
+      "actionId": "c1_preserve_mobile_reserve",
+      "continuationId": "balanced_network",
+      "evaluatedStateCount": 128,
+      "dominantStateCount": 0,
+      "dominanceShare": 0,
+      "universalAcrossContinuations": false
+    },
+    {
+      "windowId": "decision:C1_support_and_checkpoints",
+      "actionId": "c1_fallback_nav",
+      "continuationId": "information_heavy",
+      "evaluatedStateCount": 128,
+      "dominantStateCount": 0,
+      "dominanceShare": 0,
+      "universalAcrossContinuations": false
+    },
+    {
+      "windowId": "decision:C1_support_and_checkpoints",
+      "actionId": "c1_ground_recon",
+      "continuationId": "information_heavy",
+      "evaluatedStateCount": 128,
+      "dominantStateCount": 0,
+      "dominanceShare": 0,
+      "universalAcrossContinuations": false
+    },
+    {
+      "windowId": "decision:C1_support_and_checkpoints",
+      "actionId": "c1_checkpoint_spacing",
+      "continuationId": "information_heavy",
+      "evaluatedStateCount": 128,
+      "dominantStateCount": 0,
+      "dominanceShare": 0,
+      "universalAcrossContinuations": false
+    },
+    {
+      "windowId": "decision:C1_support_and_checkpoints",
+      "actionId": "c1_preserve_mobile_reserve",
+      "continuationId": "information_heavy",
+      "evaluatedStateCount": 128,
+      "dominantStateCount": 0,
+      "dominanceShare": 0,
+      "universalAcrossContinuations": false
+    },
+    {
+      "windowId": "decision:C1_support_and_checkpoints",
+      "actionId": "c1_fallback_nav",
+      "continuationId": "mobility_resilience",
+      "evaluatedStateCount": 128,
+      "dominantStateCount": 0,
+      "dominanceShare": 0,
+      "universalAcrossContinuations": false
+    },
+    {
+      "windowId": "decision:C1_support_and_checkpoints",
+      "actionId": "c1_ground_recon",
+      "continuationId": "mobility_resilience",
+      "evaluatedStateCount": 128,
+      "dominantStateCount": 0,
+      "dominanceShare": 0,
+      "universalAcrossContinuations": false
+    },
+    {
+      "windowId": "decision:C1_support_and_checkpoints",
+      "actionId": "c1_checkpoint_spacing",
+      "continuationId": "mobility_resilience",
+      "evaluatedStateCount": 128,
+      "dominantStateCount": 0,
+      "dominanceShare": 0,
+      "universalAcrossContinuations": false
+    },
+    {
+      "windowId": "decision:C1_support_and_checkpoints",
+      "actionId": "c1_preserve_mobile_reserve",
+      "continuationId": "mobility_resilience",
+      "evaluatedStateCount": 128,
+      "dominantStateCount": 0,
+      "dominanceShare": 0,
+      "universalAcrossContinuations": false
+    },
+    {
+      "windowId": "decision:C1_support_and_checkpoints",
+      "actionId": "c1_fallback_nav",
+      "continuationId": "low_response_reversible",
+      "evaluatedStateCount": 128,
+      "dominantStateCount": 0,
+      "dominanceShare": 0,
+      "universalAcrossContinuations": false
+    },
+    {
+      "windowId": "decision:C1_support_and_checkpoints",
+      "actionId": "c1_ground_recon",
+      "continuationId": "low_response_reversible",
+      "evaluatedStateCount": 128,
+      "dominantStateCount": 0,
+      "dominanceShare": 0,
+      "universalAcrossContinuations": false
+    },
+    {
+      "windowId": "decision:C1_support_and_checkpoints",
+      "actionId": "c1_checkpoint_spacing",
+      "continuationId": "low_response_reversible",
+      "evaluatedStateCount": 128,
+      "dominantStateCount": 0,
+      "dominanceShare": 0,
+      "universalAcrossContinuations": false
+    },
+    {
+      "windowId": "decision:C1_support_and_checkpoints",
+      "actionId": "c1_preserve_mobile_reserve",
+      "continuationId": "low_response_reversible",
+      "evaluatedStateCount": 128,
+      "dominantStateCount": 0,
+      "dominanceShare": 0,
+      "universalAcrossContinuations": false
+    },
+    {
+      "windowId": "decision:C2_resource_portfolio",
+      "actionId": "c2_isr_heavy",
+      "continuationId": "balanced_network",
+      "evaluatedStateCount": 128,
+      "dominantStateCount": 0,
+      "dominanceShare": 0,
+      "universalAcrossContinuations": false
+    },
+    {
+      "windowId": "decision:C2_resource_portfolio",
+      "actionId": "c2_mobility_heavy",
+      "continuationId": "balanced_network",
+      "evaluatedStateCount": 128,
+      "dominantStateCount": 0,
+      "dominanceShare": 0,
+      "universalAcrossContinuations": false
+    },
+    {
+      "windowId": "decision:C2_resource_portfolio",
+      "actionId": "c2_balanced",
+      "continuationId": "balanced_network",
+      "evaluatedStateCount": 128,
+      "dominantStateCount": 0,
+      "dominanceShare": 0,
+      "universalAcrossContinuations": false
+    },
+    {
+      "windowId": "decision:C2_resource_portfolio",
+      "actionId": "c2_priority_surge",
+      "continuationId": "balanced_network",
+      "evaluatedStateCount": 128,
+      "dominantStateCount": 0,
+      "dominanceShare": 0,
+      "universalAcrossContinuations": false
+    },
+    {
+      "windowId": "decision:C2_resource_portfolio",
+      "actionId": "c2_isr_heavy",
+      "continuationId": "information_heavy",
+      "evaluatedStateCount": 128,
+      "dominantStateCount": 0,
+      "dominanceShare": 0,
+      "universalAcrossContinuations": false
+    },
+    {
+      "windowId": "decision:C2_resource_portfolio",
+      "actionId": "c2_mobility_heavy",
+      "continuationId": "information_heavy",
+      "evaluatedStateCount": 128,
+      "dominantStateCount": 0,
+      "dominanceShare": 0,
+      "universalAcrossContinuations": false
+    },
+    {
+      "windowId": "decision:C2_resource_portfolio",
+      "actionId": "c2_balanced",
+      "continuationId": "information_heavy",
+      "evaluatedStateCount": 128,
+      "dominantStateCount": 0,
+      "dominanceShare": 0,
+      "universalAcrossContinuations": false
+    },
+    {
+      "windowId": "decision:C2_resource_portfolio",
+      "actionId": "c2_priority_surge",
+      "continuationId": "information_heavy",
+      "evaluatedStateCount": 128,
+      "dominantStateCount": 0,
+      "dominanceShare": 0,
+      "universalAcrossContinuations": false
+    },
+    {
+      "windowId": "decision:C2_resource_portfolio",
+      "actionId": "c2_isr_heavy",
+      "continuationId": "mobility_resilience",
+      "evaluatedStateCount": 128,
+      "dominantStateCount": 0,
+      "dominanceShare": 0,
+      "universalAcrossContinuations": false
+    },
+    {
+      "windowId": "decision:C2_resource_portfolio",
+      "actionId": "c2_mobility_heavy",
+      "continuationId": "mobility_resilience",
+      "evaluatedStateCount": 128,
+      "dominantStateCount": 0,
+      "dominanceShare": 0,
+      "universalAcrossContinuations": false
+    },
+    {
+      "windowId": "decision:C2_resource_portfolio",
+      "actionId": "c2_balanced",
+      "continuationId": "mobility_resilience",
+      "evaluatedStateCount": 128,
+      "dominantStateCount": 0,
+      "dominanceShare": 0,
+      "universalAcrossContinuations": false
+    },
+    {
+      "windowId": "decision:C2_resource_portfolio",
+      "actionId": "c2_priority_surge",
+      "continuationId": "mobility_resilience",
+      "evaluatedStateCount": 128,
+      "dominantStateCount": 0,
+      "dominanceShare": 0,
+      "universalAcrossContinuations": false
+    },
+    {
+      "windowId": "decision:C2_resource_portfolio",
+      "actionId": "c2_isr_heavy",
+      "continuationId": "low_response_reversible",
+      "evaluatedStateCount": 128,
+      "dominantStateCount": 0,
+      "dominanceShare": 0,
+      "universalAcrossContinuations": false
+    },
+    {
+      "windowId": "decision:C2_resource_portfolio",
+      "actionId": "c2_mobility_heavy",
+      "continuationId": "low_response_reversible",
+      "evaluatedStateCount": 128,
+      "dominantStateCount": 0,
+      "dominanceShare": 0,
+      "universalAcrossContinuations": false
+    },
+    {
+      "windowId": "decision:C2_resource_portfolio",
+      "actionId": "c2_balanced",
+      "continuationId": "low_response_reversible",
+      "evaluatedStateCount": 128,
+      "dominantStateCount": 0,
+      "dominanceShare": 0,
+      "universalAcrossContinuations": false
+    },
+    {
+      "windowId": "decision:C2_resource_portfolio",
+      "actionId": "c2_priority_surge",
+      "continuationId": "low_response_reversible",
+      "evaluatedStateCount": 128,
+      "dominantStateCount": 0,
+      "dominanceShare": 0,
+      "universalAcrossContinuations": false
+    },
+    {
+      "windowId": "decision:D1_crisis_response",
+      "actionId": "d1_emergency_reroute",
+      "continuationId": "balanced_network",
+      "evaluatedStateCount": 128,
+      "dominantStateCount": 0,
+      "dominanceShare": 0,
+      "universalAcrossContinuations": false
+    },
+    {
+      "windowId": "decision:D1_crisis_response",
+      "actionId": "d1_ground_containment",
+      "continuationId": "balanced_network",
+      "evaluatedStateCount": 128,
+      "dominantStateCount": 0,
+      "dominanceShare": 0,
+      "universalAcrossContinuations": false
+    },
+    {
+      "windowId": "decision:D1_crisis_response",
+      "actionId": "d1_deception_routing",
+      "continuationId": "balanced_network",
+      "evaluatedStateCount": 128,
+      "dominantStateCount": 0,
+      "dominanceShare": 0,
+      "universalAcrossContinuations": false
+    },
+    {
+      "windowId": "decision:D1_crisis_response",
+      "actionId": "d1_escorted_continuation",
+      "continuationId": "balanced_network",
+      "evaluatedStateCount": 128,
+      "dominantStateCount": 0,
+      "dominanceShare": 0,
+      "universalAcrossContinuations": false
+    },
+    {
+      "windowId": "decision:D1_crisis_response",
+      "actionId": "d1_hold_confirm",
+      "continuationId": "balanced_network",
+      "evaluatedStateCount": 128,
+      "dominantStateCount": 0,
+      "dominanceShare": 0,
+      "universalAcrossContinuations": false
+    },
+    {
+      "windowId": "decision:D1_crisis_response",
+      "actionId": "d1_emergency_reroute",
+      "continuationId": "information_heavy",
+      "evaluatedStateCount": 128,
+      "dominantStateCount": 0,
+      "dominanceShare": 0,
+      "universalAcrossContinuations": false
+    },
+    {
+      "windowId": "decision:D1_crisis_response",
+      "actionId": "d1_ground_containment",
+      "continuationId": "information_heavy",
+      "evaluatedStateCount": 128,
+      "dominantStateCount": 0,
+      "dominanceShare": 0,
+      "universalAcrossContinuations": false
+    },
+    {
+      "windowId": "decision:D1_crisis_response",
+      "actionId": "d1_deception_routing",
+      "continuationId": "information_heavy",
+      "evaluatedStateCount": 128,
+      "dominantStateCount": 0,
+      "dominanceShare": 0,
+      "universalAcrossContinuations": false
+    },
+    {
+      "windowId": "decision:D1_crisis_response",
+      "actionId": "d1_escorted_continuation",
+      "continuationId": "information_heavy",
+      "evaluatedStateCount": 128,
+      "dominantStateCount": 0,
+      "dominanceShare": 0,
+      "universalAcrossContinuations": false
+    },
+    {
+      "windowId": "decision:D1_crisis_response",
+      "actionId": "d1_hold_confirm",
+      "continuationId": "information_heavy",
+      "evaluatedStateCount": 128,
+      "dominantStateCount": 0,
+      "dominanceShare": 0,
+      "universalAcrossContinuations": false
+    },
+    {
+      "windowId": "decision:D1_crisis_response",
+      "actionId": "d1_emergency_reroute",
+      "continuationId": "mobility_resilience",
+      "evaluatedStateCount": 128,
+      "dominantStateCount": 0,
+      "dominanceShare": 0,
+      "universalAcrossContinuations": false
+    },
+    {
+      "windowId": "decision:D1_crisis_response",
+      "actionId": "d1_ground_containment",
+      "continuationId": "mobility_resilience",
+      "evaluatedStateCount": 128,
+      "dominantStateCount": 0,
+      "dominanceShare": 0,
+      "universalAcrossContinuations": false
+    },
+    {
+      "windowId": "decision:D1_crisis_response",
+      "actionId": "d1_deception_routing",
+      "continuationId": "mobility_resilience",
+      "evaluatedStateCount": 128,
+      "dominantStateCount": 0,
+      "dominanceShare": 0,
+      "universalAcrossContinuations": false
+    },
+    {
+      "windowId": "decision:D1_crisis_response",
+      "actionId": "d1_escorted_continuation",
+      "continuationId": "mobility_resilience",
+      "evaluatedStateCount": 128,
+      "dominantStateCount": 0,
+      "dominanceShare": 0,
+      "universalAcrossContinuations": false
+    },
+    {
+      "windowId": "decision:D1_crisis_response",
+      "actionId": "d1_hold_confirm",
+      "continuationId": "mobility_resilience",
+      "evaluatedStateCount": 128,
+      "dominantStateCount": 0,
+      "dominanceShare": 0,
+      "universalAcrossContinuations": false
+    },
+    {
+      "windowId": "decision:D1_crisis_response",
+      "actionId": "d1_emergency_reroute",
+      "continuationId": "low_response_reversible",
+      "evaluatedStateCount": 128,
+      "dominantStateCount": 0,
+      "dominanceShare": 0,
+      "universalAcrossContinuations": false
+    },
+    {
+      "windowId": "decision:D1_crisis_response",
+      "actionId": "d1_ground_containment",
+      "continuationId": "low_response_reversible",
+      "evaluatedStateCount": 128,
+      "dominantStateCount": 0,
+      "dominanceShare": 0,
+      "universalAcrossContinuations": false
+    },
+    {
+      "windowId": "decision:D1_crisis_response",
+      "actionId": "d1_deception_routing",
+      "continuationId": "low_response_reversible",
+      "evaluatedStateCount": 128,
+      "dominantStateCount": 0,
+      "dominanceShare": 0,
+      "universalAcrossContinuations": false
+    },
+    {
+      "windowId": "decision:D1_crisis_response",
+      "actionId": "d1_escorted_continuation",
+      "continuationId": "low_response_reversible",
+      "evaluatedStateCount": 128,
+      "dominantStateCount": 0,
+      "dominanceShare": 0,
+      "universalAcrossContinuations": false
+    },
+    {
+      "windowId": "decision:D1_crisis_response",
+      "actionId": "d1_hold_confirm",
+      "continuationId": "low_response_reversible",
+      "evaluatedStateCount": 128,
+      "dominantStateCount": 0,
+      "dominanceShare": 0,
+      "universalAcrossContinuations": false
+    },
+    {
+      "windowId": "decision:D2_final_delivery_policy",
+      "actionId": "d2_critical_delivery_surge",
+      "continuationId": "balanced_network",
+      "evaluatedStateCount": 69,
+      "dominantStateCount": 0,
+      "dominanceShare": 0,
+      "universalAcrossContinuations": false
+    },
+    {
+      "windowId": "decision:D2_final_delivery_policy",
+      "actionId": "d2_network_balanced_finish",
+      "continuationId": "balanced_network",
+      "evaluatedStateCount": 128,
+      "dominantStateCount": 0,
+      "dominanceShare": 0,
+      "universalAcrossContinuations": false
+    },
+    {
+      "windowId": "decision:D2_final_delivery_policy",
+      "actionId": "d2_resilient_handoff",
+      "continuationId": "balanced_network",
+      "evaluatedStateCount": 69,
+      "dominantStateCount": 0,
+      "dominanceShare": 0,
+      "universalAcrossContinuations": false
+    },
+    {
+      "windowId": "decision:D2_final_delivery_policy",
+      "actionId": "d2_continuity_first_finish",
+      "continuationId": "balanced_network",
+      "evaluatedStateCount": 128,
+      "dominantStateCount": 1,
+      "dominanceShare": 0.007813,
+      "universalAcrossContinuations": false
+    },
+    {
+      "windowId": "decision:D2_final_delivery_policy",
+      "actionId": "d2_critical_delivery_surge",
+      "continuationId": "information_heavy",
+      "evaluatedStateCount": 69,
+      "dominantStateCount": 0,
+      "dominanceShare": 0,
+      "universalAcrossContinuations": false
+    },
+    {
+      "windowId": "decision:D2_final_delivery_policy",
+      "actionId": "d2_network_balanced_finish",
+      "continuationId": "information_heavy",
+      "evaluatedStateCount": 128,
+      "dominantStateCount": 0,
+      "dominanceShare": 0,
+      "universalAcrossContinuations": false
+    },
+    {
+      "windowId": "decision:D2_final_delivery_policy",
+      "actionId": "d2_resilient_handoff",
+      "continuationId": "information_heavy",
+      "evaluatedStateCount": 69,
+      "dominantStateCount": 0,
+      "dominanceShare": 0,
+      "universalAcrossContinuations": false
+    },
+    {
+      "windowId": "decision:D2_final_delivery_policy",
+      "actionId": "d2_continuity_first_finish",
+      "continuationId": "information_heavy",
+      "evaluatedStateCount": 128,
+      "dominantStateCount": 1,
+      "dominanceShare": 0.007813,
+      "universalAcrossContinuations": false
+    },
+    {
+      "windowId": "decision:D2_final_delivery_policy",
+      "actionId": "d2_critical_delivery_surge",
+      "continuationId": "mobility_resilience",
+      "evaluatedStateCount": 69,
+      "dominantStateCount": 0,
+      "dominanceShare": 0,
+      "universalAcrossContinuations": false
+    },
+    {
+      "windowId": "decision:D2_final_delivery_policy",
+      "actionId": "d2_network_balanced_finish",
+      "continuationId": "mobility_resilience",
+      "evaluatedStateCount": 128,
+      "dominantStateCount": 0,
+      "dominanceShare": 0,
+      "universalAcrossContinuations": false
+    },
+    {
+      "windowId": "decision:D2_final_delivery_policy",
+      "actionId": "d2_resilient_handoff",
+      "continuationId": "mobility_resilience",
+      "evaluatedStateCount": 69,
+      "dominantStateCount": 0,
+      "dominanceShare": 0,
+      "universalAcrossContinuations": false
+    },
+    {
+      "windowId": "decision:D2_final_delivery_policy",
+      "actionId": "d2_continuity_first_finish",
+      "continuationId": "mobility_resilience",
+      "evaluatedStateCount": 128,
+      "dominantStateCount": 1,
+      "dominanceShare": 0.007813,
+      "universalAcrossContinuations": false
+    },
+    {
+      "windowId": "decision:D2_final_delivery_policy",
+      "actionId": "d2_critical_delivery_surge",
+      "continuationId": "low_response_reversible",
+      "evaluatedStateCount": 69,
+      "dominantStateCount": 0,
+      "dominanceShare": 0,
+      "universalAcrossContinuations": false
+    },
+    {
+      "windowId": "decision:D2_final_delivery_policy",
+      "actionId": "d2_network_balanced_finish",
+      "continuationId": "low_response_reversible",
+      "evaluatedStateCount": 128,
+      "dominantStateCount": 0,
+      "dominanceShare": 0,
+      "universalAcrossContinuations": false
+    },
+    {
+      "windowId": "decision:D2_final_delivery_policy",
+      "actionId": "d2_resilient_handoff",
+      "continuationId": "low_response_reversible",
+      "evaluatedStateCount": 69,
+      "dominantStateCount": 0,
+      "dominanceShare": 0,
+      "universalAcrossContinuations": false
+    },
+    {
+      "windowId": "decision:D2_final_delivery_policy",
+      "actionId": "d2_continuity_first_finish",
+      "continuationId": "low_response_reversible",
+      "evaluatedStateCount": 128,
+      "dominantStateCount": 1,
+      "dominanceShare": 0.007813,
+      "universalAcrossContinuations": false
+    }
+  ],
+  "universalDominanceV2": {
+    "actions": [],
+    "formerPhase8Actions": [
+      {
+        "actionId": "a1_preserve_reserve",
+        "rows": [
+          {
+            "windowId": "decision:A1_baseline_monitoring",
+            "actionId": "a1_preserve_reserve",
+            "continuationId": "balanced_network",
+            "evaluatedStateCount": 128,
+            "dominantStateCount": 128,
+            "dominanceShare": 1,
+            "universalAcrossContinuations": false
+          },
+          {
+            "windowId": "decision:A1_baseline_monitoring",
+            "actionId": "a1_preserve_reserve",
+            "continuationId": "information_heavy",
+            "evaluatedStateCount": 128,
+            "dominantStateCount": 96,
+            "dominanceShare": 0.75,
+            "universalAcrossContinuations": false
+          },
+          {
+            "windowId": "decision:A1_baseline_monitoring",
+            "actionId": "a1_preserve_reserve",
+            "continuationId": "mobility_resilience",
+            "evaluatedStateCount": 128,
+            "dominantStateCount": 0,
+            "dominanceShare": 0,
+            "universalAcrossContinuations": false
+          },
+          {
+            "windowId": "decision:A1_baseline_monitoring",
+            "actionId": "a1_preserve_reserve",
+            "continuationId": "low_response_reversible",
+            "evaluatedStateCount": 128,
+            "dominantStateCount": 32,
+            "dominanceShare": 0.25,
+            "universalAcrossContinuations": false
+          }
+        ]
+      },
+      {
+        "actionId": "b1_pulse_network",
+        "rows": [
+          {
+            "windowId": "decision:B1_monitoring_allocation",
+            "actionId": "b1_pulse_network",
+            "continuationId": "balanced_network",
+            "evaluatedStateCount": 128,
+            "dominantStateCount": 116,
+            "dominanceShare": 0.90625,
+            "universalAcrossContinuations": false
+          },
+          {
+            "windowId": "decision:B1_monitoring_allocation",
+            "actionId": "b1_pulse_network",
+            "continuationId": "information_heavy",
+            "evaluatedStateCount": 128,
+            "dominantStateCount": 81,
+            "dominanceShare": 0.632813,
+            "universalAcrossContinuations": false
+          },
+          {
+            "windowId": "decision:B1_monitoring_allocation",
+            "actionId": "b1_pulse_network",
+            "continuationId": "mobility_resilience",
+            "evaluatedStateCount": 128,
+            "dominantStateCount": 107,
+            "dominanceShare": 0.835938,
+            "universalAcrossContinuations": false
+          },
+          {
+            "windowId": "decision:B1_monitoring_allocation",
+            "actionId": "b1_pulse_network",
+            "continuationId": "low_response_reversible",
+            "evaluatedStateCount": 128,
+            "dominantStateCount": 74,
+            "dominanceShare": 0.578125,
+            "universalAcrossContinuations": false
+          }
+        ]
+      },
+      {
+        "actionId": "c1_preserve_mobile_reserve",
+        "rows": [
+          {
+            "windowId": "decision:C1_support_and_checkpoints",
+            "actionId": "c1_preserve_mobile_reserve",
+            "continuationId": "balanced_network",
+            "evaluatedStateCount": 128,
+            "dominantStateCount": 0,
+            "dominanceShare": 0,
+            "universalAcrossContinuations": false
+          },
+          {
+            "windowId": "decision:C1_support_and_checkpoints",
+            "actionId": "c1_preserve_mobile_reserve",
+            "continuationId": "information_heavy",
+            "evaluatedStateCount": 128,
+            "dominantStateCount": 0,
+            "dominanceShare": 0,
+            "universalAcrossContinuations": false
+          },
+          {
+            "windowId": "decision:C1_support_and_checkpoints",
+            "actionId": "c1_preserve_mobile_reserve",
+            "continuationId": "mobility_resilience",
+            "evaluatedStateCount": 128,
+            "dominantStateCount": 0,
+            "dominanceShare": 0,
+            "universalAcrossContinuations": false
+          },
+          {
+            "windowId": "decision:C1_support_and_checkpoints",
+            "actionId": "c1_preserve_mobile_reserve",
+            "continuationId": "low_response_reversible",
+            "evaluatedStateCount": 128,
+            "dominantStateCount": 0,
+            "dominanceShare": 0,
+            "universalAcrossContinuations": false
+          }
+        ]
+      }
+    ]
+  },
+  "paretoOutcomeVector": {
+    "maximize": [
+      "alphaDeliveredByHorizon",
+      "alphaIntegrity",
+      "networkContinuityPercent",
+      "deliveredConvoyCount",
+      "onTimeOperationalConvoyCount",
+      "operationalAttributionResolved",
+      "truePrimaryCorridorCorroborated",
+      "finalISR",
+      "finalSupport",
+      "threatContained"
+    ],
+    "minimize": [
+      "alphaDelayMinutes",
+      "totalFinalDelayMinutes",
+      "compromisedConvoyCount",
+      "localizedDisruptionEventCount",
+      "meanFinalPntExposure",
+      "maxFinalPntExposure"
+    ]
+  },
+  "endStateCoverageV2": [
+    {
+      "endStateId": "critical_cargo_lost_or_compromised",
+      "mainAuditCount": 24,
+      "classification": "observed_in_main_audit",
+      "witnessWorldId": "",
+      "witnessEnvironmentSeed": "",
+      "latencyVariant": "",
+      "witnessTrace": ""
+    },
+    {
+      "endStateId": "priority_delivered_network_failure",
+      "mainAuditCount": 0,
+      "classification": "not_observed_under_phase8a_structured_search",
+      "witnessWorldId": "",
+      "witnessEnvironmentSeed": "",
+      "latencyVariant": "",
+      "witnessTrace": ""
+    },
+    {
+      "endStateId": "mission_incomplete_continuity_preserved",
+      "mainAuditCount": 0,
+      "classification": "observed_in_structured_search",
+      "witnessWorldId": "W-corridor_alpha_east-opportunistic_interdiction",
+      "witnessEnvironmentSeed": 1,
+      "latencyVariant": "early",
+      "witnessTrace": "[{\"actionId\":\"a1_priority_focus\",\"targetCorridorId\":\"corridor_alpha_east\"},{\"actionId\":\"a2_broad_sweep\",\"targetCorridorId\":null},{\"actionId\":\"b1_split_attention\",\"targetCorridorId\":null},{\"actionId\":\"b2_hold_verify\",\"targetCorridorId\":\"corridor_alpha_east\"},{\"actionId\":\"c1_ground_recon\",\"targetCorridorId\":\"corridor_alpha_east\"},{\"actionId\":\"c2_isr_heavy\",\"targetCorridorId\":null},{\"actionId\":\"d1_hold_confirm\",\"targetCorridorId\":\"corridor_alpha_east\"},{\"actionId\":\"d2_continuity_first_finish\",\"targetCorridorId\":null}]"
+    },
+    {
+      "endStateId": "delayed_delivery_persistent_disruption",
+      "mainAuditCount": 14085,
+      "classification": "observed_in_main_audit",
+      "witnessWorldId": "",
+      "witnessEnvironmentSeed": "",
+      "latencyVariant": "",
+      "witnessTrace": ""
+    },
+    {
+      "endStateId": "resilient_delivery_unresolved_attribution",
+      "mainAuditCount": 10173,
+      "classification": "observed_in_main_audit",
+      "witnessWorldId": "",
+      "witnessEnvironmentSeed": "",
+      "latencyVariant": "",
+      "witnessTrace": ""
+    },
+    {
+      "endStateId": "resilient_delivery_threat_contained",
+      "mainAuditCount": 294,
+      "classification": "observed_in_main_audit",
+      "witnessWorldId": "",
+      "witnessEnvironmentSeed": "",
+      "latencyVariant": "",
+      "witnessTrace": ""
+    }
+  ],
+  "structuredSearchRunCounts": {
+    "searchesExecuted": 48,
+    "branchesApplied": 4966163,
+    "uniqueStatesGenerated": 4719177,
+    "retainedStates": 500160,
+    "maximumBeamWidth": 2500,
+    "representativeEnvironmentCount": 48,
+    "beamLimit": 2500,
+    "randomPruning": false,
+    "missionEventsMechanicsAudit": "missionEvents history is read only for event IDs/causal provenance; future transition physics does not inspect historical payloads"
+  },
+  "reachabilityBoundaries": {
+    "rows": [
+      {
+        "boundaryId": "A",
+        "metric": "minimumNetworkContinuityWithAlphaDelivered",
+        "value": 75,
+        "worldId": "W-corridor_beta_south-deceptive_diversion",
+        "environmentSeed": 1,
+        "trace": "[{\"actionId\":\"a1_priority_focus\",\"targetCorridorId\":\"corridor_alpha_east\"},{\"actionId\":\"a2_broad_sweep\",\"targetCorridorId\":null},{\"actionId\":\"b1_split_attention\",\"targetCorridorId\":null},{\"actionId\":\"b2_hold_verify\",\"targetCorridorId\":\"corridor_beta_south\"},{\"actionId\":\"c1_ground_recon\",\"targetCorridorId\":\"corridor_delta_west\"},{\"actionId\":\"c2_priority_surge\",\"targetCorridorId\":\"corridor_alpha_east\"},{\"actionId\":\"d1_hold_confirm\",\"targetCorridorId\":\"corridor_beta_south\"},{\"actionId\":\"d2_network_balanced_finish\",\"targetCorridorId\":null}]"
+      },
+      {
+        "boundaryId": "B_projected_arrival",
+        "metric": "maximumAlphaProjectedArrivalMinute",
+        "value": 365,
+        "worldId": "W-corridor_alpha_east-pressure_escalator",
+        "environmentSeed": 1,
+        "trace": "[{\"actionId\":\"a1_network_baseline\",\"targetCorridorId\":null},{\"actionId\":\"a2_ground_liaison\",\"targetCorridorId\":\"corridor_alpha_east\"},{\"actionId\":\"b1_split_attention\",\"targetCorridorId\":null},{\"actionId\":\"b2_hold_verify\",\"targetCorridorId\":\"corridor_alpha_east\"},{\"actionId\":\"c1_ground_recon\",\"targetCorridorId\":\"corridor_alpha_east\"},{\"actionId\":\"c2_isr_heavy\",\"targetCorridorId\":null},{\"actionId\":\"d1_hold_confirm\",\"targetCorridorId\":\"corridor_alpha_east\"},{\"actionId\":\"d2_continuity_first_finish\",\"targetCorridorId\":null}]"
+      },
+      {
+        "boundaryId": "B_delay",
+        "metric": "maximumAlphaDelayMinutes",
+        "value": 155,
+        "worldId": "W-corridor_alpha_east-pressure_escalator",
+        "environmentSeed": 1,
+        "trace": "[{\"actionId\":\"a1_network_baseline\",\"targetCorridorId\":null},{\"actionId\":\"a2_ground_liaison\",\"targetCorridorId\":\"corridor_alpha_east\"},{\"actionId\":\"b1_split_attention\",\"targetCorridorId\":null},{\"actionId\":\"b2_hold_verify\",\"targetCorridorId\":\"corridor_alpha_east\"},{\"actionId\":\"c1_ground_recon\",\"targetCorridorId\":\"corridor_alpha_east\"},{\"actionId\":\"c2_isr_heavy\",\"targetCorridorId\":null},{\"actionId\":\"d1_hold_confirm\",\"targetCorridorId\":\"corridor_alpha_east\"},{\"actionId\":\"d2_continuity_first_finish\",\"targetCorridorId\":null}]"
+      },
+      {
+        "boundaryId": "C",
+        "metric": "maximumAlphaProjectedArrivalMinuteWithIntegrityAtLeast55",
+        "value": 365,
+        "worldId": "W-corridor_alpha_east-pressure_escalator",
+        "environmentSeed": 1,
+        "trace": "[{\"actionId\":\"a1_network_baseline\",\"targetCorridorId\":null},{\"actionId\":\"a2_ground_liaison\",\"targetCorridorId\":\"corridor_alpha_east\"},{\"actionId\":\"b1_split_attention\",\"targetCorridorId\":null},{\"actionId\":\"b2_hold_verify\",\"targetCorridorId\":\"corridor_alpha_east\"},{\"actionId\":\"c1_ground_recon\",\"targetCorridorId\":\"corridor_alpha_east\"},{\"actionId\":\"c2_isr_heavy\",\"targetCorridorId\":null},{\"actionId\":\"d1_hold_confirm\",\"targetCorridorId\":\"corridor_alpha_east\"},{\"actionId\":\"d2_continuity_first_finish\",\"targetCorridorId\":null}]"
+      }
+    ],
+    "boundaryStatements": [
+      "No Phase-08A structured witness reaches the current priority_delivered_network_failure <=50 continuity condition."
+    ]
+  },
+  "extendedShadowHorizon": [
+    {
+      "horizon": 270,
+      "alphaDeliveryRate": 0.871623,
+      "allConvoyDeliveryRate": 0.212158,
+      "meanDeliveredConvoyCount": 3.158325
+    },
+    {
+      "horizon": 285,
+      "alphaDeliveryRate": 0.927734,
+      "allConvoyDeliveryRate": 0.43807,
+      "meanDeliveredConvoyCount": 3.432861
+    },
+    {
+      "horizon": 300,
+      "alphaDeliveryRate": 0.967204,
+      "allConvoyDeliveryRate": 0.665527,
+      "meanDeliveredConvoyCount": 3.665405
+    },
+    {
+      "horizon": 315,
+      "alphaDeliveryRate": 0.987915,
+      "allConvoyDeliveryRate": 0.820272,
+      "meanDeliveredConvoyCount": 3.820272
+    },
+    {
+      "horizon": 330,
+      "alphaDeliveryRate": 0.993083,
+      "allConvoyDeliveryRate": 0.904134,
+      "meanDeliveredConvoyCount": 3.904134
+    },
+    {
+      "horizon": 345,
+      "alphaDeliveryRate": 0.996338,
+      "allConvoyDeliveryRate": 0.937948,
+      "meanDeliveredConvoyCount": 3.937948
+    },
+    {
+      "horizon": 360,
+      "alphaDeliveryRate": 0.999023,
+      "allConvoyDeliveryRate": 0.959391,
+      "meanDeliveredConvoyCount": 3.959391
+    },
+    {
+      "horizon": 375,
+      "alphaDeliveryRate": 0.999023,
+      "allConvoyDeliveryRate": 0.968791,
+      "meanDeliveredConvoyCount": 3.968791
+    },
+    {
+      "horizon": 390,
+      "alphaDeliveryRate": 0.999023,
+      "allConvoyDeliveryRate": 0.971476,
+      "meanDeliveredConvoyCount": 3.971476
+    }
+  ],
+  "resourceAvailabilitySummary": {
+    "minimumAvailableActionCountDistribution": [
+      {
+        "count": 2,
+        "runs": 13343
+      },
+      {
+        "count": 4,
+        "runs": 11233
+      }
+    ],
+    "finalIsr": {
+      "p05": 26,
+      "p25": 46,
+      "median": 56,
+      "p75": 68,
+      "p95": 82
+    },
+    "finalSupport": {
+      "p05": 12,
+      "p25": 28,
+      "median": 40,
+      "p75": 54,
+      "p95": 70
+    }
+  },
+  "actorPairResults": [
+    {
+      "actorA": "cautious_denial",
+      "actorB": "deceptive_diversion",
+      "meanDelayDifference": 21.720983,
+      "threatContainedRateDifference": 0,
+      "endStateTvDistance": 0.214286,
+      "secondaryImpactRateDifference": 0,
+      "distinguishable": true
+    },
+    {
+      "actorA": "cautious_denial",
+      "actorB": "opportunistic_interdiction",
+      "meanDelayDifference": 49.142858,
+      "threatContainedRateDifference": 0,
+      "endStateTvDistance": 0,
+      "secondaryImpactRateDifference": 0.071429,
+      "distinguishable": true
+    },
+    {
+      "actorA": "cautious_denial",
+      "actorB": "pressure_escalator",
+      "meanDelayDifference": 29.928572,
+      "threatContainedRateDifference": 0.142857,
+      "endStateTvDistance": 0.142857,
+      "secondaryImpactRateDifference": 0,
+      "distinguishable": true
+    },
+    {
+      "actorA": "deceptive_diversion",
+      "actorB": "opportunistic_interdiction",
+      "meanDelayDifference": 27.421875,
+      "threatContainedRateDifference": 0,
+      "endStateTvDistance": 0.214286,
+      "secondaryImpactRateDifference": 0.071429,
+      "distinguishable": true
+    },
+    {
+      "actorA": "deceptive_diversion",
+      "actorB": "pressure_escalator",
+      "meanDelayDifference": 8.207589,
+      "threatContainedRateDifference": 0.142857,
+      "endStateTvDistance": 0.214286,
+      "secondaryImpactRateDifference": 0,
+      "distinguishable": true
+    },
+    {
+      "actorA": "opportunistic_interdiction",
+      "actorB": "pressure_escalator",
+      "meanDelayDifference": 19.214286,
+      "threatContainedRateDifference": 0.142857,
+      "endStateTvDistance": 0.142857,
+      "secondaryImpactRateDifference": 0.071429,
+      "distinguishable": true
+    }
+  ],
+  "cognitiveAnchorSummary": [
+    {
+      "gateId": "orientation_operational",
+      "observed": {
+        "mean": -0.877118,
+        "nullRate": 0,
+        "n": 256
+      },
+      "comparator": "< -0.20",
+      "pass": true
+    },
+    {
+      "gateId": "orientation_strategic",
+      "observed": {
+        "mean": 0.666996,
+        "nullRate": 0,
+        "n": 256
+      },
+      "comparator": "> +0.20",
+      "pass": true
+    },
+    {
+      "gateId": "information_seeking",
+      "observed": {
+        "high": {
+          "mean": 91.650907,
+          "nullRate": 0,
+          "n": 256
+        },
+        "low": {
+          "mean": 11.5,
+          "nullRate": 0,
+          "n": 256
+        }
+      },
+      "comparator": "difference >= 15",
+      "pass": true
+    },
+    {
+      "gateId": "second_order",
+      "observed": {
+        "anchor": {
+          "mean": 74.1875,
+          "nullRate": 0,
+          "n": 256
+        },
+        "random": {
+          "mean": 58.757492,
+          "nullRate": 0,
+          "n": 4096
+        }
+      },
+      "comparator": "anchor >= random + 10",
+      "pass": true
+    },
+    {
+      "gateId": "adversary_modeling",
+      "observed": {
+        "anchor": {
+          "mean": 75,
+          "nullRate": 0,
+          "n": 256
+        },
+        "random": {
+          "mean": 58.592529,
+          "nullRate": 0,
+          "n": 4096
+        }
+      },
+      "comparator": "anchor >= random + 10",
+      "pass": true
+    },
+    {
+      "gateId": "stewardship",
+      "observed": {
+        "anchor": {
+          "mean": 80.375,
+          "nullRate": 0,
+          "n": 256
+        },
+        "random": {
+          "mean": 60.298553,
+          "nullRate": 0,
+          "n": 4096
+        }
+      },
+      "comparator": "anchor >= random + 10",
+      "pass": true
+    },
+    {
+      "gateId": "planning",
+      "observed": {
+        "anchor": {
+          "mean": 84.125,
+          "nullRate": 0,
+          "n": 256
+        },
+        "random": {
+          "mean": 65.84462,
+          "nullRate": 0,
+          "n": 4096
+        }
+      },
+      "comparator": "anchor >= random + 10",
+      "pass": true
+    },
+    {
+      "gateId": "mci",
+      "observed": {
+        "anchor": {
+          "mean": 32.135183,
+          "nullRate": 0,
+          "n": 256
+        },
+        "random": {
+          "mean": 25.08302,
+          "nullRate": 0,
+          "n": 4096
+        }
+      },
+      "comparator": "anchor >= random + 5",
+      "pass": true
+    },
+    {
+      "gateId": "risk_low",
+      "observed": {
+        "mean": -0.725926,
+        "nullRate": 0,
+        "n": 256
+      },
+      "comparator": "< 0",
+      "pass": true
+    },
+    {
+      "gateId": "risk_high",
+      "observed": {
+        "mean": 0.987179,
+        "nullRate": 0,
+        "n": 256
+      },
+      "comparator": "> 0",
+      "pass": true
+    },
+    {
+      "gateId": "coherence",
+      "observed": {
+        "high": {
+          "mean": 87.1,
+          "nullRate": 0,
+          "n": 256
+        },
+        "low": {
+          "mean": 36.816667,
+          "nullRate": 0,
+          "n": 256
+        }
+      },
+      "comparator": "difference >= 15",
+      "pass": true
+    },
+    {
+      "gateId": "evidence_updating",
+      "observed": {
+        "responsive": {
+          "mean": 99.733333,
+          "nullRate": 0,
+          "n": 256
+        },
+        "anti": {
+          "mean": 21.066667,
+          "nullRate": 0,
+          "n": 256
+        }
+      },
+      "comparator": "difference >= 20",
+      "pass": true
+    }
+  ],
+  "cognitiveFirewall": {
+    "pairs": 100,
+    "pass": true
+  },
+  "runtimeClock": {
+    "min": 232,
+    "p05": 244,
+    "p25": 256,
+    "median": 267,
+    "p75": 276,
+    "p95": 290,
+    "max": 297,
+    "atOrBelow300Percent": 100,
+    "from301To330Percent": 0,
+    "from331To360Percent": 0
+  },
+  "distributionWarnings": [
+    {
+      "metric": "informationSeeking",
+      "scale": "0..100",
+      "n": 7936,
+      "nullRate": 0,
+      "mean": 49.806623,
+      "sd": 19.954993,
+      "min": 11.5,
+      "p05": 21.25,
+      "p25": 33,
+      "median": 49.15565,
+      "p75": 64.038533,
+      "p95": 84.636612,
+      "max": 92.75,
+      "percentAtOrBelow5": 0,
+      "percentAtOrAbove95": 0,
+      "warnings": []
+    },
+    {
+      "metric": "secondOrderThinking",
+      "scale": "0..100",
+      "n": 7936,
+      "nullRate": 0,
+      "mean": 60.899028,
+      "sd": 8.176451,
+      "min": 39.875,
+      "p05": 48.359375,
+      "p25": 54.75,
+      "median": 61.25,
+      "p75": 67.5625,
+      "p95": 73.5625,
+      "max": 74.1875,
+      "percentAtOrBelow5": 0,
+      "percentAtOrAbove95": 0,
+      "warnings": []
+    },
+    {
+      "metric": "adversaryModeling",
+      "scale": "0..100",
+      "n": 7936,
+      "nullRate": 0,
+      "mean": 59.757434,
+      "sd": 9.651227,
+      "min": 45,
+      "p05": 45,
+      "p25": 50,
+      "median": 60,
+      "p75": 65,
+      "p95": 75,
+      "max": 75,
+      "percentAtOrBelow5": 0,
+      "percentAtOrAbove95": 0,
+      "warnings": []
+    },
+    {
+      "metric": "escalationSensitivity",
+      "scale": "0..100",
+      "n": 7936,
+      "nullRate": 0,
+      "mean": 58.570439,
+      "sd": 5.229657,
+      "min": 50,
+      "p05": 52.5,
+      "p25": 55,
+      "median": 57.5,
+      "p75": 62.5,
+      "p95": 70,
+      "max": 72.5,
+      "percentAtOrBelow5": 0,
+      "percentAtOrAbove95": 0,
+      "warnings": []
+    },
+    {
+      "metric": "evidenceResponsiveUpdating",
+      "scale": "0..100",
+      "n": 6186,
+      "nullRate": 0.220514,
+      "mean": 29.688332,
+      "sd": 16.021531,
+      "min": 0,
+      "p05": 16,
+      "p25": 23.333333,
+      "median": 30,
+      "p75": 31.333333,
+      "p95": 36.666667,
+      "max": 99.733333,
+      "percentAtOrBelow5": 0.210152,
+      "percentAtOrAbove95": 4.138377,
+      "warnings": []
+    },
+    {
+      "metric": "resourceStewardship",
+      "scale": "0..100",
+      "n": 7936,
+      "nullRate": 0,
+      "mean": 63.004899,
+      "sd": 9.125496,
+      "min": 42.75,
+      "p05": 49.875,
+      "p25": 55.75,
+      "median": 61.875,
+      "p75": 70.125,
+      "p95": 79.75,
+      "max": 80.375,
+      "percentAtOrBelow5": 0,
+      "percentAtOrAbove95": 0,
+      "warnings": []
+    },
+    {
+      "metric": "planningForesight",
+      "scale": "0..100",
+      "n": 7936,
+      "nullRate": 0,
+      "mean": 68.702062,
+      "sd": 9.322086,
+      "min": 45.1875,
+      "p05": 53.171875,
+      "p25": 62.3125,
+      "median": 67.6875,
+      "p75": 76.5625,
+      "p95": 83.875,
+      "max": 84.125,
+      "percentAtOrBelow5": 0,
+      "percentAtOrAbove95": 0,
+      "warnings": []
+    },
+    {
+      "metric": "multiDomainIntegration",
+      "scale": "0..100",
+      "n": 7936,
+      "nullRate": 0,
+      "mean": 27.19001,
+      "sd": 4.917228,
+      "min": 19.263406,
+      "p05": 19.263406,
+      "p25": 23.111546,
+      "median": 25.94507,
+      "p75": 32.135183,
+      "p95": 32.135183,
+      "max": 32.135183,
+      "percentAtOrBelow5": 0,
+      "percentAtOrAbove95": 0,
+      "warnings": [
+        "engineering_low_variance"
+      ]
+    },
+    {
+      "metric": "decisionCoherence",
+      "scale": "0..100",
+      "n": 7936,
+      "nullRate": 0,
+      "mean": 69.689438,
+      "sd": 11.625041,
+      "min": 36.816667,
+      "p05": 53.833333,
+      "p25": 62.5,
+      "median": 70.083333,
+      "p75": 80.883333,
+      "p95": 85.216667,
+      "max": 89.7,
+      "percentAtOrBelow5": 0,
+      "percentAtOrAbove95": 0,
+      "warnings": []
+    },
+    {
+      "metric": "operationalStrength",
+      "scale": "0..100",
+      "n": 7936,
+      "nullRate": 0,
+      "mean": 61.787897,
+      "sd": 8.414033,
+      "min": 43.75,
+      "p05": 47.5,
+      "p25": 57.5,
+      "median": 62.5,
+      "p75": 66.25,
+      "p95": 73.75,
+      "max": 83.75,
+      "percentAtOrBelow5": 0,
+      "percentAtOrAbove95": 0,
+      "warnings": []
+    },
+    {
+      "metric": "strategicStrength",
+      "scale": "0..100",
+      "n": 7936,
+      "nullRate": 0,
+      "mean": 69.588111,
+      "sd": 10.529989,
+      "min": 41.25,
+      "p05": 52.5,
+      "p25": 63.75,
+      "median": 70,
+      "p75": 78.75,
+      "p95": 85,
+      "max": 87.5,
+      "percentAtOrBelow5": 0,
+      "percentAtOrAbove95": 0,
+      "warnings": []
+    },
+    {
+      "metric": "integration",
+      "scale": "0..100",
+      "n": 7936,
+      "nullRate": 0,
+      "mean": 64.187998,
+      "sd": 3.271342,
+      "min": 55,
+      "p05": 58.235294,
+      "p25": 62.079208,
+      "median": 64.368932,
+      "p75": 66.82243,
+      "p95": 69.099099,
+      "max": 70.353982,
+      "percentAtOrBelow5": 0,
+      "percentAtOrAbove95": 0,
+      "warnings": [
+        "engineering_low_variance"
+      ]
+    },
+    {
+      "metric": "overallOSI",
+      "scale": "-1..1",
+      "n": 7936,
+      "nullRate": 0,
+      "mean": 0.09018,
+      "sd": 0.371832,
+      "min": -0.880117,
+      "p05": -0.499013,
+      "p25": -0.12069,
+      "median": 0.066017,
+      "p75": 0.382938,
+      "p95": 0.674932,
+      "max": 0.753905,
+      "percentAtOrBelow5": null,
+      "percentAtOrAbove95": null,
+      "warnings": []
+    },
+    {
+      "metric": "riskPosture",
+      "scale": "-1..1",
+      "n": 7936,
+      "nullRate": 0,
+      "mean": -0.125868,
+      "sd": 0.436701,
+      "min": -0.792593,
+      "p05": -0.664387,
+      "p25": -0.496296,
+      "median": -0.151567,
+      "p75": 0.144729,
+      "p95": 0.717949,
+      "max": 0.987179,
+      "percentAtOrBelow5": null,
+      "percentAtOrAbove95": null,
+      "warnings": []
+    }
+  ],
+  "originalPhase8FailureDisposition": {
+    "ACTION_TARGET_COVERAGE": "audit_sampling_issue",
+    "SIX_END_STATES_OBSERVED": "model_or_taxonomy_issue_confirmed",
+    "NO_UNIVERSAL_ACTION_DOMINANCE": "original_audit_incomplete",
+    "RANDOM_OSI_CENTERING": "random_sampling_issue"
+  },
+  "originalPhase8FindingsPreserved": {
+    "overallStatus": "FAIL",
+    "originalHardGateFailures": 4,
+    "cognitiveLowVarianceWarnings": 3
+  },
+  "hardGates": [
+    {
+      "gateId": "ENVIRONMENT_PANEL_COVERAGE",
+      "status": "PASS",
+      "detail": "worlds=16; latency=early|late|nominal; missingNoise=0"
+    },
+    {
+      "gateId": "EXECUTION_COMPLETION",
+      "status": "PASS",
+      "detail": "25600/25600"
+    },
+    {
+      "gateId": "DETERMINISTIC_REPLAY",
+      "status": "PASS",
+      "detail": "384 cases"
+    },
+    {
+      "gateId": "LEGAL_ACTION_SAFETY",
+      "status": "PASS",
+      "detail": "zeroOption=0; negativeResource=0; chronology=0"
+    },
+    {
+      "gateId": "DOMAIN_DELAY_IDENTITY",
+      "status": "PASS",
+      "detail": "0 failures"
+    },
+    {
+      "gateId": "NO_MATH_RANDOM",
+      "status": "PASS",
+      "detail": "13 calibration files scanned"
+    },
+    {
+      "gateId": "ACTION_TARGET_COVERAGE_V2",
+      "status": "PASS",
+      "detail": "actions=33/33; probes=64/64; failed=0"
+    },
+    {
+      "gateId": "OSI_STRUCTURAL_CENTERING",
+      "status": "PASS",
+      "detail": "diagnosticSets=8; maxAbs=0"
+    },
+    {
+      "gateId": "RANDOM_OSI_MONTE_CARLO_CENTERING",
+      "status": "PASS",
+      "detail": "{\"overall\":{\"mean\":0.00627,\"sd\":0.272155,\"p025\":-0.535947,\"p975\":0.505404,\"n\":4096},\"phaseA\":{\"mean\":0.008773,\"sd\":0.640906,\"p025\":-1,\"p975\":0.770492,\"n\":4096},\"phaseB\":{\"mean\":0.012308,\"sd\":0.520806,\"p025\":-1,\"p975\":0.897131,\"n\":4096},\"phaseC\":{\"mean\":-0.001709,\"sd\":0.438596,\"p025\":-0.674663,\"p975\":0.925803,\"n\":4096},\"phaseD\":{\"mean\":0.005708,\"sd\":0.553038,\"p025\":-0.845804,\"p975\":1,\"n\":4096}}"
+    },
+    {
+      "gateId": "DOMINANCE_STATE_COVERAGE",
+      "status": "PASS",
+      "detail": "decision:A1_baseline_monitoring:128;decision:A2_evidence_acquisition:128;decision:B1_monitoring_allocation:128;decision:B2_route_policy:128;decision:C1_support_and_checkpoints:128;decision:C2_resource_portfolio:128;decision:D1_crisis_response:128;decision:D2_final_delivery_policy:128"
+    },
+    {
+      "gateId": "NO_UNIVERSAL_ACTION_DOMINANCE_V2",
+      "status": "PASS",
+      "detail": "none"
+    },
+    {
+      "gateId": "SIX_END_STATES_OBSERVED_V2",
+      "status": "FAIL",
+      "detail": "critical_cargo_lost_or_compromised:observed_in_main_audit;priority_delivered_network_failure:not_observed_under_phase8a_structured_search;mission_incomplete_continuity_preserved:observed_in_structured_search;delayed_delivery_persistent_disruption:observed_in_main_audit;resilient_delivery_unresolved_attribution:observed_in_main_audit;resilient_delivery_threat_contained:observed_in_main_audit"
+    },
+    {
+      "gateId": "ACTOR_PAIR_DISTINCTIVENESS",
+      "status": "PASS",
+      "detail": "6/6"
+    },
+    {
+      "gateId": "COGNITIVE_ANCHOR_GATES",
+      "status": "PASS",
+      "detail": "12/12"
+    },
+    {
+      "gateId": "COGNITIVE_FIREWALL",
+      "status": "PASS",
+      "detail": "100 pairs"
+    },
+    {
+      "gateId": "MAX_DECISION_CLOCK_360",
+      "status": "PASS",
+      "detail": "max=297"
+    }
+  ],
+  "warnings": [
+    {
+      "gateId": "FORCED_CHOICE_WARNING",
+      "status": "PASS",
+      "detail": "0%"
+    },
+    {
+      "gateId": "RESOURCE_TOO_LOOSE_WARNING",
+      "status": "PASS",
+      "detail": "16.316732%"
+    },
+    {
+      "gateId": "RESOURCE_EXHAUSTION_WARNING",
+      "status": "PASS",
+      "detail": "1.086426%"
+    },
+    {
+      "gateId": "OUTCOME_CONCENTRATION_WARNING",
+      "status": "PASS",
+      "detail": "modal=delayed_delivery_persistent_disruption:59.532099%; actor=none; corridor=none"
+    },
+    {
+      "gateId": "SEED_SENSITIVITY_WARNING",
+      "status": "PASS",
+      "detail": "0.892857%"
+    },
+    {
+      "gateId": "COGNITIVE_DISTRIBUTION_WARNING",
+      "status": "WARNING",
+      "detail": "multiDomainIntegration:engineering_low_variance;integration:engineering_low_variance"
+    }
+  ],
+  "overallStatus": "FAIL"
+}

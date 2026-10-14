@@ -1,0 +1,8 @@
+source,endStateId,rowIndex,policyId,worldId,environmentSeed,alphaDelivered,alphaIntegrity,networkContinuityPercent,actions,targets
+main_audit,critical_cargo_lost_or_compromised,3664,M10_uniform_random,W-corridor_alpha_east-opportunistic_interdiction,19,false,54,75,,
+main_audit,priority_delivered_network_degradation,1703,information_heavy,W-corridor_alpha_east-deceptive_diversion,5,true,87,75,,
+approved_fixed_witness,mission_incomplete_continuity_preserved,,witness_random,W-corridor_alpha_east-opportunistic_interdiction,1,false,62,75,a1_priority_focus|a2_broad_sweep|b1_split_attention|b2_hold_verify|c1_ground_recon|c2_isr_heavy|d1_hold_confirm|d2_continuity_first_finish,corridor_alpha_east|||corridor_alpha_east|corridor_alpha_east||corridor_alpha_east|
+main_audit,delivery_complete_threat_persistent,1,balanced_network,W-corridor_alpha_east-cautious_denial,1,true,100,100,,
+main_audit,delivery_complete_attribution_unresolved,4,mobility_resilience,W-corridor_alpha_east-cautious_denial,1,true,100,100,,
+main_audit,delivery_complete_threat_contained,4820,M10_uniform_random,W-corridor_alpha_east-pressure_escalator,1,true,62,100,,
+natural_degradation_gate,priority_delivered_network_degradation,1703,information_heavy,W-corridor_alpha_east-deceptive_diversion,5,true,87,75,,

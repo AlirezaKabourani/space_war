@@ -1,0 +1,1645 @@
+diff --git a/docs/scenario5-phase4-mission-verification.md b/docs/scenario5-phase4-mission-verification.md
+new file mode 100644
+index 0000000..4ca8256
+--- /dev/null
++++ b/docs/scenario5-phase4-mission-verification.md
+@@ -0,0 +1,86 @@
++# 1. Completion summary
++
++The frozen Scenario 5 Phase-4 mission-mechanics layer was implemented as an isolated pure-TypeScript submodule over the approved Phase-3 public API. It provides deterministic resource, clock, convoy, mitigation, delayed-evidence, Actor-impact, operational-attribution, finalization, and six-class end-state mechanics without UI integration or cognitive scoring. The Phase-04A correction makes every delivered convoy's complete in-transit state immutable in all subsequent rounds. The Phase-04B correction excludes delivered convoys from active-network Actor selection and coverage decisions.
++
++# 2. Files created
++
++- `src/ui/components/scenario/scenario-five/model/mission/types.ts`
++- `src/ui/components/scenario/scenario-five/model/mission/config.ts`
++- `src/ui/components/scenario/scenario-five/model/mission/actionCatalog.ts`
++- `src/ui/components/scenario/scenario-five/model/mission/selectors.ts`
++- `src/ui/components/scenario/scenario-five/model/mission/endStateResolver.ts`
++- `src/ui/components/scenario/scenario-five/model/mission/missionEngine.ts`
++- `src/ui/components/scenario/scenario-five/model/mission/index.ts`
++- `scripts/verify-s5-phase4-mission.ts`
++- `docs/scenario5-phase4-mission-verification.md`
++- `docs/scenario5-phase4.patch`
++
++# 3. Frozen-file verification
++
++SHA-256 hashes were recorded before Phase-4 implementation for all ten Phase-3 model files, all Scenario 2 files, all existing Scenario 5 UI/gameplay files, the existing Scenario 4 Cognitive V3 engine/profile/type files, and `package.json`. All 27 protected-file hashes matched after implementation. No protected file was modified.
++
++# 4. Mission config verification
++
++The verifier confirms corrected mission version `s5-mission-v1.0.2`, 20 base minutes, 360-minute horizon, exact initial 100/100 resources, and the exact baseline arrival, deadline, integrity, and neutral initial state of all four convoys. Resource, exposure, integrity, delay, status, and delivered-convoy immutability invariants are checked.
++
++# 5. Action catalog verification
++
++The verifier confirms all 33 unique approved action IDs, their exact round/window order, target modes, ISR costs, support costs, durations, direct signal flags, and lookup behavior. Required targets, fixed-alpha rejection, no-target behavior, out-of-order decisions, and unavailable actions are checked deterministically. Both required and fixed-alpha actions reject an already-delivered effective target before resource, clock, structural, or state mutation; compromised targets remain legal.
++
++# 6. Resource and clock verification
++
++Unaffordable actions reject before mutation, costs are subtracted exactly once, and resources never become negative. The maximum-cost legal eight-round path completes from 100/100 with 34 ISR and 12 support remaining. Every main decision advances mission time by exactly `20 + durationMinutes` and advances the Phase-3 structural tick exactly once.
++
++# 7. Delayed-evidence verification
++
++Dedicated seeded cases verify early `+1`, nominal `+2`, and late `+3` structural-tick offsets. Due requests release exactly once and are removed. Evidence still pending after Round 8 is materialized at the 360-minute finalization horizon, marked as late-arriving final evidence, and creates no additional player decision.
++
++# 8. Actor-signal verification
++
++All exact direct signal action sets are asserted. Protection-score composition, beta/gamma/delta/alpha least-protected tie-break order, Round 1–2 coverage behavior, Round 3+ coverage behavior, priority-concentration override, response intensity, and visible-reroute derivation are verified from normalized mission state. All four protection scores remain available for audit, while least-protected selection and protected-network counts use active convoys only. Delivered convoys never win the least-protected selection or contribute to active coverage; with zero active convoys the selector returns `leastProtectedCorridorId=null` and `networkCoverageWeak=false`.
++
++# 9. Actor operational-impact verification
++
++Low, medium, and high pressure bases; Round 1, Round 2, and Round 3+ progression; fallback, route-hardening, ground-support, escort, and temporary protection levels `-1/0/1/2`; rounding; and the 60% secondary impact are asserted. Exposure and integrity clamps are tested. A deceptive decoy receives no physical impact merely for being a decoy, and temporary protection expiry is verified. Action and global delay/protection effects skip delivered convoys. Actor operational impact also skips delivered convoys, omits them from the `impacts` object, and records their corridor IDs in `skippedDeliveredCorridorIds` while preserving the entire convoy value exactly.
++
++# 10. Attribution verification
++
++Operational attribution is derived only from player-visible evidence. Tests confirm that one source is insufficient, two distinct weak sources remain insufficient, and two distinct source types with at least one moderate/strong supporting item resolve attribution. Changing hidden provenance does not change the result.
++
++# 11. Six end-state verification
++
++Explicit synthetic fixtures cover all six approved end states and exact precedence. The persistent-disruption fixture asserts nonzero alpha delay. An invalid unclassified state throws `UnclassifiedMissionStateError`; no seventh or default-success state exists. Network continuity and threat-containment derivation are also verified.
++
++# 12. Deterministic replay verification
++
++Three distinct fixed eight-round paths were replayed twice across four different corridor/profile worlds. Each duplicate run deep-equaled its counterpart across resources, clock, convoys, evidence, true Actor state and reaction history, mission events, causality, completion, and end state. Dedicated continuation tests prove that `deliveredAtMinute`, delay, integrity, exposure, mitigation, temporary protection, and status remain unchanged after normal delivery and through later targeted, global, Actor-impact, and expiry processing. An opportunistic-Actor regression passes the active-only derived signals to the unchanged Phase-3 Actor model and confirms that active gamma is selected instead of delivered beta. Static checks confirm no `Math.random` use.
++
++# 13. Phase-3 regression result
++
++`npx tsx scripts/verify-s5-phase3-model.ts` passed unchanged with 86 assertions.
++
++# 14. Typecheck/build/test exact commands and results
++
++- `npx tsc -b` — PASS.
++- `npm run build` — PASS (`tsc -b && vite build`; Vite emitted only its informational chunk-size warning).
++- `npx tsx scripts/verify-s5-phase3-model.ts` — PASS, 86 assertions.
++- `npx tsx scripts/verify-s5-phase4-mission.ts` — PASS, 464 assertions.
++- `git diff --check` — PASS.
++- `git apply --stat docs/scenario5-phase4.patch` — PASS.
++
++No dependency or package script was added.
++
++# 15. Known intentional omissions
++
++- no ScenarioFiveSimulation/UI integration
++- no belief UI
++- no reason UI
++- no Cognitive V3 option loadings/scoring
++- no Data Completeness scoring
++- no AAR UI
++- no final calibration claim
++- no human/expert validation claim
++
++# 16. Statement: `No redesign decisions were made by Codex in Phase 4.`
++
++No redesign decisions were made by Codex in Phase 4.
+diff --git a/scripts/verify-s5-phase4-mission.ts b/scripts/verify-s5-phase4-mission.ts
+new file mode 100644
+index 0000000..6acc3d0
+--- /dev/null
++++ b/scripts/verify-s5-phase4-mission.ts
+@@ -0,0 +1,535 @@
++import assert from "node:assert/strict";
++import { readFileSync, readdirSync } from "node:fs";
++import { fileURLToPath } from "node:url";
++import {
++  materializeEvidence,
++  projectActorObservableState,
++  resolveActorReaction,
++} from "../src/ui/components/scenario/scenario-five/model/index.ts";
++import type { ActorProfileId, CorridorId, EvidenceInstance, WorldId } from "../src/ui/components/scenario/scenario-five/model/index.ts";
++import {
++  BASE_ROUND_MINUTES,
++  INITIAL_ISR_CAPACITY,
++  INITIAL_SUPPORT_RESERVE,
++  MISSION_ACTION_CATALOG,
++  MISSION_HORIZON_MINUTES,
++  MISSION_MODEL_VERSION,
++  UnclassifiedMissionStateError,
++  applyMissionDecision,
++  calculateNetworkContinuity,
++  calculateOperationalImpact,
++  createInitialMissionState,
++  deriveActorVisibleSignals,
++  deriveOperationalAttributionStatus,
++  finalizeMission,
++  getAvailableMissionActions,
++  getMissionAction,
++  resolveMissionEndState,
++  validateMissionAction,
++} from "../src/ui/components/scenario/scenario-five/model/mission/index.ts";
++import type {
++  MissionActionId,
++  MissionActionSelection,
++  MissionConvoyState,
++  Scenario5EndStateId,
++  Scenario5MissionState,
++} from "../src/ui/components/scenario/scenario-five/model/mission/index.ts";
++
++let assertions = 0;
++const check = (condition: unknown, message: string): void => {
++  assert.ok(condition, message);
++  assertions += 1;
++};
++const equal = (actual: unknown, expected: unknown, message: string): void => {
++  assert.deepEqual(actual, expected, message);
++  assertions += 1;
++};
++const rejects = (fn: () => unknown, pattern: RegExp, message: string): void => {
++  assert.throws(fn, pattern, message);
++  assertions += 1;
++};
++
++const worldId = (profile: ActorProfileId, corridor: CorridorId = "corridor_alpha_east"): WorldId =>
++  `W-${corridor}-${profile}` as WorldId;
++const DEFAULT_WORLD = worldId("cautious_denial");
++const target = "corridor_alpha_east" as const;
++
++const runSelections = (
++  initial: Scenario5MissionState,
++  selections: readonly MissionActionSelection[],
++): Scenario5MissionState => selections.reduce((state, selection) => applyMissionDecision(state, selection).state, initial);
++
++const actionIdsByRound: readonly (readonly MissionActionId[])[] = [
++  ["a1_network_baseline", "a1_priority_focus", "a1_rotating_watch", "a1_preserve_reserve"],
++  ["a2_focused_pnt", "a2_broad_sweep", "a2_field_radio", "a2_ground_liaison"],
++  ["b1_suspect_focus", "b1_priority_cargo", "b1_split_attention", "b1_pulse_network"],
++  ["b2_continue_crosscheck", "b2_reroute", "b2_staged_checkpoints", "b2_hold_verify"],
++  ["c1_fallback_nav", "c1_ground_recon", "c1_checkpoint_spacing", "c1_preserve_mobile_reserve"],
++  ["c2_isr_heavy", "c2_mobility_heavy", "c2_balanced", "c2_priority_surge"],
++  ["d1_emergency_reroute", "d1_ground_containment", "d1_deception_routing", "d1_escorted_continuation", "d1_hold_confirm"],
++  ["d2_critical_delivery_surge", "d2_network_balanced_finish", "d2_resilient_handoff", "d2_continuity_first_finish"],
++];
++const expectedWindows = [
++  "A1_baseline_monitoring", "A2_evidence_acquisition", "B1_monitoring_allocation", "B2_route_policy",
++  "C1_support_and_checkpoints", "C2_resource_portfolio", "D1_crisis_response", "D2_final_delivery_policy",
++] as const;
++
++// Configuration and action catalog.
++equal(MISSION_MODEL_VERSION, "s5-mission-v1.0.2", "mission version");
++equal([BASE_ROUND_MINUTES, MISSION_HORIZON_MINUTES, INITIAL_ISR_CAPACITY, INITIAL_SUPPORT_RESERVE], [20, 360, 100, 100], "fixed mission constants");
++equal(MISSION_ACTION_CATALOG.length, 33, "exact action count");
++equal(new Set(MISSION_ACTION_CATALOG.map(({ actionId }) => actionId)).size, 33, "unique action IDs");
++equal(MISSION_ACTION_CATALOG.map(({ actionId, target: actionTarget, isrCost, supportCost, durationMinutes }) =>
++  `${actionId}:${actionTarget}:${isrCost}:${supportCost}:${durationMinutes}`), [
++  "a1_network_baseline:none:16:0:10", "a1_priority_focus:fixed_alpha:10:0:8", "a1_rotating_watch:none:12:0:10", "a1_preserve_reserve:none:0:0:5",
++  "a2_focused_pnt:required:14:0:12", "a2_broad_sweep:none:22:0:18", "a2_field_radio:required:0:4:15", "a2_ground_liaison:required:0:12:20",
++  "b1_suspect_focus:required:12:0:10", "b1_priority_cargo:fixed_alpha:10:0:8", "b1_split_attention:none:16:0:12", "b1_pulse_network:none:8:0:8",
++  "b2_continue_crosscheck:required:4:8:8", "b2_reroute:required:0:14:20", "b2_staged_checkpoints:required:0:10:16", "b2_hold_verify:required:6:0:25",
++  "c1_fallback_nav:required:0:14:12", "c1_ground_recon:required:0:18:20", "c1_checkpoint_spacing:required:0:10:15", "c1_preserve_mobile_reserve:none:0:0:5",
++  "c2_isr_heavy:none:18:4:10", "c2_mobility_heavy:none:4:18:10", "c2_balanced:none:10:10:10", "c2_priority_surge:fixed_alpha:12:20:10",
++  "d1_emergency_reroute:required:0:16:20", "d1_ground_containment:required:0:22:25", "d1_deception_routing:required:0:12:15", "d1_escorted_continuation:required:0:18:12", "d1_hold_confirm:required:8:0:20",
++  "d2_critical_delivery_surge:fixed_alpha:0:14:12", "d2_network_balanced_finish:none:0:10:15", "d2_resilient_handoff:fixed_alpha:0:12:18", "d2_continuity_first_finish:none:0:8:15",
++], "exact target, cost, and duration catalog signature");
++for (let index = 0; index < actionIdsByRound.length; index += 1) {
++  const round = index + 1;
++  equal(MISSION_ACTION_CATALOG.filter(({ roundId }) => roundId === round).map(({ actionId }) => actionId), actionIdsByRound[index], `round ${round} action IDs`);
++  check(MISSION_ACTION_CATALOG.filter(({ roundId }) => roundId === round).every(({ decisionWindowId }) => decisionWindowId === expectedWindows[index]), `round ${round} decision window`);
++}
++for (const action of MISSION_ACTION_CATALOG) {
++  check(action.isrCost >= 0 && action.supportCost >= 0 && action.durationMinutes >= 0, `${action.actionId} nonnegative parameters`);
++  equal(getMissionAction(action.actionId), action, `${action.actionId} lookup`);
++}
++
++const initial = createInitialMissionState(DEFAULT_WORLD, 1);
++equal(initial.resources, { isrCapacity: 100, supportReserve: 100 }, "initial resources");
++equal(initial.convoys.map(({ convoyId, baselineArrivalMinute, deadlineMinute, integrity }) => [convoyId, baselineArrivalMinute, deadlineMinute, integrity]), [
++  ["alpha", 210, 300, 100], ["beta", 235, 330, 100], ["gamma", 225, 315, 100], ["delta", 250, 345, 100],
++], "initial convoy config");
++check(initial.convoys.every((convoy) => convoy.delayMinutes === 0 && convoy.pntExposure === 0 && convoy.status === "moving"), "initial convoy state");
++equal(getAvailableMissionActions(initial).map(({ actionId }) => actionId), actionIdsByRound[0], "available actions match current round");
++equal(validateMissionAction(initial, { actionId: "a1_preserve_reserve", targetCorridorId: "corridor_beta_south" }).effectiveTargetCorridorId, null, "no-target ignores supplied target");
++equal(validateMissionAction(initial, { actionId: "a1_priority_focus" }).effectiveTargetCorridorId, target, "fixed alpha defaults correctly");
++rejects(() => validateMissionAction(initial, { actionId: "a1_priority_focus", targetCorridorId: "corridor_beta_south" }), /only accepts/, "fixed alpha rejects other target");
++const round2 = applyMissionDecision(initial, { actionId: "a1_preserve_reserve" }).state;
++rejects(() => validateMissionAction(round2, { actionId: "a2_focused_pnt" }), /requires/, "required target rejects omission");
++rejects(() => validateMissionAction(round2, { actionId: "a1_network_baseline" }), /belongs to round/, "out-of-order action rejects");
++const noResources = { ...initial, resources: { isrCapacity: 0, supportReserve: 0 } };
++rejects(() => applyMissionDecision(noResources, { actionId: "a1_network_baseline" }), /Insufficient ISR/, "unaffordable action rejects");
++
++// Resources and clock, including maximum-cost legal path.
++const maximumCostPath: readonly MissionActionSelection[] = [
++  { actionId: "a1_network_baseline" },
++  { actionId: "a2_broad_sweep" },
++  { actionId: "b1_split_attention" },
++  { actionId: "b2_reroute", targetCorridorId: target },
++  { actionId: "c1_ground_recon", targetCorridorId: target },
++  { actionId: "c2_priority_surge" },
++  { actionId: "d1_ground_containment", targetCorridorId: target },
++  { actionId: "d2_critical_delivery_surge" },
++];
++const maxCostState = runSelections(createInitialMissionState(DEFAULT_WORLD, 3), maximumCostPath);
++equal(maxCostState.resources, { isrCapacity: 34, supportReserve: 12 }, "maximum-cost path exact resources");
++check(maxCostState.resources.isrCapacity >= 0 && maxCostState.resources.supportReserve >= 0, "maximum-cost path remains feasible");
++const clockStep = applyMissionDecision(createInitialMissionState(DEFAULT_WORLD, 4), { actionId: "a1_priority_focus" });
++equal(clockStep.state.worldClockMinutes, 28, "clock advances base plus duration");
++equal(clockStep.state.trueWorldState.worldClockTick, 1, "one structural tick per decision");
++equal(clockStep.state.resources, { isrCapacity: 90, supportReserve: 100 }, "cost subtracted once");
++
++// Delayed evidence latency and exact-once release.
++const findSeed = (variant: "early" | "nominal" | "late"): number => {
++  for (let seed = 0; seed < 1000; seed += 1) {
++    if (createInitialMissionState(DEFAULT_WORLD, seed).trueWorldState.latencyVariant === variant) return seed;
++  }
++  throw new Error(`No seed found for ${variant}`);
++};
++for (const [variant, offset] of [["early", 1], ["nominal", 2], ["late", 3]] as const) {
++  let state = applyMissionDecision(createInitialMissionState(DEFAULT_WORLD, findSeed(variant)), { actionId: "a1_preserve_reserve" }).state;
++  state = applyMissionDecision(state, { actionId: "a2_ground_liaison", targetCorridorId: target }).state;
++  equal(state.pendingEvidenceRequests[0]?.dueWorldTick, state.trueWorldState.worldClockTick + offset, `${variant} due offset`);
++  const requestId = state.pendingEvidenceRequests[0]?.request.requestId;
++  let releaseCount = 0;
++  const followups: readonly MissionActionSelection[] = [
++    { actionId: "b1_pulse_network" },
++    { actionId: "b2_continue_crosscheck", targetCorridorId: target },
++    { actionId: "c1_preserve_mobile_reserve" },
++  ];
++  for (const selection of followups) {
++    const result = applyMissionDecision(state, selection);
++    releaseCount += result.emittedMissionEvents.filter(({ eventKind, payload }) =>
++      eventKind === "mission_evidence_released"
++      && (payload.releasedPendingRequestIds as readonly string[] | undefined)?.includes(requestId ?? ""),
++    ).length;
++    state = result.state;
++  }
++  equal(releaseCount, 1, `${variant} request released exactly once`);
++  check(!state.pendingEvidenceRequests.some(({ request }) => request.requestId === requestId), `${variant} request removed after release`);
++}
++
++const lateSeed = findSeed("late");
++const toRound7: readonly MissionActionSelection[] = [
++  { actionId: "a1_preserve_reserve" }, { actionId: "a2_field_radio", targetCorridorId: target },
++  { actionId: "b1_pulse_network" }, { actionId: "b2_continue_crosscheck", targetCorridorId: target },
++  { actionId: "c1_preserve_mobile_reserve" }, { actionId: "c2_balanced" },
++];
++let finalPending = runSelections(createInitialMissionState(DEFAULT_WORLD, lateSeed), toRound7);
++finalPending = applyMissionDecision(finalPending, { actionId: "d1_ground_containment", targetCorridorId: target }).state;
++check(finalPending.pendingEvidenceRequests.length === 1 && finalPending.pendingEvidenceRequests[0]!.dueWorldTick > 8, "post-R8 request remains pending before final step");
++const finalPendingResult = applyMissionDecision(finalPending, { actionId: "d2_continuity_first_finish" });
++equal(finalPendingResult.state.pendingEvidenceRequests.length, 0, "finalization clears pending evidence");
++check(finalPendingResult.state.missionEvents.some(({ eventKind, payload }) => eventKind === "mission_evidence_released" && payload.lateArrivingFinalEvidence === true), "late final evidence recorded");
++
++// Actor-visible signal mapping and protection selector.
++const directSets = {
++  groundReconVisible: new Set(["a2_ground_liaison", "c1_ground_recon", "d1_ground_containment"]),
++  fallbackActivated: new Set(["b2_continue_crosscheck", "c1_fallback_nav", "d2_resilient_handoff"]),
++  containmentVisible: new Set(["d1_ground_containment"]),
++  priorityConvoyConcentration: new Set(["a1_priority_focus", "b1_priority_cargo", "c2_priority_surge", "d2_critical_delivery_surge"]),
++  routeHardened: new Set(["b2_reroute", "b2_staged_checkpoints", "c1_checkpoint_spacing", "d1_emergency_reroute"]),
++  visibleReroute: new Set(["b2_reroute", "d1_emergency_reroute", "d1_deception_routing"]),
++};
++for (const action of MISSION_ACTION_CATALOG) {
++  equal(action.groundReconVisible, directSets.groundReconVisible.has(action.actionId), `${action.actionId} ground recon flag`);
++  equal(action.activatesFallback, directSets.fallbackActivated.has(action.actionId), `${action.actionId} fallback flag`);
++  equal(action.containmentVisible, directSets.containmentVisible.has(action.actionId), `${action.actionId} containment flag`);
++  equal(action.priorityConvoyConcentration, directSets.priorityConvoyConcentration.has(action.actionId), `${action.actionId} priority flag`);
++  equal(action.hardensRoute, directSets.routeHardened.has(action.actionId), `${action.actionId} hardening flag`);
++  equal(action.visibleReroute, directSets.visibleReroute.has(action.actionId), `${action.actionId} reroute visibility`);
++}
++const initialSignals = deriveActorVisibleSignals(initial, getMissionAction("a1_preserve_reserve"), null).signals;
++equal(initialSignals.leastProtectedCorridorId, "corridor_beta_south", "least-protected exact tie-break");
++equal(initialSignals.networkCoverageWeak, false, "round 1 non-priority coverage is not weak");
++equal(deriveActorVisibleSignals(initial, getMissionAction("a1_priority_focus"), target).signals.networkCoverageWeak, true, "round 1 priority coverage is weak");
++const round3Initial = { ...initial, currentRound: 3 as const };
++equal(deriveActorVisibleSignals(round3Initial, getMissionAction("b1_pulse_network"), null).signals.networkCoverageWeak, true, "round 3 fewer than two protected is weak");
++const twoProtected = {
++  ...round3Initial,
++  convoys: round3Initial.convoys.map((convoy, index) => index < 2 ? { ...convoy, fallbackNav: true } : convoy),
++};
++equal(deriveActorVisibleSignals(twoProtected, getMissionAction("b1_pulse_network"), null).signals.networkCoverageWeak, false, "round 3 two protected is covered");
++equal(deriveActorVisibleSignals(twoProtected, getMissionAction("b1_priority_cargo"), target).signals.networkCoverageWeak, true, "priority concentration overrides coverage");
++
++const deliveredBetaActiveSelection: Scenario5MissionState = {
++  ...round3Initial,
++  convoys: round3Initial.convoys.map((convoy) => {
++    if (convoy.convoyId === "beta") return { ...convoy, status: "delivered" as const, deliveredAtMinute: 235 };
++    if (convoy.convoyId === "alpha" || convoy.convoyId === "delta") return { ...convoy, fallbackNav: true };
++    return convoy;
++  }),
++};
++const deliveredBetaSignals = deriveActorVisibleSignals(deliveredBetaActiveSelection, getMissionAction("b1_pulse_network"), null);
++equal(deliveredBetaSignals.signals.leastProtectedCorridorId, "corridor_gamma_northwest", "delivered beta is excluded from least-protected selection");
++equal(Object.keys(deliveredBetaSignals.protectionScores).sort(), [
++  "corridor_alpha_east", "corridor_beta_south", "corridor_delta_west", "corridor_gamma_northwest",
++], "protection scores retain all four corridors for audit");
++
++const activeTieState: Scenario5MissionState = {
++  ...round3Initial,
++  convoys: round3Initial.convoys.map((convoy) => {
++    if (convoy.convoyId === "beta") return { ...convoy, status: "delivered" as const, deliveredAtMinute: 235 };
++    if (convoy.convoyId === "alpha") return { ...convoy, fallbackNav: true };
++    return convoy;
++  }),
++};
++equal(deriveActorVisibleSignals(activeTieState, getMissionAction("b1_pulse_network"), null).signals.leastProtectedCorridorId, "corridor_gamma_northwest", "active gamma wins equal-minimum tie before active delta");
++
++const deliveredProtectedOnly: Scenario5MissionState = {
++  ...round3Initial,
++  convoys: round3Initial.convoys.map((convoy) => convoy.convoyId === "beta" || convoy.convoyId === "gamma"
++    ? { ...convoy, status: "delivered" as const, deliveredAtMinute: convoy.baselineArrivalMinute, fallbackNav: true }
++    : convoy),
++};
++equal(deriveActorVisibleSignals(deliveredProtectedOnly, getMissionAction("b1_pulse_network"), null).signals.networkCoverageWeak, true, "delivered protected convoys do not count toward active coverage");
++
++const twoActiveProtected: Scenario5MissionState = {
++  ...deliveredProtectedOnly,
++  convoys: deliveredProtectedOnly.convoys.map((convoy) => convoy.status === "delivered" ? convoy : { ...convoy, fallbackNav: true }),
++};
++equal(deriveActorVisibleSignals(twoActiveProtected, getMissionAction("b1_pulse_network"), null).signals.networkCoverageWeak, false, "two protected active convoys provide active coverage");
++
++const noActiveConvoys: Scenario5MissionState = {
++  ...round3Initial,
++  convoys: round3Initial.convoys.map((convoy) => ({
++    ...convoy,
++    status: "delivered" as const,
++    deliveredAtMinute: convoy.baselineArrivalMinute,
++  })),
++};
++const noActiveSignals = deriveActorVisibleSignals(noActiveConvoys, getMissionAction("b1_priority_cargo"), target).signals;
++equal(noActiveSignals.leastProtectedCorridorId, null, "no active convoy has no least-protected corridor");
++equal(noActiveSignals.networkCoverageWeak, false, "no active convoy is not weak network coverage in round 3+");
++
++const opportunisticBase = createInitialMissionState(worldId("opportunistic_interdiction"), 83);
++const opportunisticActiveState: Scenario5MissionState = {
++  ...opportunisticBase,
++  currentRound: 3,
++  convoys: opportunisticBase.convoys.map((convoy) => {
++    if (convoy.convoyId === "beta") return { ...convoy, status: "delivered" as const, deliveredAtMinute: 235 };
++    if (convoy.convoyId === "alpha" || convoy.convoyId === "delta") return { ...convoy, fallbackNav: true };
++    return convoy;
++  }),
++};
++const opportunisticSignals = deriveActorVisibleSignals(opportunisticActiveState, getMissionAction("b1_priority_cargo"), target).signals;
++const opportunisticReaction = resolveActorReaction(
++  opportunisticActiveState.trueWorldState,
++  projectActorObservableState(opportunisticActiveState.trueWorldState, opportunisticSignals, []),
++);
++equal(opportunisticReaction.secondaryCorridorId, "corridor_gamma_northwest", "opportunistic Actor selects active gamma, never delivered beta");
++
++// Actor operational impact values, progression, protection, secondary target, and decoy boundary.
++const baseConvoy = initial.convoys[0]!;
++equal(calculateOperationalImpact({ convoy: baseConvoy, pressure: "low", roundId: 3, secondary: false }), { delayMinutes: 4, pntExposure: 6, integrityDamage: 0 }, "low base impact");
++equal(calculateOperationalImpact({ convoy: baseConvoy, pressure: "medium", roundId: 3, secondary: false }), { delayMinutes: 8, pntExposure: 12, integrityDamage: 3 }, "medium base impact");
++equal(calculateOperationalImpact({ convoy: baseConvoy, pressure: "high", roundId: 3, secondary: false }), { delayMinutes: 14, pntExposure: 20, integrityDamage: 7 }, "high base impact");
++equal(calculateOperationalImpact({ convoy: baseConvoy, pressure: "high", roundId: 1, secondary: false }), { delayMinutes: 4, pntExposure: 5, integrityDamage: 2 }, "round 1 multiplier");
++equal(calculateOperationalImpact({ convoy: baseConvoy, pressure: "high", roundId: 2, secondary: false }), { delayMinutes: 7, pntExposure: 10, integrityDamage: 4 }, "round 2 multiplier");
++equal(calculateOperationalImpact({ convoy: { ...baseConvoy, fallbackNav: true }, pressure: "high", roundId: 3, secondary: false }), { delayMinutes: 11, pntExposure: 9, integrityDamage: 5 }, "fallback multipliers");
++equal(calculateOperationalImpact({ convoy: { ...baseConvoy, routeHardened: true }, pressure: "high", roundId: 3, secondary: false }), { delayMinutes: 11, pntExposure: 15, integrityDamage: 5 }, "route multipliers");
++equal(calculateOperationalImpact({ convoy: { ...baseConvoy, groundSupport: true }, pressure: "high", roundId: 3, secondary: false }), { delayMinutes: 12, pntExposure: 16, integrityDamage: 5 }, "ground multipliers");
++equal(calculateOperationalImpact({ convoy: { ...baseConvoy, escortedUntilRound: 3 }, pressure: "high", roundId: 3, secondary: false }), { delayMinutes: 13, pntExposure: 17, integrityDamage: 4 }, "escort multipliers");
++for (const [level, expected] of [[-1, [15, 22, 8]], [0, [14, 20, 7]], [1, [13, 18, 6]], [2, [11, 16, 6]]] as const) {
++  const impact = calculateOperationalImpact({ convoy: { ...baseConvoy, temporaryProtectionLevel: level }, pressure: "high", roundId: 3, secondary: false });
++  equal([impact.delayMinutes, impact.pntExposure, impact.integrityDamage], expected, `temporary level ${level}`);
++}
++equal(calculateOperationalImpact({ convoy: baseConvoy, pressure: "high", roundId: 3, secondary: true }), { delayMinutes: 8, pntExposure: 12, integrityDamage: 4 }, "secondary impact is rounded 60 percent");
++const deceptiveState = createInitialMissionState(worldId("deceptive_diversion"), 5);
++const decoyId = deceptiveState.trueWorldState.initialDecoyCorridorId;
++const deceptiveResult = applyMissionDecision(deceptiveState, { actionId: "a1_preserve_reserve" }).state;
++const decoyAfter = deceptiveResult.convoys.find(({ corridorId }) => corridorId === decoyId)!;
++equal([decoyAfter.delayMinutes, decoyAfter.pntExposure, decoyAfter.integrity], [0, 0, 100], "decoy alone receives no physical impact");
++
++// Mission status, clamping, persistence, delay floor, and temporary expiry.
++const syntheticRound3: Scenario5MissionState = {
++  ...createInitialMissionState(worldId("pressure_escalator"), 6),
++  currentRound: 3,
++  worldClockMinutes: 210,
++  trueWorldState: {
++    ...createInitialMissionState(worldId("pressure_escalator"), 6).trueWorldState,
++    worldClockTick: 2,
++  },
++  convoys: createInitialMissionState(worldId("pressure_escalator"), 6).convoys.map((convoy) =>
++    convoy.convoyId === "alpha" ? { ...convoy, pntExposure: 99, integrity: 1 } : convoy),
++};
++const clamped = applyMissionDecision(syntheticRound3, { actionId: "b1_pulse_network" }).state;
++const clampedAlpha = clamped.convoys.find(({ convoyId }) => convoyId === "alpha")!;
++equal([clampedAlpha.pntExposure, clampedAlpha.integrity, clampedAlpha.status], [100, 0, "compromised"], "exposure and integrity clamp with compromise");
++equal(validateMissionAction(clamped, { actionId: "b2_hold_verify", targetCorridorId: target }).effectiveTargetCorridorId, target, "compromised target remains eligible");
++check(clamped.convoys.find(({ convoyId }) => convoyId === "beta")?.status === "delivered", "arrival calculation delivers eligible convoy");
++const round4State = runSelections(createInitialMissionState(DEFAULT_WORLD, 8), [
++  { actionId: "a1_preserve_reserve" }, { actionId: "a2_field_radio", targetCorridorId: target }, { actionId: "b1_pulse_network" },
++]);
++const heldResult = applyMissionDecision(round4State, { actionId: "b2_hold_verify", targetCorridorId: "corridor_beta_south" }).state;
++equal(heldResult.convoys.find(({ convoyId }) => convoyId === "beta")?.status, "moving", "held resets after step");
++
++// Delivered-convoy target rejection and full in-transit state immutability.
++const deliveredBetaRound4 = {
++  ...round4State,
++  convoys: round4State.convoys.map((convoy) => convoy.convoyId === "beta" ? {
++    ...convoy,
++    status: "delivered" as const,
++    deliveredAtMinute: 235,
++    temporaryProtectionLevel: 1 as const,
++    temporaryProtectionUntilRound: 7 as const,
++  } : convoy),
++};
++const deliveredBetaSnapshot = structuredClone(deliveredBetaRound4);
++rejects(
++  () => applyMissionDecision(deliveredBetaRound4, { actionId: "b2_hold_verify", targetCorridorId: "corridor_beta_south" }),
++  /already delivered/,
++  "required target rejects delivered convoy",
++);
++equal(deliveredBetaRound4, deliveredBetaSnapshot, "required-target rejection occurs before state mutation");
++
++const deliveredAlphaRound1 = {
++  ...createInitialMissionState(DEFAULT_WORLD, 81),
++  convoys: createInitialMissionState(DEFAULT_WORLD, 81).convoys.map((convoy) => convoy.convoyId === "alpha"
++    ? { ...convoy, status: "delivered" as const, deliveredAtMinute: 210 }
++    : convoy),
++};
++const deliveredAlphaRound1Snapshot = structuredClone(deliveredAlphaRound1);
++rejects(
++  () => applyMissionDecision(deliveredAlphaRound1, { actionId: "a1_priority_focus" }),
++  /already delivered/,
++  "fixed-alpha target rejects delivered alpha",
++);
++equal(deliveredAlphaRound1, deliveredAlphaRound1Snapshot, "fixed-target rejection occurs before state mutation");
++
++const deliveredBetaBeforeDifferentTarget = deliveredBetaRound4.convoys.find(({ convoyId }) => convoyId === "beta")!;
++const differentTargetResult = applyMissionDecision(deliveredBetaRound4, {
++  actionId: "b2_hold_verify",
++  targetCorridorId: "corridor_alpha_east",
++});
++equal(
++  differentTargetResult.state.convoys.find(({ convoyId }) => convoyId === "beta"),
++  deliveredBetaBeforeDifferentTarget,
++  "targeting a different active convoy preserves delivered convoy exactly",
++);
++
++const primaryDeliveredBefore = {
++  ...round4State,
++  convoys: round4State.convoys.map((convoy) => convoy.convoyId === "alpha"
++    ? { ...convoy, status: "delivered" as const, deliveredAtMinute: 210 }
++    : convoy),
++};
++const primaryDeliveredConvoy = primaryDeliveredBefore.convoys.find(({ convoyId }) => convoyId === "alpha")!;
++const skippedPrimaryResult = applyMissionDecision(primaryDeliveredBefore, {
++  actionId: "b2_hold_verify",
++  targetCorridorId: "corridor_beta_south",
++});
++equal(skippedPrimaryResult.state.convoys.find(({ convoyId }) => convoyId === "alpha"), primaryDeliveredConvoy, "Actor impact preserves delivered primary convoy");
++const impactEvent = skippedPrimaryResult.emittedMissionEvents.find(({ eventKind }) => eventKind === "mission_actor_impact_applied")!;
++check((impactEvent.payload.skippedDeliveredCorridorIds as readonly CorridorId[]).includes("corridor_alpha_east"), "Actor impact records skipped delivered primary corridor");
++check(!Object.hasOwn(impactEvent.payload.impacts as object, "corridor_alpha_east"), "Actor impact object omits delivered primary corridor");
++
++const globalBase: Scenario5MissionState = {
++  ...finalPending,
++  pendingEvidenceRequests: [],
++  convoys: finalPending.convoys.map((convoy) => convoy.convoyId === "alpha" || convoy.convoyId === "beta" ? {
++    ...convoy,
++    status: "delivered" as const,
++    deliveredAtMinute: convoy.baselineArrivalMinute,
++    temporaryProtectionLevel: 2 as const,
++    temporaryProtectionUntilRound: 8 as const,
++  } : convoy),
++};
++const deliveredBeforeGlobals = globalBase.convoys.filter(({ status }) => status === "delivered");
++for (const actionId of ["d2_network_balanced_finish", "d2_continuity_first_finish"] as const) {
++  const globalResult = applyMissionDecision(globalBase, { actionId });
++  equal(
++    globalResult.state.convoys.filter(({ convoyId }) => deliveredBeforeGlobals.some((before) => before.convoyId === convoyId)),
++    deliveredBeforeGlobals,
++    `${actionId} preserves every delivered convoy across global effects and expiry`,
++  );
++}
++
++const normalDeliveryPath: readonly MissionActionSelection[] = [
++  { actionId: "a1_network_baseline" },
++  { actionId: "a2_broad_sweep" },
++  { actionId: "b1_split_attention" },
++  { actionId: "b2_hold_verify", targetCorridorId: "corridor_gamma_northwest" },
++  { actionId: "c1_ground_recon", targetCorridorId: "corridor_delta_west" },
++  { actionId: "c2_isr_heavy" },
++  { actionId: "d1_ground_containment", targetCorridorId: "corridor_delta_west" },
++];
++const afterNormalDelivery = runSelections(createInitialMissionState(DEFAULT_WORLD, 82), normalDeliveryPath);
++const deliveredBetaNormally = afterNormalDelivery.convoys.find(({ convoyId }) => convoyId === "beta")!;
++equal(deliveredBetaNormally.status, "delivered", "convoy becomes delivered during normal execution");
++const afterSubsequentRound = applyMissionDecision(afterNormalDelivery, { actionId: "d2_network_balanced_finish" }).state;
++const deliveredBetaAfterSubsequentRound = afterSubsequentRound.convoys.find(({ convoyId }) => convoyId === "beta")!;
++equal(deliveredBetaAfterSubsequentRound, deliveredBetaNormally, "normal delivered convoy remains deeply immutable in subsequent round");
++equal(
++  [deliveredBetaAfterSubsequentRound.deliveredAtMinute, deliveredBetaAfterSubsequentRound.delayMinutes, deliveredBetaAfterSubsequentRound.integrity, deliveredBetaAfterSubsequentRound.pntExposure, deliveredBetaAfterSubsequentRound.status],
++  [deliveredBetaNormally.deliveredAtMinute, deliveredBetaNormally.delayMinutes, deliveredBetaNormally.integrity, deliveredBetaNormally.pntExposure, "delivered"],
++  "delivery timestamp and transit values remain final",
++);
++check(maxCostState.convoys.every(({ delayMinutes }) => delayMinutes >= 0), "delay never negative");
++check(maxCostState.convoys.every(({ pntExposure, integrity }) => pntExposure >= 0 && pntExposure <= 100 && integrity >= 0 && integrity <= 100), "convoy bounded values");
++check(maxCostState.convoys.every(({ temporaryProtectionLevel, temporaryProtectionUntilRound }) => temporaryProtectionLevel === 0 && temporaryProtectionUntilRound === null), "temporary protection expires after round 8");
++
++// Operational attribution is visible-evidence only.
++const evidenceState = createInitialMissionState(DEFAULT_WORLD, 9).trueWorldState;
++const moderate = materializeEvidence(evidenceState, { requestId: "attr-pnt", requestKind: "focused_pnt_analysis", targetCorridorId: target })[0]!;
++const weakField: EvidenceInstance = { ...moderate, evidenceId: "attr-field", sourceType: "field_report", strengthBand: "weak" };
++const weakRadio: EvidenceInstance = { ...moderate, evidenceId: "attr-radio", sourceType: "radio_timing", strengthBand: "weak" };
++equal(deriveOperationalAttributionStatus([moderate]), "unresolved", "one source insufficient");
++equal(deriveOperationalAttributionStatus([{ ...weakField, strengthBand: "weak" }, weakRadio]), "unresolved", "two weak sources insufficient");
++equal(deriveOperationalAttributionStatus([moderate, weakField]), "resolved", "two sources with moderate resolves");
++equal(deriveOperationalAttributionStatus([
++  { ...moderate, hiddenProvenance: { ...moderate.hiddenProvenance, relation: "other" } },
++  { ...weakField, hiddenProvenance: { ...weakField.hiddenProvenance, relation: "background_noise" } },
++]), "resolved", "hidden provenance is irrelevant");
++
++// Six end states, precedence, invariant, and no default success.
++const fixture = (options: {
++  alphaIntegrity?: number;
++  alphaDelay?: number;
++  otherOperationalCount?: number;
++  attribution?: "resolved" | "unresolved";
++  contained?: boolean;
++}): Scenario5MissionState => {
++  const base = createInitialMissionState(DEFAULT_WORLD, 10);
++  const otherOperationalCount = options.otherOperationalCount ?? 3;
++  return {
++    ...base,
++    completed: true,
++    worldClockMinutes: 360,
++    operationalAttributionStatus: options.attribution ?? "unresolved",
++    trueWorldState: {
++      ...base.trueWorldState,
++      actorInternalState: {
++        ...base.trueWorldState.actorInternalState,
++        posture: options.contained ? "disengaging" : "covert",
++        lastReactionId: options.contained ? "escalator_disengage" : null,
++      },
++    },
++    convoys: base.convoys.map((convoy, index) => {
++      if (convoy.convoyId === "alpha") return { ...convoy, integrity: options.alphaIntegrity ?? 100, delayMinutes: options.alphaDelay ?? 1 };
++      return index <= otherOperationalCount ? convoy : { ...convoy, integrity: 59 };
++    }),
++  };
++};
++const endFixtures: readonly [Scenario5EndStateId, Scenario5MissionState][] = [
++  ["critical_cargo_lost_or_compromised", fixture({ alphaIntegrity: 54, otherOperationalCount: 1 })],
++  ["priority_delivered_network_failure", fixture({ otherOperationalCount: 1 })],
++  ["mission_incomplete_continuity_preserved", fixture({ alphaDelay: 151, otherOperationalCount: 3 })],
++  ["delayed_delivery_persistent_disruption", fixture({ alphaDelay: 5, attribution: "resolved", contained: false })],
++  ["resilient_delivery_unresolved_attribution", fixture({ attribution: "unresolved" })],
++  ["resilient_delivery_threat_contained", fixture({ attribution: "resolved", contained: true })],
++];
++for (const [expected, state] of endFixtures) equal(resolveMissionEndState(state).endStateId, expected, `${expected} fixture`);
++check(endFixtures[3]![1].convoys.find(({ convoyId }) => convoyId === "alpha")!.delayMinutes > 0, "persistent disruption fixture has nonzero alpha delay");
++equal(resolveMissionEndState(fixture({ alphaIntegrity: 54, otherOperationalCount: 1 })).endStateId, "critical_cargo_lost_or_compromised", "end-state precedence");
++const invalidAttribution = { ...fixture({}), operationalAttributionStatus: "invalid" as Scenario5MissionState["operationalAttributionStatus"] };
++rejects(() => resolveMissionEndState(invalidAttribution), UnclassifiedMissionStateError, "unclassified state throws rather than succeeds");
++equal(calculateNetworkContinuity(fixture({ otherOperationalCount: 2 })), 75, "network continuity exact quarters");
++
++// Finalization and deterministic replay over 4 worlds and 3 paths.
++const paths: readonly (readonly MissionActionSelection[])[] = [
++  [
++    { actionId: "a1_preserve_reserve" }, { actionId: "a2_field_radio", targetCorridorId: target },
++    { actionId: "b1_pulse_network" }, { actionId: "b2_continue_crosscheck", targetCorridorId: target },
++    { actionId: "c1_preserve_mobile_reserve" }, { actionId: "c2_balanced" },
++    { actionId: "d1_hold_confirm", targetCorridorId: target }, { actionId: "d2_continuity_first_finish" },
++  ],
++  [
++    { actionId: "a1_network_baseline" }, { actionId: "a2_focused_pnt", targetCorridorId: target },
++    { actionId: "b1_split_attention" }, { actionId: "b2_reroute", targetCorridorId: target },
++    { actionId: "c1_fallback_nav", targetCorridorId: target }, { actionId: "c2_isr_heavy" },
++    { actionId: "d1_deception_routing", targetCorridorId: target }, { actionId: "d2_resilient_handoff" },
++  ],
++  [
++    { actionId: "a1_rotating_watch" }, { actionId: "a2_ground_liaison", targetCorridorId: target },
++    { actionId: "b1_priority_cargo" }, { actionId: "b2_staged_checkpoints", targetCorridorId: target },
++    { actionId: "c1_ground_recon", targetCorridorId: target }, { actionId: "c2_mobility_heavy" },
++    { actionId: "d1_escorted_continuation", targetCorridorId: target }, { actionId: "d2_network_balanced_finish" },
++  ],
++];
++const replayWorlds = [
++  worldId("cautious_denial", "corridor_alpha_east"),
++  worldId("deceptive_diversion", "corridor_beta_south"),
++  worldId("opportunistic_interdiction", "corridor_gamma_northwest"),
++  worldId("pressure_escalator", "corridor_delta_west"),
++] as const;
++for (const id of replayWorlds) {
++  for (let pathIndex = 0; pathIndex < paths.length; pathIndex += 1) {
++    const first = runSelections(createInitialMissionState(id, 100 + pathIndex), paths[pathIndex]!);
++    const second = runSelections(createInitialMissionState(id, 100 + pathIndex), paths[pathIndex]!);
++    equal(second, first, `${id} path ${pathIndex + 1} deterministic replay`);
++    equal(first.worldClockMinutes, 360, `${id} path ${pathIndex + 1} final horizon`);
++    equal(first.trueWorldState.worldClockTick, 8, `${id} path ${pathIndex + 1} eight structural ticks`);
++    check(first.completed && first.missionEvents.some(({ eventKind }) => eventKind === "mission_end_state_resolved"), `${id} path ${pathIndex + 1} finalized with end state event`);
++    check(first.missionEvents.every(({ causeEventId }) => Boolean(causeEventId)), `${id} path ${pathIndex + 1} event causality`);
++  }
++}
++equal(finalizeMission(finalPendingResult.state), finalPendingResult.state, "finalization is idempotent after completion");
++
++// Frozen architectural boundaries.
++const missionDirectory = fileURLToPath(new URL("../src/ui/components/scenario/scenario-five/model/mission/", import.meta.url));
++for (const file of readdirSync(missionDirectory).filter((name) => name.endsWith(".ts"))) {
++  const source = readFileSync(`${missionDirectory}/${file}`, "utf8");
++  check(!/from\s+["']react(?:\/[^"']*)?["']|import\s+["']react(?:\/[^"']*)?["']/i.test(source), `${file} has no React import`);
++  check(!/ScenarioTwo/.test(source), `${file} has no Scenario 2 import`);
++  check(!/cognitive/i.test(source), `${file} has no Cognitive V3 import`);
++  check(!/Math\.random/.test(source), `${file} has no Math.random`);
++}
++
++console.log(`Scenario 5 Phase-4 mission verification passed (${assertions} assertions).`);
+diff --git a/src/ui/components/scenario/scenario-five/model/mission/actionCatalog.ts b/src/ui/components/scenario/scenario-five/model/mission/actionCatalog.ts
+new file mode 100644
+index 0000000..afdbd79
+--- /dev/null
++++ b/src/ui/components/scenario/scenario-five/model/mission/actionCatalog.ts
+@@ -0,0 +1,79 @@
++import type { MissionActionConfig, MissionActionId } from "./types";
++
++type ActionInput = Pick<MissionActionConfig,
++  "actionId" | "roundId" | "phaseId" | "decisionWindowId" | "target" | "isrCost" | "supportCost" |
++  "durationMinutes" | "delayEffect" | "evidence"
++> & Partial<Pick<MissionActionConfig,
++  "responseIntensity" | "activatesFallback" | "hardensRoute" | "groundReconVisible" |
++  "containmentVisible" | "priorityConvoyConcentration" | "visibleReroute" | "grantsGroundSupport" |
++  "holdsForStep" | "escortThroughRound" | "temporaryProtection"
++>>;
++
++const action = (input: ActionInput): MissionActionConfig => ({
++  responseIntensity: "low",
++  activatesFallback: false,
++  hardensRoute: false,
++  groundReconVisible: false,
++  containmentVisible: false,
++  priorityConvoyConcentration: false,
++  visibleReroute: false,
++  grantsGroundSupport: false,
++  holdsForStep: false,
++  escortThroughRound: null,
++  temporaryProtection: "none",
++  ...input,
++});
++
++const none = { kind: "none" } as const;
++const evidence = (requestKind: NonNullable<MissionActionConfig["evidence"]>["requestKind"], timing: "immediate" | "pending", target: "none" | "effective_target") => ({ requestKind, timing, target }) as const;
++
++export const MISSION_ACTION_CATALOG: readonly MissionActionConfig[] = [
++  action({ actionId: "a1_network_baseline", roundId: 1, phaseId: "A", decisionWindowId: "A1_baseline_monitoring", target: "none", isrCost: 16, supportCost: 0, durationMinutes: 10, delayEffect: none, evidence: evidence("broad_pnt_sweep", "immediate", "none") }),
++  action({ actionId: "a1_priority_focus", roundId: 1, phaseId: "A", decisionWindowId: "A1_baseline_monitoring", target: "fixed_alpha", isrCost: 10, supportCost: 0, durationMinutes: 8, delayEffect: none, evidence: evidence("focused_pnt_analysis", "immediate", "effective_target"), priorityConvoyConcentration: true }),
++  action({ actionId: "a1_rotating_watch", roundId: 1, phaseId: "A", decisionWindowId: "A1_baseline_monitoring", target: "none", isrCost: 12, supportCost: 0, durationMinutes: 10, delayEffect: none, evidence: evidence("field_radio_corroboration", "immediate", "none") }),
++  action({ actionId: "a1_preserve_reserve", roundId: 1, phaseId: "A", decisionWindowId: "A1_baseline_monitoring", target: "none", isrCost: 0, supportCost: 0, durationMinutes: 5, delayEffect: none, evidence: null }),
++
++  action({ actionId: "a2_focused_pnt", roundId: 2, phaseId: "A", decisionWindowId: "A2_evidence_acquisition", target: "required", isrCost: 14, supportCost: 0, durationMinutes: 12, delayEffect: none, evidence: evidence("focused_pnt_analysis", "immediate", "effective_target") }),
++  action({ actionId: "a2_broad_sweep", roundId: 2, phaseId: "A", decisionWindowId: "A2_evidence_acquisition", target: "none", isrCost: 22, supportCost: 0, durationMinutes: 18, delayEffect: none, evidence: evidence("broad_pnt_sweep", "immediate", "none") }),
++  action({ actionId: "a2_field_radio", roundId: 2, phaseId: "A", decisionWindowId: "A2_evidence_acquisition", target: "required", isrCost: 0, supportCost: 4, durationMinutes: 15, delayEffect: none, evidence: evidence("field_radio_corroboration", "immediate", "effective_target") }),
++  action({ actionId: "a2_ground_liaison", roundId: 2, phaseId: "A", decisionWindowId: "A2_evidence_acquisition", target: "required", isrCost: 0, supportCost: 12, durationMinutes: 20, delayEffect: none, evidence: evidence("ground_liaison", "pending", "effective_target"), groundReconVisible: true }),
++
++  action({ actionId: "b1_suspect_focus", roundId: 3, phaseId: "B", decisionWindowId: "B1_monitoring_allocation", target: "required", isrCost: 12, supportCost: 0, durationMinutes: 10, delayEffect: none, evidence: evidence("focused_pnt_analysis", "immediate", "effective_target") }),
++  action({ actionId: "b1_priority_cargo", roundId: 3, phaseId: "B", decisionWindowId: "B1_monitoring_allocation", target: "fixed_alpha", isrCost: 10, supportCost: 0, durationMinutes: 8, delayEffect: none, evidence: evidence("focused_pnt_analysis", "immediate", "effective_target"), priorityConvoyConcentration: true }),
++  action({ actionId: "b1_split_attention", roundId: 3, phaseId: "B", decisionWindowId: "B1_monitoring_allocation", target: "none", isrCost: 16, supportCost: 0, durationMinutes: 12, delayEffect: none, evidence: evidence("broad_pnt_sweep", "immediate", "none") }),
++  action({ actionId: "b1_pulse_network", roundId: 3, phaseId: "B", decisionWindowId: "B1_monitoring_allocation", target: "none", isrCost: 8, supportCost: 0, durationMinutes: 8, delayEffect: none, evidence: evidence("field_radio_corroboration", "immediate", "none") }),
++
++  action({ actionId: "b2_continue_crosscheck", roundId: 4, phaseId: "B", decisionWindowId: "B2_route_policy", target: "required", isrCost: 4, supportCost: 8, durationMinutes: 8, delayEffect: { kind: "target", minutes: 5 }, evidence: evidence("field_radio_corroboration", "immediate", "effective_target"), activatesFallback: true }),
++  action({ actionId: "b2_reroute", roundId: 4, phaseId: "B", decisionWindowId: "B2_route_policy", target: "required", isrCost: 0, supportCost: 14, durationMinutes: 20, delayEffect: { kind: "target", minutes: 25 }, evidence: null, hardensRoute: true, visibleReroute: true, responseIntensity: "medium" }),
++  action({ actionId: "b2_staged_checkpoints", roundId: 4, phaseId: "B", decisionWindowId: "B2_route_policy", target: "required", isrCost: 0, supportCost: 10, durationMinutes: 16, delayEffect: { kind: "target", minutes: 15 }, evidence: evidence("field_radio_corroboration", "immediate", "effective_target"), hardensRoute: true }),
++  action({ actionId: "b2_hold_verify", roundId: 4, phaseId: "B", decisionWindowId: "B2_route_policy", target: "required", isrCost: 6, supportCost: 0, durationMinutes: 25, delayEffect: { kind: "target", minutes: 30 }, evidence: evidence("focused_pnt_analysis", "immediate", "effective_target"), holdsForStep: true }),
++
++  action({ actionId: "c1_fallback_nav", roundId: 5, phaseId: "C", decisionWindowId: "C1_support_and_checkpoints", target: "required", isrCost: 0, supportCost: 14, durationMinutes: 12, delayEffect: { kind: "target", minutes: 5 }, evidence: null, activatesFallback: true }),
++  action({ actionId: "c1_ground_recon", roundId: 5, phaseId: "C", decisionWindowId: "C1_support_and_checkpoints", target: "required", isrCost: 0, supportCost: 18, durationMinutes: 20, delayEffect: { kind: "target", minutes: 10 }, evidence: evidence("ground_liaison", "pending", "effective_target"), groundReconVisible: true, grantsGroundSupport: true, responseIntensity: "medium" }),
++  action({ actionId: "c1_checkpoint_spacing", roundId: 5, phaseId: "C", decisionWindowId: "C1_support_and_checkpoints", target: "required", isrCost: 0, supportCost: 10, durationMinutes: 15, delayEffect: { kind: "target", minutes: 10 }, evidence: evidence("field_radio_corroboration", "immediate", "effective_target"), hardensRoute: true }),
++  action({ actionId: "c1_preserve_mobile_reserve", roundId: 5, phaseId: "C", decisionWindowId: "C1_support_and_checkpoints", target: "none", isrCost: 0, supportCost: 0, durationMinutes: 5, delayEffect: { kind: "all", minutes: 0 }, evidence: null }),
++
++  action({ actionId: "c2_isr_heavy", roundId: 6, phaseId: "C", decisionWindowId: "C2_resource_portfolio", target: "none", isrCost: 18, supportCost: 4, durationMinutes: 10, delayEffect: none, evidence: evidence("broad_pnt_sweep", "immediate", "none") }),
++  action({ actionId: "c2_mobility_heavy", roundId: 6, phaseId: "C", decisionWindowId: "C2_resource_portfolio", target: "none", isrCost: 4, supportCost: 18, durationMinutes: 10, delayEffect: none, evidence: null, temporaryProtection: "all_level_2" }),
++  action({ actionId: "c2_balanced", roundId: 6, phaseId: "C", decisionWindowId: "C2_resource_portfolio", target: "none", isrCost: 10, supportCost: 10, durationMinutes: 10, delayEffect: none, evidence: evidence("field_radio_corroboration", "immediate", "none"), temporaryProtection: "all_level_1_round7" }),
++  action({ actionId: "c2_priority_surge", roundId: 6, phaseId: "C", decisionWindowId: "C2_resource_portfolio", target: "fixed_alpha", isrCost: 12, supportCost: 20, durationMinutes: 10, delayEffect: none, evidence: evidence("focused_pnt_analysis", "immediate", "effective_target"), temporaryProtection: "priority_surge", priorityConvoyConcentration: true }),
++
++  action({ actionId: "d1_emergency_reroute", roundId: 7, phaseId: "D", decisionWindowId: "D1_crisis_response", target: "required", isrCost: 0, supportCost: 16, durationMinutes: 20, delayEffect: { kind: "target", minutes: 20 }, evidence: null, hardensRoute: true, visibleReroute: true, responseIntensity: "medium" }),
++  action({ actionId: "d1_ground_containment", roundId: 7, phaseId: "D", decisionWindowId: "D1_crisis_response", target: "required", isrCost: 0, supportCost: 22, durationMinutes: 25, delayEffect: { kind: "target", minutes: 15 }, evidence: evidence("ground_liaison", "pending", "effective_target"), groundReconVisible: true, containmentVisible: true, grantsGroundSupport: true, responseIntensity: "high" }),
++  action({ actionId: "d1_deception_routing", roundId: 7, phaseId: "D", decisionWindowId: "D1_crisis_response", target: "required", isrCost: 0, supportCost: 12, durationMinutes: 15, delayEffect: { kind: "target", minutes: 10 }, evidence: null, visibleReroute: true, responseIntensity: "medium" }),
++  action({ actionId: "d1_escorted_continuation", roundId: 7, phaseId: "D", decisionWindowId: "D1_crisis_response", target: "required", isrCost: 0, supportCost: 18, durationMinutes: 12, delayEffect: { kind: "target", minutes: 5 }, evidence: evidence("field_radio_corroboration", "immediate", "effective_target"), escortThroughRound: 7, responseIntensity: "medium" }),
++  action({ actionId: "d1_hold_confirm", roundId: 7, phaseId: "D", decisionWindowId: "D1_crisis_response", target: "required", isrCost: 8, supportCost: 0, durationMinutes: 20, delayEffect: { kind: "target", minutes: 20 }, evidence: evidence("focused_pnt_analysis", "immediate", "effective_target"), holdsForStep: true }),
++
++  action({ actionId: "d2_critical_delivery_surge", roundId: 8, phaseId: "D", decisionWindowId: "D2_final_delivery_policy", target: "fixed_alpha", isrCost: 0, supportCost: 14, durationMinutes: 12, delayEffect: { kind: "target", minutes: -10 }, evidence: null, escortThroughRound: 8, priorityConvoyConcentration: true, responseIntensity: "high" }),
++  action({ actionId: "d2_network_balanced_finish", roundId: 8, phaseId: "D", decisionWindowId: "D2_final_delivery_policy", target: "none", isrCost: 0, supportCost: 10, durationMinutes: 15, delayEffect: { kind: "all", minutes: -5 }, evidence: null, temporaryProtection: "all_level_1_round8", responseIntensity: "medium" }),
++  action({ actionId: "d2_resilient_handoff", roundId: 8, phaseId: "D", decisionWindowId: "D2_final_delivery_policy", target: "fixed_alpha", isrCost: 0, supportCost: 12, durationMinutes: 18, delayEffect: { kind: "target", minutes: 5 }, evidence: null, activatesFallback: true }),
++  action({ actionId: "d2_continuity_first_finish", roundId: 8, phaseId: "D", decisionWindowId: "D2_final_delivery_policy", target: "none", isrCost: 0, supportCost: 8, durationMinutes: 15, delayEffect: { kind: "continuity_finish" }, evidence: null }),
++] as const;
++
++const ACTION_BY_ID = new Map<MissionActionId, MissionActionConfig>(MISSION_ACTION_CATALOG.map((item) => [item.actionId, item]));
++
++export function getMissionAction(actionId: MissionActionId): MissionActionConfig {
++  const config = ACTION_BY_ID.get(actionId);
++  if (!config) throw new Error(`Unknown mission action: ${actionId}`);
++  return config;
++}
+diff --git a/src/ui/components/scenario/scenario-five/model/mission/config.ts b/src/ui/components/scenario/scenario-five/model/mission/config.ts
+new file mode 100644
+index 0000000..3654379
+--- /dev/null
++++ b/src/ui/components/scenario/scenario-five/model/mission/config.ts
+@@ -0,0 +1,23 @@
++import type { CorridorId } from "../index";
++import type { MissionConvoyState } from "./types";
++
++export const MISSION_MODEL_VERSION = "s5-mission-v1.0.2";
++export const BASE_ROUND_MINUTES = 20;
++export const MISSION_HORIZON_MINUTES = 360;
++export const INITIAL_ISR_CAPACITY = 100;
++export const INITIAL_SUPPORT_RESERVE = 100;
++
++interface ConvoyInitialConfig {
++  readonly convoyId: MissionConvoyState["convoyId"];
++  readonly corridorId: CorridorId;
++  readonly baselineArrivalMinute: number;
++  readonly deadlineMinute: number;
++  readonly initialIntegrity: number;
++}
++
++export const INITIAL_CONVOY_CONFIG: readonly ConvoyInitialConfig[] = [
++  { convoyId: "alpha", corridorId: "corridor_alpha_east", baselineArrivalMinute: 210, deadlineMinute: 300, initialIntegrity: 100 },
++  { convoyId: "beta", corridorId: "corridor_beta_south", baselineArrivalMinute: 235, deadlineMinute: 330, initialIntegrity: 100 },
++  { convoyId: "gamma", corridorId: "corridor_gamma_northwest", baselineArrivalMinute: 225, deadlineMinute: 315, initialIntegrity: 100 },
++  { convoyId: "delta", corridorId: "corridor_delta_west", baselineArrivalMinute: 250, deadlineMinute: 345, initialIntegrity: 100 },
++] as const;
+diff --git a/src/ui/components/scenario/scenario-five/model/mission/endStateResolver.ts b/src/ui/components/scenario/scenario-five/model/mission/endStateResolver.ts
+new file mode 100644
+index 0000000..5fcd364
+--- /dev/null
++++ b/src/ui/components/scenario/scenario-five/model/mission/endStateResolver.ts
+@@ -0,0 +1,71 @@
++import type { ActorReactionId } from "../index";
++import type { Scenario5EndState, Scenario5MissionState } from "./types";
++
++export class UnclassifiedMissionStateError extends Error {
++  constructor() {
++    super("Mission state does not match any approved Scenario 5 end state");
++    this.name = "UnclassifiedMissionStateError";
++  }
++}
++
++const deliveredByHorizon = (state: Scenario5MissionState, corridorId: string): boolean => {
++  const convoy = state.convoys.find((item) => item.corridorId === corridorId);
++  if (!convoy) throw new Error(`Missing convoy for ${corridorId}`);
++  return convoy.baselineArrivalMinute + convoy.delayMinutes <= 360 && convoy.integrity >= 55;
++};
++
++export function calculateNetworkContinuity(state: Scenario5MissionState): 0 | 25 | 50 | 75 | 100 {
++  const count = state.convoys.filter(
++    (convoy) => convoy.integrity >= 60 && convoy.baselineArrivalMinute + convoy.delayMinutes <= convoy.deadlineMinute,
++  ).length;
++  return (count * 25) as 0 | 25 | 50 | 75 | 100;
++}
++
++export function isThreatContained(state: Scenario5MissionState): boolean {
++  const actor = state.trueWorldState.actorInternalState;
++  const containingReactions: readonly ActorReactionId[] = [
++    "cautious_relocate_reduce",
++    "escalator_reduce_due_to_denial",
++    "escalator_disengage",
++  ];
++  return actor.posture === "disengaging"
++    || (actor.lastReactionId !== null && containingReactions.includes(actor.lastReactionId));
++}
++
++export function resolveMissionEndState(state: Scenario5MissionState): Scenario5EndState {
++  const alpha = state.convoys.find(({ convoyId }) => convoyId === "alpha");
++  if (!alpha) throw new Error("Alpha convoy is missing");
++  const alphaDelivered = deliveredByHorizon(state, "corridor_alpha_east");
++  const networkContinuityPercent = calculateNetworkContinuity(state);
++  const threatContained = isThreatContained(state);
++
++  if (alpha.integrity < 55 || (!alphaDelivered && networkContinuityPercent < 75)) {
++    return { endStateId: "critical_cargo_lost_or_compromised", networkContinuityPercent, threatContained };
++  }
++  if (alphaDelivered && networkContinuityPercent <= 50) {
++    return { endStateId: "priority_delivered_network_failure", networkContinuityPercent, threatContained };
++  }
++  if (!alphaDelivered && alpha.integrity >= 55 && networkContinuityPercent >= 75) {
++    return { endStateId: "mission_incomplete_continuity_preserved", networkContinuityPercent, threatContained };
++  }
++  if (
++    alphaDelivered
++    && networkContinuityPercent >= 75
++    && state.operationalAttributionStatus === "resolved"
++    && !threatContained
++  ) {
++    return { endStateId: "delayed_delivery_persistent_disruption", networkContinuityPercent, threatContained };
++  }
++  if (alphaDelivered && networkContinuityPercent >= 75 && state.operationalAttributionStatus === "unresolved") {
++    return { endStateId: "resilient_delivery_unresolved_attribution", networkContinuityPercent, threatContained };
++  }
++  if (
++    alphaDelivered
++    && networkContinuityPercent >= 75
++    && state.operationalAttributionStatus === "resolved"
++    && threatContained
++  ) {
++    return { endStateId: "resilient_delivery_threat_contained", networkContinuityPercent, threatContained };
++  }
++  throw new UnclassifiedMissionStateError();
++}
+diff --git a/src/ui/components/scenario/scenario-five/model/mission/index.ts b/src/ui/components/scenario/scenario-five/model/mission/index.ts
+new file mode 100644
+index 0000000..6d96da6
+--- /dev/null
++++ b/src/ui/components/scenario/scenario-five/model/mission/index.ts
+@@ -0,0 +1,46 @@
++export {
++  BASE_ROUND_MINUTES,
++  INITIAL_CONVOY_CONFIG,
++  INITIAL_ISR_CAPACITY,
++  INITIAL_SUPPORT_RESERVE,
++  MISSION_HORIZON_MINUTES,
++  MISSION_MODEL_VERSION,
++} from "./config";
++export { MISSION_ACTION_CATALOG, getMissionAction } from "./actionCatalog";
++export {
++  convoyProtectionScore,
++  deriveActorVisibleSignals,
++  deriveOperationalAttributionStatus,
++  getAvailableMissionActions,
++  validateMissionAction,
++} from "./selectors";
++export {
++  UnclassifiedMissionStateError,
++  calculateNetworkContinuity,
++  isThreatContained,
++  resolveMissionEndState,
++} from "./endStateResolver";
++export {
++  applyMissionDecision,
++  calculateOperationalImpact,
++  createInitialMissionState,
++  finalizeMission,
++} from "./missionEngine";
++export type {
++  DerivedActorSignals,
++  MissionActionConfig,
++  MissionActionId,
++  MissionActionSelection,
++  MissionConvoyState,
++  MissionConvoyStatus,
++  MissionResourceState,
++  MissionStepResult,
++  OperationalAttributionStatus,
++  OperationalImpact,
++  OperationalImpactInput,
++  PendingEvidenceRequest,
++  Scenario5EndState,
++  Scenario5EndStateId,
++  Scenario5MissionEvent,
++  Scenario5MissionState,
++} from "./types";
+diff --git a/src/ui/components/scenario/scenario-five/model/mission/missionEngine.ts b/src/ui/components/scenario/scenario-five/model/mission/missionEngine.ts
+new file mode 100644
+index 0000000..979c5c4
+--- /dev/null
++++ b/src/ui/components/scenario/scenario-five/model/mission/missionEngine.ts
+@@ -0,0 +1,431 @@
++import {
++  adjudicateModelStep,
++  createInitialTrueWorldState,
++  materializeEvidence,
++} from "../index";
++import type {
++  CorridorId,
++  EvidenceRequest,
++  RoundId,
++  Scenario5Seed,
++  WorldId,
++} from "../index";
++import { getMissionAction } from "./actionCatalog";
++import {
++  BASE_ROUND_MINUTES,
++  INITIAL_CONVOY_CONFIG,
++  INITIAL_ISR_CAPACITY,
++  INITIAL_SUPPORT_RESERVE,
++  MISSION_HORIZON_MINUTES,
++  MISSION_MODEL_VERSION,
++} from "./config";
++import { resolveMissionEndState } from "./endStateResolver";
++import {
++  deriveActorVisibleSignals,
++  deriveOperationalAttributionStatus,
++  getAvailableMissionActions,
++  validateMissionAction,
++} from "./selectors";
++import type {
++  MissionActionConfig,
++  MissionActionSelection,
++  MissionConvoyState,
++  MissionStepResult,
++  OperationalImpact,
++  OperationalImpactInput,
++  PendingEvidenceRequest,
++  Scenario5MissionEvent,
++  Scenario5MissionState,
++} from "./types";
++
++const clamp = (value: number, minimum: number, maximum: number): number => Math.min(maximum, Math.max(minimum, value));
++
++const initialConvoys = (): readonly MissionConvoyState[] => INITIAL_CONVOY_CONFIG.map((config) => ({
++  convoyId: config.convoyId,
++  corridorId: config.corridorId,
++  baselineArrivalMinute: config.baselineArrivalMinute,
++  deadlineMinute: config.deadlineMinute,
++  integrity: config.initialIntegrity,
++  delayMinutes: 0,
++  pntExposure: 0,
++  fallbackNav: false,
++  routeHardened: false,
++  groundSupport: false,
++  escortedUntilRound: null,
++  temporaryProtectionLevel: 0,
++  temporaryProtectionUntilRound: null,
++  deliveredAtMinute: null,
++  status: "moving",
++}));
++
++export function createInitialMissionState(worldId: WorldId, seed: Scenario5Seed): Scenario5MissionState {
++  return {
++    missionModelVersion: MISSION_MODEL_VERSION,
++    trueWorldState: createInitialTrueWorldState(worldId, seed),
++    worldClockMinutes: 0,
++    currentRound: 1,
++    completed: false,
++    resources: { isrCapacity: INITIAL_ISR_CAPACITY, supportReserve: INITIAL_SUPPORT_RESERVE },
++    convoys: initialConvoys(),
++    visibleEvidence: [],
++    pendingEvidenceRequests: [],
++    operationalAttributionStatus: "unresolved",
++    missionEvents: [],
++  };
++}
++
++const evidenceRequestFor = (
++  config: MissionActionConfig,
++  effectiveTargetCorridorId: CorridorId | null,
++  structuralTick: number,
++): EvidenceRequest | null => {
++  if (!config.evidence) return null;
++  return {
++    requestId: `${config.actionId}:tick${structuralTick}`,
++    requestKind: config.evidence.requestKind,
++    ...(config.evidence.target === "effective_target" && effectiveTargetCorridorId
++      ? { targetCorridorId: effectiveTargetCorridorId }
++      : {}),
++  };
++};
++
++const applyActionEffects = (
++  convoys: readonly MissionConvoyState[],
++  config: MissionActionConfig,
++  target: CorridorId | null,
++): readonly MissionConvoyState[] => convoys.map((convoy) => {
++  if (convoy.status === "delivered") return convoy;
++  let delayDelta = 0;
++  if (config.delayEffect.kind === "target" && convoy.corridorId === target) delayDelta = config.delayEffect.minutes;
++  if (config.delayEffect.kind === "all") delayDelta = config.delayEffect.minutes;
++  if (config.delayEffect.kind === "continuity_finish") delayDelta = convoy.convoyId === "alpha" ? 10 : -5;
++
++  let temporaryProtectionLevel = convoy.temporaryProtectionLevel;
++  let temporaryProtectionUntilRound = convoy.temporaryProtectionUntilRound;
++  if (config.temporaryProtection === "all_level_2") {
++    temporaryProtectionLevel = 2;
++    temporaryProtectionUntilRound = 7;
++  } else if (config.temporaryProtection === "all_level_1_round7") {
++    temporaryProtectionLevel = 1;
++    temporaryProtectionUntilRound = 7;
++  } else if (config.temporaryProtection === "priority_surge") {
++    temporaryProtectionLevel = convoy.convoyId === "alpha" ? 2 : -1;
++    temporaryProtectionUntilRound = 7;
++  } else if (config.temporaryProtection === "all_level_1_round8") {
++    temporaryProtectionLevel = 1;
++    temporaryProtectionUntilRound = 8;
++  }
++
++  const targeted = convoy.corridorId === target;
++  return {
++    ...convoy,
++    delayMinutes: Math.max(0, convoy.delayMinutes + delayDelta),
++    fallbackNav: convoy.fallbackNav || (targeted && config.activatesFallback),
++    routeHardened: convoy.routeHardened || (targeted && config.hardensRoute),
++    groundSupport: convoy.groundSupport || (targeted && config.grantsGroundSupport),
++    escortedUntilRound: targeted && config.escortThroughRound !== null ? config.escortThroughRound : convoy.escortedUntilRound,
++    temporaryProtectionLevel,
++    temporaryProtectionUntilRound,
++    status: targeted && config.holdsForStep && convoy.status === "moving" ? "held" : convoy.status,
++  };
++});
++
++export function calculateOperationalImpact(input: OperationalImpactInput): OperationalImpact {
++  const base = input.pressure === "low"
++    ? { delayMinutes: 4, pntExposure: 6, integrityDamage: 0 }
++    : input.pressure === "medium"
++      ? { delayMinutes: 8, pntExposure: 12, integrityDamage: 3 }
++      : { delayMinutes: 14, pntExposure: 20, integrityDamage: 7 };
++  const progressive = input.roundId === 1 ? 0.25 : input.roundId === 2 ? 0.5 : 1;
++  let delayMultiplier = progressive;
++  let exposureMultiplier = progressive;
++  let damageMultiplier = progressive;
++
++  if (input.convoy.fallbackNav) {
++    delayMultiplier *= 0.75;
++    exposureMultiplier *= 0.45;
++    damageMultiplier *= 0.65;
++  }
++  if (input.convoy.routeHardened) {
++    delayMultiplier *= 0.75;
++    exposureMultiplier *= 0.75;
++    damageMultiplier *= 0.75;
++  }
++  if (input.convoy.groundSupport) {
++    delayMultiplier *= 0.85;
++    exposureMultiplier *= 0.8;
++    damageMultiplier *= 0.7;
++  }
++  if (input.convoy.escortedUntilRound === input.roundId) {
++    delayMultiplier *= 0.9;
++    exposureMultiplier *= 0.85;
++    damageMultiplier *= 0.6;
++  }
++  const temporaryMultiplier = Math.max(0.7, 1 - 0.1 * input.convoy.temporaryProtectionLevel);
++  delayMultiplier *= temporaryMultiplier;
++  exposureMultiplier *= temporaryMultiplier;
++  damageMultiplier *= temporaryMultiplier;
++
++  let result: OperationalImpact = {
++    delayMinutes: Math.round(base.delayMinutes * delayMultiplier),
++    pntExposure: Math.round(base.pntExposure * exposureMultiplier),
++    integrityDamage: Math.round(base.integrityDamage * damageMultiplier),
++  };
++  if (input.secondary) {
++    result = {
++      delayMinutes: Math.round(result.delayMinutes * 0.6),
++      pntExposure: Math.round(result.pntExposure * 0.6),
++      integrityDamage: Math.round(result.integrityDamage * 0.6),
++    };
++  }
++  return result;
++}
++
++const updateConvoyStatuses = (
++  convoys: readonly MissionConvoyState[],
++  worldClockMinutes: number,
++): readonly MissionConvoyState[] => convoys.map((convoy) => {
++  if (convoy.status === "delivered") return convoy;
++  const projectedArrivalMinute = convoy.baselineArrivalMinute + convoy.delayMinutes;
++  if (convoy.integrity < 55) return { ...convoy, status: "compromised" };
++  if (projectedArrivalMinute <= worldClockMinutes) {
++    return {
++      ...convoy,
++      status: "delivered",
++      deliveredAtMinute: convoy.deliveredAtMinute ?? projectedArrivalMinute,
++    };
++  }
++  return { ...convoy, status: "moving" };
++});
++
++const latencyOffset = (variant: Scenario5MissionState["trueWorldState"]["latencyVariant"]): number => {
++  if (variant === "early") return 1;
++  if (variant === "nominal") return 2;
++  return 3;
++};
++
++export function applyMissionDecision(
++  state: Scenario5MissionState,
++  selection: MissionActionSelection,
++): MissionStepResult {
++  const { config, effectiveTargetCorridorId } = validateMissionAction(state, selection);
++  const emitted: Scenario5MissionEvent[] = [];
++  let eventCounter = state.missionEvents.length;
++  let lastCause: string | null = null;
++  const nextClock = state.worldClockMinutes + BASE_ROUND_MINUTES + config.durationMinutes;
++  const emit = (eventKind: string, payload: Readonly<Record<string, unknown>>, explicitCause?: string): Scenario5MissionEvent => {
++    eventCounter += 1;
++    const eventId = `M-${state.trueWorldState.worldId}-r${state.currentRound}-e${eventCounter}`;
++    const event = {
++      eventId,
++      causeEventId: explicitCause ?? lastCause ?? eventId,
++      roundId: state.currentRound,
++      worldClockMinute: nextClock,
++      eventKind,
++      payload,
++    } satisfies Scenario5MissionEvent;
++    emitted.push(event);
++    lastCause = eventId;
++    return event;
++  };
++
++  emit("mission_action_validated", { actionId: config.actionId, decisionWindowId: config.decisionWindowId, effectiveTargetCorridorId });
++  const resources = {
++    isrCapacity: state.resources.isrCapacity - config.isrCost,
++    supportReserve: state.resources.supportReserve - config.supportCost,
++  };
++  emit("mission_resource_spent", { isrCost: config.isrCost, supportCost: config.supportCost, resources });
++  emit("mission_clock_advanced", {
++    fromMinute: state.worldClockMinutes,
++    toMinute: nextClock,
++    durationMinutes: config.durationMinutes,
++    fromRound: state.currentRound,
++    toRound: state.currentRound < 8 ? state.currentRound + 1 : 8,
++  });
++
++  const actionConvoys = applyActionEffects(state.convoys, config, effectiveTargetCorridorId);
++  emit("mission_action_effect_applied", {
++    actionId: config.actionId,
++    effectiveTargetCorridorId,
++    delayEffect: config.delayEffect,
++    temporaryProtection: config.temporaryProtection,
++  });
++
++  const postActionState: Scenario5MissionState = { ...state, resources, worldClockMinutes: nextClock, convoys: actionConvoys };
++  const { signals } = deriveActorVisibleSignals(postActionState, config, effectiveTargetCorridorId);
++  const nextStructuralTick = state.trueWorldState.worldClockTick + 1;
++  const duePending = state.pendingEvidenceRequests.filter(({ dueWorldTick }) => dueWorldTick === nextStructuralTick);
++  const remainingPending = state.pendingEvidenceRequests.filter(({ dueWorldTick }) => dueWorldTick !== nextStructuralTick);
++  const currentRequest = evidenceRequestFor(config, effectiveTargetCorridorId, nextStructuralTick);
++  const immediateRequests = currentRequest && config.evidence?.timing === "immediate" ? [currentRequest] : [];
++  const structuralResult = adjudicateModelStep({
++    trueState: state.trueWorldState,
++    decisionIntent: {
++      phaseId: config.phaseId,
++      roundId: config.roundId,
++      decisionWindowId: config.decisionWindowId,
++      actionId: config.actionId,
++    },
++    actorVisibleSignals: signals,
++    visibleEvidence: state.visibleEvidence,
++    evidenceRequests: [...duePending.map(({ request }) => request), ...immediateRequests],
++    userCostKinds: config.isrCost > 0 || config.supportCost > 0 ? ["mission_resources"] : [],
++    worldTransitionKinds: ["mission_action_effect"],
++    playerVisibleSignalKinds: immediateRequests.length > 0 || duePending.length > 0 ? ["mission_evidence"] : [],
++  });
++
++  if (structuralResult.generatedEvidence.length > 0) {
++    const evidenceCause = structuralResult.events.find(({ eventKind }) => eventKind === "evidence_generated")?.eventId;
++    emit("mission_evidence_released", {
++      evidenceIds: structuralResult.generatedEvidence.map(({ evidenceId }) => evidenceId),
++      releasedPendingRequestIds: duePending.map(({ request }) => request.requestId),
++    }, evidenceCause);
++  }
++
++  let pendingEvidenceRequests: readonly PendingEvidenceRequest[] = remainingPending;
++  if (currentRequest && config.evidence?.timing === "pending") {
++    const pending = {
++      request: currentRequest,
++      dueWorldTick: structuralResult.trueState.worldClockTick + latencyOffset(structuralResult.trueState.latencyVariant),
++    } satisfies PendingEvidenceRequest;
++    pendingEvidenceRequests = [...pendingEvidenceRequests, pending];
++    emit("mission_evidence_scheduled", { requestId: pending.request.requestId, dueWorldTick: pending.dueWorldTick });
++  }
++
++  const reactionEvent = structuralResult.events.find(({ eventKind }) => eventKind === "actor_reaction_resolved");
++  const impactedCorridors = new Map<CorridorId, boolean>([[structuralResult.trueState.primaryAffectedCorridorId, false]]);
++  if (structuralResult.actorReaction.secondaryCorridorId) {
++    impactedCorridors.set(structuralResult.actorReaction.secondaryCorridorId, true);
++  }
++  const impacts: Record<string, OperationalImpact> = {};
++  const skippedDeliveredCorridorIds: CorridorId[] = [];
++  let impactedConvoys = actionConvoys.map((convoy) => {
++    const secondary = impactedCorridors.get(convoy.corridorId);
++    if (secondary === undefined) return convoy;
++    if (convoy.status === "delivered") {
++      skippedDeliveredCorridorIds.push(convoy.corridorId);
++      return convoy;
++    }
++    const impact = calculateOperationalImpact({
++      convoy,
++      pressure: structuralResult.trueState.actorInternalState.disruptionPressure,
++      roundId: state.currentRound,
++      secondary,
++    });
++    impacts[convoy.corridorId] = impact;
++    return {
++      ...convoy,
++      delayMinutes: Math.max(0, convoy.delayMinutes + impact.delayMinutes),
++      pntExposure: clamp(convoy.pntExposure + impact.pntExposure, 0, 100),
++      integrity: clamp(convoy.integrity - impact.integrityDamage, 0, 100),
++    };
++  });
++  emit("mission_actor_impact_applied", { impacts, skippedDeliveredCorridorIds }, reactionEvent?.eventId);
++
++  if (state.currentRound === 7 || state.currentRound === 8) {
++    const expiring = impactedConvoys.some(({ status, temporaryProtectionUntilRound }) =>
++      status !== "delivered" && temporaryProtectionUntilRound === state.currentRound);
++    if (expiring) {
++      impactedConvoys = impactedConvoys.map((convoy) => convoy.status !== "delivered" && convoy.temporaryProtectionUntilRound === state.currentRound
++        ? { ...convoy, temporaryProtectionLevel: 0 as const, temporaryProtectionUntilRound: null }
++        : convoy);
++      emit("mission_temporary_protection_expired", { expiredAfterRound: state.currentRound });
++    }
++  }
++
++  const statusConvoys = updateConvoyStatuses(impactedConvoys, nextClock);
++  emit("mission_convoy_status_updated", {
++    statuses: Object.fromEntries(statusConvoys.map(({ convoyId, status }) => [convoyId, status])),
++  });
++
++  const visibleEvidence = [...state.visibleEvidence, ...structuralResult.generatedEvidence];
++  const operationalAttributionStatus = deriveOperationalAttributionStatus(visibleEvidence);
++  emit("mission_attribution_updated", { from: state.operationalAttributionStatus, to: operationalAttributionStatus });
++
++  const nextRound = state.currentRound < 8 ? (state.currentRound + 1) as RoundId : state.currentRound;
++  let nextState: Scenario5MissionState = {
++    ...state,
++    trueWorldState: structuralResult.trueState,
++    worldClockMinutes: nextClock,
++    currentRound: nextRound,
++    resources,
++    convoys: statusConvoys,
++    visibleEvidence,
++    pendingEvidenceRequests,
++    operationalAttributionStatus,
++    missionEvents: [...state.missionEvents, ...emitted],
++  };
++
++  let endState = null;
++  if (state.currentRound === 8) {
++    const beforeFinalizationCount = nextState.missionEvents.length;
++    nextState = finalizeMission(nextState);
++    emitted.push(...nextState.missionEvents.slice(beforeFinalizationCount));
++    endState = resolveMissionEndState(nextState);
++  }
++  return { state: nextState, structuralResult, emittedMissionEvents: emitted, endState };
++}
++
++export function finalizeMission(state: Scenario5MissionState): Scenario5MissionState {
++  if (state.completed) return state;
++  const emitted: Scenario5MissionEvent[] = [];
++  let counter = state.missionEvents.length;
++  let lastCause = state.missionEvents.at(-1)?.eventId ?? null;
++  const emit = (eventKind: string, payload: Readonly<Record<string, unknown>>): void => {
++    counter += 1;
++    const eventId = `M-${state.trueWorldState.worldId}-r8-e${counter}`;
++    emitted.push({
++      eventId,
++      causeEventId: lastCause ?? eventId,
++      roundId: 8,
++      worldClockMinute: MISSION_HORIZON_MINUTES,
++      eventKind,
++      payload,
++    });
++    lastCause = eventId;
++  };
++
++  const lateEvidence = state.pendingEvidenceRequests.flatMap(({ request }) => materializeEvidence(state.trueWorldState, request));
++  if (lateEvidence.length > 0) {
++    emit("mission_evidence_released", {
++      evidenceIds: lateEvidence.map(({ evidenceId }) => evidenceId),
++      lateArrivingFinalEvidence: true,
++    });
++  }
++  const visibleEvidence = [...state.visibleEvidence, ...lateEvidence];
++  const operationalAttributionStatus = deriveOperationalAttributionStatus(visibleEvidence);
++  if (operationalAttributionStatus !== state.operationalAttributionStatus) {
++    emit("mission_attribution_updated", { from: state.operationalAttributionStatus, to: operationalAttributionStatus });
++  }
++  const convoys = updateConvoyStatuses(state.convoys, MISSION_HORIZON_MINUTES);
++  emit("mission_finalized", {
++    horizonMinute: MISSION_HORIZON_MINUTES,
++    pendingEvidenceReleased: state.pendingEvidenceRequests.length,
++    statuses: Object.fromEntries(convoys.map(({ convoyId, status }) => [convoyId, status])),
++  });
++
++  const finalized: Scenario5MissionState = {
++    ...state,
++    worldClockMinutes: MISSION_HORIZON_MINUTES,
++    completed: true,
++    convoys,
++    visibleEvidence,
++    pendingEvidenceRequests: [],
++    operationalAttributionStatus,
++    missionEvents: [...state.missionEvents, ...emitted],
++  };
++  const endState = resolveMissionEndState(finalized);
++  counter += 1;
++  const endEventId = `M-${state.trueWorldState.worldId}-r8-e${counter}`;
++  const endEvent: Scenario5MissionEvent = {
++    eventId: endEventId,
++    causeEventId: emitted.at(-1)?.eventId ?? state.missionEvents.at(-1)?.eventId ?? endEventId,
++    roundId: 8,
++    worldClockMinute: MISSION_HORIZON_MINUTES,
++    eventKind: "mission_end_state_resolved",
++    payload: { endStateId: endState.endStateId },
++  };
++  return { ...finalized, missionEvents: [...finalized.missionEvents, endEvent] };
++}
++
++export { getAvailableMissionActions, getMissionAction };
+diff --git a/src/ui/components/scenario/scenario-five/model/mission/selectors.ts b/src/ui/components/scenario/scenario-five/model/mission/selectors.ts
+new file mode 100644
+index 0000000..b009133
+--- /dev/null
++++ b/src/ui/components/scenario/scenario-five/model/mission/selectors.ts
+@@ -0,0 +1,121 @@
++import { CANONICAL_CORRIDORS } from "../index";
++import type { ActorVisibleSignals, CorridorId, EvidenceInstance } from "../index";
++import { MISSION_ACTION_CATALOG, getMissionAction } from "./actionCatalog";
++import type {
++  DerivedActorSignals,
++  MissionActionConfig,
++  MissionActionSelection,
++  MissionConvoyState,
++  OperationalAttributionStatus,
++  Scenario5MissionState,
++  ValidatedMissionAction,
++} from "./types";
++
++const CANONICAL_IDS = new Set<CorridorId>(CANONICAL_CORRIDORS.map(({ corridorId }) => corridorId));
++const LEAST_PROTECTED_ORDER: readonly CorridorId[] = [
++  "corridor_beta_south",
++  "corridor_gamma_northwest",
++  "corridor_delta_west",
++  "corridor_alpha_east",
++];
++
++export function getAvailableMissionActions(state: Scenario5MissionState): readonly MissionActionConfig[] {
++  if (state.completed) return [];
++  return MISSION_ACTION_CATALOG.filter(({ roundId }) => roundId === state.currentRound);
++}
++
++export function validateMissionAction(state: Scenario5MissionState, selection: MissionActionSelection): ValidatedMissionAction {
++  if (state.completed) throw new Error("Mission is already complete");
++  const config = getMissionAction(selection.actionId);
++  if (config.roundId !== state.currentRound) {
++    throw new Error(`Action ${config.actionId} belongs to round ${config.roundId}, not round ${state.currentRound}`);
++  }
++
++  let effectiveTargetCorridorId: CorridorId | null = null;
++  if (config.target === "required") {
++    if (!selection.targetCorridorId || !CANONICAL_IDS.has(selection.targetCorridorId)) {
++      throw new Error(`Action ${config.actionId} requires a canonical target corridor`);
++    }
++    effectiveTargetCorridorId = selection.targetCorridorId;
++  } else if (config.target === "fixed_alpha") {
++    if (selection.targetCorridorId && selection.targetCorridorId !== "corridor_alpha_east") {
++      throw new Error(`Action ${config.actionId} only accepts corridor_alpha_east`);
++    }
++    effectiveTargetCorridorId = "corridor_alpha_east";
++  }
++
++  if (effectiveTargetCorridorId !== null) {
++    const targetConvoy = state.convoys.find(({ corridorId }) => corridorId === effectiveTargetCorridorId);
++    if (!targetConvoy) throw new Error(`No convoy exists for ${effectiveTargetCorridorId}`);
++    if (targetConvoy.status === "delivered") {
++      throw new Error(`Target convoy for ${effectiveTargetCorridorId} is already delivered`);
++    }
++  }
++
++  if (config.isrCost > state.resources.isrCapacity) throw new Error(`Insufficient ISR capacity for ${config.actionId}`);
++  if (config.supportCost > state.resources.supportReserve) throw new Error(`Insufficient support reserve for ${config.actionId}`);
++  return { config, effectiveTargetCorridorId };
++}
++
++export function convoyProtectionScore(convoy: MissionConvoyState, currentRound: number): number {
++  return (convoy.fallbackNav ? 2 : 0)
++    + (convoy.routeHardened ? 2 : 0)
++    + (convoy.groundSupport ? 2 : 0)
++    + (convoy.escortedUntilRound === currentRound ? 1 : 0)
++    + convoy.temporaryProtectionLevel;
++}
++
++export function deriveActorVisibleSignals(
++  state: Scenario5MissionState,
++  config: MissionActionConfig,
++  effectiveTargetCorridorId: CorridorId | null,
++): DerivedActorSignals {
++  const protectionEntries = state.convoys.map((convoy) => [
++    convoy.corridorId,
++    convoyProtectionScore(convoy, state.currentRound),
++  ] as const);
++  const protectionScores = Object.fromEntries(protectionEntries) as Record<CorridorId, number>;
++  const activeConvoys = state.convoys.filter(({ status }) => status !== "delivered");
++  const activeCorridorIds = new Set(activeConvoys.map(({ corridorId }) => corridorId));
++  const minimumActiveProtection = activeConvoys.length > 0
++    ? Math.min(...activeConvoys.map(({ corridorId }) => protectionScores[corridorId]))
++    : null;
++  const leastProtectedCorridorId = minimumActiveProtection === null
++    ? null
++    : LEAST_PROTECTED_ORDER.find((corridorId) =>
++      activeCorridorIds.has(corridorId) && protectionScores[corridorId] === minimumActiveProtection) ?? null;
++  const activeProtectedCorridorCount = activeConvoys.filter(({ corridorId }) => protectionScores[corridorId] > 0).length;
++  const networkCoverageWeak = state.currentRound <= 2
++    ? config.priorityConvoyConcentration
++    : activeConvoys.length === 0
++      ? false
++      : config.priorityConvoyConcentration || activeProtectedCorridorCount < 2;
++
++  const signals: ActorVisibleSignals = {
++    routeHardened: config.hardensRoute,
++    groundReconVisible: config.groundReconVisible,
++    fallbackActivated: config.activatesFallback,
++    priorityConvoyConcentration: config.priorityConvoyConcentration,
++    networkCoverageWeak,
++    containmentVisible: config.containmentVisible,
++    executedResponseIntensity: config.responseIntensity,
++    leastProtectedCorridorId,
++    visibleRerouteCorridorIds: config.visibleReroute && effectiveTargetCorridorId ? [effectiveTargetCorridorId] : [],
++  };
++  return { signals, protectionScores };
++}
++
++export function deriveOperationalAttributionStatus(
++  visibleEvidence: readonly EvidenceInstance[],
++): OperationalAttributionStatus {
++  const corridors = new Set(visibleEvidence.map(({ observedCorridorId }) => observedCorridorId).filter((id): id is CorridorId => id !== null));
++  for (const corridorId of corridors) {
++    const supporting = visibleEvidence.filter(
++      (item) => item.observedCorridorId === corridorId && item.direction === "supports_targeted",
++    );
++    const sourceTypes = new Set(supporting.map(({ sourceType }) => sourceType));
++    const hasSubstantiveItem = supporting.some(({ strengthBand }) => strengthBand === "moderate" || strengthBand === "strong");
++    if (sourceTypes.size >= 2 && hasSubstantiveItem) return "resolved";
++  }
++  return "unresolved";
++}
+diff --git a/src/ui/components/scenario/scenario-five/model/mission/types.ts b/src/ui/components/scenario/scenario-five/model/mission/types.ts
+new file mode 100644
+index 0000000..ed15dcb
+--- /dev/null
++++ b/src/ui/components/scenario/scenario-five/model/mission/types.ts
+@@ -0,0 +1,199 @@
++import type {
++  ActorVisibleSignals,
++  AdjudicationResult,
++  CorridorId,
++  DecisionWindowId,
++  EvidenceInstance,
++  EvidenceRequest,
++  EvidenceRequestKind,
++  PhaseId,
++  PressureBand,
++  RoundId,
++  Scenario5Seed,
++  TrueWorldState,
++  WorldId,
++} from "../index";
++
++export type MissionConvoyId = "alpha" | "beta" | "gamma" | "delta";
++export type MissionConvoyStatus = "moving" | "held" | "delivered" | "compromised";
++
++export interface MissionResourceState {
++  readonly isrCapacity: number;
++  readonly supportReserve: number;
++}
++
++export interface MissionConvoyState {
++  readonly convoyId: MissionConvoyId;
++  readonly corridorId: CorridorId;
++  readonly baselineArrivalMinute: number;
++  readonly deadlineMinute: number;
++  readonly integrity: number;
++  readonly delayMinutes: number;
++  readonly pntExposure: number;
++  readonly fallbackNav: boolean;
++  readonly routeHardened: boolean;
++  readonly groundSupport: boolean;
++  readonly escortedUntilRound: RoundId | null;
++  readonly temporaryProtectionLevel: -1 | 0 | 1 | 2;
++  readonly temporaryProtectionUntilRound: RoundId | null;
++  readonly deliveredAtMinute: number | null;
++  readonly status: MissionConvoyStatus;
++}
++
++export interface PendingEvidenceRequest {
++  readonly request: EvidenceRequest;
++  readonly dueWorldTick: number;
++}
++
++export type OperationalAttributionStatus = "unresolved" | "resolved";
++
++export interface Scenario5MissionEvent {
++  readonly eventId: string;
++  readonly causeEventId: string;
++  readonly roundId: RoundId;
++  readonly worldClockMinute: number;
++  readonly eventKind: string;
++  readonly payload: Readonly<Record<string, unknown>>;
++}
++
++export interface Scenario5MissionState {
++  readonly missionModelVersion: string;
++  readonly trueWorldState: TrueWorldState;
++  readonly worldClockMinutes: number;
++  readonly currentRound: RoundId;
++  readonly completed: boolean;
++  readonly resources: MissionResourceState;
++  readonly convoys: readonly MissionConvoyState[];
++  readonly visibleEvidence: readonly EvidenceInstance[];
++  readonly pendingEvidenceRequests: readonly PendingEvidenceRequest[];
++  readonly operationalAttributionStatus: OperationalAttributionStatus;
++  readonly missionEvents: readonly Scenario5MissionEvent[];
++}
++
++export type MissionActionId =
++  | "a1_network_baseline"
++  | "a1_priority_focus"
++  | "a1_rotating_watch"
++  | "a1_preserve_reserve"
++  | "a2_focused_pnt"
++  | "a2_broad_sweep"
++  | "a2_field_radio"
++  | "a2_ground_liaison"
++  | "b1_suspect_focus"
++  | "b1_priority_cargo"
++  | "b1_split_attention"
++  | "b1_pulse_network"
++  | "b2_continue_crosscheck"
++  | "b2_reroute"
++  | "b2_staged_checkpoints"
++  | "b2_hold_verify"
++  | "c1_fallback_nav"
++  | "c1_ground_recon"
++  | "c1_checkpoint_spacing"
++  | "c1_preserve_mobile_reserve"
++  | "c2_isr_heavy"
++  | "c2_mobility_heavy"
++  | "c2_balanced"
++  | "c2_priority_surge"
++  | "d1_emergency_reroute"
++  | "d1_ground_containment"
++  | "d1_deception_routing"
++  | "d1_escorted_continuation"
++  | "d1_hold_confirm"
++  | "d2_critical_delivery_surge"
++  | "d2_network_balanced_finish"
++  | "d2_resilient_handoff"
++  | "d2_continuity_first_finish";
++
++export interface MissionActionSelection {
++  readonly actionId: MissionActionId;
++  readonly targetCorridorId?: CorridorId;
++}
++
++export type MissionActionTarget = "none" | "required" | "fixed_alpha";
++export type MissionResponseIntensity = "low" | "medium" | "high";
++export type MissionDelayEffect =
++  | { readonly kind: "none" }
++  | { readonly kind: "target"; readonly minutes: number }
++  | { readonly kind: "all"; readonly minutes: number }
++  | { readonly kind: "continuity_finish" };
++
++export interface MissionEvidenceSpec {
++  readonly requestKind: EvidenceRequestKind;
++  readonly timing: "immediate" | "pending";
++  readonly target: "none" | "effective_target";
++}
++
++export interface MissionActionConfig {
++  readonly actionId: MissionActionId;
++  readonly roundId: RoundId;
++  readonly phaseId: PhaseId;
++  readonly decisionWindowId: DecisionWindowId;
++  readonly target: MissionActionTarget;
++  readonly isrCost: number;
++  readonly supportCost: number;
++  readonly durationMinutes: number;
++  readonly delayEffect: MissionDelayEffect;
++  readonly evidence: MissionEvidenceSpec | null;
++  readonly responseIntensity: MissionResponseIntensity;
++  readonly activatesFallback: boolean;
++  readonly hardensRoute: boolean;
++  readonly groundReconVisible: boolean;
++  readonly containmentVisible: boolean;
++  readonly priorityConvoyConcentration: boolean;
++  readonly visibleReroute: boolean;
++  readonly grantsGroundSupport: boolean;
++  readonly holdsForStep: boolean;
++  readonly escortThroughRound: RoundId | null;
++  readonly temporaryProtection: "none" | "all_level_2" | "all_level_1_round7" | "priority_surge" | "all_level_1_round8";
++}
++
++export type Scenario5EndStateId =
++  | "critical_cargo_lost_or_compromised"
++  | "priority_delivered_network_failure"
++  | "mission_incomplete_continuity_preserved"
++  | "delayed_delivery_persistent_disruption"
++  | "resilient_delivery_unresolved_attribution"
++  | "resilient_delivery_threat_contained";
++
++export interface Scenario5EndState {
++  readonly endStateId: Scenario5EndStateId;
++  readonly networkContinuityPercent: 0 | 25 | 50 | 75 | 100;
++  readonly threatContained: boolean;
++}
++
++export interface MissionStepResult {
++  readonly state: Scenario5MissionState;
++  readonly structuralResult: AdjudicationResult;
++  readonly emittedMissionEvents: readonly Scenario5MissionEvent[];
++  readonly endState: Scenario5EndState | null;
++}
++
++export interface OperationalImpact {
++  readonly delayMinutes: number;
++  readonly pntExposure: number;
++  readonly integrityDamage: number;
++}
++
++export interface OperationalImpactInput {
++  readonly convoy: MissionConvoyState;
++  readonly pressure: PressureBand;
++  readonly roundId: RoundId;
++  readonly secondary: boolean;
++}
++
++export interface ValidatedMissionAction {
++  readonly config: MissionActionConfig;
++  readonly effectiveTargetCorridorId: CorridorId | null;
++}
++
++export interface MissionReplayInput {
++  readonly worldId: WorldId;
++  readonly seed: Scenario5Seed;
++  readonly selections: readonly MissionActionSelection[];
++}
++
++export interface DerivedActorSignals {
++  readonly signals: ActorVisibleSignals;
++  readonly protectionScores: Readonly<Record<CorridorId, number>>;
++}

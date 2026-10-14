@@ -1,0 +1,324 @@
+diff --git a/docs/scenario5-phase7d-ui-verification.md b/docs/scenario5-phase7d-ui-verification.md
+new file mode 100644
+index 0000000000000000000000000000000000000000..5fe126876700d0390b0e9b1d05cbb4d7a207a272
+--- /dev/null
++++ b/docs/scenario5-phase7d-ui-verification.md
+@@ -0,0 +1,72 @@
++# Scenario 5 Phase 07D — Initial Marker Deconfliction Verification
++
++## Completion and scope
++
++Phase 07D is complete. This is a narrow presentation-only correction layered on the accepted Phase 07C console. No mission, Actor, evidence, cognitive, runtime, domain, calibration, action, timing, resource, ETA, route, scoring, end-state, telemetry, or AAR semantic was changed. Phase 8B was not started.
++
++Changed implementation/QA files:
++
++- `src/ui/components/scenario/ScenarioFiveMap.tsx`
++- `scripts/verify-s5-phase7-ui.ts`
++- `scripts/capture-s5-phase7c.mjs`
++
++No CSS, simulation orchestration, model source, Phase-3/4/5/6 verifier, Scenario 2 source, `eventLogger`, or AAR content was edited.
++
++## Exact deconfliction behavior
++
++`ORIGIN_DECONFLICTION` contains only:
++
++- alpha: `{ x: 0, y: -12 }`
++- delta: `{ x: 0, y: 12 }`
++
++The accepted Phase-07C desired and monotonic visual-progress formulas remain unchanged. Route interpolation is calculated first as `routePoint`. The presentation-only separation weight is then calculated as `clamp(1 - progress / 0.08, 0, 1)`. The offset is applied only when producing `displayPoint`, which alone supplies the SVG transform.
++
++At progress 0, alpha and delta differ by exactly 24 SVG units while remaining attached visually to the common Tehran origin. At progress 0.08 and above, the separation weight is zero. No offset or display point is persisted, exposed through a player-view adapter, logged, or supplied to runtime, telemetry, AAR, scoring, domain metrics, cognitive measurement, or calibration.
++
++## Real-browser QA
++
++Chrome headless was driven through the DevTools protocol. The two captures and machine-readable inspection are in `docs/scenario5-phase7d-screenshots/`.
++
++### Initial T+0 capture
++
++- Screenshot: `01-initial-1440x900.png`
++- Visible convoy IDs: alpha, beta, gamma, delta.
++- Visible convoy count: 4.
++- Distinct marker transforms: 4.
++- Alpha SVG center: `(428, 188)`.
++- Delta SVG center: `(428, 212)`.
++- Alpha/delta SVG-center separation: 24 units.
++- Alpha/delta rendered screen-center separation: 22.6625 px at this viewport/map scale.
++- `scrollHeight / viewport height`: `900 / 900`.
++- `scrollWidth / viewport width`: `1440 / 1440`.
++- Controls are physically left of the map.
++
++### Post-action capture
++
++- Screenshot: `02-after-action-1440x900.png`
++- Visible convoy count: 4.
++- Movement from the initial transforms: confirmed.
++- Alpha visual progress: `0.14285714285714285`.
++- Delta visual progress: `0.11952191235059761`.
++- Both are above 0.08.
++- Their SVG centers match ordinary route interpolation within 0.01 SVG unit; temporary offsets are zero.
++- `scrollHeight / viewport height`: `900 / 900`.
++- `scrollWidth / viewport width`: `1440 / 1440`.
++- Controls remain left and the map remains right.
++
++## Player-information firewall
++
++The new constant and intermediate separation variables occur only in `ScenarioFiveMap.tsx`. Inputs remain limited to player-visible convoy identity/status, player-visible projected arrival, and the player-visible operational clock. The map still contains no hidden world truth, primary affected corridor, Actor profile/internal state, or hidden evidence provenance. `eventLogger.ts` remains byte-identical with SHA-256 `7faa68531a38bd3a56facb5e73a7c4e4f5d1e13f4906218ee56147dacd1103b1`.
++
++## Verification results
++
++- Typecheck (`npx tsc -b`): passed.
++- Production build (`npm run build`): passed; 118 modules transformed. The existing Vite large-chunk advisory remains non-fatal.
++- Phase 3 verifier: passed, 86 assertions.
++- Phase 4 verifier: passed, 464 assertions.
++- Phase 5 verifier: passed, 388 assertions.
++- Phase 6 verifier: passed, 2979 assertions.
++- Phase 7 verifier: passed, 600 assertions. All 590 Phase-07C assertions remain, with 10 Phase-07D assertions added.
++- `git -c core.autocrlf=false diff --check`: passed.
++
++Model, runtime, cognitive, domain, and calibration versions and semantics remain unchanged.
+diff --git a/scripts/capture-s5-phase7c.mjs b/scripts/capture-s5-phase7c.mjs
+index 4db008cdafc22e2139f5d8b2d23e3bbc55d64480..f22320da10ea202d8ec5d35b489a8f81521c6386 100644
+--- a/scripts/capture-s5-phase7c.mjs
++++ b/scripts/capture-s5-phase7c.mjs
+@@ -3,7 +3,7 @@ import os from "node:os";
+ import path from "node:path";
+ import { spawn } from "node:child_process";
+ 
+-const outputDir = "docs/scenario5-phase7c-screenshots";
++const outputDir = "docs/scenario5-phase7d-screenshots";
+ fs.mkdirSync(outputDir, { recursive: true });
+ const profileDir = fs.mkdtempSync(path.join(os.tmpdir(), "s5-phase7c-chrome-"));
+ const chromeCandidates = [
+@@ -77,6 +77,18 @@ try {
+         return { top: rect.top, bottom: rect.bottom, visible: rect.top >= 0 && rect.bottom <= innerHeight };
+       });
+       const confirm = document.querySelector('.s5-decision-actions .s5-primary-button')?.getBoundingClientRect();
++      const markers = [...document.querySelectorAll('.s5-convoy-marker')].map((node) => {
++        const rect = node.getBoundingClientRect();
++        const coordinates = node.style.transform.match(/[-0-9.]+/g)?.map(Number);
++        return {
++          convoyId: node.dataset.convoyId,
++          visualProgress: Number(node.dataset.visualProgress),
++          transform: node.style.transform,
++          svgCenter: coordinates?.length === 2 ? { x: coordinates[0], y: coordinates[1] } : null,
++          screenCenter: { x: rect.left + rect.width / 2, y: rect.top + rect.height / 2 },
++          visible: rect.width > 0 && rect.height > 0 && rect.left < innerWidth && rect.right > 0 && rect.top < innerHeight && rect.bottom > 0,
++        };
++      });
+       return {
+         stage: ${JSON.stringify(stage)}, width: innerWidth, height: innerHeight,
+         scrollHeight: doc.scrollHeight, scrollWidth: doc.scrollWidth,
+@@ -87,7 +99,8 @@ try {
+         actionCardCount: cards.length,
+         allActionCardsVisible: cards.length === 0 ? null : cards.every((item) => item.visible),
+         confirmVisible: confirm ? confirm.top >= 0 && confirm.bottom <= innerHeight : null,
+-        markerTransforms: [...document.querySelectorAll('.s5-convoy-marker')].map((node) => node.style.transform),
++        markerTransforms: markers.map((marker) => marker.transform),
++        markers,
+       };
+     })()`);
+     const shot = await send("Page.captureScreenshot", { format: "png", captureBeyondViewport: false, fromSurface: true });
+@@ -132,77 +145,59 @@ try {
+   await click(".menu-buttons button", 0);
+   await click(".scenario-card:last-child .scenario-actions button:last-child");
+   await click(".intro-modal .primary");
+-  await setViewport(1366, 768);
+-  const briefing1366 = await evaluate(`(() => {
+-    const doc = document.documentElement;
+-    const button = document.querySelector('.s5-briefing .s5-primary-button')?.getBoundingClientRect();
+-    return { scrollHeight: doc.scrollHeight, scrollWidth: doc.scrollWidth, noPageScroll: doc.scrollHeight <= innerHeight && doc.scrollWidth <= innerWidth, buttonVisible: Boolean(button && button.top >= 0 && button.bottom <= innerHeight) };
+-  })()`);
+-  await setViewport(1440, 900);
+   await click(".s5-briefing .s5-primary-button");
+ 
+-  const metrics = [];
+-  metrics.push(await capture("01-decision-1440x900.png", 1440, 900, "decision-initial"));
+-  metrics.push(await capture("02-decision-1366x768.png", 1366, 768, "decision-initial"));
+-  const compact1280 = await capture(".phase7c-temporary-1280.png", 1280, 720, "decision-initial-1280");
+-  fs.unlinkSync(`${outputDir}/.phase7c-temporary-1280.png`);
+-  metrics.push(compact1280);
+-
+-  await setViewport(1440, 900);
+-  const initialTransforms = await evaluate("[...document.querySelectorAll('.s5-convoy-marker')].map((node) => node.style.transform)");
++  const initial = await capture("01-initial-1440x900.png", 1440, 900, "decision-initial");
+   await chooseAction(0);
+   await confirmAndContinue();
+-  const postTransforms = await evaluate("[...document.querySelectorAll('.s5-convoy-marker')].map((node) => node.style.transform)");
+-  metrics.push(await capture("03-after-action-1440x900.png", 1440, 900, "belief-after-action"));
+-  await setViewport(1366, 768);
+-  const belief1366 = await evaluate(`(() => {
+-    const doc = document.documentElement;
+-    const panel = document.querySelector('.s5-form-panel')?.getBoundingClientRect();
+-    const button = document.querySelector('.s5-form-panel .s5-primary-button')?.getBoundingClientRect();
+-    return { noPageScroll: doc.scrollHeight <= innerHeight && doc.scrollWidth <= innerWidth, panelFits: Boolean(panel && button && panel.top >= 0 && panel.bottom <= innerHeight && button.bottom <= panel.bottom) };
+-  })()`);
+-  await setViewport(1440, 900);
++  await delay(1000);
++  const postAction = await capture("02-after-action-1440x900.png", 1440, 900, "belief-after-action");
+ 
+-  await fillBelief();
+-  await click(".s5-evidence-access");
+-  metrics.push(await capture("04-evidence-1440x900.png", 1440, 900, "evidence-local-view"));
+-  await click(".s5-back-to-decision");
+-  await chooseAction(1);
+-  await confirmAndContinue();
+-  await fillBelief();
+-  await chooseAction(1);
+-  await confirmAndContinue();
+-  await chooseAction(0);
+-  await click(".s5-decision-actions .s5-primary-button");
+-  metrics.push(await capture("05-reason-1440x900.png", 1440, 900, "reason"));
+-  await setViewport(1366, 768);
+-  const reason1366 = await evaluate(`(() => {
+-    const doc = document.documentElement;
+-    const panel = document.querySelector('.s5-form-panel')?.getBoundingClientRect();
+-    const options = [...document.querySelectorAll('.s5-reason-options label')].map((node) => node.getBoundingClientRect());
+-    const button = document.querySelector('.s5-form-panel .s5-primary-button')?.getBoundingClientRect();
+-    return { noPageScroll: doc.scrollHeight <= innerHeight && doc.scrollWidth <= innerWidth, optionCount: options.length, allOptionsVisible: options.length === 7 && options.every((rect) => rect.top >= panel.top && rect.bottom <= panel.bottom), buttonVisible: Boolean(button && button.bottom <= panel.bottom && button.bottom <= innerHeight) };
+-  })()`);
++  const initialById = Object.fromEntries(initial.markers.map((marker) => [marker.convoyId, marker]));
++  const postById = Object.fromEntries(postAction.markers.map((marker) => [marker.convoyId, marker]));
++  const visibleIds = initial.markers.filter((marker) => marker.visible).map((marker) => marker.convoyId).sort();
++  const initialAlphaDeltaSvgSeparation = Math.abs(initialById.alpha.svgCenter.y - initialById.delta.svgCenter.y);
++  const initialAlphaDeltaScreenSeparation = Math.hypot(
++    initialById.alpha.screenCenter.x - initialById.delta.screenCenter.x,
++    initialById.alpha.screenCenter.y - initialById.delta.screenCenter.y,
++  );
++  const routes = {
++    alpha: { from: { x: 428, y: 200 }, to: { x: 612, y: 175 } },
++    delta: { from: { x: 428, y: 200 }, to: { x: 244, y: 246 } },
++  };
++  const postOriginOffsetsGone = ["alpha", "delta"].every((convoyId) => {
++    const marker = postById[convoyId];
++    const route = routes[convoyId];
++    const expected = {
++      x: route.from.x + (route.to.x - route.from.x) * marker.visualProgress,
++      y: route.from.y + (route.to.y - route.from.y) * marker.visualProgress,
++    };
++    return marker.visualProgress >= 0.08
++      && Math.abs(marker.svgCenter.x - expected.x) < 0.01
++      && Math.abs(marker.svgCenter.y - expected.y) < 0.01;
++  });
+ 
+   const result = {
+     browser: path.basename(chromePath),
+     capturedAt: new Date().toISOString(),
+-    initialTransforms,
+-    postTransforms,
+-    convoyMovementVerified: initialTransforms.length === postTransforms.length && initialTransforms.some((value, index) => value !== postTransforms[index]),
+-    briefing1366,
+-    belief1366,
+-    reason1366,
+-    metrics,
++    initial,
++    postAction,
++    initialVisibleConvoyIds: visibleIds,
++    initialVisibleConvoyCount: visibleIds.length,
++    initialDistinctTransforms: new Set(initial.markerTransforms).size,
++    initialAlphaDeltaSvgSeparation,
++    initialAlphaDeltaScreenSeparation,
++    convoyMovementVerified: initial.markerTransforms.some((value, index) => value !== postAction.markerTransforms[index]),
++    postVisibleConvoyCount: postAction.markers.filter((marker) => marker.visible).length,
++    postOriginOffsetsGone,
+   };
+   fs.writeFileSync(`${outputDir}/inspection.json`, JSON.stringify(result, null, 2));
+   if (!result.convoyMovementVerified) throw new Error("Convoy marker transform did not change after the committed decision.");
+-  if (!briefing1366.noPageScroll || !briefing1366.buttonVisible) throw new Error("1366x768 briefing does not fit.");
+-  if (!belief1366.noPageScroll || !belief1366.panelFits) throw new Error("1366x768 belief stage does not fit.");
+-  if (!reason1366.noPageScroll || !reason1366.allOptionsVisible || !reason1366.buttonVisible) throw new Error("1366x768 reason stage does not fit.");
+-  if (metrics.some((item) => !item.noPageScroll || !item.noHorizontalOverflow || !item.mapRightOfControls)) throw new Error("Phase 07C browser layout verification failed. Inspect inspection.json.");
+-  if (!metrics[1].allActionCardsVisible || !metrics[1].confirmVisible) throw new Error("1366x768 decision controls do not fully fit.");
+-  console.log(JSON.stringify({ result: "passed", screenshots: 5, convoyMovementVerified: true, checkedViewports: ["1440x900", "1366x768", "1280x720"], outputDir }, null, 2));
++  if (result.initialVisibleConvoyCount !== 4 || result.initialDistinctTransforms !== 4) throw new Error("All four initial convoy markers are not independently visible.");
++  if (result.initialAlphaDeltaSvgSeparation !== 24 || result.initialAlphaDeltaScreenSeparation <= 0) throw new Error("Initial alpha/delta marker deconfliction is incorrect.");
++  if (result.postVisibleConvoyCount !== 4 || !result.postOriginOffsetsGone) throw new Error("Post-action convoy visibility or offset fade verification failed.");
++  if (![initial, postAction].every((item) => item.noPageScroll && item.noHorizontalOverflow && item.mapRightOfControls)) throw new Error("Phase 07D browser layout verification failed. Inspect inspection.json.");
++  console.log(JSON.stringify({ result: "passed", screenshots: 2, initialVisibleConvoyCount: 4, initialAlphaDeltaSvgSeparation: 24, convoyMovementVerified: true, postOriginOffsetsGone: true, outputDir }, null, 2));
+ } finally {
+   try { socket?.close(); } catch { /* no-op */ }
+   chrome.kill();
+diff --git a/scripts/verify-s5-phase7-ui.ts b/scripts/verify-s5-phase7-ui.ts
+index 34c604f32b867ea46d08915825613bed675fc121..7d2a7ba4758d08cb9634c4e5674e9ba45817fe9a 100644
+--- a/scripts/verify-s5-phase7-ui.ts
++++ b/scripts/verify-s5-phase7-ui.ts
+@@ -1,6 +1,6 @@
+ import assert from "node:assert/strict";
+ import { createHash } from "node:crypto";
+-import { existsSync, readFileSync, statSync } from "node:fs";
++import { existsSync, readFileSync, readdirSync, statSync } from "node:fs";
+ import { join } from "node:path";
+ import { fileURLToPath } from "node:url";
+ import { WORLD_CATALOG } from "../src/ui/components/scenario/scenario-five/model/index.ts";
+@@ -61,6 +61,10 @@ const check = (condition: unknown, message: string): void => { assert.ok(conditi
+ const equal = (actual: unknown, expected: unknown, message: string): void => { assert.deepEqual(actual, expected, message); assertions += 1; };
+ const ROOT = fileURLToPath(new URL("..", import.meta.url));
+ const source = (path: string): string => readFileSync(join(ROOT, path), "utf8");
++const sourceFiles = (directory: string): string[] => readdirSync(join(ROOT, directory), { withFileTypes: true }).flatMap((entry) => {
++  const relative = `${directory}/${entry.name}`;
++  return entry.isDirectory() ? sourceFiles(relative) : /\.(?:ts|tsx)$/.test(entry.name) ? [relative] : [];
++});
+ const forbiddenTruth = [
+   "trueWorldState", "worldId", "seed", "primaryAffectedCorridorId", "actorProfile",
+   "actorObjective", "actorInternalState", "hiddenProvenance", "actorDelayImpactByCorridor",
+@@ -262,6 +266,21 @@ const visualProgressOccurrences = [
+ equal(visualProgressOccurrences, ["src/ui/components/scenario/ScenarioFiveMap.tsx"], "07C visual progress never enters runtime/model/scoring source");
+ equal(createHash("sha256").update(source("src/services/analytics/eventLogger.ts")).digest("hex"), "7faa68531a38bd3a56facb5e73a7c4e4f5d1e13f4906218ee56147dacd1103b1", "07C leaves eventLogger semantics byte-identical");
+ for (const runtimeCall of ["selectRuntimeAction", "openRuntimeEvidence", "closeRuntimeEvidence", "confirmRuntimeDecision", "submitRuntimeBelief", "submitRuntimeReason", "continueRuntimeAfterOutcome"]) check(simulationSource.includes(`${runtimeCall}(`), `07C retains runtime API call ${runtimeCall}`);
++const originDeconflictionBlock = mapSource.match(/const ORIGIN_DECONFLICTION:[\s\S]*?= \{([\s\S]*?)\n\};/)?.[1] ?? "";
++equal([...originDeconflictionBlock.matchAll(/^\s*(alpha|beta|gamma|delta):/gm)].map((match) => match[1]), ["alpha", "delta"], "07D origin deconfliction contains only alpha and delta");
++check(/alpha: \{ x: 0, y: -12 \}/.test(originDeconflictionBlock), "07D alpha origin offset is exactly x 0, y -12");
++check(/delta: \{ x: 0, y: 12 \}/.test(originDeconflictionBlock), "07D delta origin offset is exactly x 0, y 12");
++check(mapSource.includes("clamp(1 - progress / 0.08, 0, 1)"), "07D origin offset fade threshold is exactly 0.08");
++check(mapSource.includes('convoy.status === "delivered" ? 1 : clamp(worldClockMinutes / Math.max(convoy.projectedArrivalMinute, 1), 0, .97);'), "07D preserves the Phase-07C desired-progress formula byte-equivalently");
++check(mapSource.includes("x: routePoint.x + originOffset.x * originSeparationWeight")
++  && mapSource.includes("y: routePoint.y + originOffset.y * originSeparationWeight")
++  && mapSource.includes("translate(${displayPoint.x}px, ${displayPoint.y}px)")
++  && !mapSource.includes("translate(${routePoint.x}px"), "07D deconfliction affects only the final display transform coordinates");
++const deconflictionSourceOccurrences = sourceFiles("src").filter((path) => /ORIGIN_DECONFLICTION|originSeparationWeight|originOffset/.test(source(path)));
++equal(deconflictionSourceOccurrences, ["src/ui/components/scenario/ScenarioFiveMap.tsx"], "07D offset enters no player-view adapter, runtime, telemetry, AAR, scoring, domain, cognitive, or calibration source");
++equal(Math.min(1, Math.max(0, 1 - 0.08 / 0.08)), 0, "07D origin offset weight is zero at progress 0.08");
++equal(Math.abs((-12) - 12), 24, "07D alpha and delta initial rendered centers differ by 24 SVG units");
++check(!/data-(?:origin|offset|display-point)/.test(mapSource) && !mapSource.includes("log(originOffset"), "07D presentation offset is neither exposed nor logged");
+ for (const initializer of [
+   'useState<CorridorId | "">("")', 'useState("")',
+ ]) check(beliefSource.includes(initializer), `belief form empty initializer present: ${initializer}`);
+diff --git a/src/ui/components/scenario/ScenarioFiveMap.tsx b/src/ui/components/scenario/ScenarioFiveMap.tsx
+index 0924218f959616c9eeafcceaa31ae6949952caa0..b36c04d2e3c11d4824a2a808ae2eefb22a315aa4 100644
+--- a/src/ui/components/scenario/ScenarioFiveMap.tsx
++++ b/src/ui/components/scenario/ScenarioFiveMap.tsx
+@@ -15,6 +15,13 @@ const ROUTES: Readonly<Record<CorridorId, { from: { x: number; y: number }; to:
+   corridor_delta_west: { from: POINTS.tehran, to: POINTS.west },
+ };
+ 
++const ORIGIN_DECONFLICTION: Partial<
++  Record<ScenarioFivePlayerConvoy["convoyId"], { x: number; y: number }>
++> = {
++  alpha: { x: 0, y: -12 },
++  delta: { x: 0, y: 12 },
++};
++
+ const clamp = (value: number, minimum: number, maximum: number): number => Math.min(maximum, Math.max(minimum, value));
+ const desiredVisualProgress = (convoy: ScenarioFivePlayerConvoy, worldClockMinutes: number): number =>
+   convoy.status === "delivered" ? 1 : clamp(worldClockMinutes / Math.max(convoy.projectedArrivalMinute, 1), 0, .97);
+@@ -87,13 +94,19 @@ export const ScenarioFiveMap = ({
+           {convoys.map((convoy) => {
+             const route = ROUTES[convoy.corridorId];
+             const progress = visualProgress[convoy.convoyId] ?? 0;
+-            const point = { x: route.from.x + (route.to.x - route.from.x) * progress, y: route.from.y + (route.to.y - route.from.y) * progress };
++            const routePoint = { x: route.from.x + (route.to.x - route.from.x) * progress, y: route.from.y + (route.to.y - route.from.y) * progress };
++            const originSeparationWeight = clamp(1 - progress / 0.08, 0, 1);
++            const originOffset = ORIGIN_DECONFLICTION[convoy.convoyId] ?? { x: 0, y: 0 };
++            const displayPoint = {
++              x: routePoint.x + originOffset.x * originSeparationWeight,
++              y: routePoint.y + originOffset.y * originSeparationWeight,
++            };
+             const letter = SCENARIO5_CORRIDOR_CONTENT_FA[convoy.corridorId].convoyLabel.replace("کاروان ", "");
+             return <g
+               key={convoy.convoyId}
+               data-convoy-id={convoy.convoyId}
+               data-visual-progress={progress}
+-              style={{ transform: `translate(${point.x}px, ${point.y}px)` }}
++              style={{ transform: `translate(${displayPoint.x}px, ${displayPoint.y}px)` }}
+               className={`s5-convoy-marker s5-status-${convoy.status} ${highlightedCorridorId === convoy.corridorId ? "s5-highlighted" : ""} ${pulsingConvoys.has(convoy.convoyId) ? "s5-state-changed" : ""}`}
+             >
+               {(convoy.status === "compromised" || highlightedCorridorId === convoy.corridorId) && <circle className="s5-marker-ring" r="29" />}

@@ -1,252 +1,200 @@
-import type { ResourceState } from "../../../core/types/scenario";
-import type { Convoy, ScenarioFiveDecisionRecord, ScenarioFiveMetrics, ScenarioFiveMissionStatus, ScenarioFiveSummaryData } from "./ScenarioFiveTypes";
+import type { ReactNode } from "react";
+import type { Scenario5RuntimeResult, Scenario5RuntimeState } from "./scenario-five/model/runtime/index";
+import {
+  SCENARIO5_ACTION_COPY_FA,
+  SCENARIO5_ACTOR_LABELS_FA,
+  SCENARIO5_CONSTRUCT_LABELS_FA,
+  SCENARIO5_CORRIDOR_CONTENT_FA,
+  SCENARIO5_DIRECTION_LABELS_FA,
+  SCENARIO5_END_STATE_LABELS_FA,
+  SCENARIO5_METHOD_LIMITATIONS_FA,
+  SCENARIO5_PHASE_CONTENT_FA,
+  SCENARIO5_PROVENANCE_LABELS_FA,
+  SCENARIO5_REASON_LABELS_FA,
+  SCENARIO5_ROUND_CONTENT_FA,
+  SCENARIO5_SOURCE_LABELS_FA,
+  SCENARIO5_STRENGTH_LABELS_FA,
+  buildScenario5AarView,
+  getScenario5OperationalAttributionLabel,
+} from "./scenario-five/ui/index";
 
-const routeLabelById: Record<string, string> = {
-  route_main_east: "مسیر اصلی شرق",
-  route_north_alt: "جایگزین شمالی",
-  route_staged_east: "مسیر مرحله‌ای کنترل‌شده",
-  route_central_alt: "مسیر مرکزی",
-  route_south: "جنوب به مرکز",
-  route_north: "شمال غرب",
-  route_west_iraq: "تهران به مرز عراق",
-  route_ambush_spur: "مسیر فرعی کمین",
-  route_phantom: "مسیر فریب",
-  route_shadow: "مسیر خاکستری",
-};
+const yesNo = (value: boolean) => value ? "بله" : "خیر";
+const valueOrUnavailable = (value: number | null, suffix = "") => value === null ? "در این اجرا قابل اندازه‌گیری نبود" : `${value.toFixed(2)}${suffix}`;
+const listCorridors = (ids: readonly (keyof typeof SCENARIO5_CORRIDOR_CONTENT_FA)[]) =>
+  ids.length === 0 ? "—" : ids.map((id) => SCENARIO5_CORRIDOR_CONTENT_FA[id].corridorLabel).join("، ");
+const SIGNED_RISK_NOTE = "منفی‌تر یا مثبت‌تر فقط جایگاه نسبی انتخاب در برابر گزینه‌های همان موقعیت است و ارزش‌گذاری خوب/بد ندارد.";
 
-const statusLabelByStatus: Record<Convoy["status"], string> = {
-  moving: "در مسیر",
-  normal: "در مسیر",
-  monitored: "پایش ویژه",
-  suspicious: "مشکوک",
-  rerouted: "اصلاح مسیر شده",
-  paused: "متوقف",
-  supported: "پشتیبانی‌شده",
-  near_threat: "نزدیک تهدید",
-  delivered: "تحویل‌شده",
-  delivered_delayed: "تحویل‌شده با تأخیر",
-  compromised: "آسیب‌دیده",
-  lost_contact: "ناپدیدشده",
-};
-
-const primaryStatusLabel: Record<ScenarioFiveSummaryData["primaryObjectiveStatus"], string> = {
-  delivered_on_time: "تحویل‌شده به‌موقع",
-  delivered_delayed: "تحویل‌شده با تأخیر",
-  rerouted_not_delivered: "اصلاح مسیر شده، اما تحویل نشده",
-  compromised: "منحرف / آسیب‌دیده",
-  lost: "از دست‌رفته",
-};
-
-const SummaryBar = ({
+const AarStat = ({
   label,
   value,
-  color = "#38bdf8",
-  description,
+  technical = false,
+  note,
 }: {
   label: string;
-  value: number;
-  color?: string;
-  description?: string;
+  value: ReactNode;
+  technical?: boolean;
+  note?: string;
 }) => (
-  <div className="s5-summary-bar-block">
-    <div className="s5-summary-bar">
-      <span>{label}</span>
-      <div><i style={{ width: `${Math.max(3, Math.min(100, value))}%`, background: color }} /></div>
-      <strong>{Math.round(value)}</strong>
-    </div>
-    {description && <p>{description}</p>}
+  <div className="s5-aar-stat">
+    <span className="s5-aar-stat-label">{label}</span>
+    <strong className="s5-aar-stat-value">
+      {technical ? <code dir="ltr" className="s5-technical-id">{value}</code> : value}
+    </strong>
+    {note && <span className="s5-method-note s5-aar-stat-note">{note}</span>}
   </div>
 );
 
-const resourceAnalysis = (label: string, before: number, after: number) => {
-  const spent = Math.max(0, before - after);
-  if (after < 15) return `${label} تقریباً تخلیه شد و گزینه‌های پایانی محدود شدند.`;
-  if (spent > before * 0.65) return `${label} سنگین مصرف شد، اما هنوز حداقل ذخیره باقی ماند.`;
-  if (spent < before * 0.3) return `${label} محافظه‌کارانه مصرف شد و ظرفیت اصلاح در راندهای بعدی باقی ماند.`;
-  return `${label} مرحله‌ای مصرف شد و فشار مأموریت را قابل کنترل نگه داشت.`;
-};
-
-const convoyAnalysis = (convoy: Convoy, records: ScenarioFiveDecisionRecord[]) => {
-  const selected = records.flatMap((record) => record.selectedActionIds);
-  if (convoy.id === "convoy_medical") {
-    if (convoy.status === "delivered") return "مأموریت اصلی نجات یافت، اما کیفیت نتیجه به میزان تأخیر و منابع مصرف‌شده وابسته است.";
-    if (selected.includes("action_reroute_convoy") || selected.includes("action_fallback_nav")) return "برای نجات کاروان الف اقدام اصلاحی انجام شد، اما برای تحویل نهایی کافی نبود.";
-    return "اعتماد به مسیر آلوده یا تأخیر در اصلاح مسیر باعث شد هدف اصلی از دست برود.";
-  }
-  if (convoy.status === "paused") return "این کاروان برای آزادسازی فشار عملیاتی و حفظ منابع مأموریت اصلی متوقف شد.";
-  if (convoy.status === "delivered") return "این کاروان بدون آسیب جدی به هدف فرعی شبکه کمک کرد.";
-  if (convoy.hasFallbackNav) return "ناوبری پشتیبان ریسک اتکا به GNSS را برای این کاروان کاهش داد.";
-  return "این کاروان بخشی از ظرفیت شبکه را حفظ کرد، اما تصمیم کلیدی مستقلی روی آن ثبت نشد.";
-};
-
 export const ScenarioFiveSummary = ({
-  summary,
-  status,
-  resources,
-  convoys,
-  records,
-  metrics,
+  runtimeState,
+  result,
   onComplete,
 }: {
-  summary: ScenarioFiveSummaryData;
-  status: ScenarioFiveMissionStatus;
-  resources: ResourceState;
-  convoys: Convoy[];
-  records: ScenarioFiveDecisionRecord[];
-  metrics: ScenarioFiveMetrics;
+  runtimeState: Scenario5RuntimeState;
+  result: Scenario5RuntimeResult;
   onComplete: () => void;
 }) => {
-  const primaryConvoy = convoys.find((convoy) => convoy.id === summary.primaryConvoyId) ?? convoys[0];
-  const firstRecord = records[0];
-  const initialResources = {
-    satelliteISR: firstRecord?.satelliteISRBefore ?? 60,
-    energy: firstRecord?.energyBefore ?? 80,
-    time: firstRecord?.timeBefore ?? 100,
-  };
-  const resourceRows = [
-    { key: "satelliteISR" as const, label: "ISR", before: initialResources.satelliteISR, after: resources.satelliteISR, color: "#38bdf8" },
-    { key: "energy" as const, label: "انرژی", before: initialResources.energy, after: resources.energy, color: "#22c55e" },
-    { key: "time" as const, label: "زمان", before: initialResources.time, after: resources.time, color: "#f59e0b" },
-  ];
-  const decisionStyleLabelFa: Record<string, string> = {
-    "Mission-Oriented Rescuer": "نجات‌دهنده مأموریت‌محور",
-    "Adaptive Logistics Commander": "فرمانده لجستیک تطبیقی",
-    "System-Dependent Commander": "فرمانده وابسته به سامانه",
-  };
-
+  const aar = buildScenario5AarView(runtimeState, result);
+  const { domain, cognitive } = result;
+  const alpha = domain.criticalDelivery;
+  const phaseNames = ["A", "B", "C", "D"] as const;
+  const reasonByPhase = new Map(runtimeState.reasons.map((reason) => [reason.phaseId, reason.reasonId]));
   return (
-    <div className="s5-summary">
-      <section className={`s5-summary-outcome ${summary.missionOutcome}`}>
-        <div>
-          <span>نتیجه مأموریت</span>
-          <h2>{summary.missionOutcomeLabel}</h2>
-          <p>{summary.primaryObjectiveText}</p>
-          <p>سبک تصمیم‌گیری: {decisionStyleLabelFa[summary.decisionStyleLabel] ?? summary.decisionStyleLabel}. {summary.decisionStyleText}</p>
+    <main className="s5-root s5-aar" dir="rtl">
+      <header className="s5-aar-header">
+        <span>گزارش پس از اقدام</span>
+        <h1>امواج خاموش — تحلیل اجرای مأموریت</h1>
+        <p>این گزارش، یک تحلیل پس از اقدام برای همین اجرای سناریو است. شاخص‌های شناختی زیر پروکسی‌های رفتاری وابسته به موقعیت‌اند و نمره هوش، شخصیت، توانایی ثابت یا کیفیت کلی فرد نیستند. وزن‌ها و کدگذاری‌های شناختی نسخه فعلی هنوز در انتظار اعتبارسنجی خبرگان و کاربران انسانی‌اند.</p>
+      </header>
+
+      <section className="s5-panel s5-aar-section" data-aar-section="mission">
+        <h2>۱. نتیجه مأموریت</h2>
+        <h3>{SCENARIO5_END_STATE_LABELS_FA[result.missionEndState.endStateId]}</h3>
+        <div className="s5-metric-grid">
+          <AarStat label="تحویل کاروان الف" value={yesNo(alpha.deliveredByMissionHorizon)} />
+          <AarStat label="یکپارچگی کاروان الف" value={alpha.integrity} />
+          <AarStat label="تأخیر کاروان الف" value={`${alpha.delayMinutes} دقیقه`} />
+          <AarStat label="ورود / مهلت" value={`T+${alpha.projectedArrivalMinute} / T+${alpha.deadlineMinute}`} />
+          <AarStat label="تداوم شبکه" value={`${domain.logisticsResilience.networkContinuityPercent}%`} />
+          <AarStat label="کاروان‌های تحویل‌شده" value={domain.logisticsResilience.deliveredConvoyCount} />
+          <AarStat label="تحویل عملیاتی به‌موقع" value={domain.logisticsResilience.onTimeOperationalConvoyCount} />
+          <AarStat label="وضعیت انتساب عملیاتی" value={getScenario5OperationalAttributionLabel(domain.logisticsResilience.operationalAttributionStatus)} />
+          <AarStat label="مهار تهدید" value={yesNo(domain.logisticsResilience.threatContained)} />
         </div>
-        <div className="s5-summary-scoreboard">
-          <strong>{summary.missionCompletionPercent}%</strong>
-          <span>تحقق مأموریت</span>
-          <em>تاب‌آوری لجستیکی: {summary.logisticsResilienceIndex}</em>
+        <p className="s5-method-note">تداوم عملیاتی شبکه، سهم کاروان‌هایی است که با یکپارچگی حداقل ۶۰ و تا مهلت عملیاتی خود به مقصد رسیده‌اند.</p>
+      </section>
+
+      <section className="s5-panel s5-aar-section" data-aar-section="truth">
+        <h2>۲. حقیقت پنهان این اجرا</h2>
+        <div className="s5-metric-grid">
+          <AarStat label="کریدور اصلی واقعی" value={SCENARIO5_CORRIDOR_CONTENT_FA[aar.truth.primaryAffectedCorridorId].targetLabel} />
+          <AarStat label="الگوی عامل مقابل" value={SCENARIO5_ACTOR_LABELS_FA[aar.truth.actorProfile as keyof typeof SCENARIO5_ACTOR_LABELS_FA]} />
+          <AarStat label="وضعیت فنی نهایی عامل مقابل" value={aar.truth.finalActorPosture} technical />
+          <AarStat label="شناسه فنی واکنش نهایی" value={aar.truth.lastReactionId ?? "—"} technical />
+        </div>
+        <p>این جهان یکی از شرایط کنترل‌شده شبیه‌سازی است و فراوانی آن به معنی احتمال واقعی در جهان خارج نیست.</p>
+        <details>
+          <summary>اطلاعات بازپخش فنی</summary>
+          <div className="s5-metric-grid s5-replay-grid">
+            <AarStat label="شناسه جهان" value={aar.truth.worldId} technical />
+            <AarStat label="بذر بازپخش" value={aar.truth.seed} technical />
+          </div>
+        </details>
+      </section>
+
+      <section className="s5-panel s5-aar-section" data-aar-section="belief">
+        <h2>۳. مسیر برداشت شما</h2>
+        <div className="s5-table-wrap"><table><thead><tr><th>نقطه ثبت</th><th>کریدور منتخب</th><th>اطمینان کریدور</th><th>کریدور درست؟</th><th>برآورد اخلال هدفمند</th><th>اطمینان برآورد</th></tr></thead>
+          <tbody>{domain.gnssPntAssessment.checkpoints.map((checkpoint, index) => <tr key={checkpoint.checkpointId}><td>CP{index + 1}</td><td>{SCENARIO5_CORRIDOR_CONTENT_FA[checkpoint.selectedCorridorId].corridorLabel}</td><td>{checkpoint.corridorConfidence}</td><td>{yesNo(checkpoint.corridorCorrect)}</td><td>{checkpoint.targetedInterferenceEstimate}</td><td>{checkpoint.targetedInterferenceConfidence}</td></tr>)}</tbody>
+        </table></div>
+        <div className="s5-metric-grid">
+          <AarStat label="اولین تشخیص درست" value={domain.gnssPntAssessment.firstCorrectCorridorCheckpoint ?? "—"} />
+          <AarStat label="تشخیص نهایی درست" value={domain.gnssPntAssessment.finalCorridorCorrect === null ? "—" : yesNo(domain.gnssPntAssessment.finalCorridorCorrect)} />
+          <AarStat label="اولین تشخیص اخلال هدفمند" value={domain.gnssPntAssessment.firstTargetedRecognitionCheckpoint ?? "—"} />
+          <AarStat label="همگرایی شواهد روی کریدور واقعی" value={yesNo(domain.gnssPntAssessment.truePrimaryCorridorCorroborated)} />
         </div>
       </section>
 
-      <div className="s5-summary-grid mission-first">
-        <section className="s5-summary-card s5-primary-objective-card">
-          <h3>هدف اصلی مأموریت</h3>
-          <div className="s5-primary-objective-result">
-            <span>نجات کاروان الف</span>
-            <strong>{primaryStatusLabel[summary.primaryObjectiveStatus]}</strong>
-          </div>
-          <dl>
-            <div><dt>محموله</dt><dd>{primaryConvoy.cargo}</dd></div>
-            <div><dt>مقصد</dt><dd>{primaryConvoy.destination}</dd></div>
-            <div><dt>مسیر نهایی</dt><dd>{routeLabelById[primaryConvoy.routeId] ?? primaryConvoy.routeId}</dd></div>
-            <div><dt>پیشرفت مسیر</dt><dd>{primaryConvoy.progress}%</dd></div>
-            <div><dt>تأخیر</dt><dd>{summary.primaryConvoyDelay}</dd></div>
-          </dl>
-        </section>
+      <section className="s5-panel s5-aar-section" data-aar-section="evidence">
+        <h2>۴. مسیر شواهد</h2>
+        <div className="s5-aar-list">{aar.evidenceAudit.map(({ evidence, hiddenProvenance, opened }) => (
+          <article key={evidence.evidenceId}>
+            <header><strong>{SCENARIO5_SOURCE_LABELS_FA[evidence.sourceType]}</strong><span>{opened ? "جزئیات مشاهده شد" : "جزئیات باز نشد"}</span></header>
+            <p>{evidence.observedCorridorId ? SCENARIO5_CORRIDOR_CONTENT_FA[evidence.observedCorridorId].targetLabel : "چندمحوره / محل نامشخص"}</p>
+            <p>{SCENARIO5_DIRECTION_LABELS_FA[evidence.direction]} · {SCENARIO5_STRENGTH_LABELS_FA[evidence.strengthBand]}</p>
+            <p>کیفیت گزارش: {evidence.qualityLabelVisible}</p><p>محدودیت: {evidence.limitationVisible}</p>
+            <p className="s5-audit-line">نسبت واقعی در این جهان: {SCENARIO5_PROVENANCE_LABELS_FA[hiddenProvenance] ?? hiddenProvenance}</p>
+          </article>
+        ))}</div>
+      </section>
 
-        <section className="s5-summary-card">
-          <h3>چرا این نتیجه اتفاق افتاد؟</h3>
-          <div className="s5-summary-checklist">
-            {(summary.whyThisOutcome ?? []).map((note) => (
-              <div key={note} className="done">
-                <b>•</b>
-                <span>{note}</span>
-              </div>
-            ))}
-          </div>
-          {summary.alphaFinalStatus && (
-            <p>وضعیت نهایی الف: <strong>{statusLabelByStatus[summary.alphaFinalStatus]}</strong> | سلامت {summary.alphaHealth} | پیشرفت {summary.alphaProgress}%</p>
-          )}
-        </section>
-      </div>
+      <section className="s5-panel s5-aar-section" data-aar-section="decisions">
+        <h2>۵. خط زمانی تصمیم‌ها</h2>
+        <div className="s5-aar-list">{runtimeState.decisions.map((decision, index) => {
+          const record = runtimeState.domainDecisionRecords[index]!;
+          const reason = decision.roundId === 4 || decision.roundId === 6 || decision.roundId === 8
+            ? reasonByPhase.get(decision.phaseId as "B" | "C" | "D")
+            : undefined;
+          return <article key={decision.windowId}><header><strong>فاز {decision.phaseId} — راند {decision.roundId}: {SCENARIO5_ROUND_CONTENT_FA[decision.roundId].title}</strong><span>{decision.activeDecisionMs} ms</span></header>
+            <p>{SCENARIO5_ACTION_COPY_FA[decision.finalSelectedActionId!].title}</p>
+            <p>هدف: {record.effectiveTargetCorridorId ? SCENARIO5_CORRIDOR_CONTENT_FA[record.effectiveTargetCorridorId].targetLabel : "بدون هدف انتخابی"}</p>
+            <p>بازنگری: {decision.revisionCount} · منابع ISR {record.resourcesBefore.isrCapacity} → {record.resourcesAfter.isrCapacity} · پشتیبانی {record.resourcesBefore.supportReserve} → {record.resourcesAfter.supportReserve}</p>
+            <p>زمان عملیاتی: T+{record.worldClockBefore} → T+{record.worldClockAfter}</p>
+            {reason && <p>دلیل: {SCENARIO5_REASON_LABELS_FA[reason]}</p>}
+          </article>;
+        })}</div>
+      </section>
 
-      <div className="s5-summary-grid wide-left">
-        <section className="s5-summary-card">
-          <h3>وضعیت کاروان‌ها</h3>
-          <div className="s5-convoy-outcome-list">
-            {convoys.map((convoy) => (
-              <article key={convoy.id} className={convoy.id === summary.primaryConvoyId ? "primary" : ""}>
-                <header>
-                  <strong>{convoy.name}</strong>
-                  <span>اهمیت {convoy.priority}/5</span>
-                </header>
-                <p>{convoy.cargo}</p>
-                <dl>
-                  <div><dt>وضعیت</dt><dd>{statusLabelByStatus[convoy.status]}</dd></div>
-                  <div><dt>مسیر</dt><dd>{routeLabelById[convoy.routeId] ?? convoy.routeId}</dd></div>
-                  <div><dt>تأخیر</dt><dd>{convoy.delay}</dd></div>
-                  <div><dt>پیشرفت</dt><dd>{convoy.progress}%</dd></div>
-                </dl>
-                <em>{convoyAnalysis(convoy, records)}</em>
-              </article>
-            ))}
-          </div>
-        </section>
+      <section className="s5-panel s5-aar-section" data-aar-section="domain">
+        <h2>۶. شاخص‌های مأموریتی</h2>
+        <h3>GNSS / PNT</h3>
+        <p>نرخ تشخیص درست کریدور: {valueOrUnavailable(domain.gnssPntAssessment.correctCorridorCheckpointRatePercent, "%")} · اولین/نهایی: {domain.gnssPntAssessment.firstCorrectCorridorCheckpoint ?? "—"} / {domain.gnssPntAssessment.finalCorridorCorrect === null ? "—" : yesNo(domain.gnssPntAssessment.finalCorridorCorrect)}</p>
+        <p>برآورد نهایی اخلال/اطمینان: {domain.gnssPntAssessment.finalTargetedInterferenceEstimate ?? "—"} / {domain.gnssPntAssessment.finalTargetedInterferenceConfidence ?? "—"} · کریدورهای corroborated: {listCorridors(domain.gnssPntAssessment.corroboratedCorridorIds)}</p>
+        <h3>یکپارچگی ناوبری</h3>
+        <p>میانگین/بیشینه مواجهه نهایی PNT: {domain.navigationIntegrity.meanFinalPntExposure.toFixed(2)} / {domain.navigationIntegrity.maxFinalPntExposure} · آسیب‌دیده: {domain.navigationIntegrity.compromisedConvoyCount}</p>
+        <p>fallback: {listCorridors(domain.navigationIntegrity.fallbackCorridorIds)} · سخت‌سازی: {listCorridors(domain.navigationIntegrity.routeHardenedCorridorIds)} · پشتیبانی زمینی: {listCorridors(domain.navigationIntegrity.groundSupportCorridorIds)}</p>
+        <h3>تحویل محموله حیاتی</h3>
+        <p>تحویل: {yesNo(alpha.deliveredByMissionHorizon)} · عملیاتی به‌موقع: {yesNo(alpha.onTimeOperational)} · یکپارچگی: {alpha.integrity} · تأخیر: {alpha.delayMinutes} · ورود/مهلت: {alpha.projectedArrivalMinute}/{alpha.deadlineMinute}</p>
+        <p>سهم منابع هدف‌گرفته روی الف: {valueOrUnavailable(alpha.alphaTargetedResourceSharePercent, "%")} · تعداد تصمیم: {alpha.alphaTargetedDecisionCount}</p>
+        <h3>تاب‌آوری لجستیک</h3>
+        <p>تداوم: {domain.logisticsResilience.networkContinuityPercent}% · تحویل‌شده/به‌موقع/ثانویه: {domain.logisticsResilience.deliveredConvoyCount}/{domain.logisticsResilience.onTimeOperationalConvoyCount}/{domain.logisticsResilience.secondaryDeliveredConvoyCount}</p>
+        <p>پوشش fallback/سخت‌سازی/زمینی: {domain.logisticsResilience.fallbackCoverageCount}/{domain.logisticsResilience.routeHardeningCoverageCount}/{domain.logisticsResilience.groundSupportCoverageCount} · انتساب: {getScenario5OperationalAttributionLabel(domain.logisticsResilience.operationalAttributionStatus)} · مهار: {yesNo(domain.logisticsResilience.threatContained)}</p>
+        <h3>کنترل تأخیر</h3>
+        <div className="s5-table-wrap"><table><thead><tr><th>کریدور</th><th>تأخیر نهایی</th><th>افزوده Actor</th><th>افزوده بازیکن</th><th>بازیابی بازیکن</th></tr></thead><tbody>{Object.entries(domain.delayControl.byCorridor).map(([id, row]) => <tr key={id}><td>{SCENARIO5_CORRIDOR_CONTENT_FA[id as keyof typeof SCENARIO5_CORRIDOR_CONTENT_FA].corridorLabel}</td><td>{row.finalDelayMinutes}</td><td>{row.actorDelayAddedMinutes}</td><td>{row.playerDelayAddedMinutes}</td><td>{row.playerDelayRecoveredMinutes}</td></tr>)}</tbody></table></div>
+        <h3>اثر محلی بر محیط غیرنظامی</h3>
+        <p className="s5-method-note">پروکسی توصیفی، نه سنجه معتبر آسیب غیرنظامی</p>
+        <p>تغییر مسیر/نقاط کنترل/پاسخ زمینی/توقف: {domain.civilianImpactProxy.routeDiversionCount}/{domain.civilianImpactProxy.checkpointOperationCount}/{domain.civilianImpactProxy.groundResponseCount}/{domain.civilianImpactProxy.holdOperationCount} · رخداد محلی: {domain.civilianImpactProxy.localizedDisruptionEventCount} · تأخیر پزشکی: {domain.civilianImpactProxy.medicalDeliveryDelayMinutes}</p>
+        <h3>تعادل شبکه</h3>
+        <p>کمینه/میانگین یکپارچگی ثانویه: {domain.networkLogisticsBalance.secondaryMinimumIntegrity}/{domain.networkLogisticsBalance.secondaryMeanIntegrity.toFixed(2)} · SD تأخیر: {domain.networkLogisticsBalance.delayPopulationSd.toFixed(2)} · HHI توجه هدفمند: {valueOrUnavailable(domain.networkLogisticsBalance.targetedAttentionHhi)}</p>
+        <p>{Object.entries(domain.networkLogisticsBalance.targetedDecisionCountByCorridor).map(([id, count]) => `${SCENARIO5_CORRIDOR_CONTENT_FA[id as keyof typeof SCENARIO5_CORRIDOR_CONTENT_FA].corridorLabel}: ${count}`).join(" · ")}</p>
+      </section>
 
-        <section className="s5-summary-card">
-          <h3>بازپخش تصمیم‌ها</h3>
-          <div className="s5-decision-timeline">
-            {summary.roundTimeline.map((round) => (
-              <details key={round.roundId}>
-                <summary>
-                  <strong>{round.roundTitle}</strong>
-                  <span>ISR {round.resourceChanges.satelliteISRDelta} | ENG {round.resourceChanges.energyDelta} | TIME {round.resourceChanges.timeDelta}</span>
-                </summary>
-                <p>تصمیم‌ها: {round.selectedActions.join("، ") || "بدون اقدام ثبت‌شده"}</p>
-                <p>اثر نقشه: {round.mapEffects.slice(0, 2).join(" ") || "اثر نقشه‌ای مستقیم ثبت نشد."}</p>
-              </details>
-            ))}
-          </div>
-        </section>
-      </div>
+      <section className="s5-panel s5-aar-section" data-aar-section="cognitive">
+        <h2>۷. الگوهای تصمیم‌گیری ثبت‌شده</h2>
+        <h3>کامل‌بودن داده</h3>
+        <p>کل: {cognitive.dataCompleteness.overall}% · تصمیم‌ها: {cognitive.dataCompleteness.decisions}% · زمان: {cognitive.dataCompleteness.timing}% · شواهد: {cognitive.dataCompleteness.evidence}% · برآوردها: {cognitive.dataCompleteness.estimates}% · دلیل‌ها: {cognitive.dataCompleteness.reasons}%</p>
+        {cognitive.dataCompleteness.overall < 100 && <p className="s5-method-note">بخشی از داده رفتاری این اجرا ناقص است؛ مقادیر زیر باید با توجه به کامل‌بودن داده تفسیر شوند.</p>}
+        <h3>Orientation</h3>
+        <p>OSI کل: {valueOrUnavailable(cognitive.orientation.overall)} · عملیاتی: {valueOrUnavailable(cognitive.orientation.operationalStrength)} · راهبردی: {valueOrUnavailable(cognitive.orientation.strategicStrength)} · یکپارچگی: {valueOrUnavailable(cognitive.orientation.integration)} · پراکندگی: {valueOrUnavailable(cognitive.orientation.dispersion)}</p>
+        <p>{phaseNames.map((phase, index) => `فاز ${phase} (${SCENARIO5_PHASE_CONTENT_FA[phase]}): ${valueOrUnavailable(cognitive.orientation.phaseScores[index])}`).join(" · ")}</p>
+        <p className="s5-method-note">منفی‌تر = عملیاتی‌تر نسبت به گزینه‌های همان موقعیت؛ مثبت‌تر = راهبردی‌تر. این محور کیفیت تصمیم نیست.</p>
+        <h3>Constructها</h3>
+        <div className="s5-metric-grid">{Object.entries(cognitive.constructs).map(([key, value]) => (
+          <AarStat
+            key={key}
+            label={SCENARIO5_CONSTRUCT_LABELS_FA[key as keyof typeof SCENARIO5_CONSTRUCT_LABELS_FA]}
+            value={key === "informationDiscipline" ? "در نسخه فعلی این سناریو اندازه‌گیری نمی‌شود." : valueOrUnavailable(value)}
+            note={key === "riskPosture" ? SIGNED_RISK_NOTE : undefined}
+          />
+        ))}</div>
+        <p>میانه زمان فعال: {valueOrUnavailable(cognitive.telemetrySummary.medianActiveDecisionMs, " ms")} · IQR: {valueOrUnavailable(cognitive.telemetrySummary.iqrActiveDecisionMs, " ms")} · بازنگری کل: {cognitive.telemetrySummary.totalRevisions} · پنجره‌های بازنگری‌شده: {cognitive.telemetrySummary.revisedWindows} · نرخ بازنگری پس از شواهد: {valueOrUnavailable(cognitive.telemetrySummary.evidenceTriggeredRevisionRate, "%")}</p>
+      </section>
 
-      <div className="s5-summary-grid">
-        <section className="s5-summary-card">
-          <h3>تحلیل مصرف منابع</h3>
-          <div className="s5-resource-analysis">
-            {resourceRows.map((row) => (
-              <div key={row.key}>
-                <header>
-                  <strong>{row.label}</strong>
-                  <span>{row.before} → {row.after}</span>
-                </header>
-                <i><em style={{ width: `${Math.max(0, Math.min(100, row.after))}%`, background: row.color }} /></i>
-                <p>مصرف‌شده: {row.before - row.after}. {resourceAnalysis(row.label, row.before, row.after)}</p>
-              </div>
-            ))}
-          </div>
-          <p>{metrics.resourceEfficiencyScore < 35 ? "کارایی مصرف منابع پایین بود، چون بخش زیادی از ظرفیت برای نجات یا کنترل بحران مصرف شد." : "مصرف منابع به اندازه‌ای بود که امکان اصلاح تصمیم در چند راند حفظ شد."}</p>
-        </section>
+      <section className="s5-panel s5-aar-section" data-aar-section="limitations">
+        <h2>۸. محدودیت تفسیر</h2>
+        <ul>{SCENARIO5_METHOD_LIMITATIONS_FA.map((item) => <li key={item}>{item}</li>)}</ul>
+      </section>
 
-        <section className="s5-summary-card">
-          <h3>شاخص‌های عملیاتی</h3>
-          <SummaryBar label="تحقق مأموریت" value={summary.missionCompletionPercent} color="#facc15" />
-          <SummaryBar label="سلامت/تحویل کاروان الف" value={summary.criticalDeliveryScore} />
-          <SummaryBar label="ثبات کاروان‌های فرعی" value={status.logisticsContinuity} color="#22c55e" />
-          <SummaryBar label="کنترل تهدید مشهد" value={summary.gnssAnomalyDetectionScore} color="#a78bfa" />
-          <SummaryBar label="مدیریت منابع" value={metrics.resourceEfficiencyScore} color="#f59e0b" />
-        </section>
-      </div>
-
-      <div className="s5-summary-grid">
-        <section className="s5-summary-card">
-          <h3>شاخص‌های شناختی</h3>
-          <SummaryBar label="تشخیص تهدید" value={summary.gnssAnomalyDetectionScore} />
-          <SummaryBar label="انعطاف تصمیم‌گیری" value={metrics.cognitiveFlexibilityScore} color="#22c55e" />
-          <SummaryBar label="مدیریت منابع" value={metrics.resourceEfficiencyScore} color="#f59e0b" />
-        </section>
-
-        <section className="s5-summary-card s5-lessons-card">
-          <h3>درس‌های شخصی‌سازی‌شده</h3>
-          <p><strong>نقطه عطف:</strong> {summary.keyTurningPoint}</p>
-          <p><strong>اشتباه بحرانی:</strong> {summary.criticalMistake}</p>
-          {summary.personalizedLessons.slice(0, 3).map((note) => <p key={note}>{note}</p>)}
-        </section>
-      </div>
-
-      <button className="primary" onClick={onComplete}>پایان سناریو</button>
-    </div>
+      <button type="button" className="s5-primary-button s5-finish-button" onClick={onComplete}>ثبت پایان و بازگشت</button>
+    </main>
   );
 };

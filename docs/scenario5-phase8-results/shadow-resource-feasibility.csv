@@ -1,0 +1,6 @@
+budget,analysisLabel,isrPathFeasibilityRate,supportPathFeasibilityRate,bothResourcePathFeasibilityRate
+80,"path-feasibility shadow analysis, not a full counterfactual replay",0.958333,0.924316,0.88265
+90,"path-feasibility shadow analysis, not a full counterfactual replay",1,0.955648,0.955648
+100,"path-feasibility shadow analysis, not a full counterfactual replay",1,1,1
+110,"path-feasibility shadow analysis, not a full counterfactual replay",1,1,1
+120,"path-feasibility shadow analysis, not a full counterfactual replay",1,1,1

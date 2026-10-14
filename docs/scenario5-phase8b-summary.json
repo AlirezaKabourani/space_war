@@ -1,0 +1,1153 @@
+{
+  "missionModelVersion": "s5-mission-v1.1.0",
+  "cognitiveModelVersion": "s5-cognitive-v3-adapter-v1.0.0",
+  "runtimeModelVersion": "s5-runtime-v1.0.1",
+  "domainMetricsVersion": "s5-domain-metrics-v1.0.0",
+  "calibrationVersion": "s5-calibration-v1.2.0",
+  "calibrationStatus": "engineering_audit_not_human_validated",
+  "runCounts": {
+    "missionMainRuns": 25600,
+    "deterministicMissionRuns": 9216,
+    "randomMissionRuns": 16384,
+    "cognitiveRuns": 7936,
+    "deterministicCognitiveRuns": 3840,
+    "randomCognitiveRuns": 4096,
+    "deterministicReplayCases": 384,
+    "counterfactualBranches": 40540
+  },
+  "taxonomyMigration": {
+    "exactNewIds": [
+      "critical_cargo_lost_or_compromised",
+      "priority_delivered_network_degradation",
+      "mission_incomplete_continuity_preserved",
+      "delivery_complete_threat_persistent",
+      "delivery_complete_attribution_unresolved",
+      "delivery_complete_threat_contained"
+    ],
+    "retiredIds": [
+      "priority_delivered_network_failure",
+      "delayed_delivery_persistent_disruption",
+      "resilient_delivery_unresolved_attribution",
+      "resilient_delivery_threat_contained"
+    ],
+    "retiredIdsInActiveMissionSource": []
+  },
+  "trajectoryParity": {
+    "comparedRows": 25600,
+    "fieldsPerRow": 22,
+    "comparedFieldValues": 563200,
+    "mismatchCount": 0
+  },
+  "expectedReclassificationCounts": {
+    "critical_cargo_lost_or_compromised": 24,
+    "priority_delivered_network_degradation": 3520,
+    "mission_incomplete_continuity_preserved": 0,
+    "delivery_complete_threat_persistent": 13069,
+    "delivery_complete_attribution_unresolved": 8956,
+    "delivery_complete_threat_contained": 31
+  },
+  "endStateDistribution": {
+    "rows": [
+      {
+        "endStateId": "critical_cargo_lost_or_compromised",
+        "count": 24,
+        "rate": 0.000937
+      },
+      {
+        "endStateId": "priority_delivered_network_degradation",
+        "count": 3520,
+        "rate": 0.1375
+      },
+      {
+        "endStateId": "mission_incomplete_continuity_preserved",
+        "count": 0,
+        "rate": 0
+      },
+      {
+        "endStateId": "delivery_complete_threat_persistent",
+        "count": 13069,
+        "rate": 0.510508
+      },
+      {
+        "endStateId": "delivery_complete_attribution_unresolved",
+        "count": 8956,
+        "rate": 0.349844
+      },
+      {
+        "endStateId": "delivery_complete_threat_contained",
+        "count": 31,
+        "rate": 0.001211
+      }
+    ],
+    "leastFrequentMainAuditState": "mission_incomplete_continuity_preserved",
+    "leastFrequentMainAuditStateRate": 0,
+    "mostFrequentMainAuditState": "delivery_complete_threat_persistent",
+    "mostFrequentMainAuditStateRate": 0.510508
+  },
+  "endStateWitnesses": [
+    {
+      "source": "main_audit",
+      "endStateId": "critical_cargo_lost_or_compromised",
+      "rowIndex": 3664,
+      "policyId": "M10_uniform_random",
+      "worldId": "W-corridor_alpha_east-opportunistic_interdiction",
+      "environmentSeed": 19,
+      "alphaDelivered": false,
+      "alphaIntegrity": 54,
+      "networkContinuityPercent": 75,
+      "actions": "",
+      "targets": ""
+    },
+    {
+      "source": "main_audit",
+      "endStateId": "priority_delivered_network_degradation",
+      "rowIndex": 1703,
+      "policyId": "information_heavy",
+      "worldId": "W-corridor_alpha_east-deceptive_diversion",
+      "environmentSeed": 5,
+      "alphaDelivered": true,
+      "alphaIntegrity": 87,
+      "networkContinuityPercent": 75,
+      "actions": "",
+      "targets": ""
+    },
+    {
+      "source": "approved_fixed_witness",
+      "endStateId": "mission_incomplete_continuity_preserved",
+      "rowIndex": "",
+      "policyId": "witness_random",
+      "worldId": "W-corridor_alpha_east-opportunistic_interdiction",
+      "environmentSeed": 1,
+      "alphaDelivered": false,
+      "alphaIntegrity": 62,
+      "networkContinuityPercent": 75,
+      "actions": "a1_priority_focus|a2_broad_sweep|b1_split_attention|b2_hold_verify|c1_ground_recon|c2_isr_heavy|d1_hold_confirm|d2_continuity_first_finish",
+      "targets": "corridor_alpha_east|||corridor_alpha_east|corridor_alpha_east||corridor_alpha_east|"
+    },
+    {
+      "source": "main_audit",
+      "endStateId": "delivery_complete_threat_persistent",
+      "rowIndex": 1,
+      "policyId": "balanced_network",
+      "worldId": "W-corridor_alpha_east-cautious_denial",
+      "environmentSeed": 1,
+      "alphaDelivered": true,
+      "alphaIntegrity": 100,
+      "networkContinuityPercent": 100,
+      "actions": "",
+      "targets": ""
+    },
+    {
+      "source": "main_audit",
+      "endStateId": "delivery_complete_attribution_unresolved",
+      "rowIndex": 4,
+      "policyId": "mobility_resilience",
+      "worldId": "W-corridor_alpha_east-cautious_denial",
+      "environmentSeed": 1,
+      "alphaDelivered": true,
+      "alphaIntegrity": 100,
+      "networkContinuityPercent": 100,
+      "actions": "",
+      "targets": ""
+    },
+    {
+      "source": "main_audit",
+      "endStateId": "delivery_complete_threat_contained",
+      "rowIndex": 4820,
+      "policyId": "M10_uniform_random",
+      "worldId": "W-corridor_alpha_east-pressure_escalator",
+      "environmentSeed": 1,
+      "alphaDelivered": true,
+      "alphaIntegrity": 62,
+      "networkContinuityPercent": 100,
+      "actions": "",
+      "targets": ""
+    },
+    {
+      "source": "natural_degradation_gate",
+      "endStateId": "priority_delivered_network_degradation",
+      "rowIndex": 1703,
+      "policyId": "information_heavy",
+      "worldId": "W-corridor_alpha_east-deceptive_diversion",
+      "environmentSeed": 5,
+      "alphaDelivered": true,
+      "alphaIntegrity": 87,
+      "networkContinuityPercent": 75,
+      "actions": "",
+      "targets": ""
+    }
+  ],
+  "sixEndStateCoverage": [
+    {
+      "endStateId": "critical_cargo_lost_or_compromised",
+      "mainAuditCount": 24,
+      "witness": "main_audit"
+    },
+    {
+      "endStateId": "priority_delivered_network_degradation",
+      "mainAuditCount": 3520,
+      "witness": "main_audit"
+    },
+    {
+      "endStateId": "mission_incomplete_continuity_preserved",
+      "mainAuditCount": 0,
+      "witness": "approved_fixed_witness"
+    },
+    {
+      "endStateId": "delivery_complete_threat_persistent",
+      "mainAuditCount": 13069,
+      "witness": "main_audit"
+    },
+    {
+      "endStateId": "delivery_complete_attribution_unresolved",
+      "mainAuditCount": 8956,
+      "witness": "main_audit"
+    },
+    {
+      "endStateId": "delivery_complete_threat_contained",
+      "mainAuditCount": 31,
+      "witness": "main_audit"
+    }
+  ],
+  "primaryDeliverySaturation": {
+    "population": "M1..M7 + M10; non-oracle/non-stress",
+    "alphaDeliveredRateAt360": 0.998981,
+    "warning": true
+  },
+  "shadowHorizon": [
+    {
+      "horizon": 270,
+      "alphaDeliveryRate": 0.868758,
+      "allConvoyDeliveryRate": 0.207796,
+      "meanDeliveredConvoyCount": 3.154339
+    },
+    {
+      "horizon": 285,
+      "alphaDeliveryRate": 0.924592,
+      "allConvoyDeliveryRate": 0.435377,
+      "meanDeliveredConvoyCount": 3.429942
+    },
+    {
+      "horizon": 300,
+      "alphaDeliveryRate": 0.965778,
+      "allConvoyDeliveryRate": 0.664572,
+      "meanDeliveredConvoyCount": 3.664445
+    },
+    {
+      "horizon": 315,
+      "alphaDeliveryRate": 0.98739,
+      "allConvoyDeliveryRate": 0.82061,
+      "meanDeliveredConvoyCount": 3.82061
+    },
+    {
+      "horizon": 330,
+      "alphaDeliveryRate": 0.992782,
+      "allConvoyDeliveryRate": 0.908118,
+      "meanDeliveredConvoyCount": 3.908118
+    },
+    {
+      "horizon": 345,
+      "alphaDeliveryRate": 0.996179,
+      "allConvoyDeliveryRate": 0.943402,
+      "meanDeliveredConvoyCount": 3.943402
+    },
+    {
+      "horizon": 360,
+      "alphaDeliveryRate": 0.998981,
+      "allConvoyDeliveryRate": 0.965778,
+      "meanDeliveredConvoyCount": 3.965778
+    },
+    {
+      "horizon": 375,
+      "alphaDeliveryRate": 0.998981,
+      "allConvoyDeliveryRate": 0.975586,
+      "meanDeliveredConvoyCount": 3.975586
+    },
+    {
+      "horizon": 390,
+      "alphaDeliveryRate": 0.998981,
+      "allConvoyDeliveryRate": 0.978388,
+      "meanDeliveredConvoyCount": 3.978388
+    }
+  ],
+  "effectivePolicySeedUniqueness": {
+    "m10": {
+      "expected": 16384,
+      "actual": 16384
+    },
+    "c16": {
+      "expected": 4096,
+      "actual": 4096
+    }
+  },
+  "correctedPhase8aHardGates": {
+    "ACTION_TARGET_COVERAGE_V2": "PASS",
+    "OSI_STRUCTURAL_CENTERING": "PASS",
+    "RANDOM_OSI_MONTE_CARLO_CENTERING": "PASS",
+    "DOMINANCE_STATE_COVERAGE": "PASS",
+    "NO_UNIVERSAL_ACTION_DOMINANCE_V2": "PASS",
+    "ACTOR_PAIR_DISTINCTIVENESS": "PASS",
+    "COGNITIVE_ANCHOR_GATES": "PASS",
+    "COGNITIVE_FIREWALL": "PASS"
+  },
+  "cognitiveWarnings": [
+    {
+      "metric": "multiDomainIntegration",
+      "warnings": [
+        "engineering_low_variance"
+      ]
+    },
+    {
+      "metric": "integration",
+      "warnings": [
+        "engineering_low_variance"
+      ]
+    }
+  ],
+  "diagnostics": {
+    "actorPairs": [
+      {
+        "actorA": "cautious_denial",
+        "actorB": "deceptive_diversion",
+        "meanDelayDifference": 21.720983,
+        "threatContainedRateDifference": 0,
+        "endStateTvDistance": 0.214286,
+        "secondaryImpactRateDifference": 0,
+        "distinguishable": true
+      },
+      {
+        "actorA": "cautious_denial",
+        "actorB": "opportunistic_interdiction",
+        "meanDelayDifference": 49.142858,
+        "threatContainedRateDifference": 0,
+        "endStateTvDistance": 0.571429,
+        "secondaryImpactRateDifference": 0.071429,
+        "distinguishable": true
+      },
+      {
+        "actorA": "cautious_denial",
+        "actorB": "pressure_escalator",
+        "meanDelayDifference": 29.928572,
+        "threatContainedRateDifference": 0.142857,
+        "endStateTvDistance": 0.285714,
+        "secondaryImpactRateDifference": 0,
+        "distinguishable": true
+      },
+      {
+        "actorA": "deceptive_diversion",
+        "actorB": "opportunistic_interdiction",
+        "meanDelayDifference": 27.421875,
+        "threatContainedRateDifference": 0,
+        "endStateTvDistance": 0.526786,
+        "secondaryImpactRateDifference": 0.071429,
+        "distinguishable": true
+      },
+      {
+        "actorA": "deceptive_diversion",
+        "actorB": "pressure_escalator",
+        "meanDelayDifference": 8.207589,
+        "threatContainedRateDifference": 0.142857,
+        "endStateTvDistance": 0.241071,
+        "secondaryImpactRateDifference": 0,
+        "distinguishable": true
+      },
+      {
+        "actorA": "opportunistic_interdiction",
+        "actorB": "pressure_escalator",
+        "meanDelayDifference": 19.214286,
+        "threatContainedRateDifference": 0.142857,
+        "endStateTvDistance": 0.285714,
+        "secondaryImpactRateDifference": 0.071429,
+        "distinguishable": true
+      }
+    ],
+    "randomOsi": {
+      "overall": {
+        "mean": 0.00627,
+        "sd": 0.272155,
+        "p025": -0.535947,
+        "p975": 0.505404,
+        "n": 4096
+      },
+      "phaseA": {
+        "mean": 0.008773,
+        "sd": 0.640906,
+        "p025": -1,
+        "p975": 0.770492,
+        "n": 4096
+      },
+      "phaseB": {
+        "mean": 0.012308,
+        "sd": 0.520806,
+        "p025": -1,
+        "p975": 0.897131,
+        "n": 4096
+      },
+      "phaseC": {
+        "mean": -0.001709,
+        "sd": 0.438596,
+        "p025": -0.674663,
+        "p975": 0.925803,
+        "n": 4096
+      },
+      "phaseD": {
+        "mean": 0.005708,
+        "sd": 0.553038,
+        "p025": -0.845804,
+        "p975": 1,
+        "n": 4096
+      }
+    },
+    "structuralOsi": [
+      {
+        "windowId": "A1_baseline_monitoring",
+        "availableActionSetKey": "a1_network_baseline|a1_preserve_reserve|a1_priority_focus|a1_rotating_watch",
+        "optionCount": 4,
+        "meanAdjustedOrientation": 0,
+        "diagnostic": true,
+        "pass": true
+      },
+      {
+        "windowId": "B1_monitoring_allocation",
+        "availableActionSetKey": "b1_priority_cargo|b1_pulse_network|b1_split_attention|b1_suspect_focus",
+        "optionCount": 4,
+        "meanAdjustedOrientation": 0,
+        "diagnostic": true,
+        "pass": true
+      },
+      {
+        "windowId": "B2_route_policy",
+        "availableActionSetKey": "b2_continue_crosscheck|b2_hold_verify|b2_reroute|b2_staged_checkpoints",
+        "optionCount": 4,
+        "meanAdjustedOrientation": 0,
+        "diagnostic": true,
+        "pass": true
+      },
+      {
+        "windowId": "C1_support_and_checkpoints",
+        "availableActionSetKey": "c1_checkpoint_spacing|c1_fallback_nav|c1_ground_recon|c1_preserve_mobile_reserve",
+        "optionCount": 4,
+        "meanAdjustedOrientation": 0,
+        "diagnostic": true,
+        "pass": true
+      },
+      {
+        "windowId": "C2_resource_portfolio",
+        "availableActionSetKey": "c2_balanced|c2_isr_heavy|c2_mobility_heavy|c2_priority_surge",
+        "optionCount": 4,
+        "meanAdjustedOrientation": 0,
+        "diagnostic": true,
+        "pass": true
+      },
+      {
+        "windowId": "D1_crisis_response",
+        "availableActionSetKey": "d1_deception_routing|d1_emergency_reroute|d1_escorted_continuation|d1_ground_containment|d1_hold_confirm",
+        "optionCount": 5,
+        "meanAdjustedOrientation": 0,
+        "diagnostic": true,
+        "pass": true
+      },
+      {
+        "windowId": "D2_final_delivery_policy",
+        "availableActionSetKey": "d2_continuity_first_finish|d2_critical_delivery_surge|d2_network_balanced_finish|d2_resilient_handoff",
+        "optionCount": 4,
+        "meanAdjustedOrientation": 0,
+        "diagnostic": true,
+        "pass": true
+      },
+      {
+        "windowId": "D2_final_delivery_policy",
+        "availableActionSetKey": "d2_continuity_first_finish|d2_network_balanced_finish",
+        "optionCount": 2,
+        "meanAdjustedOrientation": 0,
+        "diagnostic": true,
+        "pass": true
+      }
+    ],
+    "actionCoverage": [
+      {
+        "actionId": "a1_network_baseline",
+        "selectionCount": 7172,
+        "selectionCountByRound": "{\"1\":7172}",
+        "targetAlphaCount": 0,
+        "targetBetaCount": 0,
+        "targetGammaCount": 0,
+        "targetDeltaCount": 0,
+        "fallbackSelectionCount": 0,
+        "alphaLegality": "not_applicable",
+        "betaLegality": "not_applicable",
+        "gammaLegality": "not_applicable",
+        "deltaLegality": "not_applicable"
+      },
+      {
+        "actionId": "a1_priority_focus",
+        "selectionCount": 6277,
+        "selectionCountByRound": "{\"1\":6277}",
+        "targetAlphaCount": 6277,
+        "targetBetaCount": 0,
+        "targetGammaCount": 0,
+        "targetDeltaCount": 0,
+        "fallbackSelectionCount": 0,
+        "alphaLegality": "not_applicable",
+        "betaLegality": "not_applicable",
+        "gammaLegality": "not_applicable",
+        "deltaLegality": "not_applicable"
+      },
+      {
+        "actionId": "a1_rotating_watch",
+        "selectionCount": 3999,
+        "selectionCountByRound": "{\"1\":3999}",
+        "targetAlphaCount": 0,
+        "targetBetaCount": 0,
+        "targetGammaCount": 0,
+        "targetDeltaCount": 0,
+        "fallbackSelectionCount": 0,
+        "alphaLegality": "not_applicable",
+        "betaLegality": "not_applicable",
+        "gammaLegality": "not_applicable",
+        "deltaLegality": "not_applicable"
+      },
+      {
+        "actionId": "a1_preserve_reserve",
+        "selectionCount": 7128,
+        "selectionCountByRound": "{\"1\":7128}",
+        "targetAlphaCount": 0,
+        "targetBetaCount": 0,
+        "targetGammaCount": 0,
+        "targetDeltaCount": 0,
+        "fallbackSelectionCount": 0,
+        "alphaLegality": "not_applicable",
+        "betaLegality": "not_applicable",
+        "gammaLegality": "not_applicable",
+        "deltaLegality": "not_applicable"
+      },
+      {
+        "actionId": "a2_focused_pnt",
+        "selectionCount": 6207,
+        "selectionCountByRound": "{\"2\":6207}",
+        "targetAlphaCount": 2830,
+        "targetBetaCount": 1252,
+        "targetGammaCount": 1086,
+        "targetDeltaCount": 1039,
+        "fallbackSelectionCount": 0,
+        "alphaLegality": "observed",
+        "betaLegality": "observed",
+        "gammaLegality": "observed",
+        "deltaLegality": "observed"
+      },
+      {
+        "actionId": "a2_broad_sweep",
+        "selectionCount": 6085,
+        "selectionCountByRound": "{\"2\":6085}",
+        "targetAlphaCount": 0,
+        "targetBetaCount": 0,
+        "targetGammaCount": 0,
+        "targetDeltaCount": 0,
+        "fallbackSelectionCount": 0,
+        "alphaLegality": "not_applicable",
+        "betaLegality": "not_applicable",
+        "gammaLegality": "not_applicable",
+        "deltaLegality": "not_applicable"
+      },
+      {
+        "actionId": "a2_field_radio",
+        "selectionCount": 7178,
+        "selectionCountByRound": "{\"2\":7178}",
+        "targetAlphaCount": 4112,
+        "targetBetaCount": 976,
+        "targetGammaCount": 1026,
+        "targetDeltaCount": 1064,
+        "fallbackSelectionCount": 0,
+        "alphaLegality": "observed",
+        "betaLegality": "observed",
+        "gammaLegality": "observed",
+        "deltaLegality": "observed"
+      },
+      {
+        "actionId": "a2_ground_liaison",
+        "selectionCount": 5106,
+        "selectionCountByRound": "{\"2\":5106}",
+        "targetAlphaCount": 1332,
+        "targetBetaCount": 1327,
+        "targetGammaCount": 1235,
+        "targetDeltaCount": 1212,
+        "fallbackSelectionCount": 0,
+        "alphaLegality": "observed",
+        "betaLegality": "observed",
+        "gammaLegality": "observed",
+        "deltaLegality": "observed"
+      },
+      {
+        "actionId": "b1_suspect_focus",
+        "selectionCount": 6226,
+        "selectionCountByRound": "{\"3\":6226}",
+        "targetAlphaCount": 3031,
+        "targetBetaCount": 1084,
+        "targetGammaCount": 1056,
+        "targetDeltaCount": 1055,
+        "fallbackSelectionCount": 0,
+        "alphaLegality": "observed",
+        "betaLegality": "observed",
+        "gammaLegality": "observed",
+        "deltaLegality": "observed"
+      },
+      {
+        "actionId": "b1_priority_cargo",
+        "selectionCount": 5078,
+        "selectionCountByRound": "{\"3\":5078}",
+        "targetAlphaCount": 5078,
+        "targetBetaCount": 0,
+        "targetGammaCount": 0,
+        "targetDeltaCount": 0,
+        "fallbackSelectionCount": 0,
+        "alphaLegality": "not_applicable",
+        "betaLegality": "not_applicable",
+        "gammaLegality": "not_applicable",
+        "deltaLegality": "not_applicable"
+      },
+      {
+        "actionId": "b1_split_attention",
+        "selectionCount": 6184,
+        "selectionCountByRound": "{\"3\":6184}",
+        "targetAlphaCount": 0,
+        "targetBetaCount": 0,
+        "targetGammaCount": 0,
+        "targetDeltaCount": 0,
+        "fallbackSelectionCount": 0,
+        "alphaLegality": "not_applicable",
+        "betaLegality": "not_applicable",
+        "gammaLegality": "not_applicable",
+        "deltaLegality": "not_applicable"
+      },
+      {
+        "actionId": "b1_pulse_network",
+        "selectionCount": 7088,
+        "selectionCountByRound": "{\"3\":7088}",
+        "targetAlphaCount": 0,
+        "targetBetaCount": 0,
+        "targetGammaCount": 0,
+        "targetDeltaCount": 0,
+        "fallbackSelectionCount": 0,
+        "alphaLegality": "not_applicable",
+        "betaLegality": "not_applicable",
+        "gammaLegality": "not_applicable",
+        "deltaLegality": "not_applicable"
+      },
+      {
+        "actionId": "b2_continue_crosscheck",
+        "selectionCount": 8182,
+        "selectionCountByRound": "{\"4\":8182}",
+        "targetAlphaCount": 5083,
+        "targetBetaCount": 1033,
+        "targetGammaCount": 1053,
+        "targetDeltaCount": 1013,
+        "fallbackSelectionCount": 0,
+        "alphaLegality": "observed",
+        "betaLegality": "observed",
+        "gammaLegality": "observed",
+        "deltaLegality": "observed"
+      },
+      {
+        "actionId": "b2_reroute",
+        "selectionCount": 6270,
+        "selectionCountByRound": "{\"4\":6270}",
+        "targetAlphaCount": 2086,
+        "targetBetaCount": 1550,
+        "targetGammaCount": 1334,
+        "targetDeltaCount": 1300,
+        "fallbackSelectionCount": 0,
+        "alphaLegality": "observed",
+        "betaLegality": "observed",
+        "gammaLegality": "observed",
+        "deltaLegality": "observed"
+      },
+      {
+        "actionId": "b2_staged_checkpoints",
+        "selectionCount": 5080,
+        "selectionCountByRound": "{\"4\":5080}",
+        "targetAlphaCount": 2050,
+        "targetBetaCount": 999,
+        "targetGammaCount": 982,
+        "targetDeltaCount": 1049,
+        "fallbackSelectionCount": 0,
+        "alphaLegality": "observed",
+        "betaLegality": "observed",
+        "gammaLegality": "observed",
+        "deltaLegality": "observed"
+      },
+      {
+        "actionId": "b2_hold_verify",
+        "selectionCount": 5044,
+        "selectionCountByRound": "{\"4\":5044}",
+        "targetAlphaCount": 1327,
+        "targetBetaCount": 1332,
+        "targetGammaCount": 1194,
+        "targetDeltaCount": 1191,
+        "fallbackSelectionCount": 0,
+        "alphaLegality": "observed",
+        "betaLegality": "observed",
+        "gammaLegality": "observed",
+        "deltaLegality": "observed"
+      },
+      {
+        "actionId": "c1_fallback_nav",
+        "selectionCount": 8212,
+        "selectionCountByRound": "{\"5\":8212}",
+        "targetAlphaCount": 3878,
+        "targetBetaCount": 2298,
+        "targetGammaCount": 1003,
+        "targetDeltaCount": 1033,
+        "fallbackSelectionCount": 0,
+        "alphaLegality": "observed",
+        "betaLegality": "observed",
+        "gammaLegality": "observed",
+        "deltaLegality": "observed"
+      },
+      {
+        "actionId": "c1_ground_recon",
+        "selectionCount": 6111,
+        "selectionCountByRound": "{\"5\":6111}",
+        "targetAlphaCount": 1655,
+        "targetBetaCount": 1523,
+        "targetGammaCount": 1461,
+        "targetDeltaCount": 1472,
+        "fallbackSelectionCount": 0,
+        "alphaLegality": "observed",
+        "betaLegality": "observed",
+        "gammaLegality": "observed",
+        "deltaLegality": "observed"
+      },
+      {
+        "actionId": "c1_checkpoint_spacing",
+        "selectionCount": 5149,
+        "selectionCountByRound": "{\"5\":5149}",
+        "targetAlphaCount": 1021,
+        "targetBetaCount": 2080,
+        "targetGammaCount": 1015,
+        "targetDeltaCount": 1033,
+        "fallbackSelectionCount": 0,
+        "alphaLegality": "observed",
+        "betaLegality": "observed",
+        "gammaLegality": "observed",
+        "deltaLegality": "observed"
+      },
+      {
+        "actionId": "c1_preserve_mobile_reserve",
+        "selectionCount": 5104,
+        "selectionCountByRound": "{\"5\":5104}",
+        "targetAlphaCount": 0,
+        "targetBetaCount": 0,
+        "targetGammaCount": 0,
+        "targetDeltaCount": 0,
+        "fallbackSelectionCount": 0,
+        "alphaLegality": "not_applicable",
+        "betaLegality": "not_applicable",
+        "gammaLegality": "not_applicable",
+        "deltaLegality": "not_applicable"
+      },
+      {
+        "actionId": "c2_isr_heavy",
+        "selectionCount": 5100,
+        "selectionCountByRound": "{\"6\":5100}",
+        "targetAlphaCount": 0,
+        "targetBetaCount": 0,
+        "targetGammaCount": 0,
+        "targetDeltaCount": 0,
+        "fallbackSelectionCount": 0,
+        "alphaLegality": "not_applicable",
+        "betaLegality": "not_applicable",
+        "gammaLegality": "not_applicable",
+        "deltaLegality": "not_applicable"
+      },
+      {
+        "actionId": "c2_mobility_heavy",
+        "selectionCount": 6187,
+        "selectionCountByRound": "{\"6\":6187}",
+        "targetAlphaCount": 0,
+        "targetBetaCount": 0,
+        "targetGammaCount": 0,
+        "targetDeltaCount": 0,
+        "fallbackSelectionCount": 0,
+        "alphaLegality": "not_applicable",
+        "betaLegality": "not_applicable",
+        "gammaLegality": "not_applicable",
+        "deltaLegality": "not_applicable"
+      },
+      {
+        "actionId": "c2_balanced",
+        "selectionCount": 7236,
+        "selectionCountByRound": "{\"6\":7236}",
+        "targetAlphaCount": 0,
+        "targetBetaCount": 0,
+        "targetGammaCount": 0,
+        "targetDeltaCount": 0,
+        "fallbackSelectionCount": 0,
+        "alphaLegality": "not_applicable",
+        "betaLegality": "not_applicable",
+        "gammaLegality": "not_applicable",
+        "deltaLegality": "not_applicable"
+      },
+      {
+        "actionId": "c2_priority_surge",
+        "selectionCount": 6053,
+        "selectionCountByRound": "{\"6\":6053}",
+        "targetAlphaCount": 6053,
+        "targetBetaCount": 0,
+        "targetGammaCount": 0,
+        "targetDeltaCount": 0,
+        "fallbackSelectionCount": 0,
+        "alphaLegality": "not_applicable",
+        "betaLegality": "not_applicable",
+        "gammaLegality": "not_applicable",
+        "deltaLegality": "not_applicable"
+      },
+      {
+        "actionId": "d1_emergency_reroute",
+        "selectionCount": 4237,
+        "selectionCountByRound": "{\"7\":4237}",
+        "targetAlphaCount": 825,
+        "targetBetaCount": 765,
+        "targetGammaCount": 1825,
+        "targetDeltaCount": 822,
+        "fallbackSelectionCount": 0,
+        "alphaLegality": "observed",
+        "betaLegality": "observed",
+        "gammaLegality": "observed",
+        "deltaLegality": "observed"
+      },
+      {
+        "actionId": "d1_ground_containment",
+        "selectionCount": 4404,
+        "selectionCountByRound": "{\"7\":4404}",
+        "targetAlphaCount": 1072,
+        "targetBetaCount": 1022,
+        "targetGammaCount": 1163,
+        "targetDeltaCount": 1147,
+        "fallbackSelectionCount": 0,
+        "alphaLegality": "observed",
+        "betaLegality": "observed",
+        "gammaLegality": "observed",
+        "deltaLegality": "observed"
+      },
+      {
+        "actionId": "d1_deception_routing",
+        "selectionCount": 3210,
+        "selectionCountByRound": "{\"7\":3210}",
+        "targetAlphaCount": 774,
+        "targetBetaCount": 814,
+        "targetGammaCount": 807,
+        "targetDeltaCount": 815,
+        "fallbackSelectionCount": 0,
+        "alphaLegality": "observed",
+        "betaLegality": "observed",
+        "gammaLegality": "observed",
+        "deltaLegality": "observed"
+      },
+      {
+        "actionId": "d1_escorted_continuation",
+        "selectionCount": 5297,
+        "selectionCountByRound": "{\"7\":5297}",
+        "targetAlphaCount": 2582,
+        "targetBetaCount": 1090,
+        "targetGammaCount": 817,
+        "targetDeltaCount": 808,
+        "fallbackSelectionCount": 0,
+        "alphaLegality": "observed",
+        "betaLegality": "observed",
+        "gammaLegality": "observed",
+        "deltaLegality": "observed"
+      },
+      {
+        "actionId": "d1_hold_confirm",
+        "selectionCount": 7428,
+        "selectionCountByRound": "{\"7\":7428}",
+        "targetAlphaCount": 2678,
+        "targetBetaCount": 1594,
+        "targetGammaCount": 1581,
+        "targetDeltaCount": 1575,
+        "fallbackSelectionCount": 0,
+        "alphaLegality": "observed",
+        "betaLegality": "observed",
+        "gammaLegality": "observed",
+        "deltaLegality": "observed"
+      },
+      {
+        "actionId": "d2_critical_delivery_surge",
+        "selectionCount": 3797,
+        "selectionCountByRound": "{\"8\":3797}",
+        "targetAlphaCount": 3797,
+        "targetBetaCount": 0,
+        "targetGammaCount": 0,
+        "targetDeltaCount": 0,
+        "fallbackSelectionCount": 0,
+        "alphaLegality": "not_applicable",
+        "betaLegality": "not_applicable",
+        "gammaLegality": "not_applicable",
+        "deltaLegality": "not_applicable"
+      },
+      {
+        "actionId": "d2_network_balanced_finish",
+        "selectionCount": 10321,
+        "selectionCountByRound": "{\"8\":10321}",
+        "targetAlphaCount": 0,
+        "targetBetaCount": 0,
+        "targetGammaCount": 0,
+        "targetDeltaCount": 0,
+        "fallbackSelectionCount": 1496,
+        "alphaLegality": "not_applicable",
+        "betaLegality": "not_applicable",
+        "gammaLegality": "not_applicable",
+        "deltaLegality": "not_applicable"
+      },
+      {
+        "actionId": "d2_resilient_handoff",
+        "selectionCount": 2872,
+        "selectionCountByRound": "{\"8\":2872}",
+        "targetAlphaCount": 2872,
+        "targetBetaCount": 0,
+        "targetGammaCount": 0,
+        "targetDeltaCount": 0,
+        "fallbackSelectionCount": 0,
+        "alphaLegality": "not_applicable",
+        "betaLegality": "not_applicable",
+        "gammaLegality": "not_applicable",
+        "deltaLegality": "not_applicable"
+      },
+      {
+        "actionId": "d2_continuity_first_finish",
+        "selectionCount": 7586,
+        "selectionCountByRound": "{\"8\":7586}",
+        "targetAlphaCount": 0,
+        "targetBetaCount": 0,
+        "targetGammaCount": 0,
+        "targetDeltaCount": 0,
+        "fallbackSelectionCount": 0,
+        "alphaLegality": "not_applicable",
+        "betaLegality": "not_applicable",
+        "gammaLegality": "not_applicable",
+        "deltaLegality": "not_applicable"
+      }
+    ],
+    "explicitTargetProbeCount": 64,
+    "resourceAvailability": {
+      "minimumAvailableActionCountDistribution": [
+        {
+          "count": 2,
+          "runs": 13343
+        },
+        {
+          "count": 4,
+          "runs": 11233
+        }
+      ],
+      "finalIsr": {
+        "p05": 26,
+        "p25": 46,
+        "median": 56,
+        "p75": 68,
+        "p95": 82
+      },
+      "finalSupport": {
+        "p05": 12,
+        "p25": 28,
+        "median": 40,
+        "p75": 54,
+        "p95": 70
+      }
+    },
+    "seedSensitivityHighRate": 0.008929,
+    "maximumDecisionClock": 297
+  },
+  "archiveIntegrity": {
+    "phase8": {
+      "before": "dd1e32dce6c1a7486eb9b58f6c1d15962de48860a569b8513891fb2789633b25",
+      "after": "dd1e32dce6c1a7486eb9b58f6c1d15962de48860a569b8513891fb2789633b25",
+      "unchanged": true
+    },
+    "phase8a": {
+      "before": "b0d663033d0b6f18670daa57729893458a9855de88c14134eb88436e0369524b",
+      "after": "b0d663033d0b6f18670daa57729893458a9855de88c14134eb88436e0369524b",
+      "unchanged": true
+    },
+    "phase07c": {
+      "before": "8169b23209aa498bdaea2bb21d819bca1e81361a1e3f2d128e3971f1c76ed566",
+      "after": "8169b23209aa498bdaea2bb21d819bca1e81361a1e3f2d128e3971f1c76ed566",
+      "unchanged": true
+    },
+    "phase07d": {
+      "before": "83f19dd15629449cd286993c3828526e292310a543247e47de2a41bf330f2a8c",
+      "after": "83f19dd15629449cd286993c3828526e292310a543247e47de2a41bf330f2a8c",
+      "unchanged": true
+    },
+    "frozenUi": {
+      "before": "5935a851ba7ee3ed7a0ee39c50c3c9b49d489491d1842fede617396d62882f7b",
+      "after": "5935a851ba7ee3ed7a0ee39c50c3c9b49d489491d1842fede617396d62882f7b",
+      "unchanged": true
+    }
+  },
+  "hardGates": [
+    {
+      "gateId": "MODEL_VERSION",
+      "status": "PASS",
+      "detail": "s5-mission-v1.1.0; s5-calibration-v1.2.0"
+    },
+    {
+      "gateId": "END_STATE_ID_MIGRATION",
+      "status": "PASS",
+      "detail": "new=6; retired-active=0"
+    },
+    {
+      "gateId": "END_STATE_RESOLVER_EXACT",
+      "status": "PASS",
+      "detail": "ordered=1959|2153|2393|2687|2955|3249"
+    },
+    {
+      "gateId": "TRAJECTORY_PARITY_WITH_08A",
+      "status": "PASS",
+      "detail": "rows=25600; fieldMismatches=0"
+    },
+    {
+      "gateId": "EXPECTED_TAXONOMY_RECLASSIFICATION",
+      "status": "PASS",
+      "detail": "exact 25,600 signature"
+    },
+    {
+      "gateId": "FIXED_INCOMPLETE_WITNESS",
+      "status": "PASS",
+      "detail": "mission_incomplete_continuity_preserved; alphaDelivered=false; continuity=75"
+    },
+    {
+      "gateId": "NATURAL_NETWORK_DEGRADATION_WITNESS",
+      "status": "PASS",
+      "detail": "row=1703; information_heavy; W-corridor_alpha_east-deceptive_diversion; seed=5"
+    },
+    {
+      "gateId": "SIX_END_STATES_OBSERVED_V3",
+      "status": "PASS",
+      "detail": "critical_cargo_lost_or_compromised:main_audit;priority_delivered_network_degradation:main_audit;mission_incomplete_continuity_preserved:approved_fixed_witness;delivery_complete_threat_persistent:main_audit;delivery_complete_attribution_unresolved:main_audit;delivery_complete_threat_contained:main_audit"
+    },
+    {
+      "gateId": "ENVIRONMENT_PANEL_COVERAGE",
+      "status": "PASS",
+      "detail": "worlds=16; latency=early|late|nominal"
+    },
+    {
+      "gateId": "EXECUTION_COMPLETION",
+      "status": "PASS",
+      "detail": "mission=25600; cognitive=7936"
+    },
+    {
+      "gateId": "DETERMINISTIC_REPLAY",
+      "status": "PASS",
+      "detail": "384 cases"
+    },
+    {
+      "gateId": "LEGAL_ACTION_SAFETY",
+      "status": "PASS",
+      "detail": "zeroOption=0; negative=0; chronology=0"
+    },
+    {
+      "gateId": "DOMAIN_DELAY_IDENTITY",
+      "status": "PASS",
+      "detail": "0 failures"
+    },
+    {
+      "gateId": "NO_MATH_RANDOM",
+      "status": "PASS",
+      "detail": "13 files scanned"
+    },
+    {
+      "gateId": "ACTION_TARGET_COVERAGE_V2",
+      "status": "PASS",
+      "detail": "actions=33/33; probes=64/64"
+    },
+    {
+      "gateId": "OSI_STRUCTURAL_CENTERING",
+      "status": "PASS",
+      "detail": "diagnosticSets=8"
+    },
+    {
+      "gateId": "RANDOM_OSI_MONTE_CARLO_CENTERING",
+      "status": "PASS",
+      "detail": "{\"overall\":{\"mean\":0.00627,\"sd\":0.272155,\"p025\":-0.535947,\"p975\":0.505404,\"n\":4096},\"phaseA\":{\"mean\":0.008773,\"sd\":0.640906,\"p025\":-1,\"p975\":0.770492,\"n\":4096},\"phaseB\":{\"mean\":0.012308,\"sd\":0.520806,\"p025\":-1,\"p975\":0.897131,\"n\":4096},\"phaseC\":{\"mean\":-0.001709,\"sd\":0.438596,\"p025\":-0.674663,\"p975\":0.925803,\"n\":4096},\"phaseD\":{\"mean\":0.005708,\"sd\":0.553038,\"p025\":-0.845804,\"p975\":1,\"n\":4096}}"
+    },
+    {
+      "gateId": "DOMINANCE_STATE_COVERAGE",
+      "status": "PASS",
+      "detail": "decision:A1_baseline_monitoring:128;decision:A2_evidence_acquisition:128;decision:B1_monitoring_allocation:128;decision:B2_route_policy:128;decision:C1_support_and_checkpoints:128;decision:C2_resource_portfolio:128;decision:D1_crisis_response:128;decision:D2_final_delivery_policy:128"
+    },
+    {
+      "gateId": "NO_UNIVERSAL_ACTION_DOMINANCE_V2",
+      "status": "PASS",
+      "detail": "none"
+    },
+    {
+      "gateId": "ACTOR_PAIR_DISTINCTIVENESS",
+      "status": "PASS",
+      "detail": "6/6"
+    },
+    {
+      "gateId": "COGNITIVE_ANCHOR_GATES",
+      "status": "PASS",
+      "detail": "12/12"
+    },
+    {
+      "gateId": "COGNITIVE_FIREWALL",
+      "status": "PASS",
+      "detail": "100 pairs"
+    },
+    {
+      "gateId": "MAX_DECISION_CLOCK_360",
+      "status": "PASS",
+      "detail": "max=297"
+    },
+    {
+      "gateId": "PHASE7_PLAYER_FIREWALL",
+      "status": "PASS",
+      "detail": "16 initial player views; forbidden=trueWorldState|actorInternalState|hiddenProvenance|worldId|seed"
+    },
+    {
+      "gateId": "PHASE7_PRESENTATION_REGRESSION",
+      "status": "PASS",
+      "detail": "sha256=5935a851ba7ee3ed7a0ee39c50c3c9b49d489491d1842fede617396d62882f7b; priorAssertions=600 retained"
+    }
+  ],
+  "warnings": [
+    {
+      "gateId": "PRIMARY_DELIVERY_SATURATION_WARNING",
+      "status": "WARNING",
+      "detail": "alphaDeliveredRateAt360=0.998981; horizon remains internal pending expert review"
+    },
+    {
+      "gateId": "OUTCOME_CONCENTRATION_WARNING",
+      "status": "PASS",
+      "detail": "modalShare=0.508704; actorVarietyFailures=0; corridorVarietyFailures=0"
+    },
+    {
+      "gateId": "FORCED_CHOICE_WARNING",
+      "status": "PASS",
+      "detail": "0"
+    },
+    {
+      "gateId": "RESOURCE_TOO_LOOSE_WARNING",
+      "status": "PASS",
+      "detail": "0.163167"
+    },
+    {
+      "gateId": "RESOURCE_EXHAUSTION_WARNING",
+      "status": "PASS",
+      "detail": "0.010864"
+    },
+    {
+      "gateId": "SEED_SENSITIVITY_WARNING",
+      "status": "PASS",
+      "detail": "0.008929"
+    },
+    {
+      "gateId": "COGNITIVE_DISTRIBUTION_WARNING",
+      "status": "WARNING",
+      "detail": "multiDomainIntegration:engineering_low_variance;integration:engineering_low_variance"
+    }
+  ],
+  "overallStatus": "PASS"
+}

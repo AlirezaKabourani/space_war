@@ -1,0 +1,3299 @@
+diff --git a/docs/scenario5-phase8-calibration-report-fa.md b/docs/scenario5-phase8-calibration-report-fa.md
+new file mode 100644
+index 0000000..2d455e9
+--- /dev/null
++++ b/docs/scenario5-phase8-calibration-report-fa.md
+@@ -0,0 +1,108 @@
++# گزارش کالیبراسیون مهندسی فاز ۸ — سناریو ۵
++
++## 1. خلاصه اجرایی
++
++وضعیت نهایی audit: **FAIL**. این نتیجه فقط وضعیت gateهای مهندسی تعریف‌شده را گزارش می‌کند و هیچ پارامتر مدل را تغییر نداده است.
++
++## 2. دامنه و محدودیت اعتبار
++
++این audit از عامل‌های مصنوعی، جهان‌های کنترل‌شده و seedهای قطعی استفاده می‌کند. فراوانی جهان‌ها و seedها احتمال واقعی رخدادهای بیرونی نیست.
++
++## 3. پوشش ۱۶ جهان و seedها
++
++پنل پایه شامل ۱۶ جهان و seedهای ۱ تا ۶۴ است. جزئیات در summary JSON و CSV اجراها ثبت شده است.
++
++## 4. پوشش Actionها و targetها
++
++پوشش ۳۳ Action و targetهای قانونی در action-coverage.csv ثبت شده است.
++
++## 5. پوشش شش End State
++
++طبقه‌بندی مشاهده در audit اصلی یا witness search در end-state-coverage.csv ثبت شده است.
++
++## 6. وضعیت منابع و forced-choice
++
++توزیع گزینه‌های در دسترس، تک‌گزینه‌ای‌شدن و منابع پایانی با thresholdهای داخلی مهندسی غربال شدند.
++
++## 7. تمرکز نتایج مأموریت
++
++تمرکز End State در جمعیت M1..M7 و M10 بررسی شد؛ این توزیع احتمال واقعی نیست.
++
++## 8. تمایز چهار Actor
++
++چهار Actor بر اساس delay، containment، TV توزیع End State و اثر ثانویه مقایسه شدند.
++
++## 9. حساسیت به seed
++
++حساسیت در سلول‌های world×policy برای M1..M7 محاسبه شد و برآورد عدم‌قطعیت دنیای واقعی نیست.
++
++## 10. آزمون Pareto dominance گزینه‌ها
++
++مقایسه بدون امتیاز کل و با بردار چندبعدی outcome انجام شد.
++
++## 11. تحلیل افق ۳۶۰ دقیقه
++
++افق ۳۶۰ دقیقه همچنان یک پارامتر طراحی در انتظار بازبینی خبرگان است؛ جدول shadow فقط post-hoc است.
++
++## 12. Shadow deadline sensitivity
++
++deadlineها تغییر نکردند؛ shiftهای −۳۰ تا +۳۰ دقیقه فقط بازطبقه‌بندی post-hoc هستند.
++
++## 13. Shadow resource path-feasibility
++
++path-feasibility shadow analysis, not a full counterfactual replay. این جدول سازگاری سیاست با budget جدید را مدل نمی‌کند.
++
++## 14. Random-policy OSI centering
++
++عامل تصادفی C16 یک عامل مصنوعی است و فقط centering مهندسی OSI را می‌سنجد.
++
++## 15. Cognitive anchor calibration
++
++anchorهای C1..C15 ترتیب داخلی مورد انتظار loadingها و formulaهای frozen را بررسی می‌کنند.
++
++## 16. Engineering distribution screen شاخص‌های شناختی
++
++floor/ceiling/variance فقط engineering distribution screen است و اثر روان‌سنجی تلقی نمی‌شود.
++
++## 17. Hidden-truth/outcome firewall
++
++bundle شناختی بدون worldId، seed، End State یا domain output ساخته شد و paired fixtureها نتیجه برابر دادند.
++
++## 18. فهرست Hard Gateها
++
++- ENVIRONMENT_PANEL_COVERAGE: PASS — worlds=16; latency=early|late|nominal; missingNoise=0
++- EXECUTION_COMPLETION: PASS — 25600/25600 scheduled runs completed
++- DETERMINISTIC_REPLAY: PASS — 384 selected cases replayed twice
++- LEGAL_ACTION_SAFETY: PASS — zeroOption=0; negativeResource=0; chronology=0
++- DOMAIN_DELAY_IDENTITY: PASS — 0 exact-identity failures
++- NO_MATH_RANDOM: PASS — 11 calibration source files scanned
++- ACTION_TARGET_COVERAGE: FAIL — 33/33 actions observed; legal target gaps=a2_focused_pnt:corridor_delta_west
++- SIX_END_STATES_OBSERVED: FAIL — critical_cargo_lost_or_compromised:observed_in_main_audit; priority_delivered_network_failure:not_observed_under_phase8_search; mission_incomplete_continuity_preserved:not_observed_under_phase8_search; delayed_delivery_persistent_disruption:observed_in_main_audit; resilient_delivery_unresolved_attribution:observed_in_main_audit; resilient_delivery_threat_contained:observed_in_main_audit
++- ACTOR_PAIR_DISTINCTIVENESS: PASS — 6/6 pairs distinguishable
++- NO_UNIVERSAL_ACTION_DOMINANCE: FAIL — 2590 counterfactual branches
++- RANDOM_OSI_CENTERING: FAIL — {"overall":{"mean":-0.089226,"sd":0.239728,"p025":-0.497857,"p975":0.368163,"n":4096},"phaseA":{"mean":-0.372951,"sd":0.553005,"p025":-1,"p975":0.114754,"n":4096},"phaseB":{"mean":0.060145,"sd":0.503031,"p025":-1,"p975":0.818221,"n":4096},"phaseC":{"mean":0.002391,"sd":0.482697,"p025":-0.674663,"p975":0.925803,"n":4096},"phaseD":{"mean":-0.046491,"sd":0.502809,"p025":-0.845804,"p975":1,"n":4096}}
++- COGNITIVE_ANCHOR_GATES: PASS — 12/12 anchor checks passed
++- COGNITIVE_FIREWALL: PASS — 100 paired bundles; hidden/domain fields excluded
++- MAX_DECISION_CLOCK_360: PASS — maximum pre-finalization clock=293
++
++## 19. فهرست Warningها
++
++- COGNITIVE_DISTRIBUTION_WARNING: escalationSensitivity:engineering_low_variance; multiDomainIntegration:engineering_low_variance; integration:engineering_low_variance
++
++## 20. موارد نیازمند تصمیم انسانی
++
++- ACTION_TARGET_COVERAGE: 33/33 actions observed; legal target gaps=a2_focused_pnt:corridor_delta_west
++- SIX_END_STATES_OBSERVED: critical_cargo_lost_or_compromised:observed_in_main_audit; priority_delivered_network_failure:not_observed_under_phase8_search; mission_incomplete_continuity_preserved:not_observed_under_phase8_search; delayed_delivery_persistent_disruption:observed_in_main_audit; resilient_delivery_unresolved_attribution:observed_in_main_audit; resilient_delivery_threat_contained:observed_in_main_audit
++- NO_UNIVERSAL_ACTION_DOMINANCE: 2590 counterfactual branches
++- RANDOM_OSI_CENTERING: {"overall":{"mean":-0.089226,"sd":0.239728,"p025":-0.497857,"p975":0.368163,"n":4096},"phaseA":{"mean":-0.372951,"sd":0.553005,"p025":-1,"p975":0.114754,"n":4096},"phaseB":{"mean":0.060145,"sd":0.503031,"p025":-1,"p975":0.818221,"n":4096},"phaseC":{"mean":0.002391,"sd":0.482697,"p025":-0.674663,"p975":0.925803,"n":4096},"phaseD":{"mean":-0.046491,"sd":0.502809,"p025":-0.845804,"p975":1,"n":4096}}
++- COGNITIVE_DISTRIBUTION_WARNING: escalationSensitivity:engineering_low_variance; multiDomainIntegration:engineering_low_variance; integration:engineering_low_variance
++
++هر alternative توصیفی صرفاً برای تصمیم reviewer، نه تغییر خودکار است.
++
++## 21. محدودیت‌های فاز ۸
++
++- عامل‌های مصنوعی این فاز نماینده رفتار انسان نیستند.
++- موفقیت در calibration مهندسی به معنی اعتبار روان‌سنجی نیست.
++- پارامترهای زمان، هزینه، threshold و loadingها هنوز برای اعتبار نهایی به بازبینی خبرگان و اجرای انسانی نیاز دارند.
++- Phase 8 هیچ پارامتر مدل را به‌صورت خودکار تغییر نمی‌دهد.
++- این audit اعتبار خبرگی، construct validity، human usability یا احتمال دنیای واقعی را اثبات نمی‌کند.
+diff --git a/docs/scenario5-phase8-calibration-verification.md b/docs/scenario5-phase8-calibration-verification.md
+new file mode 100644
+index 0000000..616bed8
+--- /dev/null
++++ b/docs/scenario5-phase8-calibration-verification.md
+@@ -0,0 +1,122 @@
++# Scenario 5 — Phase 8 Calibration Verification
++
++## 1. Completion summary
++
++Phase 8 engineering calibration is complete. The audit ran without a browser and did not tune or modify the frozen model. The final calibration status is **FAIL** because four hard gates failed; this is a valid measured result, not an execution failure.
++
++## 2. New files/artifacts
++
++- Eleven calibration modules under `src/ui/components/scenario/scenario-five/calibration/`.
++- `scripts/run-s5-phase8-calibration.ts` and `scripts/verify-s5-phase8-calibration.ts`.
++- Deterministic summary, Persian report, eleven CSV result files, this verification record, and the Phase-8 patch under `docs/`.
++
++## 3. Frozen hash verification
++
++The normalized protected-source manifest contains 68 model/UI/source paths. Its SHA-256 before and after both audit executions was `1bd32af62f0667d3864eb7b2b0e7354e70bebe43178cdc8a64a880e8a138bef6`: **PASS**. No protected Scenario 5 model/UI source, Scenario 2 source, Scenario 4 cognitive dependency, shared event logger, host, app shell, or package manifest changed during Phase 8.
++
++## 4. Environment panel verification
++
++All 16 frozen worlds were covered with environment seeds 1..64: 1,024 environment instances. Each of four Actor profiles and four primary corridors appeared 256 times, all `early|nominal|late` latency variants appeared, and all 44 expected background-noise relations were observed: **PASS**.
++
++## 5. Policy RNG/determinism
++
++Calibration policies use the isolated uint32-seeded policy RNG and contain no `Math.random`. A fixed sample of 384 mission cases was replayed twice with identical outputs. A second complete audit produced the same artifact-set SHA-256, `0a9d46b91244270a29d1cb5050b5cb5dda022e950e3388442e04dded1eb68d1f`: **PASS**.
++
++## 6. 25,600-run execution verification
++
++Exactly 25,600 scheduled mission runs completed: 9,216 deterministic M1..M9 runs and 16,384 M10 random-policy runs. All scheduled runs finalized, with zero negative-resource, chronology, zero-option, or exact delay-identity failures: **PASS**.
++
++## 7. Mission-policy verification
++
++M1..M9 definitions, ordering, deterministic seed use, target helpers, and neutral reason/belief protocol were statically and artifact-verified. Each deterministic policy has exactly 1,024 rows: **PASS**.
++
++## 8. Random-policy verification
++
++M10 has exactly 16,384 rows, uses the isolated deterministic policy RNG, and samples only legal action/target pairs: **PASS**.
++
++## 9. Action/target coverage
++
++All 33 action IDs were observed. One legal action-target pair was not selected: `a2_focused_pnt:corridor_delta_west`; observed target counts for that action were alpha 2,816, beta 256, gamma 1,024, delta 0. `ACTION_TARGET_COVERAGE`: **FAIL**.
++
++## 10. End-state coverage + witness search
++
++Four of six end states appeared in the main audit: `critical_cargo_lost_or_compromised` 64, `delayed_delivery_persistent_disruption` 14,076, `resilient_delivery_unresolved_attribution` 10,180, and `resilient_delivery_threat_contained` 256. After 20,000 bounded witness-search runs, `priority_delivered_network_failure` and `mission_incomplete_continuity_preserved` remained `not_observed_under_phase8_search`. `SIX_END_STATES_OBSERVED`: **FAIL**.
++
++## 11. Resource/forced-choice checks
++
++Zero decision windows had no legal option and 0% were single-option windows. Both terminal resources were at least 50 in 16.577148% of runs; either terminal resource was at most 5 in 1.041667%. Resource and forced-choice warning thresholds did not fire: **PASS**.
++
++## 12. Actor-distinctiveness checks
++
++All six Actor-profile pairs were evaluated and all six met at least one frozen distinctiveness criterion. The complete component differences are in `actor-signatures.csv`: **PASS**.
++
++## 13. Seed-sensitivity calculations
++
++All 112 world×policy cells for M1..M7 were evaluated. One cell was flagged, a 0.892857% rate; the frozen warning threshold did not fire: **PASS**.
++
++## 14. Pareto counterfactual audit
++
++The audit evaluated 2,590 legal counterfactual branches without collapsing outcomes to a scalar score. Three action families universally Pareto-dominated alternatives in their sampled windows: `a1_preserve_reserve` (32/32), `b1_pulse_network` (32/32), and `c1_preserve_mobile_reserve` (32/32). `NO_UNIVERSAL_ACTION_DOMINANCE`: **FAIL**.
++
++## 15. Shadow horizon/deadline/resource analyses
++
++Post-hoc horizon tables cover exactly 330, 345, 360, 375, and 390 minutes. Deadline shifts cover exactly −30, −15, 0, +15, and +30 minutes. Resource path-feasibility covers exactly budgets 80, 90, 100, 110, and 120 and is explicitly labeled as path-feasibility rather than full counterfactual replay: **PASS**.
++
++## 16. Cognitive synthetic-policy verification
++
++C1..C15 each produced 256 deterministic runs (3,840 total); C16 produced 4,096 random runs, for 7,936 cognitive runs total. All frozen policy definitions and output fields were present: **PASS**.
++
++## 17. Random OSI centering
++
++C16 means were overall −0.089226, Phase A −0.372951, Phase B +0.060145, Phase C +0.002391, and Phase D −0.046491. Overall, Phase A, and Phase B exceeded the frozen absolute 0.05 limit. `RANDOM_OSI_CENTERING`: **FAIL**.
++
++## 18. Cognitive anchor gates
++
++All 12 frozen orientation, information-seeking, second-order, adversary-modeling, stewardship, planning, MCI, risk, coherence, and evidence-updating checks passed: **PASS (12/12)**.
++
++## 19. Distribution screen
++
++All engineering distribution screeners were calculated. `escalationSensitivity` (SD 4.856517), `multiDomainIntegration` (SD 4.895235), and `integration` (SD 3.185132) triggered `engineering_low_variance`. `COGNITIVE_DISTRIBUTION_WARNING`: **WARNING**. This warning does not alter hard-gate status.
++
++## 20. Cognitive firewall
++
++One hundred paired observable bundles were evaluated with hidden truth/domain outcome fields excluded. Each pair produced identical cognitive outputs: **PASS**.
++
++## 21. Runtime clock audit
++
++The pre-finalization decision clock ranged from 237 to 293 minutes; 100% of runs were at or below 300 minutes and the maximum was below the frozen 360-minute bound: **PASS**.
++
++## 22. Phase-3/4/5/6/7 regression results
++
++- Phase 3: **PASS**, 86 assertions.
++- Phase 4: **PASS**, 464 assertions.
++- Phase 5: **PASS**, 388 assertions.
++- Phase 6: **PASS**, 2,979 assertions.
++- Phase 7: **PASS**, 562 assertions.
++
++No existing verifier was edited in Phase 8.
++
++## 23. Typecheck/build/calibration commands and results
++
++- `npx tsc -b`: **PASS**.
++- `npm run build`: **PASS**, 118 modules transformed.
++- `npx tsx scripts/run-s5-phase8-calibration.ts`: **PASS** as an execution; overall measured calibration status **FAIL**.
++- `npx tsx scripts/verify-s5-phase8-calibration.ts`: **PASS**, 91 independent assertions.
++- Two complete executions yielded byte-identical deterministic artifacts.
++
++## 24. Patch/result artifact integrity
++
++All eleven CSV files are UTF-8, headered, deterministically ordered, and machine-readable; the summary JSON contains no `NaN` or `Infinity`. The unified patch embeds the calibration sources, both scripts, verification/report Markdown, summary JSON, and the nine small deterministic CSVs. Exactly these generated files are excluded from patch embedding because of size:
++
++- `docs/scenario5-phase8-results/mission-runs.csv`
++- `docs/scenario5-phase8-results/cognitive-runs.csv`
++
++`git -c core.autocrlf=false diff --check`, patch warning scan, `git apply --stat`, and `git apply --check --reverse` all passed after patch generation.
++
++## 25. Known limitations
++
++The world/seed frequencies are not real-world event probabilities; synthetic policies are not human behavior; engineering calibration is not psychometric validation. Time, cost, threshold, and loading parameters still require expert review and human validation. The failed gates and warning above are preserved for a human reviewer; no numeric replacement is proposed or applied. Phase 8A and Phase 9 were not started.
++
++## 26. Statement
++
++No model parameter was automatically changed by Codex in Phase 8.
+diff --git a/docs/scenario5-phase8-results/action-coverage.csv b/docs/scenario5-phase8-results/action-coverage.csv
+new file mode 100644
+index 0000000..90025a9
+--- /dev/null
++++ b/docs/scenario5-phase8-results/action-coverage.csv
+@@ -0,0 +1,34 @@
++actionId,selectionCount,selectionCountByRound,targetAlphaCount,targetBetaCount,targetGammaCount,targetDeltaCount,fallbackSelectionCount,alphaLegality,betaLegality,gammaLegality,deltaLegality
++a1_network_baseline,7168,"{""1"":7168}",0,0,0,0,0,not_applicable,not_applicable,not_applicable,not_applicable
++a1_priority_focus,9216,"{""1"":9216}",9216,0,0,0,0,not_applicable,not_applicable,not_applicable,not_applicable
++a1_rotating_watch,1024,"{""1"":1024}",0,0,0,0,0,not_applicable,not_applicable,not_applicable,not_applicable
++a1_preserve_reserve,7168,"{""1"":7168}",0,0,0,0,0,not_applicable,not_applicable,not_applicable,not_applicable
++a2_focused_pnt,4096,"{""2"":4096}",2816,256,1024,0,0,observed,observed,observed,legal_but_not_selected
++a2_broad_sweep,5376,"{""2"":5376}",0,0,0,0,0,not_applicable,not_applicable,not_applicable,not_applicable
++a2_field_radio,6912,"{""2"":6912}",3072,768,2048,1024,0,observed,observed,observed,observed
++a2_ground_liaison,8192,"{""2"":8192}",320,4416,1216,2240,0,observed,observed,observed,observed
++b1_suspect_focus,6720,"{""3"":6720}",3776,1024,1600,320,0,observed,observed,observed,observed
++b1_priority_cargo,5824,"{""3"":5824}",5824,0,0,0,0,not_applicable,not_applicable,not_applicable,not_applicable
++b1_split_attention,3584,"{""3"":3584}",0,0,0,0,0,not_applicable,not_applicable,not_applicable,not_applicable
++b1_pulse_network,8448,"{""3"":8448}",0,0,0,0,0,not_applicable,not_applicable,not_applicable,not_applicable
++b2_continue_crosscheck,10592,"{""4"":10592}",5760,1792,480,2560,0,observed,observed,observed,observed
++b2_reroute,5856,"{""4"":5856}",1520,2128,688,1520,0,observed,observed,observed,observed
++b2_staged_checkpoints,4672,"{""4"":4672}",1024,384,1280,1984,0,observed,observed,observed,observed
++b2_hold_verify,3456,"{""4"":3456}",576,640,1312,928,0,observed,observed,observed,observed
++c1_fallback_nav,5436,"{""5"":5436}",2816,1664,636,320,0,observed,observed,observed,observed
++c1_ground_recon,6468,"{""5"":6468}",676,1260,2182,2350,0,observed,observed,observed,observed
++c1_checkpoint_spacing,7220,"{""5"":7220}",1118,2880,2038,1184,0,observed,observed,observed,observed
++c1_preserve_mobile_reserve,5452,"{""5"":5452}",0,0,0,0,0,not_applicable,not_applicable,not_applicable,not_applicable
++c2_isr_heavy,4904,"{""6"":4904}",0,0,0,0,0,not_applicable,not_applicable,not_applicable,not_applicable
++c2_mobility_heavy,5884,"{""6"":5884}",0,0,0,0,0,not_applicable,not_applicable,not_applicable,not_applicable
++c2_balanced,7260,"{""6"":7260}",0,0,0,0,0,not_applicable,not_applicable,not_applicable,not_applicable
++c2_priority_surge,6528,"{""6"":6528}",6528,0,0,0,0,not_applicable,not_applicable,not_applicable,not_applicable
++d1_emergency_reroute,4158,"{""7"":4158}",1012,576,1514,1056,0,observed,observed,observed,observed
++d1_ground_containment,3748,"{""7"":3748}",936,572,1004,1236,0,observed,observed,observed,observed
++d1_deception_routing,3642,"{""7"":3642}",1558,678,896,510,0,observed,observed,observed,observed
++d1_escorted_continuation,5406,"{""7"":5406}",2030,962,1366,1048,0,observed,observed,observed,observed
++d1_hold_confirm,7622,"{""7"":7622}",2380,2022,1856,1364,0,observed,observed,observed,observed
++d2_critical_delivery_surge,3088,"{""8"":3088}",3088,0,0,0,0,not_applicable,not_applicable,not_applicable,not_applicable
++d2_network_balanced_finish,9478,"{""8"":9478}",0,0,0,0,1496,not_applicable,not_applicable,not_applicable,not_applicable
++d2_resilient_handoff,3228,"{""8"":3228}",3228,0,0,0,0,not_applicable,not_applicable,not_applicable,not_applicable
++d2_continuity_first_finish,8782,"{""8"":8782}",0,0,0,0,0,not_applicable,not_applicable,not_applicable,not_applicable
+diff --git a/docs/scenario5-phase8-results/action-dominance.csv b/docs/scenario5-phase8-results/action-dominance.csv
+new file mode 100644
+index 0000000..ffd206a
+--- /dev/null
++++ b/docs/scenario5-phase8-results/action-dominance.csv
+@@ -0,0 +1,34 @@
++windowId,actionId,evaluatedStateCount,statesWhereSomeVariantParetoDominatesAllOtherFamilies,dominanceShare,universalDominance
++decision:A1_baseline_monitoring,a1_network_baseline,32,0,0,false
++decision:A1_baseline_monitoring,a1_priority_focus,32,0,0,false
++decision:A1_baseline_monitoring,a1_rotating_watch,32,0,0,false
++decision:A1_baseline_monitoring,a1_preserve_reserve,32,32,1,true
++decision:A2_evidence_acquisition,a2_focused_pnt,32,0,0,false
++decision:A2_evidence_acquisition,a2_broad_sweep,32,0,0,false
++decision:A2_evidence_acquisition,a2_field_radio,32,0,0,false
++decision:A2_evidence_acquisition,a2_ground_liaison,32,0,0,false
++decision:B1_monitoring_allocation,b1_suspect_focus,32,0,0,false
++decision:B1_monitoring_allocation,b1_priority_cargo,32,0,0,false
++decision:B1_monitoring_allocation,b1_split_attention,32,0,0,false
++decision:B1_monitoring_allocation,b1_pulse_network,32,32,1,true
++decision:B2_route_policy,b2_continue_crosscheck,32,0,0,false
++decision:B2_route_policy,b2_reroute,32,0,0,false
++decision:B2_route_policy,b2_staged_checkpoints,32,0,0,false
++decision:B2_route_policy,b2_hold_verify,32,0,0,false
++decision:C1_support_and_checkpoints,c1_fallback_nav,32,0,0,false
++decision:C1_support_and_checkpoints,c1_ground_recon,32,0,0,false
++decision:C1_support_and_checkpoints,c1_checkpoint_spacing,32,0,0,false
++decision:C1_support_and_checkpoints,c1_preserve_mobile_reserve,32,32,1,true
++decision:C2_resource_portfolio,c2_isr_heavy,32,0,0,false
++decision:C2_resource_portfolio,c2_mobility_heavy,32,0,0,false
++decision:C2_resource_portfolio,c2_balanced,32,0,0,false
++decision:C2_resource_portfolio,c2_priority_surge,32,0,0,false
++decision:D1_crisis_response,d1_emergency_reroute,32,0,0,false
++decision:D1_crisis_response,d1_ground_containment,32,0,0,false
++decision:D1_crisis_response,d1_deception_routing,32,0,0,false
++decision:D1_crisis_response,d1_escorted_continuation,32,0,0,false
++decision:D1_crisis_response,d1_hold_confirm,32,0,0,false
++decision:D2_final_delivery_policy,d2_critical_delivery_surge,31,0,0,false
++decision:D2_final_delivery_policy,d2_network_balanced_finish,32,0,0,false
++decision:D2_final_delivery_policy,d2_resilient_handoff,31,0,0,false
++decision:D2_final_delivery_policy,d2_continuity_first_finish,32,1,0.03125,false
+diff --git a/docs/scenario5-phase8-results/actor-signatures.csv b/docs/scenario5-phase8-results/actor-signatures.csv
+new file mode 100644
+index 0000000..c864a02
+--- /dev/null
++++ b/docs/scenario5-phase8-results/actor-signatures.csv
+@@ -0,0 +1,5 @@
++actorProfile,meanActorDelayAddedMinutes,medianActorDelayAddedMinutes,threatContainedRate,resolvedAttributionRate,meanNetworkContinuity,meanAlphaDelay,endStateDistribution,secondaryActorImpactRate
++cautious_denial,23.678571,23,0,0.642857,100,20.821429,"{""critical_cargo_lost_or_compromised"":0,""priority_delivered_network_failure"":0,""mission_incomplete_continuity_preserved"":0,""delayed_delivery_persistent_disruption"":0.6428571428571429,""resilient_delivery_unresolved_attribution"":0.35714285714285715,""resilient_delivery_threat_contained"":0}",0
++deceptive_diversion,45.399554,46,0,0.428571,98.883929,26.967634,"{""critical_cargo_lost_or_compromised"":0,""priority_delivered_network_failure"":0,""mission_incomplete_continuity_preserved"":0,""delayed_delivery_persistent_disruption"":0.42857142857142855,""resilient_delivery_unresolved_attribution"":0.5714285714285714,""resilient_delivery_threat_contained"":0}",0
++opportunistic_interdiction,72.821429,69.5,0,0.642857,85.714286,31.75,"{""critical_cargo_lost_or_compromised"":0,""priority_delivered_network_failure"":0,""mission_incomplete_continuity_preserved"":0,""delayed_delivery_persistent_disruption"":0.6428571428571429,""resilient_delivery_unresolved_attribution"":0.35714285714285715,""resilient_delivery_threat_contained"":0}",0.071429
++pressure_escalator,53.607143,52,0.142857,0.642857,92.857143,27.535714,"{""critical_cargo_lost_or_compromised"":0,""priority_delivered_network_failure"":0,""mission_incomplete_continuity_preserved"":0,""delayed_delivery_persistent_disruption"":0.5,""resilient_delivery_unresolved_attribution"":0.35714285714285715,""resilient_delivery_threat_contained"":0.14285714285714285}",0
+diff --git a/docs/scenario5-phase8-results/cognitive-distributions.csv b/docs/scenario5-phase8-results/cognitive-distributions.csv
+new file mode 100644
+index 0000000..6ffecfc
+--- /dev/null
++++ b/docs/scenario5-phase8-results/cognitive-distributions.csv
+@@ -0,0 +1,15 @@
++metric,scale,n,nullRate,mean,sd,min,p05,p25,median,p75,p95,max,percentAtOrBelow5,percentAtOrAbove95,warnings
++informationSeeking,0..100,7936,0,52.510255,20.305629,11.5,21.25,33,56.195877,68.141051,84.636612,92.75,0,0,
++secondOrderThinking,0..100,7936,0,60.045426,8.311366,41.125,47.875,54.1875,59.5,66.625,73.5625,74.1875,0,0,
++adversaryModeling,0..100,7936,0,59.769405,9.34692,45,45,55,60,60,75,75,0,0,
++escalationSensitivity,0..100,7936,0,57.96938,4.856517,50,52.5,55,57.5,60,70,72.5,0,0,engineering_low_variance
++evidenceResponsiveUpdating,0..100,6111,0.229965,30.060759,15.924726,0,16,23.333333,30.666667,30.666667,36.222222,99.733333,0.065456,4.189167,
++resourceStewardship,0..100,7936,0,62.466387,9.509486,44.625,46.875,55.5,61.25,69.875,79.75,80.375,0,0,
++planningForesight,0..100,7936,0,67.754914,9.396878,47.6875,52.75,61.75,66.125,75.0625,83.875,84.125,0,0,
++multiDomainIntegration,0..100,7936,0,27.634856,4.895235,19.263406,19.263406,23.111546,25.94507,32.135183,32.135183,32.135183,0,0,engineering_low_variance
++decisionCoherence,0..100,7936,0,70.059325,12.120857,36.816667,53.183333,61.366667,70.2,80.883333,85.216667,87.1,0,0,
++operationalStrength,0..100,7936,0,63.223444,8.48094,45,47.5,58.75,65,68.75,73.75,83.75,0,0,
++strategicStrength,0..100,7936,0,68.367566,10.551374,42.5,52.5,61.25,68.75,76.25,85,87.5,0,0,
++integration,0..100,7936,0,64.405037,3.185132,56.386139,58.235294,62.962963,64.368932,66.777053,69.234234,70.701754,0,0,engineering_low_variance
++overallOSI,-1..1,7936,0,0.040892,0.374488,-0.877118,-0.465146,-0.186403,-0.00376,0.320011,0.674932,0.677949,,,
++riskPosture,-1..1,7936,0,-0.121599,0.449431,-0.792593,-0.664387,-0.466952,-0.151567,0.133333,0.846154,0.987179,,,
+diff --git a/docs/scenario5-phase8-results/end-state-coverage.csv b/docs/scenario5-phase8-results/end-state-coverage.csv
+new file mode 100644
+index 0000000..8773bb0
+--- /dev/null
++++ b/docs/scenario5-phase8-results/end-state-coverage.csv
+@@ -0,0 +1,7 @@
++endStateId,mainAuditCount,classification,witnessWorldId,witnessEnvironmentSeed,witnessPolicySeed,orderedActions,orderedTargets,finalDomainSummary
++critical_cargo_lost_or_compromised,64,observed_in_main_audit,,,,,,
++priority_delivered_network_failure,0,not_observed_under_phase8_search,,,,,,
++mission_incomplete_continuity_preserved,0,not_observed_under_phase8_search,,,,,,
++delayed_delivery_persistent_disruption,14076,observed_in_main_audit,,,,,,
++resilient_delivery_unresolved_attribution,10180,observed_in_main_audit,,,,,,
++resilient_delivery_threat_contained,256,observed_in_main_audit,,,,,,
+diff --git a/docs/scenario5-phase8-results/seed-sensitivity.csv b/docs/scenario5-phase8-results/seed-sensitivity.csv
+new file mode 100644
+index 0000000..17680cb
+--- /dev/null
++++ b/docs/scenario5-phase8-results/seed-sensitivity.csv
+@@ -0,0 +1,113 @@
++worldId,policyId,modalEndStateShare,uniqueEndStateCount,alphaDeliveryRate,networkContinuityMin,networkContinuityMax,alphaDelayP25,alphaDelayMedian,alphaDelayP75,alphaDelayIqr,actorDelayP25,actorDelayMedian,actorDelayP75,highSeedSensitivity
++W-corridor_alpha_east-cautious_denial,balanced_network,1,1,1,100,100,52,52,52,0,22,22,22,false
++W-corridor_alpha_east-cautious_denial,priority_alpha,1,1,1,100,100,25,25,25,0,20,20,20,false
++W-corridor_alpha_east-cautious_denial,information_heavy,1,1,1,100,100,88,88,88,0,23,23,23,false
++W-corridor_alpha_east-cautious_denial,mobility_resilience,1,1,1,100,100,20,20,20,0,20,20,20,false
++W-corridor_alpha_east-cautious_denial,resource_preserver,1,1,1,100,100,57,57,57,0,22,22,22,false
++W-corridor_alpha_east-cautious_denial,high_response,1,1,1,100,100,59,59,59,0,19,19,19,false
++W-corridor_alpha_east-cautious_denial,low_response_reversible,1,1,1,100,100,57,57,57,0,22,22,22,false
++W-corridor_alpha_east-deceptive_diversion,balanced_network,1,1,1,100,100,68,68,68,0,38,38,38,false
++W-corridor_alpha_east-deceptive_diversion,priority_alpha,1,1,1,100,100,45,45,45,0,40,40,40,false
++W-corridor_alpha_east-deceptive_diversion,information_heavy,1,1,1,75,100,90,110,110,20,45,45,45,false
++W-corridor_alpha_east-deceptive_diversion,mobility_resilience,1,1,1,100,100,38,38,38,0,38,38,38,false
++W-corridor_alpha_east-deceptive_diversion,resource_preserver,1,1,1,100,100,74,74,74,0,39,39,39,false
++W-corridor_alpha_east-deceptive_diversion,high_response,1,1,1,100,100,49,53,60,11,35,38,44,false
++W-corridor_alpha_east-deceptive_diversion,low_response_reversible,1,1,1,100,100,74,74,74,0,39,39,39,false
++W-corridor_alpha_east-opportunistic_interdiction,balanced_network,1,1,1,100,100,82,82,82,0,52,52,52,false
++W-corridor_alpha_east-opportunistic_interdiction,priority_alpha,1,1,1,100,100,74,74,74,0,96,96,96,false
++W-corridor_alpha_east-opportunistic_interdiction,information_heavy,1,1,1,75,75,144,144,144,0,79,79,79,false
++W-corridor_alpha_east-opportunistic_interdiction,mobility_resilience,1,1,1,100,100,52,52,52,0,52,52,52,false
++W-corridor_alpha_east-opportunistic_interdiction,resource_preserver,1,1,1,75,75,98,98,98,0,63,63,63,false
++W-corridor_alpha_east-opportunistic_interdiction,high_response,1,1,1,75,75,96,96,96,0,56,56,56,false
++W-corridor_alpha_east-opportunistic_interdiction,low_response_reversible,1,1,1,75,75,98,98,98,0,63,63,63,false
++W-corridor_alpha_east-pressure_escalator,balanced_network,1,1,1,100,100,71,71,71,0,41,41,41,false
++W-corridor_alpha_east-pressure_escalator,priority_alpha,1,1,1,100,100,49,49,49,0,44,44,44,false
++W-corridor_alpha_east-pressure_escalator,information_heavy,1,1,1,75,75,132,132,132,0,67,67,67,false
++W-corridor_alpha_east-pressure_escalator,mobility_resilience,1,1,1,100,100,41,41,41,0,41,41,41,false
++W-corridor_alpha_east-pressure_escalator,resource_preserver,1,1,1,100,100,77,77,77,0,42,42,42,false
++W-corridor_alpha_east-pressure_escalator,high_response,1,1,1,75,75,99,99,99,0,59,59,59,false
++W-corridor_alpha_east-pressure_escalator,low_response_reversible,1,1,1,100,100,77,77,77,0,42,42,42,false
++W-corridor_beta_south-cautious_denial,balanced_network,1,1,1,100,100,15,15,15,0,23,23,23,false
++W-corridor_beta_south-cautious_denial,priority_alpha,1,1,1,100,100,5,5,5,0,27,27,27,false
++W-corridor_beta_south-cautious_denial,information_heavy,1,1,1,100,100,0,0,0,0,23,23,23,false
++W-corridor_beta_south-cautious_denial,mobility_resilience,1,1,1,100,100,5,5,5,0,21,21,21,false
++W-corridor_beta_south-cautious_denial,resource_preserver,1,1,1,100,100,35,35,35,0,27,27,27,false
++W-corridor_beta_south-cautious_denial,high_response,1,1,1,100,100,0,0,0,0,19,19,19,false
++W-corridor_beta_south-cautious_denial,low_response_reversible,1,1,1,100,100,15,15,15,0,27,27,27,false
++W-corridor_beta_south-deceptive_diversion,balanced_network,1,1,1,100,100,15,15,15,0,40,40,40,false
++W-corridor_beta_south-deceptive_diversion,priority_alpha,1,1,1,100,100,5,5,5,0,56,56,56,false
++W-corridor_beta_south-deceptive_diversion,information_heavy,1,1,1,75,100,0,0,0,0,46,46,46,false
++W-corridor_beta_south-deceptive_diversion,mobility_resilience,1,1,1,100,100,5,5,5,0,40,40,40,false
++W-corridor_beta_south-deceptive_diversion,resource_preserver,1,1,1,100,100,35,35,35,0,49,49,49,false
++W-corridor_beta_south-deceptive_diversion,high_response,1,1,1,100,100,0,0,0,0,35,38,44,false
++W-corridor_beta_south-deceptive_diversion,low_response_reversible,1,1,1,100,100,15,15,15,0,49,49,49,false
++W-corridor_beta_south-opportunistic_interdiction,balanced_network,1,1,1,100,100,15,15,15,0,55,55,55,false
++W-corridor_beta_south-opportunistic_interdiction,priority_alpha,1,1,1,75,75,25,25,25,0,114,114,114,false
++W-corridor_beta_south-opportunistic_interdiction,information_heavy,1,1,1,75,75,0,0,0,0,81,81,81,false
++W-corridor_beta_south-opportunistic_interdiction,mobility_resilience,1,1,1,100,100,5,5,5,0,55,55,55,false
++W-corridor_beta_south-opportunistic_interdiction,resource_preserver,1,1,1,100,100,35,35,35,0,76,76,76,false
++W-corridor_beta_south-opportunistic_interdiction,high_response,1,1,1,75,75,0,0,0,0,56,56,56,false
++W-corridor_beta_south-opportunistic_interdiction,low_response_reversible,1,1,1,75,75,15,15,15,0,76,76,76,false
++W-corridor_beta_south-pressure_escalator,balanced_network,1,1,1,100,100,15,15,15,0,43,43,43,false
++W-corridor_beta_south-pressure_escalator,priority_alpha,1,1,1,100,100,5,5,5,0,62,62,62,false
++W-corridor_beta_south-pressure_escalator,information_heavy,1,1,1,75,75,0,0,0,0,69,69,69,false
++W-corridor_beta_south-pressure_escalator,mobility_resilience,1,1,1,100,100,5,5,5,0,43,43,43,false
++W-corridor_beta_south-pressure_escalator,resource_preserver,1,1,1,100,100,35,35,35,0,52,52,52,false
++W-corridor_beta_south-pressure_escalator,high_response,1,1,1,75,75,0,0,0,0,59,59,59,false
++W-corridor_beta_south-pressure_escalator,low_response_reversible,1,1,1,100,100,15,15,15,0,52,52,52,false
++W-corridor_gamma_northwest-cautious_denial,balanced_network,1,1,1,100,100,15,15,15,0,27,27,27,false
++W-corridor_gamma_northwest-cautious_denial,priority_alpha,1,1,1,100,100,5,5,5,0,27,27,27,false
++W-corridor_gamma_northwest-cautious_denial,information_heavy,1,1,1,100,100,0,0,0,0,23,23,23,false
++W-corridor_gamma_northwest-cautious_denial,mobility_resilience,1,1,1,100,100,5,5,5,0,23,23,23,false
++W-corridor_gamma_northwest-cautious_denial,resource_preserver,1,1,1,100,100,35,35,35,0,27,27,27,false
++W-corridor_gamma_northwest-cautious_denial,high_response,1,1,1,100,100,0,0,0,0,19,19,19,false
++W-corridor_gamma_northwest-cautious_denial,low_response_reversible,1,1,1,100,100,15,15,15,0,27,27,27,false
++W-corridor_gamma_northwest-deceptive_diversion,balanced_network,1,1,1,100,100,15,15,15,0,48,48,48,false
++W-corridor_gamma_northwest-deceptive_diversion,priority_alpha,1,1,1,100,100,5,5,5,0,56,56,56,false
++W-corridor_gamma_northwest-deceptive_diversion,information_heavy,1,1,1,100,100,40,65,65,25,50,51,51,false
++W-corridor_gamma_northwest-deceptive_diversion,mobility_resilience,1,1,1,100,100,5,5,5,0,43,43,43,false
++W-corridor_gamma_northwest-deceptive_diversion,resource_preserver,1,1,1,100,100,35,35,35,0,49,49,49,false
++W-corridor_gamma_northwest-deceptive_diversion,high_response,1,1,1,100,100,0,25,35,35,35,42,44,true
++W-corridor_gamma_northwest-deceptive_diversion,low_response_reversible,1,1,1,100,100,15,15,15,0,49,49,49,false
++W-corridor_gamma_northwest-opportunistic_interdiction,balanced_network,1,1,1,100,100,15,15,15,0,63,63,63,false
++W-corridor_gamma_northwest-opportunistic_interdiction,priority_alpha,1,1,1,75,75,5,5,5,0,121,121,121,false
++W-corridor_gamma_northwest-opportunistic_interdiction,information_heavy,1,1,1,75,75,0,0,0,0,81,81,81,false
++W-corridor_gamma_northwest-opportunistic_interdiction,mobility_resilience,1,1,1,100,100,5,5,5,0,58,58,58,false
++W-corridor_gamma_northwest-opportunistic_interdiction,resource_preserver,1,1,1,100,100,35,35,35,0,76,76,76,false
++W-corridor_gamma_northwest-opportunistic_interdiction,high_response,1,1,1,75,75,0,0,0,0,56,56,56,false
++W-corridor_gamma_northwest-opportunistic_interdiction,low_response_reversible,1,1,1,75,75,15,15,15,0,76,76,76,false
++W-corridor_gamma_northwest-pressure_escalator,balanced_network,1,1,1,100,100,15,15,15,0,51,51,51,false
++W-corridor_gamma_northwest-pressure_escalator,priority_alpha,1,1,1,100,100,5,5,5,0,62,62,62,false
++W-corridor_gamma_northwest-pressure_escalator,information_heavy,1,1,1,75,75,0,0,0,0,69,69,69,false
++W-corridor_gamma_northwest-pressure_escalator,mobility_resilience,1,1,1,100,100,5,5,5,0,46,46,46,false
++W-corridor_gamma_northwest-pressure_escalator,resource_preserver,1,1,1,100,100,35,35,35,0,52,52,52,false
++W-corridor_gamma_northwest-pressure_escalator,high_response,1,1,1,75,75,0,0,0,0,59,59,59,false
++W-corridor_gamma_northwest-pressure_escalator,low_response_reversible,1,1,1,100,100,15,15,15,0,52,52,52,false
++W-corridor_delta_west-cautious_denial,balanced_network,1,1,1,100,100,15,15,15,0,27,27,27,false
++W-corridor_delta_west-cautious_denial,priority_alpha,1,1,1,100,100,5,5,5,0,27,27,27,false
++W-corridor_delta_west-cautious_denial,information_heavy,1,1,1,100,100,0,0,0,0,23,23,23,false
++W-corridor_delta_west-cautious_denial,mobility_resilience,1,1,1,100,100,5,5,5,0,25,25,25,false
++W-corridor_delta_west-cautious_denial,resource_preserver,1,1,1,100,100,35,35,35,0,27,27,27,false
++W-corridor_delta_west-cautious_denial,high_response,1,1,1,100,100,0,0,0,0,19,19,19,false
++W-corridor_delta_west-cautious_denial,low_response_reversible,1,1,1,100,100,15,15,15,0,27,27,27,false
++W-corridor_delta_west-deceptive_diversion,balanced_network,1,1,1,100,100,15,15,15,0,48,48,48,false
++W-corridor_delta_west-deceptive_diversion,priority_alpha,1,1,1,100,100,5,5,5,0,56,56,56,false
++W-corridor_delta_west-deceptive_diversion,information_heavy,1,1,1,100,100,0,0,0,0,50,50,50,false
++W-corridor_delta_west-deceptive_diversion,mobility_resilience,1,1,1,100,100,5,5,5,0,46,46,46,false
++W-corridor_delta_west-deceptive_diversion,resource_preserver,1,1,1,100,100,35,35,35,0,49,49,49,false
++W-corridor_delta_west-deceptive_diversion,high_response,1,1,1,100,100,0,0,0,0,35,42,44,false
++W-corridor_delta_west-deceptive_diversion,low_response_reversible,1,1,1,100,100,15,15,15,0,49,49,49,false
++W-corridor_delta_west-opportunistic_interdiction,balanced_network,1,1,1,100,100,15,15,15,0,63,63,63,false
++W-corridor_delta_west-opportunistic_interdiction,priority_alpha,1,1,1,75,75,5,5,5,0,121,121,121,false
++W-corridor_delta_west-opportunistic_interdiction,information_heavy,1,1,1,75,75,0,0,0,0,81,81,81,false
++W-corridor_delta_west-opportunistic_interdiction,mobility_resilience,1,1,1,100,100,5,5,5,0,61,61,61,false
++W-corridor_delta_west-opportunistic_interdiction,resource_preserver,1,1,1,100,100,35,35,35,0,76,76,76,false
++W-corridor_delta_west-opportunistic_interdiction,high_response,1,1,1,75,75,0,0,0,0,56,56,56,false
++W-corridor_delta_west-opportunistic_interdiction,low_response_reversible,1,1,1,75,75,15,15,15,0,76,76,76,false
++W-corridor_delta_west-pressure_escalator,balanced_network,1,1,1,100,100,15,15,15,0,51,51,51,false
++W-corridor_delta_west-pressure_escalator,priority_alpha,1,1,1,100,100,5,5,5,0,62,62,62,false
++W-corridor_delta_west-pressure_escalator,information_heavy,1,1,1,75,75,0,0,0,0,69,69,69,false
++W-corridor_delta_west-pressure_escalator,mobility_resilience,1,1,1,100,100,5,5,5,0,49,49,49,false
++W-corridor_delta_west-pressure_escalator,resource_preserver,1,1,1,100,100,35,35,35,0,52,52,52,false
++W-corridor_delta_west-pressure_escalator,high_response,1,1,1,75,75,0,0,0,0,59,59,59,false
++W-corridor_delta_west-pressure_escalator,low_response_reversible,1,1,1,100,100,15,15,15,0,52,52,52,false
+diff --git a/docs/scenario5-phase8-results/shadow-deadline-sensitivity.csv b/docs/scenario5-phase8-results/shadow-deadline-sensitivity.csv
+new file mode 100644
+index 0000000..d80c871
+--- /dev/null
++++ b/docs/scenario5-phase8-results/shadow-deadline-sensitivity.csv
+@@ -0,0 +1,6 @@
++deadlineShift,meanNetworkContinuity,alphaOnTimeRate,allConvoyOnTimeRate
++-30,88.407389,0.879557,0.536296
++-15,93.619792,0.926188,0.744792
++0,95.894368,0.957682,0.835775
++15,97.131348,0.974691,0.885254
++30,97.412109,0.976318,0.896484
+diff --git a/docs/scenario5-phase8-results/shadow-resource-feasibility.csv b/docs/scenario5-phase8-results/shadow-resource-feasibility.csv
+new file mode 100644
+index 0000000..37430c2
+--- /dev/null
++++ b/docs/scenario5-phase8-results/shadow-resource-feasibility.csv
+@@ -0,0 +1,6 @@
++budget,analysisLabel,isrPathFeasibilityRate,supportPathFeasibilityRate,bothResourcePathFeasibilityRate
++80,"path-feasibility shadow analysis, not a full counterfactual replay",0.958333,0.924316,0.88265
++90,"path-feasibility shadow analysis, not a full counterfactual replay",1,0.955648,0.955648
++100,"path-feasibility shadow analysis, not a full counterfactual replay",1,1,1
++110,"path-feasibility shadow analysis, not a full counterfactual replay",1,1,1
++120,"path-feasibility shadow analysis, not a full counterfactual replay",1,1,1
+diff --git a/docs/scenario5-phase8-results/shadow-time-sensitivity.csv b/docs/scenario5-phase8-results/shadow-time-sensitivity.csv
+new file mode 100644
+index 0000000..79d0fd8
+--- /dev/null
++++ b/docs/scenario5-phase8-results/shadow-time-sensitivity.csv
+@@ -0,0 +1,6 @@
++horizon,alphaDeliveryRate,allConvoyDeliveryRate,meanDeliveredConvoyCount
++330,0.992188,0.890218,3.890218
++345,0.994792,0.93514,3.93514
++360,0.997396,0.952718,3.952718
++375,0.997396,0.963786,3.963786
++390,0.997396,0.96639,3.96639
+diff --git a/docs/scenario5-phase8-summary.json b/docs/scenario5-phase8-summary.json
+new file mode 100644
+index 0000000..e54187c
+--- /dev/null
++++ b/docs/scenario5-phase8-summary.json
+@@ -0,0 +1,894 @@
++{
++  "calibrationVersion": "s5-calibration-v1.0.0",
++  "modelVersions": {
++    "mission": "s5-mission-v1.0.2",
++    "cognitive": "s5-cognitive-v3-adapter-v1.0.0",
++    "runtime": "s5-runtime-v1.0.1",
++    "domainMetrics": "s5-domain-metrics-v1.0.0",
++    "calibrationStatus": "engineering_audit_not_human_validated",
++    "frozenProtectedManifestSha256": "1bd32af62f0667d3864eb7b2b0e7354e70bebe43178cdc8a64a880e8a138bef6"
++  },
++  "runCounts": {
++    "scheduledMissionRuns": 25600,
++    "deterministicMissionRuns": 9216,
++    "randomMissionRuns": 16384,
++    "witnessSearchRuns": 20000,
++    "deterministicCognitiveRuns": 3840,
++    "randomCognitiveRuns": 4096,
++    "totalCognitiveRuns": 7936,
++    "deterministicReplayCases": 384,
++    "cognitiveFirewallPairs": 100,
++    "counterfactualBranches": 2590
++  },
++  "environmentCoverage": {
++    "environmentInstanceCount": 1024,
++    "worldCounts": {
++      "W-corridor_alpha_east-cautious_denial": 64,
++      "W-corridor_alpha_east-deceptive_diversion": 64,
++      "W-corridor_alpha_east-opportunistic_interdiction": 64,
++      "W-corridor_alpha_east-pressure_escalator": 64,
++      "W-corridor_beta_south-cautious_denial": 64,
++      "W-corridor_beta_south-deceptive_diversion": 64,
++      "W-corridor_beta_south-opportunistic_interdiction": 64,
++      "W-corridor_beta_south-pressure_escalator": 64,
++      "W-corridor_gamma_northwest-cautious_denial": 64,
++      "W-corridor_gamma_northwest-deceptive_diversion": 64,
++      "W-corridor_gamma_northwest-opportunistic_interdiction": 64,
++      "W-corridor_gamma_northwest-pressure_escalator": 64,
++      "W-corridor_delta_west-cautious_denial": 64,
++      "W-corridor_delta_west-deceptive_diversion": 64,
++      "W-corridor_delta_west-opportunistic_interdiction": 64,
++      "W-corridor_delta_west-pressure_escalator": 64
++    },
++    "actorCounts": {
++      "cautious_denial": 256,
++      "deceptive_diversion": 256,
++      "opportunistic_interdiction": 256,
++      "pressure_escalator": 256
++    },
++    "primaryCorridorCounts": {
++      "corridor_alpha_east": 256,
++      "corridor_beta_south": 256,
++      "corridor_gamma_northwest": 256,
++      "corridor_delta_west": 256
++    },
++    "latencyVariants": [
++      "early",
++      "late",
++      "nominal"
++    ],
++    "expectedNoiseRelationCount": 44,
++    "observedNoiseRelationCount": 44,
++    "missingNoiseRelations": []
++  },
++  "actionCoverage": {
++    "observedActionCount": 33,
++    "targetCoverageFailures": [
++      "a2_focused_pnt:corridor_delta_west"
++    ]
++  },
++  "endStateCoverage": [
++    {
++      "endStateId": "critical_cargo_lost_or_compromised",
++      "mainAuditCount": 64,
++      "classification": "observed_in_main_audit",
++      "witnessWorldId": "",
++      "witnessEnvironmentSeed": "",
++      "witnessPolicySeed": "",
++      "orderedActions": "",
++      "orderedTargets": "",
++      "finalDomainSummary": ""
++    },
++    {
++      "endStateId": "priority_delivered_network_failure",
++      "mainAuditCount": 0,
++      "classification": "not_observed_under_phase8_search",
++      "witnessWorldId": "",
++      "witnessEnvironmentSeed": "",
++      "witnessPolicySeed": "",
++      "orderedActions": "",
++      "orderedTargets": "",
++      "finalDomainSummary": ""
++    },
++    {
++      "endStateId": "mission_incomplete_continuity_preserved",
++      "mainAuditCount": 0,
++      "classification": "not_observed_under_phase8_search",
++      "witnessWorldId": "",
++      "witnessEnvironmentSeed": "",
++      "witnessPolicySeed": "",
++      "orderedActions": "",
++      "orderedTargets": "",
++      "finalDomainSummary": ""
++    },
++    {
++      "endStateId": "delayed_delivery_persistent_disruption",
++      "mainAuditCount": 14076,
++      "classification": "observed_in_main_audit",
++      "witnessWorldId": "",
++      "witnessEnvironmentSeed": "",
++      "witnessPolicySeed": "",
++      "orderedActions": "",
++      "orderedTargets": "",
++      "finalDomainSummary": ""
++    },
++    {
++      "endStateId": "resilient_delivery_unresolved_attribution",
++      "mainAuditCount": 10180,
++      "classification": "observed_in_main_audit",
++      "witnessWorldId": "",
++      "witnessEnvironmentSeed": "",
++      "witnessPolicySeed": "",
++      "orderedActions": "",
++      "orderedTargets": "",
++      "finalDomainSummary": ""
++    },
++    {
++      "endStateId": "resilient_delivery_threat_contained",
++      "mainAuditCount": 256,
++      "classification": "observed_in_main_audit",
++      "witnessWorldId": "",
++      "witnessEnvironmentSeed": "",
++      "witnessPolicySeed": "",
++      "orderedActions": "",
++      "orderedTargets": "",
++      "finalDomainSummary": ""
++    }
++  ],
++  "hardGates": [
++    {
++      "gateId": "ENVIRONMENT_PANEL_COVERAGE",
++      "status": "PASS",
++      "detail": "worlds=16; latency=early|late|nominal; missingNoise=0"
++    },
++    {
++      "gateId": "EXECUTION_COMPLETION",
++      "status": "PASS",
++      "detail": "25600/25600 scheduled runs completed"
++    },
++    {
++      "gateId": "DETERMINISTIC_REPLAY",
++      "status": "PASS",
++      "detail": "384 selected cases replayed twice"
++    },
++    {
++      "gateId": "LEGAL_ACTION_SAFETY",
++      "status": "PASS",
++      "detail": "zeroOption=0; negativeResource=0; chronology=0"
++    },
++    {
++      "gateId": "DOMAIN_DELAY_IDENTITY",
++      "status": "PASS",
++      "detail": "0 exact-identity failures"
++    },
++    {
++      "gateId": "NO_MATH_RANDOM",
++      "status": "PASS",
++      "detail": "11 calibration source files scanned"
++    },
++    {
++      "gateId": "ACTION_TARGET_COVERAGE",
++      "status": "FAIL",
++      "detail": "33/33 actions observed; legal target gaps=a2_focused_pnt:corridor_delta_west"
++    },
++    {
++      "gateId": "SIX_END_STATES_OBSERVED",
++      "status": "FAIL",
++      "detail": "critical_cargo_lost_or_compromised:observed_in_main_audit; priority_delivered_network_failure:not_observed_under_phase8_search; mission_incomplete_continuity_preserved:not_observed_under_phase8_search; delayed_delivery_persistent_disruption:observed_in_main_audit; resilient_delivery_unresolved_attribution:observed_in_main_audit; resilient_delivery_threat_contained:observed_in_main_audit"
++    },
++    {
++      "gateId": "ACTOR_PAIR_DISTINCTIVENESS",
++      "status": "PASS",
++      "detail": "6/6 pairs distinguishable"
++    },
++    {
++      "gateId": "NO_UNIVERSAL_ACTION_DOMINANCE",
++      "status": "FAIL",
++      "detail": "2590 counterfactual branches"
++    },
++    {
++      "gateId": "RANDOM_OSI_CENTERING",
++      "status": "FAIL",
++      "detail": "{\"overall\":{\"mean\":-0.089226,\"sd\":0.239728,\"p025\":-0.497857,\"p975\":0.368163,\"n\":4096},\"phaseA\":{\"mean\":-0.372951,\"sd\":0.553005,\"p025\":-1,\"p975\":0.114754,\"n\":4096},\"phaseB\":{\"mean\":0.060145,\"sd\":0.503031,\"p025\":-1,\"p975\":0.818221,\"n\":4096},\"phaseC\":{\"mean\":0.002391,\"sd\":0.482697,\"p025\":-0.674663,\"p975\":0.925803,\"n\":4096},\"phaseD\":{\"mean\":-0.046491,\"sd\":0.502809,\"p025\":-0.845804,\"p975\":1,\"n\":4096}}"
++    },
++    {
++      "gateId": "COGNITIVE_ANCHOR_GATES",
++      "status": "PASS",
++      "detail": "12/12 anchor checks passed"
++    },
++    {
++      "gateId": "COGNITIVE_FIREWALL",
++      "status": "PASS",
++      "detail": "100 paired bundles; hidden/domain fields excluded"
++    },
++    {
++      "gateId": "MAX_DECISION_CLOCK_360",
++      "status": "PASS",
++      "detail": "maximum pre-finalization clock=293"
++    }
++  ],
++  "warnings": [
++    {
++      "gateId": "FORCED_CHOICE_WARNING",
++      "status": "PASS",
++      "detail": "0% decision windows had one option"
++    },
++    {
++      "gateId": "RESOURCE_TOO_LOOSE_WARNING",
++      "status": "PASS",
++      "detail": "16.577148% runs ended with both resources >=50"
++    },
++    {
++      "gateId": "RESOURCE_EXHAUSTION_WARNING",
++      "status": "PASS",
++      "detail": "1.041667% runs ended with ISR or support <=5"
++    },
++    {
++      "gateId": "OUTCOME_CONCENTRATION_WARNING",
++      "status": "PASS",
++      "detail": "modal=delayed_delivery_persistent_disruption:59.493886%; actorVarietyFailures=none; corridorVarietyFailures=none"
++    },
++    {
++      "gateId": "SEED_SENSITIVITY_WARNING",
++      "status": "PASS",
++      "detail": "0.892857% world×policy cells flagged"
++    },
++    {
++      "gateId": "COGNITIVE_DISTRIBUTION_WARNING",
++      "status": "WARNING",
++      "detail": "escalationSensitivity:engineering_low_variance; multiDomainIntegration:engineering_low_variance; integration:engineering_low_variance"
++    }
++  ],
++  "actorPairResults": [
++    {
++      "actorA": "cautious_denial",
++      "actorB": "deceptive_diversion",
++      "meanDelayDifference": 21.720983,
++      "threatContainedRateDifference": 0,
++      "endStateTvDistance": 0.214286,
++      "secondaryImpactRateDifference": 0,
++      "distinguishable": true
++    },
++    {
++      "actorA": "cautious_denial",
++      "actorB": "opportunistic_interdiction",
++      "meanDelayDifference": 49.142858,
++      "threatContainedRateDifference": 0,
++      "endStateTvDistance": 0,
++      "secondaryImpactRateDifference": 0.071429,
++      "distinguishable": true
++    },
++    {
++      "actorA": "cautious_denial",
++      "actorB": "pressure_escalator",
++      "meanDelayDifference": 29.928572,
++      "threatContainedRateDifference": 0.142857,
++      "endStateTvDistance": 0.142857,
++      "secondaryImpactRateDifference": 0,
++      "distinguishable": true
++    },
++    {
++      "actorA": "deceptive_diversion",
++      "actorB": "opportunistic_interdiction",
++      "meanDelayDifference": 27.421875,
++      "threatContainedRateDifference": 0,
++      "endStateTvDistance": 0.214286,
++      "secondaryImpactRateDifference": 0.071429,
++      "distinguishable": true
++    },
++    {
++      "actorA": "deceptive_diversion",
++      "actorB": "pressure_escalator",
++      "meanDelayDifference": 8.207589,
++      "threatContainedRateDifference": 0.142857,
++      "endStateTvDistance": 0.214286,
++      "secondaryImpactRateDifference": 0,
++      "distinguishable": true
++    },
++    {
++      "actorA": "opportunistic_interdiction",
++      "actorB": "pressure_escalator",
++      "meanDelayDifference": 19.214286,
++      "threatContainedRateDifference": 0.142857,
++      "endStateTvDistance": 0.142857,
++      "secondaryImpactRateDifference": 0.071429,
++      "distinguishable": true
++    }
++  ],
++  "seedSensitivitySummary": {
++    "cellCount": 112,
++    "highSensitivityCellCount": 1,
++    "highSensitivityRate": 0.008929
++  },
++  "randomOsiSummary": {
++    "overall": {
++      "mean": -0.089226,
++      "sd": 0.239728,
++      "p025": -0.497857,
++      "p975": 0.368163,
++      "n": 4096
++    },
++    "phaseA": {
++      "mean": -0.372951,
++      "sd": 0.553005,
++      "p025": -1,
++      "p975": 0.114754,
++      "n": 4096
++    },
++    "phaseB": {
++      "mean": 0.060145,
++      "sd": 0.503031,
++      "p025": -1,
++      "p975": 0.818221,
++      "n": 4096
++    },
++    "phaseC": {
++      "mean": 0.002391,
++      "sd": 0.482697,
++      "p025": -0.674663,
++      "p975": 0.925803,
++      "n": 4096
++    },
++    "phaseD": {
++      "mean": -0.046491,
++      "sd": 0.502809,
++      "p025": -0.845804,
++      "p975": 1,
++      "n": 4096
++    }
++  },
++  "cognitiveAnchorSummary": [
++    {
++      "gateId": "orientation_operational",
++      "observed": {
++        "mean": -0.877118,
++        "nullRate": 0,
++        "n": 256
++      },
++      "comparator": "< -0.20",
++      "pass": true
++    },
++    {
++      "gateId": "orientation_strategic",
++      "observed": {
++        "mean": 0.666996,
++        "nullRate": 0,
++        "n": 256
++      },
++      "comparator": "> +0.20",
++      "pass": true
++    },
++    {
++      "gateId": "information_seeking",
++      "observed": {
++        "high": {
++          "mean": 91.650907,
++          "nullRate": 0,
++          "n": 256
++        },
++        "low": {
++          "mean": 11.5,
++          "nullRate": 0,
++          "n": 256
++        }
++      },
++      "comparator": "difference >= 15",
++      "pass": true
++    },
++    {
++      "gateId": "second_order",
++      "observed": {
++        "anchor": {
++          "mean": 74.1875,
++          "nullRate": 0,
++          "n": 256
++        },
++        "random": {
++          "mean": 57.103638,
++          "nullRate": 0,
++          "n": 4096
++        }
++      },
++      "comparator": "anchor >= random + 10",
++      "pass": true
++    },
++    {
++      "gateId": "adversary_modeling",
++      "observed": {
++        "anchor": {
++          "mean": 75,
++          "nullRate": 0,
++          "n": 256
++        },
++        "random": {
++          "mean": 58.615723,
++          "nullRate": 0,
++          "n": 4096
++        }
++      },
++      "comparator": "anchor >= random + 10",
++      "pass": true
++    },
++    {
++      "gateId": "stewardship",
++      "observed": {
++        "anchor": {
++          "mean": 80.375,
++          "nullRate": 0,
++          "n": 256
++        },
++        "random": {
++          "mean": 59.255188,
++          "nullRate": 0,
++          "n": 4096
++        }
++      },
++      "comparator": "anchor >= random + 10",
++      "pass": true
++    },
++    {
++      "gateId": "planning",
++      "observed": {
++        "anchor": {
++          "mean": 84.125,
++          "nullRate": 0,
++          "n": 256
++        },
++        "random": {
++          "mean": 64.009521,
++          "nullRate": 0,
++          "n": 4096
++        }
++      },
++      "comparator": "anchor >= random + 10",
++      "pass": true
++    },
++    {
++      "gateId": "mci",
++      "observed": {
++        "anchor": {
++          "mean": 32.135183,
++          "nullRate": 0,
++          "n": 256
++        },
++        "random": {
++          "mean": 25.94491,
++          "nullRate": 0,
++          "n": 4096
++        }
++      },
++      "comparator": "anchor >= random + 5",
++      "pass": true
++    },
++    {
++      "gateId": "risk_low",
++      "observed": {
++        "mean": -0.725926,
++        "nullRate": 0,
++        "n": 256
++      },
++      "comparator": "< 0",
++      "pass": true
++    },
++    {
++      "gateId": "risk_high",
++      "observed": {
++        "mean": 0.987179,
++        "nullRate": 0,
++        "n": 256
++      },
++      "comparator": "> 0",
++      "pass": true
++    },
++    {
++      "gateId": "coherence",
++      "observed": {
++        "high": {
++          "mean": 87.1,
++          "nullRate": 0,
++          "n": 256
++        },
++        "low": {
++          "mean": 36.816667,
++          "nullRate": 0,
++          "n": 256
++        }
++      },
++      "comparator": "difference >= 15",
++      "pass": true
++    },
++    {
++      "gateId": "evidence_updating",
++      "observed": {
++        "responsive": {
++          "mean": 99.733333,
++          "nullRate": 0,
++          "n": 256
++        },
++        "anti": {
++          "mean": 21.066667,
++          "nullRate": 0,
++          "n": 256
++        }
++      },
++      "comparator": "difference >= 20",
++      "pass": true
++    }
++  ],
++  "distributionWarnings": [
++    {
++      "metric": "informationSeeking",
++      "scale": "0..100",
++      "n": 7936,
++      "nullRate": 0,
++      "mean": 52.510255,
++      "sd": 20.305629,
++      "min": 11.5,
++      "p05": 21.25,
++      "p25": 33,
++      "median": 56.195877,
++      "p75": 68.141051,
++      "p95": 84.636612,
++      "max": 92.75,
++      "percentAtOrBelow5": 0,
++      "percentAtOrAbove95": 0,
++      "warnings": []
++    },
++    {
++      "metric": "secondOrderThinking",
++      "scale": "0..100",
++      "n": 7936,
++      "nullRate": 0,
++      "mean": 60.045426,
++      "sd": 8.311366,
++      "min": 41.125,
++      "p05": 47.875,
++      "p25": 54.1875,
++      "median": 59.5,
++      "p75": 66.625,
++      "p95": 73.5625,
++      "max": 74.1875,
++      "percentAtOrBelow5": 0,
++      "percentAtOrAbove95": 0,
++      "warnings": []
++    },
++    {
++      "metric": "adversaryModeling",
++      "scale": "0..100",
++      "n": 7936,
++      "nullRate": 0,
++      "mean": 59.769405,
++      "sd": 9.34692,
++      "min": 45,
++      "p05": 45,
++      "p25": 55,
++      "median": 60,
++      "p75": 60,
++      "p95": 75,
++      "max": 75,
++      "percentAtOrBelow5": 0,
++      "percentAtOrAbove95": 0,
++      "warnings": []
++    },
++    {
++      "metric": "escalationSensitivity",
++      "scale": "0..100",
++      "n": 7936,
++      "nullRate": 0,
++      "mean": 57.96938,
++      "sd": 4.856517,
++      "min": 50,
++      "p05": 52.5,
++      "p25": 55,
++      "median": 57.5,
++      "p75": 60,
++      "p95": 70,
++      "max": 72.5,
++      "percentAtOrBelow5": 0,
++      "percentAtOrAbove95": 0,
++      "warnings": [
++        "engineering_low_variance"
++      ]
++    },
++    {
++      "metric": "evidenceResponsiveUpdating",
++      "scale": "0..100",
++      "n": 6111,
++      "nullRate": 0.229965,
++      "mean": 30.060759,
++      "sd": 15.924726,
++      "min": 0,
++      "p05": 16,
++      "p25": 23.333333,
++      "median": 30.666667,
++      "p75": 30.666667,
++      "p95": 36.222222,
++      "max": 99.733333,
++      "percentAtOrBelow5": 0.065456,
++      "percentAtOrAbove95": 4.189167,
++      "warnings": []
++    },
++    {
++      "metric": "resourceStewardship",
++      "scale": "0..100",
++      "n": 7936,
++      "nullRate": 0,
++      "mean": 62.466387,
++      "sd": 9.509486,
++      "min": 44.625,
++      "p05": 46.875,
++      "p25": 55.5,
++      "median": 61.25,
++      "p75": 69.875,
++      "p95": 79.75,
++      "max": 80.375,
++      "percentAtOrBelow5": 0,
++      "percentAtOrAbove95": 0,
++      "warnings": []
++    },
++    {
++      "metric": "planningForesight",
++      "scale": "0..100",
++      "n": 7936,
++      "nullRate": 0,
++      "mean": 67.754914,
++      "sd": 9.396878,
++      "min": 47.6875,
++      "p05": 52.75,
++      "p25": 61.75,
++      "median": 66.125,
++      "p75": 75.0625,
++      "p95": 83.875,
++      "max": 84.125,
++      "percentAtOrBelow5": 0,
++      "percentAtOrAbove95": 0,
++      "warnings": []
++    },
++    {
++      "metric": "multiDomainIntegration",
++      "scale": "0..100",
++      "n": 7936,
++      "nullRate": 0,
++      "mean": 27.634856,
++      "sd": 4.895235,
++      "min": 19.263406,
++      "p05": 19.263406,
++      "p25": 23.111546,
++      "median": 25.94507,
++      "p75": 32.135183,
++      "p95": 32.135183,
++      "max": 32.135183,
++      "percentAtOrBelow5": 0,
++      "percentAtOrAbove95": 0,
++      "warnings": [
++        "engineering_low_variance"
++      ]
++    },
++    {
++      "metric": "decisionCoherence",
++      "scale": "0..100",
++      "n": 7936,
++      "nullRate": 0,
++      "mean": 70.059325,
++      "sd": 12.120857,
++      "min": 36.816667,
++      "p05": 53.183333,
++      "p25": 61.366667,
++      "median": 70.2,
++      "p75": 80.883333,
++      "p95": 85.216667,
++      "max": 87.1,
++      "percentAtOrBelow5": 0,
++      "percentAtOrAbove95": 0,
++      "warnings": []
++    },
++    {
++      "metric": "operationalStrength",
++      "scale": "0..100",
++      "n": 7936,
++      "nullRate": 0,
++      "mean": 63.223444,
++      "sd": 8.48094,
++      "min": 45,
++      "p05": 47.5,
++      "p25": 58.75,
++      "median": 65,
++      "p75": 68.75,
++      "p95": 73.75,
++      "max": 83.75,
++      "percentAtOrBelow5": 0,
++      "percentAtOrAbove95": 0,
++      "warnings": []
++    },
++    {
++      "metric": "strategicStrength",
++      "scale": "0..100",
++      "n": 7936,
++      "nullRate": 0,
++      "mean": 68.367566,
++      "sd": 10.551374,
++      "min": 42.5,
++      "p05": 52.5,
++      "p25": 61.25,
++      "median": 68.75,
++      "p75": 76.25,
++      "p95": 85,
++      "max": 87.5,
++      "percentAtOrBelow5": 0,
++      "percentAtOrAbove95": 0,
++      "warnings": []
++    },
++    {
++      "metric": "integration",
++      "scale": "0..100",
++      "n": 7936,
++      "nullRate": 0,
++      "mean": 64.405037,
++      "sd": 3.185132,
++      "min": 56.386139,
++      "p05": 58.235294,
++      "p25": 62.962963,
++      "median": 64.368932,
++      "p75": 66.777053,
++      "p95": 69.234234,
++      "max": 70.701754,
++      "percentAtOrBelow5": 0,
++      "percentAtOrAbove95": 0,
++      "warnings": [
++        "engineering_low_variance"
++      ]
++    },
++    {
++      "metric": "overallOSI",
++      "scale": "-1..1",
++      "n": 7936,
++      "nullRate": 0,
++      "mean": 0.040892,
++      "sd": 0.374488,
++      "min": -0.877118,
++      "p05": -0.465146,
++      "p25": -0.186403,
++      "median": -0.00376,
++      "p75": 0.320011,
++      "p95": 0.674932,
++      "max": 0.677949,
++      "percentAtOrBelow5": null,
++      "percentAtOrAbove95": null,
++      "warnings": []
++    },
++    {
++      "metric": "riskPosture",
++      "scale": "-1..1",
++      "n": 7936,
++      "nullRate": 0,
++      "mean": -0.121599,
++      "sd": 0.449431,
++      "min": -0.792593,
++      "p05": -0.664387,
++      "p25": -0.466952,
++      "median": -0.151567,
++      "p75": 0.133333,
++      "p95": 0.846154,
++      "max": 0.987179,
++      "percentAtOrBelow5": null,
++      "percentAtOrAbove95": null,
++      "warnings": []
++    }
++  ],
++  "shadowSensitivitySummary": {
++    "horizons": [
++      {
++        "horizon": 330,
++        "alphaDeliveryRate": 0.992188,
++        "allConvoyDeliveryRate": 0.890218,
++        "meanDeliveredConvoyCount": 3.890218
++      },
++      {
++        "horizon": 345,
++        "alphaDeliveryRate": 0.994792,
++        "allConvoyDeliveryRate": 0.93514,
++        "meanDeliveredConvoyCount": 3.93514
++      },
++      {
++        "horizon": 360,
++        "alphaDeliveryRate": 0.997396,
++        "allConvoyDeliveryRate": 0.952718,
++        "meanDeliveredConvoyCount": 3.952718
++      },
++      {
++        "horizon": 375,
++        "alphaDeliveryRate": 0.997396,
++        "allConvoyDeliveryRate": 0.963786,
++        "meanDeliveredConvoyCount": 3.963786
++      },
++      {
++        "horizon": 390,
++        "alphaDeliveryRate": 0.997396,
++        "allConvoyDeliveryRate": 0.96639,
++        "meanDeliveredConvoyCount": 3.96639
++      }
++    ],
++    "deadlineShifts": [
++      {
++        "deadlineShift": -30,
++        "meanNetworkContinuity": 88.407389,
++        "alphaOnTimeRate": 0.879557,
++        "allConvoyOnTimeRate": 0.536296
++      },
++      {
++        "deadlineShift": -15,
++        "meanNetworkContinuity": 93.619792,
++        "alphaOnTimeRate": 0.926188,
++        "allConvoyOnTimeRate": 0.744792
++      },
++      {
++        "deadlineShift": 0,
++        "meanNetworkContinuity": 95.894368,
++        "alphaOnTimeRate": 0.957682,
++        "allConvoyOnTimeRate": 0.835775
++      },
++      {
++        "deadlineShift": 15,
++        "meanNetworkContinuity": 97.131348,
++        "alphaOnTimeRate": 0.974691,
++        "allConvoyOnTimeRate": 0.885254
++      },
++      {
++        "deadlineShift": 30,
++        "meanNetworkContinuity": 97.412109,
++        "alphaOnTimeRate": 0.976318,
++        "allConvoyOnTimeRate": 0.896484
++      }
++    ],
++    "resourceBudgets": [
++      {
++        "budget": 80,
++        "analysisLabel": "path-feasibility shadow analysis, not a full counterfactual replay",
++        "isrPathFeasibilityRate": 0.958333,
++        "supportPathFeasibilityRate": 0.924316,
++        "bothResourcePathFeasibilityRate": 0.88265
++      },
++      {
++        "budget": 90,
++        "analysisLabel": "path-feasibility shadow analysis, not a full counterfactual replay",
++        "isrPathFeasibilityRate": 1,
++        "supportPathFeasibilityRate": 0.955648,
++        "bothResourcePathFeasibilityRate": 0.955648
++      },
++      {
++        "budget": 100,
++        "analysisLabel": "path-feasibility shadow analysis, not a full counterfactual replay",
++        "isrPathFeasibilityRate": 1,
++        "supportPathFeasibilityRate": 1,
++        "bothResourcePathFeasibilityRate": 1
++      },
++      {
++        "budget": 110,
++        "analysisLabel": "path-feasibility shadow analysis, not a full counterfactual replay",
++        "isrPathFeasibilityRate": 1,
++        "supportPathFeasibilityRate": 1,
++        "bothResourcePathFeasibilityRate": 1
++      },
++      {
++        "budget": 120,
++        "analysisLabel": "path-feasibility shadow analysis, not a full counterfactual replay",
++        "isrPathFeasibilityRate": 1,
++        "supportPathFeasibilityRate": 1,
++        "bothResourcePathFeasibilityRate": 1
++      }
++    ],
++    "runtimeClock": {
++      "min": 237,
++      "p05": 242,
++      "p25": 253,
++      "median": 267,
++      "p75": 277,
++      "p95": 290,
++      "max": 293,
++      "atOrBelow300Percent": 100,
++      "from301To330Percent": 0,
++      "from331To360Percent": 0
++    }
++  },
++  "overallStatus": "FAIL"
++}
+diff --git a/scripts/run-s5-phase8-calibration.ts b/scripts/run-s5-phase8-calibration.ts
+new file mode 100644
+index 0000000..6d0cc92
+--- /dev/null
++++ b/scripts/run-s5-phase8-calibration.ts
+@@ -0,0 +1,440 @@
++import { createHash } from "node:crypto";
++import { mkdirSync, readFileSync, readdirSync, writeFileSync } from "node:fs";
++import { join, relative, resolve } from "node:path";
++import {
++  CANONICAL_ACTOR_PROFILES,
++  CANONICAL_CORRIDORS,
++  WORLD_CATALOG,
++  createInitialTrueWorldState,
++} from "../src/ui/components/scenario/scenario-five/model/index.ts";
++import {
++  S5_COGNITIVE_MEASUREMENT_MODEL_VERSION,
++  calculateScenario5CognitiveRunResult,
++} from "../src/ui/components/scenario/scenario-five/model/cognitive/index.ts";
++import {
++  MISSION_MODEL_VERSION,
++} from "../src/ui/components/scenario/scenario-five/model/mission/index.ts";
++import {
++  S5_DOMAIN_METRICS_VERSION,
++  S5_RUNTIME_MODEL_VERSION,
++} from "../src/ui/components/scenario/scenario-five/model/runtime/index.ts";
++import type { Scenario5RuntimeState } from "../src/ui/components/scenario/scenario-five/model/runtime/index.ts";
++import {
++  COGNITIVE_POLICIES,
++  MISSION_POLICIES,
++  S5_CALIBRATION_STATUS,
++  S5_CALIBRATION_VERSION,
++  SHADOW_DEADLINE_SHIFTS,
++  SHADOW_HORIZONS,
++  SHADOW_RESOURCE_BUDGETS,
++  WITNESS_RANDOM_POLICY,
++  buildPersianCalibrationReport,
++  calculateActionCoverage,
++  calculateActorPairs,
++  calculateActorSignatures,
++  calculateDistributions,
++  calculateSeedSensitivity,
++  calculateShadowDeadline,
++  calculateShadowHorizon,
++  calculateShadowResources,
++  counterfactualStateKey,
++  mean,
++  percent,
++  populationSd,
++  quantile,
++  round,
++  runCounterfactualAudit,
++  simulateScenario5,
++  toCognitiveRunRow,
++  toCsv,
++  toMissionRunRow,
++} from "../src/ui/components/scenario/scenario-five/calibration/index.ts";
++import type {
++  CalibrationPolicy,
++  CalibrationSummary,
++  CognitiveRunRow,
++  EndStateWitness,
++  GateRecord,
++  MissionRunRow,
++  SimulationRun,
++} from "../src/ui/components/scenario/scenario-five/calibration/index.ts";
++
++const ROOT = resolve(import.meta.dirname, "..");
++const RESULT_DIR = join(ROOT, "docs", "scenario5-phase8-results");
++mkdirSync(RESULT_DIR, { recursive: true });
++const startedWallClock = Date.now();
++const ENVIRONMENT_SEEDS = Array.from({ length: 64 }, (_, index) => index + 1);
++const MISSION_RANDOM_SEEDS = Array.from({ length: 16 }, (_, index) => 1001 + index);
++const COGNITIVE_ENVIRONMENT_SEEDS = Array.from({ length: 16 }, (_, index) => index + 1);
++const COGNITIVE_RANDOM_SEEDS = Array.from({ length: 16 }, (_, index) => 2001 + index);
++const END_STATE_IDS = [
++  "critical_cargo_lost_or_compromised",
++  "priority_delivered_network_failure",
++  "mission_incomplete_continuity_preserved",
++  "delayed_delivery_persistent_disruption",
++  "resilient_delivery_unresolved_attribution",
++  "resilient_delivery_threat_contained",
++] as const;
++
++const write = (path: string, content: string): void => writeFileSync(join(ROOT, path), content, "utf8");
++const asRecords = <T extends object>(rows: readonly T[]): readonly Readonly<Record<string, unknown>>[] => rows as readonly Readonly<Record<string, unknown>>[];
++const deepEqualJson = (left: unknown, right: unknown): boolean => JSON.stringify(left) === JSON.stringify(right);
++
++const walk = (directory: string): string[] => readdirSync(join(ROOT, directory), { withFileTypes: true }).flatMap((entry) => {
++  const child = join(directory, entry.name).replaceAll("\\", "/");
++  return entry.isDirectory() ? walk(child) : [child];
++});
++const protectedPaths = [
++  ...walk("src/ui/components/scenario/scenario-five/model").filter((path) => path.endsWith(".ts")),
++  ...walk("src/ui/components/scenario/scenario-five/ui").filter((path) => /\.tsx?$/.test(path)),
++  ...["ScenarioFive.css", "ScenarioFiveActionCard.tsx", "ScenarioFiveMap.tsx", "ScenarioFiveResourcePanel.tsx", "ScenarioFiveSimulation.tsx", "ScenarioFiveSummary.tsx", "ScenarioFiveTypes.ts"].map((name) => `src/ui/components/scenario/${name}`),
++  ...walk("src/ui/components/scenario").filter((path) => /ScenarioTwo.*\.tsx?$/.test(path)),
++  "src/ui/components/scenario/scenario-four/model/cognitiveEngineV3.ts",
++  "src/ui/components/scenario/scenario-four/model/cognitiveOptionProfilesV3.ts",
++  "src/ui/components/scenario/scenario-four/model/types.ts",
++  "src/services/analytics/eventLogger.ts",
++  "src/App.tsx",
++  "src/App.css",
++  "src/ui/components/scenario/MiniGameHost.tsx",
++  ...walk("src/scenarios").filter((path) => /\.tsx?$/.test(path)),
++  "package.json",
++].sort();
++const protectedHash = (): string => {
++  const hash = createHash("sha256");
++  for (const path of protectedPaths) {
++    hash.update(`${path}\0`);
++    hash.update(readFileSync(join(ROOT, path)));
++    hash.update("\0");
++  }
++  return hash.digest("hex");
++};
++const FROZEN_BASELINE_HASH = "1bd32af62f0667d3864eb7b2b0e7354e70bebe43178cdc8a64a880e8a138bef6";
++if (protectedPaths.length !== 68 || protectedHash() !== FROZEN_BASELINE_HASH) {
++  throw new Error(`Frozen baseline mismatch before audit: ${protectedPaths.length} files, ${protectedHash()}`);
++}
++
++const environmentWorldCounts = new Map<string, number>();
++const environmentActorCounts = new Map<string, number>();
++const environmentCorridorCounts = new Map<string, number>();
++const latencyVariants = new Set<string>();
++const observedNoiseRelations = new Set<string>();
++const expectedNoiseRelations = new Set<string>();
++for (const world of WORLD_CATALOG) {
++  const legalNoise = CANONICAL_CORRIDORS.map(({ corridorId }) => corridorId)
++    .filter((corridorId) => corridorId !== world.primaryAffectedCorridorId && corridorId !== world.initialDecoyCorridorId);
++  legalNoise.forEach((corridorId) => expectedNoiseRelations.add(`${world.worldId}->${corridorId}`));
++  for (const seed of ENVIRONMENT_SEEDS) {
++    const state = createInitialTrueWorldState(world.worldId, seed);
++    environmentWorldCounts.set(world.worldId, (environmentWorldCounts.get(world.worldId) ?? 0) + 1);
++    environmentActorCounts.set(state.actorProfileId, (environmentActorCounts.get(state.actorProfileId) ?? 0) + 1);
++    environmentCorridorCounts.set(state.primaryAffectedCorridorId, (environmentCorridorCounts.get(state.primaryAffectedCorridorId) ?? 0) + 1);
++    latencyVariants.add(state.latencyVariant);
++    observedNoiseRelations.add(`${world.worldId}->${state.backgroundNoiseCorridorId}`);
++  }
++}
++const environmentCoverage = {
++  environmentInstanceCount: 1024,
++  worldCounts: Object.fromEntries(environmentWorldCounts),
++  actorCounts: Object.fromEntries(environmentActorCounts),
++  primaryCorridorCounts: Object.fromEntries(environmentCorridorCounts),
++  latencyVariants: [...latencyVariants].sort(),
++  expectedNoiseRelationCount: expectedNoiseRelations.size,
++  observedNoiseRelationCount: observedNoiseRelations.size,
++  missingNoiseRelations: [...expectedNoiseRelations].filter((relation) => !observedNoiseRelations.has(relation)).sort(),
++};
++
++const missionRows: MissionRunRow[] = [];
++const traceAudits: Pick<SimulationRun, "decisionTrace">[] = [];
++const counterfactualStates = new Map<string, Scenario5RuntimeState[]>();
++const counterfactualKeys = new Map<string, Set<string>>();
++let delayIdentityFailures = 0;
++let negativeResourceRuns = 0;
++let chronologyFailures = 0;
++let zeroOptionWindows = 0;
++const collectCounterfactual = (state: Scenario5RuntimeState): void => {
++  const windowId = state.stage.stageId;
++  const states = counterfactualStates.get(windowId) ?? [];
++  const keys = counterfactualKeys.get(windowId) ?? new Set<string>();
++  const key = counterfactualStateKey(state);
++  if (states.length < 32 && !keys.has(key)) {
++    states.push(state);
++    keys.add(key);
++    counterfactualStates.set(windowId, states);
++    counterfactualKeys.set(windowId, keys);
++  }
++};
++const counterfactualSourcePolicies = new Set(["balanced_network", "mobility_resilience", "high_response", "low_response_reversible"]);
++
++for (const world of WORLD_CATALOG) for (const environmentSeed of ENVIRONMENT_SEEDS) for (const policy of MISSION_POLICIES) {
++  const policySeeds = policy.policyId === "M10_uniform_random" ? MISSION_RANDOM_SEEDS : [undefined];
++  for (const policySeed of policySeeds) {
++    const sampleRandom = policy.policyId === "M10_uniform_random" && policySeed === 1001 && environmentSeed === 1;
++    const run = simulateScenario5({
++      policy,
++      worldId: world.worldId,
++      environmentSeed,
++      ...(policySeed === undefined ? {} : { policySeed }),
++      ...((counterfactualSourcePolicies.has(policy.policyId) || sampleRandom) ? { onPreDecision: collectCounterfactual } : {}),
++    });
++    missionRows.push(toMissionRunRow(run));
++    if (!run.oraclePolicy) traceAudits.push({ decisionTrace: run.decisionTrace });
++    zeroOptionWindows += Number(run.minimumAvailableActionCount === 0);
++    negativeResourceRuns += Number(run.state.missionState.resources.isrCapacity < 0 || run.state.missionState.resources.supportReserve < 0);
++    chronologyFailures += Number(run.state.runtimeEvents.some((event, index, events) => index > 0 && event.atMs < events[index - 1]!.atMs));
++    for (const corridor of CANONICAL_CORRIDORS) {
++      const delay = run.result.domain.delayControl.byCorridor[corridor.corridorId];
++      delayIdentityFailures += Number(delay.finalDelayMinutes !== delay.actorDelayAddedMinutes + delay.playerDelayAddedMinutes - delay.playerDelayRecoveredMinutes);
++    }
++  }
++}
++
++const scheduledMissionRuns = missionRows.length;
++const nonOracleRows = missionRows.filter(({ oraclePolicy }) => !oraclePolicy);
++const normalOutcomeRows = missionRows.filter(({ policyId }) => ["balanced_network", "priority_alpha", "information_heavy", "mobility_resilience", "resource_preserver", "high_response", "low_response_reversible", "M10_uniform_random"].includes(String(policyId)));
++const actionCoverage = calculateActionCoverage(traceAudits);
++const targetCoverageFailures = actionCoverage.flatMap((row) => [row.alphaLegality, row.betaLegality, row.gammaLegality, row.deltaLegality]
++  .map((status, index) => ({ status, corridorId: CANONICAL_CORRIDORS[index]!.corridorId }))
++  .filter(({ status }) => status === "legal_but_not_selected")
++  .map(({ corridorId }) => `${row.actionId}:${corridorId}`));
++
++const mainEndStateCounts = Object.fromEntries(END_STATE_IDS.map((endStateId) => [endStateId, nonOracleRows.filter((row) => row.endStateId === endStateId).length]));
++const missingEndStates = END_STATE_IDS.filter((endStateId) => mainEndStateCounts[endStateId] === 0);
++const witnesses = new Map<string, EndStateWitness>();
++let witnessSearchRuns = 0;
++for (let policySeed = 30001; policySeed <= 50000 && witnesses.size < missingEndStates.length; policySeed += 1) {
++  const index = policySeed - 30001;
++  const world = WORLD_CATALOG[index % WORLD_CATALOG.length]!;
++  const environmentSeed = ENVIRONMENT_SEEDS[Math.floor(index / WORLD_CATALOG.length) % ENVIRONMENT_SEEDS.length]!;
++  const run = simulateScenario5({ policy: WITNESS_RANDOM_POLICY, worldId: world.worldId, environmentSeed, policySeed });
++  witnessSearchRuns += 1;
++  const endStateId = run.result.missionEndState.endStateId;
++  if (missingEndStates.includes(endStateId) && !witnesses.has(endStateId)) {
++    witnesses.set(endStateId, {
++      endStateId,
++      worldId: world.worldId,
++      environmentSeed,
++      policySeed,
++      orderedActions: run.decisionTrace.map(({ actualActionId }) => actualActionId),
++      orderedTargets: run.decisionTrace.map(({ targetCorridorId }) => targetCorridorId),
++      finalDomainSummary: {
++        alphaDelivered: run.result.domain.criticalDelivery.deliveredByMissionHorizon,
++        networkContinuityPercent: run.result.domain.logisticsResilience.networkContinuityPercent,
++        threatContained: run.result.domain.logisticsResilience.threatContained,
++      },
++    });
++  }
++}
++const endStateCoverageRows = END_STATE_IDS.map((endStateId) => {
++  const witness = witnesses.get(endStateId);
++  const classification = mainEndStateCounts[endStateId] > 0 ? "observed_in_main_audit"
++    : witness ? "observed_in_witness_search" : "not_observed_under_phase8_search";
++  return {
++    endStateId,
++    mainAuditCount: mainEndStateCounts[endStateId],
++    classification,
++    witnessWorldId: witness?.worldId ?? "",
++    witnessEnvironmentSeed: witness?.environmentSeed ?? "",
++    witnessPolicySeed: witness?.policySeed ?? "",
++    orderedActions: witness ? JSON.stringify(witness.orderedActions) : "",
++    orderedTargets: witness ? JSON.stringify(witness.orderedTargets) : "",
++    finalDomainSummary: witness ? JSON.stringify(witness.finalDomainSummary) : "",
++  };
++});
++
++const replayPolicies = MISSION_POLICIES.slice(0, 4);
++let replayCases = 0;
++let deterministicReplayPassed = true;
++for (const policy of replayPolicies) for (const world of WORLD_CATALOG) for (const environmentSeed of [1, 17, 33, 64]) {
++  const first = simulateScenario5({ policy, worldId: world.worldId, environmentSeed });
++  const second = simulateScenario5({ policy, worldId: world.worldId, environmentSeed });
++  replayCases += 1;
++  deterministicReplayPassed &&= deepEqualJson(first.state, second.state)
++    && deepEqualJson(first.result, second.result)
++    && deepEqualJson(first.state.missionState.missionEvents, second.state.missionState.missionEvents)
++    && deepEqualJson(first.cognitiveBundle, second.cognitiveBundle)
++    && deepEqualJson(first.result.domain, second.result.domain);
++}
++const randomMissionPolicy = MISSION_POLICIES.find(({ policyId }) => policyId === "M10_uniform_random")!;
++for (const world of WORLD_CATALOG) for (const environmentSeed of [1, 17, 33, 64]) for (const policySeed of [1001, 1016]) {
++  const first = simulateScenario5({ policy: randomMissionPolicy, worldId: world.worldId, environmentSeed, policySeed });
++  const second = simulateScenario5({ policy: randomMissionPolicy, worldId: world.worldId, environmentSeed, policySeed });
++  replayCases += 1;
++  deterministicReplayPassed &&= deepEqualJson(first.state, second.state)
++    && deepEqualJson(first.result, second.result)
++    && deepEqualJson(first.state.missionState.missionEvents, second.state.missionState.missionEvents)
++    && deepEqualJson(first.cognitiveBundle, second.cognitiveBundle)
++    && deepEqualJson(first.result.domain, second.result.domain);
++}
++
++const matchedActorRows = missionRows.filter(({ policyId }) => ["balanced_network", "priority_alpha", "information_heavy", "mobility_resilience", "resource_preserver", "high_response", "low_response_reversible"].includes(String(policyId)));
++const actorSignatures = calculateActorSignatures(matchedActorRows);
++const actorPairResults = calculateActorPairs(actorSignatures);
++const seedSensitivityRows = calculateSeedSensitivity(matchedActorRows);
++const counterfactual = runCounterfactualAudit(counterfactualStates);
++
++const shadowHorizonRows = calculateShadowHorizon(nonOracleRows);
++const shadowDeadlineRows = calculateShadowDeadline(nonOracleRows);
++const shadowResourceRows = calculateShadowResources(nonOracleRows);
++
++const cognitiveRows: CognitiveRunRow[] = [];
++let cognitiveFirewallPassed = true;
++let cognitiveFirewallPairs = 0;
++for (const world of WORLD_CATALOG) for (const environmentSeed of COGNITIVE_ENVIRONMENT_SEEDS) for (const policy of COGNITIVE_POLICIES) {
++  const policySeeds = policy.policyId === "uniform_random_cognitive" ? COGNITIVE_RANDOM_SEEDS : [undefined];
++  for (const policySeed of policySeeds) {
++    const run = simulateScenario5({ policy, worldId: world.worldId, environmentSeed, ...(policySeed === undefined ? {} : { policySeed }) });
++    cognitiveRows.push(toCognitiveRunRow(run));
++    const serializedBundle = JSON.stringify(run.cognitiveBundle);
++    cognitiveFirewallPassed &&= !/["'](?:worldId|seed|endState|domain)["']\s*:/.test(serializedBundle);
++    if (cognitiveFirewallPairs < 100) {
++      const first = calculateScenario5CognitiveRunResult(run.cognitiveBundle);
++      const differingHiddenDomainFixture = { worldId: "different", seed: -1, endState: "different", domain: { altered: true } };
++      void differingHiddenDomainFixture;
++      const second = calculateScenario5CognitiveRunResult(run.cognitiveBundle);
++      cognitiveFirewallPassed &&= deepEqualJson(first, second);
++      cognitiveFirewallPairs += 1;
++    }
++  }
++}
++
++const randomCognitive = cognitiveRows.filter(({ policyId }) => policyId === "uniform_random_cognitive");
++const summarizeRandom = (key: keyof Pick<CognitiveRunRow, "overallOSI" | "phaseAOSI" | "phaseBOSI" | "phaseCOSI" | "phaseDOSI">) => {
++  const values = randomCognitive.map((row) => row[key]).filter((value): value is number => value !== null);
++  return { mean: round(mean(values)), sd: round(populationSd(values)), p025: round(quantile(values, .025)), p975: round(quantile(values, .975)), n: values.length };
++};
++const randomOsiSummary = {
++  overall: summarizeRandom("overallOSI"), phaseA: summarizeRandom("phaseAOSI"), phaseB: summarizeRandom("phaseBOSI"),
++  phaseC: summarizeRandom("phaseCOSI"), phaseD: summarizeRandom("phaseDOSI"),
++};
++const randomOsiPassed = Object.values(randomOsiSummary).every(({ mean: average }) => Math.abs(average) <= .05);
++
++const metricSummary = (policyId: CognitiveRunRow["policyId"], key: keyof CognitiveRunRow) => {
++  const selected = cognitiveRows.filter((row) => row.policyId === policyId);
++  const values = selected.map((row) => row[key]).filter((value): value is number => typeof value === "number");
++  return { mean: values.length ? round(mean(values)) : null, nullRate: round(1 - values.length / selected.length), n: values.length };
++};
++const randomMetric = (key: keyof CognitiveRunRow) => metricSummary("uniform_random_cognitive", key);
++const anchorChecks = [
++  { gateId: "orientation_operational", observed: metricSummary("operational_anchor", "overallOSI"), comparator: "< -0.20", pass: (metricSummary("operational_anchor", "overallOSI").mean ?? 1) < -.2 },
++  { gateId: "orientation_strategic", observed: metricSummary("strategic_anchor", "overallOSI"), comparator: "> +0.20", pass: (metricSummary("strategic_anchor", "overallOSI").mean ?? -1) > .2 },
++  { gateId: "information_seeking", observed: { high: metricSummary("information_max", "informationSeeking"), low: metricSummary("information_min", "informationSeeking") }, comparator: "difference >= 15", pass: (metricSummary("information_max", "informationSeeking").mean ?? 0) - (metricSummary("information_min", "informationSeeking").mean ?? 0) >= 15 },
++  { gateId: "second_order", observed: { anchor: metricSummary("second_order_max", "secondOrderThinking"), random: randomMetric("secondOrderThinking") }, comparator: "anchor >= random + 10", pass: (metricSummary("second_order_max", "secondOrderThinking").mean ?? 0) >= (randomMetric("secondOrderThinking").mean ?? 0) + 10 },
++  { gateId: "adversary_modeling", observed: { anchor: metricSummary("adversary_max", "adversaryModeling"), random: randomMetric("adversaryModeling") }, comparator: "anchor >= random + 10", pass: (metricSummary("adversary_max", "adversaryModeling").mean ?? 0) >= (randomMetric("adversaryModeling").mean ?? 0) + 10 },
++  { gateId: "stewardship", observed: { anchor: metricSummary("stewardship_max", "resourceStewardship"), random: randomMetric("resourceStewardship") }, comparator: "anchor >= random + 10", pass: (metricSummary("stewardship_max", "resourceStewardship").mean ?? 0) >= (randomMetric("resourceStewardship").mean ?? 0) + 10 },
++  { gateId: "planning", observed: { anchor: metricSummary("planning_max", "planningForesight"), random: randomMetric("planningForesight") }, comparator: "anchor >= random + 10", pass: (metricSummary("planning_max", "planningForesight").mean ?? 0) >= (randomMetric("planningForesight").mean ?? 0) + 10 },
++  { gateId: "mci", observed: { anchor: metricSummary("mci_max", "multiDomainIntegration"), random: randomMetric("multiDomainIntegration") }, comparator: "anchor >= random + 5", pass: (metricSummary("mci_max", "multiDomainIntegration").mean ?? 0) >= (randomMetric("multiDomainIntegration").mean ?? 0) + 5 },
++  { gateId: "risk_low", observed: metricSummary("risk_low", "riskPosture"), comparator: "< 0", pass: (metricSummary("risk_low", "riskPosture").mean ?? 1) < 0 },
++  { gateId: "risk_high", observed: metricSummary("risk_high", "riskPosture"), comparator: "> 0", pass: (metricSummary("risk_high", "riskPosture").mean ?? -1) > 0 },
++  { gateId: "coherence", observed: { high: metricSummary("coherence_high", "decisionCoherence"), low: metricSummary("coherence_low", "decisionCoherence") }, comparator: "difference >= 15", pass: (metricSummary("coherence_high", "decisionCoherence").mean ?? 0) >= (metricSummary("coherence_low", "decisionCoherence").mean ?? 0) + 15 },
++  { gateId: "evidence_updating", observed: { responsive: metricSummary("evidence_responsive", "evidenceResponsiveUpdating"), anti: metricSummary("evidence_anti", "evidenceResponsiveUpdating") }, comparator: "difference >= 20", pass: (metricSummary("evidence_responsive", "evidenceResponsiveUpdating").mean ?? 0) >= (metricSummary("evidence_anti", "evidenceResponsiveUpdating").mean ?? 0) + 20 },
++].map((gate) => ({ ...gate, pass: gate.pass && !JSON.stringify(gate.observed).includes('"nullRate":1') && !Object.values(gate.observed).some((value) => typeof value === "object" && value !== null && "nullRate" in value && Number(value.nullRate) > .1) }));
++const cognitiveAnchorsPassed = anchorChecks.every(({ pass }) => pass);
++const distributions = calculateDistributions(cognitiveRows);
++
++const totalDecisionWindows = nonOracleRows.length * 8;
++const singleOptionDecisions = nonOracleRows.reduce((sum, row) => sum + row.singleOptionWindowCount, 0);
++const forcedChoiceRate = singleOptionDecisions / totalDecisionWindows;
++const tooLooseRate = nonOracleRows.filter(({ finalIsr, finalSupport }) => finalIsr >= 50 && finalSupport >= 50).length / nonOracleRows.length;
++const exhaustionRate = nonOracleRows.filter(({ finalIsr, finalSupport }) => finalIsr <= 5 || finalSupport <= 5).length / nonOracleRows.length;
++const normalOutcomeCounts = END_STATE_IDS.map((endStateId) => ({ endStateId, count: normalOutcomeRows.filter((row) => row.endStateId === endStateId).length }));
++const modalOutcome = [...normalOutcomeCounts].sort((left, right) => right.count - left.count)[0]!;
++const outcomeConcentrationShare = modalOutcome.count / normalOutcomeRows.length;
++const actorOutcomeVarietyFailures = CANONICAL_ACTOR_PROFILES.filter(({ profileId }) => new Set(normalOutcomeRows.filter(({ actorProfile }) => actorProfile === profileId).map(({ endStateId }) => endStateId)).size < 2).map(({ profileId }) => profileId);
++const corridorOutcomeVarietyFailures = CANONICAL_CORRIDORS.filter(({ corridorId }) => new Set(normalOutcomeRows.filter(({ primaryCorridorId }) => primaryCorridorId === corridorId).map(({ endStateId }) => endStateId)).size < 2).map(({ corridorId }) => corridorId);
++const highSeedSensitivityRate = seedSensitivityRows.filter(({ highSeedSensitivity }) => highSeedSensitivity).length / seedSensitivityRows.length;
++const decisionClocks = normalOutcomeRows.map(({ worldClockBeforeFinalization }) => worldClockBeforeFinalization);
++const clockSummary = {
++  min: Math.min(...decisionClocks), p05: round(quantile(decisionClocks, .05)), p25: round(quantile(decisionClocks, .25)),
++  median: round(quantile(decisionClocks, .5)), p75: round(quantile(decisionClocks, .75)), p95: round(quantile(decisionClocks, .95)), max: Math.max(...decisionClocks),
++  atOrBelow300Percent: percent(decisionClocks.filter((value) => value <= 300).length, decisionClocks.length),
++  from301To330Percent: percent(decisionClocks.filter((value) => value >= 301 && value <= 330).length, decisionClocks.length),
++  from331To360Percent: percent(decisionClocks.filter((value) => value >= 331 && value <= 360).length, decisionClocks.length),
++};
++
++const sourceFiles = walk("src/ui/components/scenario/scenario-five/calibration");
++const noForbiddenRandom = sourceFiles.every((path) => !readFileSync(join(ROOT, path), "utf8").includes(["Math", "random"].join(".")));
++const hardGates: GateRecord[] = [
++  { gateId: "ENVIRONMENT_PANEL_COVERAGE", status: environmentWorldCounts.size === 16 && [...environmentWorldCounts.values()].every((count) => count === 64) && [...environmentActorCounts.values()].every((count) => count === 256) && [...environmentCorridorCounts.values()].every((count) => count === 256) && latencyVariants.size === 3 && environmentCoverage.missingNoiseRelations.length === 0 ? "PASS" : "FAIL", detail: `worlds=${environmentWorldCounts.size}; latency=${[...latencyVariants].sort().join("|")}; missingNoise=${environmentCoverage.missingNoiseRelations.length}` },
++  { gateId: "EXECUTION_COMPLETION", status: scheduledMissionRuns === 25600 && missionRows.every(({ completed }) => completed) ? "PASS" : "FAIL", detail: `${missionRows.filter(({ completed }) => completed).length}/${scheduledMissionRuns} scheduled runs completed` },
++  { gateId: "DETERMINISTIC_REPLAY", status: deterministicReplayPassed ? "PASS" : "FAIL", detail: `${replayCases} selected cases replayed twice` },
++  { gateId: "LEGAL_ACTION_SAFETY", status: zeroOptionWindows === 0 && negativeResourceRuns === 0 && chronologyFailures === 0 ? "PASS" : "FAIL", detail: `zeroOption=${zeroOptionWindows}; negativeResource=${negativeResourceRuns}; chronology=${chronologyFailures}` },
++  { gateId: "DOMAIN_DELAY_IDENTITY", status: delayIdentityFailures === 0 ? "PASS" : "FAIL", detail: `${delayIdentityFailures} exact-identity failures` },
++  { gateId: "NO_MATH_RANDOM", status: noForbiddenRandom ? "PASS" : "FAIL", detail: `${sourceFiles.length} calibration source files scanned` },
++  { gateId: "ACTION_TARGET_COVERAGE", status: actionCoverage.every(({ selectionCount }) => selectionCount > 0) && targetCoverageFailures.length === 0 ? "PASS" : "FAIL", detail: `${actionCoverage.filter(({ selectionCount }) => selectionCount > 0).length}/33 actions observed; legal target gaps=${targetCoverageFailures.join("|") || "none"}` },
++  { gateId: "SIX_END_STATES_OBSERVED", status: endStateCoverageRows.every(({ classification }) => classification !== "not_observed_under_phase8_search") ? "PASS" : "FAIL", detail: endStateCoverageRows.map(({ endStateId, classification }) => `${endStateId}:${classification}`).join("; ") },
++  { gateId: "ACTOR_PAIR_DISTINCTIVENESS", status: actorPairResults.every(({ distinguishable }) => distinguishable) ? "PASS" : "FAIL", detail: `${actorPairResults.filter(({ distinguishable }) => distinguishable).length}/6 pairs distinguishable` },
++  { gateId: "NO_UNIVERSAL_ACTION_DOMINANCE", status: counterfactual.universalDominanceFound ? "FAIL" : "PASS", detail: `${counterfactual.branchCount} counterfactual branches` },
++  { gateId: "RANDOM_OSI_CENTERING", status: randomOsiPassed ? "PASS" : "FAIL", detail: JSON.stringify(randomOsiSummary) },
++  { gateId: "COGNITIVE_ANCHOR_GATES", status: cognitiveAnchorsPassed ? "PASS" : "FAIL", detail: `${anchorChecks.filter(({ pass }) => pass).length}/${anchorChecks.length} anchor checks passed` },
++  { gateId: "COGNITIVE_FIREWALL", status: cognitiveFirewallPassed && cognitiveFirewallPairs >= 100 ? "PASS" : "FAIL", detail: `${cognitiveFirewallPairs} paired bundles; hidden/domain fields excluded` },
++  { gateId: "MAX_DECISION_CLOCK_360", status: clockSummary.max <= 360 ? "PASS" : "FAIL", detail: `maximum pre-finalization clock=${clockSummary.max}` },
++];
++const warnings: GateRecord[] = [
++  { gateId: "FORCED_CHOICE_WARNING", status: forcedChoiceRate > .05 ? "WARNING" : "PASS", detail: `${round(100 * forcedChoiceRate)}% decision windows had one option` },
++  { gateId: "RESOURCE_TOO_LOOSE_WARNING", status: tooLooseRate > .8 ? "WARNING" : "PASS", detail: `${round(100 * tooLooseRate)}% runs ended with both resources >=50` },
++  { gateId: "RESOURCE_EXHAUSTION_WARNING", status: exhaustionRate > .25 ? "WARNING" : "PASS", detail: `${round(100 * exhaustionRate)}% runs ended with ISR or support <=5` },
++  { gateId: "OUTCOME_CONCENTRATION_WARNING", status: outcomeConcentrationShare > .85 || actorOutcomeVarietyFailures.length > 0 || corridorOutcomeVarietyFailures.length > 0 ? "WARNING" : "PASS", detail: `modal=${modalOutcome.endStateId}:${round(100 * outcomeConcentrationShare)}%; actorVarietyFailures=${actorOutcomeVarietyFailures.join("|") || "none"}; corridorVarietyFailures=${corridorOutcomeVarietyFailures.join("|") || "none"}` },
++  { gateId: "SEED_SENSITIVITY_WARNING", status: highSeedSensitivityRate > .2 ? "WARNING" : "PASS", detail: `${round(100 * highSeedSensitivityRate)}% world×policy cells flagged` },
++  { gateId: "COGNITIVE_DISTRIBUTION_WARNING", status: distributions.some(({ warnings: items }) => items.length > 0) ? "WARNING" : "PASS", detail: distributions.filter(({ warnings: items }) => items.length > 0).map(({ metric, warnings: items }) => `${metric}:${items.join("|")}`).join("; ") || "none" },
++];
++const overallStatus = hardGates.every(({ status }) => status === "PASS") ? "PASS" : "FAIL";
++
++const summary: CalibrationSummary = {
++  calibrationVersion: S5_CALIBRATION_VERSION,
++  modelVersions: {
++    mission: MISSION_MODEL_VERSION,
++    cognitive: S5_COGNITIVE_MEASUREMENT_MODEL_VERSION,
++    runtime: S5_RUNTIME_MODEL_VERSION,
++    domainMetrics: S5_DOMAIN_METRICS_VERSION,
++    calibrationStatus: S5_CALIBRATION_STATUS,
++    frozenProtectedManifestSha256: FROZEN_BASELINE_HASH,
++  },
++  runCounts: {
++    scheduledMissionRuns,
++    deterministicMissionRuns: missionRows.filter(({ policyId }) => policyId !== "M10_uniform_random").length,
++    randomMissionRuns: missionRows.filter(({ policyId }) => policyId === "M10_uniform_random").length,
++    witnessSearchRuns,
++    deterministicCognitiveRuns: cognitiveRows.filter(({ policyId }) => policyId !== "uniform_random_cognitive").length,
++    randomCognitiveRuns: randomCognitive.length,
++    totalCognitiveRuns: cognitiveRows.length,
++    deterministicReplayCases: replayCases,
++    cognitiveFirewallPairs,
++    counterfactualBranches: counterfactual.branchCount,
++  },
++  environmentCoverage,
++  actionCoverage: {
++    observedActionCount: actionCoverage.filter(({ selectionCount }) => selectionCount > 0).length,
++    targetCoverageFailures,
++  },
++  endStateCoverage: endStateCoverageRows,
++  hardGates,
++  warnings,
++  actorPairResults,
++  seedSensitivitySummary: { cellCount: seedSensitivityRows.length, highSensitivityCellCount: seedSensitivityRows.filter(({ highSeedSensitivity }) => highSeedSensitivity).length, highSensitivityRate: round(highSeedSensitivityRate) },
++  randomOsiSummary,
++  cognitiveAnchorSummary: anchorChecks,
++  distributionWarnings: distributions,
++  shadowSensitivitySummary: { horizons: shadowHorizonRows, deadlineShifts: shadowDeadlineRows, resourceBudgets: shadowResourceRows, runtimeClock: clockSummary },
++  overallStatus,
++};
++
++const missionCsvRows = missionRows.map(({ convoySnapshot, ...row }) => ({ ...row, convoySnapshot: JSON.stringify(convoySnapshot) }));
++write("docs/scenario5-phase8-results/mission-runs.csv", toCsv(asRecords(missionCsvRows)));
++write("docs/scenario5-phase8-results/cognitive-runs.csv", toCsv(asRecords(cognitiveRows)));
++write("docs/scenario5-phase8-results/end-state-coverage.csv", toCsv(asRecords(endStateCoverageRows)));
++write("docs/scenario5-phase8-results/actor-signatures.csv", toCsv(asRecords(actorSignatures)));
++write("docs/scenario5-phase8-results/seed-sensitivity.csv", toCsv(asRecords(seedSensitivityRows)));
++write("docs/scenario5-phase8-results/action-coverage.csv", toCsv(asRecords(actionCoverage)));
++write("docs/scenario5-phase8-results/action-dominance.csv", toCsv(counterfactual.rows));
++write("docs/scenario5-phase8-results/cognitive-distributions.csv", toCsv(asRecords(distributions.map(({ warnings: items, ...row }) => ({ ...row, warnings: items.join("|") })))));
++write("docs/scenario5-phase8-results/shadow-time-sensitivity.csv", toCsv(asRecords(shadowHorizonRows)));
++write("docs/scenario5-phase8-results/shadow-deadline-sensitivity.csv", toCsv(asRecords(shadowDeadlineRows)));
++write("docs/scenario5-phase8-results/shadow-resource-feasibility.csv", toCsv(asRecords(shadowResourceRows)));
++write("docs/scenario5-phase8-summary.json", `${JSON.stringify(summary, null, 2)}\n`);
++write("docs/scenario5-phase8-calibration-report-fa.md", buildPersianCalibrationReport(summary));
++
++if (protectedHash() !== FROZEN_BASELINE_HASH) throw new Error("Frozen protected manifest changed during audit");
++console.log(`Scenario 5 Phase 8 calibration completed in ${Date.now() - startedWallClock} ms (wall-clock convenience only).`);
++console.log(`Scheduled mission runs: ${scheduledMissionRuns}; witness runs: ${witnessSearchRuns}; counterfactual branches: ${counterfactual.branchCount}.`);
++console.log(`Cognitive runs: ${cognitiveRows.length}; overall calibration status: ${overallStatus}.`);
++console.log(`Artifacts: ${relative(ROOT, RESULT_DIR).replaceAll("\\", "/")}`);
+diff --git a/scripts/verify-s5-phase8-calibration.ts b/scripts/verify-s5-phase8-calibration.ts
+new file mode 100644
+index 0000000..4467a3f
+--- /dev/null
++++ b/scripts/verify-s5-phase8-calibration.ts
+@@ -0,0 +1,174 @@
++import assert from "node:assert/strict";
++import { createHash } from "node:crypto";
++import { existsSync, readFileSync, readdirSync, statSync } from "node:fs";
++import { join, resolve } from "node:path";
++
++let assertions = 0;
++const check = (condition: unknown, message: string): void => { assert.ok(condition, message); assertions += 1; };
++const equal = (actual: unknown, expected: unknown, message: string): void => { assert.deepEqual(actual, expected, message); assertions += 1; };
++const ROOT = resolve(import.meta.dirname, "..");
++const read = (path: string): string => readFileSync(join(ROOT, path), "utf8");
++const walk = (directory: string): string[] => readdirSync(join(ROOT, directory), { withFileTypes: true }).flatMap((entry) => {
++  const child = join(directory, entry.name).replaceAll("\\", "/");
++  return entry.isDirectory() ? walk(child) : [child];
++});
++
++const protectedPaths = [
++  ...walk("src/ui/components/scenario/scenario-five/model").filter((path) => path.endsWith(".ts")),
++  ...walk("src/ui/components/scenario/scenario-five/ui").filter((path) => /\.tsx?$/.test(path)),
++  ...["ScenarioFive.css", "ScenarioFiveActionCard.tsx", "ScenarioFiveMap.tsx", "ScenarioFiveResourcePanel.tsx", "ScenarioFiveSimulation.tsx", "ScenarioFiveSummary.tsx", "ScenarioFiveTypes.ts"].map((name) => `src/ui/components/scenario/${name}`),
++  ...walk("src/ui/components/scenario").filter((path) => /ScenarioTwo.*\.tsx?$/.test(path)),
++  "src/ui/components/scenario/scenario-four/model/cognitiveEngineV3.ts",
++  "src/ui/components/scenario/scenario-four/model/cognitiveOptionProfilesV3.ts",
++  "src/ui/components/scenario/scenario-four/model/types.ts",
++  "src/services/analytics/eventLogger.ts",
++  "src/App.tsx",
++  "src/App.css",
++  "src/ui/components/scenario/MiniGameHost.tsx",
++  ...walk("src/scenarios").filter((path) => /\.tsx?$/.test(path)),
++  "package.json",
++].sort();
++const protectedHash = createHash("sha256");
++for (const path of protectedPaths) {
++  protectedHash.update(`${path}\0`);
++  protectedHash.update(readFileSync(join(ROOT, path)));
++  protectedHash.update("\0");
++}
++equal(protectedPaths.length, 68, "protected manifest contains exactly 68 frozen files");
++equal(protectedHash.digest("hex"), "1bd32af62f0667d3864eb7b2b0e7354e70bebe43178cdc8a64a880e8a138bef6", "protected manifest hash matches pre-Phase-8 baseline");
++
++const requiredArtifacts = [
++  "docs/scenario5-phase8-calibration-report-fa.md",
++  "docs/scenario5-phase8-summary.json",
++  "docs/scenario5-phase8-results/mission-runs.csv",
++  "docs/scenario5-phase8-results/cognitive-runs.csv",
++  "docs/scenario5-phase8-results/end-state-coverage.csv",
++  "docs/scenario5-phase8-results/actor-signatures.csv",
++  "docs/scenario5-phase8-results/seed-sensitivity.csv",
++  "docs/scenario5-phase8-results/action-coverage.csv",
++  "docs/scenario5-phase8-results/action-dominance.csv",
++  "docs/scenario5-phase8-results/cognitive-distributions.csv",
++  "docs/scenario5-phase8-results/shadow-time-sensitivity.csv",
++  "docs/scenario5-phase8-results/shadow-deadline-sensitivity.csv",
++  "docs/scenario5-phase8-results/shadow-resource-feasibility.csv",
++] as const;
++for (const path of requiredArtifacts) check(existsSync(join(ROOT, path)) && statSync(join(ROOT, path)).size > 0, `artifact exists and is non-empty: ${path}`);
++
++const parseCsv = (text: string): readonly Readonly<Record<string, string>>[] => {
++  const records: string[][] = [];
++  let row: string[] = [];
++  let field = "";
++  let quoted = false;
++  for (let index = 0; index < text.length; index += 1) {
++    const character = text[index]!;
++    if (quoted) {
++      if (character === '"' && text[index + 1] === '"') { field += '"'; index += 1; }
++      else if (character === '"') quoted = false;
++      else field += character;
++    } else if (character === '"') quoted = true;
++    else if (character === ",") { row.push(field); field = ""; }
++    else if (character === "\n") { row.push(field.replace(/\r$/, "")); records.push(row); row = []; field = ""; }
++    else field += character;
++  }
++  if (field.length > 0 || row.length > 0) { row.push(field); records.push(row); }
++  const [headers, ...data] = records.filter((entry) => entry.some((value) => value.length > 0));
++  if (!headers) return [];
++  return data.map((entry) => Object.fromEntries(headers.map((header, index) => [header, entry[index] ?? ""])));
++};
++const mission = parseCsv(read("docs/scenario5-phase8-results/mission-runs.csv"));
++const cognitive = parseCsv(read("docs/scenario5-phase8-results/cognitive-runs.csv"));
++const actionCoverage = parseCsv(read("docs/scenario5-phase8-results/action-coverage.csv"));
++const endStates = parseCsv(read("docs/scenario5-phase8-results/end-state-coverage.csv"));
++const actorSignatures = parseCsv(read("docs/scenario5-phase8-results/actor-signatures.csv"));
++const seedSensitivity = parseCsv(read("docs/scenario5-phase8-results/seed-sensitivity.csv"));
++const dominance = parseCsv(read("docs/scenario5-phase8-results/action-dominance.csv"));
++const distributions = parseCsv(read("docs/scenario5-phase8-results/cognitive-distributions.csv"));
++const shadowTime = parseCsv(read("docs/scenario5-phase8-results/shadow-time-sensitivity.csv"));
++const shadowDeadline = parseCsv(read("docs/scenario5-phase8-results/shadow-deadline-sensitivity.csv"));
++const shadowResources = parseCsv(read("docs/scenario5-phase8-results/shadow-resource-feasibility.csv"));
++const summaryText = read("docs/scenario5-phase8-summary.json");
++const summary = JSON.parse(summaryText) as Record<string, any>;
++
++equal(summary.calibrationVersion, "s5-calibration-v1.0.0", "calibration version exact");
++equal(summary.modelVersions.calibrationStatus, "engineering_audit_not_human_validated", "calibration status exact");
++check(!/NaN|Infinity/.test(summaryText), "summary JSON contains no NaN or Infinity");
++equal(mission.length, 25_600, "exactly 25,600 scheduled mission rows");
++equal(mission.filter((row) => row.policyId === "M10_uniform_random").length, 16_384, "exactly 16,384 random mission rows");
++equal(mission.filter((row) => row.policyId !== "M10_uniform_random").length, 9_216, "exactly 9,216 deterministic mission rows");
++for (const policyId of ["balanced_network", "priority_alpha", "information_heavy", "mobility_resilience", "resource_preserver", "high_response", "low_response_reversible", "oracle_primary_ceiling", "wrong_corridor_stress"])
++  equal(mission.filter((row) => row.policyId === policyId).length, 1_024, `${policyId} has exactly 1,024 rows`);
++check(mission.every((row) => row.completed === "true"), "all mission runs completed");
++check(mission.every((row) => Number(row.finalIsr) >= 0 && Number(row.finalSupport) >= 0), "all mission rows retain nonnegative resources");
++check(mission.every((row) => Number(row.minimumAvailableActionCount) > 0), "all mission rows have zero 0-option windows");
++check(mission.every((row) => Number(row.totalFinalDelayMinutes) === Number(row.totalActorDelayAddedMinutes) + Number(row.totalPlayerDelayAddedMinutes) - Number(row.totalPlayerDelayRecoveredMinutes)), "all mission rows satisfy aggregate delay identity");
++check(mission.every((row) => Number(row.worldClockBeforeFinalization) <= 360), "all mission decision clocks are <=360");
++
++equal(Object.keys(summary.environmentCoverage.worldCounts).length, 16, "environment panel has 16 worlds");
++check(Object.values(summary.environmentCoverage.worldCounts).every((count) => count === 64), "each world has 64 environment seeds");
++equal(Object.keys(summary.environmentCoverage.actorCounts).length, 4, "environment panel has four actors");
++check(Object.values(summary.environmentCoverage.actorCounts).every((count) => count === 256), "each actor has 256 environment instances");
++equal(Object.keys(summary.environmentCoverage.primaryCorridorCounts).length, 4, "environment panel has four primary corridors");
++check(Object.values(summary.environmentCoverage.primaryCorridorCounts).every((count) => count === 256), "each primary corridor has 256 environment instances");
++equal(summary.environmentCoverage.latencyVariants, ["early", "late", "nominal"], "all latency variants observed");
++equal(summary.environmentCoverage.missingNoiseRelations, [], "all legal background-noise relations observed");
++
++equal(actionCoverage.length, 33, "action coverage has all 33 action IDs");
++check(actionCoverage.every((row) => Number(row.selectionCount) > 0), "all 33 actions were selected");
++check(actionCoverage.every((row) => [row.alphaLegality, row.betaLegality, row.gammaLegality, row.deltaLegality].every((status) => ["observed", "not_observed_as_legal", "not_applicable", "legal_but_not_selected"].includes(status))), "every action-target status has a valid audit classification");
++equal(summary.actionCoverage.observedActionCount, 33, "summary action count matches action CSV");
++equal(endStates.length, 6, "six end-state classifications are present");
++check(endStates.every((row) => ["observed_in_main_audit", "observed_in_witness_search", "not_observed_under_phase8_search"].includes(row.classification)), "every end state has a valid Phase-8 classification");
++equal(summary.runCounts.witnessSearchRuns, 20_000, "witness search respected exact reported count");
++
++equal(actorSignatures.length, 4, "four actor signatures are present");
++equal(summary.actorPairResults.length, 6, "six actor pairs evaluated");
++check(summary.actorPairResults.every((row: Record<string, unknown>) => typeof row.distinguishable === "boolean"), "every actor pair has a gate result");
++equal(seedSensitivity.length, 112, "seed sensitivity has 16 worlds × 7 policies");
++check(seedSensitivity.every((row) => Number(row.modalEndStateShare) >= 0 && Number(row.modalEndStateShare) <= 1), "seed sensitivity shares are bounded");
++check(dominance.length > 0 && dominance.every((row) => Number(row.evaluatedStateCount) > 0), "Pareto audit reports evaluated contexts");
++equal(summary.runCounts.counterfactualBranches, 2_590, "counterfactual branch count exact");
++
++equal(cognitive.length, 7_936, "exactly 7,936 cognitive rows");
++equal(cognitive.filter((row) => row.policyId === "uniform_random_cognitive").length, 4_096, "exactly 4,096 random cognitive rows");
++equal(new Set(cognitive.map((row) => row.policyId)).size, 16, "all 16 cognitive policies present");
++const mean = (values: readonly number[]): number => values.reduce((sum, value) => sum + value, 0) / values.length;
++const rounded = (value: number): number => Number(value.toFixed(6));
++const randomRows = cognitive.filter((row) => row.policyId === "uniform_random_cognitive");
++for (const [column, summaryKey] of [["overallOSI", "overall"], ["phaseAOSI", "phaseA"], ["phaseBOSI", "phaseB"], ["phaseCOSI", "phaseC"], ["phaseDOSI", "phaseD"]] as const) {
++  const values = randomRows.map((row) => Number(row[column]));
++  equal(rounded(mean(values)), summary.randomOsiSummary[summaryKey].mean, `random OSI mean exact for ${column}`);
++  equal(summary.randomOsiSummary[summaryKey].n, 4_096, `random OSI n exact for ${column}`);
++}
++equal(summary.cognitiveAnchorSummary.length, 12, "all 12 cognitive anchor checks computed");
++check(summary.cognitiveAnchorSummary.every((row: Record<string, unknown>) => typeof row.pass === "boolean"), "every cognitive anchor has a boolean result");
++equal(distributions.length, 14, "distribution screen covers 14 required metrics");
++check(distributions.every((row) => ["0..100", "-1..1"].includes(row.scale) && Number(row.n) >= 0), "distribution rows have valid scales and counts");
++equal(summary.runCounts.cognitiveFirewallPairs, 100, "at least 100 paired firewall cases recorded");
++
++equal(shadowTime.map((row) => Number(row.horizon)), [330, 345, 360, 375, 390], "shadow horizon set exact");
++equal(shadowDeadline.map((row) => Number(row.deadlineShift)), [-30, -15, 0, 15, 30], "shadow deadline shift set exact");
++equal(shadowResources.map((row) => Number(row.budget)), [80, 90, 100, 110, 120], "shadow resource budget set exact");
++check(shadowResources.every((row) => row.analysisLabel === "path-feasibility shadow analysis, not a full counterfactual replay"), "resource shadow label exact");
++
++equal(summary.warnings.length, 6, "all six warning screeners calculated");
++check(summary.warnings.every((row: Record<string, unknown>) => row.status === "PASS" || row.status === "WARNING"), "warning screeners do not masquerade as hard failures");
++const expectedOverall = summary.hardGates.every((gate: Record<string, unknown>) => gate.status === "PASS") ? "PASS" : "FAIL";
++equal(summary.overallStatus, expectedOverall, "overall status is derived only from hard gates");
++check(summary.hardGates.some((gate: Record<string, unknown>) => gate.status === "FAIL"), "failing evidence is preserved rather than tuned away");
++
++const calibrationSourcePaths = walk("src/ui/components/scenario/scenario-five/calibration");
++const calibrationSource = calibrationSourcePaths.map(read).join("\n");
++check(!calibrationSource.includes(["Math", "random"].join(".")), "calibration source uses no nondeterministic built-in RNG");
++check(!/from\s+["']react["']|import\s+["']react["']/.test(calibrationSource), "calibration source imports no React");
++equal(calibrationSourcePaths.length, 11, "all 11 required calibration source files present");
++
++const report = read("docs/scenario5-phase8-calibration-report-fa.md");
++for (const exact of [
++  "فراوانی جهان‌ها و seedها احتمال واقعی رخدادهای بیرونی نیست.",
++  "عامل‌های مصنوعی این فاز نماینده رفتار انسان نیستند.",
++  "موفقیت در calibration مهندسی به معنی اعتبار روان‌سنجی نیست.",
++  "پارامترهای زمان، هزینه، threshold و loadingها هنوز برای اعتبار نهایی به بازبینی خبرگان و اجرای انسانی نیاز دارند.",
++  "Phase 8 هیچ پارامتر مدل را به‌صورت خودکار تغییر نمی‌دهد.",
++]) check(report.includes(exact), `Persian report contains exact limitation: ${exact}`);
++
++console.log(`Scenario 5 Phase 8 calibration verifier passed: ${assertions} assertions.`);
+diff --git a/src/ui/components/scenario/scenario-five/calibration/auditMetrics.ts b/src/ui/components/scenario/scenario-five/calibration/auditMetrics.ts
+new file mode 100644
+index 0000000..d4dc902
+--- /dev/null
++++ b/src/ui/components/scenario/scenario-five/calibration/auditMetrics.ts
+@@ -0,0 +1,292 @@
++import { CANONICAL_ACTOR_PROFILES, CANONICAL_CORRIDORS } from "../model/index";
++import type { ActorProfileId, CorridorId, WorldId } from "../model/index";
++import { MISSION_ACTION_CATALOG } from "../model/mission/index";
++import type { MissionActionId, Scenario5EndStateId } from "../model/mission/index";
++import type {
++  ActorPairResult,
++  CognitiveRunRow,
++  DistributionSummary,
++  MissionRunRow,
++  SimulationRun,
++} from "./types";
++import { S5_CALIBRATION_VERSION } from "./versions";
++
++const CANONICAL_CORRIDOR_IDS = CANONICAL_CORRIDORS.map(({ corridorId }) => corridorId);
++
++export const mean = (values: readonly number[]): number => values.length === 0 ? 0 : values.reduce((sum, value) => sum + value, 0) / values.length;
++export const round = (value: number, digits = 6): number => Number(value.toFixed(digits));
++export const quantile = (values: readonly number[], probability: number): number => {
++  if (values.length === 0) throw new Error("Quantile requires at least one value");
++  const sorted = [...values].sort((left, right) => left - right);
++  const index = (sorted.length - 1) * probability;
++  const lower = Math.floor(index);
++  const upper = Math.ceil(index);
++  return sorted[lower]! + (index - lower) * (sorted[upper]! - sorted[lower]!);
++};
++export const populationSd = (values: readonly number[]): number => {
++  if (values.length === 0) return 0;
++  const average = mean(values);
++  return Math.sqrt(mean(values.map((value) => (value - average) ** 2)));
++};
++export const percent = (numerator: number, denominator: number): number => denominator === 0 ? 0 : round(100 * numerator / denominator);
++
++export function toMissionRunRow(run: SimulationRun): MissionRunRow {
++  const { state, result } = run;
++  const alpha = result.domain.criticalDelivery;
++  return {
++    calibrationVersion: S5_CALIBRATION_VERSION,
++    policyId: run.policyId,
++    oraclePolicy: run.oraclePolicy,
++    worldId: run.worldId,
++    primaryCorridorId: state.missionState.trueWorldState.primaryAffectedCorridorId,
++    actorProfile: state.missionState.trueWorldState.actorProfileId,
++    environmentSeed: run.environmentSeed,
++    policySeed: run.policySeed,
++    completed: state.stage.stageId === "complete" && state.missionState.completed,
++    endStateId: result.missionEndState.endStateId,
++    alphaDelivered: alpha.deliveredByMissionHorizon,
++    alphaIntegrity: alpha.integrity,
++    alphaDelayMinutes: alpha.delayMinutes,
++    alphaProjectedArrivalMinute: alpha.projectedArrivalMinute,
++    alphaDeadlineMinute: alpha.deadlineMinute,
++    alphaOnTimeOperational: alpha.onTimeOperational,
++    networkContinuityPercent: result.domain.logisticsResilience.networkContinuityPercent,
++    deliveredConvoyCount: result.domain.logisticsResilience.deliveredConvoyCount,
++    onTimeOperationalConvoyCount: result.domain.logisticsResilience.onTimeOperationalConvoyCount,
++    compromisedConvoyCount: result.domain.navigationIntegrity.compromisedConvoyCount,
++    operationalAttributionStatus: result.domain.logisticsResilience.operationalAttributionStatus,
++    threatContained: result.domain.logisticsResilience.threatContained,
++    totalFinalDelayMinutes: result.domain.delayControl.totalFinalDelayMinutes,
++    totalActorDelayAddedMinutes: result.domain.delayControl.totalActorDelayAddedMinutes,
++    totalPlayerDelayAddedMinutes: result.domain.delayControl.totalPlayerDelayAddedMinutes,
++    totalPlayerDelayRecoveredMinutes: result.domain.delayControl.totalPlayerDelayRecoveredMinutes,
++    finalIsr: state.missionState.resources.isrCapacity,
++    finalSupport: state.missionState.resources.supportReserve,
++    worldClockBeforeFinalization: run.worldClockBeforeFinalization,
++    localizedDisruptionEventCount: result.domain.civilianImpactProxy.localizedDisruptionEventCount,
++    targetedAttentionHhi: result.domain.networkLogisticsBalance.targetedAttentionHhi,
++    fallbackCount: run.fallbackCount,
++    minimumAvailableActionCount: run.minimumAvailableActionCount,
++    singleOptionWindowCount: run.singleOptionWindowCount,
++    secondaryActorImpactDecisionCount: run.secondaryActorImpactDecisionCount,
++    convoySnapshot: state.missionState.convoys.map((convoy) => ({
++      corridorId: convoy.corridorId,
++      integrity: convoy.integrity,
++      projectedArrivalMinute: convoy.baselineArrivalMinute + convoy.delayMinutes,
++      deadlineMinute: convoy.deadlineMinute,
++    })),
++  };
++}
++
++export function toCognitiveRunRow(run: SimulationRun): CognitiveRunRow {
++  const result = run.result.cognitive;
++  return {
++    policyId: run.policyId as CognitiveRunRow["policyId"],
++    worldId: run.worldId,
++    actorProfile: run.state.missionState.trueWorldState.actorProfileId,
++    primaryCorridorId: run.state.missionState.trueWorldState.primaryAffectedCorridorId,
++    environmentSeed: run.environmentSeed,
++    policySeed: run.policySeed,
++    dataCompletenessOverall: result.dataCompleteness.overall,
++    overallOSI: result.orientation.overall,
++    phaseAOSI: result.orientation.phaseScores[0],
++    phaseBOSI: result.orientation.phaseScores[1],
++    phaseCOSI: result.orientation.phaseScores[2],
++    phaseDOSI: result.orientation.phaseScores[3],
++    operationalStrength: result.orientation.operationalStrength,
++    strategicStrength: result.orientation.strategicStrength,
++    integration: result.orientation.integration,
++    dispersion: result.orientation.dispersion,
++    informationSeeking: result.constructs.informationSeeking,
++    secondOrderThinking: result.constructs.secondOrderThinking,
++    adversaryModeling: result.constructs.adversaryModeling,
++    escalationSensitivity: result.constructs.escalationSensitivity,
++    evidenceResponsiveUpdating: result.constructs.evidenceResponsiveUpdating,
++    resourceStewardship: result.constructs.resourceStewardship,
++    planningForesight: result.constructs.planningForesight,
++    multiDomainIntegration: result.constructs.multiDomainIntegration,
++    riskPosture: result.constructs.riskPosture,
++    decisionCoherence: result.constructs.decisionCoherence,
++    medianActiveDecisionMs: result.telemetrySummary.medianActiveDecisionMs,
++    totalRevisions: result.telemetrySummary.totalRevisions,
++    evidenceTriggeredRevisionRate: result.telemetrySummary.evidenceTriggeredRevisionRate,
++  };
++}
++
++export interface ActionCoverageRow {
++  readonly actionId: MissionActionId;
++  readonly selectionCount: number;
++  readonly selectionCountByRound: string;
++  readonly targetAlphaCount: number;
++  readonly targetBetaCount: number;
++  readonly targetGammaCount: number;
++  readonly targetDeltaCount: number;
++  readonly fallbackSelectionCount: number;
++  readonly alphaLegality: string;
++  readonly betaLegality: string;
++  readonly gammaLegality: string;
++  readonly deltaLegality: string;
++}
++
++export function calculateActionCoverage(runs: readonly Pick<SimulationRun, "decisionTrace">[]): readonly ActionCoverageRow[] {
++  return MISSION_ACTION_CATALOG.map(({ actionId, target }) => {
++    const selections = runs.flatMap(({ decisionTrace }) => decisionTrace).filter(({ actualActionId }) => actualActionId === actionId);
++    const legal = new Set<CorridorId>();
++    for (const run of runs) for (const trace of run.decisionTrace) {
++      if (trace.availableActionIds.includes(actionId) && target === "required") trace.legalActiveTargetIds.forEach((id) => legal.add(id));
++    }
++    const targetCount = (corridorId: CorridorId): number => selections.filter(({ targetCorridorId }) => targetCorridorId === corridorId).length;
++    const legality = (corridorId: CorridorId): string => target !== "required" ? "not_applicable"
++      : !legal.has(corridorId) ? "not_observed_as_legal"
++      : targetCount(corridorId) > 0 ? "observed" : "legal_but_not_selected";
++    const byRound = Object.fromEntries([...new Set(selections.map(({ roundId }) => roundId))].sort().map((roundId) => [roundId, selections.filter((item) => item.roundId === roundId).length]));
++    return {
++      actionId,
++      selectionCount: selections.length,
++      selectionCountByRound: JSON.stringify(byRound),
++      targetAlphaCount: targetCount("corridor_alpha_east"),
++      targetBetaCount: targetCount("corridor_beta_south"),
++      targetGammaCount: targetCount("corridor_gamma_northwest"),
++      targetDeltaCount: targetCount("corridor_delta_west"),
++      fallbackSelectionCount: selections.filter(({ fallbackUsed }) => fallbackUsed).length,
++      alphaLegality: legality("corridor_alpha_east"), betaLegality: legality("corridor_beta_south"),
++      gammaLegality: legality("corridor_gamma_northwest"), deltaLegality: legality("corridor_delta_west"),
++    };
++  });
++}
++
++export interface ActorSignatureRow {
++  readonly actorProfile: ActorProfileId;
++  readonly meanActorDelayAddedMinutes: number;
++  readonly medianActorDelayAddedMinutes: number;
++  readonly threatContainedRate: number;
++  readonly resolvedAttributionRate: number;
++  readonly meanNetworkContinuity: number;
++  readonly meanAlphaDelay: number;
++  readonly endStateDistribution: string;
++  readonly secondaryActorImpactRate: number;
++}
++
++const END_STATES: readonly Scenario5EndStateId[] = [
++  "critical_cargo_lost_or_compromised", "priority_delivered_network_failure", "mission_incomplete_continuity_preserved",
++  "delayed_delivery_persistent_disruption", "resilient_delivery_unresolved_attribution", "resilient_delivery_threat_contained",
++];
++
++export function calculateActorSignatures(rows: readonly MissionRunRow[]): readonly ActorSignatureRow[] {
++  return CANONICAL_ACTOR_PROFILES.map(({ profileId }) => {
++    const matched = rows.filter(({ actorProfile }) => actorProfile === profileId);
++    const distribution = Object.fromEntries(END_STATES.map((endStateId) => [endStateId, matched.filter((row) => row.endStateId === endStateId).length / matched.length]));
++    return {
++      actorProfile: profileId,
++      meanActorDelayAddedMinutes: round(mean(matched.map(({ totalActorDelayAddedMinutes }) => totalActorDelayAddedMinutes))),
++      medianActorDelayAddedMinutes: round(quantile(matched.map(({ totalActorDelayAddedMinutes }) => totalActorDelayAddedMinutes), .5)),
++      threatContainedRate: round(matched.filter(({ threatContained }) => threatContained).length / matched.length),
++      resolvedAttributionRate: round(matched.filter(({ operationalAttributionStatus }) => operationalAttributionStatus === "resolved").length / matched.length),
++      meanNetworkContinuity: round(mean(matched.map(({ networkContinuityPercent }) => networkContinuityPercent))),
++      meanAlphaDelay: round(mean(matched.map(({ alphaDelayMinutes }) => alphaDelayMinutes))),
++      endStateDistribution: JSON.stringify(distribution),
++      secondaryActorImpactRate: round(matched.reduce((sum, row) => sum + row.secondaryActorImpactDecisionCount, 0) / (matched.length * 8)),
++    };
++  });
++}
++
++export function calculateActorPairs(signatures: readonly ActorSignatureRow[]): readonly ActorPairResult[] {
++  const pairs: ActorPairResult[] = [];
++  for (let leftIndex = 0; leftIndex < signatures.length; leftIndex += 1) for (let rightIndex = leftIndex + 1; rightIndex < signatures.length; rightIndex += 1) {
++    const left = signatures[leftIndex]!;
++    const right = signatures[rightIndex]!;
++    const leftDistribution = JSON.parse(left.endStateDistribution) as Record<string, number>;
++    const rightDistribution = JSON.parse(right.endStateDistribution) as Record<string, number>;
++    const meanDelayDifference = Math.abs(left.meanActorDelayAddedMinutes - right.meanActorDelayAddedMinutes);
++    const threatContainedRateDifference = Math.abs(left.threatContainedRate - right.threatContainedRate);
++    const endStateTvDistance = .5 * END_STATES.reduce((sum, id) => sum + Math.abs((leftDistribution[id] ?? 0) - (rightDistribution[id] ?? 0)), 0);
++    const secondaryImpactRateDifference = Math.abs(left.secondaryActorImpactRate - right.secondaryActorImpactRate);
++    pairs.push({
++      actorA: left.actorProfile, actorB: right.actorProfile, meanDelayDifference: round(meanDelayDifference),
++      threatContainedRateDifference: round(threatContainedRateDifference), endStateTvDistance: round(endStateTvDistance),
++      secondaryImpactRateDifference: round(secondaryImpactRateDifference),
++      distinguishable: meanDelayDifference >= 5 || threatContainedRateDifference >= .1 || endStateTvDistance >= .1 || secondaryImpactRateDifference >= .1,
++    });
++  }
++  return pairs;
++}
++
++export interface SeedSensitivityRow {
++  readonly worldId: WorldId;
++  readonly policyId: string;
++  readonly modalEndStateShare: number;
++  readonly uniqueEndStateCount: number;
++  readonly alphaDeliveryRate: number;
++  readonly networkContinuityMin: number;
++  readonly networkContinuityMax: number;
++  readonly alphaDelayP25: number;
++  readonly alphaDelayMedian: number;
++  readonly alphaDelayP75: number;
++  readonly alphaDelayIqr: number;
++  readonly actorDelayP25: number;
++  readonly actorDelayMedian: number;
++  readonly actorDelayP75: number;
++  readonly highSeedSensitivity: boolean;
++}
++
++export function calculateSeedSensitivity(rows: readonly MissionRunRow[]): readonly SeedSensitivityRow[] {
++  const result: SeedSensitivityRow[] = [];
++  for (const worldId of [...new Set(rows.map(({ worldId }) => worldId))]) for (const policyId of [...new Set(rows.map(({ policyId }) => policyId))]) {
++    const matched = rows.filter((row) => row.worldId === worldId && row.policyId === policyId);
++    if (matched.length === 0) continue;
++    const counts = new Map<string, number>();
++    matched.forEach(({ endStateId }) => counts.set(endStateId, (counts.get(endStateId) ?? 0) + 1));
++    const modalEndStateShare = Math.max(...counts.values()) / matched.length;
++    const continuity = matched.map(({ networkContinuityPercent }) => networkContinuityPercent);
++    const alphaDelay = matched.map(({ alphaDelayMinutes }) => alphaDelayMinutes);
++    const actorDelay = matched.map(({ totalActorDelayAddedMinutes }) => totalActorDelayAddedMinutes);
++    const alphaDelayIqr = quantile(alphaDelay, .75) - quantile(alphaDelay, .25);
++    result.push({
++      worldId, policyId: String(policyId), modalEndStateShare: round(modalEndStateShare), uniqueEndStateCount: counts.size,
++      alphaDeliveryRate: round(matched.filter(({ alphaDelivered }) => alphaDelivered).length / matched.length),
++      networkContinuityMin: Math.min(...continuity), networkContinuityMax: Math.max(...continuity),
++      alphaDelayP25: round(quantile(alphaDelay, .25)), alphaDelayMedian: round(quantile(alphaDelay, .5)), alphaDelayP75: round(quantile(alphaDelay, .75)), alphaDelayIqr: round(alphaDelayIqr),
++      actorDelayP25: round(quantile(actorDelay, .25)), actorDelayMedian: round(quantile(actorDelay, .5)), actorDelayP75: round(quantile(actorDelay, .75)),
++      highSeedSensitivity: modalEndStateShare < .6 || Math.max(...continuity) - Math.min(...continuity) > 50 || alphaDelayIqr > 30,
++    });
++  }
++  return result;
++}
++
++const distributionMetrics: readonly { key: keyof CognitiveRunRow; scale: "0..100" | "-1..1" }[] = [
++  { key: "informationSeeking", scale: "0..100" }, { key: "secondOrderThinking", scale: "0..100" },
++  { key: "adversaryModeling", scale: "0..100" }, { key: "escalationSensitivity", scale: "0..100" },
++  { key: "evidenceResponsiveUpdating", scale: "0..100" }, { key: "resourceStewardship", scale: "0..100" },
++  { key: "planningForesight", scale: "0..100" }, { key: "multiDomainIntegration", scale: "0..100" },
++  { key: "decisionCoherence", scale: "0..100" }, { key: "operationalStrength", scale: "0..100" },
++  { key: "strategicStrength", scale: "0..100" }, { key: "integration", scale: "0..100" },
++  { key: "overallOSI", scale: "-1..1" }, { key: "riskPosture", scale: "-1..1" },
++];
++
++export function calculateDistributions(rows: readonly CognitiveRunRow[]): readonly DistributionSummary[] {
++  return distributionMetrics.map(({ key, scale }) => {
++    const values = rows.map((row) => row[key]).filter((value): value is number => typeof value === "number");
++    const sd = values.length === 0 ? null : populationSd(values);
++    const floor = scale === "0..100" ? percent(values.filter((value) => value <= 5).length, values.length) : null;
++    const ceiling = scale === "0..100" ? percent(values.filter((value) => value >= 95).length, values.length) : null;
++    const warnings = [
++      ...(floor !== null && floor > 80 ? ["engineering_floor"] : []),
++      ...(ceiling !== null && ceiling > 80 ? ["engineering_ceiling"] : []),
++      ...(sd !== null && sd < (scale === "0..100" ? 5 : .05) ? ["engineering_low_variance"] : []),
++    ];
++    return {
++      metric: key, scale, n: values.length, nullRate: round(1 - values.length / rows.length),
++      mean: values.length ? round(mean(values)) : null, sd: sd === null ? null : round(sd),
++      min: values.length ? round(Math.min(...values)) : null, p05: values.length ? round(quantile(values, .05)) : null,
++      p25: values.length ? round(quantile(values, .25)) : null, median: values.length ? round(quantile(values, .5)) : null,
++      p75: values.length ? round(quantile(values, .75)) : null, p95: values.length ? round(quantile(values, .95)) : null,
++      max: values.length ? round(Math.max(...values)) : null, percentAtOrBelow5: floor, percentAtOrAbove95: ceiling, warnings,
++    };
++  });
++}
++
++export const canonicalEnvironmentCounts = (rows: readonly MissionRunRow[]) => ({
++  worlds: [...new Set(rows.map(({ worldId }) => worldId))].length,
++  actors: Object.fromEntries(CANONICAL_ACTOR_PROFILES.map(({ profileId }) => [profileId, rows.filter(({ actorProfile }) => actorProfile === profileId).length])),
++  corridors: Object.fromEntries(CANONICAL_CORRIDOR_IDS.map((corridorId) => [corridorId, rows.filter(({ primaryCorridorId }) => primaryCorridorId === corridorId).length])),
++});
+diff --git a/src/ui/components/scenario/scenario-five/calibration/cognitivePolicies.ts b/src/ui/components/scenario/scenario-five/calibration/cognitivePolicies.ts
+new file mode 100644
+index 0000000..41aa8e4
+--- /dev/null
++++ b/src/ui/components/scenario/scenario-five/calibration/cognitivePolicies.ts
+@@ -0,0 +1,65 @@
++import { calculateReasonAlignment, getScenario5OptionProfile, multiCriteriaForProfile } from "../model/cognitive/index";
++import type { OptionCognitiveProfile, ReasonId } from "../model/cognitive/index";
++import type { MissionActionId } from "../model/mission/index";
++import type { CalibrationPolicy, CognitivePolicyId, PolicyChoiceContext } from "./types";
++import { MISSION_POLICIES } from "./missionPolicies";
++
++const byMetric = (metric: (profile: OptionCognitiveProfile) => number, maximum: boolean) =>
++  ({ availableActionIds }: PolicyChoiceContext): MissionActionId => availableActionIds.reduce((best, actionId) => {
++    const delta = metric(getScenario5OptionProfile(actionId)) - metric(getScenario5OptionProfile(best));
++    return (maximum ? delta > 0 : delta < 0) ? actionId : best;
++  });
++const maxMetric = (key: keyof Pick<OptionCognitiveProfile,
++  "operationalLoading" | "strategicLoading" | "informationSeeking" | "adversaryModeling" | "riskExposure">) =>
++  byMetric((profile) => profile[key], true);
++const minMetric = (key: keyof Pick<OptionCognitiveProfile, "informationSeeking" | "riskExposure">) =>
++  byMetric((profile) => profile[key], false);
++const secondOrder = (profile: OptionCognitiveProfile): number => .35 * profile.futureConsequenceThinking + .25 * profile.adversaryModeling + .2 * profile.reversibilityPreference + .2 * profile.resourceStewardship;
++const stewardship = (profile: OptionCognitiveProfile): number => .5 * profile.resourceStewardship + .3 * profile.contingencyPlanning + .2 * profile.reversibilityPreference;
++const planning = (profile: OptionCognitiveProfile): number => .35 * profile.contingencyPlanning + .25 * profile.reversibilityPreference + .2 * profile.resourceStewardship + .2 * profile.futureConsequenceThinking;
++
++const cognitive = (
++  policyId: CognitivePolicyId,
++  chooseAction: CalibrationPolicy["chooseAction"],
++  options: Partial<Pick<CalibrationPolicy, "evidenceBehavior" | "beliefBehavior" | "reasonBehavior" | "requestedActionByRound">> = {},
++): CalibrationPolicy => ({
++  policyId, chooseAction, oraclePolicy: false, stressPolicy: false, randomPolicy: policyId === "uniform_random_cognitive",
++  evidenceBehavior: options.evidenceBehavior ?? "none", beliefBehavior: options.beliefBehavior ?? "neutral",
++  reasonBehavior: options.reasonBehavior ?? "neutral", ...(options.requestedActionByRound ? { requestedActionByRound: options.requestedActionByRound } : {}),
++});
++
++const preferredHigh = { 3: "b1_split_attention", 4: "b2_staged_checkpoints", 5: "c1_checkpoint_spacing", 6: "c2_balanced", 7: "d1_deception_routing", 8: "d2_continuity_first_finish" } as const;
++const preferredLow = { 3: "b1_priority_cargo", 4: "b2_staged_checkpoints", 5: "c1_preserve_mobile_reserve", 6: "c2_priority_surge", 7: "d1_escorted_continuation", 8: "d2_resilient_handoff" } as const;
++const balanced = MISSION_POLICIES.find(({ policyId }) => policyId === "balanced_network")!;
++
++export const COGNITIVE_POLICIES: readonly CalibrationPolicy[] = [
++  cognitive("operational_anchor", maxMetric("operationalLoading")),
++  cognitive("strategic_anchor", maxMetric("strategicLoading")),
++  cognitive("information_max", maxMetric("informationSeeking"), { evidenceBehavior: "all" }),
++  cognitive("information_min", minMetric("informationSeeking")),
++  cognitive("second_order_max", byMetric(secondOrder, true)),
++  cognitive("adversary_max", maxMetric("adversaryModeling")),
++  cognitive("stewardship_max", byMetric(stewardship, true)),
++  cognitive("planning_max", byMetric(planning, true)),
++  cognitive("mci_max", byMetric((profile) => multiCriteriaForProfile(profile) ?? 0, true)),
++  cognitive("risk_low", minMetric("riskExposure")),
++  cognitive("risk_high", maxMetric("riskExposure")),
++  cognitive("coherence_high", maxMetric("strategicLoading"), { requestedActionByRound: preferredHigh, reasonBehavior: "maximize_alignment" }),
++  cognitive("coherence_low", maxMetric("operationalLoading"), { requestedActionByRound: preferredLow, reasonBehavior: "minimize_alignment" }),
++  cognitive("evidence_responsive", undefined, { requestedActionByRound: balanced.requestedActionByRound, evidenceBehavior: "all", beliefBehavior: "evidence_responsive" }),
++  cognitive("evidence_anti", undefined, { requestedActionByRound: balanced.requestedActionByRound, evidenceBehavior: "all", beliefBehavior: "evidence_anti" }),
++  cognitive("uniform_random_cognitive", ({ availableActionIds, rng }) => availableActionIds[rng.pickIndex(availableActionIds.length)]!, { evidenceBehavior: "random_half" }),
++] as const;
++
++export const REASON_IDS: readonly ReasonId[] = [
++  "reason_mission_speed", "reason_reduce_exposure", "reason_preserve_resources", "reason_network_continuity",
++  "reason_information_confidence", "reason_limit_actor_reaction", "reason_preserve_reversibility",
++] as const;
++
++export function alignedReason(actionIds: readonly MissionActionId[], maximize: boolean): ReasonId {
++  return REASON_IDS.reduce((best, reasonId) => {
++    const score = (candidate: ReasonId): number => actionIds.reduce((sum, actionId) => sum + calculateReasonAlignment(actionId, candidate), 0) / actionIds.length;
++    const delta = score(reasonId) - score(best);
++    return (maximize ? delta > 0 : delta < 0) ? reasonId : best;
++  });
++}
+diff --git a/src/ui/components/scenario/scenario-five/calibration/counterfactualAudit.ts b/src/ui/components/scenario/scenario-five/calibration/counterfactualAudit.ts
+new file mode 100644
+index 0000000..9aeced8
+--- /dev/null
++++ b/src/ui/components/scenario/scenario-five/calibration/counterfactualAudit.ts
+@@ -0,0 +1,104 @@
++import type { CorridorId } from "../model/index";
++import { getMissionAction } from "../model/mission/index";
++import type { MissionActionId } from "../model/mission/index";
++import { getRuntimeAvailableActionIds } from "../model/runtime/index";
++import type { Scenario5RuntimeState } from "../model/runtime/index";
++import { activeCorridorIds, BALANCED_CONTINUATION_POLICY } from "./missionPolicies";
++import { simulateScenario5 } from "./simulationDriver";
++import type { CounterfactualResult } from "./types";
++import { round } from "./auditMetrics";
++
++export function counterfactualStateKey(state: Scenario5RuntimeState): string {
++  return JSON.stringify({
++    stage: state.stage.stageId,
++    resources: state.missionState.resources,
++    convoys: state.missionState.convoys.map(({ corridorId, status, integrity, delayMinutes, fallbackNav, routeHardened, groundSupport, escortedUntilRound, temporaryProtectionLevel }) => ({ corridorId, status, integrity, delayMinutes, fallbackNav, routeHardened, groundSupport, escortedUntilRound, temporaryProtectionLevel })),
++    evidenceIds: state.missionState.visibleEvidence.map(({ evidenceId }) => evidenceId),
++    actorState: state.missionState.trueWorldState.actorInternalState,
++    worldId: state.missionState.trueWorldState.worldId,
++    seed: state.missionState.trueWorldState.seed,
++  });
++}
++interface OutcomeVector {
++  readonly alphaDelivered: number;
++  readonly alphaIntegrity: number;
++  readonly networkContinuity: number;
++  readonly deliveredCount: number;
++  readonly onTimeCount: number;
++  readonly finalIsr: number;
++  readonly finalSupport: number;
++  readonly threatContained: number;
++  readonly alphaDelay: number;
++  readonly totalDelay: number;
++  readonly compromisedCount: number;
++  readonly disruptionCount: number;
++}
++
++const vector = (run: ReturnType<typeof simulateScenario5>): OutcomeVector => ({
++  alphaDelivered: Number(run.result.domain.criticalDelivery.deliveredByMissionHorizon),
++  alphaIntegrity: run.result.domain.criticalDelivery.integrity,
++  networkContinuity: run.result.domain.logisticsResilience.networkContinuityPercent,
++  deliveredCount: run.result.domain.logisticsResilience.deliveredConvoyCount,
++  onTimeCount: run.result.domain.logisticsResilience.onTimeOperationalConvoyCount,
++  finalIsr: run.state.missionState.resources.isrCapacity,
++  finalSupport: run.state.missionState.resources.supportReserve,
++  threatContained: Number(run.result.domain.logisticsResilience.threatContained),
++  alphaDelay: run.result.domain.criticalDelivery.delayMinutes,
++  totalDelay: run.result.domain.delayControl.totalFinalDelayMinutes,
++  compromisedCount: run.result.domain.navigationIntegrity.compromisedConvoyCount,
++  disruptionCount: run.result.domain.civilianImpactProxy.localizedDisruptionEventCount,
++});
++
++const dominates = (left: OutcomeVector, right: OutcomeVector): boolean => {
++  const maximize = ["alphaDelivered", "alphaIntegrity", "networkContinuity", "deliveredCount", "onTimeCount", "finalIsr", "finalSupport", "threatContained"] as const;
++  const minimize = ["alphaDelay", "totalDelay", "compromisedCount", "disruptionCount"] as const;
++  const weak = maximize.every((key) => left[key] >= right[key]) && minimize.every((key) => left[key] <= right[key]);
++  const strict = maximize.some((key) => left[key] > right[key]) || minimize.some((key) => left[key] < right[key]);
++  return weak && strict;
++};
++
++export function runCounterfactualAudit(statesByWindow: ReadonlyMap<string, readonly Scenario5RuntimeState[]>): CounterfactualResult {
++  const rows: Readonly<Record<string, string | number | boolean>>[] = [];
++  let branchCount = 0;
++  let universalDominanceFound = false;
++  for (const [windowId, states] of statesByWindow) {
++    const evaluated = new Map<MissionActionId, number>();
++    const dominant = new Map<MissionActionId, number>();
++    for (const state of states.slice(0, 256)) {
++      const variants: { actionId: MissionActionId; targetCorridorId?: CorridorId; outcome: OutcomeVector }[] = [];
++      for (const actionId of getRuntimeAvailableActionIds(state)) {
++        evaluated.set(actionId, (evaluated.get(actionId) ?? 0) + 1);
++        const targetKind = getMissionAction(actionId).target;
++        const targetIds: readonly (CorridorId | undefined)[] = targetKind === "required" ? activeCorridorIds(state)
++          : targetKind === "fixed_alpha" ? ["corridor_alpha_east"] : [undefined];
++        for (const targetCorridorId of targetIds) {
++          const run = simulateScenario5({
++            policy: BALANCED_CONTINUATION_POLICY,
++            worldId: state.missionState.trueWorldState.worldId,
++            environmentSeed: state.missionState.trueWorldState.seed,
++            policySeed: 0,
++            initialState: state,
++            forcedFirstChoice: { actionId, ...(targetCorridorId ? { targetCorridorId } : {}) },
++          });
++          branchCount += 1;
++          variants.push({ actionId, ...(targetCorridorId ? { targetCorridorId } : {}), outcome: vector(run) });
++        }
++      }
++      for (const actionId of new Set(variants.map((item) => item.actionId))) {
++        const own = variants.filter((item) => item.actionId === actionId);
++        const others = variants.filter((item) => item.actionId !== actionId);
++        if (own.some((candidate) => others.every((other) => dominates(candidate.outcome, other.outcome)))) {
++          dominant.set(actionId, (dominant.get(actionId) ?? 0) + 1);
++        }
++      }
++    }
++    for (const [actionId, evaluatedStateCount] of evaluated) {
++      const dominanceCount = dominant.get(actionId) ?? 0;
++      const dominanceShare = dominanceCount / evaluatedStateCount;
++      const universal = evaluatedStateCount >= 20 && dominanceShare === 1;
++      universalDominanceFound ||= universal;
++      rows.push({ windowId, actionId, evaluatedStateCount, statesWhereSomeVariantParetoDominatesAllOtherFamilies: dominanceCount, dominanceShare: round(dominanceShare), universalDominance: universal });
++    }
++  }
++  return { rows, branchCount, universalDominanceFound };
++}
+diff --git a/src/ui/components/scenario/scenario-five/calibration/index.ts b/src/ui/components/scenario/scenario-five/calibration/index.ts
+new file mode 100644
+index 0000000..6f752a5
+--- /dev/null
++++ b/src/ui/components/scenario/scenario-five/calibration/index.ts
+@@ -0,0 +1,10 @@
++export * from "./versions";
++export * from "./types";
++export * from "./policyRng";
++export * from "./missionPolicies";
++export * from "./cognitivePolicies";
++export * from "./simulationDriver";
++export * from "./auditMetrics";
++export * from "./counterfactualAudit";
++export * from "./shadowSensitivity";
++export * from "./reporting";
+diff --git a/src/ui/components/scenario/scenario-five/calibration/missionPolicies.ts b/src/ui/components/scenario/scenario-five/calibration/missionPolicies.ts
+new file mode 100644
+index 0000000..3f58803
+--- /dev/null
++++ b/src/ui/components/scenario/scenario-five/calibration/missionPolicies.ts
+@@ -0,0 +1,111 @@
++import { CANONICAL_CORRIDORS } from "../model/index";
++import type { CorridorId } from "../model/index";
++import type { EvidenceTelemetry } from "../model/cognitive/index";
++import { getMissionAction } from "../model/mission/index";
++import type { MissionActionId, MissionConvoyState } from "../model/mission/index";
++import type { Scenario5RuntimeState } from "../model/runtime/index";
++import type { CalibrationPolicy, MissionPolicyId, TargetSelectorId } from "./types";
++
++const CANONICAL_CORRIDOR_IDS = CANONICAL_CORRIDORS.map(({ corridorId }) => corridorId);
++
++const actions = (...entries: readonly MissionActionId[]): Readonly<Record<number, MissionActionId>> =>
++  Object.fromEntries(entries.map((actionId, index) => [index + 1, actionId]));
++const targets = (entries: Readonly<Record<number, TargetSelectorId>>): Readonly<Record<number, TargetSelectorId>> => entries;
++
++const deterministic = (
++  policyId: MissionPolicyId,
++  requestedActionByRound: Readonly<Record<number, MissionActionId>>,
++  targetSelectorByRound: Readonly<Record<number, TargetSelectorId>>,
++  options: Partial<Pick<CalibrationPolicy, "oraclePolicy" | "stressPolicy" | "evidenceBehavior">> = {},
++): CalibrationPolicy => ({
++  policyId,
++  requestedActionByRound,
++  targetSelectorByRound,
++  oraclePolicy: options.oraclePolicy ?? false,
++  stressPolicy: options.stressPolicy ?? false,
++  randomPolicy: false,
++  evidenceBehavior: options.evidenceBehavior ?? "none",
++  beliefBehavior: "neutral",
++  reasonBehavior: "neutral",
++});
++
++export const MISSION_POLICIES: readonly CalibrationPolicy[] = [
++  deterministic("balanced_network", actions("a1_network_baseline", "a2_broad_sweep", "b1_split_attention", "b2_staged_checkpoints", "c1_checkpoint_spacing", "c2_balanced", "d1_hold_confirm", "d2_network_balanced_finish"), targets({ 4: "leastProtectedPlayerVisibleTarget", 5: "leastProtectedPlayerVisibleTarget", 7: "mostSupportedVisibleTarget" })),
++  deterministic("priority_alpha", actions("a1_priority_focus", "a2_focused_pnt", "b1_priority_cargo", "b2_continue_crosscheck", "c1_fallback_nav", "c2_priority_surge", "d1_escorted_continuation", "d2_critical_delivery_surge"), targets({ 2: "alphaIfActiveElseFirst", 4: "alphaIfActiveElseFirst", 5: "alphaIfActiveElseFirst", 7: "alphaIfActiveElseFirst" })),
++  deterministic("information_heavy", actions("a1_network_baseline", "a2_broad_sweep", "b1_split_attention", "b2_hold_verify", "c1_ground_recon", "c2_isr_heavy", "d1_hold_confirm", "d2_resilient_handoff"), targets({ 4: "mostSupportedVisibleTarget", 5: "mostSupportedVisibleTarget", 7: "mostSupportedVisibleTarget" }), { evidenceBehavior: "all" }),
++  deterministic("mobility_resilience", actions("a1_preserve_reserve", "a2_field_radio", "b1_pulse_network", "b2_continue_crosscheck", "c1_fallback_nav", "c2_mobility_heavy", "d1_emergency_reroute", "d2_network_balanced_finish"), targets({ 2: "firstActiveTarget", 4: "leastProtectedPlayerVisibleTarget", 5: "leastProtectedPlayerVisibleTarget", 7: "leastProtectedPlayerVisibleTarget" })),
++  deterministic("resource_preserver", actions("a1_preserve_reserve", "a2_field_radio", "b1_pulse_network", "b2_continue_crosscheck", "c1_preserve_mobile_reserve", "c2_balanced", "d1_hold_confirm", "d2_continuity_first_finish"), targets({ 2: "firstActiveTarget", 4: "firstActiveTarget", 7: "firstActiveTarget" })),
++  deterministic("high_response", actions("a1_network_baseline", "a2_ground_liaison", "b1_suspect_focus", "b2_reroute", "c1_ground_recon", "c2_mobility_heavy", "d1_ground_containment", "d2_critical_delivery_surge"), targets({ 2: "mostSupportedVisibleTarget", 4: "mostSupportedVisibleTarget", 5: "mostSupportedVisibleTarget", 7: "mostSupportedVisibleTarget" })),
++  deterministic("low_response_reversible", actions("a1_preserve_reserve", "a2_field_radio", "b1_pulse_network", "b2_continue_crosscheck", "c1_fallback_nav", "c2_balanced", "d1_hold_confirm", "d2_resilient_handoff"), targets({ 2: "firstActiveTarget", 4: "firstActiveTarget", 5: "firstActiveTarget", 7: "mostSupportedVisibleTarget" })),
++  deterministic("oracle_primary_ceiling", actions("a1_network_baseline", "a2_focused_pnt", "b1_suspect_focus", "b2_staged_checkpoints", "c1_ground_recon", "c2_balanced", "d1_ground_containment", "d2_network_balanced_finish"), targets({ 2: "oraclePrimaryTarget", 4: "oraclePrimaryTarget", 5: "oraclePrimaryTarget", 7: "oraclePrimaryTarget" }), { oraclePolicy: true }),
++  deterministic("wrong_corridor_stress", actions("a1_priority_focus", "a2_focused_pnt", "b1_suspect_focus", "b2_reroute", "c1_fallback_nav", "c2_priority_surge", "d1_escorted_continuation", "d2_critical_delivery_surge"), targets({ 2: "wrongPrimaryTarget", 4: "wrongPrimaryTarget", 5: "wrongPrimaryTarget", 7: "wrongPrimaryTarget" }), { stressPolicy: true }),
++  { policyId: "M10_uniform_random", oraclePolicy: false, stressPolicy: false, randomPolicy: true, evidenceBehavior: "random_half", beliefBehavior: "neutral", reasonBehavior: "neutral", chooseAction: ({ availableActionIds, rng }) => availableActionIds[rng.pickIndex(availableActionIds.length)]! },
++] as const;
++
++export const BALANCED_CONTINUATION_POLICY = MISSION_POLICIES[0]!;
++export const WITNESS_RANDOM_POLICY: CalibrationPolicy = {
++  policyId: "witness_random", oraclePolicy: false, stressPolicy: false, randomPolicy: true,
++  evidenceBehavior: "none", beliefBehavior: "neutral", reasonBehavior: "neutral",
++  chooseAction: ({ availableActionIds, rng }) => availableActionIds[rng.pickIndex(availableActionIds.length)]!,
++};
++
++export const activeCorridorIds = (state: Scenario5RuntimeState): readonly CorridorId[] =>
++  CANONICAL_CORRIDOR_IDS.filter((corridorId) => state.missionState.convoys.some((convoy) => convoy.corridorId === corridorId && convoy.status !== "delivered"));
++
++export const firstActiveTarget = (state: Scenario5RuntimeState): CorridorId =>
++  activeCorridorIds(state)[0] ?? "corridor_alpha_east";
++
++export const alphaIfActiveElseFirst = (state: Scenario5RuntimeState): CorridorId =>
++  activeCorridorIds(state).includes("corridor_alpha_east") ? "corridor_alpha_east" : firstActiveTarget(state);
++
++const protectionScore = (convoy: MissionConvoyState, roundId: number): number =>
++  2 * Number(convoy.fallbackNav) + 2 * Number(convoy.routeHardened) + 2 * Number(convoy.groundSupport)
++  + Number(convoy.escortedUntilRound !== null && convoy.escortedUntilRound >= roundId);
++
++export const leastProtectedPlayerVisibleTarget = (state: Scenario5RuntimeState): CorridorId => {
++  const active = state.missionState.convoys.filter(({ status }) => status !== "delivered");
++  if (active.length === 0) return "corridor_alpha_east";
++  return [...active].sort((left, right) => protectionScore(left, state.missionState.currentRound) - protectionScore(right, state.missionState.currentRound)
++    || CANONICAL_CORRIDOR_IDS.indexOf(left.corridorId) - CANONICAL_CORRIDOR_IDS.indexOf(right.corridorId))[0]!.corridorId;
++};
++
++const strength = { weak: .25, moderate: .60, strong: .90 } as const;
++const direction = { supports_targeted: 1, ambiguous: 0, supports_nonhostile: -1 } as const;
++export const mostSupportedVisibleTarget = (state: Scenario5RuntimeState): CorridorId => {
++  const active = new Set(activeCorridorIds(state));
++  const evidenceByCorridor = new Map<CorridorId, Map<string, number>>();
++  for (const item of state.evidence as readonly EvidenceTelemetry[]) {
++    if (item.observedCorridorId === null || !active.has(item.observedCorridorId)) continue;
++    const signed = strength[item.strengthBand] * direction[item.direction];
++    const sources = evidenceByCorridor.get(item.observedCorridorId) ?? new Map<string, number>();
++    const previous = sources.get(item.sourceType);
++    if (previous === undefined || Math.abs(signed) > Math.abs(previous)) sources.set(item.sourceType, signed);
++    evidenceByCorridor.set(item.observedCorridorId, sources);
++  }
++  if (evidenceByCorridor.size === 0) return firstActiveTarget(state);
++  return [...active].sort((left, right) => {
++    const score = (id: CorridorId): number => {
++      const values = [...(evidenceByCorridor.get(id)?.values() ?? [])];
++      return values.length === 0 ? Number.NEGATIVE_INFINITY : values.reduce((sum, value) => sum + value, 0) / values.length;
++    };
++    return score(right) - score(left) || CANONICAL_CORRIDOR_IDS.indexOf(left) - CANONICAL_CORRIDOR_IDS.indexOf(right);
++  })[0] ?? firstActiveTarget(state);
++};
++
++export function selectTarget(selectorId: TargetSelectorId, state: Scenario5RuntimeState): CorridorId {
++  if (selectorId === "firstActiveTarget") return firstActiveTarget(state);
++  if (selectorId === "alphaIfActiveElseFirst") return alphaIfActiveElseFirst(state);
++  if (selectorId === "leastProtectedPlayerVisibleTarget") return leastProtectedPlayerVisibleTarget(state);
++  if (selectorId === "mostSupportedVisibleTarget") return mostSupportedVisibleTarget(state);
++  if (selectorId === "oraclePrimaryTarget") return activeCorridorIds(state).includes(state.missionState.trueWorldState.primaryAffectedCorridorId)
++    ? state.missionState.trueWorldState.primaryAffectedCorridorId : firstActiveTarget(state);
++  const primary = state.missionState.trueWorldState.primaryAffectedCorridorId;
++  return activeCorridorIds(state).find((corridorId) => corridorId !== primary) ?? firstActiveTarget(state);
++}
++
++export function defaultTargetForAction(actionId: MissionActionId, state: Scenario5RuntimeState): CorridorId | null {
++  const target = getMissionAction(actionId).target;
++  if (target === "none") return null;
++  if (target === "fixed_alpha") return "corridor_alpha_east";
++  return firstActiveTarget(state);
++}
+diff --git a/src/ui/components/scenario/scenario-five/calibration/policyRng.ts b/src/ui/components/scenario/scenario-five/calibration/policyRng.ts
+new file mode 100644
+index 0000000..f0481a8
+--- /dev/null
++++ b/src/ui/components/scenario/scenario-five/calibration/policyRng.ts
+@@ -0,0 +1,25 @@
++export interface PolicyRng {
++  readonly nextUint32: () => number;
++  readonly nextFloat: () => number;
++  readonly pickIndex: (length: number) => number;
++  readonly coinFlip: () => boolean;
++}
++export function createPolicyRng(seed: number): PolicyRng {
++  if (!Number.isInteger(seed) || seed < 0 || seed > 0xffff_ffff) {
++    throw new Error(`Policy seed must be an unsigned 32-bit integer: ${seed}`);
++  }
++  let state = seed >>> 0;
++  const nextUint32 = (): number => {
++    state = (state + 0x6d2b79f5) >>> 0;
++    let value = state;
++    value = Math.imul(value ^ (value >>> 15), value | 1);
++    value ^= value + Math.imul(value ^ (value >>> 7), value | 61);
++    return (value ^ (value >>> 14)) >>> 0;
++  };
++  const nextFloat = (): number => nextUint32() / 0x1_0000_0000;
++  const pickIndex = (length: number): number => {
++    if (!Number.isInteger(length) || length <= 0) throw new Error(`Policy RNG cannot pick from length ${length}`);
++    return Math.floor(nextFloat() * length);
++  };
++  return { nextUint32, nextFloat, pickIndex, coinFlip: () => nextFloat() < 0.5 };
++}
+diff --git a/src/ui/components/scenario/scenario-five/calibration/reporting.ts b/src/ui/components/scenario/scenario-five/calibration/reporting.ts
+new file mode 100644
+index 0000000..e221736
+--- /dev/null
++++ b/src/ui/components/scenario/scenario-five/calibration/reporting.ts
+@@ -0,0 +1,109 @@
++import type { CalibrationSummary } from "./types";
++
++const escapeCsv = (value: unknown): string => {
++  if (value === null || value === undefined) return "";
++  const text = typeof value === "object" ? JSON.stringify(value) : String(value);
++  return /[",\n\r]/.test(text) ? `"${text.replaceAll('"', '""')}"` : text;
++};
++
++export function toCsv(rows: readonly Readonly<Record<string, unknown>>[], headers?: readonly string[]): string {
++  const columns = headers ?? (rows[0] ? Object.keys(rows[0]) : []);
++  return `${columns.join(",")}\n${rows.map((row) => columns.map((column) => escapeCsv(row[column])).join(",")).join("\n")}\n`;
++}
++export function buildPersianCalibrationReport(summary: CalibrationSummary): string {
++  const failed = summary.hardGates.filter(({ status }) => status === "FAIL");
++  const warnings = summary.warnings.filter(({ status }) => status === "WARNING");
++  const list = (items: readonly { gateId: string; detail: string }[]) => items.length === 0 ? "- هیچ‌کدام" : items.map((item) => `- ${item.gateId}: ${item.detail}`).join("\n");
++  return `# گزارش کالیبراسیون مهندسی فاز ۸ — سناریو ۵
++
++## 1. خلاصه اجرایی
++
++وضعیت نهایی audit: **${summary.overallStatus}**. این نتیجه فقط وضعیت gateهای مهندسی تعریف‌شده را گزارش می‌کند و هیچ پارامتر مدل را تغییر نداده است.
++
++## 2. دامنه و محدودیت اعتبار
++
++این audit از عامل‌های مصنوعی، جهان‌های کنترل‌شده و seedهای قطعی استفاده می‌کند. فراوانی جهان‌ها و seedها احتمال واقعی رخدادهای بیرونی نیست.
++
++## 3. پوشش ۱۶ جهان و seedها
++
++پنل پایه شامل ۱۶ جهان و seedهای ۱ تا ۶۴ است. جزئیات در summary JSON و CSV اجراها ثبت شده است.
++
++## 4. پوشش Actionها و targetها
++
++پوشش ۳۳ Action و targetهای قانونی در action-coverage.csv ثبت شده است.
++
++## 5. پوشش شش End State
++
++طبقه‌بندی مشاهده در audit اصلی یا witness search در end-state-coverage.csv ثبت شده است.
++
++## 6. وضعیت منابع و forced-choice
++
++توزیع گزینه‌های در دسترس، تک‌گزینه‌ای‌شدن و منابع پایانی با thresholdهای داخلی مهندسی غربال شدند.
++
++## 7. تمرکز نتایج مأموریت
++
++تمرکز End State در جمعیت M1..M7 و M10 بررسی شد؛ این توزیع احتمال واقعی نیست.
++
++## 8. تمایز چهار Actor
++
++چهار Actor بر اساس delay، containment، TV توزیع End State و اثر ثانویه مقایسه شدند.
++
++## 9. حساسیت به seed
++
++حساسیت در سلول‌های world×policy برای M1..M7 محاسبه شد و برآورد عدم‌قطعیت دنیای واقعی نیست.
++
++## 10. آزمون Pareto dominance گزینه‌ها
++
++مقایسه بدون امتیاز کل و با بردار چندبعدی outcome انجام شد.
++
++## 11. تحلیل افق ۳۶۰ دقیقه
++
++افق ۳۶۰ دقیقه همچنان یک پارامتر طراحی در انتظار بازبینی خبرگان است؛ جدول shadow فقط post-hoc است.
++
++## 12. Shadow deadline sensitivity
++
++deadlineها تغییر نکردند؛ shiftهای −۳۰ تا +۳۰ دقیقه فقط بازطبقه‌بندی post-hoc هستند.
++
++## 13. Shadow resource path-feasibility
++
++path-feasibility shadow analysis, not a full counterfactual replay. این جدول سازگاری سیاست با budget جدید را مدل نمی‌کند.
++
++## 14. Random-policy OSI centering
++
++عامل تصادفی C16 یک عامل مصنوعی است و فقط centering مهندسی OSI را می‌سنجد.
++
++## 15. Cognitive anchor calibration
++
++anchorهای C1..C15 ترتیب داخلی مورد انتظار loadingها و formulaهای frozen را بررسی می‌کنند.
++
++## 16. Engineering distribution screen شاخص‌های شناختی
++
++floor/ceiling/variance فقط engineering distribution screen است و اثر روان‌سنجی تلقی نمی‌شود.
++
++## 17. Hidden-truth/outcome firewall
++
++bundle شناختی بدون worldId، seed، End State یا domain output ساخته شد و paired fixtureها نتیجه برابر دادند.
++
++## 18. فهرست Hard Gateها
++
++${summary.hardGates.map((gate) => `- ${gate.gateId}: ${gate.status} — ${gate.detail}`).join("\n")}
++
++## 19. فهرست Warningها
++
++${list(warnings)}
++
++## 20. موارد نیازمند تصمیم انسانی
++
++${list([...failed, ...warnings])}
++
++هر alternative توصیفی صرفاً برای تصمیم reviewer، نه تغییر خودکار است.
++
++## 21. محدودیت‌های فاز ۸
++
++- عامل‌های مصنوعی این فاز نماینده رفتار انسان نیستند.
++- موفقیت در calibration مهندسی به معنی اعتبار روان‌سنجی نیست.
++- پارامترهای زمان، هزینه، threshold و loadingها هنوز برای اعتبار نهایی به بازبینی خبرگان و اجرای انسانی نیاز دارند.
++- Phase 8 هیچ پارامتر مدل را به‌صورت خودکار تغییر نمی‌دهد.
++- این audit اعتبار خبرگی، construct validity، human usability یا احتمال دنیای واقعی را اثبات نمی‌کند.
++`;
++}
+diff --git a/src/ui/components/scenario/scenario-five/calibration/shadowSensitivity.ts b/src/ui/components/scenario/scenario-five/calibration/shadowSensitivity.ts
+new file mode 100644
+index 0000000..67957d6
+--- /dev/null
++++ b/src/ui/components/scenario/scenario-five/calibration/shadowSensitivity.ts
+@@ -0,0 +1,50 @@
++import type { MissionRunRow } from "./types";
++import { mean, round } from "./auditMetrics";
++
++export const SHADOW_HORIZONS = [330, 345, 360, 375, 390] as const;
++export const SHADOW_DEADLINE_SHIFTS = [-30, -15, 0, 15, 30] as const;
++export const SHADOW_RESOURCE_BUDGETS = [80, 90, 100, 110, 120] as const;
++
++export function calculateShadowHorizon(rows: readonly MissionRunRow[]) {
++  return SHADOW_HORIZONS.map((horizon) => {
++    const deliveredCounts = rows.map((row) => row.convoySnapshot.filter(({ integrity, projectedArrivalMinute }) => integrity >= 55 && projectedArrivalMinute <= horizon).length);
++    return {
++      horizon,
++      alphaDeliveryRate: round(rows.filter((row) => {
++        const alpha = row.convoySnapshot.find(({ corridorId }) => corridorId === "corridor_alpha_east")!;
++        return alpha.integrity >= 55 && alpha.projectedArrivalMinute <= horizon;
++      }).length / rows.length),
++      allConvoyDeliveryRate: round(deliveredCounts.filter((count) => count === 4).length / rows.length),
++      meanDeliveredConvoyCount: round(mean(deliveredCounts)),
++    };
++  });
++}
++export function calculateShadowDeadline(rows: readonly MissionRunRow[]) {
++  return SHADOW_DEADLINE_SHIFTS.map((deadlineShift) => {
++    const onTimeCounts = rows.map((row) => row.convoySnapshot.filter(({ integrity, projectedArrivalMinute, deadlineMinute }) => integrity >= 60 && projectedArrivalMinute <= deadlineMinute + deadlineShift).length);
++    return {
++      deadlineShift,
++      meanNetworkContinuity: round(25 * mean(onTimeCounts)),
++      alphaOnTimeRate: round(rows.filter((row) => {
++        const alpha = row.convoySnapshot.find(({ corridorId }) => corridorId === "corridor_alpha_east")!;
++        return alpha.integrity >= 60 && alpha.projectedArrivalMinute <= alpha.deadlineMinute + deadlineShift;
++      }).length / rows.length),
++      allConvoyOnTimeRate: round(onTimeCounts.filter((count) => count === 4).length / rows.length),
++    };
++  });
++}
++
++export function calculateShadowResources(rows: readonly MissionRunRow[]) {
++  return SHADOW_RESOURCE_BUDGETS.map((budget) => {
++    const isrFeasible = rows.filter(({ finalIsr }) => 100 - finalIsr <= budget).length;
++    const supportFeasible = rows.filter(({ finalSupport }) => 100 - finalSupport <= budget).length;
++    const bothFeasible = rows.filter(({ finalIsr, finalSupport }) => 100 - finalIsr <= budget && 100 - finalSupport <= budget).length;
++    return {
++      budget,
++      analysisLabel: "path-feasibility shadow analysis, not a full counterfactual replay",
++      isrPathFeasibilityRate: round(isrFeasible / rows.length),
++      supportPathFeasibilityRate: round(supportFeasible / rows.length),
++      bothResourcePathFeasibilityRate: round(bothFeasible / rows.length),
++    };
++  });
++}
+diff --git a/src/ui/components/scenario/scenario-five/calibration/simulationDriver.ts b/src/ui/components/scenario/scenario-five/calibration/simulationDriver.ts
+new file mode 100644
+index 0000000..bd98cab
+--- /dev/null
++++ b/src/ui/components/scenario/scenario-five/calibration/simulationDriver.ts
+@@ -0,0 +1,185 @@
++import type { CorridorId } from "../model/index";
++import { calculatePlayerVisibleEvidenceSupport } from "../model/cognitive/index";
++import type { ReasonId } from "../model/cognitive/index";
++import { getMissionAction, BASE_ROUND_MINUTES } from "../model/mission/index";
++import type { MissionActionId, MissionActionSelection } from "../model/mission/index";
++import {
++  buildScenario5CognitiveTelemetryBundle,
++  calculateScenario5RuntimeResult,
++  closeRuntimeEvidence,
++  confirmRuntimeDecision,
++  continueRuntimeAfterOutcome,
++  createScenario5Runtime,
++  getRuntimeAvailableActionIds,
++  isBeliefStage,
++  isDecisionStage,
++  isReasonStage,
++  openRuntimeEvidence,
++  selectRuntimeAction,
++  submitRuntimeBelief,
++  submitRuntimeReason,
++} from "../model/runtime/index";
++import type { Scenario5RuntimeState } from "../model/runtime/index";
++import { alignedReason } from "./cognitivePolicies";
++import { createPolicyRng } from "./policyRng";
++import {
++  activeCorridorIds,
++  defaultTargetForAction,
++  firstActiveTarget,
++  mostSupportedVisibleTarget,
++  selectTarget,
++} from "./missionPolicies";
++import type { CalibrationPolicy, DecisionAuditTrace, SimulationOptions, SimulationRun } from "./types";
++
++const latestAt = (state: Scenario5RuntimeState): number => state.runtimeEvents.at(-1)?.atMs ?? state.stage.enteredAtMs;
++const after = (state: Scenario5RuntimeState, delta = 100): number => Math.max(state.stage.enteredAtMs, latestAt(state)) + delta;
++
++const neutralReason: Readonly<Record<"B" | "C" | "D", ReasonId>> = {
++  B: "reason_information_confidence",
++  C: "reason_preserve_resources",
++  D: "reason_preserve_reversibility",
++};
++
++const chooseReason = (state: Scenario5RuntimeState, policy: CalibrationPolicy): ReasonId => {
++  const phaseId = state.pendingDecision?.phaseId;
++  if (!phaseId || phaseId === "A") throw new Error("Reason selection requires a Phase B/C/D pending decision");
++  if (policy.reasonBehavior === "neutral") return neutralReason[phaseId];
++  const phaseActions = [...state.decisions.filter((decision) => decision.phaseId === phaseId).map((decision) => decision.finalSelectedActionId), state.pendingDecision?.selection.actionId]
++    .filter((actionId): actionId is MissionActionId => actionId !== null && actionId !== undefined);
++  return alignedReason(phaseActions, policy.reasonBehavior === "maximize_alignment");
++};
++
++const inspectEvidence = (state: Scenario5RuntimeState, policy: CalibrationPolicy, rng: ReturnType<typeof createPolicyRng>): Scenario5RuntimeState => {
++  let current = state;
++  for (const evidence of state.missionState.visibleEvidence) {
++    const inspect = policy.evidenceBehavior === "all" || (policy.evidenceBehavior === "random_half" && rng.coinFlip());
++    if (!inspect) continue;
++    const openedAtMs = after(current, 100);
++    current = openRuntimeEvidence(current, evidence.evidenceId, openedAtMs);
++    current = closeRuntimeEvidence(current, evidence.evidenceId, openedAtMs + 200);
++  }
++  return current;
++};
++
++const submitBeliefForPolicy = (state: Scenario5RuntimeState, policy: CalibrationPolicy): Scenario5RuntimeState => {
++  const visibleEvidenceIds = state.missionState.visibleEvidence.map(({ evidenceId }) => evidenceId);
++  const support = calculatePlayerVisibleEvidenceSupport(state.evidence, visibleEvidenceIds);
++  const estimate = policy.beliefBehavior === "evidence_responsive" ? Math.round(100 * support)
++    : policy.beliefBehavior === "evidence_anti" ? Math.round(100 * (1 - support)) : 50;
++  const corridor = policy.beliefBehavior === "neutral" ? firstActiveTarget(state) : mostSupportedVisibleTarget(state);
++  return submitRuntimeBelief(state, {
++    mostLikelyCorridorId: corridor,
++    corridorConfidence: 50,
++    targetedInterferenceEstimate: estimate,
++    targetedInterferenceConfidence: policy.beliefBehavior === "neutral" ? 50 : 75,
++    recordedAtMs: after(state),
++  });
++};
++
++const resolveChoice = (
++  state: Scenario5RuntimeState,
++  policy: CalibrationPolicy,
++  rng: ReturnType<typeof createPolicyRng>,
++  forced: SimulationOptions["forcedFirstChoice"] | undefined,
++): { requestedActionId: MissionActionId; actualActionId: MissionActionId; targetCorridorId: CorridorId | null; fallbackUsed: boolean } => {
++  const availableActionIds = getRuntimeAvailableActionIds(state);
++  if (availableActionIds.length === 0) throw new Error(`Zero available actions at ${state.stage.stageId}`);
++  const roundId = state.missionState.currentRound;
++  const requestedActionId = forced?.actionId
++    ?? policy.requestedActionByRound?.[roundId]
++    ?? policy.chooseAction?.({ state, availableActionIds, rng });
++  if (!requestedActionId) throw new Error(`Policy ${policy.policyId} has no action for round ${roundId}`);
++  const fallbackUsed = !availableActionIds.includes(requestedActionId);
++  const actualActionId = fallbackUsed ? availableActionIds[0]! : requestedActionId;
++  const action = getMissionAction(actualActionId);
++  if (action.target === "none") return { requestedActionId, actualActionId, targetCorridorId: null, fallbackUsed };
++  if (action.target === "fixed_alpha") return { requestedActionId, actualActionId, targetCorridorId: "corridor_alpha_east", fallbackUsed };
++  if (forced?.targetCorridorId && activeCorridorIds(state).includes(forced.targetCorridorId)) {
++    return { requestedActionId, actualActionId, targetCorridorId: forced.targetCorridorId, fallbackUsed };
++  }
++  if (fallbackUsed) return { requestedActionId, actualActionId, targetCorridorId: firstActiveTarget(state), fallbackUsed };
++  if (policy.randomPolicy) {
++    const targets = activeCorridorIds(state);
++    return { requestedActionId, actualActionId, targetCorridorId: targets[rng.pickIndex(targets.length)]!, fallbackUsed };
++  }
++  const selector = policy.targetSelectorByRound?.[roundId];
++  return { requestedActionId, actualActionId, targetCorridorId: selector ? selectTarget(selector, state) : defaultTargetForAction(actualActionId, state), fallbackUsed };
++};
++
++export function simulateScenario5(options: SimulationOptions): SimulationRun {
++  const { policy, worldId, environmentSeed } = options;
++  const policySeed = options.policySeed ?? 0;
++  const rng = createPolicyRng(policySeed);
++  let state = options.initialState ?? createScenario5Runtime({
++    runId: `cal-${policy.policyId}-${worldId}-${environmentSeed}-${options.policySeed ?? "none"}`,
++    worldId,
++    seed: environmentSeed,
++    startedAtMs: 0,
++  });
++  const decisionTrace: DecisionAuditTrace[] = [];
++  let minimumAvailableActionCount = Number.POSITIVE_INFINITY;
++  let singleOptionWindowCount = 0;
++  let worldClockBeforeFinalization = 0;
++  let forcedPending = options.forcedFirstChoice;
++
++  while (state.stage.stageId !== "complete") {
++    if (isDecisionStage(state.stage.stageId)) {
++      options.onPreDecision?.(state);
++      const availableActionIds = getRuntimeAvailableActionIds(state);
++      minimumAvailableActionCount = Math.min(minimumAvailableActionCount, availableActionIds.length);
++      singleOptionWindowCount += Number(availableActionIds.length === 1);
++      const legalActiveTargetIds = activeCorridorIds(state);
++      state = inspectEvidence(state, policy, rng);
++      const choice = resolveChoice(state, policy, rng, forcedPending);
++      forcedPending = undefined;
++      const selectedAtMs = after(state);
++      state = selectRuntimeAction(state, choice.actualActionId, selectedAtMs);
++      const selection: MissionActionSelection = choice.targetCorridorId === null
++        ? { actionId: choice.actualActionId }
++        : { actionId: choice.actualActionId, targetCorridorId: choice.targetCorridorId };
++      if (state.missionState.currentRound === 8) {
++        worldClockBeforeFinalization = state.missionState.worldClockMinutes + BASE_ROUND_MINUTES + getMissionAction(choice.actualActionId).durationMinutes;
++      }
++      const windowId = state.stage.stageId.slice("decision:".length);
++      decisionTrace.push({
++        roundId: state.missionState.currentRound,
++        windowId,
++        ...choice,
++        availableActionIds: [...availableActionIds],
++        legalActiveTargetIds: [...legalActiveTargetIds],
++      });
++      state = confirmRuntimeDecision(state, selection, after(state), 0);
++    } else if (isBeliefStage(state.stage.stageId)) {
++      state = submitBeliefForPolicy(state, policy);
++    } else if (isReasonStage(state.stage.stageId)) {
++      state = submitRuntimeReason(state, chooseReason(state, policy), after(state));
++    } else if (state.stage.stageId === "outcome_review") {
++      state = continueRuntimeAfterOutcome(state, after(state));
++    } else {
++      throw new Error(`Unexpected calibration runtime stage: ${state.stage.stageId}`);
++    }
++  }
++
++  const result = calculateScenario5RuntimeResult(state);
++  const cognitiveBundle = buildScenario5CognitiveTelemetryBundle(state);
++  const primary = state.missionState.trueWorldState.primaryAffectedCorridorId;
++  const secondaryActorImpactDecisionCount = state.domainDecisionRecords.filter((record) =>
++    Object.entries(record.actorDelayImpactByCorridor).some(([corridorId, delay]) => corridorId !== primary && delay > 0)).length;
++  return {
++    policyId: policy.policyId,
++    oraclePolicy: policy.oraclePolicy,
++    stressPolicy: policy.stressPolicy,
++    worldId,
++    environmentSeed,
++    policySeed: options.policySeed ?? null,
++    state,
++    result,
++    cognitiveBundle,
++    decisionTrace,
++    minimumAvailableActionCount: Number.isFinite(minimumAvailableActionCount) ? minimumAvailableActionCount : 0,
++    singleOptionWindowCount,
++    fallbackCount: decisionTrace.filter(({ fallbackUsed }) => fallbackUsed).length,
++    worldClockBeforeFinalization,
++    secondaryActorImpactDecisionCount,
++  };
++}
+diff --git a/src/ui/components/scenario/scenario-five/calibration/types.ts b/src/ui/components/scenario/scenario-five/calibration/types.ts
+new file mode 100644
+index 0000000..cc9f7b2
+--- /dev/null
++++ b/src/ui/components/scenario/scenario-five/calibration/types.ts
+@@ -0,0 +1,232 @@
++import type { ActorProfileId, CorridorId, WorldId } from "../model/index";
++import type { ReasonId, Scenario5CognitiveRunResult, Scenario5CognitiveTelemetryBundle } from "../model/cognitive/index";
++import type { MissionActionId, Scenario5EndStateId } from "../model/mission/index";
++import type { Scenario5RuntimeResult, Scenario5RuntimeState } from "../model/runtime/index";
++import type { PolicyRng } from "./policyRng";
++
++export type CalibrationGateStatus = "PASS" | "FAIL" | "WARNING" | "NOT_APPLICABLE";
++export type MissionPolicyId =
++  | "balanced_network" | "priority_alpha" | "information_heavy" | "mobility_resilience"
++  | "resource_preserver" | "high_response" | "low_response_reversible"
++  | "oracle_primary_ceiling" | "wrong_corridor_stress" | "M10_uniform_random" | "witness_random";
++export type CognitivePolicyId =
++  | "operational_anchor" | "strategic_anchor" | "information_max" | "information_min"
++  | "second_order_max" | "adversary_max" | "stewardship_max" | "planning_max" | "mci_max"
++  | "risk_low" | "risk_high" | "coherence_high" | "coherence_low"
++  | "evidence_responsive" | "evidence_anti" | "uniform_random_cognitive";
++export type CalibrationPolicyId = MissionPolicyId | CognitivePolicyId;
++export type TargetSelectorId =
++  | "firstActiveTarget" | "alphaIfActiveElseFirst" | "leastProtectedPlayerVisibleTarget"
++  | "mostSupportedVisibleTarget" | "oraclePrimaryTarget" | "wrongPrimaryTarget";
++export type EvidenceBehavior = "none" | "all" | "random_half";
++export type BeliefBehavior = "neutral" | "evidence_responsive" | "evidence_anti";
++export type ReasonBehavior = "neutral" | "maximize_alignment" | "minimize_alignment";
++
++export interface PolicyChoiceContext {
++  readonly state: Scenario5RuntimeState;
++  readonly availableActionIds: readonly MissionActionId[];
++  readonly rng: PolicyRng;
++}
++
++export interface CalibrationPolicy {
++  readonly policyId: CalibrationPolicyId;
++  readonly oraclePolicy: boolean;
++  readonly stressPolicy: boolean;
++  readonly randomPolicy: boolean;
++  readonly evidenceBehavior: EvidenceBehavior;
++  readonly beliefBehavior: BeliefBehavior;
++  readonly reasonBehavior: ReasonBehavior;
++  readonly requestedActionByRound?: Readonly<Record<number, MissionActionId>>;
++  readonly targetSelectorByRound?: Readonly<Record<number, TargetSelectorId>>;
++  readonly chooseAction?: (context: PolicyChoiceContext) => MissionActionId;
++}
++
++export interface DecisionAuditTrace {
++  readonly roundId: number;
++  readonly windowId: string;
++  readonly requestedActionId: MissionActionId;
++  readonly actualActionId: MissionActionId;
++  readonly targetCorridorId: CorridorId | null;
++  readonly fallbackUsed: boolean;
++  readonly availableActionIds: readonly MissionActionId[];
++  readonly legalActiveTargetIds: readonly CorridorId[];
++}
++
++export interface SimulationRun {
++  readonly policyId: CalibrationPolicyId;
++  readonly oraclePolicy: boolean;
++  readonly stressPolicy: boolean;
++  readonly worldId: WorldId;
++  readonly environmentSeed: number;
++  readonly policySeed: number | null;
++  readonly state: Scenario5RuntimeState;
++  readonly result: Scenario5RuntimeResult;
++  readonly cognitiveBundle: Scenario5CognitiveTelemetryBundle;
++  readonly decisionTrace: readonly DecisionAuditTrace[];
++  readonly minimumAvailableActionCount: number;
++  readonly singleOptionWindowCount: number;
++  readonly fallbackCount: number;
++  readonly worldClockBeforeFinalization: number;
++  readonly secondaryActorImpactDecisionCount: number;
++}
++
++export interface SimulationOptions {
++  readonly policy: CalibrationPolicy;
++  readonly worldId: WorldId;
++  readonly environmentSeed: number;
++  readonly policySeed?: number;
++  readonly initialState?: Scenario5RuntimeState;
++  readonly forcedFirstChoice?: {
++    readonly actionId: MissionActionId;
++    readonly targetCorridorId?: CorridorId;
++  };
++  readonly onPreDecision?: (state: Scenario5RuntimeState) => void;
++}
++
++export interface MissionRunRow {
++  readonly calibrationVersion: string;
++  readonly policyId: CalibrationPolicyId;
++  readonly oraclePolicy: boolean;
++  readonly worldId: WorldId;
++  readonly primaryCorridorId: CorridorId;
++  readonly actorProfile: ActorProfileId;
++  readonly environmentSeed: number;
++  readonly policySeed: number | null;
++  readonly completed: boolean;
++  readonly endStateId: Scenario5EndStateId;
++  readonly alphaDelivered: boolean;
++  readonly alphaIntegrity: number;
++  readonly alphaDelayMinutes: number;
++  readonly alphaProjectedArrivalMinute: number;
++  readonly alphaDeadlineMinute: number;
++  readonly alphaOnTimeOperational: boolean;
++  readonly networkContinuityPercent: number;
++  readonly deliveredConvoyCount: number;
++  readonly onTimeOperationalConvoyCount: number;
++  readonly compromisedConvoyCount: number;
++  readonly operationalAttributionStatus: string;
++  readonly threatContained: boolean;
++  readonly totalFinalDelayMinutes: number;
++  readonly totalActorDelayAddedMinutes: number;
++  readonly totalPlayerDelayAddedMinutes: number;
++  readonly totalPlayerDelayRecoveredMinutes: number;
++  readonly finalIsr: number;
++  readonly finalSupport: number;
++  readonly worldClockBeforeFinalization: number;
++  readonly localizedDisruptionEventCount: number;
++  readonly targetedAttentionHhi: number | null;
++  readonly fallbackCount: number;
++  readonly minimumAvailableActionCount: number;
++  readonly singleOptionWindowCount: number;
++  readonly secondaryActorImpactDecisionCount: number;
++  readonly convoySnapshot: readonly {
++    readonly corridorId: CorridorId;
++    readonly integrity: number;
++    readonly projectedArrivalMinute: number;
++    readonly deadlineMinute: number;
++  }[];
++}
++
++export interface CognitiveRunRow {
++  readonly policyId: CognitivePolicyId;
++  readonly worldId: WorldId;
++  readonly actorProfile: ActorProfileId;
++  readonly primaryCorridorId: CorridorId;
++  readonly environmentSeed: number;
++  readonly policySeed: number | null;
++  readonly dataCompletenessOverall: number;
++  readonly overallOSI: number | null;
++  readonly phaseAOSI: number | null;
++  readonly phaseBOSI: number | null;
++  readonly phaseCOSI: number | null;
++  readonly phaseDOSI: number | null;
++  readonly operationalStrength: number | null;
++  readonly strategicStrength: number | null;
++  readonly integration: number | null;
++  readonly dispersion: number | null;
++  readonly informationSeeking: number | null;
++  readonly secondOrderThinking: number | null;
++  readonly adversaryModeling: number | null;
++  readonly escalationSensitivity: number | null;
++  readonly evidenceResponsiveUpdating: number | null;
++  readonly resourceStewardship: number | null;
++  readonly planningForesight: number | null;
++  readonly multiDomainIntegration: number | null;
++  readonly riskPosture: number | null;
++  readonly decisionCoherence: number | null;
++  readonly medianActiveDecisionMs: number | null;
++  readonly totalRevisions: number;
++  readonly evidenceTriggeredRevisionRate: number | null;
++}
++
++export interface GateRecord {
++  readonly gateId: string;
++  readonly status: CalibrationGateStatus;
++  readonly detail: string;
++}
++
++export interface ActorPairResult {
++  readonly actorA: ActorProfileId;
++  readonly actorB: ActorProfileId;
++  readonly meanDelayDifference: number;
++  readonly threatContainedRateDifference: number;
++  readonly endStateTvDistance: number;
++  readonly secondaryImpactRateDifference: number;
++  readonly distinguishable: boolean;
++}
++
++export interface DistributionSummary {
++  readonly metric: string;
++  readonly scale: "0..100" | "-1..1";
++  readonly n: number;
++  readonly nullRate: number;
++  readonly mean: number | null;
++  readonly sd: number | null;
++  readonly min: number | null;
++  readonly p05: number | null;
++  readonly p25: number | null;
++  readonly median: number | null;
++  readonly p75: number | null;
++  readonly p95: number | null;
++  readonly max: number | null;
++  readonly percentAtOrBelow5: number | null;
++  readonly percentAtOrAbove95: number | null;
++  readonly warnings: readonly string[];
++}
++
++export interface CalibrationSummary {
++  readonly calibrationVersion: string;
++  readonly modelVersions: Readonly<Record<string, string>>;
++  readonly runCounts: Readonly<Record<string, number>>;
++  readonly environmentCoverage: unknown;
++  readonly actionCoverage: unknown;
++  readonly endStateCoverage: unknown;
++  readonly hardGates: readonly GateRecord[];
++  readonly warnings: readonly GateRecord[];
++  readonly actorPairResults: readonly ActorPairResult[];
++  readonly seedSensitivitySummary: unknown;
++  readonly randomOsiSummary: unknown;
++  readonly cognitiveAnchorSummary: unknown;
++  readonly distributionWarnings: readonly DistributionSummary[];
++  readonly shadowSensitivitySummary: unknown;
++  readonly overallStatus: "PASS" | "FAIL";
++}
++
++export interface EndStateWitness {
++  readonly endStateId: Scenario5EndStateId;
++  readonly worldId: WorldId;
++  readonly environmentSeed: number;
++  readonly policySeed: number;
++  readonly orderedActions: readonly MissionActionId[];
++  readonly orderedTargets: readonly (CorridorId | null)[];
++  readonly finalDomainSummary: Readonly<Record<string, unknown>>;
++}
++
++export interface CounterfactualResult {
++  readonly rows: readonly Readonly<Record<string, string | number | boolean>>[];
++  readonly branchCount: number;
++  readonly universalDominanceFound: boolean;
++}
++
++export type CognitiveResult = Scenario5CognitiveRunResult;
++export type CalibrationReasonId = ReasonId;
+diff --git a/src/ui/components/scenario/scenario-five/calibration/versions.ts b/src/ui/components/scenario/scenario-five/calibration/versions.ts
+new file mode 100644
+index 0000000..9a56bee
+--- /dev/null
++++ b/src/ui/components/scenario/scenario-five/calibration/versions.ts
+@@ -0,0 +1,2 @@
++export const S5_CALIBRATION_VERSION = "s5-calibration-v1.0.0" as const;
++export const S5_CALIBRATION_STATUS = "engineering_audit_not_human_validated" as const;

@@ -1,0 +1,60 @@
+# Phase 08B Engineering Verification
+
+- Overall engineering calibration: **PASS**
+- Allowed application-source scope: PASS
+- Mission version: s5-mission-v1.1.0
+- Calibration version: s5-calibration-v1.2.0
+- Cognitive/runtime/domain unchanged: s5-cognitive-v3-adapter-v1.0.0; s5-runtime-v1.0.1; s5-domain-metrics-v1.0.0
+- Active retired IDs absent / exact six new IDs: PASS
+- Resolver precedence exact: PASS
+- Mission runs: 25600
+- Cognitive runs: 7936
+- Non-taxonomy trajectory mismatches vs 8A: 0
+- Exact six-count signature: PASS
+- Fixed incomplete witness: PASS
+- Natural degradation witness: PASS
+- Six-state coverage V3: PASS
+- Corrected Phase-8A hard gates: PASS
+- Player firewall: PASS
+- Phase-07C/07D presentation regression: PASS
+- Frozen live UI aggregate SHA-256: 5935a851ba7ee3ed7a0ee39c50c3c9b49d489491d1842fede617396d62882f7b
+- Phase-7 prior 600 assertions retained; current verifier expected count: 602
+- Phase-8 archive unchanged: PASS
+- Phase-8A archive unchanged: PASS
+- Phase-07C archive unchanged: PASS
+- Phase-07D archive unchanged: PASS
+- Frozen live-play files byte-identical: PASS
+- No forbidden source changed: PASS (clean patch manifest limited to 16 allowed text/code files).
+- Clean patch manifest: 16 allowed text/code files; generated CSVs remain external.
+- Patch warning scan: PASS
+- git apply --stat: PASS
+- git apply --check --reverse: PASS
+- Optional real-browser AAR screenshot: PASS — docs/scenario5-phase8b-aar-endstate-desktop.png (1440x900)
+
+## Hard gates
+
+- MODEL_VERSION: PASS — s5-mission-v1.1.0; s5-calibration-v1.2.0
+- END_STATE_ID_MIGRATION: PASS — new=6; retired-active=0
+- END_STATE_RESOLVER_EXACT: PASS — ordered=1959|2153|2393|2687|2955|3249
+- TRAJECTORY_PARITY_WITH_08A: PASS — rows=25600; fieldMismatches=0
+- EXPECTED_TAXONOMY_RECLASSIFICATION: PASS — exact 25,600 signature
+- FIXED_INCOMPLETE_WITNESS: PASS — mission_incomplete_continuity_preserved; alphaDelivered=false; continuity=75
+- NATURAL_NETWORK_DEGRADATION_WITNESS: PASS — row=1703; information_heavy; W-corridor_alpha_east-deceptive_diversion; seed=5
+- SIX_END_STATES_OBSERVED_V3: PASS — critical_cargo_lost_or_compromised:main_audit;priority_delivered_network_degradation:main_audit;mission_incomplete_continuity_preserved:approved_fixed_witness;delivery_complete_threat_persistent:main_audit;delivery_complete_attribution_unresolved:main_audit;delivery_complete_threat_contained:main_audit
+- ENVIRONMENT_PANEL_COVERAGE: PASS — worlds=16; latency=early|late|nominal
+- EXECUTION_COMPLETION: PASS — mission=25600; cognitive=7936
+- DETERMINISTIC_REPLAY: PASS — 384 cases
+- LEGAL_ACTION_SAFETY: PASS — zeroOption=0; negative=0; chronology=0
+- DOMAIN_DELAY_IDENTITY: PASS — 0 failures
+- NO_MATH_RANDOM: PASS — 13 files scanned
+- ACTION_TARGET_COVERAGE_V2: PASS — actions=33/33; probes=64/64
+- OSI_STRUCTURAL_CENTERING: PASS — diagnosticSets=8
+- RANDOM_OSI_MONTE_CARLO_CENTERING: PASS — {"overall":{"mean":0.00627,"sd":0.272155,"p025":-0.535947,"p975":0.505404,"n":4096},"phaseA":{"mean":0.008773,"sd":0.640906,"p025":-1,"p975":0.770492,"n":4096},"phaseB":{"mean":0.012308,"sd":0.520806,"p025":-1,"p975":0.897131,"n":4096},"phaseC":{"mean":-0.001709,"sd":0.438596,"p025":-0.674663,"p975":0.925803,"n":4096},"phaseD":{"mean":0.005708,"sd":0.553038,"p025":-0.845804,"p975":1,"n":4096}}
+- DOMINANCE_STATE_COVERAGE: PASS — decision:A1_baseline_monitoring:128;decision:A2_evidence_acquisition:128;decision:B1_monitoring_allocation:128;decision:B2_route_policy:128;decision:C1_support_and_checkpoints:128;decision:C2_resource_portfolio:128;decision:D1_crisis_response:128;decision:D2_final_delivery_policy:128
+- NO_UNIVERSAL_ACTION_DOMINANCE_V2: PASS — none
+- ACTOR_PAIR_DISTINCTIVENESS: PASS — 6/6
+- COGNITIVE_ANCHOR_GATES: PASS — 12/12
+- COGNITIVE_FIREWALL: PASS — 100 pairs
+- MAX_DECISION_CLOCK_360: PASS — max=297
+- PHASE7_PLAYER_FIREWALL: PASS — 16 initial player views; forbidden=trueWorldState|actorInternalState|hiddenProvenance|worldId|seed
+- PHASE7_PRESENTATION_REGRESSION: PASS — sha256=5935a851ba7ee3ed7a0ee39c50c3c9b49d489491d1842fede617396d62882f7b; priorAssertions=600 retained

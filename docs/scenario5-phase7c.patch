@@ -1,0 +1,936 @@
+diff --git a/docs/scenario5-phase7c-ui-verification.md b/docs/scenario5-phase7c-ui-verification.md
+new file mode 100644
+index 0000000000000000000000000000000000000000..2ee8d4349440be6448019df4d3dbb97efb43dbb2
+--- /dev/null
++++ b/docs/scenario5-phase7c-ui-verification.md
+@@ -0,0 +1,83 @@
++# Scenario 5 Phase 07C — Single-window Map Motion UI Verification
++
++## Completion and scope
++
++Phase 07C is complete. This was a presentation-only change to the Scenario 5 player UI. No mission, model, Actor/adjudication, cognitive, runtime, domain-metric, scoring, timing, resource, or calibration parameter was changed. Phase 8B was not started.
++
++The live mission now uses one bounded desktop console: compact command resources at the top, controls physically on the left, and the operational map physically on the right. Decision actions use a 2×2 grid. Evidence replaces the decision content locally in the left pane and returns without clearing the selected decision. Belief and reason capture remain in the same left pane. Outcome review is an overlay inside the console. The completed AAR remains intentionally scrollable.
++
++## Presentation files
++
++- `src/ui/components/scenario/ScenarioFiveSimulation.tsx`
++- `src/ui/components/scenario/ScenarioFiveMap.tsx`
++- `src/ui/components/scenario/ScenarioFiveActionCard.tsx`
++- `src/ui/components/scenario/ScenarioFiveResourcePanel.tsx`
++- `src/ui/components/scenario/ScenarioFive.css`
++- `scripts/verify-s5-phase7-ui.ts`
++- `scripts/capture-s5-phase7c.mjs`
++
++No Phase-3/4/5/6 verifier source was edited.
++
++## Convoy movement
++
++Convoy position is a local rendering concern in `ScenarioFiveMap`. Desired progress uses only player-safe `worldClockMinutes / max(projectedArrivalMinute, 1)`, clamped to 0..0.97. Delivered convoys render at 1. Held convoys retain their previous visual progress. Other statuses apply `max(previousVisual, desiredVisualProgress)`, so movement cannot reverse. This visual value is not written to runtime/model state and does not enter adjudication, scoring, telemetry, AAR calculations, or calibration.
++
++Markers are truck-shaped SVG groups with body, cabin, window, two wheels, and Persian convoy letter. Position transitions use 850 ms. Player-visible status changes trigger a 1500 ms pulse. Highlight priority is selected target, then fixed alpha, then expanded evidence; target-free network actions use a low global route pulse.
++
++Real-browser inspection recorded initial and post-decision transforms for all four markers. At least one transform changed, and in the captured run all four changed. The exact values are retained in `docs/scenario5-phase7c-screenshots/inspection.json`.
++
++## Player-information firewall
++
++All motion, status styling, pulses, and route highlights are derived only from the existing player-safe view: visible convoy fields, projected arrival, operational clock, selected player action/target, and opened visible evidence. The map does not import or receive `trueWorldState`, `primaryAffectedCorridorId`, Actor profile/internal state, or hidden provenance. No hidden field was added to a player payload. The completion-only AAR boundary is unchanged.
++
++`eventLogger.ts` remains unchanged (SHA-256 `7faa68531a38bd3a56facb5e73a7c4e4f5d1e13f4906218ee56147dacd1103b1`), and existing runtime API calls and telemetry semantics are unchanged.
++
++## Real-browser verification
++
++Chrome headless was driven through the DevTools protocol by `scripts/capture-s5-phase7c.mjs`. Five PNG captures were created in `docs/scenario5-phase7c-screenshots/` and visually inspected.
++
++| View | Viewport | scrollHeight / height | scrollWidth / width | Physical layout | Additional check |
++|---|---:|---:|---:|---|---|
++| Initial decision | 1440×900 | 900 / 900 | 1440 / 1440 | controls left, map right | four cards and confirm visible |
++| Initial decision | 1366×768 | 768 / 768 | 1366 / 1366 | controls left, map right | four cards and confirm visible |
++| Initial decision | 1280×720 | 720 / 720 | 1280 / 1280 | controls left, map right | four cards and confirm visible |
++| Belief after action | 1440×900 | 900 / 900 | 1440 / 1440 | controls left, map right | post-action marker transforms differ |
++| Evidence local view | 1440×900 | 900 / 900 | 1440 / 1440 | evidence left, map right | internal evidence scrolling only |
++| Reason | 1440×900 | 900 / 900 | 1440 / 1440 | reason left, map right | seven reason rows visible |
++
++The 1366×768 pre-run briefing also has `scrollHeight=768`, `scrollWidth=1366`, and a visible start control. At 1366×768, the belief panel fits fully, and all seven reason options plus submit control fit fully. There is no live-gameplay page scrollbar or horizontal overflow at any tested desktop viewport.
++
++Screenshots:
++
++1. `01-decision-1440x900.png`
++2. `02-decision-1366x768.png`
++3. `03-after-action-1440x900.png`
++4. `04-evidence-1440x900.png`
++5. `05-reason-1440x900.png`
++
++## Regression results
++
++- Phase 3: passed, 86 assertions.
++- Phase 4: passed, 464 assertions.
++- Phase 5: passed, 388 assertions.
++- Phase 6: passed, 2979 assertions.
++- Phase 7: passed, 590 assertions; all prior assertions were retained and Phase-07C checks were added.
++- `npx tsc -b`: passed.
++- `npm run build`: passed (Vite 7.3.6, 118 modules transformed; only the existing large-chunk advisory was emitted).
++- `git -c core.autocrlf=false diff --check`: passed.
++
++## Frozen versions and semantics
++
++The version constants remain unchanged:
++
++- model foundation `s5-model-foundation-v1`
++- world `s5-world-v1`
++- evidence `s5-evidence-v1`
++- Actor `s5-actor-v1`
++- adjudication `s5-adjudication-v1`
++- cognitive adapter `s5-cognitive-v3-adapter-v1.0.0`
++- runtime `s5-runtime-v1.0.1`
++- domain metrics `s5-domain-metrics-v1.0.0`
++- calibration `s5-calibration-v1.1.0`
++
++Mission outcomes, Actor reactions, decision sequencing, belief/reason semantics, OSI/construct formulas, telemetry contracts, domain metrics, AAR scientific content, and calibration behavior are unchanged.
+diff --git a/scripts/capture-s5-phase7c.mjs b/scripts/capture-s5-phase7c.mjs
+new file mode 100644
+index 0000000000000000000000000000000000000000..4db008cdafc22e2139f5d8b2d23e3bbc55d64480
+--- /dev/null
++++ b/scripts/capture-s5-phase7c.mjs
+@@ -0,0 +1,210 @@
++import fs from "node:fs";
++import os from "node:os";
++import path from "node:path";
++import { spawn } from "node:child_process";
++
++const outputDir = "docs/scenario5-phase7c-screenshots";
++fs.mkdirSync(outputDir, { recursive: true });
++const profileDir = fs.mkdtempSync(path.join(os.tmpdir(), "s5-phase7c-chrome-"));
++const chromeCandidates = [
++  process.env.CHROME_PATH,
++  "C:/Program Files/Google/Chrome/Application/chrome.exe",
++  "C:/Program Files (x86)/Google/Chrome/Application/chrome.exe",
++  "C:/Program Files/Microsoft/Edge/Application/msedge.exe",
++].filter(Boolean);
++const chromePath = chromeCandidates.find((candidate) => fs.existsSync(candidate));
++if (!chromePath) throw new Error("Chrome/Edge executable was not found. Set CHROME_PATH.");
++
++const vite = spawn(process.execPath, ["node_modules/vite/bin/vite.js", "--host", "127.0.0.1", "--port", "5174"], { stdio: "ignore", windowsHide: true });
++const chrome = spawn(chromePath, ["--headless=new", "--remote-debugging-port=9227", `--user-data-dir=${profileDir}`, "--disable-gpu", "--no-first-run", "--no-default-browser-check", "http://127.0.0.1:5174"], { stdio: "ignore", windowsHide: true });
++const delay = (ms = 250) => new Promise((resolve) => setTimeout(resolve, ms));
++const waitFor = async (url, attempts = 100) => {
++  for (let index = 0; index < attempts; index += 1) {
++    try { const response = await fetch(url); if (response.ok) return response; } catch { /* wait */ }
++    await delay(200);
++  }
++  throw new Error(`Timed out waiting for ${url}`);
++};
++
++let socket;
++try {
++  await waitFor("http://127.0.0.1:5174");
++  await waitFor("http://127.0.0.1:9227/json");
++  const targets = await (await fetch("http://127.0.0.1:9227/json")).json();
++  const target = targets.find((item) => item.type === "page" && item.url.startsWith("http://127.0.0.1:5174"));
++  if (!target) throw new Error("Scenario 5 QA page was not found.");
++  socket = new WebSocket(target.webSocketDebuggerUrl);
++  await new Promise((resolve, reject) => { socket.addEventListener("open", resolve, { once: true }); socket.addEventListener("error", reject, { once: true }); });
++  let requestId = 0;
++  const pending = new Map();
++  socket.addEventListener("message", (event) => {
++    const message = JSON.parse(event.data);
++    if (!message.id || !pending.has(message.id)) return;
++    const item = pending.get(message.id); pending.delete(message.id);
++    if (message.error) item.reject(new Error(message.error.message)); else item.resolve(message.result);
++  });
++  const send = (method, params = {}) => new Promise((resolve, reject) => {
++    const id = ++requestId;
++    pending.set(id, { resolve, reject });
++    socket.send(JSON.stringify({ id, method, params }));
++  });
++  const evaluate = async (expression) => {
++    const result = await send("Runtime.evaluate", { expression, awaitPromise: true, returnByValue: true });
++    if (result.exceptionDetails) throw new Error(result.exceptionDetails.exception?.description ?? result.exceptionDetails.text);
++    return result.result.value;
++  };
++  const click = async (selector, index = 0) => {
++    const clicked = await evaluate(`(() => { const node = document.querySelectorAll(${JSON.stringify(selector)})[${index}]; if (!node) return false; node.click(); return true; })()`);
++    if (!clicked) {
++      const snapshot = await evaluate("({ text: document.body.innerText.slice(0, 500), html: document.body.innerHTML.slice(0, 500) })");
++      throw new Error(`Selector not found: ${selector}[${index}] ${JSON.stringify(snapshot)}`);
++    }
++    await delay(300);
++  };
++  const setViewport = async (width, height) => {
++    await send("Emulation.setDeviceMetricsOverride", { width, height, deviceScaleFactor: 1, mobile: false });
++    await delay(180);
++  };
++  const capture = async (filename, width, height, stage) => {
++    await setViewport(width, height);
++    await evaluate("scrollTo(0, 0)");
++    const metrics = await evaluate(`(() => {
++      const doc = document.documentElement;
++      const map = document.querySelector('.s5-map-pane')?.getBoundingClientRect();
++      const controls = document.querySelector('.s5-control-pane')?.getBoundingClientRect();
++      const cards = [...document.querySelectorAll('.s5-action-card')].map((node) => {
++        const rect = node.getBoundingClientRect();
++        return { top: rect.top, bottom: rect.bottom, visible: rect.top >= 0 && rect.bottom <= innerHeight };
++      });
++      const confirm = document.querySelector('.s5-decision-actions .s5-primary-button')?.getBoundingClientRect();
++      return {
++        stage: ${JSON.stringify(stage)}, width: innerWidth, height: innerHeight,
++        scrollHeight: doc.scrollHeight, scrollWidth: doc.scrollWidth,
++        noPageScroll: doc.scrollHeight <= innerHeight && doc.scrollWidth <= innerWidth,
++        noHorizontalOverflow: doc.scrollWidth <= innerWidth,
++        mapLeft: map?.left ?? null, controlLeft: controls?.left ?? null,
++        mapRightOfControls: Boolean(map && controls && map.left > controls.left),
++        actionCardCount: cards.length,
++        allActionCardsVisible: cards.length === 0 ? null : cards.every((item) => item.visible),
++        confirmVisible: confirm ? confirm.top >= 0 && confirm.bottom <= innerHeight : null,
++        markerTransforms: [...document.querySelectorAll('.s5-convoy-marker')].map((node) => node.style.transform),
++      };
++    })()`);
++    const shot = await send("Page.captureScreenshot", { format: "png", captureBeyondViewport: false, fromSurface: true });
++    fs.writeFileSync(`${outputDir}/${filename}`, Buffer.from(shot.data, "base64"));
++    return metrics;
++  };
++  const chooseAction = async (index) => {
++    await click(".s5-action-card", index);
++    const targetRequired = await evaluate("Boolean(document.querySelector('.s5-target-picker select'))");
++    if (targetRequired) {
++      await evaluate(`(() => { const node = document.querySelector('.s5-target-picker select'); const option = [...node.options].find((item) => item.value); const setter = Object.getOwnPropertyDescriptor(HTMLSelectElement.prototype, 'value').set; setter.call(node, option.value); node.dispatchEvent(new Event('change', { bubbles: true })); return node.value; })()`);
++      await delay(180);
++    }
++  };
++  const confirmAndContinue = async () => {
++    await click(".s5-decision-actions .s5-primary-button");
++    await click(".s5-outcome-modal .s5-primary-button");
++  };
++  const fillBelief = async () => {
++    await evaluate(`(() => {
++      const select = document.querySelector('.s5-belief-select');
++      const option = [...select.options].find((item) => item.value);
++      Object.getOwnPropertyDescriptor(HTMLSelectElement.prototype, 'value').set.call(select, option.value);
++      select.dispatchEvent(new Event('change', { bubbles: true }));
++      const setter = Object.getOwnPropertyDescriptor(HTMLInputElement.prototype, 'value').set;
++      for (const input of document.querySelectorAll('.s5-belief-number')) {
++        setter.call(input, '50');
++        input.dispatchEvent(new Event('input', { bubbles: true }));
++        input.dispatchEvent(new Event('change', { bubbles: true }));
++      }
++    })()`);
++    await delay(180);
++    await click(".s5-form-panel .s5-primary-button");
++  };
++
++  await send("Page.enable");
++  await send("Runtime.enable");
++  await setViewport(1440, 900);
++  await delay(1800);
++  await click(".menu-buttons button", 1);
++  await click(".profile-item", 0);
++  await click(".menu-buttons button", 0);
++  await click(".scenario-card:last-child .scenario-actions button:last-child");
++  await click(".intro-modal .primary");
++  await setViewport(1366, 768);
++  const briefing1366 = await evaluate(`(() => {
++    const doc = document.documentElement;
++    const button = document.querySelector('.s5-briefing .s5-primary-button')?.getBoundingClientRect();
++    return { scrollHeight: doc.scrollHeight, scrollWidth: doc.scrollWidth, noPageScroll: doc.scrollHeight <= innerHeight && doc.scrollWidth <= innerWidth, buttonVisible: Boolean(button && button.top >= 0 && button.bottom <= innerHeight) };
++  })()`);
++  await setViewport(1440, 900);
++  await click(".s5-briefing .s5-primary-button");
++
++  const metrics = [];
++  metrics.push(await capture("01-decision-1440x900.png", 1440, 900, "decision-initial"));
++  metrics.push(await capture("02-decision-1366x768.png", 1366, 768, "decision-initial"));
++  const compact1280 = await capture(".phase7c-temporary-1280.png", 1280, 720, "decision-initial-1280");
++  fs.unlinkSync(`${outputDir}/.phase7c-temporary-1280.png`);
++  metrics.push(compact1280);
++
++  await setViewport(1440, 900);
++  const initialTransforms = await evaluate("[...document.querySelectorAll('.s5-convoy-marker')].map((node) => node.style.transform)");
++  await chooseAction(0);
++  await confirmAndContinue();
++  const postTransforms = await evaluate("[...document.querySelectorAll('.s5-convoy-marker')].map((node) => node.style.transform)");
++  metrics.push(await capture("03-after-action-1440x900.png", 1440, 900, "belief-after-action"));
++  await setViewport(1366, 768);
++  const belief1366 = await evaluate(`(() => {
++    const doc = document.documentElement;
++    const panel = document.querySelector('.s5-form-panel')?.getBoundingClientRect();
++    const button = document.querySelector('.s5-form-panel .s5-primary-button')?.getBoundingClientRect();
++    return { noPageScroll: doc.scrollHeight <= innerHeight && doc.scrollWidth <= innerWidth, panelFits: Boolean(panel && button && panel.top >= 0 && panel.bottom <= innerHeight && button.bottom <= panel.bottom) };
++  })()`);
++  await setViewport(1440, 900);
++
++  await fillBelief();
++  await click(".s5-evidence-access");
++  metrics.push(await capture("04-evidence-1440x900.png", 1440, 900, "evidence-local-view"));
++  await click(".s5-back-to-decision");
++  await chooseAction(1);
++  await confirmAndContinue();
++  await fillBelief();
++  await chooseAction(1);
++  await confirmAndContinue();
++  await chooseAction(0);
++  await click(".s5-decision-actions .s5-primary-button");
++  metrics.push(await capture("05-reason-1440x900.png", 1440, 900, "reason"));
++  await setViewport(1366, 768);
++  const reason1366 = await evaluate(`(() => {
++    const doc = document.documentElement;
++    const panel = document.querySelector('.s5-form-panel')?.getBoundingClientRect();
++    const options = [...document.querySelectorAll('.s5-reason-options label')].map((node) => node.getBoundingClientRect());
++    const button = document.querySelector('.s5-form-panel .s5-primary-button')?.getBoundingClientRect();
++    return { noPageScroll: doc.scrollHeight <= innerHeight && doc.scrollWidth <= innerWidth, optionCount: options.length, allOptionsVisible: options.length === 7 && options.every((rect) => rect.top >= panel.top && rect.bottom <= panel.bottom), buttonVisible: Boolean(button && button.bottom <= panel.bottom && button.bottom <= innerHeight) };
++  })()`);
++
++  const result = {
++    browser: path.basename(chromePath),
++    capturedAt: new Date().toISOString(),
++    initialTransforms,
++    postTransforms,
++    convoyMovementVerified: initialTransforms.length === postTransforms.length && initialTransforms.some((value, index) => value !== postTransforms[index]),
++    briefing1366,
++    belief1366,
++    reason1366,
++    metrics,
++  };
++  fs.writeFileSync(`${outputDir}/inspection.json`, JSON.stringify(result, null, 2));
++  if (!result.convoyMovementVerified) throw new Error("Convoy marker transform did not change after the committed decision.");
++  if (!briefing1366.noPageScroll || !briefing1366.buttonVisible) throw new Error("1366x768 briefing does not fit.");
++  if (!belief1366.noPageScroll || !belief1366.panelFits) throw new Error("1366x768 belief stage does not fit.");
++  if (!reason1366.noPageScroll || !reason1366.allOptionsVisible || !reason1366.buttonVisible) throw new Error("1366x768 reason stage does not fit.");
++  if (metrics.some((item) => !item.noPageScroll || !item.noHorizontalOverflow || !item.mapRightOfControls)) throw new Error("Phase 07C browser layout verification failed. Inspect inspection.json.");
++  if (!metrics[1].allActionCardsVisible || !metrics[1].confirmVisible) throw new Error("1366x768 decision controls do not fully fit.");
++  console.log(JSON.stringify({ result: "passed", screenshots: 5, convoyMovementVerified: true, checkedViewports: ["1440x900", "1366x768", "1280x720"], outputDir }, null, 2));
++} finally {
++  try { socket?.close(); } catch { /* no-op */ }
++  chrome.kill();
++  vite.kill();
++}
+diff --git a/scripts/verify-s5-phase7-ui.ts b/scripts/verify-s5-phase7-ui.ts
+index 8ca23831954171bed799da8a2006ffb47a24f98d..34c604f32b867ea46d08915825613bed675fc121 100644
+--- a/scripts/verify-s5-phase7-ui.ts
++++ b/scripts/verify-s5-phase7-ui.ts
+@@ -231,6 +231,37 @@ check(autoCloseLogIndex >= 0 && immediateDecisionLogIndex > autoCloseLogIndex, "
+ const beliefSource = source("src/ui/components/scenario/scenario-five/ui/ScenarioFiveBeliefPanel.tsx");
+ const reasonSource = source("src/ui/components/scenario/scenario-five/ui/ScenarioFiveReasonPanel.tsx");
+ const scenario5CssSource = source("src/ui/components/scenario/ScenarioFive.css");
++const mapSource = source("src/ui/components/scenario/ScenarioFiveMap.tsx");
++check(!mapSource.includes("0.58") && !mapSource.includes("0.45") && !mapSource.includes("status === \"held\" ? 0.45"), "07C removes fixed status-only convoy placement ratios");
++check(simulationSource.includes("worldClockMinutes={view.resources.worldClockMinutes}"), "07C map receives player-visible worldClockMinutes");
++check(mapSource.includes("worldClockMinutes / Math.max(convoy.projectedArrivalMinute, 1)"), "07C visual progress uses clock divided by projected arrival");
++check(mapSource.includes('convoy.status === "delivered" ? 1') && mapSource.includes('convoy.status === "held" ? previousVisual'), "07C delivered progress is one and held progress freezes");
++check(mapSource.includes("Math.max(previousVisual, desired)"), "07C non-held visual progress is monotonic");
++check(mapSource.includes('className="s5-truck-body"') && mapSource.includes('className="s5-truck-cabin"') && (mapSource.match(/className="s5-truck-wheel"/g) ?? []).length === 2, "07C convoy marker has body, cabin, and two wheels");
++check(/\.s5-convoy-marker \{[^}]*transition: transform 850ms cubic-bezier\(\.22,\.75,\.2,1\)/s.test(scenario5CssSource), "07C marker movement uses the required CSS transition");
++check(/\.s5-action-grid \{[^}]*grid-template-columns: repeat\(2,minmax\(0,1fr\)\)/s.test(scenario5CssSource), "07C desktop action cards use a 2×2 grid");
++check(/\.s5-workspace \{[^}]*direction: ltr;[^}]*grid-template-areas: "controls map"/s.test(scenario5CssSource)
++  && /\.s5-control-pane \{ grid-area: controls; direction: rtl;/s.test(scenario5CssSource)
++  && /\.s5-map-pane \{ grid-area: map; direction: rtl;/s.test(scenario5CssSource), "07C physical grid fixes controls left and map right");
++check(/\.s5-live-shell \{[^}]*width: 100%;[^}]*height: calc\(100dvh - 116px\);[^}]*overflow: hidden;/s.test(scenario5CssSource), "07C live shell accounts for the host chrome and keeps page overflow hidden");
++check(simulationSource.includes('<ScenarioFiveResourcePanel resources={view.resources} />') && simulationSource.indexOf("ScenarioFiveResourcePanel resources") < simulationSource.indexOf('<div className="s5-workspace">'), "07C resource strip lives in compact command bar");
++equal((simulationSource.match(/<ScenarioFiveEvidencePanel/g) ?? []).length, 1, "07C evidence panel is not permanently stacked in the main grid");
++check(simulationSource.includes("evidenceViewOpen ?") && simulationSource.includes("بازگشت به تصمیم") && simulationSource.includes("شواهد موجود ({view.visibleEvidence.length})"), "07C evidence uses a reversible local control-pane view");
++check(simulationSource.includes('<section className="s5-control-pane"')
++  && simulationSource.includes("isBeliefStage(runtime.stage.stageId) && <ScenarioFiveBeliefPanel")
++  && simulationSource.includes("isReasonStage(runtime.stage.stageId) && reasonContext && <ScenarioFiveReasonPanel"), "07C belief and reason panels remain in the left control pane");
++for (const hidden of ["trueWorldState", "primaryAffectedCorridorId", "actorProfile", "actorInternalState", "hiddenProvenance"]) check(!mapSource.includes(hidden), `07C map contains no hidden source: ${hidden}`);
++const visualProgressOccurrences = [
++  "src/ui/components/scenario/ScenarioFiveMap.tsx",
++  ...[
++    "src/ui/components/scenario/scenario-five/model/mission/missionEngine.ts",
++    "src/ui/components/scenario/scenario-five/model/runtime/runtimeEngine.ts",
++    "src/ui/components/scenario/scenario-five/model/cognitive/cognitiveEngine.ts",
++  ].filter((path) => /visualProgress/.test(source(path))),
++];
++equal(visualProgressOccurrences, ["src/ui/components/scenario/ScenarioFiveMap.tsx"], "07C visual progress never enters runtime/model/scoring source");
++equal(createHash("sha256").update(source("src/services/analytics/eventLogger.ts")).digest("hex"), "7faa68531a38bd3a56facb5e73a7c4e4f5d1e13f4906218ee56147dacd1103b1", "07C leaves eventLogger semantics byte-identical");
++for (const runtimeCall of ["selectRuntimeAction", "openRuntimeEvidence", "closeRuntimeEvidence", "confirmRuntimeDecision", "submitRuntimeBelief", "submitRuntimeReason", "continueRuntimeAfterOutcome"]) check(simulationSource.includes(`${runtimeCall}(`), `07C retains runtime API call ${runtimeCall}`);
+ for (const initializer of [
+   'useState<CorridorId | "">("")', 'useState("")',
+ ]) check(beliefSource.includes(initializer), `belief form empty initializer present: ${initializer}`);
+diff --git a/src/ui/components/scenario/ScenarioFive.css b/src/ui/components/scenario/ScenarioFive.css
+index 501220637978c42fe80808ef067ce7fd54ef732c..097e45a55e1597b715c36854d8ae86737cb993a5 100644
+--- a/src/ui/components/scenario/ScenarioFive.css
++++ b/src/ui/components/scenario/ScenarioFive.css
+@@ -10,17 +10,26 @@
+   background: radial-gradient(circle at 12% 8%, rgba(39,134,171,.17), transparent 30rem), linear-gradient(155deg,#07111f,#091827 62%,#07111f);
+ }
+ 
++.s5-live-shell {
++  position: relative; width: 100%; height: calc(100dvh - 116px);
++  max-height: 920px; min-height: 0; margin: 0 auto; padding: 10px; overflow: hidden;
++  display: grid; grid-template-rows: minmax(58px,auto) minmax(0,1fr); gap: 8px;
++}
++
+ .s5-root h1, .s5-root h2, .s5-root h3, .s5-root p { margin-top: 0; }
+ .s5-root button, .s5-root select, .s5-root input { font: inherit; }
+ .s5-root button:focus-visible, .s5-root select:focus-visible, .s5-root input:focus-visible { outline: 3px solid var(--s5-accent-strong); outline-offset: 3px; }
+ .s5-panel, .s5-briefing-card, .s5-outcome-modal { min-width: 0; border: 1px solid var(--s5-border); border-radius: 14px; background: linear-gradient(145deg,rgba(18,36,58,.96),rgba(10,25,41,.96)); box-shadow: 0 18px 50px rgba(0,0,0,.2); }
+ 
+-.s5-briefing { display: grid; place-items: center; }
+-.s5-briefing-card { width: min(100%,820px); padding: clamp(1.1rem,4vw,2.5rem); }
++.s5-briefing { height: calc(100dvh - 116px); min-height: 0; display: grid; place-items: center; padding: .75rem; overflow: hidden; }
++.s5-briefing-card { width: min(100%,960px); max-height: 100%; padding: 1rem 1.25rem; overflow: hidden; }
+ .s5-briefing-card > span, .s5-section-heading span, .s5-mission-header span:first-child { color: var(--s5-accent-strong); font-size: .78rem; font-weight: 800; letter-spacing: .04em; }
+-.s5-briefing-card h1 { margin: .45rem 0 1.25rem; font-size: clamp(1.65rem,4vw,2.65rem); }
+-.s5-briefing-body, .s5-briefing-card li { color: #d6e2ec; line-height: 1.95; }
+-.s5-briefing-card ul { margin: 1rem 0 1.5rem; padding-inline-start: 1.35rem; }
++.s5-briefing-card h1 { margin: .25rem 0 .6rem; font-size: clamp(1.35rem,2.6vw,2rem); }
++.s5-briefing-body, .s5-briefing-card li { color: #d6e2ec; font-size: .82rem; line-height: 1.65; }
++.s5-briefing-body p { margin-bottom: .45rem; }
++.s5-briefing-card .s5-method-note { margin: .45rem 0; padding: .5rem; font-size: .72rem; }
++.s5-briefing-card ul { display: grid; grid-template-columns: repeat(2,minmax(0,1fr)); gap: .25rem 1rem; margin: .45rem 0 .7rem; padding-inline-start: 1.35rem; }
++.s5-briefing-card > .s5-primary-button { min-height: 40px; padding-block: .5rem; }
+ 
+ .s5-primary-button, .s5-secondary-button { min-height: 44px; padding: .7rem 1rem; border-radius: 9px; cursor: pointer; transition: transform 140ms ease, border-color 140ms ease, background 140ms ease; }
+ .s5-primary-button { border: 1px solid #7de5f5; color: #03121c; background: linear-gradient(135deg,#7de5f5,#49c7e5); font-weight: 900; }
+@@ -33,6 +42,16 @@
+ .s5-mission-header p { margin-bottom: 0; color: var(--s5-muted); }
+ .s5-stage-chip, .s5-badges span, .s5-inline-facts span { display: inline-flex; align-items: center; min-height: 30px; padding: .3rem .65rem; border: 1px solid var(--s5-border); border-radius: 999px; color: #d8e8f5; background: rgba(4,15,27,.72); font-size: .78rem; }
+ 
++.s5-command-bar { min-width: 0; display: grid; grid-template-columns: minmax(260px,1fr) auto auto; align-items: center; gap: .65rem; padding: .45rem .65rem; border: 1px solid var(--s5-border); border-radius: 12px; background: rgba(9,25,42,.96); }
++.s5-command-identity { min-width: 0; }
++.s5-command-identity > span { color: var(--s5-accent-strong); font-size: .72rem; font-weight: 900; }
++.s5-command-identity h1 { margin: .12rem 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; font-size: clamp(.94rem,1.45vw,1.2rem); }
++.s5-command-identity p { margin: 0; overflow: hidden; color: var(--s5-muted); font-size: .72rem; text-overflow: ellipsis; white-space: nowrap; }
++.s5-command-resources { display: flex; align-items: center; gap: .35rem; }
++.s5-command-chip { min-width: 66px; padding: .3rem .48rem; border: 1px solid rgba(85,119,145,.58); border-radius: 8px; background: rgba(5,16,29,.75); text-align: center; }
++.s5-command-chip span { display: block; color: var(--s5-muted); font-size: .63rem; }
++.s5-command-chip strong { display: block; font-size: .83rem; direction: ltr; }
++
+ .s5-resource-panel { padding: .85rem; margin-bottom: 1rem; }
+ .s5-resource-grid, .s5-metric-grid { display: grid; grid-template-columns: repeat(4,minmax(0,1fr)); gap: .75rem; }
+ .s5-resource-grid div, .s5-aar-stat { min-width: 0; padding: .75rem; border-radius: 10px; background: rgba(5,16,29,.68); }
+@@ -42,46 +61,85 @@
+ .s5-aar-stat-label, .s5-aar-stat-value { min-width: 0; unicode-bidi: plaintext; }
+ .s5-technical-id { display: inline-block; max-width: 100%; direction: ltr; unicode-bidi: isolate; white-space: normal; overflow-wrap: anywhere; word-break: break-all; color: #dff8ff; font-family: ui-monospace, SFMono-Regular, Consolas, "Liberation Mono", monospace; font-size: .88em; }
+ .s5-aar-stat-note { margin: .15rem 0 0; padding: .55rem; font-size: .78rem; font-weight: 400; }
+-.s5-operational-warning { margin: .7rem 0 0; color: var(--s5-warn); font-size: .86rem; }
++.s5-operational-warning { display: grid; width: 25px; height: 25px; margin: 0; place-items: center; border-radius: 50%; color: #111; background: var(--s5-warn); font-size: .86rem; font-weight: 900; }
+ 
+ .s5-main-grid { display: grid; grid-template-columns: minmax(0,1.7fr) minmax(300px,.8fr); align-items: start; gap: 1rem; }
++.s5-workspace { direction: ltr; min-height: 0; display: grid; grid-template-columns: minmax(360px,2fr) minmax(0,3fr); grid-template-areas: "controls map"; gap: 8px; overflow: hidden; }
++.s5-control-pane { grid-area: controls; direction: rtl; min-width: 0; min-height: 0; overflow: hidden; }
++.s5-map-pane { grid-area: map; direction: rtl; min-width: 0; min-height: 0; overflow: hidden; }
++.s5-control-pane > .s5-panel, .s5-local-evidence-view, .s5-map-pane > .s5-map-panel { height: 100%; }
+ .s5-map-panel, .s5-evidence-panel, .s5-decision-panel, .s5-form-panel, .s5-aar-section { padding: clamp(.8rem,2vw,1.15rem); }
+ .s5-section-heading { display: flex; align-items: start; justify-content: space-between; gap: .75rem; margin-bottom: .8rem; }
+ .s5-section-heading h2, .s5-form-panel h2, .s5-aar-section h2 { margin: .25rem 0 0; font-size: 1.05rem; }
+ 
+-.s5-map-frame { position: relative; width: 100%; min-width: 0; overflow: hidden; aspect-ratio: 16/10; border: 1px solid #294963; border-radius: 11px; background: #06111d; }
++.s5-map-panel { min-height: 0; display: grid; grid-template-rows: auto minmax(0,1fr) auto; padding: .65rem; overflow: hidden; }
++.s5-map-heading { margin-bottom: .35rem; }
++.s5-map-heading h3 { margin: .1rem 0 0; font-size: .94rem; }
++.s5-map-frame { position: relative; width: 100%; height: 100%; min-width: 0; min-height: 0; overflow: hidden; border: 1px solid #294963; border-radius: 11px; background: #06111d; }
++.s5-map-frame svg { display: block; width: 100%; height: 100%; }
+ .s5-iran-base-image { display: block; width: 100%; height: 100%; object-fit: contain; opacity: .62; }
+-.s5-route { stroke: #8bafc4; stroke-width: 3; stroke-dasharray: 8 5; opacity: .72; }
++.s5-route { stroke: #8bafc4; stroke-width: 3; stroke-dasharray: 8 7; opacity: .66; }
++.s5-route.s5-status-moving { animation: s5-route-flow 4s linear infinite; }
++.s5-route.s5-status-held, .s5-route.s5-status-delivered { animation: none; }
+ .s5-route.s5-highlighted { stroke-width: 7; stroke: var(--s5-warn); filter: drop-shadow(0 0 6px rgba(240,188,98,.8)); opacity: 1; }
+-.s5-convoy-marker { color: #03121c; font-size: .72rem; font-weight: 900; }
+-.s5-convoy-marker circle { fill: var(--s5-accent); stroke: #e8f8fc; stroke-width: 2; }
+-.s5-convoy-marker text { fill: #03121c; font-weight: 900; }
+-.s5-convoy-marker.s5-highlighted circle { fill: var(--s5-warn); stroke: #fff3d5; stroke-width: 4; filter: drop-shadow(0 0 6px rgba(240,188,98,.8)); }
++.s5-route.s5-global-pulse { animation: s5-route-global-pulse 1.2s ease-out 1, s5-route-flow 4s linear infinite; }
++.s5-route-endpoint { fill: #91aabd; stroke: #06111d; stroke-width: 2; }
++.s5-route-endpoint.s5-highlighted { fill: var(--s5-warn); animation: s5-endpoint-pulse 1.2s ease-in-out infinite; }
++.s5-convoy-marker { transform-box: view-box; transform-origin: 0 0; transition: transform 850ms cubic-bezier(.22,.75,.2,1); color: #03121c; font-size: .72rem; font-weight: 900; }
++.s5-truck-body, .s5-truck-cabin { fill: var(--s5-accent); stroke: #e8f8fc; stroke-width: 1.7; }
++.s5-truck-window { fill: #0b2d42; }
++.s5-truck-wheel { fill: #03121c; stroke: #dff8ff; stroke-width: 1.2; }
++.s5-truck-letter { fill: #03121c; font-size: 13px; font-weight: 900; }
++.s5-marker-ring { fill: none; stroke: var(--s5-warn); stroke-width: 4; filter: drop-shadow(0 0 7px rgba(240,188,98,.85)); }
++.s5-convoy-marker.s5-status-compromised .s5-marker-ring { stroke: #ff754f; animation: s5-compromised-pulse 1.25s ease-in-out infinite; }
++.s5-convoy-marker.s5-status-compromised .s5-truck-body, .s5-convoy-marker.s5-status-compromised .s5-truck-cabin { fill: #ef7e52; }
++.s5-convoy-marker.s5-status-held .s5-truck-body, .s5-convoy-marker.s5-status-held .s5-truck-cabin { fill: #83909b; }
++.s5-completion-ring { fill: rgba(38,174,109,.14); stroke: #62dc9a; stroke-width: 4; }
++.s5-marker-badge, .s5-marker-check { fill: #fff; paint-order: stroke; stroke: #07111f; stroke-width: 4px; font-size: 16px; font-weight: 900; }
++.s5-marker-check { fill: #79eba9; }
++.s5-convoy-marker.s5-state-changed { animation: s5-state-change 1.5s ease-out; }
++.s5-convoy-strip { display: grid; grid-template-columns: repeat(4,minmax(0,1fr)); gap: .38rem; margin-top: .45rem; }
++.s5-convoy-mini { position: relative; min-width: 0; padding: .42rem; border: 1px solid rgba(85,119,145,.58); border-radius: 8px; background: rgba(5,16,29,.82); }
++.s5-convoy-mini header, .s5-convoy-mini > div { display: flex; justify-content: space-between; gap: .25rem; }
++.s5-convoy-mini header span, .s5-convoy-mini small, .s5-convoy-mini > div { color: var(--s5-muted); font-size: .64rem; }
++.s5-convoy-mini small { display: block; direction: ltr; text-align: right; white-space: nowrap; }
++.s5-mini-badges { position: absolute; inset: auto auto .28rem .28rem; display: flex; gap: .16rem; }
++.s5-mini-badges b { padding: .08rem .22rem; border-radius: 4px; color: #06111d; background: var(--s5-accent); font-size: .52rem; }
+ .s5-convoy-grid { display: grid; grid-template-columns: repeat(2,minmax(0,1fr)); gap: .65rem; margin-top: .75rem; }
+ .s5-convoy-card, .s5-evidence-card, .s5-outcome-list article, .s5-aar-list li, .s5-audit-line { min-width: 0; padding: .75rem; border: 1px solid rgba(85,119,145,.55); border-radius: 9px; background: rgba(5,16,29,.66); }
+ .s5-convoy-card > span, .s5-convoy-card > strong, .s5-evidence-compact span, .s5-evidence-detail span, .s5-outcome-list article span { display: block; margin-top: .25rem; overflow-wrap: anywhere; }
+ .s5-badges, .s5-inline-facts { display: flex; flex-wrap: wrap; gap: .35rem; margin-top: .55rem; }
+ 
+ .s5-evidence-list, .s5-outcome-list, .s5-aar-list { display: grid; gap: .65rem; margin: 0; padding: 0; list-style: none; }
+-.s5-evidence-panel { max-height: 720px; overflow-y: auto; }
++.s5-local-evidence-view { min-height: 0; display: grid; grid-template-rows: auto minmax(0,1fr); gap: .5rem; }
++.s5-local-evidence-view .s5-evidence-panel { height: auto; min-height: 0; overflow: hidden; display: grid; grid-template-rows: auto minmax(0,1fr); }
++.s5-evidence-list { min-height: 0; overflow-y: auto; }
++.s5-evidence-panel { max-height: none; overflow: hidden; }
++.s5-back-to-decision { justify-self: start; }
+ .s5-evidence-compact { display: grid; gap: .18rem; }
+ .s5-evidence-detail { margin-top: .65rem; padding-top: .65rem; border-top: 1px solid var(--s5-border); color: #d6e2ec; }
+ .s5-evidence-card .s5-secondary-button { width: 100%; margin-top: .65rem; }
+ .s5-empty, .s5-readonly-note, .s5-availability-note, .s5-method-note { color: var(--s5-muted); line-height: 1.75; }
+ 
+-.s5-decision-panel, .s5-form-panel { margin-top: 1rem; }
+-.s5-action-grid { display: grid; grid-template-columns: repeat(4,minmax(0,1fr)); gap: .75rem; }
+-.s5-action-card { position: relative; min-width: 0; min-height: 210px; padding: 1rem; border: 1px solid #3b5a72; border-radius: 11px; color: var(--s5-text); text-align: right; background: rgba(5,16,29,.75); cursor: pointer; }
++.s5-decision-panel, .s5-form-panel { margin-top: 0; min-height: 0; overflow: hidden; }
++.s5-decision-panel { display: flex; flex-direction: column; }
++.s5-action-grid { display: grid; grid-template-columns: repeat(2,minmax(0,1fr)); gap: .48rem; }
++.s5-action-card { position: relative; display: flex; flex-direction: column; min-width: 0; min-height: 0; padding: .58rem; border: 1px solid #3b5a72; border-radius: 9px; color: var(--s5-text); text-align: right; background: rgba(5,16,29,.75); cursor: pointer; }
+ .s5-action-card:hover { border-color: var(--s5-accent); }
+ .s5-action-card[aria-pressed="true"] { border: 3px solid var(--s5-accent-strong); background: linear-gradient(145deg,rgba(16,69,91,.85),rgba(8,29,45,.96)); }
+-.s5-action-card h3 { margin-bottom: .55rem; }
+-.s5-action-card p { color: #c6d5e1; line-height: 1.6; }
+-.s5-action-state { display: block; min-height: 1.4rem; color: var(--s5-accent-strong); font-weight: 900; }
+-.s5-known-effect { padding-top: .55rem; border-top: 1px solid rgba(85,119,145,.45); }
++.s5-action-card h3 { margin: .18rem 0; font-size: .86rem; }
++.s5-action-card p { display: -webkit-box; margin-bottom: .28rem; overflow: hidden; color: #c6d5e1; font-size: .7rem; line-height: 1.45; -webkit-box-orient: vertical; -webkit-line-clamp: 2; }
++.s5-action-card small { margin-top: .22rem; color: #c7d8e5; font-size: .62rem; }
++.s5-action-state { display: block; min-height: 1rem; color: var(--s5-accent-strong); font-size: .65rem; font-weight: 900; }
++.s5-known-effect { display: -webkit-box; padding-top: .3rem; overflow: hidden; border-top: 1px solid rgba(85,119,145,.45); font-size: .67rem; line-height: 1.4; -webkit-box-orient: vertical; -webkit-line-clamp: 2; }
+ .s5-action-metadata { display: flex; flex-wrap: wrap; gap: .35rem; margin-top: auto; color: var(--s5-muted); font-size: .78rem; }
+-.s5-target-picker { display: grid; gap: .45rem; max-width: 520px; margin: 1rem 0; font-weight: 800; }
+-.s5-target-picker select { width: 100%; min-height: 44px; padding: .55rem; border: 1px solid var(--s5-border); border-radius: 8px; color: var(--s5-text); background: #081827; }
+-.s5-fixed-target { padding: .65rem; border-right: 4px solid var(--s5-accent); background: rgba(73,199,229,.08); }
++.s5-action-metadata span { padding: .1rem .28rem; border-radius: 999px; background: rgba(73,199,229,.08); font-size: .62rem; }
++.s5-availability-note { margin: .3rem 0; font-size: .65rem; }
++.s5-target-picker { display: grid; gap: .25rem; margin: .35rem 0; font-size: .72rem; font-weight: 800; }
++.s5-target-picker select { width: 100%; min-height: 36px; padding: .35rem; border: 1px solid var(--s5-border); border-radius: 8px; color: var(--s5-text); background: #081827; }
++.s5-fixed-target { margin: .35rem 0; padding: .4rem; border-right: 4px solid var(--s5-accent); background: rgba(73,199,229,.08); font-size: .7rem; }
++.s5-decision-actions { display: flex; gap: .45rem; margin-top: auto; }
++.s5-decision-actions > button { flex: 1 1 0; }
+ 
+ .s5-form-panel form, .s5-reason-options { display: grid; gap: .65rem; }
+ .s5-form-panel label, .s5-reason { display: flex; align-items: start; gap: .65rem; padding: .75rem; border: 1px solid var(--s5-border); border-radius: 9px; background: rgba(5,16,29,.68); }
+@@ -97,9 +155,18 @@
+ .s5-form-panel input, .s5-reason input { flex: 0 0 auto; margin-top: .2rem; accent-color: var(--s5-accent); }
+ .s5-form-panel form > .s5-primary-button { justify-self: start; margin-top: .35rem; }
+ .s5-confirmed-choice { padding: .75rem; border-right: 4px solid var(--s5-accent); background: rgba(73,199,229,.08); }
+-
+-.s5-modal-layer { position: fixed; z-index: 1000; inset: 0; display: grid; place-items: center; padding: 1rem; overflow-y: auto; background: rgba(1,7,13,.84); backdrop-filter: blur(5px); }
+-.s5-outcome-modal { width: min(100%,720px); max-height: calc(100vh - 2rem); padding: clamp(1rem,3vw,1.5rem); overflow-y: auto; }
++.s5-control-pane .s5-form-panel { height: 100%; padding: .72rem; }
++.s5-control-pane .s5-form-panel > h2 { margin-bottom: .25rem; }
++.s5-control-pane .s5-form-panel > p { margin-bottom: .45rem; font-size: .72rem; line-height: 1.55; }
++.s5-control-pane .s5-form-panel label.s5-belief-field { padding: .5rem; grid-template-columns: minmax(0,1fr) minmax(120px,160px); font-size: .73rem; }
++.s5-control-pane .s5-belief-select { min-width: 0; }
++.s5-control-pane .s5-reason-options { gap: .35rem; }
++.s5-control-pane .s5-reason-options label { padding: .43rem; font-size: .72rem; }
++.s5-control-pane .s5-confirmed-choice { display: grid; padding: .5rem; font-size: .72rem; }
++.s5-transition-note { display: grid; place-content: center; text-align: center; }
++
++.s5-modal-layer { position: absolute; z-index: 1000; inset: 0; display: grid; place-items: center; padding: 1rem; overflow: hidden; background: rgba(1,7,13,.76); backdrop-filter: blur(4px); }
++.s5-outcome-modal { width: min(100%,720px); max-height: calc(100% - 2rem); padding: clamp(1rem,3vw,1.5rem); overflow-y: auto; }
+ .s5-outcome-list { margin: 1rem 0; }
+ .s5-outcome-list article { display: grid; gap: .18rem; }
+ 
+@@ -119,9 +186,27 @@
+ .s5-method-note { padding: .8rem; border: 1px dashed var(--s5-border); border-radius: 9px; background: rgba(5,16,29,.45); }
+ .s5-finish-button { justify-self: start; }
+ 
++@keyframes s5-route-flow { to { stroke-dashoffset: -60; } }
++@keyframes s5-route-global-pulse { 0%,100% { opacity: .66; } 45% { opacity: 1; stroke: var(--s5-accent); } }
++@keyframes s5-endpoint-pulse { 50% { r: 10px; opacity: .55; } }
++@keyframes s5-compromised-pulse { 50% { stroke-width: 8; opacity: .45; } }
++@keyframes s5-state-change { 0% { filter: drop-shadow(0 0 0 rgba(125,229,245,0)); } 35% { filter: drop-shadow(0 0 13px rgba(125,229,245,1)); } 100% { filter: drop-shadow(0 0 0 rgba(125,229,245,0)); } }
++
+ @media (max-width: 1024px) {
+   .s5-main-grid { grid-template-columns: minmax(0,1.45fr) minmax(280px,.8fr); }
+   .s5-action-grid { grid-template-columns: repeat(2,minmax(0,1fr)); }
++  .s5-command-chip { min-width: 58px; }
++}
++
++@media (max-width: 899px) {
++  .s5-briefing { height: auto; min-height: calc(100dvh - 20px); overflow: visible; }
++  .s5-briefing-card { max-height: none; overflow: visible; }
++  .s5-live-shell { height: auto; min-height: calc(100dvh - 20px); overflow: visible; }
++  .s5-command-bar { grid-template-columns: minmax(0,1fr) auto; }
++  .s5-command-resources { grid-column: 1 / -1; flex-wrap: wrap; }
++  .s5-workspace { grid-template-columns: minmax(0,1fr); grid-template-areas: "map" "controls"; overflow: visible; }
++  .s5-control-pane, .s5-map-pane { overflow: visible; }
++  .s5-map-pane > .s5-map-panel { height: min(680px,80dvh); }
+ }
+ 
+ @media (max-width: 768px) {
+@@ -132,6 +217,7 @@
+ }
+ 
+ @media (max-width: 600px) {
++  .s5-briefing-card ul { grid-template-columns: minmax(0,1fr); }
+   .s5-form-panel label.s5-belief-field { grid-template-columns: minmax(0,1fr); }
+   .s5-belief-control, .s5-belief-select, .s5-form-panel input.s5-belief-number { width: 100%; min-width: 0; max-width: none; }
+   .s5-form-panel input.s5-belief-number { flex-basis: auto; }
+diff --git a/src/ui/components/scenario/ScenarioFiveMap.tsx b/src/ui/components/scenario/ScenarioFiveMap.tsx
+index 072cbe3505b08546005e49c4d43ed6e7460f4340..0924218f959616c9eeafcceaa31ae6949952caa0 100644
+--- a/src/ui/components/scenario/ScenarioFiveMap.tsx
++++ b/src/ui/components/scenario/ScenarioFiveMap.tsx
+@@ -1,13 +1,11 @@
++import { useEffect, useRef, useState } from "react";
+ import type { CorridorId } from "./scenario-five/model/index";
+ import type { ScenarioFivePlayerConvoy } from "./ScenarioFiveTypes";
+ import { SCENARIO5_CORRIDOR_CONTENT_FA, SCENARIO5_STATUS_LABELS_FA } from "./scenario-five/ui/index";
+ 
+ const POINTS = {
+-  tehran: { x: 428, y: 200 },
+-  mashhad: { x: 612, y: 175 },
+-  bandar: { x: 541, y: 462 },
+-  tabriz: { x: 289, y: 102 },
+-  west: { x: 244, y: 246 },
++  tehran: { x: 428, y: 200 }, mashhad: { x: 612, y: 175 }, bandar: { x: 541, y: 462 },
++  tabriz: { x: 289, y: 102 }, west: { x: 244, y: 246 },
+ } as const;
+ 
+ const ROUTES: Readonly<Record<CorridorId, { from: { x: number; y: number }; to: { x: number; y: number } }>> = {
+@@ -17,70 +15,115 @@ const ROUTES: Readonly<Record<CorridorId, { from: { x: number; y: number }; to:
+   corridor_delta_west: { from: POINTS.tehran, to: POINTS.west },
+ };
+ 
+-const convoyPoint = (convoy: ScenarioFivePlayerConvoy) => {
+-  const route = ROUTES[convoy.corridorId];
+-  const ratio = convoy.status === "delivered" ? 1 : convoy.status === "held" ? 0.45 : 0.58;
+-  return {
+-    x: route.from.x + (route.to.x - route.from.x) * ratio,
+-    y: route.from.y + (route.to.y - route.from.y) * ratio,
+-  };
+-};
++const clamp = (value: number, minimum: number, maximum: number): number => Math.min(maximum, Math.max(minimum, value));
++const desiredVisualProgress = (convoy: ScenarioFivePlayerConvoy, worldClockMinutes: number): number =>
++  convoy.status === "delivered" ? 1 : clamp(worldClockMinutes / Math.max(convoy.projectedArrivalMinute, 1), 0, .97);
++
++const convoySignature = (convoy: ScenarioFivePlayerConvoy): string => JSON.stringify({
++  status: convoy.status, integrity: convoy.integrity, delayMinutes: convoy.delayMinutes,
++  fallbackNav: convoy.fallbackNav, routeHardened: convoy.routeHardened,
++  groundSupport: convoy.groundSupport, escortedNow: convoy.escortedNow,
++});
+ 
+ export const ScenarioFiveMap = ({
+-  convoys,
+-  highlightedCorridorId,
++  convoys, worldClockMinutes, highlightedCorridorId, globalRoutePulse,
+ }: {
+   convoys: readonly ScenarioFivePlayerConvoy[];
++  worldClockMinutes: number;
+   highlightedCorridorId: CorridorId | null;
+-}) => (
+-  <section className="s5-panel s5-map-panel" aria-labelledby="s5-map-title">
+-    <div className="s5-section-heading">
+-      <div><span>نمای عملیاتی</span><h3 id="s5-map-title">شبکه چهار کریدور</h3></div>
+-      {highlightedCorridorId && <b>شاهد بازشده: {SCENARIO5_CORRIDOR_CONTENT_FA[highlightedCorridorId].corridorLabel}</b>}
+-    </div>
+-    <div className="s5-map-frame">
+-      <svg viewBox="130 34 720 540" role="img" aria-label="نقشه عملیاتی چهار کریدور سناریو پنج">
+-        <image href="/vendor/iranmap/iranmap.svg" x="130" y="34" width="720" height="540" preserveAspectRatio="xMidYMid meet" className="s5-iran-base-image" />
+-        {(Object.keys(ROUTES) as CorridorId[]).map((corridorId) => {
+-          const route = ROUTES[corridorId];
+-          const convoy = convoys.find((item) => item.corridorId === corridorId)!;
+-          return <line key={corridorId} x1={route.from.x} y1={route.from.y} x2={route.to.x} y2={route.to.y} className={`s5-route s5-status-${convoy.status} ${highlightedCorridorId === corridorId ? "s5-highlighted" : ""}`} />;
+-        })}
++  globalRoutePulse: boolean;
++}) => {
++  const previousVisualProgressRef = useRef(new Map(convoys.map((convoy) => [convoy.convoyId, desiredVisualProgress(convoy, worldClockMinutes)])));
++  const previousSignatureRef = useRef(new Map(convoys.map((convoy) => [convoy.convoyId, convoySignature(convoy)])));
++  const [visualProgress, setVisualProgress] = useState(() => Object.fromEntries(previousVisualProgressRef.current));
++  const [pulsingConvoys, setPulsingConvoys] = useState<ReadonlySet<string>>(new Set());
++
++  useEffect(() => {
++    const nextProgress: Record<string, number> = {};
++    for (const convoy of convoys) {
++      const previousVisual = previousVisualProgressRef.current.get(convoy.convoyId) ?? 0;
++      const desired = desiredVisualProgress(convoy, worldClockMinutes);
++      const visual = convoy.status === "delivered" ? 1
++        : convoy.status === "held" ? previousVisual
++        : Math.max(previousVisual, desired);
++      previousVisualProgressRef.current.set(convoy.convoyId, visual);
++      nextProgress[convoy.convoyId] = visual;
++    }
++    setVisualProgress(nextProgress);
++  }, [convoys, worldClockMinutes]);
++
++  useEffect(() => {
++    const changed = new Set<string>();
++    for (const convoy of convoys) {
++      const signature = convoySignature(convoy);
++      if (previousSignatureRef.current.get(convoy.convoyId) !== signature) changed.add(convoy.convoyId);
++      previousSignatureRef.current.set(convoy.convoyId, signature);
++    }
++    if (changed.size === 0) return;
++    setPulsingConvoys(changed);
++    const timer = window.setTimeout(() => setPulsingConvoys(new Set()), 1500);
++    return () => window.clearTimeout(timer);
++  }, [convoys]);
++
++  return (
++    <section className="s5-panel s5-map-panel" aria-labelledby="s5-map-title">
++      <div className="s5-section-heading s5-map-heading">
++        <div><span>نمای عملیاتی</span><h3 id="s5-map-title">شبکه چهار کریدور</h3></div>
++        <b>T+{worldClockMinutes}</b>
++      </div>
++      <div className="s5-map-frame">
++        <svg viewBox="130 34 720 540" role="img" aria-label="نقشه عملیاتی چهار کریدور سناریو پنج">
++          <image href="/vendor/iranmap/iranmap.svg" x="130" y="34" width="720" height="540" preserveAspectRatio="xMidYMid meet" className="s5-iran-base-image" />
++          {(Object.keys(ROUTES) as CorridorId[]).map((corridorId) => {
++            const route = ROUTES[corridorId];
++            const convoy = convoys.find((item) => item.corridorId === corridorId)!;
++            const highlighted = highlightedCorridorId === corridorId;
++            return <g key={corridorId}>
++              <line x1={route.from.x} y1={route.from.y} x2={route.to.x} y2={route.to.y} className={`s5-route s5-status-${convoy.status} ${highlighted ? "s5-highlighted" : ""} ${globalRoutePulse ? "s5-global-pulse" : ""}`} />
++              <circle cx={route.from.x} cy={route.from.y} r="5" className={`s5-route-endpoint ${highlighted ? "s5-highlighted" : ""}`} />
++              <circle cx={route.to.x} cy={route.to.y} r="5" className={`s5-route-endpoint ${highlighted ? "s5-highlighted" : ""}`} />
++            </g>;
++          })}
++          {convoys.map((convoy) => {
++            const route = ROUTES[convoy.corridorId];
++            const progress = visualProgress[convoy.convoyId] ?? 0;
++            const point = { x: route.from.x + (route.to.x - route.from.x) * progress, y: route.from.y + (route.to.y - route.from.y) * progress };
++            const letter = SCENARIO5_CORRIDOR_CONTENT_FA[convoy.corridorId].convoyLabel.replace("کاروان ", "");
++            return <g
++              key={convoy.convoyId}
++              data-convoy-id={convoy.convoyId}
++              data-visual-progress={progress}
++              style={{ transform: `translate(${point.x}px, ${point.y}px)` }}
++              className={`s5-convoy-marker s5-status-${convoy.status} ${highlightedCorridorId === convoy.corridorId ? "s5-highlighted" : ""} ${pulsingConvoys.has(convoy.convoyId) ? "s5-state-changed" : ""}`}
++            >
++              {(convoy.status === "compromised" || highlightedCorridorId === convoy.corridorId) && <circle className="s5-marker-ring" r="29" />}
++              {convoy.status === "delivered" && <circle className="s5-completion-ring" r="27" />}
++              <g className="s5-truck" aria-label={`نشانگر کامیون ${letter}`}>
++                <rect className="s5-truck-body" x="-21" y="-10" width="27" height="18" rx="3" />
++                <path className="s5-truck-cabin" d="M6 -7 H15 L21 0 V8 H6 Z" />
++                <rect className="s5-truck-window" x="9" y="-4" width="6" height="5" rx="1" />
++                <circle className="s5-truck-wheel" cx="-13" cy="10" r="4" />
++                <circle className="s5-truck-wheel" cx="14" cy="10" r="4" />
++                <text className="s5-truck-letter" textAnchor="middle" x="-7" y="4">{letter}</text>
++              </g>
++              {convoy.status === "held" && <text className="s5-marker-badge" textAnchor="middle" y="-22">Ⅱ</text>}
++              {convoy.status === "delivered" && <text className="s5-marker-check" textAnchor="middle" x="24" y="-17">✓</text>}
++            </g>;
++          })}
++        </svg>
++      </div>
++      <div className="s5-convoy-strip">
+         {convoys.map((convoy) => {
+-          const point = convoyPoint(convoy);
+-          return (
+-            <g key={convoy.convoyId} transform={`translate(${point.x} ${point.y})`} className={`s5-convoy-marker s5-status-${convoy.status} ${highlightedCorridorId === convoy.corridorId ? "s5-highlighted" : ""}`}>
+-              <circle r="15" />
+-              <text textAnchor="middle" dy="5">{SCENARIO5_CORRIDOR_CONTENT_FA[convoy.corridorId].convoyLabel.replace("کاروان ", "")}</text>
+-            </g>
+-          );
+-        })}
+-      </svg>
+-    </div>
+-    <div className="s5-convoy-grid">
+-      {convoys.map((convoy) => {
+-        const content = SCENARIO5_CORRIDOR_CONTENT_FA[convoy.corridorId];
+-        const badges = [
+-          convoy.fallbackNav ? "ناوبری پشتیبان" : null,
+-          convoy.routeHardened ? "مسیر سخت‌سازی‌شده" : null,
+-          convoy.groundSupport ? "پشتیبانی زمینی" : null,
+-          convoy.escortedNow ? "اسکورت فعال" : null,
+-        ].filter((item): item is string => item !== null);
+-        return (
+-          <article key={convoy.convoyId} className={`s5-convoy-card s5-status-${convoy.status}`}>
++          const content = SCENARIO5_CORRIDOR_CONTENT_FA[convoy.corridorId];
++          const mitigations = [convoy.fallbackNav ? "NAV" : null, convoy.routeHardened ? "H" : null, convoy.groundSupport ? "G" : null, convoy.escortedNow ? "E" : null].filter((item): item is string => item !== null);
++          return <article key={convoy.convoyId} className={`s5-convoy-mini s5-status-${convoy.status}`}>
+             <header><strong>{content.convoyLabel}</strong><span>{SCENARIO5_STATUS_LABELS_FA[convoy.status]}</span></header>
+-            <p>{content.cargoLabel}</p>
+-            <p>{content.routeLabel} · {content.corridorLabel}</p>
+-            <dl>
+-              <div><dt>یکپارچگی</dt><dd>{convoy.integrity}</dd></div>
+-              <div><dt>تأخیر</dt><dd>{convoy.delayMinutes} دقیقه</dd></div>
+-              <div><dt>ورود برآوردی</dt><dd>T+{convoy.projectedArrivalMinute}</dd></div>
+-              <div><dt>مهلت</dt><dd>T+{convoy.deadlineMinute}</dd></div>
+-            </dl>
+-            {badges.length > 0 && <div className="s5-badges">{badges.map((badge) => <span key={badge}>{badge}</span>)}</div>}
+-          </article>
+-        );
+-      })}
+-    </div>
+-  </section>
+-);
++            <div><span>یکپارچگی {convoy.integrity}</span><span>تأخیر {convoy.delayMinutes}′</span></div>
++            <small>ETA T+{convoy.projectedArrivalMinute} / D T+{convoy.deadlineMinute}</small>
++            {mitigations.length > 0 && <div className="s5-mini-badges">{mitigations.map((item) => <b key={item}>{item}</b>)}</div>}
++          </article>;
++        })}
++      </div>
++    </section>
++  );
++};
+diff --git a/src/ui/components/scenario/ScenarioFiveResourcePanel.tsx b/src/ui/components/scenario/ScenarioFiveResourcePanel.tsx
+index a4858b72e4227f0d1cc53fa9ddda90b46a4ef39e..c14525b32c51682e4373068920dfaf429d84e60d 100644
+--- a/src/ui/components/scenario/ScenarioFiveResourcePanel.tsx
++++ b/src/ui/components/scenario/ScenarioFiveResourcePanel.tsx
+@@ -7,17 +7,13 @@ export const ScenarioFiveResourcePanel = ({
+ }) => {
+   const remaining = Math.max(0, resources.missionHorizonMinutes - resources.worldClockMinutes);
+   return (
+-    <aside className="s5-panel s5-resource-panel" aria-label="منابع مأموریت">
+-      <h3>منابع و زمان مأموریت</h3>
+-      <div className="s5-resource-grid">
+-        <div><span>ظرفیت ISR</span><strong>{resources.isrCapacity} / 100</strong></div>
+-        <div><span>ذخیره پشتیبانی</span><strong>{resources.supportReserve} / 100</strong></div>
+-        <div><span>زمان عملیاتی</span><strong>T+{resources.worldClockMinutes} دقیقه</strong></div>
+-        <div><span>افق مأموریت</span><strong>360 دقیقه</strong></div>
+-        <div><span>زمان باقی‌مانده</span><strong>{remaining} دقیقه</strong></div>
+-      </div>
++    <aside className="s5-command-resources" aria-label="منابع مأموریت">
++      <div className="s5-command-chip"><span>ISR</span><strong>{resources.isrCapacity}</strong></div>
++      <div className="s5-command-chip"><span>پشتیبانی</span><strong>{resources.supportReserve}</strong></div>
++      <div className="s5-command-chip"><span>زمان</span><strong>T+{resources.worldClockMinutes}</strong></div>
++      <div className="s5-command-chip"><span>باقی‌مانده</span><strong>{remaining}′</strong></div>
+       {(resources.isrCapacity <= 20 || resources.supportReserve <= 20) && (
+-        <p className="s5-operational-warning">هشدار عملیاتی: یکی از ذخایر مأموریت به سطح محدود رسیده است.</p>
++        <span className="s5-operational-warning" title="یکی از ذخایر مأموریت به سطح محدود رسیده است">!</span>
+       )}
+     </aside>
+   );
+diff --git a/src/ui/components/scenario/ScenarioFiveSimulation.tsx b/src/ui/components/scenario/ScenarioFiveSimulation.tsx
+index e470b029fedd411139ade8d033f75889167ac9f5..e7d9724dae5ea12ccb08e44c3b8c010735ae1f30 100644
+--- a/src/ui/components/scenario/ScenarioFiveSimulation.tsx
++++ b/src/ui/components/scenario/ScenarioFiveSimulation.tsx
+@@ -76,6 +76,7 @@ export const ScenarioFiveSimulation = ({
+   const [result, setResult] = useState<Scenario5RuntimeResult | null>(null);
+   const [selectedTarget, setSelectedTarget] = useState<CorridorId | null>(null);
+   const [expandedEvidenceIds, setExpandedEvidenceIds] = useState<Set<string>>(new Set());
++  const [evidenceViewOpen, setEvidenceViewOpen] = useState(false);
+   const hiddenTimingRef = useRef<HiddenTabTimingState>(resetHiddenTabTiming());
+   const completionLoggedRunRef = useRef<string | null>(null);
+ 
+@@ -93,12 +94,17 @@ export const ScenarioFiveSimulation = ({
+   const selectedActionId = runtime?.currentSelectionHistory.at(-1)?.actionId ?? null;
+   const selectedAction = selectedActionId ? getMissionAction(selectedActionId) : null;
+   const targetOptions = runtime ? getScenario5TargetOptions(runtime) : [];
+-  const highlightedCorridorId = view?.visibleEvidence.find(
++  const evidenceHighlightedCorridorId = view?.visibleEvidence.find(
+     (evidence) => expandedEvidenceIds.has(evidence.evidenceId),
+   )?.observedCorridorId ?? null;
++  const highlightedCorridorId = selectedTarget
++    ?? (selectedAction?.target === "fixed_alpha" ? "corridor_alpha_east" : null)
++    ?? evidenceHighlightedCorridorId;
++  const globalRoutePulse = selectedAction?.target === "none";
+ 
+   useEffect(() => {
+     setExpandedEvidenceIds(new Set());
++    setEvidenceViewOpen(false);
+   }, [runtime?.stage.stageId]);
+ 
+   useEffect(() => {
+@@ -140,6 +146,7 @@ export const ScenarioFiveSimulation = ({
+     setResult(null);
+     setSelectedTarget(null);
+     setExpandedEvidenceIds(new Set());
++    setEvidenceViewOpen(false);
+     setRuntime(next);
+     log("s5_v3_run_started", buildRunStartedLogDetail(next));
+   };
+@@ -188,6 +195,7 @@ export const ScenarioFiveSimulation = ({
+     setRuntime(next);
+     setSelectedTarget(null);
+     setExpandedEvidenceIds(new Set());
++    setEvidenceViewOpen(false);
+     for (const closed of autoClosedEvidence) {
+       log("s5_v3_evidence_closed", buildEvidenceLogDetail(next, closed.evidenceId, closed.activeDwellMs));
+     }
+@@ -252,49 +260,67 @@ export const ScenarioFiveSimulation = ({
+   } : null;
+ 
+   return (
+-    <main className="s5-root" dir="rtl">
+-      <header className="s5-mission-header">
+-        <div><span>امواج خاموش — فرماندهی لجستیک در اختلال PNT</span>
++    <main className="s5-root s5-live-shell" dir="rtl">
++      <header className="s5-command-bar">
++        <div className="s5-command-identity"><span>امواج خاموش</span>
+           <h1>{view.phaseId ? `فاز ${view.phaseId}: ${SCENARIO5_PHASE_CONTENT_FA[view.phaseId]}` : "گذار مأموریت"}</h1>
+           {view.roundId && <p>راند {view.roundId}: {SCENARIO5_ROUND_CONTENT_FA[view.roundId].title}</p>}
+         </div>
+         <span className="s5-stage-chip">{getScenario5PlayerStageLabel(view.stageId)}</span>
++        <ScenarioFiveResourcePanel resources={view.resources} />
+       </header>
+ 
+-      <ScenarioFiveResourcePanel resources={view.resources} />
+-      <div className="s5-main-grid">
+-        <ScenarioFiveMap convoys={view.convoys} highlightedCorridorId={highlightedCorridorId} />
+-        <ScenarioFiveEvidencePanel
+-          evidence={view.visibleEvidence}
+-          interactive={isDecisionStage(runtime.stage.stageId)}
+-          expandedEvidenceIds={expandedEvidenceIds}
+-          onOpen={openEvidence}
+-          onClose={closeEvidence}
+-        />
+-      </div>
++      <div className="s5-workspace">
++        <section className="s5-control-pane" aria-label="پنل تعامل مأموریت">
++          {isDecisionStage(runtime.stage.stageId) && view.roundId && (evidenceViewOpen ? (
++            <div className="s5-local-evidence-view">
++              <button type="button" className="s5-secondary-button s5-back-to-decision" onClick={() => setEvidenceViewOpen(false)}>بازگشت به تصمیم</button>
++              <ScenarioFiveEvidencePanel
++                evidence={view.visibleEvidence}
++                interactive
++                expandedEvidenceIds={expandedEvidenceIds}
++                onOpen={openEvidence}
++                onClose={closeEvidence}
++              />
++            </div>
++          ) : (
++            <section className="s5-panel s5-decision-panel">
++              <div className="s5-section-heading"><div><span>راند {view.roundId} · پنجره تصمیم</span><h2>{SCENARIO5_ROUND_CONTENT_FA[view.roundId].problem}</h2></div></div>
++              <div className="s5-action-grid">{view.availableActionIds.map((actionId) => (
++                <ScenarioFiveActionCard key={actionId} actionId={actionId} selected={selectedActionId === actionId} onSelect={() => selectAction(actionId)} />
++              ))}</div>
++              <p className="s5-availability-note">گزینه‌ها بر اساس منابع و وضعیت قابل مشاهده فعلی‌اند.</p>
++              {selectedAction?.target === "required" && (
++                <label className="s5-target-picker">انتخاب کریدور هدف
++                  <select value={selectedTarget ?? ""} onChange={(event) => setSelectedTarget((event.target.value || null) as CorridorId | null)}>
++                    <option value="" disabled>هیچ هدفی از پیش انتخاب نشده است</option>
++                    {targetOptions.map((corridorId) => <option key={corridorId} value={corridorId}>{SCENARIO5_CORRIDOR_CONTENT_FA[corridorId].targetLabel}{view.convoys.find((convoy) => convoy.corridorId === corridorId)?.status === "compromised" ? ` — ${SCENARIO5_STATUS_LABELS_FA.compromised}` : ""}</option>)}
++                  </select>
++                </label>
++              )}
++              {selectedAction?.target === "fixed_alpha" && <p className="s5-fixed-target">هدف ثابت: کریدور شرقی / کاروان الف</p>}
++              <div className="s5-decision-actions">
++                <button type="button" className="s5-primary-button" disabled={!selectedActionId || (selectedAction?.target === "required" && !selectedTarget)} onClick={confirmDecision}>تأیید تصمیم</button>
++                <button type="button" className="s5-secondary-button s5-evidence-access" onClick={() => setEvidenceViewOpen(true)}>شواهد موجود ({view.visibleEvidence.length})</button>
++              </div>
++            </section>
++          ))}
+ 
+-      {isDecisionStage(runtime.stage.stageId) && view.roundId && (
+-        <section className="s5-panel s5-decision-panel">
+-          <div className="s5-section-heading"><div><span>پنجره تصمیم</span><h2>{SCENARIO5_ROUND_CONTENT_FA[view.roundId].problem}</h2></div></div>
+-          <div className="s5-action-grid">{view.availableActionIds.map((actionId) => (
+-            <ScenarioFiveActionCard key={actionId} actionId={actionId} selected={selectedActionId === actionId} onSelect={() => selectAction(actionId)} />
+-          ))}</div>
+-          <p className="s5-availability-note">گزینه‌های قابل اجرا بر اساس منابع و وضعیت فعلی نمایش داده شده‌اند.</p>
+-          {selectedAction?.target === "required" && (
+-            <label className="s5-target-picker">انتخاب کریدور هدف
+-              <select value={selectedTarget ?? ""} onChange={(event) => setSelectedTarget((event.target.value || null) as CorridorId | null)}>
+-                <option value="" disabled>هیچ هدفی از پیش انتخاب نشده است</option>
+-                {targetOptions.map((corridorId) => <option key={corridorId} value={corridorId}>{SCENARIO5_CORRIDOR_CONTENT_FA[corridorId].targetLabel}{view.convoys.find((convoy) => convoy.corridorId === corridorId)?.status === "compromised" ? ` — ${SCENARIO5_STATUS_LABELS_FA.compromised}` : ""}</option>)}
+-              </select>
+-            </label>
+-          )}
+-          {selectedAction?.target === "fixed_alpha" && <p className="s5-fixed-target">هدف ثابت: کریدور شرقی / کاروان الف</p>}
+-          <button type="button" className="s5-primary-button" disabled={!selectedActionId || (selectedAction?.target === "required" && !selectedTarget)} onClick={confirmDecision}>تأیید تصمیم</button>
++          {isBeliefStage(runtime.stage.stageId) && <ScenarioFiveBeliefPanel key={runtime.stage.stageId} onSubmit={submitBelief} />}
++          {isReasonStage(runtime.stage.stageId) && reasonContext && <ScenarioFiveReasonPanel key={runtime.stage.stageId} context={reasonContext} onSubmit={submitReason} />}
++          {runtime.stage.stageId === "outcome_review" && <div className="s5-panel s5-transition-note"><span>مرور پیامد</span><p>نقشه عملیاتی پس از تصمیم به‌روزرسانی شده است.</p></div>}
+         </section>
+-      )}
+ 
+-      {isBeliefStage(runtime.stage.stageId) && <ScenarioFiveBeliefPanel key={runtime.stage.stageId} onSubmit={submitBelief} />}
+-      {isReasonStage(runtime.stage.stageId) && reasonContext && <ScenarioFiveReasonPanel key={runtime.stage.stageId} context={reasonContext} onSubmit={submitReason} />}
++        <div className="s5-map-pane">
++          <ScenarioFiveMap
++            key={runtime.runId}
++            convoys={view.convoys}
++            worldClockMinutes={view.resources.worldClockMinutes}
++            highlightedCorridorId={highlightedCorridorId}
++            globalRoutePulse={globalRoutePulse}
++          />
++        </div>
++      </div>
+ 
+       {outcome && (
+         <section className="s5-modal-layer" role="dialog" aria-modal="true" aria-labelledby="s5-outcome-title">

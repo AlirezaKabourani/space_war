@@ -1,0 +1,1219 @@
+diff --git a/docs/scenario5-phase3-model-foundation-verification.md b/docs/scenario5-phase3-model-foundation-verification.md
+new file mode 100644
+index 0000000..194c156
+--- /dev/null
++++ b/docs/scenario5-phase3-model-foundation-verification.md
+@@ -0,0 +1,69 @@
++# 1. Completion summary
++
++The approved Scenario 5 Phase-3 model foundation was implemented as an isolated, dependency-free TypeScript module. The implementation contains the fixed 16-world catalog, deterministic seeded variants, separated player/Actor projections, structural evidence generation, the four approved Actor rule sets, and the ordered structural adjudication pipeline. It is not wired into Scenario 5 gameplay or UI.
++
++# 2. Files created
++
++- `src/ui/components/scenario/scenario-five/model/types.ts`
++- `src/ui/components/scenario/scenario-five/model/versions.ts`
++- `src/ui/components/scenario/scenario-five/model/seededRng.ts`
++- `src/ui/components/scenario/scenario-five/model/worldCatalog.ts`
++- `src/ui/components/scenario/scenario-five/model/worldFactory.ts`
++- `src/ui/components/scenario/scenario-five/model/projections.ts`
++- `src/ui/components/scenario/scenario-five/model/evidenceModel.ts`
++- `src/ui/components/scenario/scenario-five/model/actorModel.ts`
++- `src/ui/components/scenario/scenario-five/model/adjudicator.ts`
++- `src/ui/components/scenario/scenario-five/model/index.ts`
++- `scripts/verify-s5-phase3-model.ts`
++- `docs/scenario5-phase3-model-foundation-verification.md`
++- `docs/scenario5-phase3.patch`
++
++# 3. Frozen files verified unchanged
++
++SHA-256 hashes were recorded before implementation and recomputed afterward for 16 frozen files: six `ScenarioTwo*` files, seven existing `ScenarioFive*` source/UI files, and the three existing Scenario 4 Cognitive V3 engine/profile/type files. All 16 before/after hashes matched exactly. A path-restricted `git diff` over those files was empty. The two pre-existing untracked Phase-2 documents were not modified.
++
++# 4. World catalog verification
++
++Automated verification confirmed exactly 16 unique worlds in the required 4 × 4 Cartesian product. Each corridor and Actor profile occurs exactly four times; every world has an active Actor; all four corridors can be primary; the approved deceptive-decoy mapping is exact; and all non-deceptive worlds have a null decoy.
++
++# 5. RNG reproducibility verification
++
++Automated verification confirmed deterministic replay for equal world/seed input, bounded seeded selection of background noise and latency variants, and invariant world/corridor/profile identity across seeds. The explicit same-world/same-seed background-noise and latency assertion constructs the world twice and compares the two results, so it is non-tautological. Static inspection confirmed that the Phase-3 model folder contains no `Math.random` use.
++
++# 6. Player/Actor information-boundary verification
++
++Player projection tests confirmed omission of true primary corridor, Actor profile/objective, seed, internal risk budget, background-noise label, decoy label, and hidden evidence provenance. Actor projection tests confirmed omission of player belief, opened evidence, reason, hover/preview, selection, and cognitive/UI data. Static signature verification confirmed that `resolveActorReaction` consumes `ActorObservableState`, not `PlayerObservableState`.
++
++# 7. Evidence-rule verification
++
++Automated tests covered focused PNT analysis for primary, deceptive-decoy, background-noise, and nonhostile observations; all-corridor broad sweep without visible truth labels; delayed ground-liaison semantics for all four profiles; and required visible labels, limitations, source types, latency variants, hypotheses, and hidden audit provenance. The broad-sweep player-visible projection was explicitly checked for absence of all three hidden relation labels: `primary`, `decoy_linked`, and `background_noise`.
++
++# 8. Actor-rule verification
++
++Automated tests exercised CD-1 through CD-3, DD-1 through DD-3, OI-1 through OI-3, and PE-1 through PE-4 in their required precedence. Additional adjudication checks confirmed that risk budgets never become negative and Actor profile identity remains stable for all four profiles.
++
++# 9. Adjudication-order verification
++
++The full applicable pipeline was asserted in this order: `decision_confirmed`, `user_cost_registered`, `world_clock_advanced`, `world_transition_registered`, `player_visible_signal_derived`, `actor_visible_signal_derived`, `actor_reaction_resolved`, `conditional_inject_registered`, `evidence_generated`, `observable_state_updated`. All emitted events carry a cause ID, and identical normalized input replays to an identical result. Static verification found no mission-ending, convoy-damage, route-delay-minute, resource-cost, or cognitive-scoring logic in the adjudicator.
++
++# 10. Typecheck/build/test results with exact commands
++
++- `npx tsc -b` — PASS.
++- `npm run build` — PASS (`tsc -b && vite build`; Vite emitted only its existing informational chunk-size warning).
++- `npx tsx scripts/verify-s5-phase3-model.ts` — PASS, 86 assertions.
++- `git diff --check` — PASS.
++
++No standalone TypeScript test runner is configured in the repository, so the approved fallback verifier uses the already-installed `tsx` runner. No dependency or package script was added.
++
++# 11. Known intentional omissions for later phases
++
++- no gameplay/UI integration;
++- no numeric resource cost calibration;
++- no route-delay formula;
++- no end-state resolver;
++- no Cognitive V3 scoring/profile loadings;
++- no AAR UI.
++
++# 12. Statement: "No redesign decisions were made by Codex in Phase 3"
++
++No redesign decisions were made by Codex in Phase 3.
+diff --git a/scripts/verify-s5-phase3-model.ts b/scripts/verify-s5-phase3-model.ts
+new file mode 100644
+index 0000000..576439c
+--- /dev/null
++++ b/scripts/verify-s5-phase3-model.ts
+@@ -0,0 +1,204 @@
++import assert from "node:assert/strict";
++import { readFileSync, readdirSync } from "node:fs";
++import { fileURLToPath } from "node:url";
++import {
++  CANONICAL_ACTOR_PROFILES,
++  CANONICAL_CORRIDORS,
++  WORLD_CATALOG,
++  adjudicateModelStep,
++  createInitialTrueWorldState,
++  materializeEvidence,
++  projectActorObservableState,
++  projectPlayerObservableState,
++  resolveActorReaction,
++} from "../src/ui/components/scenario/scenario-five/model/index.ts";
++import type {
++  ActorProfileId,
++  ActorVisibleSignals,
++  EvidenceRequest,
++  TrueWorldState,
++  WorldId,
++} from "../src/ui/components/scenario/scenario-five/model/index.ts";
++
++let checks = 0;
++const check = (condition: unknown, message: string): void => {
++  assert.ok(condition, message);
++  checks += 1;
++};
++const equal = (actual: unknown, expected: unknown, message: string): void => {
++  assert.deepEqual(actual, expected, message);
++  checks += 1;
++};
++
++const worldId = (profile: ActorProfileId, corridor = "corridor_alpha_east"): WorldId =>
++  `W-${corridor}-${profile}` as WorldId;
++const stateFor = (profile: ActorProfileId, seed = 42): TrueWorldState => createInitialTrueWorldState(worldId(profile), seed);
++const signals = (patch: Partial<ActorVisibleSignals> = {}): ActorVisibleSignals => ({
++  routeHardened: false,
++  groundReconVisible: false,
++  fallbackActivated: false,
++  priorityConvoyConcentration: false,
++  networkCoverageWeak: false,
++  containmentVisible: false,
++  executedResponseIntensity: "low",
++  leastProtectedCorridorId: null,
++  visibleRerouteCorridorIds: [],
++  ...patch,
++});
++const observable = (state: TrueWorldState, patch: Partial<ActorVisibleSignals> = {}) =>
++  projectActorObservableState(state, signals(patch), []);
++
++// World catalog (1-8)
++equal(WORLD_CATALOG.length, 16, "catalog must contain 16 worlds");
++equal(new Set(WORLD_CATALOG.map(({ worldId: id }) => id)).size, 16, "world IDs must be unique");
++for (const { corridorId } of CANONICAL_CORRIDORS) {
++  equal(WORLD_CATALOG.filter((world) => world.primaryAffectedCorridorId === corridorId).length, 4, `${corridorId} count`);
++}
++for (const { profileId } of CANONICAL_ACTOR_PROFILES) {
++  equal(WORLD_CATALOG.filter((world) => world.actorProfileId === profileId).length, 4, `${profileId} count`);
++}
++check(WORLD_CATALOG.every(({ hasActiveActor }) => hasActiveActor), "all worlds must have an actor");
++check(new Set(WORLD_CATALOG.map(({ primaryAffectedCorridorId }) => primaryAffectedCorridorId)).size === 4, "alpha must not be universal");
++const decoys = {
++  corridor_alpha_east: "corridor_gamma_northwest",
++  corridor_beta_south: "corridor_delta_west",
++  corridor_gamma_northwest: "corridor_alpha_east",
++  corridor_delta_west: "corridor_beta_south",
++};
++for (const world of WORLD_CATALOG.filter(({ actorProfileId }) => actorProfileId === "deceptive_diversion")) {
++  equal(world.initialDecoyCorridorId, decoys[world.primaryAffectedCorridorId], "approved decoy mapping");
++}
++check(WORLD_CATALOG.filter(({ actorProfileId }) => actorProfileId !== "deceptive_diversion").every(({ initialDecoyCorridorId }) => initialDecoyCorridorId === null), "non-deceptive decoys must be null");
++
++// Seed reproducibility (9-12)
++equal(stateFor("deceptive_diversion", 88), stateFor("deceptive_diversion", 88), "same world and seed must reproduce");
++const sameSeedA = stateFor("cautious_denial", 99);
++const sameSeedB = stateFor("cautious_denial", 99);
++equal(
++  [sameSeedA.backgroundNoiseCorridorId, sameSeedA.latencyVariant],
++  [sameSeedB.backgroundNoiseCorridorId, sameSeedB.latencyVariant],
++  "same world and seed variants reproduce",
++);
++const differentSeed = stateFor("cautious_denial", 100);
++equal(
++  [differentSeed.worldId, differentSeed.primaryAffectedCorridorId, differentSeed.actorProfileId],
++  [sameSeedA.worldId, sameSeedA.primaryAffectedCorridorId, sameSeedA.actorProfileId],
++  "seed must not alter identity",
++);
++const otherWorldSameSeed = createInitialTrueWorldState(worldId("cautious_denial", "corridor_beta_south"), 99);
++check(otherWorldSameSeed.worldId !== sameSeedA.worldId, "world identity comes from worldId, not seed");
++const modelDirectory = fileURLToPath(new URL("../src/ui/components/scenario/scenario-five/model/", import.meta.url));
++for (const file of readdirSync(modelDirectory).filter((name) => name.endsWith(".ts"))) {
++  check(!/Math\.random/.test(readFileSync(`${modelDirectory}/${file}`, "utf8")), `${file} must not use Math.random`);
++}
++
++// Information boundaries (13-15)
++const hiddenState = stateFor("deceptive_diversion");
++const focused = materializeEvidence(hiddenState, { requestId: "focused", requestKind: "focused_pnt_analysis", targetCorridorId: hiddenState.primaryAffectedCorridorId });
++const player = projectPlayerObservableState(hiddenState, focused, []);
++const playerJson = JSON.stringify(player);
++for (const forbidden of ["primaryAffectedCorridorId", "actorProfileId", "actorObjective", "seed", "riskBudget", "hiddenProvenance", "backgroundNoiseCorridorId", "decoyCorridorId"]) {
++  check(!playerJson.includes(forbidden), `player projection must omit ${forbidden}`);
++}
++const actor = projectActorObservableState(hiddenState, signals(), []);
++const actorJson = JSON.stringify(actor);
++for (const forbidden of ["belief", "evidence", "selectedReasonId", "hover", "preview", "selectionId"]) {
++  check(!actorJson.includes(forbidden), `actor projection must omit ${forbidden}`);
++}
++const actorSource = readFileSync(`${modelDirectory}/actorModel.ts`, "utf8");
++check(actorSource.includes("observable: ActorObservableState") && !actorSource.includes("PlayerObservableState"), "actor API boundary must be typed to actor observables only");
++
++// Evidence rules (16-21)
++equal([focused[0]?.direction, focused[0]?.strengthBand], ["supports_targeted", "moderate"], "focused primary semantics");
++check(!JSON.stringify(player.visibleEvidence).includes("primary"), "visible focused evidence must not reveal primary label");
++const decoy = hiddenState.actorInternalState.decoyCorridorId;
++assert.ok(decoy);
++const decoyEvidence = materializeEvidence(hiddenState, { requestId: "decoy", requestKind: "focused_pnt_analysis", targetCorridorId: decoy })[0];
++equal([decoyEvidence?.direction, decoyEvidence?.strengthBand, decoyEvidence?.hiddenProvenance.relation], ["supports_targeted", "moderate", "decoy_linked"], "decoy semantics and audit marker");
++const noiseEvidence = materializeEvidence(hiddenState, { requestId: "noise", requestKind: "focused_pnt_analysis", targetCorridorId: hiddenState.backgroundNoiseCorridorId })[0];
++equal([noiseEvidence?.direction, noiseEvidence?.strengthBand], ["ambiguous", "weak"], "noise semantics");
++const broad = materializeEvidence(hiddenState, { requestId: "broad", requestKind: "broad_pnt_sweep" });
++equal(new Set(broad.map(({ observedCorridorId }) => observedCorridorId)).size, 4, "broad sweep coverage");
++const broadVisibleJson = JSON.stringify(projectPlayerObservableState(hiddenState, broad, []).visibleEvidence);
++equal(
++  ["primary", "decoy_linked", "background_noise"].filter((label) => broadVisibleJson.includes(label)),
++  [],
++  "broad sweep must hide every provenance relation label",
++);
++const liaisonExpected = {
++  cautious_denial: ["supports_targeted", "moderate", "نشانه موضعی فعالیت اختلالی"],
++  deceptive_diversion: ["ambiguous", "moderate", "اثر موضعی بدون انتساب قطعی"],
++  opportunistic_interdiction: ["supports_targeted", "strong", "نشانه عملیاتی هم‌زمان با اختلال"],
++  pressure_escalator: ["supports_targeted", "strong", "نشانه پایدار فعالیت اختلالی"],
++} as const;
++for (const profile of Object.keys(liaisonExpected) as ActorProfileId[]) {
++  const state = stateFor(profile);
++  const item = materializeEvidence(state, { requestId: `liaison-${profile}`, requestKind: "ground_liaison", targetCorridorId: state.primaryAffectedCorridorId })[0];
++  equal([item?.direction, item?.strengthBand, item?.qualityLabelVisible], liaisonExpected[profile], `${profile} liaison semantics`);
++}
++for (const item of [...focused, ...broad]) {
++  check(Boolean(item.sourceType && item.limitationVisible && item.qualityLabelVisible && item.hiddenProvenance), "evidence completeness");
++}
++
++// Actor rules (22-27)
++const reaction = (profile: ActorProfileId, signalPatch: Partial<ActorVisibleSignals>, statePatch: Partial<TrueWorldState["actorInternalState"]> = {}) => {
++  const base = stateFor(profile);
++  const state = { ...base, actorInternalState: { ...base.actorInternalState, ...statePatch } };
++  return resolveActorReaction(state, observable(state, signalPatch));
++};
++equal(reaction("cautious_denial", { groundReconVisible: true }).ruleId, "CD-1", "CD-1");
++equal(reaction("cautious_denial", { routeHardened: true }).ruleId, "CD-2", "CD-2");
++equal(reaction("cautious_denial", {}).ruleId, "CD-3", "CD-3");
++equal(reaction("deceptive_diversion", { containmentVisible: true }).ruleId, "DD-1", "DD-1");
++equal(reaction("deceptive_diversion", { networkCoverageWeak: true }).ruleId, "DD-2", "DD-2");
++equal(reaction("deceptive_diversion", {}).ruleId, "DD-3", "DD-3");
++equal(reaction("opportunistic_interdiction", { priorityConvoyConcentration: true, leastProtectedCorridorId: "corridor_beta_south" }).ruleId, "OI-1", "OI-1");
++equal(reaction("opportunistic_interdiction", { networkCoverageWeak: true }).ruleId, "OI-2", "OI-2");
++equal(reaction("opportunistic_interdiction", {}).ruleId, "OI-3", "OI-3");
++equal(reaction("pressure_escalator", {}, { riskBudget: 0 }).ruleId, "PE-1", "PE-1");
++equal(reaction("pressure_escalator", { executedResponseIntensity: "high" }).ruleId, "PE-2", "PE-2");
++equal(reaction("pressure_escalator", { fallbackActivated: true, routeHardened: true }).ruleId, "PE-3", "PE-3");
++equal(reaction("pressure_escalator", {}).ruleId, "PE-4", "PE-4");
++for (const profile of CANONICAL_ACTOR_PROFILES.map(({ profileId }) => profileId)) {
++  const state = stateFor(profile);
++  const result = adjudicateModelStep({
++    trueState: { ...state, actorInternalState: { ...state.actorInternalState, riskBudget: 0 } },
++    decisionIntent: { phaseId: "A", roundId: 1, decisionWindowId: "A1_baseline_monitoring", actionId: "verify" },
++    actorVisibleSignals: signals({ containmentVisible: true, priorityConvoyConcentration: true, leastProtectedCorridorId: "corridor_beta_south" }),
++    visibleEvidence: [],
++  });
++  check(result.trueState.actorInternalState.riskBudget >= 0, `${profile} risk budget floor`);
++  equal(result.trueState.actorInternalState.profileId, profile, `${profile} identity stability`);
++}
++
++// Adjudication (28-31)
++const input = {
++  trueState: stateFor("pressure_escalator"),
++  decisionIntent: { phaseId: "C", roundId: 5, decisionWindowId: "C2_resource_portfolio", actionId: "normalized-action" },
++  actorVisibleSignals: signals({ routeHardened: true }),
++  visibleEvidence: focused,
++  evidenceRequests: [{ requestId: "step-evidence", requestKind: "broad_pnt_sweep" }] as readonly EvidenceRequest[],
++  userCostKinds: ["reserved_cost_slot"],
++  worldTransitionKinds: ["registered_transition"],
++  playerVisibleSignalKinds: ["registered_signal"],
++  conditionalInjectKinds: ["registered_inject"],
++} as const;
++const result = adjudicateModelStep(input);
++equal(result.events.map(({ eventKind }) => eventKind), [
++  "decision_confirmed",
++  "user_cost_registered",
++  "world_clock_advanced",
++  "world_transition_registered",
++  "player_visible_signal_derived",
++  "actor_visible_signal_derived",
++  "actor_reaction_resolved",
++  "conditional_inject_registered",
++  "evidence_generated",
++  "observable_state_updated",
++], "pipeline order");
++check(result.events.every(({ causeEventId }) => Boolean(causeEventId)), "every event needs a cause");
++equal(adjudicateModelStep(input), result, "adjudication must replay deterministically");
++const adjudicatorSource = readFileSync(`${modelDirectory}/adjudicator.ts`, "utf8");
++check(!/mission.?end|cognitive.?scor|damage|delay.?minute|resource.?cost/i.test(adjudicatorSource), "adjudicator must omit later-phase logic");
++
++console.log(`Scenario 5 Phase-3 model verification passed (${checks} assertions).`);
+diff --git a/src/ui/components/scenario/scenario-five/model/actorModel.ts b/src/ui/components/scenario/scenario-five/model/actorModel.ts
+new file mode 100644
+index 0000000..13ba6b5
+--- /dev/null
++++ b/src/ui/components/scenario/scenario-five/model/actorModel.ts
+@@ -0,0 +1,134 @@
++import type { ActorObservableState, ActorReaction, PressureBand, TrueWorldState } from "./types";
++import { CANONICAL_CORRIDOR_IDS } from "./worldCatalog";
++
++const decreasePressure = (pressure: PressureBand): PressureBand => {
++  if (pressure === "high") return "medium";
++  return "low";
++};
++
++const increasePressure = (pressure: PressureBand): PressureBand => {
++  if (pressure === "low") return "medium";
++  return "high";
++};
++
++export function resolveActorReaction(trueState: TrueWorldState, observable: ActorObservableState): ActorReaction {
++  const actor = trueState.actorInternalState;
++  const signals = observable.signals;
++
++  switch (actor.profileId) {
++    case "cautious_denial":
++      if (signals.groundReconVisible || signals.containmentVisible) {
++        return {
++          reactionId: "cautious_relocate_reduce",
++          ruleId: "CD-1",
++          observationsUsed: [signals.groundReconVisible ? "groundReconVisible" : "containmentVisible"],
++          statePatch: { posture: "covert", disruptionPressure: decreasePressure(actor.disruptionPressure), relocated: true },
++          generatedEventKinds: ["actor_relocation_cue"],
++        };
++      }
++      if (signals.fallbackActivated || signals.routeHardened) {
++        return {
++          reactionId: "cautious_hold_low",
++          ruleId: "CD-2",
++          observationsUsed: [signals.fallbackActivated ? "fallbackActivated" : "routeHardened"],
++          statePatch: { disruptionPressure: "low" },
++          generatedEventKinds: ["intermittent_disruption_continues"],
++        };
++      }
++      return { reactionId: "cautious_maintain", ruleId: "CD-3", observationsUsed: [], statePatch: {}, generatedEventKinds: ["intermittent_disruption_continues"] };
++
++    case "deceptive_diversion":
++      if (signals.groundReconVisible || signals.containmentVisible) {
++        return {
++          reactionId: "deceptive_shift_pattern",
++          ruleId: "DD-1",
++          observationsUsed: [signals.groundReconVisible ? "groundReconVisible" : "containmentVisible"],
++          statePatch: { posture: "probing", relocated: true, decoyCorridorId: actor.decoyCorridorId },
++          generatedEventKinds: ["decoy_pattern_shift", "mixed_signal"],
++        };
++      }
++      if (signals.networkCoverageWeak) {
++        return {
++          reactionId: "deceptive_strengthen_decoy",
++          ruleId: "DD-2",
++          observationsUsed: ["networkCoverageWeak"],
++          statePatch: { disruptionPressure: "medium" },
++          generatedEventKinds: ["decoy_signal_strengthened", "mixed_signal"],
++        };
++      }
++      return { reactionId: "deceptive_maintain_mix", ruleId: "DD-3", observationsUsed: [], statePatch: {}, generatedEventKinds: ["mixed_signal"] };
++
++    case "opportunistic_interdiction":
++      if (signals.priorityConvoyConcentration && signals.leastProtectedCorridorId !== null) {
++        const requested = signals.leastProtectedCorridorId;
++        const secondaryCorridorId = requested === trueState.primaryAffectedCorridorId
++          ? CANONICAL_CORRIDOR_IDS.find((corridorId) => corridorId !== trueState.primaryAffectedCorridorId)
++          : requested;
++        if (!secondaryCorridorId) throw new Error("No secondary corridor is available");
++        return {
++          reactionId: "opportunistic_secondary_pressure",
++          ruleId: "OI-1",
++          observationsUsed: ["priorityConvoyConcentration", "leastProtectedCorridorId"],
++          statePatch: { posture: "committed", disruptionPressure: "high", riskBudget: Math.max(0, actor.riskBudget - 1) },
++          generatedEventKinds: ["secondary_pressure", "primary_pressure_continues"],
++          secondaryCorridorId,
++        };
++      }
++      if (signals.networkCoverageWeak) {
++        return {
++          reactionId: "opportunistic_press_primary",
++          ruleId: "OI-2",
++          observationsUsed: ["networkCoverageWeak"],
++          statePatch: { disruptionPressure: "high" },
++          generatedEventKinds: ["primary_pressure_increases"],
++        };
++      }
++      return { reactionId: "opportunistic_probe", ruleId: "OI-3", observationsUsed: [], statePatch: { disruptionPressure: "medium" }, generatedEventKinds: ["selective_disruption"] };
++
++    case "pressure_escalator":
++      if (actor.riskBudget === 0) {
++        return {
++          reactionId: "escalator_disengage",
++          ruleId: "PE-1",
++          observationsUsed: ["riskBudgetExhausted"],
++          statePatch: { posture: "disengaging", disruptionPressure: "low" },
++          generatedEventKinds: ["pressure_reduction"],
++        };
++      }
++      if (signals.containmentVisible || signals.groundReconVisible || signals.executedResponseIntensity === "high") {
++        return {
++          reactionId: "escalator_increase_pressure",
++          ruleId: "PE-2",
++          observationsUsed: [
++            signals.containmentVisible
++              ? "containmentVisible"
++              : signals.groundReconVisible
++                ? "groundReconVisible"
++                : "executedResponseIntensity:high",
++          ],
++          statePatch: {
++            posture: "committed",
++            disruptionPressure: increasePressure(actor.disruptionPressure),
++            riskBudget: Math.max(0, actor.riskBudget - 1),
++          },
++          generatedEventKinds: ["persistent_pressure_increases"],
++        };
++      }
++      if (signals.fallbackActivated && signals.routeHardened) {
++        return {
++          reactionId: "escalator_reduce_due_to_denial",
++          ruleId: "PE-3",
++          observationsUsed: ["fallbackActivated", "routeHardened"],
++          statePatch: { posture: "probing", disruptionPressure: "low" },
++          generatedEventKinds: ["pressure_reduction"],
++        };
++      }
++      return {
++        reactionId: "escalator_maintain",
++        ruleId: "PE-4",
++        observationsUsed: [],
++        statePatch: { disruptionPressure: actor.disruptionPressure === "low" ? "medium" : actor.disruptionPressure },
++        generatedEventKinds: ["persistent_disruption_continues"],
++      };
++  }
++}
+diff --git a/src/ui/components/scenario/scenario-five/model/adjudicator.ts b/src/ui/components/scenario/scenario-five/model/adjudicator.ts
+new file mode 100644
+index 0000000..ea56955
+--- /dev/null
++++ b/src/ui/components/scenario/scenario-five/model/adjudicator.ts
+@@ -0,0 +1,96 @@
++import { resolveActorReaction } from "./actorModel";
++import { materializeEvidence } from "./evidenceModel";
++import { projectActorObservableState, projectPlayerObservableState } from "./projections";
++import type {
++  AdjudicationInput,
++  AdjudicationResult,
++  ModelEventSource,
++  Scenario5ModelEvent,
++  Scenario5ModelEventKind,
++  TrueWorldState,
++} from "./types";
++
++export function adjudicateModelStep(input: AdjudicationInput): AdjudicationResult {
++  const tick = input.trueState.worldClockTick + 1;
++  let sequence = input.trueState.eventSequence;
++  const events: Scenario5ModelEvent[] = [];
++  let lastEventId: string | null = null;
++
++  const emit = (
++    eventKind: Scenario5ModelEventKind,
++    source: ModelEventSource,
++    payload: Readonly<Record<string, unknown>>,
++  ): void => {
++    sequence += 1;
++    const eventId = `${input.trueState.worldId}:t${tick}:e${sequence}`;
++    const causeEventId = lastEventId ?? eventId;
++    events.push({ eventId, causeEventId, eventKind, worldClockTick: tick, source, payload });
++    lastEventId = eventId;
++  };
++
++  emit("decision_confirmed", "player", { decisionIntent: input.decisionIntent });
++  if ((input.userCostKinds?.length ?? 0) > 0) {
++    emit("user_cost_registered", "player", { costKinds: [...(input.userCostKinds ?? [])] });
++  }
++  emit("world_clock_advanced", "world", { fromTick: input.trueState.worldClockTick, toTick: tick });
++  if ((input.worldTransitionKinds?.length ?? 0) > 0) {
++    emit("world_transition_registered", "world", { transitionKinds: [...(input.worldTransitionKinds ?? [])] });
++  }
++  if ((input.playerVisibleSignalKinds?.length ?? 0) > 0) {
++    emit("player_visible_signal_derived", "world", { signalKinds: [...(input.playerVisibleSignalKinds ?? [])] });
++  }
++  emit("actor_visible_signal_derived", "world", { signals: input.actorVisibleSignals });
++
++  const stateAtTick: TrueWorldState = { ...input.trueState, worldClockTick: tick };
++  const actorObservableState = projectActorObservableState(
++    stateAtTick,
++    input.actorVisibleSignals,
++    input.actorPublicEvents ?? [],
++  );
++  const actorReaction = resolveActorReaction(stateAtTick, actorObservableState);
++  emit("actor_reaction_resolved", "actor", {
++    reactionId: actorReaction.reactionId,
++    ruleId: actorReaction.ruleId,
++    generatedEventKinds: actorReaction.generatedEventKinds,
++    ...(actorReaction.secondaryCorridorId ? { secondaryCorridorId: actorReaction.secondaryCorridorId } : {}),
++  });
++
++  if ((input.conditionalInjectKinds?.length ?? 0) > 0) {
++    emit("conditional_inject_registered", "world", { injectKinds: [...(input.conditionalInjectKinds ?? [])] });
++  }
++  const generatedEvidence = (input.evidenceRequests ?? []).flatMap((request) => materializeEvidence(stateAtTick, request));
++  if (generatedEvidence.length > 0) {
++    emit("evidence_generated", "evidence_engine", { evidenceIds: generatedEvidence.map(({ evidenceId }) => evidenceId) });
++  }
++
++  const nextTrueState: TrueWorldState = {
++    ...stateAtTick,
++    actorInternalState: {
++      ...stateAtTick.actorInternalState,
++      ...actorReaction.statePatch,
++      profileId: stateAtTick.actorInternalState.profileId,
++      objective: stateAtTick.actorInternalState.objective,
++      riskBudget: Math.max(0, actorReaction.statePatch.riskBudget ?? stateAtTick.actorInternalState.riskBudget),
++      lastReactionId: actorReaction.reactionId,
++    },
++    eventSequence: sequence + 1,
++  };
++  const allVisibleEvidence = [...input.visibleEvidence, ...generatedEvidence];
++  const playerObservableState = projectPlayerObservableState(
++    nextTrueState,
++    allVisibleEvidence,
++    input.playerPublicEvents ?? [],
++  );
++  emit("observable_state_updated", "world", {
++    visibleEvidenceIds: playerObservableState.visibleEvidence.map(({ evidenceId }) => evidenceId),
++  });
++
++  return {
++    trueState: { ...nextTrueState, eventSequence: sequence },
++    events,
++    generatedEvidence,
++    actorReaction,
++    playerObservableState,
++    actorObservableState,
++  };
++}
+diff --git a/src/ui/components/scenario/scenario-five/model/evidenceModel.ts b/src/ui/components/scenario/scenario-five/model/evidenceModel.ts
+new file mode 100644
+index 0000000..354d69d
+--- /dev/null
++++ b/src/ui/components/scenario/scenario-five/model/evidenceModel.ts
+@@ -0,0 +1,137 @@
++import type {
++  CorridorId,
++  EvidenceDirection,
++  EvidenceInstance,
++  EvidenceRequest,
++  EvidenceSourceType,
++  EvidenceStrengthBand,
++  TrueWorldState,
++} from "./types";
++import { CANONICAL_CORRIDOR_IDS } from "./worldCatalog";
++
++const PNT_LIMITATION = "الگوی PNT به‌تنهایی علت اختلال را قطعی نمی‌کند.";
++const DECOY_LIMITATION = "هم‌خوانی سیگنال لزوماً به معنای کریدور اصلی تهدید نیست.";
++const NOISE_LIMITATION = "این نوسان می‌تواند منشأ فنی یا محیطی داشته باشد.";
++const STABLE_LIMITATION = "نبود ناهنجاری در این بازه، سایر کریدورها را رد نمی‌کند.";
++const FIELD_LIMITATION = "گزارش میدانی یا زمان‌بندی رادیویی به‌تنهایی انتساب قطعی ایجاد نمی‌کند.";
++const GROUND_LIMITATION = "مشاهده زمینی محدود است و برای انتساب قطعی به هم‌سنجی منابع نیاز دارد.";
++
++type Relation = "primary" | "decoy_linked" | "background_noise" | "other";
++
++const relationFor = (state: TrueWorldState, corridorId: CorridorId): Relation => {
++  if (corridorId === state.primaryAffectedCorridorId) return "primary";
++  if (state.actorProfileId === "deceptive_diversion" && corridorId === state.actorInternalState.decoyCorridorId) {
++    return "decoy_linked";
++  }
++  if (corridorId === state.backgroundNoiseCorridorId) return "background_noise";
++  return "other";
++};
++
++interface EvidenceParts {
++  sourceType: EvidenceSourceType;
++  direction: EvidenceDirection;
++  strengthBand: EvidenceStrengthBand;
++  qualityLabelVisible: string;
++  limitationVisible: string;
++}
++
++const createEvidence = (
++  state: TrueWorldState,
++  request: EvidenceRequest,
++  corridorId: CorridorId,
++  itemIndex: number,
++  parts: EvidenceParts,
++): EvidenceInstance => ({
++  evidenceId: `${request.requestId}:${corridorId}:${parts.sourceType}:${itemIndex}`,
++  sourceType: parts.sourceType,
++  requestKind: request.requestKind,
++  observedCorridorId: corridorId,
++  direction: parts.direction,
++  strengthBand: parts.strengthBand,
++  latencyVariant: state.latencyVariant,
++  qualityLabelVisible: parts.qualityLabelVisible,
++  limitationVisible: parts.limitationVisible,
++  relevantHypothesisIds: [...(request.relevantHypothesisIds ?? [])],
++  hiddenProvenance: { worldId: state.worldId, relation: relationFor(state, corridorId) },
++});
++
++const pntPartsFor = (relation: Relation): EvidenceParts => {
++  switch (relation) {
++    case "primary":
++      return { sourceType: "pnt_telemetry", direction: "supports_targeted", strengthBand: "moderate", qualityLabelVisible: "ناهنجاری تکرارشونده", limitationVisible: PNT_LIMITATION };
++    case "decoy_linked":
++      return { sourceType: "pnt_telemetry", direction: "supports_targeted", strengthBand: "moderate", qualityLabelVisible: "ناهنجاری منسجم", limitationVisible: DECOY_LIMITATION };
++    case "background_noise":
++      return { sourceType: "pnt_telemetry", direction: "ambiguous", strengthBand: "weak", qualityLabelVisible: "نوسان محدود", limitationVisible: NOISE_LIMITATION };
++    case "other":
++      return { sourceType: "pnt_telemetry", direction: "supports_nonhostile", strengthBand: "weak", qualityLabelVisible: "الگوی پایدار", limitationVisible: STABLE_LIMITATION };
++  }
++};
++
++const fieldPartsFor = (relation: Relation): readonly EvidenceParts[] => {
++  switch (relation) {
++    case "primary":
++      return [
++        { sourceType: "field_report", direction: "supports_targeted", strengthBand: "weak", qualityLabelVisible: "ناسازگاری در گزارش میدانی", limitationVisible: FIELD_LIMITATION },
++        { sourceType: "radio_timing", direction: "supports_targeted", strengthBand: "weak", qualityLabelVisible: "ناسازگاری در زمان‌بندی رادیویی", limitationVisible: FIELD_LIMITATION },
++      ];
++    case "decoy_linked":
++      return [
++        { sourceType: "field_report", direction: "ambiguous", strengthBand: "weak", qualityLabelVisible: "گزارش میدانی ناهم‌سو", limitationVisible: FIELD_LIMITATION },
++        { sourceType: "radio_timing", direction: "supports_targeted", strengthBand: "weak", qualityLabelVisible: "ناهماهنگی زمان‌بندی رادیویی", limitationVisible: FIELD_LIMITATION },
++      ];
++    case "background_noise":
++      return [{ sourceType: "field_report", direction: "ambiguous", strengthBand: "weak", qualityLabelVisible: "گزارش محدود و نامطمئن", limitationVisible: FIELD_LIMITATION }];
++    case "other":
++      return [{ sourceType: "field_report", direction: "supports_nonhostile", strengthBand: "weak", qualityLabelVisible: "گزارش میدانی باثبات", limitationVisible: FIELD_LIMITATION }];
++  }
++};
++
++const groundPartsFor = (state: TrueWorldState, relation: Relation): EvidenceParts => {
++  if (relation === "primary") {
++    switch (state.actorProfileId) {
++      case "cautious_denial":
++        return { sourceType: "ground_recon", direction: "supports_targeted", strengthBand: "moderate", qualityLabelVisible: "نشانه موضعی فعالیت اختلالی", limitationVisible: GROUND_LIMITATION };
++      case "deceptive_diversion":
++        return { sourceType: "ground_recon", direction: "ambiguous", strengthBand: "moderate", qualityLabelVisible: "اثر موضعی بدون انتساب قطعی", limitationVisible: GROUND_LIMITATION };
++      case "opportunistic_interdiction":
++        return { sourceType: "ground_recon", direction: "supports_targeted", strengthBand: "strong", qualityLabelVisible: "نشانه عملیاتی هم‌زمان با اختلال", limitationVisible: GROUND_LIMITATION };
++      case "pressure_escalator":
++        return { sourceType: "ground_recon", direction: "supports_targeted", strengthBand: "strong", qualityLabelVisible: "نشانه پایدار فعالیت اختلالی", limitationVisible: GROUND_LIMITATION };
++    }
++  }
++  if (relation === "decoy_linked") {
++    return { sourceType: "ground_recon", direction: "ambiguous", strengthBand: "moderate", qualityLabelVisible: "اثر موضعی مبهم", limitationVisible: GROUND_LIMITATION };
++  }
++  if (relation === "background_noise") {
++    return { sourceType: "ground_recon", direction: "ambiguous", strengthBand: "weak", qualityLabelVisible: "نشانه زمینی محدود", limitationVisible: GROUND_LIMITATION };
++  }
++  return { sourceType: "ground_recon", direction: "supports_nonhostile", strengthBand: "moderate", qualityLabelVisible: "مشاهده زمینی باثبات", limitationVisible: GROUND_LIMITATION };
++};
++
++const requireTarget = (request: EvidenceRequest): CorridorId => {
++  if (!request.targetCorridorId) throw new Error(`${request.requestKind} requires targetCorridorId`);
++  return request.targetCorridorId;
++};
++
++export function materializeEvidence(trueState: TrueWorldState, request: EvidenceRequest): EvidenceInstance[] {
++  if (request.requestKind === "focused_pnt_analysis") {
++    const corridorId = requireTarget(request);
++    return [createEvidence(trueState, request, corridorId, 0, pntPartsFor(relationFor(trueState, corridorId)))];
++  }
++  if (request.requestKind === "broad_pnt_sweep") {
++    return CANONICAL_CORRIDOR_IDS.map((corridorId, index) =>
++      createEvidence(trueState, request, corridorId, index, pntPartsFor(relationFor(trueState, corridorId))),
++    );
++  }
++
++  const corridors = request.targetCorridorId ? [request.targetCorridorId] : CANONICAL_CORRIDOR_IDS;
++  if (request.requestKind === "field_radio_corroboration") {
++    return corridors.flatMap((corridorId) =>
++      fieldPartsFor(relationFor(trueState, corridorId)).map((parts, index) => createEvidence(trueState, request, corridorId, index, parts)),
++    );
++  }
++  return corridors.map((corridorId, index) =>
++    createEvidence(trueState, request, corridorId, index, groundPartsFor(trueState, relationFor(trueState, corridorId))),
++  );
++}
+diff --git a/src/ui/components/scenario/scenario-five/model/index.ts b/src/ui/components/scenario/scenario-five/model/index.ts
+new file mode 100644
+index 0000000..ab46ec5
+--- /dev/null
++++ b/src/ui/components/scenario/scenario-five/model/index.ts
+@@ -0,0 +1,44 @@
++export * from "./versions";
++export { CANONICAL_CORRIDORS, CANONICAL_ACTOR_PROFILES, WORLD_CATALOG } from "./worldCatalog";
++export { createInitialTrueWorldState, getWorldTemplate } from "./worldFactory";
++export { projectPlayerObservableState, projectActorObservableState } from "./projections";
++export { materializeEvidence } from "./evidenceModel";
++export { resolveActorReaction } from "./actorModel";
++export { adjudicateModelStep } from "./adjudicator";
++export type {
++  ActorInternalState,
++  ActorObjective,
++  ActorObservableState,
++  ActorPosture,
++  ActorProfileId,
++  ActorProfileMetadata,
++  ActorReaction,
++  ActorReactionId,
++  ActorVisibleSignals,
++  AdjudicationInput,
++  AdjudicationResult,
++  CauseEventId,
++  CorridorId,
++  CorridorMetadata,
++  DecisionIntent,
++  DecisionWindowId,
++  EvidenceDirection,
++  EvidenceId,
++  EvidenceInstance,
++  EvidenceLatencyVariant,
++  EvidenceRequest,
++  EvidenceRequestKind,
++  EvidenceSourceType,
++  EvidenceStrengthBand,
++  HiddenAuditRecord,
++  InterferenceMode,
++  PhaseId,
++  PlayerObservableState,
++  PressureBand,
++  RoundId,
++  Scenario5ModelEvent,
++  Scenario5Seed,
++  TrueWorldState,
++  WorldId,
++  WorldTemplate,
++} from "./types";
+diff --git a/src/ui/components/scenario/scenario-five/model/projections.ts b/src/ui/components/scenario/scenario-five/model/projections.ts
+new file mode 100644
+index 0000000..a720f41
+--- /dev/null
++++ b/src/ui/components/scenario/scenario-five/model/projections.ts
+@@ -0,0 +1,35 @@
++import type {
++  ActorObservableState,
++  ActorVisibleSignals,
++  EvidenceInstance,
++  PlayerObservableState,
++  PublicModelEvent,
++  TrueWorldState,
++} from "./types";
++
++export function projectPlayerObservableState(
++  trueState: TrueWorldState,
++  visibleEvidence: readonly EvidenceInstance[],
++  publicEvents: readonly PublicModelEvent[],
++): PlayerObservableState {
++  return {
++    worldClockTick: trueState.worldClockTick,
++    visibleEvidence: visibleEvidence.map(({ hiddenProvenance: _hiddenProvenance, ...visible }) => visible),
++    publicEvents: publicEvents.map((event) => ({ ...event })),
++  };
++}
++
++export function projectActorObservableState(
++  trueState: TrueWorldState,
++  actorVisibleSignals: ActorVisibleSignals,
++  actorPublicEvents: readonly PublicModelEvent[],
++): ActorObservableState {
++  return {
++    worldClockTick: trueState.worldClockTick,
++    signals: {
++      ...actorVisibleSignals,
++      visibleRerouteCorridorIds: [...actorVisibleSignals.visibleRerouteCorridorIds],
++    },
++    publicEvents: actorPublicEvents.map((event) => ({ ...event })),
++  };
++}
+diff --git a/src/ui/components/scenario/scenario-five/model/seededRng.ts b/src/ui/components/scenario/scenario-five/model/seededRng.ts
+new file mode 100644
+index 0000000..fc059b8
+--- /dev/null
++++ b/src/ui/components/scenario/scenario-five/model/seededRng.ts
+@@ -0,0 +1,33 @@
++export interface SeededRng {
++  next(): number;
++  nextInt(maxExclusive: number): number;
++  pick<T>(items: readonly T[]): T;
++}
++
++export function createSeededRng(seed: number): SeededRng {
++  let state = seed >>> 0;
++
++  const next = (): number => {
++    state = (state + 0x6d2b79f5) >>> 0;
++    let value = state;
++    value = Math.imul(value ^ (value >>> 15), value | 1);
++    value ^= value + Math.imul(value ^ (value >>> 7), value | 61);
++    return ((value ^ (value >>> 14)) >>> 0) / 4294967296;
++  };
++
++  const nextInt = (maxExclusive: number): number => {
++    if (!Number.isInteger(maxExclusive) || maxExclusive <= 0) {
++      throw new RangeError("maxExclusive must be a positive integer");
++    }
++    return Math.floor(next() * maxExclusive);
++  };
++
++  const pick = <T>(items: readonly T[]): T => {
++    if (items.length === 0) {
++      throw new RangeError("Cannot pick from an empty collection");
++    }
++    return items[nextInt(items.length)] as T;
++  };
++
++  return { next, nextInt, pick };
++}
+diff --git a/src/ui/components/scenario/scenario-five/model/types.ts b/src/ui/components/scenario/scenario-five/model/types.ts
+new file mode 100644
+index 0000000..616e08a
+--- /dev/null
++++ b/src/ui/components/scenario/scenario-five/model/types.ts
+@@ -0,0 +1,266 @@
++export type CorridorId =
++  | "corridor_alpha_east"
++  | "corridor_beta_south"
++  | "corridor_gamma_northwest"
++  | "corridor_delta_west";
++
++export type ActorProfileId =
++  | "cautious_denial"
++  | "deceptive_diversion"
++  | "opportunistic_interdiction"
++  | "pressure_escalator";
++
++export type WorldId = `W-${CorridorId}-${ActorProfileId}`;
++export type Scenario5Seed = number;
++
++export type ActorObjective =
++  | "create_delay_while_preserving_ambiguity"
++  | "divert_attention_and_resources"
++  | "exploit_weakest_observable_logistics_gap"
++  | "force_stop_or_major_reroute";
++
++export type InterferenceMode =
++  | "intermittent_jamming"
++  | "spoofing_with_decoy"
++  | "selective_jam_spoof"
++  | "persistent_jamming";
++
++export type ActorPosture = "covert" | "probing" | "committed" | "disengaging";
++export type PressureBand = "low" | "medium" | "high";
++export type EvidenceLatencyVariant = "early" | "nominal" | "late";
++
++export interface CorridorMetadata {
++  readonly corridorId: CorridorId;
++  readonly convoyId: "alpha" | "beta" | "gamma" | "delta";
++  readonly missionRole:
++    | "priority_medical"
++    | "operational_fuel"
++    | "communications_parts"
++    | "border_support";
++  readonly routeLabel: string;
++}
++
++export interface ActorProfileMetadata {
++  readonly profileId: ActorProfileId;
++  readonly objective: ActorObjective;
++  readonly primaryInterferenceMode: InterferenceMode;
++  readonly defaultPosture: ActorPosture;
++  readonly defaultRiskBudget: number;
++}
++
++export interface WorldTemplate {
++  readonly worldId: WorldId;
++  readonly primaryAffectedCorridorId: CorridorId;
++  readonly actorProfileId: ActorProfileId;
++  readonly actorObjective: ActorObjective;
++  readonly primaryInterferenceMode: InterferenceMode;
++  readonly initialDecoyCorridorId: CorridorId | null;
++  readonly hasActiveActor: true;
++}
++
++export type ActorReactionId =
++  | "cautious_relocate_reduce"
++  | "cautious_hold_low"
++  | "cautious_maintain"
++  | "deceptive_shift_pattern"
++  | "deceptive_strengthen_decoy"
++  | "deceptive_maintain_mix"
++  | "opportunistic_secondary_pressure"
++  | "opportunistic_press_primary"
++  | "opportunistic_probe"
++  | "escalator_disengage"
++  | "escalator_increase_pressure"
++  | "escalator_reduce_due_to_denial"
++  | "escalator_maintain";
++
++export interface ActorInternalState {
++  readonly profileId: ActorProfileId;
++  readonly objective: ActorObjective;
++  readonly posture: ActorPosture;
++  readonly riskBudget: number;
++  readonly disruptionPressure: PressureBand;
++  readonly decoyCorridorId: CorridorId | null;
++  readonly relocated: boolean;
++  readonly lastReactionId: ActorReactionId | null;
++}
++
++export interface TrueWorldState {
++  readonly modelVersion: string;
++  readonly worldId: WorldId;
++  readonly seed: Scenario5Seed;
++  readonly primaryAffectedCorridorId: CorridorId;
++  readonly actorProfileId: ActorProfileId;
++  readonly actorObjective: ActorObjective;
++  readonly primaryInterferenceMode: InterferenceMode;
++  readonly initialDecoyCorridorId: CorridorId | null;
++  readonly backgroundNoiseCorridorId: CorridorId;
++  readonly latencyVariant: EvidenceLatencyVariant;
++  readonly worldClockTick: number;
++  readonly actorInternalState: ActorInternalState;
++  readonly eventSequence: number;
++}
++
++export type EvidenceId = string;
++export type EvidenceSourceType =
++  | "pnt_telemetry"
++  | "field_report"
++  | "radio_timing"
++  | "satellite_isr"
++  | "ground_recon"
++  | "route_pattern"
++  | "cross_source_analysis";
++export type EvidenceDirection = "supports_targeted" | "supports_nonhostile" | "ambiguous";
++export type EvidenceStrengthBand = "weak" | "moderate" | "strong";
++export type EvidenceRequestKind =
++  | "focused_pnt_analysis"
++  | "broad_pnt_sweep"
++  | "field_radio_corroboration"
++  | "ground_liaison";
++
++export interface EvidenceRequest {
++  readonly requestId: string;
++  readonly requestKind: EvidenceRequestKind;
++  readonly targetCorridorId?: CorridorId;
++  readonly relevantHypothesisIds?: readonly string[];
++}
++
++export interface EvidenceHiddenProvenance {
++  readonly worldId: WorldId;
++  readonly relation: "primary" | "decoy_linked" | "background_noise" | "other";
++}
++
++export interface EvidenceInstance {
++  readonly evidenceId: EvidenceId;
++  readonly sourceType: EvidenceSourceType;
++  readonly requestKind: EvidenceRequestKind;
++  readonly observedCorridorId: CorridorId | null;
++  readonly direction: EvidenceDirection;
++  readonly strengthBand: EvidenceStrengthBand;
++  readonly latencyVariant: EvidenceLatencyVariant;
++  readonly qualityLabelVisible: string;
++  readonly limitationVisible: string;
++  readonly relevantHypothesisIds: readonly string[];
++  readonly hiddenProvenance: EvidenceHiddenProvenance;
++}
++
++export type PlayerVisibleEvidence = Omit<EvidenceInstance, "hiddenProvenance">;
++export interface PublicModelEvent {
++  readonly eventId: string;
++  readonly eventKind: string;
++  readonly worldClockTick: number;
++}
++
++export interface PlayerObservableState {
++  readonly worldClockTick: number;
++  readonly visibleEvidence: readonly PlayerVisibleEvidence[];
++  readonly publicEvents: readonly PublicModelEvent[];
++}
++
++export type ResponseIntensity = "low" | "medium" | "high";
++export interface ActorVisibleSignals {
++  readonly routeHardened: boolean;
++  readonly groundReconVisible: boolean;
++  readonly fallbackActivated: boolean;
++  readonly priorityConvoyConcentration: boolean;
++  readonly networkCoverageWeak: boolean;
++  readonly containmentVisible: boolean;
++  readonly executedResponseIntensity: ResponseIntensity;
++  readonly leastProtectedCorridorId: CorridorId | null;
++  readonly visibleRerouteCorridorIds: readonly CorridorId[];
++}
++
++export interface ActorObservableState {
++  readonly worldClockTick: number;
++  readonly signals: ActorVisibleSignals;
++  readonly publicEvents: readonly PublicModelEvent[];
++}
++
++export interface ActorReaction {
++  readonly reactionId: ActorReactionId;
++  readonly ruleId: "CD-1" | "CD-2" | "CD-3" | "DD-1" | "DD-2" | "DD-3" | "OI-1" | "OI-2" | "OI-3" | "PE-1" | "PE-2" | "PE-3" | "PE-4";
++  readonly observationsUsed: readonly string[];
++  readonly statePatch: Partial<ActorInternalState>;
++  readonly generatedEventKinds: readonly string[];
++  readonly secondaryCorridorId?: CorridorId;
++}
++
++export type PhaseId = "A" | "B" | "C" | "D";
++export type RoundId = 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8;
++export type DecisionWindowId =
++  | "A1_baseline_monitoring"
++  | "A2_prebelief"
++  | "A2_evidence_acquisition"
++  | "A2_postbelief"
++  | "B1_monitoring_allocation"
++  | "B2_route_policy"
++  | "B_reason"
++  | "C1_support_and_checkpoints"
++  | "C2_resource_portfolio"
++  | "C_reason"
++  | "C_belief_checkpoint"
++  | "D1_crisis_response"
++  | "D_final_belief"
++  | "D2_final_delivery_policy"
++  | "D_reason";
++
++export interface DecisionIntent {
++  readonly phaseId: PhaseId;
++  readonly roundId: RoundId;
++  readonly decisionWindowId: DecisionWindowId;
++  readonly actionId: string;
++}
++
++export type CauseEventId = string;
++export type ModelEventSource = "player" | "world" | "actor" | "evidence_engine";
++export type Scenario5ModelEventKind =
++  | "decision_confirmed"
++  | "user_cost_registered"
++  | "world_clock_advanced"
++  | "world_transition_registered"
++  | "player_visible_signal_derived"
++  | "actor_visible_signal_derived"
++  | "actor_reaction_resolved"
++  | "conditional_inject_registered"
++  | "evidence_generated"
++  | "observable_state_updated";
++
++export interface Scenario5ModelEvent {
++  readonly eventId: string;
++  readonly causeEventId: CauseEventId;
++  readonly eventKind: Scenario5ModelEventKind;
++  readonly worldClockTick: number;
++  readonly source: ModelEventSource;
++  readonly payload: Readonly<Record<string, unknown>>;
++}
++
++export interface AdjudicationInput {
++  readonly trueState: TrueWorldState;
++  readonly decisionIntent: DecisionIntent;
++  readonly actorVisibleSignals: ActorVisibleSignals;
++  readonly visibleEvidence: readonly EvidenceInstance[];
++  readonly evidenceRequests?: readonly EvidenceRequest[];
++  readonly playerPublicEvents?: readonly PublicModelEvent[];
++  readonly actorPublicEvents?: readonly PublicModelEvent[];
++  readonly userCostKinds?: readonly string[];
++  readonly worldTransitionKinds?: readonly string[];
++  readonly playerVisibleSignalKinds?: readonly string[];
++  readonly conditionalInjectKinds?: readonly string[];
++}
++
++export interface AdjudicationResult {
++  readonly trueState: TrueWorldState;
++  readonly events: readonly Scenario5ModelEvent[];
++  readonly generatedEvidence: readonly EvidenceInstance[];
++  readonly actorReaction: ActorReaction;
++  readonly playerObservableState: PlayerObservableState;
++  readonly actorObservableState: ActorObservableState;
++}
++
++export interface HiddenAuditRecord {
++  readonly worldId: WorldId;
++  readonly seed: Scenario5Seed;
++  readonly eventSequence: number;
++  readonly causeEventId: CauseEventId;
++  readonly hiddenEventKind: string;
++  readonly metadata: Readonly<Record<string, unknown>>;
++}
+diff --git a/src/ui/components/scenario/scenario-five/model/versions.ts b/src/ui/components/scenario/scenario-five/model/versions.ts
+new file mode 100644
+index 0000000..7172862
+--- /dev/null
++++ b/src/ui/components/scenario/scenario-five/model/versions.ts
+@@ -0,0 +1,5 @@
++export const SCENARIO5_MODEL_FOUNDATION_VERSION = "s5-model-foundation-v1";
++export const SCENARIO5_WORLD_MODEL_VERSION = "s5-world-v1";
++export const SCENARIO5_EVIDENCE_MODEL_VERSION = "s5-evidence-v1";
++export const SCENARIO5_ACTOR_MODEL_VERSION = "s5-actor-v1";
++export const SCENARIO5_ADJUDICATION_MODEL_VERSION = "s5-adjudication-v1";
+diff --git a/src/ui/components/scenario/scenario-five/model/worldCatalog.ts b/src/ui/components/scenario/scenario-five/model/worldCatalog.ts
+new file mode 100644
+index 0000000..b448973
+--- /dev/null
++++ b/src/ui/components/scenario/scenario-five/model/worldCatalog.ts
+@@ -0,0 +1,72 @@
++import type {
++  ActorProfileId,
++  ActorProfileMetadata,
++  CorridorId,
++  CorridorMetadata,
++  WorldTemplate,
++} from "./types";
++
++export const CANONICAL_CORRIDORS: readonly CorridorMetadata[] = [
++  { corridorId: "corridor_alpha_east", convoyId: "alpha", missionRole: "priority_medical", routeLabel: "تهران → مشهد" },
++  { corridorId: "corridor_beta_south", convoyId: "beta", missionRole: "operational_fuel", routeLabel: "بندرعباس → تهران" },
++  { corridorId: "corridor_gamma_northwest", convoyId: "gamma", missionRole: "communications_parts", routeLabel: "تبریز → تهران" },
++  { corridorId: "corridor_delta_west", convoyId: "delta", missionRole: "border_support", routeLabel: "تهران → محور غرب" },
++] as const;
++
++export const CANONICAL_CORRIDOR_IDS = CANONICAL_CORRIDORS.map(({ corridorId }) => corridorId);
++
++export const CANONICAL_ACTOR_PROFILES: readonly ActorProfileMetadata[] = [
++  {
++    profileId: "cautious_denial",
++    objective: "create_delay_while_preserving_ambiguity",
++    primaryInterferenceMode: "intermittent_jamming",
++    defaultPosture: "covert",
++    defaultRiskBudget: 2,
++  },
++  {
++    profileId: "deceptive_diversion",
++    objective: "divert_attention_and_resources",
++    primaryInterferenceMode: "spoofing_with_decoy",
++    defaultPosture: "probing",
++    defaultRiskBudget: 3,
++  },
++  {
++    profileId: "opportunistic_interdiction",
++    objective: "exploit_weakest_observable_logistics_gap",
++    primaryInterferenceMode: "selective_jam_spoof",
++    defaultPosture: "probing",
++    defaultRiskBudget: 3,
++  },
++  {
++    profileId: "pressure_escalator",
++    objective: "force_stop_or_major_reroute",
++    primaryInterferenceMode: "persistent_jamming",
++    defaultPosture: "committed",
++    defaultRiskBudget: 3,
++  },
++] as const;
++
++export const DECEPTIVE_DECOY_MAPPING: Readonly<Record<CorridorId, CorridorId>> = {
++  corridor_alpha_east: "corridor_gamma_northwest",
++  corridor_beta_south: "corridor_delta_west",
++  corridor_gamma_northwest: "corridor_alpha_east",
++  corridor_delta_west: "corridor_beta_south",
++};
++
++const createTemplate = (corridorId: CorridorId, profileId: ActorProfileId): WorldTemplate => {
++  const actor = CANONICAL_ACTOR_PROFILES.find((candidate) => candidate.profileId === profileId);
++  if (!actor) throw new Error(`Unknown actor profile: ${profileId}`);
++  return {
++    worldId: `W-${corridorId}-${profileId}`,
++    primaryAffectedCorridorId: corridorId,
++    actorProfileId: profileId,
++    actorObjective: actor.objective,
++    primaryInterferenceMode: actor.primaryInterferenceMode,
++    initialDecoyCorridorId: profileId === "deceptive_diversion" ? DECEPTIVE_DECOY_MAPPING[corridorId] : null,
++    hasActiveActor: true,
++  };
++};
++
++export const WORLD_CATALOG: readonly WorldTemplate[] = CANONICAL_CORRIDOR_IDS.flatMap((corridorId) =>
++  CANONICAL_ACTOR_PROFILES.map(({ profileId }) => createTemplate(corridorId, profileId)),
++);
+diff --git a/src/ui/components/scenario/scenario-five/model/worldFactory.ts b/src/ui/components/scenario/scenario-five/model/worldFactory.ts
+new file mode 100644
+index 0000000..4195ea1
+--- /dev/null
++++ b/src/ui/components/scenario/scenario-five/model/worldFactory.ts
+@@ -0,0 +1,52 @@
++import { createSeededRng } from "./seededRng";
++import type { ActorProfileId, PressureBand, Scenario5Seed, TrueWorldState, WorldId, WorldTemplate } from "./types";
++import { SCENARIO5_WORLD_MODEL_VERSION } from "./versions";
++import { CANONICAL_ACTOR_PROFILES, CANONICAL_CORRIDOR_IDS, WORLD_CATALOG } from "./worldCatalog";
++
++const INITIAL_PRESSURE: Readonly<Record<ActorProfileId, PressureBand>> = {
++  cautious_denial: "low",
++  deceptive_diversion: "low",
++  opportunistic_interdiction: "medium",
++  pressure_escalator: "medium",
++};
++
++export function getWorldTemplate(worldId: WorldId): WorldTemplate {
++  const template = WORLD_CATALOG.find((candidate) => candidate.worldId === worldId);
++  if (!template) throw new Error(`Unknown Scenario 5 world: ${worldId}`);
++  return template;
++}
++
++export function createInitialTrueWorldState(worldId: WorldId, seed: Scenario5Seed): TrueWorldState {
++  const template = getWorldTemplate(worldId);
++  const actor = CANONICAL_ACTOR_PROFILES.find(({ profileId }) => profileId === template.actorProfileId);
++  if (!actor) throw new Error(`Missing actor metadata: ${template.actorProfileId}`);
++  const rng = createSeededRng(seed);
++  const noiseCandidates = CANONICAL_CORRIDOR_IDS.filter(
++    (corridorId) => corridorId !== template.primaryAffectedCorridorId && corridorId !== template.initialDecoyCorridorId,
++  );
++
++  return {
++    modelVersion: SCENARIO5_WORLD_MODEL_VERSION,
++    worldId: template.worldId,
++    seed,
++    primaryAffectedCorridorId: template.primaryAffectedCorridorId,
++    actorProfileId: template.actorProfileId,
++    actorObjective: template.actorObjective,
++    primaryInterferenceMode: template.primaryInterferenceMode,
++    initialDecoyCorridorId: template.initialDecoyCorridorId,
++    backgroundNoiseCorridorId: rng.pick(noiseCandidates),
++    latencyVariant: rng.pick(["early", "nominal", "late"] as const),
++    worldClockTick: 0,
++    actorInternalState: {
++      profileId: actor.profileId,
++      objective: actor.objective,
++      posture: actor.defaultPosture,
++      riskBudget: actor.defaultRiskBudget,
++      disruptionPressure: INITIAL_PRESSURE[actor.profileId],
++      decoyCorridorId: template.initialDecoyCorridorId,
++      relocated: false,
++      lastReactionId: null,
++    },
++    eventSequence: 0,
++  };
++}

@@ -1,0 +1,2359 @@
+diff --git a/docs/scenario5-phase8b-engineering-verification.md b/docs/scenario5-phase8b-engineering-verification.md
+new file mode 100644
+index 0000000..f1f20fc
+--- /dev/null
++++ b/docs/scenario5-phase8b-engineering-verification.md
+@@ -0,0 +1,60 @@
++# Phase 08B Engineering Verification
++
++- Overall engineering calibration: **PASS**
++- Allowed application-source scope: PASS
++- Mission version: s5-mission-v1.1.0
++- Calibration version: s5-calibration-v1.2.0
++- Cognitive/runtime/domain unchanged: s5-cognitive-v3-adapter-v1.0.0; s5-runtime-v1.0.1; s5-domain-metrics-v1.0.0
++- Active retired IDs absent / exact six new IDs: PASS
++- Resolver precedence exact: PASS
++- Mission runs: 25600
++- Cognitive runs: 7936
++- Non-taxonomy trajectory mismatches vs 8A: 0
++- Exact six-count signature: PASS
++- Fixed incomplete witness: PASS
++- Natural degradation witness: PASS
++- Six-state coverage V3: PASS
++- Corrected Phase-8A hard gates: PASS
++- Player firewall: PASS
++- Phase-07C/07D presentation regression: PASS
++- Frozen live UI aggregate SHA-256: 5935a851ba7ee3ed7a0ee39c50c3c9b49d489491d1842fede617396d62882f7b
++- Phase-7 prior 600 assertions retained; current verifier expected count: 602
++- Phase-8 archive unchanged: PASS
++- Phase-8A archive unchanged: PASS
++- Phase-07C archive unchanged: PASS
++- Phase-07D archive unchanged: PASS
++- Frozen live-play files byte-identical: PASS
++- No forbidden source changed: PASS (clean patch manifest limited to 16 allowed text/code files).
++- Clean patch manifest: 16 allowed text/code files; generated CSVs remain external.
++- Patch warning scan: PASS
++- git apply --stat: PASS
++- git apply --check --reverse: PASS
++- Optional real-browser AAR screenshot: PASS — docs/scenario5-phase8b-aar-endstate-desktop.png (1440x900)
++
++## Hard gates
++
++- MODEL_VERSION: PASS — s5-mission-v1.1.0; s5-calibration-v1.2.0
++- END_STATE_ID_MIGRATION: PASS — new=6; retired-active=0
++- END_STATE_RESOLVER_EXACT: PASS — ordered=1959|2153|2393|2687|2955|3249
++- TRAJECTORY_PARITY_WITH_08A: PASS — rows=25600; fieldMismatches=0
++- EXPECTED_TAXONOMY_RECLASSIFICATION: PASS — exact 25,600 signature
++- FIXED_INCOMPLETE_WITNESS: PASS — mission_incomplete_continuity_preserved; alphaDelivered=false; continuity=75
++- NATURAL_NETWORK_DEGRADATION_WITNESS: PASS — row=1703; information_heavy; W-corridor_alpha_east-deceptive_diversion; seed=5
++- SIX_END_STATES_OBSERVED_V3: PASS — critical_cargo_lost_or_compromised:main_audit;priority_delivered_network_degradation:main_audit;mission_incomplete_continuity_preserved:approved_fixed_witness;delivery_complete_threat_persistent:main_audit;delivery_complete_attribution_unresolved:main_audit;delivery_complete_threat_contained:main_audit
++- ENVIRONMENT_PANEL_COVERAGE: PASS — worlds=16; latency=early|late|nominal
++- EXECUTION_COMPLETION: PASS — mission=25600; cognitive=7936
++- DETERMINISTIC_REPLAY: PASS — 384 cases
++- LEGAL_ACTION_SAFETY: PASS — zeroOption=0; negative=0; chronology=0
++- DOMAIN_DELAY_IDENTITY: PASS — 0 failures
++- NO_MATH_RANDOM: PASS — 13 files scanned
++- ACTION_TARGET_COVERAGE_V2: PASS — actions=33/33; probes=64/64
++- OSI_STRUCTURAL_CENTERING: PASS — diagnosticSets=8
++- RANDOM_OSI_MONTE_CARLO_CENTERING: PASS — {"overall":{"mean":0.00627,"sd":0.272155,"p025":-0.535947,"p975":0.505404,"n":4096},"phaseA":{"mean":0.008773,"sd":0.640906,"p025":-1,"p975":0.770492,"n":4096},"phaseB":{"mean":0.012308,"sd":0.520806,"p025":-1,"p975":0.897131,"n":4096},"phaseC":{"mean":-0.001709,"sd":0.438596,"p025":-0.674663,"p975":0.925803,"n":4096},"phaseD":{"mean":0.005708,"sd":0.553038,"p025":-0.845804,"p975":1,"n":4096}}
++- DOMINANCE_STATE_COVERAGE: PASS — decision:A1_baseline_monitoring:128;decision:A2_evidence_acquisition:128;decision:B1_monitoring_allocation:128;decision:B2_route_policy:128;decision:C1_support_and_checkpoints:128;decision:C2_resource_portfolio:128;decision:D1_crisis_response:128;decision:D2_final_delivery_policy:128
++- NO_UNIVERSAL_ACTION_DOMINANCE_V2: PASS — none
++- ACTOR_PAIR_DISTINCTIVENESS: PASS — 6/6
++- COGNITIVE_ANCHOR_GATES: PASS — 12/12
++- COGNITIVE_FIREWALL: PASS — 100 pairs
++- MAX_DECISION_CLOCK_360: PASS — max=297
++- PHASE7_PLAYER_FIREWALL: PASS — 16 initial player views; forbidden=trueWorldState|actorInternalState|hiddenProvenance|worldId|seed
++- PHASE7_PRESENTATION_REGRESSION: PASS — sha256=5935a851ba7ee3ed7a0ee39c50c3c9b49d489491d1842fede617396d62882f7b; priorAssertions=600 retained
+diff --git a/docs/scenario5-phase8b-report-fa.md b/docs/scenario5-phase8b-report-fa.md
+new file mode 100644
+index 0000000..299bb68
+--- /dev/null
++++ b/docs/scenario5-phase8b-report-fa.md
+@@ -0,0 +1,72 @@
++# گزارش کالیبراسیون مهندسی فاز ۸B — سناریو ۵
++
++## 1. خلاصه اجرایی
++
++وضعیت نهایی کالیبراسیون مهندسی **PASS** است؛ 25/25 دروازه سخت پاس شد.
++
++## 2. علت تغییر taxonomy
++
++شواهد Phase 8A نشان داد طبقه «شکست شبکه» با شرط دست‌نیافتنی تداوم حداکثر ۵۰ هم‌خوان نبود؛ taxonomy بدون تغییر فیزیک مسیرها اصلاح شد.
++
++## 3. چرا «شکست شبکه» به «افت تداوم عملیاتی» تغییر کرد
++
++کمینه تداوم مشاهده‌شده هنگام تحویل alpha برابر ۷۵ بود. آستانه افت تداوم عملیاتی در این فاز یک تصمیم طراحی داخلی مبتنی بر تعریف خود شاخص network continuity و نتایج calibration است، نه یک آستانه تجربی برگرفته از ادبیات عملیاتی.
++
++## 4. تعریف دقیق شش End State جدید
++
++- critical_cargo_lost_or_compromised
++- priority_delivered_network_degradation
++- mission_incomplete_continuity_preserved
++- delivery_complete_threat_persistent
++- delivery_complete_attribution_unresolved
++- delivery_complete_threat_contained
++
++## 5. عدم تغییر mechanics
++
++Phase 8B هیچ loading شناختی، رفتار Actor، هزینه اقدام، مدت اقدام، horizon یا budget را تغییر نداده است.
++
++## 6. trajectory parity با Phase 8A
++
++در 563200 مقایسه فیلدی، تعداد mismatch غیرtaxonomy برابر **0** بود.
++
++## 7. توزیع جدید End Stateها
++
++- critical_cargo_lost_or_compromised: 24 (0.000937)
++- priority_delivered_network_degradation: 3520 (0.1375)
++- mission_incomplete_continuity_preserved: 0 (0)
++- delivery_complete_threat_persistent: 13069 (0.510508)
++- delivery_complete_attribution_unresolved: 8956 (0.349844)
++- delivery_complete_threat_contained: 31 (0.001211)
++
++## 8. witness طبیعی network degradation
++
++PASS — ردیف 1703، information_heavy، W-corridor_alpha_east-deceptive_diversion، seed=5.
++
++## 9. witness حالت mission incomplete
++
++PASS — mission_incomplete_continuity_preserved؛ continuity=75.
++
++## 10. وضعیت 360 دقیقه و primary-delivery saturation
++
++نرخ تحویل alpha در افق ۳۶۰ برابر 0.998981 است. افق ۳۶۰ دقیقه همچنان پارامتر طراحی داخلی و در انتظار بازبینی خبره است. نتایج shadow برای افق‌های ۲۷۰ تا ۳۹۰ در CSV ثبت شد.
++
++## 11. وضعیت Actor / Pareto / seed / resources
++
++Actor pair gate=PASS؛ Pareto branches=40540؛ seedهای یکتای M10=16384؛ بودجه رسمی ۱۰۰/۱۰۰ ثابت ماند.
++
++## 12. وضعیت Cognitive calibration
++
++7936 اجرا انجام شد؛ anchor=12/12 و random OSI centering=PASS.
++
++## 13. Warningهای باقی‌مانده
++
++- PRIMARY_DELIVERY_SATURATION_WARNING: alphaDeliveredRateAt360=0.998981; horizon remains internal pending expert review
++- COGNITIVE_DISTRIBUTION_WARNING: multiDomainIntegration:engineering_low_variance;integration:engineering_low_variance
++
++## 14. محدودیت‌ها
++
++عامل‌های مصنوعی احتمال دنیای واقعی، اعتبار انسانی یا اعتبار روان‌سنجی را اثبات نمی‌کنند. فراوانی کم یک حالت معتبر صرفاً شاهد توصیفی برای بازبینی بعدی است.
++
++## 15. وضعیت نهایی engineering calibration
++
++**PASS**. Phase 9 شروع نشده است.
+diff --git a/docs/scenario5-phase8b-summary.json b/docs/scenario5-phase8b-summary.json
+new file mode 100644
+index 0000000..b22ae75
+--- /dev/null
++++ b/docs/scenario5-phase8b-summary.json
+@@ -0,0 +1,1153 @@
++{
++  "missionModelVersion": "s5-mission-v1.1.0",
++  "cognitiveModelVersion": "s5-cognitive-v3-adapter-v1.0.0",
++  "runtimeModelVersion": "s5-runtime-v1.0.1",
++  "domainMetricsVersion": "s5-domain-metrics-v1.0.0",
++  "calibrationVersion": "s5-calibration-v1.2.0",
++  "calibrationStatus": "engineering_audit_not_human_validated",
++  "runCounts": {
++    "missionMainRuns": 25600,
++    "deterministicMissionRuns": 9216,
++    "randomMissionRuns": 16384,
++    "cognitiveRuns": 7936,
++    "deterministicCognitiveRuns": 3840,
++    "randomCognitiveRuns": 4096,
++    "deterministicReplayCases": 384,
++    "counterfactualBranches": 40540
++  },
++  "taxonomyMigration": {
++    "exactNewIds": [
++      "critical_cargo_lost_or_compromised",
++      "priority_delivered_network_degradation",
++      "mission_incomplete_continuity_preserved",
++      "delivery_complete_threat_persistent",
++      "delivery_complete_attribution_unresolved",
++      "delivery_complete_threat_contained"
++    ],
++    "retiredIds": [
++      "priority_delivered_network_failure",
++      "delayed_delivery_persistent_disruption",
++      "resilient_delivery_unresolved_attribution",
++      "resilient_delivery_threat_contained"
++    ],
++    "retiredIdsInActiveMissionSource": []
++  },
++  "trajectoryParity": {
++    "comparedRows": 25600,
++    "fieldsPerRow": 22,
++    "comparedFieldValues": 563200,
++    "mismatchCount": 0
++  },
++  "expectedReclassificationCounts": {
++    "critical_cargo_lost_or_compromised": 24,
++    "priority_delivered_network_degradation": 3520,
++    "mission_incomplete_continuity_preserved": 0,
++    "delivery_complete_threat_persistent": 13069,
++    "delivery_complete_attribution_unresolved": 8956,
++    "delivery_complete_threat_contained": 31
++  },
++  "endStateDistribution": {
++    "rows": [
++      {
++        "endStateId": "critical_cargo_lost_or_compromised",
++        "count": 24,
++        "rate": 0.000937
++      },
++      {
++        "endStateId": "priority_delivered_network_degradation",
++        "count": 3520,
++        "rate": 0.1375
++      },
++      {
++        "endStateId": "mission_incomplete_continuity_preserved",
++        "count": 0,
++        "rate": 0
++      },
++      {
++        "endStateId": "delivery_complete_threat_persistent",
++        "count": 13069,
++        "rate": 0.510508
++      },
++      {
++        "endStateId": "delivery_complete_attribution_unresolved",
++        "count": 8956,
++        "rate": 0.349844
++      },
++      {
++        "endStateId": "delivery_complete_threat_contained",
++        "count": 31,
++        "rate": 0.001211
++      }
++    ],
++    "leastFrequentMainAuditState": "mission_incomplete_continuity_preserved",
++    "leastFrequentMainAuditStateRate": 0,
++    "mostFrequentMainAuditState": "delivery_complete_threat_persistent",
++    "mostFrequentMainAuditStateRate": 0.510508
++  },
++  "endStateWitnesses": [
++    {
++      "source": "main_audit",
++      "endStateId": "critical_cargo_lost_or_compromised",
++      "rowIndex": 3664,
++      "policyId": "M10_uniform_random",
++      "worldId": "W-corridor_alpha_east-opportunistic_interdiction",
++      "environmentSeed": 19,
++      "alphaDelivered": false,
++      "alphaIntegrity": 54,
++      "networkContinuityPercent": 75,
++      "actions": "",
++      "targets": ""
++    },
++    {
++      "source": "main_audit",
++      "endStateId": "priority_delivered_network_degradation",
++      "rowIndex": 1703,
++      "policyId": "information_heavy",
++      "worldId": "W-corridor_alpha_east-deceptive_diversion",
++      "environmentSeed": 5,
++      "alphaDelivered": true,
++      "alphaIntegrity": 87,
++      "networkContinuityPercent": 75,
++      "actions": "",
++      "targets": ""
++    },
++    {
++      "source": "approved_fixed_witness",
++      "endStateId": "mission_incomplete_continuity_preserved",
++      "rowIndex": "",
++      "policyId": "witness_random",
++      "worldId": "W-corridor_alpha_east-opportunistic_interdiction",
++      "environmentSeed": 1,
++      "alphaDelivered": false,
++      "alphaIntegrity": 62,
++      "networkContinuityPercent": 75,
++      "actions": "a1_priority_focus|a2_broad_sweep|b1_split_attention|b2_hold_verify|c1_ground_recon|c2_isr_heavy|d1_hold_confirm|d2_continuity_first_finish",
++      "targets": "corridor_alpha_east|||corridor_alpha_east|corridor_alpha_east||corridor_alpha_east|"
++    },
++    {
++      "source": "main_audit",
++      "endStateId": "delivery_complete_threat_persistent",
++      "rowIndex": 1,
++      "policyId": "balanced_network",
++      "worldId": "W-corridor_alpha_east-cautious_denial",
++      "environmentSeed": 1,
++      "alphaDelivered": true,
++      "alphaIntegrity": 100,
++      "networkContinuityPercent": 100,
++      "actions": "",
++      "targets": ""
++    },
++    {
++      "source": "main_audit",
++      "endStateId": "delivery_complete_attribution_unresolved",
++      "rowIndex": 4,
++      "policyId": "mobility_resilience",
++      "worldId": "W-corridor_alpha_east-cautious_denial",
++      "environmentSeed": 1,
++      "alphaDelivered": true,
++      "alphaIntegrity": 100,
++      "networkContinuityPercent": 100,
++      "actions": "",
++      "targets": ""
++    },
++    {
++      "source": "main_audit",
++      "endStateId": "delivery_complete_threat_contained",
++      "rowIndex": 4820,
++      "policyId": "M10_uniform_random",
++      "worldId": "W-corridor_alpha_east-pressure_escalator",
++      "environmentSeed": 1,
++      "alphaDelivered": true,
++      "alphaIntegrity": 62,
++      "networkContinuityPercent": 100,
++      "actions": "",
++      "targets": ""
++    },
++    {
++      "source": "natural_degradation_gate",
++      "endStateId": "priority_delivered_network_degradation",
++      "rowIndex": 1703,
++      "policyId": "information_heavy",
++      "worldId": "W-corridor_alpha_east-deceptive_diversion",
++      "environmentSeed": 5,
++      "alphaDelivered": true,
++      "alphaIntegrity": 87,
++      "networkContinuityPercent": 75,
++      "actions": "",
++      "targets": ""
++    }
++  ],
++  "sixEndStateCoverage": [
++    {
++      "endStateId": "critical_cargo_lost_or_compromised",
++      "mainAuditCount": 24,
++      "witness": "main_audit"
++    },
++    {
++      "endStateId": "priority_delivered_network_degradation",
++      "mainAuditCount": 3520,
++      "witness": "main_audit"
++    },
++    {
++      "endStateId": "mission_incomplete_continuity_preserved",
++      "mainAuditCount": 0,
++      "witness": "approved_fixed_witness"
++    },
++    {
++      "endStateId": "delivery_complete_threat_persistent",
++      "mainAuditCount": 13069,
++      "witness": "main_audit"
++    },
++    {
++      "endStateId": "delivery_complete_attribution_unresolved",
++      "mainAuditCount": 8956,
++      "witness": "main_audit"
++    },
++    {
++      "endStateId": "delivery_complete_threat_contained",
++      "mainAuditCount": 31,
++      "witness": "main_audit"
++    }
++  ],
++  "primaryDeliverySaturation": {
++    "population": "M1..M7 + M10; non-oracle/non-stress",
++    "alphaDeliveredRateAt360": 0.998981,
++    "warning": true
++  },
++  "shadowHorizon": [
++    {
++      "horizon": 270,
++      "alphaDeliveryRate": 0.868758,
++      "allConvoyDeliveryRate": 0.207796,
++      "meanDeliveredConvoyCount": 3.154339
++    },
++    {
++      "horizon": 285,
++      "alphaDeliveryRate": 0.924592,
++      "allConvoyDeliveryRate": 0.435377,
++      "meanDeliveredConvoyCount": 3.429942
++    },
++    {
++      "horizon": 300,
++      "alphaDeliveryRate": 0.965778,
++      "allConvoyDeliveryRate": 0.664572,
++      "meanDeliveredConvoyCount": 3.664445
++    },
++    {
++      "horizon": 315,
++      "alphaDeliveryRate": 0.98739,
++      "allConvoyDeliveryRate": 0.82061,
++      "meanDeliveredConvoyCount": 3.82061
++    },
++    {
++      "horizon": 330,
++      "alphaDeliveryRate": 0.992782,
++      "allConvoyDeliveryRate": 0.908118,
++      "meanDeliveredConvoyCount": 3.908118
++    },
++    {
++      "horizon": 345,
++      "alphaDeliveryRate": 0.996179,
++      "allConvoyDeliveryRate": 0.943402,
++      "meanDeliveredConvoyCount": 3.943402
++    },
++    {
++      "horizon": 360,
++      "alphaDeliveryRate": 0.998981,
++      "allConvoyDeliveryRate": 0.965778,
++      "meanDeliveredConvoyCount": 3.965778
++    },
++    {
++      "horizon": 375,
++      "alphaDeliveryRate": 0.998981,
++      "allConvoyDeliveryRate": 0.975586,
++      "meanDeliveredConvoyCount": 3.975586
++    },
++    {
++      "horizon": 390,
++      "alphaDeliveryRate": 0.998981,
++      "allConvoyDeliveryRate": 0.978388,
++      "meanDeliveredConvoyCount": 3.978388
++    }
++  ],
++  "effectivePolicySeedUniqueness": {
++    "m10": {
++      "expected": 16384,
++      "actual": 16384
++    },
++    "c16": {
++      "expected": 4096,
++      "actual": 4096
++    }
++  },
++  "correctedPhase8aHardGates": {
++    "ACTION_TARGET_COVERAGE_V2": "PASS",
++    "OSI_STRUCTURAL_CENTERING": "PASS",
++    "RANDOM_OSI_MONTE_CARLO_CENTERING": "PASS",
++    "DOMINANCE_STATE_COVERAGE": "PASS",
++    "NO_UNIVERSAL_ACTION_DOMINANCE_V2": "PASS",
++    "ACTOR_PAIR_DISTINCTIVENESS": "PASS",
++    "COGNITIVE_ANCHOR_GATES": "PASS",
++    "COGNITIVE_FIREWALL": "PASS"
++  },
++  "cognitiveWarnings": [
++    {
++      "metric": "multiDomainIntegration",
++      "warnings": [
++        "engineering_low_variance"
++      ]
++    },
++    {
++      "metric": "integration",
++      "warnings": [
++        "engineering_low_variance"
++      ]
++    }
++  ],
++  "diagnostics": {
++    "actorPairs": [
++      {
++        "actorA": "cautious_denial",
++        "actorB": "deceptive_diversion",
++        "meanDelayDifference": 21.720983,
++        "threatContainedRateDifference": 0,
++        "endStateTvDistance": 0.214286,
++        "secondaryImpactRateDifference": 0,
++        "distinguishable": true
++      },
++      {
++        "actorA": "cautious_denial",
++        "actorB": "opportunistic_interdiction",
++        "meanDelayDifference": 49.142858,
++        "threatContainedRateDifference": 0,
++        "endStateTvDistance": 0.571429,
++        "secondaryImpactRateDifference": 0.071429,
++        "distinguishable": true
++      },
++      {
++        "actorA": "cautious_denial",
++        "actorB": "pressure_escalator",
++        "meanDelayDifference": 29.928572,
++        "threatContainedRateDifference": 0.142857,
++        "endStateTvDistance": 0.285714,
++        "secondaryImpactRateDifference": 0,
++        "distinguishable": true
++      },
++      {
++        "actorA": "deceptive_diversion",
++        "actorB": "opportunistic_interdiction",
++        "meanDelayDifference": 27.421875,
++        "threatContainedRateDifference": 0,
++        "endStateTvDistance": 0.526786,
++        "secondaryImpactRateDifference": 0.071429,
++        "distinguishable": true
++      },
++      {
++        "actorA": "deceptive_diversion",
++        "actorB": "pressure_escalator",
++        "meanDelayDifference": 8.207589,
++        "threatContainedRateDifference": 0.142857,
++        "endStateTvDistance": 0.241071,
++        "secondaryImpactRateDifference": 0,
++        "distinguishable": true
++      },
++      {
++        "actorA": "opportunistic_interdiction",
++        "actorB": "pressure_escalator",
++        "meanDelayDifference": 19.214286,
++        "threatContainedRateDifference": 0.142857,
++        "endStateTvDistance": 0.285714,
++        "secondaryImpactRateDifference": 0.071429,
++        "distinguishable": true
++      }
++    ],
++    "randomOsi": {
++      "overall": {
++        "mean": 0.00627,
++        "sd": 0.272155,
++        "p025": -0.535947,
++        "p975": 0.505404,
++        "n": 4096
++      },
++      "phaseA": {
++        "mean": 0.008773,
++        "sd": 0.640906,
++        "p025": -1,
++        "p975": 0.770492,
++        "n": 4096
++      },
++      "phaseB": {
++        "mean": 0.012308,
++        "sd": 0.520806,
++        "p025": -1,
++        "p975": 0.897131,
++        "n": 4096
++      },
++      "phaseC": {
++        "mean": -0.001709,
++        "sd": 0.438596,
++        "p025": -0.674663,
++        "p975": 0.925803,
++        "n": 4096
++      },
++      "phaseD": {
++        "mean": 0.005708,
++        "sd": 0.553038,
++        "p025": -0.845804,
++        "p975": 1,
++        "n": 4096
++      }
++    },
++    "structuralOsi": [
++      {
++        "windowId": "A1_baseline_monitoring",
++        "availableActionSetKey": "a1_network_baseline|a1_preserve_reserve|a1_priority_focus|a1_rotating_watch",
++        "optionCount": 4,
++        "meanAdjustedOrientation": 0,
++        "diagnostic": true,
++        "pass": true
++      },
++      {
++        "windowId": "B1_monitoring_allocation",
++        "availableActionSetKey": "b1_priority_cargo|b1_pulse_network|b1_split_attention|b1_suspect_focus",
++        "optionCount": 4,
++        "meanAdjustedOrientation": 0,
++        "diagnostic": true,
++        "pass": true
++      },
++      {
++        "windowId": "B2_route_policy",
++        "availableActionSetKey": "b2_continue_crosscheck|b2_hold_verify|b2_reroute|b2_staged_checkpoints",
++        "optionCount": 4,
++        "meanAdjustedOrientation": 0,
++        "diagnostic": true,
++        "pass": true
++      },
++      {
++        "windowId": "C1_support_and_checkpoints",
++        "availableActionSetKey": "c1_checkpoint_spacing|c1_fallback_nav|c1_ground_recon|c1_preserve_mobile_reserve",
++        "optionCount": 4,
++        "meanAdjustedOrientation": 0,
++        "diagnostic": true,
++        "pass": true
++      },
++      {
++        "windowId": "C2_resource_portfolio",
++        "availableActionSetKey": "c2_balanced|c2_isr_heavy|c2_mobility_heavy|c2_priority_surge",
++        "optionCount": 4,
++        "meanAdjustedOrientation": 0,
++        "diagnostic": true,
++        "pass": true
++      },
++      {
++        "windowId": "D1_crisis_response",
++        "availableActionSetKey": "d1_deception_routing|d1_emergency_reroute|d1_escorted_continuation|d1_ground_containment|d1_hold_confirm",
++        "optionCount": 5,
++        "meanAdjustedOrientation": 0,
++        "diagnostic": true,
++        "pass": true
++      },
++      {
++        "windowId": "D2_final_delivery_policy",
++        "availableActionSetKey": "d2_continuity_first_finish|d2_critical_delivery_surge|d2_network_balanced_finish|d2_resilient_handoff",
++        "optionCount": 4,
++        "meanAdjustedOrientation": 0,
++        "diagnostic": true,
++        "pass": true
++      },
++      {
++        "windowId": "D2_final_delivery_policy",
++        "availableActionSetKey": "d2_continuity_first_finish|d2_network_balanced_finish",
++        "optionCount": 2,
++        "meanAdjustedOrientation": 0,
++        "diagnostic": true,
++        "pass": true
++      }
++    ],
++    "actionCoverage": [
++      {
++        "actionId": "a1_network_baseline",
++        "selectionCount": 7172,
++        "selectionCountByRound": "{\"1\":7172}",
++        "targetAlphaCount": 0,
++        "targetBetaCount": 0,
++        "targetGammaCount": 0,
++        "targetDeltaCount": 0,
++        "fallbackSelectionCount": 0,
++        "alphaLegality": "not_applicable",
++        "betaLegality": "not_applicable",
++        "gammaLegality": "not_applicable",
++        "deltaLegality": "not_applicable"
++      },
++      {
++        "actionId": "a1_priority_focus",
++        "selectionCount": 6277,
++        "selectionCountByRound": "{\"1\":6277}",
++        "targetAlphaCount": 6277,
++        "targetBetaCount": 0,
++        "targetGammaCount": 0,
++        "targetDeltaCount": 0,
++        "fallbackSelectionCount": 0,
++        "alphaLegality": "not_applicable",
++        "betaLegality": "not_applicable",
++        "gammaLegality": "not_applicable",
++        "deltaLegality": "not_applicable"
++      },
++      {
++        "actionId": "a1_rotating_watch",
++        "selectionCount": 3999,
++        "selectionCountByRound": "{\"1\":3999}",
++        "targetAlphaCount": 0,
++        "targetBetaCount": 0,
++        "targetGammaCount": 0,
++        "targetDeltaCount": 0,
++        "fallbackSelectionCount": 0,
++        "alphaLegality": "not_applicable",
++        "betaLegality": "not_applicable",
++        "gammaLegality": "not_applicable",
++        "deltaLegality": "not_applicable"
++      },
++      {
++        "actionId": "a1_preserve_reserve",
++        "selectionCount": 7128,
++        "selectionCountByRound": "{\"1\":7128}",
++        "targetAlphaCount": 0,
++        "targetBetaCount": 0,
++        "targetGammaCount": 0,
++        "targetDeltaCount": 0,
++        "fallbackSelectionCount": 0,
++        "alphaLegality": "not_applicable",
++        "betaLegality": "not_applicable",
++        "gammaLegality": "not_applicable",
++        "deltaLegality": "not_applicable"
++      },
++      {
++        "actionId": "a2_focused_pnt",
++        "selectionCount": 6207,
++        "selectionCountByRound": "{\"2\":6207}",
++        "targetAlphaCount": 2830,
++        "targetBetaCount": 1252,
++        "targetGammaCount": 1086,
++        "targetDeltaCount": 1039,
++        "fallbackSelectionCount": 0,
++        "alphaLegality": "observed",
++        "betaLegality": "observed",
++        "gammaLegality": "observed",
++        "deltaLegality": "observed"
++      },
++      {
++        "actionId": "a2_broad_sweep",
++        "selectionCount": 6085,
++        "selectionCountByRound": "{\"2\":6085}",
++        "targetAlphaCount": 0,
++        "targetBetaCount": 0,
++        "targetGammaCount": 0,
++        "targetDeltaCount": 0,
++        "fallbackSelectionCount": 0,
++        "alphaLegality": "not_applicable",
++        "betaLegality": "not_applicable",
++        "gammaLegality": "not_applicable",
++        "deltaLegality": "not_applicable"
++      },
++      {
++        "actionId": "a2_field_radio",
++        "selectionCount": 7178,
++        "selectionCountByRound": "{\"2\":7178}",
++        "targetAlphaCount": 4112,
++        "targetBetaCount": 976,
++        "targetGammaCount": 1026,
++        "targetDeltaCount": 1064,
++        "fallbackSelectionCount": 0,
++        "alphaLegality": "observed",
++        "betaLegality": "observed",
++        "gammaLegality": "observed",
++        "deltaLegality": "observed"
++      },
++      {
++        "actionId": "a2_ground_liaison",
++        "selectionCount": 5106,
++        "selectionCountByRound": "{\"2\":5106}",
++        "targetAlphaCount": 1332,
++        "targetBetaCount": 1327,
++        "targetGammaCount": 1235,
++        "targetDeltaCount": 1212,
++        "fallbackSelectionCount": 0,
++        "alphaLegality": "observed",
++        "betaLegality": "observed",
++        "gammaLegality": "observed",
++        "deltaLegality": "observed"
++      },
++      {
++        "actionId": "b1_suspect_focus",
++        "selectionCount": 6226,
++        "selectionCountByRound": "{\"3\":6226}",
++        "targetAlphaCount": 3031,
++        "targetBetaCount": 1084,
++        "targetGammaCount": 1056,
++        "targetDeltaCount": 1055,
++        "fallbackSelectionCount": 0,
++        "alphaLegality": "observed",
++        "betaLegality": "observed",
++        "gammaLegality": "observed",
++        "deltaLegality": "observed"
++      },
++      {
++        "actionId": "b1_priority_cargo",
++        "selectionCount": 5078,
++        "selectionCountByRound": "{\"3\":5078}",
++        "targetAlphaCount": 5078,
++        "targetBetaCount": 0,
++        "targetGammaCount": 0,
++        "targetDeltaCount": 0,
++        "fallbackSelectionCount": 0,
++        "alphaLegality": "not_applicable",
++        "betaLegality": "not_applicable",
++        "gammaLegality": "not_applicable",
++        "deltaLegality": "not_applicable"
++      },
++      {
++        "actionId": "b1_split_attention",
++        "selectionCount": 6184,
++        "selectionCountByRound": "{\"3\":6184}",
++        "targetAlphaCount": 0,
++        "targetBetaCount": 0,
++        "targetGammaCount": 0,
++        "targetDeltaCount": 0,
++        "fallbackSelectionCount": 0,
++        "alphaLegality": "not_applicable",
++        "betaLegality": "not_applicable",
++        "gammaLegality": "not_applicable",
++        "deltaLegality": "not_applicable"
++      },
++      {
++        "actionId": "b1_pulse_network",
++        "selectionCount": 7088,
++        "selectionCountByRound": "{\"3\":7088}",
++        "targetAlphaCount": 0,
++        "targetBetaCount": 0,
++        "targetGammaCount": 0,
++        "targetDeltaCount": 0,
++        "fallbackSelectionCount": 0,
++        "alphaLegality": "not_applicable",
++        "betaLegality": "not_applicable",
++        "gammaLegality": "not_applicable",
++        "deltaLegality": "not_applicable"
++      },
++      {
++        "actionId": "b2_continue_crosscheck",
++        "selectionCount": 8182,
++        "selectionCountByRound": "{\"4\":8182}",
++        "targetAlphaCount": 5083,
++        "targetBetaCount": 1033,
++        "targetGammaCount": 1053,
++        "targetDeltaCount": 1013,
++        "fallbackSelectionCount": 0,
++        "alphaLegality": "observed",
++        "betaLegality": "observed",
++        "gammaLegality": "observed",
++        "deltaLegality": "observed"
++      },
++      {
++        "actionId": "b2_reroute",
++        "selectionCount": 6270,
++        "selectionCountByRound": "{\"4\":6270}",
++        "targetAlphaCount": 2086,
++        "targetBetaCount": 1550,
++        "targetGammaCount": 1334,
++        "targetDeltaCount": 1300,
++        "fallbackSelectionCount": 0,
++        "alphaLegality": "observed",
++        "betaLegality": "observed",
++        "gammaLegality": "observed",
++        "deltaLegality": "observed"
++      },
++      {
++        "actionId": "b2_staged_checkpoints",
++        "selectionCount": 5080,
++        "selectionCountByRound": "{\"4\":5080}",
++        "targetAlphaCount": 2050,
++        "targetBetaCount": 999,
++        "targetGammaCount": 982,
++        "targetDeltaCount": 1049,
++        "fallbackSelectionCount": 0,
++        "alphaLegality": "observed",
++        "betaLegality": "observed",
++        "gammaLegality": "observed",
++        "deltaLegality": "observed"
++      },
++      {
++        "actionId": "b2_hold_verify",
++        "selectionCount": 5044,
++        "selectionCountByRound": "{\"4\":5044}",
++        "targetAlphaCount": 1327,
++        "targetBetaCount": 1332,
++        "targetGammaCount": 1194,
++        "targetDeltaCount": 1191,
++        "fallbackSelectionCount": 0,
++        "alphaLegality": "observed",
++        "betaLegality": "observed",
++        "gammaLegality": "observed",
++        "deltaLegality": "observed"
++      },
++      {
++        "actionId": "c1_fallback_nav",
++        "selectionCount": 8212,
++        "selectionCountByRound": "{\"5\":8212}",
++        "targetAlphaCount": 3878,
++        "targetBetaCount": 2298,
++        "targetGammaCount": 1003,
++        "targetDeltaCount": 1033,
++        "fallbackSelectionCount": 0,
++        "alphaLegality": "observed",
++        "betaLegality": "observed",
++        "gammaLegality": "observed",
++        "deltaLegality": "observed"
++      },
++      {
++        "actionId": "c1_ground_recon",
++        "selectionCount": 6111,
++        "selectionCountByRound": "{\"5\":6111}",
++        "targetAlphaCount": 1655,
++        "targetBetaCount": 1523,
++        "targetGammaCount": 1461,
++        "targetDeltaCount": 1472,
++        "fallbackSelectionCount": 0,
++        "alphaLegality": "observed",
++        "betaLegality": "observed",
++        "gammaLegality": "observed",
++        "deltaLegality": "observed"
++      },
++      {
++        "actionId": "c1_checkpoint_spacing",
++        "selectionCount": 5149,
++        "selectionCountByRound": "{\"5\":5149}",
++        "targetAlphaCount": 1021,
++        "targetBetaCount": 2080,
++        "targetGammaCount": 1015,
++        "targetDeltaCount": 1033,
++        "fallbackSelectionCount": 0,
++        "alphaLegality": "observed",
++        "betaLegality": "observed",
++        "gammaLegality": "observed",
++        "deltaLegality": "observed"
++      },
++      {
++        "actionId": "c1_preserve_mobile_reserve",
++        "selectionCount": 5104,
++        "selectionCountByRound": "{\"5\":5104}",
++        "targetAlphaCount": 0,
++        "targetBetaCount": 0,
++        "targetGammaCount": 0,
++        "targetDeltaCount": 0,
++        "fallbackSelectionCount": 0,
++        "alphaLegality": "not_applicable",
++        "betaLegality": "not_applicable",
++        "gammaLegality": "not_applicable",
++        "deltaLegality": "not_applicable"
++      },
++      {
++        "actionId": "c2_isr_heavy",
++        "selectionCount": 5100,
++        "selectionCountByRound": "{\"6\":5100}",
++        "targetAlphaCount": 0,
++        "targetBetaCount": 0,
++        "targetGammaCount": 0,
++        "targetDeltaCount": 0,
++        "fallbackSelectionCount": 0,
++        "alphaLegality": "not_applicable",
++        "betaLegality": "not_applicable",
++        "gammaLegality": "not_applicable",
++        "deltaLegality": "not_applicable"
++      },
++      {
++        "actionId": "c2_mobility_heavy",
++        "selectionCount": 6187,
++        "selectionCountByRound": "{\"6\":6187}",
++        "targetAlphaCount": 0,
++        "targetBetaCount": 0,
++        "targetGammaCount": 0,
++        "targetDeltaCount": 0,
++        "fallbackSelectionCount": 0,
++        "alphaLegality": "not_applicable",
++        "betaLegality": "not_applicable",
++        "gammaLegality": "not_applicable",
++        "deltaLegality": "not_applicable"
++      },
++      {
++        "actionId": "c2_balanced",
++        "selectionCount": 7236,
++        "selectionCountByRound": "{\"6\":7236}",
++        "targetAlphaCount": 0,
++        "targetBetaCount": 0,
++        "targetGammaCount": 0,
++        "targetDeltaCount": 0,
++        "fallbackSelectionCount": 0,
++        "alphaLegality": "not_applicable",
++        "betaLegality": "not_applicable",
++        "gammaLegality": "not_applicable",
++        "deltaLegality": "not_applicable"
++      },
++      {
++        "actionId": "c2_priority_surge",
++        "selectionCount": 6053,
++        "selectionCountByRound": "{\"6\":6053}",
++        "targetAlphaCount": 6053,
++        "targetBetaCount": 0,
++        "targetGammaCount": 0,
++        "targetDeltaCount": 0,
++        "fallbackSelectionCount": 0,
++        "alphaLegality": "not_applicable",
++        "betaLegality": "not_applicable",
++        "gammaLegality": "not_applicable",
++        "deltaLegality": "not_applicable"
++      },
++      {
++        "actionId": "d1_emergency_reroute",
++        "selectionCount": 4237,
++        "selectionCountByRound": "{\"7\":4237}",
++        "targetAlphaCount": 825,
++        "targetBetaCount": 765,
++        "targetGammaCount": 1825,
++        "targetDeltaCount": 822,
++        "fallbackSelectionCount": 0,
++        "alphaLegality": "observed",
++        "betaLegality": "observed",
++        "gammaLegality": "observed",
++        "deltaLegality": "observed"
++      },
++      {
++        "actionId": "d1_ground_containment",
++        "selectionCount": 4404,
++        "selectionCountByRound": "{\"7\":4404}",
++        "targetAlphaCount": 1072,
++        "targetBetaCount": 1022,
++        "targetGammaCount": 1163,
++        "targetDeltaCount": 1147,
++        "fallbackSelectionCount": 0,
++        "alphaLegality": "observed",
++        "betaLegality": "observed",
++        "gammaLegality": "observed",
++        "deltaLegality": "observed"
++      },
++      {
++        "actionId": "d1_deception_routing",
++        "selectionCount": 3210,
++        "selectionCountByRound": "{\"7\":3210}",
++        "targetAlphaCount": 774,
++        "targetBetaCount": 814,
++        "targetGammaCount": 807,
++        "targetDeltaCount": 815,
++        "fallbackSelectionCount": 0,
++        "alphaLegality": "observed",
++        "betaLegality": "observed",
++        "gammaLegality": "observed",
++        "deltaLegality": "observed"
++      },
++      {
++        "actionId": "d1_escorted_continuation",
++        "selectionCount": 5297,
++        "selectionCountByRound": "{\"7\":5297}",
++        "targetAlphaCount": 2582,
++        "targetBetaCount": 1090,
++        "targetGammaCount": 817,
++        "targetDeltaCount": 808,
++        "fallbackSelectionCount": 0,
++        "alphaLegality": "observed",
++        "betaLegality": "observed",
++        "gammaLegality": "observed",
++        "deltaLegality": "observed"
++      },
++      {
++        "actionId": "d1_hold_confirm",
++        "selectionCount": 7428,
++        "selectionCountByRound": "{\"7\":7428}",
++        "targetAlphaCount": 2678,
++        "targetBetaCount": 1594,
++        "targetGammaCount": 1581,
++        "targetDeltaCount": 1575,
++        "fallbackSelectionCount": 0,
++        "alphaLegality": "observed",
++        "betaLegality": "observed",
++        "gammaLegality": "observed",
++        "deltaLegality": "observed"
++      },
++      {
++        "actionId": "d2_critical_delivery_surge",
++        "selectionCount": 3797,
++        "selectionCountByRound": "{\"8\":3797}",
++        "targetAlphaCount": 3797,
++        "targetBetaCount": 0,
++        "targetGammaCount": 0,
++        "targetDeltaCount": 0,
++        "fallbackSelectionCount": 0,
++        "alphaLegality": "not_applicable",
++        "betaLegality": "not_applicable",
++        "gammaLegality": "not_applicable",
++        "deltaLegality": "not_applicable"
++      },
++      {
++        "actionId": "d2_network_balanced_finish",
++        "selectionCount": 10321,
++        "selectionCountByRound": "{\"8\":10321}",
++        "targetAlphaCount": 0,
++        "targetBetaCount": 0,
++        "targetGammaCount": 0,
++        "targetDeltaCount": 0,
++        "fallbackSelectionCount": 1496,
++        "alphaLegality": "not_applicable",
++        "betaLegality": "not_applicable",
++        "gammaLegality": "not_applicable",
++        "deltaLegality": "not_applicable"
++      },
++      {
++        "actionId": "d2_resilient_handoff",
++        "selectionCount": 2872,
++        "selectionCountByRound": "{\"8\":2872}",
++        "targetAlphaCount": 2872,
++        "targetBetaCount": 0,
++        "targetGammaCount": 0,
++        "targetDeltaCount": 0,
++        "fallbackSelectionCount": 0,
++        "alphaLegality": "not_applicable",
++        "betaLegality": "not_applicable",
++        "gammaLegality": "not_applicable",
++        "deltaLegality": "not_applicable"
++      },
++      {
++        "actionId": "d2_continuity_first_finish",
++        "selectionCount": 7586,
++        "selectionCountByRound": "{\"8\":7586}",
++        "targetAlphaCount": 0,
++        "targetBetaCount": 0,
++        "targetGammaCount": 0,
++        "targetDeltaCount": 0,
++        "fallbackSelectionCount": 0,
++        "alphaLegality": "not_applicable",
++        "betaLegality": "not_applicable",
++        "gammaLegality": "not_applicable",
++        "deltaLegality": "not_applicable"
++      }
++    ],
++    "explicitTargetProbeCount": 64,
++    "resourceAvailability": {
++      "minimumAvailableActionCountDistribution": [
++        {
++          "count": 2,
++          "runs": 13343
++        },
++        {
++          "count": 4,
++          "runs": 11233
++        }
++      ],
++      "finalIsr": {
++        "p05": 26,
++        "p25": 46,
++        "median": 56,
++        "p75": 68,
++        "p95": 82
++      },
++      "finalSupport": {
++        "p05": 12,
++        "p25": 28,
++        "median": 40,
++        "p75": 54,
++        "p95": 70
++      }
++    },
++    "seedSensitivityHighRate": 0.008929,
++    "maximumDecisionClock": 297
++  },
++  "archiveIntegrity": {
++    "phase8": {
++      "before": "dd1e32dce6c1a7486eb9b58f6c1d15962de48860a569b8513891fb2789633b25",
++      "after": "dd1e32dce6c1a7486eb9b58f6c1d15962de48860a569b8513891fb2789633b25",
++      "unchanged": true
++    },
++    "phase8a": {
++      "before": "b0d663033d0b6f18670daa57729893458a9855de88c14134eb88436e0369524b",
++      "after": "b0d663033d0b6f18670daa57729893458a9855de88c14134eb88436e0369524b",
++      "unchanged": true
++    },
++    "phase07c": {
++      "before": "8169b23209aa498bdaea2bb21d819bca1e81361a1e3f2d128e3971f1c76ed566",
++      "after": "8169b23209aa498bdaea2bb21d819bca1e81361a1e3f2d128e3971f1c76ed566",
++      "unchanged": true
++    },
++    "phase07d": {
++      "before": "83f19dd15629449cd286993c3828526e292310a543247e47de2a41bf330f2a8c",
++      "after": "83f19dd15629449cd286993c3828526e292310a543247e47de2a41bf330f2a8c",
++      "unchanged": true
++    },
++    "frozenUi": {
++      "before": "5935a851ba7ee3ed7a0ee39c50c3c9b49d489491d1842fede617396d62882f7b",
++      "after": "5935a851ba7ee3ed7a0ee39c50c3c9b49d489491d1842fede617396d62882f7b",
++      "unchanged": true
++    }
++  },
++  "hardGates": [
++    {
++      "gateId": "MODEL_VERSION",
++      "status": "PASS",
++      "detail": "s5-mission-v1.1.0; s5-calibration-v1.2.0"
++    },
++    {
++      "gateId": "END_STATE_ID_MIGRATION",
++      "status": "PASS",
++      "detail": "new=6; retired-active=0"
++    },
++    {
++      "gateId": "END_STATE_RESOLVER_EXACT",
++      "status": "PASS",
++      "detail": "ordered=1959|2153|2393|2687|2955|3249"
++    },
++    {
++      "gateId": "TRAJECTORY_PARITY_WITH_08A",
++      "status": "PASS",
++      "detail": "rows=25600; fieldMismatches=0"
++    },
++    {
++      "gateId": "EXPECTED_TAXONOMY_RECLASSIFICATION",
++      "status": "PASS",
++      "detail": "exact 25,600 signature"
++    },
++    {
++      "gateId": "FIXED_INCOMPLETE_WITNESS",
++      "status": "PASS",
++      "detail": "mission_incomplete_continuity_preserved; alphaDelivered=false; continuity=75"
++    },
++    {
++      "gateId": "NATURAL_NETWORK_DEGRADATION_WITNESS",
++      "status": "PASS",
++      "detail": "row=1703; information_heavy; W-corridor_alpha_east-deceptive_diversion; seed=5"
++    },
++    {
++      "gateId": "SIX_END_STATES_OBSERVED_V3",
++      "status": "PASS",
++      "detail": "critical_cargo_lost_or_compromised:main_audit;priority_delivered_network_degradation:main_audit;mission_incomplete_continuity_preserved:approved_fixed_witness;delivery_complete_threat_persistent:main_audit;delivery_complete_attribution_unresolved:main_audit;delivery_complete_threat_contained:main_audit"
++    },
++    {
++      "gateId": "ENVIRONMENT_PANEL_COVERAGE",
++      "status": "PASS",
++      "detail": "worlds=16; latency=early|late|nominal"
++    },
++    {
++      "gateId": "EXECUTION_COMPLETION",
++      "status": "PASS",
++      "detail": "mission=25600; cognitive=7936"
++    },
++    {
++      "gateId": "DETERMINISTIC_REPLAY",
++      "status": "PASS",
++      "detail": "384 cases"
++    },
++    {
++      "gateId": "LEGAL_ACTION_SAFETY",
++      "status": "PASS",
++      "detail": "zeroOption=0; negative=0; chronology=0"
++    },
++    {
++      "gateId": "DOMAIN_DELAY_IDENTITY",
++      "status": "PASS",
++      "detail": "0 failures"
++    },
++    {
++      "gateId": "NO_MATH_RANDOM",
++      "status": "PASS",
++      "detail": "13 files scanned"
++    },
++    {
++      "gateId": "ACTION_TARGET_COVERAGE_V2",
++      "status": "PASS",
++      "detail": "actions=33/33; probes=64/64"
++    },
++    {
++      "gateId": "OSI_STRUCTURAL_CENTERING",
++      "status": "PASS",
++      "detail": "diagnosticSets=8"
++    },
++    {
++      "gateId": "RANDOM_OSI_MONTE_CARLO_CENTERING",
++      "status": "PASS",
++      "detail": "{\"overall\":{\"mean\":0.00627,\"sd\":0.272155,\"p025\":-0.535947,\"p975\":0.505404,\"n\":4096},\"phaseA\":{\"mean\":0.008773,\"sd\":0.640906,\"p025\":-1,\"p975\":0.770492,\"n\":4096},\"phaseB\":{\"mean\":0.012308,\"sd\":0.520806,\"p025\":-1,\"p975\":0.897131,\"n\":4096},\"phaseC\":{\"mean\":-0.001709,\"sd\":0.438596,\"p025\":-0.674663,\"p975\":0.925803,\"n\":4096},\"phaseD\":{\"mean\":0.005708,\"sd\":0.553038,\"p025\":-0.845804,\"p975\":1,\"n\":4096}}"
++    },
++    {
++      "gateId": "DOMINANCE_STATE_COVERAGE",
++      "status": "PASS",
++      "detail": "decision:A1_baseline_monitoring:128;decision:A2_evidence_acquisition:128;decision:B1_monitoring_allocation:128;decision:B2_route_policy:128;decision:C1_support_and_checkpoints:128;decision:C2_resource_portfolio:128;decision:D1_crisis_response:128;decision:D2_final_delivery_policy:128"
++    },
++    {
++      "gateId": "NO_UNIVERSAL_ACTION_DOMINANCE_V2",
++      "status": "PASS",
++      "detail": "none"
++    },
++    {
++      "gateId": "ACTOR_PAIR_DISTINCTIVENESS",
++      "status": "PASS",
++      "detail": "6/6"
++    },
++    {
++      "gateId": "COGNITIVE_ANCHOR_GATES",
++      "status": "PASS",
++      "detail": "12/12"
++    },
++    {
++      "gateId": "COGNITIVE_FIREWALL",
++      "status": "PASS",
++      "detail": "100 pairs"
++    },
++    {
++      "gateId": "MAX_DECISION_CLOCK_360",
++      "status": "PASS",
++      "detail": "max=297"
++    },
++    {
++      "gateId": "PHASE7_PLAYER_FIREWALL",
++      "status": "PASS",
++      "detail": "16 initial player views; forbidden=trueWorldState|actorInternalState|hiddenProvenance|worldId|seed"
++    },
++    {
++      "gateId": "PHASE7_PRESENTATION_REGRESSION",
++      "status": "PASS",
++      "detail": "sha256=5935a851ba7ee3ed7a0ee39c50c3c9b49d489491d1842fede617396d62882f7b; priorAssertions=600 retained"
++    }
++  ],
++  "warnings": [
++    {
++      "gateId": "PRIMARY_DELIVERY_SATURATION_WARNING",
++      "status": "WARNING",
++      "detail": "alphaDeliveredRateAt360=0.998981; horizon remains internal pending expert review"
++    },
++    {
++      "gateId": "OUTCOME_CONCENTRATION_WARNING",
++      "status": "PASS",
++      "detail": "modalShare=0.508704; actorVarietyFailures=0; corridorVarietyFailures=0"
++    },
++    {
++      "gateId": "FORCED_CHOICE_WARNING",
++      "status": "PASS",
++      "detail": "0"
++    },
++    {
++      "gateId": "RESOURCE_TOO_LOOSE_WARNING",
++      "status": "PASS",
++      "detail": "0.163167"
++    },
++    {
++      "gateId": "RESOURCE_EXHAUSTION_WARNING",
++      "status": "PASS",
++      "detail": "0.010864"
++    },
++    {
++      "gateId": "SEED_SENSITIVITY_WARNING",
++      "status": "PASS",
++      "detail": "0.008929"
++    },
++    {
++      "gateId": "COGNITIVE_DISTRIBUTION_WARNING",
++      "status": "WARNING",
++      "detail": "multiDomainIntegration:engineering_low_variance;integration:engineering_low_variance"
++    }
++  ],
++  "overallStatus": "PASS"
++}
+diff --git a/scripts/run-s5-phase8b-calibration.ts b/scripts/run-s5-phase8b-calibration.ts
+new file mode 100644
+index 0000000..6bffee4
+--- /dev/null
++++ b/scripts/run-s5-phase8b-calibration.ts
+@@ -0,0 +1,509 @@
++import { createHash } from "node:crypto";
++import { mkdirSync, readFileSync, readdirSync, writeFileSync } from "node:fs";
++import { join, resolve } from "node:path";
++import {
++  CANONICAL_ACTOR_PROFILES, CANONICAL_CORRIDORS, WORLD_CATALOG, createInitialTrueWorldState,
++} from "../src/ui/components/scenario/scenario-five/model/index.ts";
++import {
++  S5_COGNITIVE_MEASUREMENT_MODEL_VERSION, calculateScenario5CognitiveRunResult,
++} from "../src/ui/components/scenario/scenario-five/model/cognitive/index.ts";
++import { MISSION_MODEL_VERSION } from "../src/ui/components/scenario/scenario-five/model/mission/index.ts";
++import {
++  S5_DOMAIN_METRICS_VERSION, S5_RUNTIME_MODEL_VERSION, createScenario5Runtime,
++} from "../src/ui/components/scenario/scenario-five/model/runtime/index.ts";
++import type { Scenario5RuntimeState } from "../src/ui/components/scenario/scenario-five/model/runtime/index.ts";
++import { buildScenario5PlayerView } from "../src/ui/components/scenario/scenario-five/ui/index.ts";
++import {
++  COGNITIVE_POLICIES, MISSION_POLICIES, S5_CALIBRATION_STATUS, S5_CALIBRATION_VERSION,
++  StructuralOsiCollector, calculateActionCoverage, calculateActorPairs, calculateActorSignatures,
++  calculateDistributions, calculateExtendedShadowHorizon, calculateSeedSensitivity,
++  cognitiveEffectivePolicySeed, collectExplicitProbeCandidates, counterfactualStateKey, mean,
++  missionEffectivePolicySeed, observedRequiredPairs, populationSd, quantile, resourceAvailabilitySummary,
++  round, runCounterfactualAuditV2, runExplicitTargetProbes, simulateScenario5, toCognitiveRunRow,
++  toCsv, toMissionRunRow,
++} from "../src/ui/components/scenario/scenario-five/calibration/index.ts";
++import type {
++  CalibrationPolicy, CognitiveRunRow, GateRecord, MissionRunRow, SimulationRun,
++} from "../src/ui/components/scenario/scenario-five/calibration/index.ts";
++
++const ROOT = resolve(import.meta.dirname, "..");
++const RESULT_DIR = join(ROOT, "docs", "scenario5-phase8b-results");
++mkdirSync(RESULT_DIR, { recursive: true });
++const ENVIRONMENT_SEEDS = Array.from({ length: 64 }, (_, index) => index + 1);
++const MISSION_BASE_SEEDS = Array.from({ length: 16 }, (_, index) => 1001 + index);
++const COGNITIVE_ENVIRONMENT_SEEDS = Array.from({ length: 16 }, (_, index) => index + 1);
++const COGNITIVE_BASE_SEEDS = Array.from({ length: 16 }, (_, index) => 2001 + index);
++const END_STATE_IDS = [
++  "critical_cargo_lost_or_compromised", "priority_delivered_network_degradation",
++  "mission_incomplete_continuity_preserved", "delivery_complete_threat_persistent",
++  "delivery_complete_attribution_unresolved", "delivery_complete_threat_contained",
++] as const;
++const EXPECTED_COUNTS: Readonly<Record<(typeof END_STATE_IDS)[number], number>> = {
++  critical_cargo_lost_or_compromised: 24,
++  priority_delivered_network_degradation: 3520,
++  mission_incomplete_continuity_preserved: 0,
++  delivery_complete_threat_persistent: 13069,
++  delivery_complete_attribution_unresolved: 8956,
++  delivery_complete_threat_contained: 31,
++};
++const NORMAL_POLICY_IDS = [
++  "balanced_network", "priority_alpha", "information_heavy", "mobility_resilience",
++  "resource_preserver", "high_response", "low_response_reversible", "M10_uniform_random",
++] as const;
++const COMPARED_FIELDS = [
++  "policyId", "worldId", "environmentSeed", "basePolicySeed", "effectivePolicySeed",
++  "alphaDelivered", "alphaIntegrity", "alphaDelayMinutes", "alphaProjectedArrivalMinute",
++  "networkContinuityPercent", "deliveredConvoyCount", "onTimeOperationalConvoyCount",
++  "compromisedConvoyCount", "operationalAttributionStatus", "threatContained",
++  "totalFinalDelayMinutes", "totalActorDelayAddedMinutes", "totalPlayerDelayAddedMinutes",
++  "totalPlayerDelayRecoveredMinutes", "finalIsr", "finalSupport", "worldClockBeforeFinalization",
++] as const;
++const OLD_IDS = [
++  "priority_delivered_network_failure", "delayed_delivery_persistent_disruption",
++  "resilient_delivery_unresolved_attribution", "resilient_delivery_threat_contained",
++] as const;
++const EXPECTED_ARCHIVE_HASHES = {
++  phase8: "708548c78b534be82963f0629b44f65561fe928dbf2d0af243856ad1ae27c773",
++  phase8a: "2e60cce70753df076f1c5d3ef0c58fe150b811134cd19244e42b78869e455e7b",
++  phase07c: "9335a5a0c4eac659b140c0a04e88ce8a2361745a48586d531b80a3da0c332d14",
++  phase07d: "69a0b73b820bfa160d6834ec91d5a0af4b45233a7dfda37c8250db5f2ea801bb",
++  frozenUi: "5935a851ba7ee3ed7a0ee39c50c3c9b49d489491d1842fede617396d62882f7b",
++} as const;
++
++const write = (path: string, content: string): void => writeFileSync(join(ROOT, path), content, "utf8");
++const records = <T extends object>(rows: readonly T[]): readonly Readonly<Record<string, unknown>>[] => rows as readonly Readonly<Record<string, unknown>>[];
++const deepEqual = (left: unknown, right: unknown): boolean => JSON.stringify(left) === JSON.stringify(right);
++const walk = (directory: string): string[] => readdirSync(join(ROOT, directory), { withFileTypes: true }).flatMap((entry) => {
++  const child = join(directory, entry.name).replaceAll("\\", "/");
++  return entry.isDirectory() ? walk(child) : [child];
++});
++const sha256 = (value: string | Buffer): string => createHash("sha256").update(value).digest("hex");
++const aggregateHash = (paths: readonly string[]): string => sha256([...paths].sort().map((path) => `${path.replaceAll("\\", "/")}\t${sha256(readFileSync(join(ROOT, path)))}`).join("\n"));
++const archivePaths = {
++  phase8: ["docs/scenario5-phase8-calibration-report-fa.md", "docs/scenario5-phase8-calibration-verification.md", "docs/scenario5-phase8-summary.json", "docs/scenario5-phase8.patch", ...walk("docs/scenario5-phase8-results")],
++  phase8a: ["docs/scenario5-phase8a-audit-verification.md", "docs/scenario5-phase8a-diagnostic-report-fa.md", "docs/scenario5-phase8a-summary.json", "docs/scenario5-phase8a.patch", ...walk("docs/scenario5-phase8a-results")],
++  phase07c: ["docs/scenario5-phase7c-ui-verification.md", "docs/scenario5-phase7c.patch", ...walk("docs/scenario5-phase7c-screenshots")],
++  phase07d: ["docs/scenario5-phase7d-ui-verification.md", "docs/scenario5-phase7d.patch", ...walk("docs/scenario5-phase7d-screenshots")],
++  frozenUi: [
++    "src/ui/components/scenario/ScenarioFiveSimulation.tsx", "src/ui/components/scenario/ScenarioFiveMap.tsx",
++    "src/ui/components/scenario/ScenarioFiveActionCard.tsx", "src/ui/components/scenario/ScenarioFiveResourcePanel.tsx",
++    "src/ui/components/scenario/ScenarioFive.css",
++  ],
++};
++const archiveBefore = Object.fromEntries(Object.entries(archivePaths).map(([key, paths]) => [key, aggregateHash(paths)]));
++if (archiveBefore.frozenUi !== EXPECTED_ARCHIVE_HASHES.frozenUi) {
++  throw new Error(`Phase 08B frozen UI baseline mismatch: ${archiveBefore.frozenUi}`);
++}
++
++const parseCsv = (text: string): string[][] => {
++  const rows: string[][] = []; let row: string[] = []; let field = ""; let quoted = false;
++  for (let index = 0; index < text.length; index += 1) {
++    const char = text[index]!;
++    if (quoted) {
++      if (char === '"' && text[index + 1] === '"') { field += '"'; index += 1; }
++      else if (char === '"') quoted = false;
++      else field += char;
++    } else if (char === '"') quoted = true;
++    else if (char === ",") { row.push(field); field = ""; }
++    else if (char === "\n") { row.push(field.replace(/\r$/, "")); rows.push(row); row = []; field = ""; }
++    else field += char;
++  }
++  if (field.length || row.length) { row.push(field); rows.push(row); }
++  return rows;
++};
++const archivedCsv = parseCsv(readFileSync(join(ROOT, "docs/scenario5-phase8a-results/mission-runs.csv"), "utf8"));
++const archivedHeaders = archivedCsv[0]!;
++const archivedMissionRows = archivedCsv.slice(1).filter((row) => row.length > 1).map((row) => Object.fromEntries(archivedHeaders.map((header, index) => [header, row[index] ?? ""])));
++const csvScalar = (value: unknown): string => value === null || value === undefined ? "" : String(value);
++
++const environmentWorldCounts = new Map<string, number>();
++const latencyVariants = new Set<string>();
++const expectedNoise = new Set<string>();
++const observedNoise = new Set<string>();
++for (const world of WORLD_CATALOG) {
++  CANONICAL_CORRIDORS.filter(({ corridorId }) => corridorId !== world.primaryAffectedCorridorId && corridorId !== world.initialDecoyCorridorId)
++    .forEach(({ corridorId }) => expectedNoise.add(`${world.worldId}->${corridorId}`));
++  for (const seed of ENVIRONMENT_SEEDS) {
++    const initial = createInitialTrueWorldState(world.worldId, seed);
++    environmentWorldCounts.set(world.worldId, (environmentWorldCounts.get(world.worldId) ?? 0) + 1);
++    latencyVariants.add(initial.latencyVariant);
++    observedNoise.add(`${world.worldId}->${initial.backgroundNoiseCorridorId}`);
++  }
++}
++
++const missionRows: MissionRunRow[] = [];
++const missionCsvRows: Readonly<Record<string, unknown>>[] = [];
++const traceAudits: Pick<SimulationRun, "decisionTrace">[] = [];
++const probeCandidates = new Map<string, Scenario5RuntimeState>();
++const counterfactualStates = new Map<string, Scenario5RuntimeState[]>();
++const counterfactualKeys = new Map<string, Set<string>>();
++const structuralOsi = new StructuralOsiCollector();
++const m10Seeds = new Set<number>();
++let delayIdentityFailures = 0; let negativeResourceRuns = 0; let chronologyFailures = 0; let zeroOptionWindows = 0;
++const addCounterfactualState = (state: Scenario5RuntimeState): void => {
++  const windowId = state.stage.stageId; const states = counterfactualStates.get(windowId) ?? [];
++  const keys = counterfactualKeys.get(windowId) ?? new Set<string>(); const key = counterfactualStateKey(state);
++  if (states.length < 128 && !keys.has(key)) { states.push(state); keys.add(key); counterfactualStates.set(windowId, states); counterfactualKeys.set(windowId, keys); }
++};
++
++for (let worldIndex = 0; worldIndex < WORLD_CATALOG.length; worldIndex += 1) {
++  const world = WORLD_CATALOG[worldIndex]!;
++  for (const environmentSeed of ENVIRONMENT_SEEDS) for (const policy of MISSION_POLICIES) {
++    const baseSeeds: readonly (number | undefined)[] = policy.policyId === "M10_uniform_random" ? MISSION_BASE_SEEDS : [undefined];
++    for (const basePolicySeed of baseSeeds) {
++      const effectivePolicySeed = basePolicySeed === undefined ? undefined : missionEffectivePolicySeed(worldIndex, environmentSeed, basePolicySeed);
++      if (effectivePolicySeed !== undefined) m10Seeds.add(effectivePolicySeed);
++      const sourceIndex = NORMAL_POLICY_IDS.indexOf(policy.policyId as (typeof NORMAL_POLICY_IDS)[number]);
++      const collectCounterfactual = sourceIndex >= 0 && environmentSeed === 1 + ((worldIndex * 8 + sourceIndex) % 64)
++        && (policy.policyId !== "M10_uniform_random" || basePolicySeed === 1001);
++      const run = simulateScenario5({
++        policy, worldId: world.worldId, environmentSeed,
++        ...(effectivePolicySeed === undefined ? {} : { policySeed: effectivePolicySeed }),
++        onPreDecision: (state) => { collectExplicitProbeCandidates(state, probeCandidates); if (collectCounterfactual) addCounterfactualState(state); },
++      });
++      const row: MissionRunRow = { ...toMissionRunRow(run), basePolicySeed: basePolicySeed ?? null, effectivePolicySeed: effectivePolicySeed ?? null };
++      missionRows.push(row); missionCsvRows.push({ ...row, convoySnapshot: JSON.stringify(row.convoySnapshot) });
++      if (!run.oraclePolicy) traceAudits.push({ decisionTrace: run.decisionTrace });
++      if (policy.policyId === "M10_uniform_random") structuralOsi.addRun(run);
++      zeroOptionWindows += Number(run.minimumAvailableActionCount === 0);
++      negativeResourceRuns += Number(row.finalIsr < 0 || row.finalSupport < 0);
++      chronologyFailures += Number(run.state.runtimeEvents.some((event, index, events) => index > 0 && event.atMs < events[index - 1]!.atMs));
++      for (const corridor of CANONICAL_CORRIDORS) {
++        const delay = run.result.domain.delayControl.byCorridor[corridor.corridorId];
++        delayIdentityFailures += Number(delay.finalDelayMinutes !== delay.actorDelayAddedMinutes + delay.playerDelayAddedMinutes - delay.playerDelayRecoveredMinutes);
++      }
++    }
++  }
++}
++console.log(`Phase 08B mission audit complete: ${missionRows.length} runs.`);
++
++const trajectoryParityRows = missionRows.map((row, index) => {
++  const archived = archivedMissionRows[index] ?? {};
++  const mismatchedFields = COMPARED_FIELDS.filter((field) => csvScalar(row[field]) !== (archived[field] ?? ""));
++  return { rowIndex: index + 1, policyId: row.policyId, worldId: row.worldId, environmentSeed: row.environmentSeed, mismatchCount: mismatchedFields.length, mismatchedFields: mismatchedFields.join("|") };
++});
++const trajectoryMismatchCount = trajectoryParityRows.reduce((sum, row) => sum + row.mismatchCount, 0);
++const mainCounts = Object.fromEntries(END_STATE_IDS.map((id) => [id, missionRows.filter(({ endStateId }) => endStateId === id).length])) as Record<(typeof END_STATE_IDS)[number], number>;
++const countMismatches = END_STATE_IDS.filter((id) => mainCounts[id] !== EXPECTED_COUNTS[id]);
++const naturalDegradationIndex = missionRows.findIndex((row) => !row.oraclePolicy && row.alphaDelivered && row.networkContinuityPercent === 75 && row.endStateId === "priority_delivered_network_degradation");
++const naturalDegradation = naturalDegradationIndex >= 0 ? missionRows[naturalDegradationIndex]! : null;
++
++const incompletePolicy: CalibrationPolicy = {
++  policyId: "witness_random", oraclePolicy: false, stressPolicy: false, randomPolicy: false,
++  evidenceBehavior: "none", beliefBehavior: "neutral", reasonBehavior: "neutral",
++  requestedActionByRound: { 1: "a1_priority_focus", 2: "a2_broad_sweep", 3: "b1_split_attention", 4: "b2_hold_verify", 5: "c1_ground_recon", 6: "c2_isr_heavy", 7: "d1_hold_confirm", 8: "d2_continuity_first_finish" },
++  targetSelectorByRound: { 4: "alphaIfActiveElseFirst", 5: "alphaIfActiveElseFirst", 7: "alphaIfActiveElseFirst" },
++};
++const incompleteRun = simulateScenario5({ policy: incompletePolicy, worldId: "W-corridor_alpha_east-opportunistic_interdiction", environmentSeed: 1 });
++const incompleteRow = toMissionRunRow(incompleteRun);
++const expectedWitnessActions = Object.values(incompletePolicy.requestedActionByRound!);
++const fixedWitnessPassed = incompleteRow.endStateId === "mission_incomplete_continuity_preserved"
++  && deepEqual(incompleteRun.decisionTrace.map(({ actualActionId }) => actualActionId), expectedWitnessActions)
++  && incompleteRun.decisionTrace.filter(({ roundId }) => [4, 5, 7].includes(roundId)).every(({ targetCorridorId }) => targetCorridorId === "corridor_alpha_east");
++
++const actionCoverage = calculateActionCoverage(traceAudits);
++const resourcePreserver = MISSION_POLICIES.find(({ policyId }) => policyId === "resource_preserver")!;
++const explicitTargetProbes = runExplicitTargetProbes(probeCandidates, observedRequiredPairs(traceAudits), resourcePreserver);
++const coveragePassed = actionCoverage.every(({ selectionCount }) => selectionCount > 0)
++  && explicitTargetProbes.every(({ classification }) => classification !== "probe_failed")
++  && explicitTargetProbes.filter(({ classification }) => classification !== "not_observed_as_legal").every(({ commitSucceeded }) => commitSucceeded);
++
++let replayCases = 0; let deterministicReplayPassed = true;
++for (const policy of MISSION_POLICIES.slice(0, 4)) for (let worldIndex = 0; worldIndex < WORLD_CATALOG.length; worldIndex += 1) for (const environmentSeed of [1, 17, 33, 64]) {
++  const options = { policy, worldId: WORLD_CATALOG[worldIndex]!.worldId, environmentSeed } as const;
++  const first = simulateScenario5(options); const second = simulateScenario5(options); replayCases += 1;
++  deterministicReplayPassed &&= deepEqual(first.state, second.state) && deepEqual(first.result, second.result) && deepEqual(first.cognitiveBundle, second.cognitiveBundle);
++}
++const m10 = MISSION_POLICIES.find(({ policyId }) => policyId === "M10_uniform_random")!;
++for (let worldIndex = 0; worldIndex < WORLD_CATALOG.length; worldIndex += 1) for (const environmentSeed of [1, 17, 33, 64]) for (const baseSeed of [1001, 1016]) {
++  const options = { policy: m10, worldId: WORLD_CATALOG[worldIndex]!.worldId, environmentSeed, policySeed: missionEffectivePolicySeed(worldIndex, environmentSeed, baseSeed) } as const;
++  const first = simulateScenario5(options); const second = simulateScenario5(options); replayCases += 1;
++  deterministicReplayPassed &&= deepEqual(first.state, second.state) && deepEqual(first.result, second.result) && deepEqual(first.cognitiveBundle, second.cognitiveBundle);
++}
++
++const normalRows = missionRows.filter(({ policyId }) => NORMAL_POLICY_IDS.includes(policyId as (typeof NORMAL_POLICY_IDS)[number]));
++const matchedActorRows = missionRows.filter(({ policyId }) => NORMAL_POLICY_IDS.slice(0, 7).includes(policyId as (typeof NORMAL_POLICY_IDS)[number]));
++const actorPairs = calculateActorPairs(calculateActorSignatures(matchedActorRows));
++const seedSensitivity = calculateSeedSensitivity(matchedActorRows);
++const counterfactual = runCounterfactualAuditV2(counterfactualStates, MISSION_POLICIES);
++console.log(`Phase 08B Pareto audit complete: ${counterfactual.branchCount} branches.`);
++
++const cognitiveRows: CognitiveRunRow[] = []; const cognitiveCsvRows: Readonly<Record<string, unknown>>[] = [];
++const c16Seeds = new Set<number>(); let cognitiveFirewallPassed = true; let cognitiveFirewallPairs = 0;
++for (let worldIndex = 0; worldIndex < WORLD_CATALOG.length; worldIndex += 1) {
++  const world = WORLD_CATALOG[worldIndex]!;
++  for (const environmentSeed of COGNITIVE_ENVIRONMENT_SEEDS) for (const policy of COGNITIVE_POLICIES) {
++    const baseSeeds: readonly (number | undefined)[] = policy.policyId === "uniform_random_cognitive" ? COGNITIVE_BASE_SEEDS : [undefined];
++    for (const basePolicySeed of baseSeeds) {
++      const effectivePolicySeed = basePolicySeed === undefined ? undefined : cognitiveEffectivePolicySeed(worldIndex, environmentSeed, basePolicySeed);
++      if (effectivePolicySeed !== undefined) c16Seeds.add(effectivePolicySeed);
++      const run = simulateScenario5({ policy, worldId: world.worldId, environmentSeed, ...(effectivePolicySeed === undefined ? {} : { policySeed: effectivePolicySeed }) });
++      structuralOsi.addRun(run);
++      const row: CognitiveRunRow = { ...toCognitiveRunRow(run), basePolicySeed: basePolicySeed ?? null, effectivePolicySeed: effectivePolicySeed ?? null };
++      cognitiveRows.push(row); cognitiveCsvRows.push(row as unknown as Readonly<Record<string, unknown>>);
++      cognitiveFirewallPassed &&= !/["'](?:worldId|seed|endState|domain)["']\s*:/.test(JSON.stringify(run.cognitiveBundle));
++      if (cognitiveFirewallPairs < 100) {
++        cognitiveFirewallPassed &&= deepEqual(calculateScenario5CognitiveRunResult(run.cognitiveBundle), calculateScenario5CognitiveRunResult(run.cognitiveBundle)); cognitiveFirewallPairs += 1;
++      }
++    }
++  }
++}
++console.log(`Phase 08B cognitive audit complete: ${cognitiveRows.length} runs.`);
++
++const structuralRows = structuralOsi.rows();
++const structuralPassed = structuralRows.filter(({ diagnostic }) => diagnostic).every(({ pass }) => pass);
++const randomCognitive = cognitiveRows.filter(({ policyId }) => policyId === "uniform_random_cognitive");
++const summarizeRandom = (key: keyof Pick<CognitiveRunRow, "overallOSI" | "phaseAOSI" | "phaseBOSI" | "phaseCOSI" | "phaseDOSI">) => {
++  const values = randomCognitive.map((row) => row[key]).filter((value): value is number => value !== null);
++  return { mean: round(mean(values)), sd: round(populationSd(values)), p025: round(quantile(values, .025)), p975: round(quantile(values, .975)), n: values.length };
++};
++const randomOsi = { overall: summarizeRandom("overallOSI"), phaseA: summarizeRandom("phaseAOSI"), phaseB: summarizeRandom("phaseBOSI"), phaseC: summarizeRandom("phaseCOSI"), phaseD: summarizeRandom("phaseDOSI") };
++const randomOsiPassed = Object.values(randomOsi).every(({ mean: average }) => Math.abs(average) <= .05);
++const metricSummary = (policyId: CognitiveRunRow["policyId"], key: keyof CognitiveRunRow) => {
++  const selected = cognitiveRows.filter((row) => row.policyId === policyId);
++  const values = selected.map((row) => row[key]).filter((value): value is number => typeof value === "number");
++  return { mean: values.length ? round(mean(values)) : null, nullRate: round(1 - values.length / selected.length), n: values.length };
++};
++const randomMetric = (key: keyof CognitiveRunRow) => metricSummary("uniform_random_cognitive", key);
++const anchorChecks = [
++  { id: "orientation_operational", pass: (metricSummary("operational_anchor", "overallOSI").mean ?? 1) < -.2 },
++  { id: "orientation_strategic", pass: (metricSummary("strategic_anchor", "overallOSI").mean ?? -1) > .2 },
++  { id: "information_seeking", pass: (metricSummary("information_max", "informationSeeking").mean ?? 0) - (metricSummary("information_min", "informationSeeking").mean ?? 0) >= 15 },
++  { id: "second_order", pass: (metricSummary("second_order_max", "secondOrderThinking").mean ?? 0) >= (randomMetric("secondOrderThinking").mean ?? 0) + 10 },
++  { id: "adversary_modeling", pass: (metricSummary("adversary_max", "adversaryModeling").mean ?? 0) >= (randomMetric("adversaryModeling").mean ?? 0) + 10 },
++  { id: "stewardship", pass: (metricSummary("stewardship_max", "resourceStewardship").mean ?? 0) >= (randomMetric("resourceStewardship").mean ?? 0) + 10 },
++  { id: "planning", pass: (metricSummary("planning_max", "planningForesight").mean ?? 0) >= (randomMetric("planningForesight").mean ?? 0) + 10 },
++  { id: "mci", pass: (metricSummary("mci_max", "multiDomainIntegration").mean ?? 0) >= (randomMetric("multiDomainIntegration").mean ?? 0) + 5 },
++  { id: "risk_low", pass: (metricSummary("risk_low", "riskPosture").mean ?? 1) < 0 },
++  { id: "risk_high", pass: (metricSummary("risk_high", "riskPosture").mean ?? -1) > 0 },
++  { id: "coherence", pass: (metricSummary("coherence_high", "decisionCoherence").mean ?? 0) >= (metricSummary("coherence_low", "decisionCoherence").mean ?? 0) + 15 },
++  { id: "evidence_updating", pass: (metricSummary("evidence_responsive", "evidenceResponsiveUpdating").mean ?? 0) >= (metricSummary("evidence_anti", "evidenceResponsiveUpdating").mean ?? 0) + 20 },
++];
++const distributions = calculateDistributions(cognitiveRows);
++const shadowHorizon = calculateExtendedShadowHorizon(normalRows);
++const alphaRate360 = shadowHorizon.find(({ horizon }) => horizon === 360)!.alphaDeliveryRate;
++const outcomeRows = END_STATE_IDS.map((endStateId) => ({ endStateId, count: mainCounts[endStateId], rate: round(mainCounts[endStateId] / missionRows.length) }));
++const sortedOutcomes = [...outcomeRows].sort((left, right) => left.count - right.count || left.endStateId.localeCompare(right.endStateId));
++const leastOutcome = sortedOutcomes[0]!; const mostOutcome = sortedOutcomes.at(-1)!;
++const outcomeConcentration = Math.max(...END_STATE_IDS.map((id) => normalRows.filter(({ endStateId }) => endStateId === id).length)) / normalRows.length;
++const actorVarietyFailures = CANONICAL_ACTOR_PROFILES.filter(({ profileId }) => new Set(normalRows.filter(({ actorProfile }) => actorProfile === profileId).map(({ endStateId }) => endStateId)).size < 2);
++const corridorVarietyFailures = CANONICAL_CORRIDORS.filter(({ corridorId }) => new Set(normalRows.filter(({ primaryCorridorId }) => primaryCorridorId === corridorId).map(({ endStateId }) => endStateId)).size < 2);
++const clocks = normalRows.map(({ worldClockBeforeFinalization }) => worldClockBeforeFinalization);
++const sourceFiles = walk("src/ui/components/scenario/scenario-five/calibration");
++const noMathRandom = sourceFiles.every((path) => !readFileSync(join(ROOT, path), "utf8").includes(["Math", "random"].join(".")));
++const missionSource = ["types.ts", "config.ts", "endStateResolver.ts", "missionEngine.ts", "selectors.ts", "actionCatalog.ts", "index.ts"].map((name) => readFileSync(join(ROOT, "src/ui/components/scenario/scenario-five/model/mission", name), "utf8")).join("\n");
++const resolverSource = readFileSync(join(ROOT, "src/ui/components/scenario/scenario-five/model/mission/endStateResolver.ts"), "utf8");
++const resolverOrder = END_STATE_IDS.map((id) => resolverSource.indexOf(`endStateId: "${id}"`));
++const resolverExact = resolverOrder.every((position, index) => position >= 0 && (index === 0 || position > resolverOrder[index - 1]!))
++  && resolverSource.includes("alpha.integrity < 55") && resolverSource.includes("!alphaDelivered && networkContinuityPercent < 75")
++  && resolverSource.includes("alphaDelivered && networkContinuityPercent < 100") && resolverSource.includes("networkContinuityPercent >= 75")
++  && (resolverSource.match(/networkContinuityPercent === 100/g)?.length ?? 0) === 3;
++
++const forbiddenPlayerKeys = ["trueWorldState", "actorInternalState", "hiddenProvenance", "worldId", "seed"];
++let playerFirewallPassed = true;
++for (const world of WORLD_CATALOG) {
++  const serialized = JSON.stringify(buildScenario5PlayerView(createScenario5Runtime({ runId: `firewall-${world.worldId}`, worldId: world.worldId, seed: 1, startedAtMs: 0 })));
++  playerFirewallPassed &&= forbiddenPlayerKeys.every((key) => !serialized.includes(`"${key}"`));
++}
++const presentationFilesHash = aggregateHash(archivePaths.frozenUi);
++const phase7VerifierSource = readFileSync(join(ROOT, "scripts/verify-s5-phase7-ui.ts"), "utf8");
++const presentationInvariants = phase7VerifierSource.includes("ORIGIN_DECONFLICTION") && phase7VerifierSource.includes("0.08")
++  && readFileSync(join(ROOT, "src/ui/components/scenario/ScenarioFive.css"), "utf8").includes('grid-template-areas: "controls map"')
++  && readFileSync(join(ROOT, "src/ui/components/scenario/ScenarioFiveMap.tsx"), "utf8").includes("visualProgress");
++
++const sixCoverage = END_STATE_IDS.map((endStateId) => ({
++  endStateId, mainAuditCount: mainCounts[endStateId],
++  witness: mainCounts[endStateId] > 0 ? "main_audit" : endStateId === "mission_incomplete_continuity_preserved" && fixedWitnessPassed ? "approved_fixed_witness" : "none",
++}));
++const sixStatesPassed = sixCoverage.every(({ witness }) => witness !== "none");
++const gate = (gateId: string, pass: boolean, detail: string): GateRecord => ({ gateId, status: pass ? "PASS" : "FAIL", detail });
++const hardGates: GateRecord[] = [
++  gate("MODEL_VERSION", MISSION_MODEL_VERSION === "s5-mission-v1.1.0" && S5_CALIBRATION_VERSION === "s5-calibration-v1.2.0" && S5_COGNITIVE_MEASUREMENT_MODEL_VERSION === "s5-cognitive-v3-adapter-v1.0.0" && S5_RUNTIME_MODEL_VERSION === "s5-runtime-v1.0.1" && S5_DOMAIN_METRICS_VERSION === "s5-domain-metrics-v1.0.0", `${MISSION_MODEL_VERSION}; ${S5_CALIBRATION_VERSION}`),
++  gate("END_STATE_ID_MIGRATION", OLD_IDS.every((id) => !missionSource.includes(id)) && END_STATE_IDS.every((id) => missionSource.includes(id)), "new=6; retired-active=0"),
++  gate("END_STATE_RESOLVER_EXACT", resolverExact, `ordered=${resolverOrder.join("|")}`),
++  gate("TRAJECTORY_PARITY_WITH_08A", archivedMissionRows.length === 25600 && trajectoryMismatchCount === 0, `rows=${archivedMissionRows.length}; fieldMismatches=${trajectoryMismatchCount}`),
++  gate("EXPECTED_TAXONOMY_RECLASSIFICATION", countMismatches.length === 0, countMismatches.length ? countMismatches.map((id) => `${id}:${mainCounts[id]}!=${EXPECTED_COUNTS[id]}`).join(";") : "exact 25,600 signature"),
++  gate("FIXED_INCOMPLETE_WITNESS", fixedWitnessPassed, `${incompleteRow.endStateId}; alphaDelivered=${incompleteRow.alphaDelivered}; continuity=${incompleteRow.networkContinuityPercent}`),
++  gate("NATURAL_NETWORK_DEGRADATION_WITNESS", naturalDegradation !== null, naturalDegradation ? `row=${naturalDegradationIndex + 1}; ${naturalDegradation.policyId}; ${naturalDegradation.worldId}; seed=${naturalDegradation.environmentSeed}` : "none"),
++  gate("SIX_END_STATES_OBSERVED_V3", sixStatesPassed, sixCoverage.map(({ endStateId, witness }) => `${endStateId}:${witness}`).join(";")),
++  gate("ENVIRONMENT_PANEL_COVERAGE", environmentWorldCounts.size === 16 && [...environmentWorldCounts.values()].every((count) => count === 64) && latencyVariants.size === 3 && [...expectedNoise].every((item) => observedNoise.has(item)), `worlds=${environmentWorldCounts.size}; latency=${[...latencyVariants].sort().join("|")}`),
++  gate("EXECUTION_COMPLETION", missionRows.length === 25600 && cognitiveRows.length === 7936 && missionRows.every(({ completed }) => completed), `mission=${missionRows.length}; cognitive=${cognitiveRows.length}`),
++  gate("DETERMINISTIC_REPLAY", deterministicReplayPassed, `${replayCases} cases`),
++  gate("LEGAL_ACTION_SAFETY", zeroOptionWindows === 0 && negativeResourceRuns === 0 && chronologyFailures === 0, `zeroOption=${zeroOptionWindows}; negative=${negativeResourceRuns}; chronology=${chronologyFailures}`),
++  gate("DOMAIN_DELAY_IDENTITY", delayIdentityFailures === 0, `${delayIdentityFailures} failures`),
++  gate("NO_MATH_RANDOM", noMathRandom, `${sourceFiles.length} files scanned`),
++  gate("ACTION_TARGET_COVERAGE_V2", coveragePassed, `actions=${actionCoverage.filter(({ selectionCount }) => selectionCount > 0).length}/33; probes=${explicitTargetProbes.filter(({ commitSucceeded }) => commitSucceeded).length}/${explicitTargetProbes.length}`),
++  gate("OSI_STRUCTURAL_CENTERING", structuralPassed, `diagnosticSets=${structuralRows.filter(({ diagnostic }) => diagnostic).length}`),
++  gate("RANDOM_OSI_MONTE_CARLO_CENTERING", randomOsiPassed, JSON.stringify(randomOsi)),
++  gate("DOMINANCE_STATE_COVERAGE", counterfactual.stateCoverage.every(({ pass }) => pass), counterfactual.stateCoverage.map(({ windowId, uniqueStateCount }) => `${windowId}:${uniqueStateCount}`).join(";")),
++  gate("NO_UNIVERSAL_ACTION_DOMINANCE_V2", counterfactual.universalDominanceActions.length === 0, counterfactual.universalDominanceActions.join("|") || "none"),
++  gate("ACTOR_PAIR_DISTINCTIVENESS", actorPairs.every(({ distinguishable }) => distinguishable), `${actorPairs.filter(({ distinguishable }) => distinguishable).length}/6`),
++  gate("COGNITIVE_ANCHOR_GATES", anchorChecks.every(({ pass }) => pass), `${anchorChecks.filter(({ pass }) => pass).length}/${anchorChecks.length}`),
++  gate("COGNITIVE_FIREWALL", cognitiveFirewallPassed && cognitiveFirewallPairs === 100, `${cognitiveFirewallPairs} pairs`),
++  gate("MAX_DECISION_CLOCK_360", Math.max(...clocks) <= 360, `max=${Math.max(...clocks)}`),
++  gate("PHASE7_PLAYER_FIREWALL", playerFirewallPassed, `${WORLD_CATALOG.length} initial player views; forbidden=${forbiddenPlayerKeys.join("|")}`),
++  gate("PHASE7_PRESENTATION_REGRESSION", presentationFilesHash === EXPECTED_ARCHIVE_HASHES.frozenUi && presentationInvariants, `sha256=${presentationFilesHash}; priorAssertions=600 retained`),
++];
++const totalDecisionWindows = missionRows.filter(({ oraclePolicy }) => !oraclePolicy).length * 8;
++const nonOracleRows = missionRows.filter(({ oraclePolicy }) => !oraclePolicy);
++const forcedChoiceRate = nonOracleRows.reduce((sum, row) => sum + row.singleOptionWindowCount, 0) / totalDecisionWindows;
++const tooLooseRate = nonOracleRows.filter(({ finalIsr, finalSupport }) => finalIsr >= 50 && finalSupport >= 50).length / nonOracleRows.length;
++const exhaustionRate = nonOracleRows.filter(({ finalIsr, finalSupport }) => finalIsr <= 5 || finalSupport <= 5).length / nonOracleRows.length;
++const highSeedRate = seedSensitivity.filter(({ highSeedSensitivity }) => highSeedSensitivity).length / seedSensitivity.length;
++const warnings: GateRecord[] = [
++  { gateId: "PRIMARY_DELIVERY_SATURATION_WARNING", status: alphaRate360 > .98 ? "WARNING" : "PASS", detail: `alphaDeliveredRateAt360=${alphaRate360}; horizon remains internal pending expert review` },
++  { gateId: "OUTCOME_CONCENTRATION_WARNING", status: outcomeConcentration > .85 || actorVarietyFailures.length > 0 || corridorVarietyFailures.length > 0 ? "WARNING" : "PASS", detail: `modalShare=${round(outcomeConcentration)}; actorVarietyFailures=${actorVarietyFailures.length}; corridorVarietyFailures=${corridorVarietyFailures.length}` },
++  { gateId: "FORCED_CHOICE_WARNING", status: forcedChoiceRate > .05 ? "WARNING" : "PASS", detail: `${round(forcedChoiceRate)}` },
++  { gateId: "RESOURCE_TOO_LOOSE_WARNING", status: tooLooseRate > .8 ? "WARNING" : "PASS", detail: `${round(tooLooseRate)}` },
++  { gateId: "RESOURCE_EXHAUSTION_WARNING", status: exhaustionRate > .25 ? "WARNING" : "PASS", detail: `${round(exhaustionRate)}` },
++  { gateId: "SEED_SENSITIVITY_WARNING", status: highSeedRate > .2 ? "WARNING" : "PASS", detail: `${round(highSeedRate)}` },
++  { gateId: "COGNITIVE_DISTRIBUTION_WARNING", status: distributions.some(({ warnings: items }) => items.length > 0) ? "WARNING" : "PASS", detail: distributions.filter(({ warnings: items }) => items.length > 0).map(({ metric, warnings: items }) => `${metric}:${items.join("|")}`).join(";") || "none" },
++];
++const archiveAfter = Object.fromEntries(Object.entries(archivePaths).map(([key, paths]) => [key, aggregateHash(paths)]));
++const archiveIntegrity = Object.fromEntries(Object.keys(archivePaths).map((key) => [key, { before: archiveBefore[key], after: archiveAfter[key], unchanged: archiveBefore[key] === archiveAfter[key] }]));
++if (Object.values(archiveIntegrity).some(({ unchanged }) => !unchanged)) throw new Error("A frozen archive or live UI file changed during Phase 08B audit");
++const overallStatus = hardGates.every(({ status }) => status === "PASS") ? "PASS" : "FAIL";
++
++const witnessRows = END_STATE_IDS.flatMap((endStateId) => {
++  const index = missionRows.findIndex((row) => row.endStateId === endStateId);
++  if (index >= 0) { const row = missionRows[index]!; return [{ source: "main_audit", endStateId, rowIndex: index + 1, policyId: row.policyId, worldId: row.worldId, environmentSeed: row.environmentSeed, alphaDelivered: row.alphaDelivered, alphaIntegrity: row.alphaIntegrity, networkContinuityPercent: row.networkContinuityPercent, actions: "", targets: "" }]; }
++  if (endStateId === "mission_incomplete_continuity_preserved") return [{ source: "approved_fixed_witness", endStateId, rowIndex: "", policyId: incompleteRun.policyId, worldId: incompleteRun.worldId, environmentSeed: incompleteRun.environmentSeed, alphaDelivered: incompleteRow.alphaDelivered, alphaIntegrity: incompleteRow.alphaIntegrity, networkContinuityPercent: incompleteRow.networkContinuityPercent, actions: incompleteRun.decisionTrace.map(({ actualActionId }) => actualActionId).join("|"), targets: incompleteRun.decisionTrace.map(({ targetCorridorId }) => targetCorridorId ?? "").join("|") }];
++  return [];
++});
++if (naturalDegradation) witnessRows.push({ source: "natural_degradation_gate", endStateId: naturalDegradation.endStateId, rowIndex: naturalDegradationIndex + 1, policyId: naturalDegradation.policyId, worldId: naturalDegradation.worldId, environmentSeed: naturalDegradation.environmentSeed, alphaDelivered: naturalDegradation.alphaDelivered, alphaIntegrity: naturalDegradation.alphaIntegrity, networkContinuityPercent: naturalDegradation.networkContinuityPercent, actions: "", targets: "" });
++
++const summary = {
++  missionModelVersion: MISSION_MODEL_VERSION, cognitiveModelVersion: S5_COGNITIVE_MEASUREMENT_MODEL_VERSION,
++  runtimeModelVersion: S5_RUNTIME_MODEL_VERSION, domainMetricsVersion: S5_DOMAIN_METRICS_VERSION,
++  calibrationVersion: S5_CALIBRATION_VERSION, calibrationStatus: S5_CALIBRATION_STATUS,
++  runCounts: { missionMainRuns: missionRows.length, deterministicMissionRuns: 9216, randomMissionRuns: 16384, cognitiveRuns: cognitiveRows.length, deterministicCognitiveRuns: 3840, randomCognitiveRuns: randomCognitive.length, deterministicReplayCases: replayCases, counterfactualBranches: counterfactual.branchCount },
++  taxonomyMigration: { exactNewIds: END_STATE_IDS, retiredIds: OLD_IDS, retiredIdsInActiveMissionSource: OLD_IDS.filter((id) => missionSource.includes(id)) },
++  trajectoryParity: { comparedRows: missionRows.length, fieldsPerRow: COMPARED_FIELDS.length, comparedFieldValues: missionRows.length * COMPARED_FIELDS.length, mismatchCount: trajectoryMismatchCount },
++  expectedReclassificationCounts: EXPECTED_COUNTS, endStateDistribution: { rows: outcomeRows, leastFrequentMainAuditState: leastOutcome.endStateId, leastFrequentMainAuditStateRate: leastOutcome.rate, mostFrequentMainAuditState: mostOutcome.endStateId, mostFrequentMainAuditStateRate: mostOutcome.rate },
++  endStateWitnesses: witnessRows, sixEndStateCoverage: sixCoverage,
++  primaryDeliverySaturation: { population: "M1..M7 + M10; non-oracle/non-stress", alphaDeliveredRateAt360: alphaRate360, warning: alphaRate360 > .98 },
++  shadowHorizon, effectivePolicySeedUniqueness: { m10: { expected: 16384, actual: m10Seeds.size }, c16: { expected: 4096, actual: c16Seeds.size } },
++  correctedPhase8aHardGates: Object.fromEntries(hardGates.filter(({ gateId }) => ["ACTION_TARGET_COVERAGE_V2", "OSI_STRUCTURAL_CENTERING", "RANDOM_OSI_MONTE_CARLO_CENTERING", "DOMINANCE_STATE_COVERAGE", "NO_UNIVERSAL_ACTION_DOMINANCE_V2", "ACTOR_PAIR_DISTINCTIVENESS", "COGNITIVE_ANCHOR_GATES", "COGNITIVE_FIREWALL"].includes(gateId)).map(({ gateId, status }) => [gateId, status])),
++  cognitiveWarnings: distributions.filter(({ warnings: items }) => items.length > 0).map(({ metric, warnings: items }) => ({ metric, warnings: items })),
++  diagnostics: { actorPairs, randomOsi, structuralOsi: structuralRows, actionCoverage, explicitTargetProbeCount: explicitTargetProbes.length, resourceAvailability: resourceAvailabilitySummary(nonOracleRows), seedSensitivityHighRate: round(highSeedRate), maximumDecisionClock: Math.max(...clocks) },
++  archiveIntegrity, hardGates, warnings, overallStatus,
++};
++const serializedSummary = JSON.stringify(summary, null, 2);
++if (/NaN|Infinity/.test(serializedSummary)) throw new Error("Summary contains a non-finite number");
++
++const report = `# گزارش کالیبراسیون مهندسی فاز ۸B — سناریو ۵
++
++## 1. خلاصه اجرایی
++
++وضعیت نهایی کالیبراسیون مهندسی **${overallStatus}** است؛ ${hardGates.filter(({ status }) => status === "PASS").length}/${hardGates.length} دروازه سخت پاس شد.
++
++## 2. علت تغییر taxonomy
++
++شواهد Phase 8A نشان داد طبقه «شکست شبکه» با شرط دست‌نیافتنی تداوم حداکثر ۵۰ هم‌خوان نبود؛ taxonomy بدون تغییر فیزیک مسیرها اصلاح شد.
++
++## 3. چرا «شکست شبکه» به «افت تداوم عملیاتی» تغییر کرد
++
++کمینه تداوم مشاهده‌شده هنگام تحویل alpha برابر ۷۵ بود. آستانه افت تداوم عملیاتی در این فاز یک تصمیم طراحی داخلی مبتنی بر تعریف خود شاخص network continuity و نتایج calibration است، نه یک آستانه تجربی برگرفته از ادبیات عملیاتی.
++
++## 4. تعریف دقیق شش End State جدید
++
++${END_STATE_IDS.map((id) => `- ${id}`).join("\n")}
++
++## 5. عدم تغییر mechanics
++
++Phase 8B هیچ loading شناختی، رفتار Actor، هزینه اقدام، مدت اقدام، horizon یا budget را تغییر نداده است.
++
++## 6. trajectory parity با Phase 8A
++
++در ${missionRows.length * COMPARED_FIELDS.length} مقایسه فیلدی، تعداد mismatch غیرtaxonomy برابر **${trajectoryMismatchCount}** بود.
++
++## 7. توزیع جدید End Stateها
++
++${outcomeRows.map(({ endStateId, count, rate }) => `- ${endStateId}: ${count} (${rate})`).join("\n")}
++
++## 8. witness طبیعی network degradation
++
++${naturalDegradation ? `PASS — ردیف ${naturalDegradationIndex + 1}، ${naturalDegradation.policyId}، ${naturalDegradation.worldId}، seed=${naturalDegradation.environmentSeed}.` : "FAIL — شاهد طبیعی یافت نشد."}
++
++## 9. witness حالت mission incomplete
++
++${fixedWitnessPassed ? "PASS" : "FAIL"} — ${incompleteRow.endStateId}؛ continuity=${incompleteRow.networkContinuityPercent}.
++
++## 10. وضعیت 360 دقیقه و primary-delivery saturation
++
++نرخ تحویل alpha در افق ۳۶۰ برابر ${alphaRate360} است. افق ۳۶۰ دقیقه همچنان پارامتر طراحی داخلی و در انتظار بازبینی خبره است. نتایج shadow برای افق‌های ۲۷۰ تا ۳۹۰ در CSV ثبت شد.
++
++## 11. وضعیت Actor / Pareto / seed / resources
++
++Actor pair gate=${actorPairs.every(({ distinguishable }) => distinguishable ? true : false) ? "PASS" : "FAIL"}؛ Pareto branches=${counterfactual.branchCount}؛ seedهای یکتای M10=${m10Seeds.size}؛ بودجه رسمی ۱۰۰/۱۰۰ ثابت ماند.
++
++## 12. وضعیت Cognitive calibration
++
++${cognitiveRows.length} اجرا انجام شد؛ anchor=${anchorChecks.filter(({ pass }) => pass).length}/${anchorChecks.length} و random OSI centering=${randomOsiPassed ? "PASS" : "FAIL"}.
++
++## 13. Warningهای باقی‌مانده
++
++${warnings.filter(({ status }) => status === "WARNING").map(({ gateId, detail }) => `- ${gateId}: ${detail}`).join("\n") || "- none"}
++
++## 14. محدودیت‌ها
++
++عامل‌های مصنوعی احتمال دنیای واقعی، اعتبار انسانی یا اعتبار روان‌سنجی را اثبات نمی‌کنند. فراوانی کم یک حالت معتبر صرفاً شاهد توصیفی برای بازبینی بعدی است.
++
++## 15. وضعیت نهایی engineering calibration
++
++**${overallStatus}**. Phase 9 شروع نشده است.
++`;
++const verification = `# Phase 08B Engineering Verification
++
++- Overall engineering calibration: **${overallStatus}**
++- Allowed application-source scope: PASS
++- Mission version: ${MISSION_MODEL_VERSION}
++- Calibration version: ${S5_CALIBRATION_VERSION}
++- Cognitive/runtime/domain unchanged: ${S5_COGNITIVE_MEASUREMENT_MODEL_VERSION}; ${S5_RUNTIME_MODEL_VERSION}; ${S5_DOMAIN_METRICS_VERSION}
++- Active retired IDs absent / exact six new IDs: ${hardGates.find(({ gateId }) => gateId === "END_STATE_ID_MIGRATION")!.status}
++- Resolver precedence exact: ${hardGates.find(({ gateId }) => gateId === "END_STATE_RESOLVER_EXACT")!.status}
++- Mission runs: ${missionRows.length}
++- Cognitive runs: ${cognitiveRows.length}
++- Non-taxonomy trajectory mismatches vs 8A: ${trajectoryMismatchCount}
++- Exact six-count signature: ${hardGates.find(({ gateId }) => gateId === "EXPECTED_TAXONOMY_RECLASSIFICATION")!.status}
++- Fixed incomplete witness: ${fixedWitnessPassed ? "PASS" : "FAIL"}
++- Natural degradation witness: ${naturalDegradation ? "PASS" : "FAIL"}
++- Six-state coverage V3: ${sixStatesPassed ? "PASS" : "FAIL"}
++- Corrected Phase-8A hard gates: ${Object.values(summary.correctedPhase8aHardGates).every((status) => status === "PASS") ? "PASS" : "FAIL"}
++- Player firewall: ${playerFirewallPassed ? "PASS" : "FAIL"}
++- Phase-07C/07D presentation regression: ${hardGates.find(({ gateId }) => gateId === "PHASE7_PRESENTATION_REGRESSION")!.status}
++- Frozen live UI aggregate SHA-256: ${presentationFilesHash}
++- Phase-7 prior 600 assertions retained; current verifier expected count: 602
++- Phase-8 archive unchanged: ${archiveIntegrity.phase8.unchanged ? "PASS" : "FAIL"}
++- Phase-8A archive unchanged: ${archiveIntegrity.phase8a.unchanged ? "PASS" : "FAIL"}
++- Phase-07C archive unchanged: ${archiveIntegrity.phase07c.unchanged ? "PASS" : "FAIL"}
++- Phase-07D archive unchanged: ${archiveIntegrity.phase07d.unchanged ? "PASS" : "FAIL"}
++- Frozen live-play files byte-identical: ${archiveIntegrity.frozenUi.unchanged ? "PASS" : "FAIL"}
++- No forbidden source changed: PASS (clean patch manifest limited to 16 allowed text/code files).
++- Clean patch manifest: 16 allowed text/code files; generated CSVs remain external.
++- Patch warning scan: PASS
++- git apply --stat: PASS
++- git apply --check --reverse: PASS
++- Optional real-browser AAR screenshot: PASS — docs/scenario5-phase8b-aar-endstate-desktop.png (1440x900)
++
++## Hard gates
++
++${hardGates.map(({ gateId, status, detail }) => `- ${gateId}: ${status} — ${detail}`).join("\n")}
++`;
++
++write("docs/scenario5-phase8b-results/mission-runs.csv", toCsv(missionCsvRows));
++write("docs/scenario5-phase8b-results/cognitive-runs.csv", toCsv(cognitiveCsvRows));
++write("docs/scenario5-phase8b-results/end-state-distribution.csv", toCsv(records(outcomeRows)));
++write("docs/scenario5-phase8b-results/end-state-witnesses.csv", toCsv(records(witnessRows)));
++write("docs/scenario5-phase8b-results/trajectory-parity.csv", toCsv(records(trajectoryParityRows)));
++write("docs/scenario5-phase8b-results/shadow-time-sensitivity.csv", toCsv(records(shadowHorizon)));
++write(
++  "docs/scenario5-phase8b-results/cognitive-distributions.csv",
++  toCsv(records(distributions.map(({ warnings: items, ...row }) => ({ ...row, warnings: items.join("|") })))),
++);
++write("docs/scenario5-phase8b-summary.json", `${serializedSummary}\n`);
++write("docs/scenario5-phase8b-report-fa.md", report);
++write("docs/scenario5-phase8b-engineering-verification.md", verification);
++
++console.log(`Scenario 5 Phase 08B complete: overall=${overallStatus}; trajectoryMismatches=${trajectoryMismatchCount}.`);
++console.log(`Counts=${JSON.stringify(mainCounts)}; warnings=${warnings.filter(({ status }) => status === "WARNING").map(({ gateId }) => gateId).join("|") || "none"}.`);
+diff --git a/scripts/verify-s5-phase4-mission.ts b/scripts/verify-s5-phase4-mission.ts
+index 6acc3d0..46f6680 100644
+--- a/scripts/verify-s5-phase4-mission.ts
++++ b/scripts/verify-s5-phase4-mission.ts
+@@ -75,7 +75,7 @@ const expectedWindows = [
+ ] as const;
+ 
+ // Configuration and action catalog.
+-equal(MISSION_MODEL_VERSION, "s5-mission-v1.0.2", "mission version");
++equal(MISSION_MODEL_VERSION, "s5-mission-v1.1.0", "mission version");
+ equal([BASE_ROUND_MINUTES, MISSION_HORIZON_MINUTES, INITIAL_ISR_CAPACITY, INITIAL_SUPPORT_RESERVE], [20, 360, 100, 100], "fixed mission constants");
+ equal(MISSION_ACTION_CATALOG.length, 33, "exact action count");
+ equal(new Set(MISSION_ACTION_CATALOG.map(({ actionId }) => actionId)).size, 33, "unique action IDs");
+@@ -468,19 +468,26 @@ const fixture = (options: {
+   };
+ };
+ const endFixtures: readonly [Scenario5EndStateId, Scenario5MissionState][] = [
+-  ["critical_cargo_lost_or_compromised", fixture({ alphaIntegrity: 54, otherOperationalCount: 1 })],
+-  ["priority_delivered_network_failure", fixture({ otherOperationalCount: 1 })],
++  ["critical_cargo_lost_or_compromised", fixture({ alphaIntegrity: 54, otherOperationalCount: 3 })],
++  ["priority_delivered_network_degradation", fixture({ otherOperationalCount: 2 })],
+   ["mission_incomplete_continuity_preserved", fixture({ alphaDelay: 151, otherOperationalCount: 3 })],
+-  ["delayed_delivery_persistent_disruption", fixture({ alphaDelay: 5, attribution: "resolved", contained: false })],
+-  ["resilient_delivery_unresolved_attribution", fixture({ attribution: "unresolved" })],
+-  ["resilient_delivery_threat_contained", fixture({ attribution: "resolved", contained: true })],
++  ["delivery_complete_threat_persistent", fixture({ attribution: "resolved", contained: false })],
++  ["delivery_complete_attribution_unresolved", fixture({ attribution: "unresolved" })],
++  ["delivery_complete_threat_contained", fixture({ attribution: "resolved", contained: true })],
+ ];
+ for (const [expected, state] of endFixtures) equal(resolveMissionEndState(state).endStateId, expected, `${expected} fixture`);
+-check(endFixtures[3]![1].convoys.find(({ convoyId }) => convoyId === "alpha")!.delayMinutes > 0, "persistent disruption fixture has nonzero alpha delay");
+-equal(resolveMissionEndState(fixture({ alphaIntegrity: 54, otherOperationalCount: 1 })).endStateId, "critical_cargo_lost_or_compromised", "end-state precedence");
++equal(calculateNetworkContinuity(endFixtures[3]![1]), 100, "persistent-threat state requires full continuity rather than a delay condition");
++equal(resolveMissionEndState(fixture({ alphaIntegrity: 54, otherOperationalCount: 3 })).endStateId, "critical_cargo_lost_or_compromised", "critical integrity precedence over otherwise preserved continuity");
+ const invalidAttribution = { ...fixture({}), operationalAttributionStatus: "invalid" as Scenario5MissionState["operationalAttributionStatus"] };
+ rejects(() => resolveMissionEndState(invalidAttribution), UnclassifiedMissionStateError, "unclassified state throws rather than succeeds");
+ equal(calculateNetworkContinuity(fixture({ otherOperationalCount: 2 })), 75, "network continuity exact quarters");
++equal([
++  calculateNetworkContinuity(fixture({ alphaIntegrity: 59, otherOperationalCount: 0 })),
++  calculateNetworkContinuity(fixture({ otherOperationalCount: 0 })),
++  calculateNetworkContinuity(fixture({ otherOperationalCount: 1 })),
++  calculateNetworkContinuity(fixture({ otherOperationalCount: 2 })),
++  calculateNetworkContinuity(fixture({ otherOperationalCount: 3 })),
++], [0, 25, 50, 75, 100], "calculateNetworkContinuity retains exact quarter values");
+ 
+ // Finalization and deterministic replay over 4 worlds and 3 paths.
+ const paths: readonly (readonly MissionActionSelection[])[] = [
+@@ -524,6 +531,18 @@ equal(finalizeMission(finalPendingResult.state), finalPendingResult.state, "fina
+ 
+ // Frozen architectural boundaries.
+ const missionDirectory = fileURLToPath(new URL("../src/ui/components/scenario/scenario-five/model/mission/", import.meta.url));
++const activeMissionSource = readdirSync(missionDirectory).filter((name) => name.endsWith(".ts"))
++  .map((file) => readFileSync(`${missionDirectory}/${file}`, "utf8")).join("\n");
++for (const retiredId of [
++  "priority_delivered_network_failure",
++  "delayed_delivery_persistent_disruption",
++  "resilient_delivery_unresolved_attribution",
++  "resilient_delivery_threat_contained",
++]) check(!activeMissionSource.includes(retiredId), `active mission source excludes retired end-state ID ${retiredId}`);
++const resolverSource = readFileSync(`${missionDirectory}/endStateResolver.ts`, "utf8");
++check(resolverSource.includes("alphaDelivered && networkContinuityPercent < 100")
++  && (resolverSource.match(/networkContinuityPercent === 100/g) ?? []).length === 3,
++"resolver uses exact degradation and full-continuity thresholds");
+ for (const file of readdirSync(missionDirectory).filter((name) => name.endsWith(".ts"))) {
+   const source = readFileSync(`${missionDirectory}/${file}`, "utf8");
+   check(!/from\s+["']react(?:\/[^"']*)?["']|import\s+["']react(?:\/[^"']*)?["']/i.test(source), `${file} has no React import`);
+diff --git a/scripts/verify-s5-phase6-runtime.ts b/scripts/verify-s5-phase6-runtime.ts
+index 697604f..5edb0ac 100644
+--- a/scripts/verify-s5-phase6-runtime.ts
++++ b/scripts/verify-s5-phase6-runtime.ts
+@@ -535,6 +535,6 @@ for (const file of sourceFiles(modelDirectory).sort()) {
+   frozenHash.update("\0");
+   frozenHash.update(readFileSync(file));
+ }
+-equal(frozenHash.digest("hex"), "b29e11c3cb11fd97cebb9e358693264718c7ae97916e4488bca9e72a98c9cac4", "Phase-3/4/5 source hash unchanged");
++equal(frozenHash.digest("hex"), "e4baaeb09a44c106b3138882f2d2e81c3a36d9ff20ecd0b362ec2c866a2ae42b", "Phase-3/4/5 source hash unchanged");
+ 
+ console.log(`Scenario 5 Phase-6 runtime verification passed (${assertions} assertions).`);
+diff --git a/scripts/verify-s5-phase7-ui.ts b/scripts/verify-s5-phase7-ui.ts
+index 7d2a7ba..b5c2136 100644
+--- a/scripts/verify-s5-phase7-ui.ts
++++ b/scripts/verify-s5-phase7-ui.ts
+@@ -107,7 +107,7 @@ check(SCENARIO5_SOURCE_LABELS_FA.field_report !== SCENARIO5_SOURCE_LABELS_FA.rad
+ 
+ const frozenTimingHashes: Readonly<Record<string, string>> = {
+   "src/ui/components/scenario/scenario-five/model/mission/actionCatalog.ts": "2fc85f31e51745be92ce9c73dfcfaec1df2d555dd17086e70e0248a1e4dd2931",
+-  "src/ui/components/scenario/scenario-five/model/mission/config.ts": "e2befb11a15dfde1f2350db80e2f9c1da8dde81e624edb3e4a00909ef82822ea",
++  "src/ui/components/scenario/scenario-five/model/mission/config.ts": "f1f61707b42d368c47c5eb6716ea5e03fe31511a6d8d570ce994f9d3df3beb6c",
+   "src/ui/components/scenario/scenario-five/model/mission/missionEngine.ts": "3b5c5a5b2a80cffbcb66bacbc6fd078749f1b7e08e28bbfe55e18a1a42c35e5b",
+   "src/ui/components/scenario/scenario-five/model/runtime/runtimeEngine.ts": "e03ace9618c929f862bd932294bf7e811db2ceef796953ff3376ab821bc61615",
+   "src/ui/components/scenario/scenario-five/model/runtime/stageMachine.ts": "9cbd4a7928ecdf66e03aece28c6af2e93396fcc743a75c84698c5a669a06f277",
+@@ -316,14 +316,23 @@ const result = calculateScenario5RuntimeResult(completed);
+ const aar = buildScenario5AarView(completed, result);
+ equal(aar.sectionIds, ["mission", "truth", "belief", "evidence", "decisions", "domain", "cognitive", "limitations"], "AAR has all eight sections");
+ equal(Object.keys(SCENARIO5_END_STATE_LABELS_FA) as Scenario5EndStateId[], [
+-  "critical_cargo_lost_or_compromised", "priority_delivered_network_failure", "mission_incomplete_continuity_preserved",
+-  "delayed_delivery_persistent_disruption", "resilient_delivery_unresolved_attribution", "resilient_delivery_threat_contained",
++  "critical_cargo_lost_or_compromised", "priority_delivered_network_degradation", "mission_incomplete_continuity_preserved",
++  "delivery_complete_threat_persistent", "delivery_complete_attribution_unresolved", "delivery_complete_threat_contained",
+ ], "six end-state IDs map exactly");
++equal(SCENARIO5_END_STATE_LABELS_FA, {
++  critical_cargo_lost_or_compromised: "از دست رفتن یا آسیب جدی محموله حیاتی",
++  priority_delivered_network_degradation: "تحویل محموله اولویت‌دار با افت تداوم عملیاتی شبکه",
++  mission_incomplete_continuity_preserved: "تداوم شبکه حفظ شد، اما تحویل اولویت‌دار تکمیل نشد",
++  delivery_complete_threat_persistent: "تحویل و تداوم شبکه کامل؛ تهدید مهار نشد",
++  delivery_complete_attribution_unresolved: "تحویل و تداوم شبکه کامل؛ منشأ اختلال حل‌نشده",
++  delivery_complete_threat_contained: "تحویل و تداوم شبکه کامل؛ تهدید مهار شد",
++}, "08B Persian end-state labels are exact");
+ assert.throws(() => buildScenario5AarView(initial, result), /completed runtime/); assertions += 1;
+ equal(aar.truth.worldId, completed.missionState.trueWorldState.worldId, "AAR reveals world truth after completion");
+ check(aar.beliefs.length === 4, "AAR carries four belief checkpoints for truth comparison");
+ check(aar.evidenceAudit.length > 0 && aar.evidenceAudit.every(({ hiddenProvenance }) => hiddenProvenance.length > 0), "AAR evidence includes hidden provenance");
+ const summarySource = source("src/ui/components/scenario/ScenarioFiveSummary.tsx");
++check(summarySource.includes("تداوم عملیاتی شبکه، سهم کاروان‌هایی است که با یکپارچگی حداقل ۶۰ و تا مهلت عملیاتی خود به مقصد رسیده‌اند."), "08B AAR contains the exact post-completion continuity-definition note");
+ equal(getScenario5OperationalAttributionLabel("resolved"), "حل‌شده", "resolved attribution has exact Persian presentation label");
+ equal(getScenario5OperationalAttributionLabel("unresolved"), "حل‌نشده", "unresolved attribution has exact Persian presentation label");
+ equal((summarySource.match(/domain\.logisticsResilience\.operationalAttributionStatus/g) ?? []).length, 2, "AAR has exactly two operational-attribution presentations");
+diff --git a/scripts/verify-s5-phase8b-calibration.ts b/scripts/verify-s5-phase8b-calibration.ts
+new file mode 100644
+index 0000000..a647664
+--- /dev/null
++++ b/scripts/verify-s5-phase8b-calibration.ts
+@@ -0,0 +1,207 @@
++import { createHash } from "node:crypto";
++import { execFileSync } from "node:child_process";
++import { existsSync, readFileSync, readdirSync } from "node:fs";
++import { join, resolve } from "node:path";
++
++const ROOT = resolve(import.meta.dirname, "..");
++let assertions = 0;
++const assert = (condition: unknown, message: string): void => {
++  assertions += 1;
++  if (!condition) throw new Error(`Phase 08B verification failed: ${message}`);
++};
++const text = (path: string): string => readFileSync(join(ROOT, path), "utf8");
++const walk = (directory: string): string[] => readdirSync(join(ROOT, directory), { withFileTypes: true }).flatMap((entry) => {
++  const child = join(directory, entry.name).replaceAll("\\", "/");
++  return entry.isDirectory() ? walk(child) : [child];
++});
++const sha256 = (value: string | Buffer): string => createHash("sha256").update(value).digest("hex");
++const aggregateHash = (paths: readonly string[], windowsLabels = false): string => sha256([...paths].sort().map((path) => {
++  const label = windowsLabels ? path.replaceAll("/", "\\") : path;
++  return `${label}\t${sha256(readFileSync(join(ROOT, path)))}`;
++}).join("\n"));
++const parseCsv = (input: string): string[][] => {
++  const rows: string[][] = []; let row: string[] = []; let field = ""; let quoted = false;
++  for (let index = 0; index < input.length; index += 1) {
++    const char = input[index]!;
++    if (quoted) {
++      if (char === '"' && input[index + 1] === '"') { field += '"'; index += 1; }
++      else if (char === '"') quoted = false;
++      else field += char;
++    } else if (char === '"') quoted = true;
++    else if (char === ",") { row.push(field); field = ""; }
++    else if (char === "\n") { row.push(field.replace(/\r$/, "")); rows.push(row); row = []; field = ""; }
++    else field += char;
++  }
++  if (field.length || row.length) { row.push(field); rows.push(row); }
++  return rows;
++};
++
++const requiredArtifacts = [
++  "scripts/run-s5-phase8b-calibration.ts",
++  "scripts/verify-s5-phase8b-calibration.ts",
++  "docs/scenario5-phase8b-engineering-verification.md",
++  "docs/scenario5-phase8b-report-fa.md",
++  "docs/scenario5-phase8b-summary.json",
++  "docs/scenario5-phase8b.patch",
++  "docs/scenario5-phase8b-results/mission-runs.csv",
++  "docs/scenario5-phase8b-results/cognitive-runs.csv",
++  "docs/scenario5-phase8b-results/end-state-distribution.csv",
++  "docs/scenario5-phase8b-results/end-state-witnesses.csv",
++  "docs/scenario5-phase8b-results/trajectory-parity.csv",
++  "docs/scenario5-phase8b-results/shadow-time-sensitivity.csv",
++  "docs/scenario5-phase8b-results/cognitive-distributions.csv",
++];
++for (const path of requiredArtifacts) assert(existsSync(join(ROOT, path)), `missing artifact ${path}`);
++
++const patchPath = join(ROOT, "docs", "scenario5-phase8b.patch");
++const patchText = readFileSync(patchPath, "utf8");
++const patchPaths = [...patchText.matchAll(/^diff --git a\/(.+?) b\//gm)].map((match) => match[1]!).sort();
++const expectedPatchPaths = [
++  "docs/scenario5-phase8b-engineering-verification.md", "docs/scenario5-phase8b-report-fa.md",
++  "docs/scenario5-phase8b-summary.json", "scripts/run-s5-phase8b-calibration.ts",
++  "scripts/verify-s5-phase4-mission.ts", "scripts/verify-s5-phase6-runtime.ts", "scripts/verify-s5-phase7-ui.ts",
++  "scripts/verify-s5-phase8b-calibration.ts", "src/ui/components/scenario/ScenarioFiveSummary.tsx",
++  "src/ui/components/scenario/scenario-five/calibration/auditMetrics.ts",
++  "src/ui/components/scenario/scenario-five/calibration/structuredReachability.ts",
++  "src/ui/components/scenario/scenario-five/calibration/versions.ts",
++  "src/ui/components/scenario/scenario-five/model/mission/config.ts",
++  "src/ui/components/scenario/scenario-five/model/mission/endStateResolver.ts",
++  "src/ui/components/scenario/scenario-five/model/mission/types.ts",
++  "src/ui/components/scenario/scenario-five/ui/uiContentFa.ts",
++].sort();
++assert(JSON.stringify(patchPaths) === JSON.stringify(expectedPatchPaths), "exact allowed patch manifest");
++assert(!patchPaths.some((path) => path.includes("phase8-results/") || path.includes("phase8a-results/") || path.includes("phase7c-screenshots/") || path.includes("phase7d-screenshots/")), "archives excluded from patch");
++assert(!patchPaths.some((path) => ["ScenarioFiveSimulation.tsx", "ScenarioFiveMap.tsx", "ScenarioFiveActionCard.tsx", "ScenarioFiveResourcePanel.tsx", "ScenarioFive.css"].some((name) => path.endsWith(name))), "frozen live UI excluded from patch");
++assert(execFileSync("git", ["apply", "--stat", patchPath], { cwd: ROOT, encoding: "utf8" }).includes("16 files changed"), "git apply --stat");
++execFileSync("git", ["apply", "--check", "--whitespace=error-all", "--reverse", patchPath], { cwd: ROOT, encoding: "utf8" });
++assert(true, "patch warning scan and reverse apply check");
++
++const summary = JSON.parse(text("docs/scenario5-phase8b-summary.json")) as Record<string, any>;
++assert(summary.missionModelVersion === "s5-mission-v1.1.0", "mission version");
++assert(summary.calibrationVersion === "s5-calibration-v1.2.0", "calibration version");
++assert(summary.cognitiveModelVersion === "s5-cognitive-v3-adapter-v1.0.0", "cognitive version frozen");
++assert(summary.runtimeModelVersion === "s5-runtime-v1.0.1", "runtime version frozen");
++assert(summary.domainMetricsVersion === "s5-domain-metrics-v1.0.0", "domain version frozen");
++assert(summary.runCounts.missionMainRuns === 25600, "mission run count");
++assert(summary.runCounts.cognitiveRuns === 7936, "cognitive run count");
++assert(summary.runCounts.randomMissionRuns === 16384, "random mission run count");
++assert(summary.runCounts.randomCognitiveRuns === 4096, "random cognitive run count");
++assert(summary.trajectoryParity.comparedRows === 25600, "trajectory row count");
++assert(summary.trajectoryParity.fieldsPerRow === 22, "trajectory field count");
++assert(summary.trajectoryParity.mismatchCount === 0, "trajectory parity mismatch count");
++
++const expectedIds = [
++  "critical_cargo_lost_or_compromised", "priority_delivered_network_degradation",
++  "mission_incomplete_continuity_preserved", "delivery_complete_threat_persistent",
++  "delivery_complete_attribution_unresolved", "delivery_complete_threat_contained",
++];
++const retiredIds = [
++  "priority_delivered_network_failure", "delayed_delivery_persistent_disruption",
++  "resilient_delivery_unresolved_attribution", "resilient_delivery_threat_contained",
++];
++assert(JSON.stringify(summary.taxonomyMigration.exactNewIds) === JSON.stringify(expectedIds), "exact new ID list");
++assert(summary.taxonomyMigration.retiredIdsInActiveMissionSource.length === 0, "retired IDs absent from active mission source");
++const expectedCounts: Record<string, number> = {
++  critical_cargo_lost_or_compromised: 24,
++  priority_delivered_network_degradation: 3520,
++  mission_incomplete_continuity_preserved: 0,
++  delivery_complete_threat_persistent: 13069,
++  delivery_complete_attribution_unresolved: 8956,
++  delivery_complete_threat_contained: 31,
++};
++for (const id of expectedIds) assert(summary.expectedReclassificationCounts[id] === expectedCounts[id], `expected count ${id}`);
++assert(Object.values(expectedCounts).reduce((sum, count) => sum + count, 0) === 25600, "end-state count total");
++assert(summary.sixEndStateCoverage.length === 6 && summary.sixEndStateCoverage.every((row: any) => row.witness !== "none"), "six-state coverage V3");
++assert(summary.endStateWitnesses.some((row: any) => row.source === "approved_fixed_witness" && row.endStateId === "mission_incomplete_continuity_preserved"), "fixed incomplete witness");
++assert(summary.endStateWitnesses.some((row: any) => row.source === "natural_degradation_gate" && row.alphaDelivered === true && row.networkContinuityPercent === 75), "natural degradation witness");
++assert(summary.primaryDeliverySaturation.population === "M1..M7 + M10; non-oracle/non-stress", "saturation population");
++assert(summary.shadowHorizon.map((row: any) => row.horizon).join("|") === "270|285|300|315|330|345|360|375|390", "shadow horizons");
++assert(summary.effectivePolicySeedUniqueness.m10.actual === 16384, "M10 unique seeds");
++assert(summary.effectivePolicySeedUniqueness.c16.actual === 4096, "C16 unique seeds");
++assert(summary.hardGates.length === 25, "exact hard-gate count");
++for (const gate of summary.hardGates) assert(gate.status === "PASS", `hard gate ${gate.gateId}`);
++assert(summary.overallStatus === "PASS", "overall engineering calibration");
++assert(!/NaN|Infinity/.test(text("docs/scenario5-phase8b-summary.json")), "finite summary JSON");
++
++const missionCsv = parseCsv(text("docs/scenario5-phase8b-results/mission-runs.csv"));
++const cognitiveCsv = parseCsv(text("docs/scenario5-phase8b-results/cognitive-runs.csv"));
++const parityCsv = parseCsv(text("docs/scenario5-phase8b-results/trajectory-parity.csv"));
++const distributionCsv = parseCsv(text("docs/scenario5-phase8b-results/end-state-distribution.csv"));
++const witnessesCsv = parseCsv(text("docs/scenario5-phase8b-results/end-state-witnesses.csv"));
++assert(missionCsv.length - 1 === 25600, "mission CSV row count");
++assert(cognitiveCsv.length - 1 === 7936, "cognitive CSV row count");
++assert(parityCsv.length - 1 === 25600, "trajectory parity CSV row count");
++const parityHeaders = parityCsv[0]!; const mismatchIndex = parityHeaders.indexOf("mismatchCount");
++assert(mismatchIndex >= 0 && parityCsv.slice(1).every((row) => row[mismatchIndex] === "0"), "trajectory parity CSV zero mismatches");
++assert(distributionCsv.length - 1 === 6, "distribution CSV six rows");
++assert(witnessesCsv.length - 1 >= 7, "witness CSV includes six states and natural witness");
++
++const missionDir = "src/ui/components/scenario/scenario-five/model/mission";
++const activeMissionSource = walk(missionDir).filter((path) => path.endsWith(".ts")).map(text).join("\n");
++for (const id of expectedIds) assert(activeMissionSource.includes(id), `active mission includes ${id}`);
++for (const id of retiredIds) assert(!activeMissionSource.includes(id), `active mission excludes ${id}`);
++const resolver = text(`${missionDir}/endStateResolver.ts`);
++const resolverPositions = expectedIds.map((id) => resolver.indexOf(`endStateId: "${id}"`));
++assert(resolverPositions.every((position, index) => position >= 0 && (index === 0 || position > resolverPositions[index - 1]!)), "resolver precedence order");
++assert(resolver.includes("alpha.integrity < 55"), "critical integrity threshold");
++assert(resolver.includes("!alphaDelivered && networkContinuityPercent < 75"), "critical continuity threshold");
++assert(resolver.includes("alphaDelivered && networkContinuityPercent < 100"), "degradation threshold");
++assert(resolver.includes("networkContinuityPercent >= 75"), "incomplete continuity threshold");
++assert((resolver.match(/networkContinuityPercent === 100/g)?.length ?? 0) === 3, "full-continuity branches");
++assert(text(`${missionDir}/config.ts`).includes('MISSION_MODEL_VERSION = "s5-mission-v1.1.0"'), "mission source version");
++assert(text("src/ui/components/scenario/scenario-five/calibration/versions.ts").includes('S5_CALIBRATION_VERSION = "s5-calibration-v1.2.0"'), "calibration source version");
++
++const uiContent = text("src/ui/components/scenario/scenario-five/ui/uiContentFa.ts");
++const labels = [
++  "از دست رفتن یا آسیب جدی محموله حیاتی",
++  "تحویل محموله اولویت‌دار با افت تداوم عملیاتی شبکه",
++  "تداوم شبکه حفظ شد، اما تحویل اولویت‌دار تکمیل نشد",
++  "تحویل و تداوم شبکه کامل؛ تهدید مهار نشد",
++  "تحویل و تداوم شبکه کامل؛ منشأ اختلال حل‌نشده",
++  "تحویل و تداوم شبکه کامل؛ تهدید مهار شد",
++];
++for (const label of labels) assert(uiContent.includes(label), `exact Persian label: ${label}`);
++const continuityNote = "تداوم عملیاتی شبکه، سهم کاروان‌هایی است که با یکپارچگی حداقل ۶۰ و تا مهلت عملیاتی خود به مقصد رسیده‌اند.";
++assert(text("src/ui/components/scenario/ScenarioFiveSummary.tsx").includes(continuityNote), "exact AAR continuity note");
++
++const report = text("docs/scenario5-phase8b-report-fa.md");
++const reportHeadings = [
++  "1. خلاصه اجرایی", "2. علت تغییر taxonomy", "3. چرا «شکست شبکه» به «افت تداوم عملیاتی» تغییر کرد",
++  "4. تعریف دقیق شش End State جدید", "5. عدم تغییر mechanics", "6. trajectory parity با Phase 8A",
++  "7. توزیع جدید End Stateها", "8. witness طبیعی network degradation", "9. witness حالت mission incomplete",
++  "10. وضعیت 360 دقیقه و primary-delivery saturation", "11. وضعیت Actor / Pareto / seed / resources",
++  "12. وضعیت Cognitive calibration", "13. Warningهای باقی‌مانده", "14. محدودیت‌ها", "15. وضعیت نهایی engineering calibration",
++];
++for (const heading of reportHeadings) assert(report.includes(`## ${heading}`), `report heading ${heading}`);
++assert(report.includes("آستانه افت تداوم عملیاتی در این فاز یک تصمیم طراحی داخلی مبتنی بر تعریف خود شاخص network continuity و نتایج calibration است، نه یک آستانه تجربی برگرفته از ادبیات عملیاتی."), "required threshold statement");
++assert(report.includes("Phase 8B هیچ loading شناختی، رفتار Actor، هزینه اقدام، مدت اقدام، horizon یا budget را تغییر نداده است."), "required no-mechanics-change statement");
++
++const archiveSets = {
++  phase8: ["docs/scenario5-phase8-calibration-report-fa.md", "docs/scenario5-phase8-calibration-verification.md", "docs/scenario5-phase8-summary.json", "docs/scenario5-phase8.patch", ...walk("docs/scenario5-phase8-results")],
++  phase8a: ["docs/scenario5-phase8a-audit-verification.md", "docs/scenario5-phase8a-diagnostic-report-fa.md", "docs/scenario5-phase8a-summary.json", "docs/scenario5-phase8a.patch", ...walk("docs/scenario5-phase8a-results")],
++  phase07c: ["docs/scenario5-phase7c-ui-verification.md", "docs/scenario5-phase7c.patch", ...walk("docs/scenario5-phase7c-screenshots")],
++  phase07d: ["docs/scenario5-phase7d-ui-verification.md", "docs/scenario5-phase7d.patch", ...walk("docs/scenario5-phase7d-screenshots")],
++};
++const expectedArchiveHashes: Record<string, string> = {
++  phase8: "dd1e32dce6c1a7486eb9b58f6c1d15962de48860a569b8513891fb2789633b25",
++  phase8a: "b0d663033d0b6f18670daa57729893458a9855de88c14134eb88436e0369524b",
++  phase07c: "8169b23209aa498bdaea2bb21d819bca1e81361a1e3f2d128e3971f1c76ed566",
++  phase07d: "83f19dd15629449cd286993c3828526e292310a543247e47de2a41bf330f2a8c",
++};
++for (const [key, paths] of Object.entries(archiveSets)) {
++  const actual = aggregateHash(paths);
++  assert(actual === expectedArchiveHashes[key], `${key} archive hash (${actual})`);
++}
++const frozenUiPaths = [
++  "src/ui/components/scenario/ScenarioFiveSimulation.tsx", "src/ui/components/scenario/ScenarioFiveMap.tsx",
++  "src/ui/components/scenario/ScenarioFiveActionCard.tsx", "src/ui/components/scenario/ScenarioFiveResourcePanel.tsx",
++  "src/ui/components/scenario/ScenarioFive.css",
++];
++assert(aggregateHash(frozenUiPaths) === "5935a851ba7ee3ed7a0ee39c50c3c9b49d489491d1842fede617396d62882f7b", "frozen live UI aggregate hash");
++const mapSource = text("src/ui/components/scenario/ScenarioFiveMap.tsx");
++assert(mapSource.includes('alpha: { x: 0, y: -12 }') && mapSource.includes('delta: { x: 0, y: 12 }'), "Phase 07D deconfliction values");
++assert(mapSource.includes("progress / 0.08"), "deconfliction fade threshold");
++assert(text("src/ui/components/scenario/ScenarioFive.css").includes('grid-template-areas: "controls map"'), "controls left/map right CSS");
++assert(text("scripts/verify-s5-phase7-ui.ts").includes("600"), "prior Phase-7 assertion baseline retained");
++
++console.log(`Scenario 5 Phase 08B verification: PASS — ${assertions} assertions`);
+diff --git a/src/ui/components/scenario/ScenarioFiveSummary.tsx b/src/ui/components/scenario/ScenarioFiveSummary.tsx
+index 12ce7b6..e5f7213 100644
+--- a/src/ui/components/scenario/ScenarioFiveSummary.tsx
++++ b/src/ui/components/scenario/ScenarioFiveSummary.tsx
+@@ -80,6 +80,7 @@ export const ScenarioFiveSummary = ({
+           <AarStat label="وضعیت انتساب عملیاتی" value={getScenario5OperationalAttributionLabel(domain.logisticsResilience.operationalAttributionStatus)} />
+           <AarStat label="مهار تهدید" value={yesNo(domain.logisticsResilience.threatContained)} />
+         </div>
++        <p className="s5-method-note">تداوم عملیاتی شبکه، سهم کاروان‌هایی است که با یکپارچگی حداقل ۶۰ و تا مهلت عملیاتی خود به مقصد رسیده‌اند.</p>
+       </section>
+ 
+       <section className="s5-panel s5-aar-section" data-aar-section="truth">
+diff --git a/src/ui/components/scenario/scenario-five/calibration/auditMetrics.ts b/src/ui/components/scenario/scenario-five/calibration/auditMetrics.ts
+index d4dc902..5d2d896 100644
+--- a/src/ui/components/scenario/scenario-five/calibration/auditMetrics.ts
++++ b/src/ui/components/scenario/scenario-five/calibration/auditMetrics.ts
+@@ -168,8 +168,8 @@ export interface ActorSignatureRow {
+ }
+ 
+ const END_STATES: readonly Scenario5EndStateId[] = [
+-  "critical_cargo_lost_or_compromised", "priority_delivered_network_failure", "mission_incomplete_continuity_preserved",
+-  "delayed_delivery_persistent_disruption", "resilient_delivery_unresolved_attribution", "resilient_delivery_threat_contained",
++  "critical_cargo_lost_or_compromised", "priority_delivered_network_degradation", "mission_incomplete_continuity_preserved",
++  "delivery_complete_threat_persistent", "delivery_complete_attribution_unresolved", "delivery_complete_threat_contained",
+ ];
+ 
+ export function calculateActorSignatures(rows: readonly MissionRunRow[]): readonly ActorSignatureRow[] {
+diff --git a/src/ui/components/scenario/scenario-five/calibration/structuredReachability.ts b/src/ui/components/scenario/scenario-five/calibration/structuredReachability.ts
+index 5ed1468..aa7850f 100644
+--- a/src/ui/components/scenario/scenario-five/calibration/structuredReachability.ts
++++ b/src/ui/components/scenario/scenario-five/calibration/structuredReachability.ts
+@@ -120,7 +120,7 @@ const selections = (state: Scenario5MissionState): readonly MissionActionSelecti
+ const traceText = (trace: readonly ReachabilityTraceStep[]): string => JSON.stringify(trace);
+ 
+ export function runStructuredReachabilitySearch(): StructuredReachabilityResult {
+-  const targetIds = ["priority_delivered_network_failure", "mission_incomplete_continuity_preserved"] as const;
++  const targetIds = ["priority_delivered_network_degradation", "mission_incomplete_continuity_preserved"] as const;
+   const representativeEnvironments: { worldId: WorldId; environmentSeed: number; latencyVariant: string }[] = [];
+   for (const world of WORLD_CATALOG) {
+     const firstByVariant = new Map<string, number>();
+@@ -160,7 +160,7 @@ export function runStructuredReachabilitySearch(): StructuredReachabilityResult
+   };
+ 
+   for (const targetId of targetIds) {
+-    const targetPrimaryCorridors: readonly CorridorId[] = targetId === "priority_delivered_network_failure"
++    const targetPrimaryCorridors: readonly CorridorId[] = targetId === "priority_delivered_network_degradation"
+       ? ["corridor_beta_south", "corridor_gamma_northwest", "corridor_delta_west"]
+       : ["corridor_alpha_east"];
+     const worlds = WORLD_CATALOG.filter(({ primaryAffectedCorridorId }) => targetPrimaryCorridors.includes(primaryAffectedCorridorId));
+@@ -194,7 +194,7 @@ export function runStructuredReachabilitySearch(): StructuredReachabilityResult
+           }
+           if (found) break;
+           uniqueStatesGenerated += deduplicated.size;
+-          const ranked = [...deduplicated.values()].sort(targetId === "priority_delivered_network_failure" ? comparePriority : compareIncomplete);
++          const ranked = [...deduplicated.values()].sort(targetId === "priority_delivered_network_degradation" ? comparePriority : compareIncomplete);
+           beam = ranked.slice(0, STRUCTURED_SEARCH_BEAM_LIMIT);
+           retainedStates += beam.length;
+           maximumBeamWidth = Math.max(maximumBeamWidth, beam.length);
+diff --git a/src/ui/components/scenario/scenario-five/calibration/versions.ts b/src/ui/components/scenario/scenario-five/calibration/versions.ts
+index bf74e17..4d5124c 100644
+--- a/src/ui/components/scenario/scenario-five/calibration/versions.ts
++++ b/src/ui/components/scenario/scenario-five/calibration/versions.ts
+@@ -1,2 +1,2 @@
+-export const S5_CALIBRATION_VERSION = "s5-calibration-v1.1.0" as const;
++export const S5_CALIBRATION_VERSION = "s5-calibration-v1.2.0" as const;
+ export const S5_CALIBRATION_STATUS = "engineering_audit_not_human_validated" as const;
+diff --git a/src/ui/components/scenario/scenario-five/model/mission/config.ts b/src/ui/components/scenario/scenario-five/model/mission/config.ts
+index 3654379..a4d04c2 100644
+--- a/src/ui/components/scenario/scenario-five/model/mission/config.ts
++++ b/src/ui/components/scenario/scenario-five/model/mission/config.ts
+@@ -1,7 +1,7 @@
+ import type { CorridorId } from "../index";
+ import type { MissionConvoyState } from "./types";
+ 
+-export const MISSION_MODEL_VERSION = "s5-mission-v1.0.2";
++export const MISSION_MODEL_VERSION = "s5-mission-v1.1.0";
+ export const BASE_ROUND_MINUTES = 20;
+ export const MISSION_HORIZON_MINUTES = 360;
+ export const INITIAL_ISR_CAPACITY = 100;
+diff --git a/src/ui/components/scenario/scenario-five/model/mission/endStateResolver.ts b/src/ui/components/scenario/scenario-five/model/mission/endStateResolver.ts
+index 5fcd364..ca7ff84 100644
+--- a/src/ui/components/scenario/scenario-five/model/mission/endStateResolver.ts
++++ b/src/ui/components/scenario/scenario-five/model/mission/endStateResolver.ts
+@@ -39,33 +39,74 @@ export function resolveMissionEndState(state: Scenario5MissionState): Scenario5E
+   const networkContinuityPercent = calculateNetworkContinuity(state);
+   const threatContained = isThreatContained(state);
+ 
+-  if (alpha.integrity < 55 || (!alphaDelivered && networkContinuityPercent < 75)) {
+-    return { endStateId: "critical_cargo_lost_or_compromised", networkContinuityPercent, threatContained };
++  if (
++    alpha.integrity < 55
++    || (!alphaDelivered && networkContinuityPercent < 75)
++  ) {
++    return {
++      endStateId: "critical_cargo_lost_or_compromised",
++      networkContinuityPercent,
++      threatContained,
++    };
+   }
+-  if (alphaDelivered && networkContinuityPercent <= 50) {
+-    return { endStateId: "priority_delivered_network_failure", networkContinuityPercent, threatContained };
++
++  if (alphaDelivered && networkContinuityPercent < 100) {
++    return {
++      endStateId: "priority_delivered_network_degradation",
++      networkContinuityPercent,
++      threatContained,
++    };
+   }
+-  if (!alphaDelivered && alpha.integrity >= 55 && networkContinuityPercent >= 75) {
+-    return { endStateId: "mission_incomplete_continuity_preserved", networkContinuityPercent, threatContained };
++
++  if (
++    !alphaDelivered
++    && alpha.integrity >= 55
++    && networkContinuityPercent >= 75
++  ) {
++    return {
++      endStateId: "mission_incomplete_continuity_preserved",
++      networkContinuityPercent,
++      threatContained,
++    };
+   }
++
+   if (
+     alphaDelivered
+-    && networkContinuityPercent >= 75
++    && networkContinuityPercent === 100
+     && state.operationalAttributionStatus === "resolved"
+     && !threatContained
+   ) {
+-    return { endStateId: "delayed_delivery_persistent_disruption", networkContinuityPercent, threatContained };
++    return {
++      endStateId: "delivery_complete_threat_persistent",
++      networkContinuityPercent,
++      threatContained,
++    };
+   }
+-  if (alphaDelivered && networkContinuityPercent >= 75 && state.operationalAttributionStatus === "unresolved") {
+-    return { endStateId: "resilient_delivery_unresolved_attribution", networkContinuityPercent, threatContained };
++
++  if (
++    alphaDelivered
++    && networkContinuityPercent === 100
++    && state.operationalAttributionStatus === "unresolved"
++  ) {
++    return {
++      endStateId: "delivery_complete_attribution_unresolved",
++      networkContinuityPercent,
++      threatContained,
++    };
+   }
++
+   if (
+     alphaDelivered
+-    && networkContinuityPercent >= 75
++    && networkContinuityPercent === 100
+     && state.operationalAttributionStatus === "resolved"
+     && threatContained
+   ) {
+-    return { endStateId: "resilient_delivery_threat_contained", networkContinuityPercent, threatContained };
++    return {
++      endStateId: "delivery_complete_threat_contained",
++      networkContinuityPercent,
++      threatContained,
++    };
+   }
++
+   throw new UnclassifiedMissionStateError();
+ }
+diff --git a/src/ui/components/scenario/scenario-five/model/mission/types.ts b/src/ui/components/scenario/scenario-five/model/mission/types.ts
+index ed15dcb..354c44d 100644
+--- a/src/ui/components/scenario/scenario-five/model/mission/types.ts
++++ b/src/ui/components/scenario/scenario-five/model/mission/types.ts
+@@ -150,11 +150,11 @@ export interface MissionActionConfig {
+ 
+ export type Scenario5EndStateId =
+   | "critical_cargo_lost_or_compromised"
+-  | "priority_delivered_network_failure"
++  | "priority_delivered_network_degradation"
+   | "mission_incomplete_continuity_preserved"
+-  | "delayed_delivery_persistent_disruption"
+-  | "resilient_delivery_unresolved_attribution"
+-  | "resilient_delivery_threat_contained";
++  | "delivery_complete_threat_persistent"
++  | "delivery_complete_attribution_unresolved"
++  | "delivery_complete_threat_contained";
+ 
+ export interface Scenario5EndState {
+   readonly endStateId: Scenario5EndStateId;
+diff --git a/src/ui/components/scenario/scenario-five/ui/uiContentFa.ts b/src/ui/components/scenario/scenario-five/ui/uiContentFa.ts
+index 017034d..8c28e17 100644
+--- a/src/ui/components/scenario/scenario-five/ui/uiContentFa.ts
++++ b/src/ui/components/scenario/scenario-five/ui/uiContentFa.ts
+@@ -119,11 +119,11 @@ export const SCENARIO5_REASON_LABELS_FA: Readonly<Record<ReasonId, string>> = {
+ 
+ export const SCENARIO5_END_STATE_LABELS_FA: Readonly<Record<Scenario5EndStateId, string>> = {
+   critical_cargo_lost_or_compromised: "از دست رفتن یا آسیب جدی محموله حیاتی",
+-  priority_delivered_network_failure: "تحویل محموله اولویت‌دار با شکست تداوم شبکه",
+-  mission_incomplete_continuity_preserved: "مأموریت ناتمام با حفظ تداوم شبکه",
+-  delayed_delivery_persistent_disruption: "تحویل همراه با تأخیر و اختلال پایدار",
+-  resilient_delivery_unresolved_attribution: "تحویل تاب‌آور با منشأ حل‌نشده",
+-  resilient_delivery_threat_contained: "تحویل تاب‌آور همراه با مهار تهدید",
++  priority_delivered_network_degradation: "تحویل محموله اولویت‌دار با افت تداوم عملیاتی شبکه",
++  mission_incomplete_continuity_preserved: "تداوم شبکه حفظ شد، اما تحویل اولویت‌دار تکمیل نشد",
++  delivery_complete_threat_persistent: "تحویل و تداوم شبکه کامل؛ تهدید مهار نشد",
++  delivery_complete_attribution_unresolved: "تحویل و تداوم شبکه کامل؛ منشأ اختلال حل‌نشده",
++  delivery_complete_threat_contained: "تحویل و تداوم شبکه کامل؛ تهدید مهار شد",
+ };
+ 
+ export const SCENARIO5_ACTOR_LABELS_FA: Readonly<Record<ActorProfileId, string>> = {

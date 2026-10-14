@@ -1,0 +1,7 @@
+endStateId,mainAuditCount,classification,witnessWorldId,witnessEnvironmentSeed,latencyVariant,witnessTrace
+critical_cargo_lost_or_compromised,24,observed_in_main_audit,,,,
+priority_delivered_network_failure,0,not_observed_under_phase8a_structured_search,,,,
+mission_incomplete_continuity_preserved,0,observed_in_structured_search,W-corridor_alpha_east-opportunistic_interdiction,1,early,"[{""actionId"":""a1_priority_focus"",""targetCorridorId"":""corridor_alpha_east""},{""actionId"":""a2_broad_sweep"",""targetCorridorId"":null},{""actionId"":""b1_split_attention"",""targetCorridorId"":null},{""actionId"":""b2_hold_verify"",""targetCorridorId"":""corridor_alpha_east""},{""actionId"":""c1_ground_recon"",""targetCorridorId"":""corridor_alpha_east""},{""actionId"":""c2_isr_heavy"",""targetCorridorId"":null},{""actionId"":""d1_hold_confirm"",""targetCorridorId"":""corridor_alpha_east""},{""actionId"":""d2_continuity_first_finish"",""targetCorridorId"":null}]"
+delayed_delivery_persistent_disruption,14085,observed_in_main_audit,,,,
+resilient_delivery_unresolved_attribution,10173,observed_in_main_audit,,,,
+resilient_delivery_threat_contained,294,observed_in_main_audit,,,,

@@ -1,0 +1,175 @@
+{
+  "browser": "chrome.exe",
+  "capturedAt": "2026-10-07T08:21:30.661Z",
+  "initial": {
+    "stage": "decision-initial",
+    "width": 1440,
+    "height": 900,
+    "scrollHeight": 900,
+    "scrollWidth": 1440,
+    "noPageScroll": true,
+    "noHorizontalOverflow": true,
+    "mapLeft": 595.390625,
+    "controlLeft": 89,
+    "mapRightOfControls": true,
+    "actionCardCount": 4,
+    "allActionCardsVisible": true,
+    "confirmVisible": true,
+    "markerTransforms": [
+      "translate(428px, 188px)",
+      "translate(541px, 462px)",
+      "translate(289px, 102px)",
+      "translate(428px, 212px)"
+    ],
+    "markers": [
+      {
+        "convoyId": "alpha",
+        "visualProgress": 0,
+        "transform": "translate(428px, 188px)",
+        "svgCenter": {
+          "x": 428,
+          "y": 188
+        },
+        "screenCenter": {
+          "x": 910.6505126953125,
+          "y": 344.69688415527344
+        },
+        "visible": true
+      },
+      {
+        "convoyId": "beta",
+        "visualProgress": 0,
+        "transform": "translate(541px, 462px)",
+        "svgCenter": {
+          "x": 541,
+          "y": 462
+        },
+        "screenCenter": {
+          "x": 1017.3531494140625,
+          "y": 603.4270629882812
+        },
+        "visible": true
+      },
+      {
+        "convoyId": "gamma",
+        "visualProgress": 0,
+        "transform": "translate(289px, 102px)",
+        "svgCenter": {
+          "x": 289,
+          "y": 102
+        },
+        "screenCenter": {
+          "x": 779.3968811035156,
+          "y": 263.4895782470703
+        },
+        "visible": true
+      },
+      {
+        "convoyId": "delta",
+        "visualProgress": 0,
+        "transform": "translate(428px, 212px)",
+        "svgCenter": {
+          "x": 428,
+          "y": 212
+        },
+        "screenCenter": {
+          "x": 910.6505126953125,
+          "y": 367.359375
+        },
+        "visible": true
+      }
+    ]
+  },
+  "postAction": {
+    "stage": "belief-after-action",
+    "width": 1440,
+    "height": 900,
+    "scrollHeight": 900,
+    "scrollWidth": 1440,
+    "noPageScroll": true,
+    "noHorizontalOverflow": true,
+    "mapLeft": 595.390625,
+    "controlLeft": 89,
+    "mapRightOfControls": true,
+    "actionCardCount": 0,
+    "allActionCardsVisible": null,
+    "confirmVisible": null,
+    "markerTransforms": [
+      "translate(454.286px, 196.429px)",
+      "translate(526.574px, 428.553px)",
+      "translate(307.533px, 115.067px)",
+      "translate(406.008px, 205.498px)"
+    ],
+    "markers": [
+      {
+        "convoyId": "alpha",
+        "visualProgress": 0.14285714285714285,
+        "transform": "translate(454.286px, 196.429px)",
+        "svgCenter": {
+          "x": 454.286,
+          "y": 196.429
+        },
+        "screenCenter": {
+          "x": 935.4713439941406,
+          "y": 352.6557312011719
+        },
+        "visible": true
+      },
+      {
+        "convoyId": "beta",
+        "visualProgress": 0.1276595744680851,
+        "transform": "translate(526.574px, 428.553px)",
+        "svgCenter": {
+          "x": 526.574,
+          "y": 428.553
+        },
+        "screenCenter": {
+          "x": 1003.7315063476562,
+          "y": 571.84423828125
+        },
+        "visible": true
+      },
+      {
+        "convoyId": "gamma",
+        "visualProgress": 0.13333333333333333,
+        "transform": "translate(307.533px, 115.067px)",
+        "svgCenter": {
+          "x": 307.533,
+          "y": 115.067
+        },
+        "screenCenter": {
+          "x": 796.8973693847656,
+          "y": 275.8280487060547
+        },
+        "visible": true
+      },
+      {
+        "convoyId": "delta",
+        "visualProgress": 0.11952191235059761,
+        "transform": "translate(406.008px, 205.498px)",
+        "svgCenter": {
+          "x": 406.008,
+          "y": 205.498
+        },
+        "screenCenter": {
+          "x": 889.8840637207031,
+          "y": 361.2197265625
+        },
+        "visible": true
+      }
+    ]
+  },
+  "initialVisibleConvoyIds": [
+    "alpha",
+    "beta",
+    "delta",
+    "gamma"
+  ],
+  "initialVisibleConvoyCount": 4,
+  "initialDistinctTransforms": 4,
+  "initialAlphaDeltaSvgSeparation": 24,
+  "initialAlphaDeltaScreenSeparation": 22.662490844726562,
+  "convoyMovementVerified": true,
+  "postVisibleConvoyCount": 4,
+  "postOriginOffsetsGone": true
+}
