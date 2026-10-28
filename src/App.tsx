@@ -8,12 +8,14 @@ import scenario2IntroBackground from "../assets/s2/A1.png";
 import { SCENARIO4_ENTRY_COPY_FA } from "./ui/components/scenario/scenario-four/narrative/narrativeCatalogFa";
 
 type ProfileRole = "admin" | "player";
+type ScenarioCatalogAccess = "released" | "full";
 
 
 interface Profile {
   id: string;
   name: string;
   role: ProfileRole;
+  scenarioCatalog: ScenarioCatalogAccess;
   progress: number; // برای player: ایندکس سناریوی بعدی که باز است
 }
 
@@ -284,6 +286,7 @@ const SCENARIOS: Scenario[] = [
     introTitle: "امواج خاموش — نسخه بازطراحی",
     summary: "مأموریت ۸ راندی مدیریت کاروان‌ها؛ اختلال GNSS از یک هشدار مبهم به تهدید عملیاتی آشکار تبدیل می‌شود.",
     image: "/images/scenario2.png",
+    badges: ["لجستیک چندمسیره", "اختلال", "منابع محدود", "شواهد متعارض"],
     descriptionPreview: `چهار کاروان طبق برنامه در حال حرکت‌اند. ابتدا همه‌چیز عادی است، اما یک اختلاف کوچک در داده‌های ناوبری دیده می‌شود. شما باید محل اختلال را پیدا کنید، مسیرهای امن را مدیریت کنید و هم‌زمان شبکه لجستیک را زنده نگه دارید.`,
     fullDescription: `در این نسخه مأموریت‌محور، شما فرمانده قرارگاه لجستیک هستید. مأموریت اصلی، رساندن همه کاروان‌ها به مقصد تا پایان راند ۸ است. برای موفقیت باید اختلال را به‌موقع شناسایی کنید، مسیرهای امن طراحی کنید، منابع ISR/انرژی/زمان را حفظ کنید، کاروان‌ها را رها نکنید و در صورت آشکار شدن تهدید با مسیر یا منبع اختلال مقابله کنید.`,
     introBackgroundImage: scenario2IntroBackground,
@@ -299,6 +302,48 @@ const SCENARIOS: Scenario[] = [
   }
 ];
 
+const RELEASED_SCENARIO_IDS = [0, 4, 5] as const;
+const RELEASED_SCENARIO_TITLES: Record<number, string> = {
+  0: "آستانه ورود",
+  4: "۱ — حریم خاکستری مدار",
+  5: "۲ — امواج خاموش",
+};
+
+interface ScenarioCatalogEntry {
+  scenario: Scenario;
+  displayId: number;
+  displayTitle: string;
+}
+
+const getScenarioCatalog = (profile: Profile): ScenarioCatalogEntry[] => {
+  if (profile.scenarioCatalog === "full") {
+    return SCENARIOS.map((scenario) => ({
+      scenario,
+      displayId: scenario.id,
+      displayTitle: scenario.title,
+    }));
+  }
+
+  return RELEASED_SCENARIO_IDS.map((scenarioId, displayId) => {
+    const scenario = SCENARIOS.find((item) => item.id === scenarioId);
+    if (!scenario) {
+      throw new Error(`Scenario ${scenarioId} is missing from the catalog.`);
+    }
+
+    return {
+      scenario,
+      displayId,
+      displayTitle: RELEASED_SCENARIO_TITLES[scenarioId],
+    };
+  });
+};
+
+const getProfileTypeLabel = (profile: Profile) => {
+  if (profile.role === "admin") return "ادمین";
+  if (profile.scenarioCatalog === "full") return "تست سناریو";
+  return "بازیکن";
+};
+
 
 const App = () => {
   const [profiles, setProfiles] = useState<Profile[]>([
@@ -306,13 +351,22 @@ const App = () => {
       id: "admin",
       name: "ادمین",
       role: "admin",
+      scenarioCatalog: "released",
       progress: SCENARIOS.length // برای ادمین مهم نیست ولی می‌گذاریم همه باز باشند
     },
     {
       id: "test-player",
       name: "بازیکن تست",
       role: "player",
+      scenarioCatalog: "released",
       progress: 0 // فقط سناریو ۰ باز است
+    },
+    {
+      id: "scenario-tester",
+      name: "تست سناریو",
+      role: "player",
+      scenarioCatalog: "full",
+      progress: SCENARIOS.length
     }
   ]);
 
@@ -363,14 +417,14 @@ const [expandedScenarioId, setExpandedScenarioId] = useState<number | null>(null
     setView("mainMenu");
   };
 
-  const isScenarioUnlocked = (profile: Profile, scenarioIndex: number) => {
-    if (profile.role === "admin") return true;
-    return scenarioIndex <= profile.progress;
+  const isScenarioUnlocked = (profile: Profile, catalogIndex: number) => {
+    if (profile.role === "admin" || profile.scenarioCatalog === "full") return true;
+    return catalogIndex <= profile.progress;
   };
 
-  const isScenarioCompleted = (profile: Profile, scenarioIndex: number) => {
-    if (profile.role === "admin") return false; // برای ادمین فعلاً مفهوم تکمیل را نگه نمی‌داریم
-    return scenarioIndex < profile.progress;
+  const isScenarioCompleted = (profile: Profile, catalogIndex: number) => {
+    if (profile.role === "admin" || profile.scenarioCatalog === "full") return false;
+    return catalogIndex < profile.progress;
   };
 
   const logScenarioExit = (reason: string) => {
@@ -911,19 +965,20 @@ const [expandedScenarioId, setExpandedScenarioId] = useState<number | null>(null
 
 
   const handleOpenScenario = (scenarioId: number) => {
-    const scenarioIndex = SCENARIOS.findIndex((s) => s.id === scenarioId);
-    if (scenarioIndex === -1) return;
-    const scenario = SCENARIOS[scenarioIndex];
+    const scenarioCatalog = getScenarioCatalog(activeProfile);
+    const catalogIndex = scenarioCatalog.findIndex(({ scenario }) => scenario.id === scenarioId);
+    if (catalogIndex === -1) return;
+    const scenario = scenarioCatalog[catalogIndex].scenario;
     const scenarioTreeId = SCENARIO_TREE_IDS[scenario.id];
     const scenarioLogId = scenarioTreeId ?? scenario.id;
 
     eventLogger.log({
       type: "scenario_card_click",
       scenarioId: scenarioLogId,
-      detail: { unlocked: isScenarioUnlocked(activeProfile, scenarioIndex) },
+      detail: { unlocked: isScenarioUnlocked(activeProfile, catalogIndex) },
     });
 
-    if (!isScenarioUnlocked(activeProfile, scenarioIndex)) {
+    if (!isScenarioUnlocked(activeProfile, catalogIndex)) {
       return;
     }
 
@@ -950,10 +1005,11 @@ const [expandedScenarioId, setExpandedScenarioId] = useState<number | null>(null
   const handleFinishScenario = () => {
     if (activeScenarioId == null) return;
 
-    const scenarioIndex = SCENARIOS.findIndex(
-      (s) => s.id === activeScenarioId
+    const scenarioCatalog = getScenarioCatalog(activeProfile);
+    const catalogIndex = scenarioCatalog.findIndex(
+      ({ scenario }) => scenario.id === activeScenarioId
     );
-    if (scenarioIndex === -1) return;
+    if (catalogIndex === -1) return;
     const scenarioLogId = scenarioLogIdRef.current ?? activeScenarioId;
     const elapsed =
       scenarioTimerKeyRef.current != null
@@ -974,12 +1030,12 @@ const [expandedScenarioId, setExpandedScenarioId] = useState<number | null>(null
     setScenarioCompletionUiActive(false);
 
     // برای player: سناریوی بعدی را باز کن
-    if (activeProfile.role === "player") {
+    if (activeProfile.role === "player" && activeProfile.scenarioCatalog === "released") {
       setProfiles((prev) =>
         prev.map((p) => {
           if (p.id !== activeProfile.id) return p;
-          const nextProgress = Math.max(p.progress, scenarioIndex + 1);
-          return { ...p, progress: Math.min(nextProgress, SCENARIOS.length - 1) };
+          const nextProgress = Math.max(p.progress, catalogIndex + 1);
+          return { ...p, progress: Math.min(nextProgress, scenarioCatalog.length) };
         })
       );
     }
@@ -1042,7 +1098,7 @@ const [expandedScenarioId, setExpandedScenarioId] = useState<number | null>(null
         <div className="active-profile">
           <span>پروفایل فعال:</span>
           <strong>{activeProfile.name}</strong>
-          <span className="badge">{activeProfile.role === "admin" ? "ادمین" : "بازیکن"}</span>
+          <span className="badge">{getProfileTypeLabel(activeProfile)}</span>
         </div>
 
         <div className="menu-buttons">
@@ -1081,7 +1137,7 @@ const [expandedScenarioId, setExpandedScenarioId] = useState<number | null>(null
         </div>
 
         <p className="hint">
-          فعلاً دو پروفایل ثابت داریم؛ بعداً می‌توانیم ساخت پروفایل جدید اضافه کنیم.
+          سه پروفایل ثابت برای مدیریت، بازی و آزمون همه سناریوها در دسترس است.
         </p>
 
         {activeProfile.role === "admin" && (
@@ -1104,11 +1160,16 @@ const [expandedScenarioId, setExpandedScenarioId] = useState<number | null>(null
             >
               <div className="profile-name">{profile.name}</div>
               <div className="profile-meta">
-                نقش: {profile.role === "admin" ? "ادمین" : "بازیکن تست"}
+                نقش: {getProfileTypeLabel(profile)}
               </div>
-              {profile.role === "player" && (
+              {profile.role === "player" && profile.scenarioCatalog === "released" && (
                 <div className="profile-progress">
                   پیشرفت: سناریوی بعدی باز = {profile.progress}
+                </div>
+              )}
+              {profile.scenarioCatalog === "full" && (
+                <div className="profile-progress">
+                  دسترسی کامل به همه سناریوهای قدیمی و جدید
                 </div>
               )}
             </button>
@@ -2196,17 +2257,26 @@ const [expandedScenarioId, setExpandedScenarioId] = useState<number | null>(null
     );
   };
 
-  const renderScenarioList = () => (
-    <div className="screen">
-      <div className="card">
+  const renderScenarioList = () => {
+    const scenarioCatalog = getScenarioCatalog(activeProfile);
+    const isFullCatalog = activeProfile.scenarioCatalog === "full";
+
+    return (
+    <div className="screen scenario-selection-screen">
+      <div className="card scenario-selection-card">
         <div className="screen-header">
           <div>
             <h2 className="screen-title">انتخاب سناریو</h2>
             <p className="subtitle">
               پروفایل فعال: <strong>{activeProfile.name}</strong>{" "}
               <span className="badge">
-                {activeProfile.role === "admin" ? "ادمین" : "بازیکن"}
+                {getProfileTypeLabel(activeProfile)}
               </span>
+            </p>
+            <p className="scenario-catalog-note">
+              {isFullCatalog
+                ? "حالت آزمون: همه سناریوهای قدیمی و جدید در دسترس‌اند."
+                : "مسیر اصلی بازی شامل سه سناریوی منتشرشده است."}
             </p>
           </div>
           <button className="link" onClick={() => setView("mainMenu")}>
@@ -2214,8 +2284,8 @@ const [expandedScenarioId, setExpandedScenarioId] = useState<number | null>(null
           </button>
         </div>
 
-        <div className="scenario-grid">
-          {SCENARIOS.map((scenario, index) => {
+        <div className={`scenario-grid ${isFullCatalog ? "scenario-grid--full" : "scenario-grid--released"}`}>
+          {scenarioCatalog.map(({ scenario, displayId, displayTitle }, index) => {
               const unlocked = isScenarioUnlocked(activeProfile, index);
               const completed = isScenarioCompleted(activeProfile, index);
               const isExpanded = expandedScenarioId === scenario.id;
@@ -2233,19 +2303,19 @@ const [expandedScenarioId, setExpandedScenarioId] = useState<number | null>(null
                     {scenario.image && (
                       <img
                         src={scenario.image}
-                        alt={scenario.title}
+                        alt={displayTitle}
                         className="scenario-image"
                       />
                     )}
                   </div>
 
                   <div className="scenario-header">
-                    <span className="scenario-id">سناریو {scenario.id}</span>
+                    <span className="scenario-id">سناریو {displayId}</span>
                     {!unlocked && <span className="lock-label">قفل</span>}
                     {completed && <span className="done-label">تمام شده</span>}
                   </div>
 
-                  <h3 className="scenario-title">{scenario.title}</h3>
+                  <h3 className="scenario-title">{displayTitle}</h3>
                   <p className="scenario-summary">
                     {isExpanded
                       ? scenario.fullDescription || scenario.descriptionPreview || scenario.summary
@@ -2305,6 +2375,7 @@ const [expandedScenarioId, setExpandedScenarioId] = useState<number | null>(null
       </div>
     </div>
   );
+  };
 
 
 const renderScenarioPlay = () => {
@@ -2409,7 +2480,7 @@ const renderScenarioPlay = () => {
           <div className="profile-badge-inline">
             پروفایل: <strong>{activeProfile.name}</strong>{" "}
             <span className="badge">
-              {activeProfile.role === "admin" ? "ادمین" : "بازیکن"}
+              {getProfileTypeLabel(activeProfile)}
             </span>
           </div>
         </div>
