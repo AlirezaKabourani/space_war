@@ -258,9 +258,10 @@ export const S0_GatewayToSpaceWargaming: ScenarioDefinition = {
         "- بازی مجموع غیرصفر (Non-Zero-Sum): در اینجا، امکان ایجاد سود مشترک یا زیان مشترک وجود دارد؛ بازیکنان می‌توانند با همکاری برنده شوند یا با رقابت هر دو ضرر کنند. این نوع بر تعاملات همکارانه تمرکز دارد.\n\n" +
         "- بازی با اطلاعات ناقص (Incomplete Information): بازیکنان اطلاعات کاملی از منابع، نیت‌ها یا اقدامات طرف مقابل ندارند، که تصمیم‌گیری را پیچیده‌تر می‌کند و عناصر عدم قطعیت را وارد می‌کند.\n\n" +
         "این انواع اغلب با هم ترکیب می‌شوند، اما درک جداگانه آن‌ها برای تحلیل استراتژیک ضروری است.",
-      next: "warGameTypesExample",
+      next: "warGameTypesQuiz1",
     },
 
+    // Retained as supplementary reading in warGameTypesIntro, outside the main route.
     warGameTypesExample: {
       id: "warGameTypesExample",
       type: "info",

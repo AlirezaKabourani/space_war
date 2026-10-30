@@ -1,0 +1,9 @@
+1. Install **Node.js 22.12+ (22.x)** and a modern browser (Chrome or Edge).
+2. Copy the project folder to the new PC.
+3. Open CMD inside the folder and run:
+   npm ci
+   Internet is required for this step.
+   
+4. Double-click `run_app.bat` Keep the command window open while using the app.
+
+Note: Saved profiles and game progress do not transfer with the project folder.

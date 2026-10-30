@@ -967,7 +967,7 @@ const EvidenceCard = ({
       </footer>
       <details className="s4-evidence-limits" onToggle={(event) => {
         if ((event.currentTarget as HTMLDetailsElement).open) {
-          eventLogger.log({ type: "s4_evidence_detail_open", detail: { evidenceId: card.id } });
+          eventLogger.log({ type: "s4_evidence_detail_open", scenarioId: "s4_redesigned_scenario_one", detail: { evidenceId: card.id } });
         }
       }}>
         <summary>{MOVE1_NARRATIVE_COPY_FA.ui.evidenceLimitationLabel}</summary>

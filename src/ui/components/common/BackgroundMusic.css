@@ -1,0 +1,26 @@
+.background-music-button {
+  position: fixed;
+  left: max(16px, env(safe-area-inset-left));
+  bottom: max(16px, env(safe-area-inset-bottom));
+  z-index: 4400;
+  display: grid;
+  place-items: center;
+  width: 44px;
+  height: 44px;
+  padding: 0;
+  border: 1px solid var(--border-soft);
+  border-radius: 50%;
+  background: rgba(5, 8, 22, 0.9);
+  color: var(--accent);
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.3);
+  backdrop-filter: blur(12px);
+}
+
+.background-music-button:hover {
+  border-color: var(--accent);
+}
+
+.background-music-button:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 3px;
+}

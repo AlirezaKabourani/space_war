@@ -6,18 +6,13 @@ import { AllScenarios, type ScenarioId } from "./scenarios";
 import { eventLogger } from "./services/analytics/eventLogger";
 import scenario2IntroBackground from "../assets/s2/A1.png";
 import { SCENARIO4_ENTRY_COPY_FA } from "./ui/components/scenario/scenario-four/narrative/narrativeCatalogFa";
-
-type ProfileRole = "admin" | "player";
-type ScenarioCatalogAccess = "released" | "full";
-
-
-interface Profile {
-  id: string;
-  name: string;
-  role: ProfileRole;
-  scenarioCatalog: ScenarioCatalogAccess;
-  progress: number; // برای player: ایندکس سناریوی بعدی که باز است
-}
+import { canDeleteProfile, createPlayerProfile, validateProfileInput, type Profile, type ProfileInput, type ProfileFormErrors } from "./core/types/profile";
+import { deleteProfile, loadProfileState, saveProfileState, selectProfile } from "./services/storage/profileStorage";
+import { ProfileCreateForm } from "./ui/components/profile/ProfileCreateForm";
+import { AdminLoginForm } from "./ui/components/profile/AdminLoginForm";
+import { SystemManagement } from "./ui/components/admin/SystemManagement";
+import { systemLogger } from "./services/analytics/systemLogger";
+import { ScenarioZeroLearning } from "./ui/components/scenario/scenario-zero/ScenarioZeroLearning";
 
 interface Scenario {
   id: number;
@@ -200,6 +195,7 @@ type View =
   | "scenarioList"
   | "scenarioPlay"
   | "profileManager"
+  | "systemManagement"
   | "adminAnalytics";
 
 const SCENARIOS: Scenario[] = [
@@ -346,31 +342,20 @@ const getProfileTypeLabel = (profile: Profile) => {
 
 
 const App = () => {
-  const [profiles, setProfiles] = useState<Profile[]>([
-    {
-      id: "admin",
-      name: "ادمین",
-      role: "admin",
-      scenarioCatalog: "released",
-      progress: SCENARIOS.length // برای ادمین مهم نیست ولی می‌گذاریم همه باز باشند
-    },
-    {
-      id: "test-player",
-      name: "بازیکن تست",
-      role: "player",
-      scenarioCatalog: "released",
-      progress: 0 // فقط سناریو ۰ باز است
-    },
-    {
-      id: "scenario-tester",
-      name: "تست سناریو",
-      role: "player",
-      scenarioCatalog: "full",
-      progress: SCENARIOS.length
+  const [profileState, setProfileState] = useState(() => loadProfileState(SCENARIOS.length));
+  const { profiles, activeProfileId } = profileState;
+  const [profileStorageError, setProfileStorageError] = useState<string | null>(null);
+  const [profileDeletionError, setProfileDeletionError] = useState<string | null>(null);
+  const [showAdminLogin, setShowAdminLogin] = useState(false);
+  const adminProfileButtonRef = useRef<HTMLButtonElement>(null);
+  useEffect(() => {
+    try {
+      saveProfileState(profileState);
+      setProfileStorageError(null);
+    } catch {
+      setProfileStorageError("ذخیره اطلاعات پروفایل انجام نشد؛ فضای ذخیره‌سازی مرورگر را بررسی کنید. تغییرات فعلی با بستن صفحه از دست می‌روند.");
     }
-  ]);
-
-  const [activeProfileId, setActiveProfileId] = useState<string>("test-player");
+  }, [profileState]);
   const [view, setView] = useState<View>("mainMenu");
   const [activeScenarioId, setActiveScenarioId] = useState<number | null>(null);
   const [activeScenarioNodeId, setActiveScenarioNodeId] = useState<string | null>(null);
@@ -401,6 +386,20 @@ const App = () => {
 
   const activeProfile = profiles.find((p) => p.id === activeProfileId)!;
   useEffect(() => {
+    const handleError = (event: ErrorEvent) => {
+      systemLogger.log("application_error", activeProfile, { message: event.message, filename: event.filename, line: event.lineno });
+    };
+    const handleRejection = (event: PromiseRejectionEvent) => {
+      systemLogger.log("unhandled_rejection", activeProfile, { message: event.reason instanceof Error ? event.reason.message : String(event.reason) });
+    };
+    window.addEventListener("error", handleError);
+    window.addEventListener("unhandledrejection", handleRejection);
+    return () => {
+      window.removeEventListener("error", handleError);
+      window.removeEventListener("unhandledrejection", handleRejection);
+    };
+  }, [activeProfile]);
+  useEffect(() => {
     eventLogger.setUserContext({
       id: activeProfile.id,
       name: activeProfile.name,
@@ -413,8 +412,64 @@ const App = () => {
 
 const [expandedScenarioId, setExpandedScenarioId] = useState<number | null>(null);
   const handleSelectProfile = (id: string) => {
-    setActiveProfileId(id);
+    const target = profiles.find((profile) => profile.id === id);
+    if (!target) return;
+    if (target.role === "admin") {
+      setShowAdminLogin(true);
+      return;
+    }
+    setProfileDeletionError(null);
+    setShowAdminLogin(false);
+    setProfileState((current) => selectProfile(current, id));
+    systemLogger.log("profile_selected", target);
     setView("mainMenu");
+  };
+
+  const handleAdminLogin = (password: string): boolean => {
+    const nextState = selectProfile(profileState, "admin", password);
+    if (nextState === profileState) {
+      systemLogger.log("admin_login_failed");
+      return false;
+    }
+    systemLogger.log("admin_login_succeeded", nextState.profiles.find((profile) => profile.id === "admin"));
+    setProfileState(nextState);
+    setProfileDeletionError(null);
+    setShowAdminLogin(false);
+    setView("mainMenu");
+    return true;
+  };
+
+  const handleDeleteProfile = (profile: Profile) => {
+    if (!canDeleteProfile(activeProfile, profile)) return;
+    if (!window.confirm(`پروفایل «${profile.name}» و پیشرفت بازی آن حذف شود؟ این کار قابل بازگشت نیست.`)) return;
+    const nextState = deleteProfile(profileState, profile.id);
+    if (nextState === profileState) return;
+    try {
+      saveProfileState(nextState);
+    } catch {
+      setProfileDeletionError("پروفایل حذف نشد. فضای ذخیره‌سازی مرورگر را بررسی و دوباره تلاش کنید.");
+      return;
+    }
+    setProfileState(nextState);
+    setProfileDeletionError(null);
+    systemLogger.log("profile_deleted", activeProfile, { profileId: profile.id, profileName: profile.name });
+  };
+
+  const handleCreateProfile = (input: ProfileInput): ProfileFormErrors => {
+    const errors = validateProfileInput(input, profiles);
+    if (Object.keys(errors).length) return errors;
+    const profile = createPlayerProfile(input);
+    const nextState = { profiles: [...profiles, profile], activeProfileId: profile.id };
+    try {
+      saveProfileState(nextState);
+    } catch {
+      return { form: "پروفایل ذخیره نشد. فضای ذخیره‌سازی مرورگر را بررسی و دوباره تلاش کنید." };
+    }
+    setProfileState(nextState);
+    setShowAdminLogin(false);
+    systemLogger.log("profile_created", profile);
+    setView("mainMenu");
+    return {};
   };
 
   const isScenarioUnlocked = (profile: Profile, catalogIndex: number) => {
@@ -466,10 +521,6 @@ const [expandedScenarioId, setExpandedScenarioId] = useState<number | null>(null
     }
     setView(nextView);
     setGlobalMenuOpen(false);
-  };
-
-  const handleDownloadLog = () => {
-    eventLogger.exportToCSV();
   };
 
   const getUserAnalytics = (): UserAnalyticsSummary[] => {
@@ -1031,13 +1082,14 @@ const [expandedScenarioId, setExpandedScenarioId] = useState<number | null>(null
 
     // برای player: سناریوی بعدی را باز کن
     if (activeProfile.role === "player" && activeProfile.scenarioCatalog === "released") {
-      setProfiles((prev) =>
-        prev.map((p) => {
+      setProfileState((current) => ({
+        ...current,
+        profiles: current.profiles.map((p) => {
           if (p.id !== activeProfile.id) return p;
           const nextProgress = Math.max(p.progress, catalogIndex + 1);
           return { ...p, progress: Math.min(nextProgress, scenarioCatalog.length) };
-        })
-      );
+        }),
+      }));
     }
 
     // بعد از اتمام، برگردیم به لیست سناریوها
@@ -1092,7 +1144,7 @@ const [expandedScenarioId, setExpandedScenarioId] = useState<number | null>(null
   const renderMainMenu = () => (
     <div className="screen">
       <div className="card main-menu-card">
-        <h1 className="app-title">بازی جنگ فضایی</h1>
+        <h1 className="app-title">سامانه راهبردی آموزش و شبیه‌ساز تصمیم سازی بازی جنگ فضایی</h1>
         <h2 className="screen-title">منو اصلی</h2>
 
         <div className="active-profile">
@@ -1104,6 +1156,7 @@ const [expandedScenarioId, setExpandedScenarioId] = useState<number | null>(null
         <div className="menu-buttons">
           <button onClick={() => setView("scenarioList")}>شروع</button>
           <button onClick={() => setView("profileManager")}>ساخت / انتخاب پروفایل</button>
+          {activeProfile.role === "admin" && <button onClick={() => setView("systemManagement")}>مدیریت سامانه</button>}
           <button
             onClick={() =>
               alert("پیشنهاد سناریو در نسخه بعدی فعال خواهد شد.")
@@ -1128,51 +1181,87 @@ const [expandedScenarioId, setExpandedScenarioId] = useState<number | null>(null
 
   const renderProfileManager = () => (
     <div className="screen">
-      <div className="card">
+      <div className="card profile-manager-card">
         <div className="screen-header">
           <h2 className="screen-title">مدیریت پروفایل‌ها</h2>
-          <button className="link" onClick={() => setView("mainMenu")}>
+          <button className="link" onClick={() => {
+            setShowAdminLogin(false);
+            setView("mainMenu");
+          }}>
             بازگشت به منوی اصلی
           </button>
         </div>
 
         <p className="hint">
-          سه پروفایل ثابت برای مدیریت، بازی و آزمون همه سناریوها در دسترس است.
+          پروفایل خود را بسازید یا برای ادامه بازی، یکی از پروفایل‌های موجود را انتخاب کنید.
         </p>
+
+        <ProfileCreateForm onCreate={handleCreateProfile} />
+
+        <h3 id="profile-list-title">انتخاب پروفایل موجود</h3>
 
         {activeProfile.role === "admin" && (
           <div style={{ marginBottom: "1rem" }}>
+            <p className="hint">می‌توانید پروفایل‌ها را حذف کنید. پروفایل‌های «ادمین» و «تست سناریو» قابل حذف نیستند.</p>
+            <button onClick={() => setView("systemManagement")}>مدیریت سامانه</button>{" "}
             <button onClick={() => setView("adminAnalytics")}>
               داشبورد تحلیلی کاربران
             </button>
           </div>
         )}
 
-        <div className="profile-list">
+        {profileDeletionError && <p className="profile-field-error" role="alert">{profileDeletionError}</p>}
+
+        <div className="profile-list" role="group" aria-labelledby="profile-list-title">
           {profiles.map((profile) => (
-            <button
-              key={profile.id}
-              className={
-                "profile-item" +
-                (profile.id === activeProfileId ? " profile-item-active" : "")
-              }
-              onClick={() => handleSelectProfile(profile.id)}
-            >
-              <div className="profile-name">{profile.name}</div>
-              <div className="profile-meta">
-                نقش: {getProfileTypeLabel(profile)}
+            <div className="profile-list-entry" key={profile.id}>
+              <div className="profile-row">
+                <button
+                  ref={profile.role === "admin" ? adminProfileButtonRef : undefined}
+                  className={
+                    "profile-item" +
+                    (profile.id === activeProfileId ? " profile-item-active" : "")
+                  }
+                  onClick={() => handleSelectProfile(profile.id)}
+                  aria-pressed={profile.id === activeProfileId}
+                  aria-expanded={profile.role === "admin" ? showAdminLogin : undefined}
+                >
+                  <div className="profile-name">{profile.name}</div>
+                  <div className="profile-meta">
+                    نقش: {getProfileTypeLabel(profile)}
+                  </div>
+                  {profile.role === "player" && profile.scenarioCatalog === "released" && (
+                    <div className="profile-progress">
+                      پیشرفت: سناریوی بعدی باز = {profile.progress}
+                    </div>
+                  )}
+                  {profile.scenarioCatalog === "full" && (
+                    <div className="profile-progress">
+                      دسترسی کامل به همه سناریوهای قدیمی و جدید
+                    </div>
+                  )}
+                </button>
+                {canDeleteProfile(activeProfile, profile) && (
+                  <button
+                    type="button"
+                    className="danger profile-delete-button"
+                    onClick={() => handleDeleteProfile(profile)}
+                    aria-label={`حذف پروفایل ${profile.name}`}
+                  >
+                    حذف پروفایل
+                  </button>
+                )}
               </div>
-              {profile.role === "player" && profile.scenarioCatalog === "released" && (
-                <div className="profile-progress">
-                  پیشرفت: سناریوی بعدی باز = {profile.progress}
-                </div>
+              {profile.role === "admin" && showAdminLogin && (
+                <AdminLoginForm
+                  onLogin={handleAdminLogin}
+                  onCancel={() => {
+                    setShowAdminLogin(false);
+                    adminProfileButtonRef.current?.focus();
+                  }}
+                />
               )}
-              {profile.scenarioCatalog === "full" && (
-                <div className="profile-progress">
-                  دسترسی کامل به همه سناریوهای قدیمی و جدید
-                </div>
-              )}
-            </button>
+            </div>
           ))}
         </div>
       </div>
@@ -2276,7 +2365,7 @@ const [expandedScenarioId, setExpandedScenarioId] = useState<number | null>(null
             <p className="scenario-catalog-note">
               {isFullCatalog
                 ? "حالت آزمون: همه سناریوهای قدیمی و جدید در دسترس‌اند."
-                : "مسیر اصلی بازی شامل سه سناریوی منتشرشده است."}
+                : "مسیر اصلی نسخه فعلی سامانه شامل سه سناریو است."}
             </p>
           </div>
           <button className="link" onClick={() => setView("mainMenu")}>
@@ -2394,6 +2483,7 @@ const renderScenarioPlay = () => {
     !scenarioTreeId ||
     activeScenarioNodeId == null ||
     activeScenarioNodeId === AllScenarios[scenarioTreeId].start;
+  const isScenarioZero = scenarioTreeId === "s0_gateway_space_wargaming";
   const isScenarioOne = scenarioTreeId === "s1_shadows_low_orbit";
   const isScenarioTwo = scenarioTreeId === "s2_silent_waves";
   const isScenarioFour = scenarioTreeId === "s4_redesigned_scenario_one";
@@ -2414,11 +2504,12 @@ const renderScenarioPlay = () => {
     <div
       className={
         "screen scenario-play-screen" +
+        (isScenarioZero ? " scenario-zero-play-screen" : "") +
         (isScenarioOne || isScenarioTwo || isScenarioFour || isScenarioFive ? " scenario-one-play-screen" : "")
       }
     >
       {/* مودال اینترو در شروع سناریو */}
-      {introModalText && (
+      {introModalText && !isScenarioZero && (
         <div className="intro-modal-backdrop">
           <div
             className={"intro-modal" + (scenario.introBackgroundImage ? " intro-modal-with-bg" : "")}
@@ -2469,7 +2560,7 @@ const renderScenarioPlay = () => {
           (isScenarioOne || isScenarioTwo || isScenarioFour || isScenarioFive ? " scenario-one-play-card" : "")
         }
       >
-        {!isScenarioOne && !isScenarioTwo && !isScenarioFour && !isScenarioFive && (
+        {!isScenarioZero && !isScenarioOne && !isScenarioTwo && !isScenarioFour && !isScenarioFive && (
         <div className="screen-header">
           <div>
             <h2 className="screen-title">{scenario.title}</h2>
@@ -2489,20 +2580,21 @@ const renderScenarioPlay = () => {
         {/* اگر درخت داریم، موتور درخت تصمیم را نشان بده */}
         {scenarioTreeId ? (
           <>
-            {scenario.id === 0 && isScenarioStartNode && (
-              <p className="hint">
-                 این سناریو به جهت تست سناریو 0 به هدف معرفی نظریه بازی و بازی جنگ بالاخص بازی جنگ فضایی طراحی شده است.
-              </p>
-            )}
-
-            <ScenarioRunner
+            {isScenarioZero ? (
+              <ScenarioZeroLearning
+                introduction={scenario.introText ?? ""}
+                userProfileId={activeProfile.id}
+                onNodeChange={handleScenarioNodeChange}
+                onComplete={handleFinishScenario}
+              />
+            ) : <ScenarioRunner
               scenarioId={scenarioTreeId}
               onNodeChange={handleScenarioNodeChange}
               onCompletionUiActiveChange={setScenarioCompletionUiActive}
               allowSkipToMiniGame={activeProfile.role === "admin"}
               userProfileId={activeProfile.id}
               onExit={handleFinishScenario}
-            />
+            />}
 
             {!hideScenarioStopButton && (
               <div className="scenario-footer">
@@ -2595,7 +2687,8 @@ const renderScenarioPlay = () => {
   );
 };
   return (
-    <div className="app-root">
+    <div className={"app-root" + (view === "scenarioPlay" && activeScenarioId === 0 ? " app-root--scenario-zero" : "")}>
+      {profileStorageError && <div className="profile-storage-error" role="alert">{profileStorageError}</div>}
       {showBackgroundVideo && (
         <video
           className="background-video"
@@ -2609,10 +2702,18 @@ const renderScenarioPlay = () => {
       {view === "mainMenu" && renderMainMenu()}
       {view === "profileManager" && renderProfileManager()}
       {view === "adminAnalytics" && renderAdminAnalytics()}
+      {view === "systemManagement" && (
+        <SystemManagement
+          activeProfile={activeProfile}
+          profiles={profiles}
+          onBack={() => setView("mainMenu")}
+          onManageProfiles={() => setView("profileManager")}
+        />
+      )}
       {view === "scenarioList" && renderScenarioList()}
       {view === "scenarioPlay" && renderScenarioPlay()}
 
-      {/* Global quick menu to access navigation and log download anywhere */}
+      {/* Global quick navigation menu */}
       <div
         style={{
           position: "fixed",
@@ -2671,7 +2772,7 @@ const renderScenarioPlay = () => {
               مدیریت پروفایل
             </button>
             {activeProfile.role === "admin" && (
-              <button onClick={handleDownloadLog}>دانلود لاگ رفتاری</button>
+              <button onClick={() => leaveScenarioGeneric("systemManagement", "global_menu_system_management")}>مدیریت سامانه</button>
             )}
             <button className="danger" onClick={handleExit}>
               خروج

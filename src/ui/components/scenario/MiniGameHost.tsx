@@ -94,7 +94,7 @@ const conceptLabRounds: ConceptLabRound[] = [
           "دو بازیگر برای کنترل یک مسیر مداری محدود رقابت می‌کنند. اگر یکی کنترل را به‌دست آورد، دیگری آن را از دست می‌دهد.",
         correctOptionId: "zero_sum",
         explanation:
-          "در این موقعیت، به رابطه‌ی منافع دو طرف دقت کن. ببین آیا کنترل این مسیر می‌تواند هم‌زمان برای هر دو بازیگر ممکن باشد یا نه. اگر یک بازیگر کنترل را به‌دست بیاورد، آیا طرف دیگر هنوز می‌تواند همان مزیت را داشته باشد؟\nبرای انتخاب بهتر، به این فکر کن که آیا مسئله بر سر «تقسیم‌پذیری» یک منبع است یا «رقابت مستقیم» بر سر منبعی محدود.",
+          "در این موقعیت، رابطهٔ منافع دو طرف را بررسی کنید. آیا کنترل این مسیر می‌تواند هم‌زمان برای هر دو بازیگر ممکن باشد؟ اگر یک بازیگر کنترل را به دست آورد، آیا طرف دیگر همچنان از همان مزیت برخوردار خواهد بود؟\nبرای انتخاب مناسب، بررسی کنید که مسئله مربوط به «تقسیم‌پذیری» یک منبع است یا «رقابت مستقیم» بر سر منبعی محدود.",
         eventType: "mini_game_concept_classification",
         roundId: "round_1_classify_game_type",
         options: [
@@ -139,7 +139,7 @@ const conceptLabRounds: ConceptLabRound[] = [
           "دو کشور داده‌های رصدی خود را درباره زباله فضایی به اشتراک می‌گذارند تا احتمال برخورد با ماهواره‌های هر دو طرف کاهش یابد.",
         correctOptionId: "non_zero_sum",
         explanation:
-          "در این موقعیت، فقط به رقابت دو کشور نگاه نکن. ببین آیا خطری وجود دارد که می‌تواند به هر دو طرف آسیب بزند. گاهی حتی بازیگرانی که رقیب هستند، در برابر یک ریسک مشترک می‌توانند منفعت هم‌زمان داشته باشند.\nبرای انتخاب بهتر، بررسی کن که آیا همکاری باعث می‌شود فقط یک طرف سود ببرد یا ریسک برای هر دو طرف کاهش پیدا می‌کند.",
+          "در این موقعیت، علاوه بر رقابت دو کشور، خطر مشترک را نیز بررسی کنید. حتی بازیگران رقیب ممکن است در برابر یک خطر مشترک، منافع هم‌زمان داشته باشند.\nبررسی کنید که همکاری تنها به یک طرف سود می‌رساند یا خطر را برای هر دو طرف کاهش می‌دهد.",
         eventType: "mini_game_concept_classification",
         roundId: "round_1_classify_game_type",
         options: [
@@ -184,7 +184,7 @@ const conceptLabRounds: ConceptLabRound[] = [
           "یک جسم ناشناس در مدار دیده شده است. هنوز مشخص نیست مأموریت آن علمی است، شناسایی است یا نظامی.",
         correctOptionId: "incomplete_information",
         explanation:
-          "در این موقعیت، مسئله اصلی این نیست که چه کسی قوی‌تر است؛ مسئله این است که اطلاعات موجود کامل نیست. وقتی نیت، مأموریت یا ماهیت یک جسم مشخص نیست، تصمیم‌گیرنده باید با ابهام کار کند.\nبرای انتخاب بهتر، ببین آیا مشکل اصلی «تعارض منافع» است یا «نامشخص بودن وضعیت».",
+          "در این موقعیت، مسئلهٔ اصلی کامل‌نبودن اطلاعات موجود است. هنگامی که نیت، مأموریت یا ماهیت یک جسم مشخص نیست، تصمیم‌گیرنده با ابهام مواجه است.\nبرای انتخاب مناسب، بررسی کنید که مسئلهٔ اصلی «تعارض منافع» است یا «نامشخص بودن وضعیت».",
         eventType: "mini_game_concept_classification",
         roundId: "round_1_classify_game_type",
         options: [
@@ -232,11 +232,11 @@ const conceptLabRounds: ConceptLabRound[] = [
         id: "action_reaction_satellite_approach",
         title: "کنش و واکنش",
         narrative:
-          "یک ماهواره رقیب به محدوده‌ای نزدیک شده که برای مأموریت تو حساس است. هنوز رفتار آن خصمانه قطعی نیست.",
+          "یک ماهوارهٔ رقیب به محدوده‌ای نزدیک شده است که برای مأموریت شما اهمیت دارد. خصمانه‌بودن رفتار آن هنوز قطعی نیست.",
         question:
-          "در بازی جنگ، تصمیم تو پایان ماجرا نیست. طرف مقابل تصمیم تو را می‌بیند، تفسیر می‌کند و پاسخ می‌دهد.",
+          "در بازی جنگ، تصمیم شما پایان فرایند نیست. طرف مقابل آن را مشاهده و تفسیر می‌کند و به آن پاسخ می‌دهد.",
         explanation:
-          "در بازی جنگ، تصمیم تو معمولاً پایان ماجرا نیست. هر اقدام می‌تواند توسط طرف مقابل دیده، تفسیر و پاسخ داده شود.\nقبل از انتخاب، فقط به اثر فوری تصمیم فکر نکن؛ به این هم فکر کن که طرف مقابل ممکن است این تصمیم را نشانه‌ی تهدید، هشدار، ضعف، احتیاط یا آمادگی بداند.\nیک تصمیم خوب در بازی جنگ، هم اثر مستقیم دارد و هم پیام غیرمستقیم.",
+          "در بازی جنگ، تصمیم شما معمولاً پایان فرایند نیست. هر اقدام ممکن است توسط طرف مقابل مشاهده و تفسیر شود و واکنشی ایجاد کند.\nپیش از انتخاب، علاوه بر اثر فوری تصمیم، برداشت احتمالی طرف مقابل را نیز بررسی کنید؛ این برداشت می‌تواند تهدید، هشدار، ضعف، احتیاط یا آمادگی باشد.\nیک تصمیم در بازی جنگ، هم اثر مستقیم و هم پیام غیرمستقیم دارد.",
         eventType: "mini_game_action_reaction",
         roundId: "round_2_action_reaction",
         options: [
@@ -244,7 +244,7 @@ const conceptLabRounds: ConceptLabRound[] = [
             id: "raise_alert",
             text: "افزایش فوری سطح آماده‌باش",
             feedback:
-              "این تصمیم سریع و عملیاتی است. مزیت آن این است که آمادگی تو بالا می‌رود، اما ممکن است طرف مقابل این حرکت را نشانه تشدید تنش بداند.",
+              "این تصمیم سریع و عملیاتی است و آمادگی شما را افزایش می‌دهد؛ بااین‌حال، ممکن است طرف مقابل آن را نشانهٔ تشدید تنش تلقی کند.",
             reactionId: "opponent_activity_increased",
             reactionText:
               "طرف مقابل مسیر خود را کمی تغییر داد و سطح فعالیت ارتباطی‌اش افزایش یافت.",
@@ -260,7 +260,7 @@ const conceptLabRounds: ConceptLabRound[] = [
             id: "collect_more_info",
             text: "جمع‌آوری اطلاعات بیشتر",
             feedback:
-              "این تصمیم بر کاهش عدم قطعیت تمرکز دارد. مزیت آن این است که تصویر دقیق‌تری از وضعیت می‌سازی، اما ممکن است زمان واکنش سریع را از دست بدهی.",
+              "این تصمیم بر کاهش عدم قطعیت و دستیابی به تصویری دقیق‌تر از وضعیت تمرکز دارد؛ بااین‌حال، ممکن است فرصت واکنش سریع محدود شود.",
             reactionId: "new_data_not_confirmed_threat",
             reactionText:
               "داده‌های جدید نشان داد مسیر جسم هنوز تهدید قطعی نیست.",
@@ -276,7 +276,7 @@ const conceptLabRounds: ConceptLabRound[] = [
             id: "indirect_warning",
             text: "ارسال پیام هشدار غیرمستقیم",
             feedback:
-              "این تصمیم نوعی سیگنال‌دهی است. بدون اقدام مستقیم، به طرف مقابل پیام می‌دهی که رفتار او دیده شده است. این انتخاب بین اقدام عملیاتی و مدیریت راهبردی تنش قرار دارد.",
+              "این تصمیم نوعی سیگنال‌دهی است. بدون اقدام مستقیم، به طرف مقابل اعلام می‌شود که رفتار او مشاهده شده است. این انتخاب میان اقدام عملیاتی و مدیریت راهبردی تنش قرار دارد.",
             reactionId: "opponent_maneuver_slowed",
             reactionText:
               "طرف مقابل واکنش علنی نشان نداد، اما مانور خود را کندتر کرد.",
@@ -292,7 +292,7 @@ const conceptLabRounds: ConceptLabRound[] = [
             id: "observe_only",
             text: "بی‌عملی و مشاهده",
             feedback:
-              "بی‌عملی هم یک تصمیم است. مزیت آن این است که فعلاً تنش ایجاد نمی‌کنی، اما ممکن است فرصت واکنش را از دست بدهی.",
+              "عدم اقدام نیز یک تصمیم است. این انتخاب در کوتاه‌مدت از ایجاد تنش جلوگیری می‌کند، اما ممکن است فرصت واکنش را کاهش دهد.",
             reactionId: "object_moved_closer",
             reactionText:
               "جسم ناشناس به محدوده حساس نزدیک‌تر شد و عدم قطعیت باقی ماند.",
@@ -316,11 +316,11 @@ const conceptLabRounds: ConceptLabRound[] = [
         id: "incomplete_information_data_choice",
         title: "انتخاب نوع اطلاعات",
         narrative:
-          "درباره جسم ناشناس سه نوع داده می‌توانی جمع‌آوری کنی، اما زمان و ظرفیت محدود است. کدام را انتخاب می‌کنی؟",
+          "دربارهٔ جسم ناشناس، سه نوع داده قابل جمع‌آوری است، اما زمان و ظرفیت محدود است. کدام نوع داده را انتخاب می‌کنید؟",
         question:
-          "داده‌های اولیه کافی نیست. تو فقط می‌توانی یک نوع اطلاعات تکمیلی بگیری.",
+          "داده‌های اولیه کافی نیست و تنها امکان دریافت یک نوع اطلاعات تکمیلی وجود دارد.",
         explanation:
-          "وقتی اطلاعات کامل نیست، همیشه سؤال اصلی این نیست که «چه اقدامی انجام بدهم؟» گاهی سؤال مهم‌تر این است که «کدام نوع اطلاعات می‌تواند تصمیم بعدی را بهتر کند؟»\nبعضی داده‌ها برای واکنش فوری مفیدترند، بعضی داده‌ها برای فهم مأموریت طرف مقابل، و بعضی داده‌ها برای شناخت الگوی رفتاری بلندمدت.\nقبل از انتخاب، مشخص کن که می‌خواهی تهدید نزدیک را بهتر بفهمی، مأموریت جسم را حدس بزنی، یا رفتار بازیگر مقابل را در تصویر بزرگ‌تری ببینی.",
+          "هنگامی که اطلاعات کامل نیست، علاوه بر انتخاب اقدام، باید نوع اطلاعات موردنیاز برای تصمیم بعدی مشخص شود.\nبرخی داده‌ها برای واکنش فوری، برخی برای شناخت مأموریت طرف مقابل و برخی برای بررسی الگوی رفتاری بلندمدت مفیدند.\nپیش از انتخاب، مشخص کنید که هدف، شناخت تهدید نزدیک، بررسی مأموریت جسم یا تحلیل رفتار طرف مقابل در چارچوبی گسترده‌تر است.",
         eventType: "mini_game_information_choice",
         roundId: "round_3_incomplete_information",
         options: [
@@ -348,7 +348,7 @@ const conceptLabRounds: ConceptLabRound[] = [
             id: "behavior_history",
             text: "سابقه رفتار قبلی بازیگر مقابل",
             feedback:
-              "سابقه رفتار قبلی کمک می‌کند تصمیم فعلی را در یک الگوی بزرگ‌تر ببینی. این نگاه، مقدمه مدل‌سازی رفتار دشمن است.",
+              "سابقهٔ رفتار قبلی به بررسی تصمیم فعلی در یک الگوی گسترده‌تر کمک می‌کند. این رویکرد، مقدمهٔ مدل‌سازی رفتار طرف مقابل است.",
             informationType: "behavior_history",
             educationalTag: "adversary_modeling_intro",
             conceptTag: "مدل‌سازی رفتار دشمن",
@@ -356,7 +356,7 @@ const conceptLabRounds: ConceptLabRound[] = [
           },
           {
             id: "no_more_info",
-            text: "هیچ داده‌ای لازم نیست؛ همین حالا تصمیم می‌گیرم",
+            text: "بدون دریافت دادهٔ تکمیلی تصمیم می‌گیرم",
             feedback:
               "تصمیم‌گیری بدون داده تکمیلی ممکن است سریع باشد، اما خطر خطای تشخیص را بالا می‌برد.",
             informationType: "no_more_info",
@@ -376,11 +376,11 @@ const conceptLabRounds: ConceptLabRound[] = [
         id: "integrated_space_wargame_concepts",
         title: "موقعیت ترکیبی",
         narrative:
-          "یک ماهواره ناشناس در حال نزدیک شدن به یک محدوده حساس است. اگر واکنش شدید نشان بدهی، ممکن است بحران تشدید شود. اگر همکاری محدودی برای اشتراک داده انجام دهی، احتمال سوءبرداشت کم می‌شود، اما بخشی از توان رصدی تو آشکار می‌شود.",
+          "یک ماهوارهٔ ناشناس در حال نزدیک‌شدن به محدوده‌ای حساس است. واکنش شدید ممکن است بحران را تشدید کند. همکاری محدود برای اشتراک داده می‌تواند احتمال سوءبرداشت را کاهش دهد، اما بخشی از توان رصدی شما را نیز آشکار می‌کند.",
         question: "در این موقعیت، کدام مفاهیم هم‌زمان دیده می‌شوند؟",
         correctOptionId: "incomplete_information_action_reaction_limited_cooperation",
         explanation:
-          "در موقعیت‌های واقعی بازی جنگ، معمولاً فقط یک مفهوم فعال نیست. ممکن است هم‌زمان با ابهام اطلاعاتی، خطر تشدید تنش، امکان همکاری محدود، و واکنش احتمالی طرف مقابل روبه‌رو باشی.\nبرای انتخاب بهتر، به جای اینکه فقط دنبال یک برچسب ساده بگردی، بررسی کن چند لایه در موقعیت وجود دارد:\nآیا اطلاعات کامل است؟ آیا طرف مقابل به تصمیم تو واکنش نشان می‌دهد؟ آیا رقابت کامل است یا امکان کاهش ریسک مشترک هم وجود دارد؟",
+          "در موقعیت‌های واقعی بازی جنگ، معمولاً چند مفهوم هم‌زمان حضور دارند؛ از جمله ابهام اطلاعاتی، خطر تشدید تنش، امکان همکاری محدود و واکنش احتمالی طرف مقابل.\nبرای انتخاب مناسب، لایه‌های مختلف موقعیت را بررسی کنید:\nآیا اطلاعات کامل است؟ آیا طرف مقابل به تصمیم شما واکنش نشان می‌دهد؟ آیا موقعیت کاملاً رقابتی است یا امکان کاهش خطر مشترک نیز وجود دارد؟",
         eventType: "mini_game_integrated_concept",
         roundId: "round_4_integrated_concepts",
         options: [
@@ -414,7 +414,7 @@ const conceptLabRounds: ConceptLabRound[] = [
             isCorrect: false,
             conceptTag: "مفاهیم ترکیبی",
             feedback:
-              "مسئله فنی هست، اما فقط فنی نیست؛ تصمیم تو پیامد راهبردی و رفتاری هم دارد.",
+              "این مسئله علاوه بر ابعاد فنی، دارای پیامدهای راهبردی و رفتاری نیز هست.",
           },
         ],
       },
@@ -450,7 +450,6 @@ export const MiniGameHost = ({
   const [cardIndex, setCardIndex] = useState(0);
   const [selectedOptionId, setSelectedOptionId] = useState<string | null>(null);
   const [confirmedOptionId, setConfirmedOptionId] = useState<string | null>(null);
-  const [isConfidencePromptVisible, setIsConfidencePromptVisible] = useState(false);
   const [changedAnswerCount, setChangedAnswerCount] = useState(0);
   const [openedExplanation, setOpenedExplanation] = useState(false);
   const [explanationVisible, setExplanationVisible] = useState(false);
@@ -459,6 +458,7 @@ export const MiniGameHost = ({
   const [isSummaryVisible, setIsSummaryVisible] = useState(false);
   const cardStartedAtRef = useRef(getNow());
   const explanationOpenedAtRef = useRef<number | null>(null);
+  const answerLockedRef = useRef(false);
 
   const currentRound = conceptLabRounds[roundIndex];
   const currentCard = currentRound?.cards[cardIndex];
@@ -534,9 +534,9 @@ export const MiniGameHost = ({
   };
 
   const resetCardState = () => {
+    answerLockedRef.current = false;
     setSelectedOptionId(null);
     setConfirmedOptionId(null);
-    setIsConfidencePromptVisible(false);
     setChangedAnswerCount(0);
     setOpenedExplanation(false);
     setExplanationVisible(false);
@@ -686,14 +686,13 @@ export const MiniGameHost = ({
 
   if (!hasStarted) {
     return (
-      <Card>
+      <Card className="s0-lab s0-lab--intro">
         <div style={{ display: "flex", flexDirection: "column", gap: "1.25rem" }}>
           <h2 style={{ margin: 0 }}>تمرین کوتاه: آزمایشگاه مفاهیم بازی جنگ</h2>
           <p style={{ margin: 0, lineHeight: 1.9 }}>
-            تا اینجا با چند مفهوم پایه آشنا شدی. حالا در یک تمرین کوتاه،
-            همان مفاهیم را در چند موقعیت ساده تجربه می‌کنی. این تمرین آزمون
-            سخت نیست؛ هدفش این است که ببینی هر تصمیم در بازی جنگ چگونه معنا
-            پیدا می‌کند.
+            در بخش‌های پیشین با مفاهیم پایه آشنا شدید. در این تمرین کوتاه،
+            همان مفاهیم را در چند موقعیت ساده بررسی خواهید کرد. هدف این بخش،
+            تثبیت یادگیری و بررسی معنای تصمیم‌ها در بازی جنگ است.
           </p>
           <div style={{ display: "flex", justifyContent: "flex-start" }}>
             <button
@@ -731,19 +730,19 @@ export const MiniGameHost = ({
   if (isSummaryVisible) {
     const reviewText =
       summary.weakestConcept === summary.strongestConcept
-        ? "عملکرد تو در تشخیص مفاهیم پایه ثبت شد. برای تثبیت بهتر، موقعیت‌های ترکیبی را دوباره مرور کن."
-        : `عملکرد تو در تشخیص مفاهیم پایه خوب بود. مفهوم «${summary.strongestConcept}» بهتر تشخیص داده شد، اما «${summary.weakestConcept}» نیاز به مرور بیشتری دارد.`;
+        ? "عملکرد شما در تشخیص مفاهیم پایه ثبت شد. برای تثبیت یادگیری، موقعیت‌های ترکیبی را مجدداً مرور کنید."
+        : `در این تمرین، مفهوم «${summary.strongestConcept}» بهتر تشخیص داده شد. برای تثبیت یادگیری، مفهوم «${summary.weakestConcept}» را نیز مجدداً مرور کنید.`;
     const explanationText =
       summary.explanationOpenCount > 0
-        ? "تو قبل از بعضی تصمیم‌ها توضیح بیشتر را بررسی کردی. این رفتار در مراحل بعدی بازی جنگ می‌تواند به کاهش خطای تصمیم‌گیری کمک کند."
+        ? "پیش از برخی تصمیم‌ها، توضیحات تکمیلی را بررسی کردید. مطالعهٔ اطلاعات مرتبط در مراحل بعدی نیز می‌تواند به کاهش خطای تصمیم‌گیری کمک کند."
         : "در این اجرا کمتر از توضیح بیشتر استفاده شد. در سناریوهای بعدی، بررسی اطلاعات تکمیلی می‌تواند کیفیت تصمیم را بهتر کند.";
 
     return (
-      <Card>
+      <Card className="s0-lab s0-lab--summary">
         <div style={{ display: "flex", flexDirection: "column", gap: "1.2rem" }}>
           <h2 style={{ margin: 0 }}>جمع‌بندی آزمایشگاه</h2>
           <p style={{ margin: 0, lineHeight: 1.9 }}>
-            در این تمرین دیدی که بازی جنگ فقط انتخاب یک گزینه درست نیست. هر
+            در این تمرین مشاهده کردید که بازی جنگ تنها انتخاب یک گزینهٔ درست نیست. هر
             تصمیم می‌تواند واکنش طرف مقابل را تغییر دهد، اطلاعات همیشه کامل
             نیست، و بعضی موقعیت‌ها نه کاملاً رقابتی‌اند و نه کاملاً
             همکاری‌محور.
@@ -769,7 +768,7 @@ export const MiniGameHost = ({
               مفاهیم درست تشخیص داده‌شده: {summary.correct} از {summary.scoredCount}
             </span>
             <span>مفهوم بهتر فهمیده‌شده: {summary.strongestConcept}</span>
-            <span>مفهوم نیازمند مرور: {summary.weakestConcept}</span>
+            <span>پیشنهاد برای مرور: {summary.weakestConcept}</span>
             <span>میانگین زمان تصمیم‌گیری: {Math.round(summary.avgResponseTimeMs / 1000)} ثانیه</span>
             <span>تعداد استفاده از توضیح بیشتر: {summary.explanationOpenCount}</span>
             <p style={{ margin: "0.5rem 0 0", color: "var(--text-dim)" }}>
@@ -808,18 +807,12 @@ export const MiniGameHost = ({
     setSelectedOptionId(optionId);
   };
 
-  const openExplanationAfterUncertainty = () => {
-    setIsConfidencePromptVisible(false);
+  const openExplanation = () => {
     setOpenedExplanation(true);
     setExplanationVisible(true);
     if (explanationOpenedAtRef.current == null) {
       explanationOpenedAtRef.current = getNow();
     }
-  };
-
-  const handleConfirm = () => {
-    if (!selectedOption) return;
-    setIsConfidencePromptVisible(true);
   };
 
   const advanceAfterFinalAnswer = (finalResults: ConceptLabResult[]) => {
@@ -843,10 +836,10 @@ export const MiniGameHost = ({
   };
 
   const finalizeAnswer = () => {
-    if (!currentCard || !selectedOption) return;
+    if (!currentCard || !selectedOption || answerLockedRef.current) return;
+    answerLockedRef.current = true;
     const finalExplanationTimeMs = closeExplanationTimer();
     setExplanationVisible(false);
-    setIsConfidencePromptVisible(false);
     setConfirmedOptionId(selectedOption.id);
     const responseTimeMs = Math.round(getNow() - cardStartedAtRef.current);
     const isCorrect =
@@ -895,16 +888,15 @@ export const MiniGameHost = ({
         conceptTag: selectedOption.conceptTag,
       },
     });
-    advanceAfterFinalAnswer(finalResults);
   };
 
   return (
-    <Card>
+    <Card className="s0-lab s0-lab--exercise">
       <div style={{ display: "flex", flexDirection: "column", gap: "1.2rem" }}>
         <div>
           <div style={{ color: "var(--text-dim)", fontSize: "0.85rem", marginBottom: "0.35rem" }}>
-            {roundIndex + 1} / {conceptLabRounds.length}
-            {currentRound.cards.length > 1 ? ` — کارت ${cardIndex + 1} از ${currentRound.cards.length}` : ""}
+            بخش {(roundIndex + 1).toLocaleString("fa-IR")} از {conceptLabRounds.length.toLocaleString("fa-IR")}
+            {currentRound.cards.length > 1 ? ` — کارت ${(cardIndex + 1).toLocaleString("fa-IR")} از ${currentRound.cards.length.toLocaleString("fa-IR")}` : ""}
           </div>
           <h2 style={{ margin: 0 }}>{currentRound.title}</h2>
           <h3 style={{ margin: "0.8rem 0 0.35rem" }}>{currentCard.title}</h3>
@@ -918,7 +910,7 @@ export const MiniGameHost = ({
           </p>
         </div>
 
-        <div style={{ display: "flex", flexDirection: "column", gap: "0.55rem" }}>
+        <div className="s0-lab-options" style={{ display: "flex", flexDirection: "column", gap: "0.55rem" }}>
           {currentCard.options.map((option) => {
             const isSelected = selectedOptionId === option.id;
             const isConfirmed = confirmedOptionId === option.id;
@@ -927,6 +919,7 @@ export const MiniGameHost = ({
                 key={option.id}
                 onClick={() => handleSelect(option.id)}
                 disabled={Boolean(confirmedOptionId)}
+                aria-pressed={isSelected}
                 style={{
                   padding: "0.7rem 1rem",
                   borderRadius: "12px",
@@ -951,9 +944,10 @@ export const MiniGameHost = ({
         </div>
 
         <div style={{ display: "flex", gap: "0.75rem", flexWrap: "wrap" }}>
+          {!confirmedOptionId && <>
           <button
-            onClick={handleConfirm}
-            disabled={!selectedOptionId}
+            onClick={finalizeAnswer}
+            disabled={!selectedOptionId || Boolean(confirmedOptionId)}
             style={{
               padding: "0.55rem 1.1rem",
               borderRadius: "999px",
@@ -965,8 +959,17 @@ export const MiniGameHost = ({
               cursor: selectedOptionId ? "pointer" : "not-allowed",
             }}
           >
-            تأیید
+            دیدن نتیجهٔ انتخاب
           </button>
+          <button className="secondary" onClick={() => {
+            if (explanationVisible) {
+              closeExplanationTimer();
+              setExplanationVisible(false);
+            } else openExplanation();
+          }} aria-expanded={explanationVisible}>
+            {explanationVisible ? "بستن راهنما" : "مشاهدهٔ راهنمای تکمیلی"}
+          </button>
+          </>}
         </div>
 
         {explanationVisible && (
@@ -977,71 +980,27 @@ export const MiniGameHost = ({
               padding: "0.85rem",
               background: "rgba(2, 6, 23, 0.45)",
               lineHeight: 1.9,
+              whiteSpace: "pre-line",
             }}
           >
             {currentCard.explanation}
           </div>
         )}
 
-        {isConfidencePromptVisible && (
-          <div
-            style={{
-              position: "fixed",
-              inset: 0,
-              zIndex: 2100,
-              background: "rgba(2, 6, 23, 0.68)",
-              display: "flex",
-              alignItems: "center",
-              justifyContent: "center",
-              padding: "1rem",
-            }}
-          >
-            <div
-              style={{
-                width: "min(420px, 100%)",
-                border: "1px solid var(--border-soft)",
-                borderRadius: "16px",
-                background: "rgba(15, 23, 42, 0.98)",
-                padding: "1rem",
-                boxShadow: "0 20px 60px rgba(2, 6, 23, 0.5)",
-                display: "flex",
-                flexDirection: "column",
-                gap: "1rem",
-              }}
-            >
-              <h3 style={{ margin: 0 }}>آیا از پاسخ خود اطمینان دارید؟</h3>
-              <div style={{ display: "flex", gap: "0.75rem", flexWrap: "wrap" }}>
-                <button
-                  onClick={finalizeAnswer}
-                  style={{
-                    padding: "0.55rem 1.1rem",
-                    borderRadius: "999px",
-                    border: "none",
-                    background:
-                      "linear-gradient(135deg, var(--accent), var(--accent-purple))",
-                    color: "#fff",
-                    cursor: "pointer",
-                  }}
-                >
-                  بله
-                </button>
-                <button
-                  onClick={openExplanationAfterUncertainty}
-                  style={{
-                    padding: "0.55rem 1.1rem",
-                    borderRadius: "999px",
-                    border: "1px solid var(--border-soft)",
-                    background: "rgba(15, 23, 42, 0.75)",
-                    color: "var(--text-main)",
-                    cursor: "pointer",
-                  }}
-                >
-                  خیر (توضیحات بیشتر)
-                </button>
-              </div>
-            </div>
+        {confirmedOptionId && selectedOption && (
+          <div className="s0-lab-feedback" role="status">
+            <span className="s0-eyebrow">این انتخاب چه معنایی داشت؟</span>
+            <h3>{typeof selectedOption.isCorrect === "boolean" ? selectedOption.isCorrect ? "تشخیص صحیح است" : "مرور مفهوم مرتبط با پاسخ" : "پیامد انتخاب شما"}</h3>
+            <p>{selectedOption.feedback}</p>
+            {selectedOption.reactionText && <div className="s0-lab-reaction"><strong>واکنش طرف مقابل</strong><p>{selectedOption.reactionText}</p></div>}
+            {selectedOption.effectRows && <div className="s0-lab-effects">{selectedOption.effectRows.map((effect) => <span key={effect.label}>{effect.label}: <strong>{effect.value}</strong></span>)}</div>}
+            <button className="s0-primary" onClick={() => advanceAfterFinalAnswer(results)}>
+              {roundIndex === conceptLabRounds.length - 1 && cardIndex === currentRound.cards.length - 1 ? "دیدن جمع‌بندی تمرین" : "موقعیت بعدی"}
+            </button>
           </div>
         )}
+
+
       </div>
     </Card>
   );

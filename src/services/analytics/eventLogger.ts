@@ -1,3 +1,5 @@
+import { buildLogCSV, downloadFile } from "./logExport";
+
 // Lightweight client-side analytics logger for user interactions.
 // Stores events in localStorage and can export them as a text file.
 
@@ -31,7 +33,7 @@ export interface EventLogEntry {
 const STORAGE_KEY = "space-war.analytics.events";
 const LOGGING_ENABLED_KEY = "space-war.analytics.enabled";
 const timers: Record<string, number> = {};
-let counter = 0;
+let storageError: string | null = null;
 let userContext: { id?: string; name?: string; role?: string } = {};
 
 const now = () =>
@@ -41,7 +43,8 @@ const load = (): EventLogEntry[] => {
   if (typeof localStorage === "undefined") return [];
   try {
     const raw = localStorage.getItem(STORAGE_KEY);
-    return raw ? (JSON.parse(raw) as EventLogEntry[]) : [];
+    const parsed: unknown = raw ? JSON.parse(raw) : [];
+    return Array.isArray(parsed) ? parsed as EventLogEntry[] : [];
   } catch {
     return [];
   }
@@ -51,15 +54,13 @@ const persist = (events: EventLogEntry[]) => {
   if (typeof localStorage === "undefined") return;
   try {
     localStorage.setItem(STORAGE_KEY, JSON.stringify(events));
+    storageError = null;
   } catch {
-    // ignore quota errors silently
+    storageError = "ذخیره لاگ رفتاری ناموفق بود؛ فضای ذخیره‌سازی مرورگر را بررسی کنید.";
   }
 };
 
-const buildId = () => {
-  counter += 1;
-  return `${Date.now()}-${counter}`;
-};
+const buildId = () => crypto.randomUUID();
 
 export const eventLogger = {
   isLoggingEnabled() {
@@ -68,6 +69,11 @@ export const eventLogger = {
 
   setLoggingEnabled(enabled: boolean) {
     persistLoggingEnabled(enabled);
+    for (const key of Object.keys(timers)) delete timers[key];
+  },
+
+  getStorageError() {
+    return storageError;
   },
 
   getEvents() {
@@ -158,94 +164,7 @@ export const eventLogger = {
 
   exportToCSV(filename = "scenario-analytics.csv") {
     if (typeof document === "undefined") return;
-    const events = load();
-    const header = [
-      "timestamp",
-      "type",
-      "scenarioId",
-      "nodeId",
-      "action",
-      "elapsedMs",
-      "userId",
-      "userName",
-      "userRole",
-      "interactionMode",
-      "roundId",
-      "selectedOptionId",
-      "optionStrategicWeight",
-      "escalationWeight",
-      "infoSeekingWeight",
-      "secondOrderThinkingWeight",
-      "adversaryModelingWeight",
-      "operationalStrategicIndex",
-      "decisionStyleLabel",
-      "totalDecisionRounds",
-      "finalNarrativeOutcomeLabel",
-      "finalNarrativeOutcome",
-      "statusBefore_informationExposureRisk",
-      "statusAfter_informationExposureRisk",
-      "informationExposureDelta",
-      "final_informationExposureRisk",
-      "informationCompromiseLevel",
-      "responseTimeMs",
-      "changedAnswerCount",
-      "previewOpenCount",
-      "previewTotalTimeMs",
-      "completedAt",
-      "detail",
-    ];
-    const rows = events.map((e) => {
-      const detail = e.detail ?? {};
-      const detailValue = (key: string) => detail[key] ?? "";
-      const cells = [
-        new Date(e.ts).toISOString(),
-        e.type ?? "",
-        e.scenarioId ?? "",
-        e.nodeId ?? "",
-        e.action ?? "",
-        e.elapsedMs != null ? Math.round(e.elapsedMs).toString() : "",
-        e.userId ?? "",
-        e.userName ?? "",
-        e.userRole ?? "",
-        detailValue("interactionMode"),
-        detailValue("roundId"),
-        detailValue("selectedOptionId"),
-        detailValue("optionStrategicWeight"),
-        detailValue("escalationWeight"),
-        detailValue("infoSeekingWeight"),
-        detailValue("secondOrderThinkingWeight"),
-        detailValue("adversaryModelingWeight"),
-        detailValue("operationalStrategicIndex"),
-        detailValue("decisionStyleLabel"),
-        detailValue("totalDecisionRounds"),
-        detailValue("finalNarrativeOutcomeLabel"),
-        detailValue("finalNarrativeOutcome"),
-        detailValue("statusBefore_informationExposureRisk"),
-        detailValue("statusAfter_informationExposureRisk"),
-        detailValue("informationExposureDelta"),
-        detailValue("final_informationExposureRisk"),
-        detailValue("informationCompromiseLevel"),
-        detailValue("responseTimeMs"),
-        detailValue("changedAnswerCount"),
-        detailValue("previewOpenCount"),
-        detailValue("previewTotalTimeMs"),
-        detailValue("completedAt"),
-        e.detail ? JSON.stringify(e.detail) : "",
-      ];
-      // simple CSV escaping: wrap in quotes and escape quotes
-      return cells
-        .map((c) => `"${String(c).replace(/"/g, '""')}"`)
-        .join(",");
-    });
-    const csv = [header.join(","), ...rows].join("\n");
-
-    const blob = new Blob([csv], { type: "text/csv" });
-    const url = URL.createObjectURL(blob);
-    const a = document.createElement("a");
-    a.href = url;
-    a.download = filename;
-    a.click();
-    URL.revokeObjectURL(url);
+    downloadFile(filename, buildLogCSV(load()), "text/csv");
   },
 
   clear() {
@@ -265,10 +184,5 @@ const loadLoggingEnabled = () => {
 };
 
 const persistLoggingEnabled = (enabled: boolean) => {
-  if (typeof localStorage === "undefined") return;
-  try {
-    localStorage.setItem(LOGGING_ENABLED_KEY, String(enabled));
-  } catch {
-    // ignore storage errors silently
-  }
+  localStorage.setItem(LOGGING_ENABLED_KEY, String(enabled));
 };
