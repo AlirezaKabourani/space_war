@@ -39,6 +39,7 @@ import {
   buildRunCompletedLogDetail,
   buildRunStartedLogDetail,
   buildScenario5OutcomeView,
+  buildEvidenceSummary,
   buildScenario5PlayerView,
   getRuntimeAutoClosedEvidenceOpens,
   getScenario5PlayerStageLabel,
@@ -54,6 +55,9 @@ import { ScenarioFiveActionCard } from "./ScenarioFiveActionCard";
 import { ScenarioFiveMap } from "./ScenarioFiveMap";
 import { ScenarioFiveResourcePanel } from "./ScenarioFiveResourcePanel";
 import { ScenarioFiveSummary } from "./ScenarioFiveSummary";
+import { ScenarioFiveGlossary } from "./scenario-five/ui/ScenarioFiveGlossary";
+import { ScenarioFiveOutcomePanel } from "./scenario-five/ui/ScenarioFiveOutcomePanel";
+import type { ScenarioFiveBeliefStage } from "./scenario-five/ui/ScenarioFiveBeliefPanel";
 
 interface ScenarioFiveSimulationProps {
   scenarioId: string | number;
@@ -77,6 +81,9 @@ export const ScenarioFiveSimulation = ({
   const [selectedTarget, setSelectedTarget] = useState<CorridorId | null>(null);
   const [expandedEvidenceIds, setExpandedEvidenceIds] = useState<Set<string>>(new Set());
   const [evidenceViewOpen, setEvidenceViewOpen] = useState(false);
+  // Presentation snapshots never enter runtime state or telemetry. Held across pending reason stages.
+  const preCommitEvidenceIdsRef = useRef<ReadonlySet<string>>(new Set());
+  const investigationEvidenceIdsRef = useRef<ReadonlySet<string>>(new Set());
   const hiddenTimingRef = useRef<HiddenTabTimingState>(resetHiddenTabTiming());
   const completionLoggedRunRef = useRef<string | null>(null);
 
@@ -142,6 +149,8 @@ export const ScenarioFiveSimulation = ({
       seed: assignment.seed,
       startedAtMs: monotonicNow(),
     });
+    preCommitEvidenceIdsRef.current = new Set(next.evidence.map((item) => item.evidenceId));
+    investigationEvidenceIdsRef.current = new Set();
     completionLoggedRunRef.current = null;
     setResult(null);
     setSelectedTarget(null);
@@ -189,6 +198,7 @@ export const ScenarioFiveSimulation = ({
       actionId: selectedActionId,
       ...(selectedAction.target === "required" && selectedTarget ? { targetCorridorId: selectedTarget } : {}),
     };
+    preCommitEvidenceIdsRef.current = new Set(view?.visibleEvidence.map((item) => item.evidenceId));
     const before = runtime;
     const next = confirmRuntimeDecision(before, selection, confirmedAtMs, hiddenTabMs);
     const autoClosedEvidence = getRuntimeAutoClosedEvidenceOpens(before, next);
@@ -207,6 +217,9 @@ export const ScenarioFiveSimulation = ({
   const submitBelief = (input: Omit<RuntimeBeliefInput, "recordedAtMs">) => {
     if (!runtime) return;
     const next = submitRuntimeBelief(runtime, { ...input, recordedAtMs: monotonicNow() });
+    if (next.stage.stageId === "decision:A2_evidence_acquisition") {
+      investigationEvidenceIdsRef.current = new Set(next.evidence.map((item) => item.evidenceId));
+    }
     setRuntime(next);
     log("s5_v3_belief", buildBeliefLogDetail(next, next.beliefs.at(-1)!));
   };
@@ -236,11 +249,18 @@ export const ScenarioFiveSimulation = ({
     return (
       <main className="s5-root s5-briefing" dir="rtl">
         <section className="s5-briefing-card">
-          <span>سناریو ۵ · نسخه بازطراحی</span>
+          <span>{SCENARIO5_BRIEFING_FA.heading}</span>
           <h1>{SCENARIO5_BRIEFING_FA.title}</h1>
-          <div className="s5-briefing-body">{SCENARIO5_BRIEFING_FA.body.split("\n\n").map((paragraph) => <p key={paragraph}>{paragraph}</p>)}</div>
-          <p className="s5-method-note">{SCENARIO5_BRIEFING_FA.timeClarification}</p>
-          <ul>{SCENARIO5_BRIEFING_FA.rules.map((rule) => <li key={rule}>{rule}</li>)}</ul>
+          <div className="s5-briefing-scroll">
+            <div className="s5-briefing-body"><h2>وضعیت</h2><p>{SCENARIO5_BRIEFING_FA.situation}</p></div>
+            <div className="s5-briefing-columns">
+              <section><h2>آنچه می‌دانید</h2><ul>{SCENARIO5_BRIEFING_FA.known.map((text) => <li key={text}>{text}</li>)}</ul></section>
+              <section><h2>آنچه هنوز نمی‌دانید</h2><ul>{SCENARIO5_BRIEFING_FA.unknown.map((text) => <li key={text}>{text}</li>)}</ul></section>
+            </div>
+            <section className="s5-briefing-body"><h2>قاعده تصمیم</h2><p>{SCENARIO5_BRIEFING_FA.decisionRule}</p></section>
+            <p className="s5-method-note">افق مأموریت ۳۶۰ دقیقه؛ هشت تصمیم در چهار فاز. {SCENARIO5_BRIEFING_FA.timeClarification}</p>
+            <ScenarioFiveGlossary inline />
+          </div>
           <button type="button" className="s5-primary-button" onClick={startRun}>{SCENARIO5_BRIEFING_FA.button}</button>
         </section>
       </main>
@@ -253,6 +273,9 @@ export const ScenarioFiveSimulation = ({
 
   if (!view) return null;
   const outcome = runtime.stage.stageId === "outcome_review" ? buildScenario5OutcomeView(runtime) : null;
+  const evidenceSummaries = view.visibleEvidence.map(buildEvidenceSummary);
+  const newEvidence = evidenceSummaries.filter((item) => !preCommitEvidenceIdsRef.current.has(item.evidenceId));
+  const recentInvestigationIds = new Set(evidenceSummaries.filter((item) => !investigationEvidenceIdsRef.current.has(item.evidenceId)).map((item) => item.evidenceId));
   const reasonContext = runtime.pendingDecision ? {
     actionId: runtime.pendingDecision.selection.actionId,
     targetCorridorId: runtime.pendingDecision.selection.targetCorridorId
@@ -262,19 +285,19 @@ export const ScenarioFiveSimulation = ({
   return (
     <main className="s5-root s5-live-shell" dir="rtl">
       <header className="s5-command-bar">
-        <div className="s5-command-identity"><span>امواج خاموش</span>
+        <div className="s5-command-identity"><span>سناریو ۲ — امواج خاموش</span>
           <h1>{view.phaseId ? `فاز ${view.phaseId}: ${SCENARIO5_PHASE_CONTENT_FA[view.phaseId]}` : "گذار مأموریت"}</h1>
           {view.roundId && <p>راند {view.roundId}: {SCENARIO5_ROUND_CONTENT_FA[view.roundId].title}</p>}
         </div>
         <span className="s5-stage-chip">{getScenario5PlayerStageLabel(view.stageId)}</span>
         <ScenarioFiveResourcePanel resources={view.resources} />
+        <ScenarioFiveGlossary />
       </header>
 
       <div className="s5-workspace">
         <section className="s5-control-pane" aria-label="پنل تعامل مأموریت">
           {isDecisionStage(runtime.stage.stageId) && view.roundId && (evidenceViewOpen ? (
             <div className="s5-local-evidence-view">
-              <button type="button" className="s5-secondary-button s5-back-to-decision" onClick={() => setEvidenceViewOpen(false)}>بازگشت به تصمیم</button>
               <ScenarioFiveEvidencePanel
                 evidence={view.visibleEvidence}
                 interactive
@@ -282,9 +305,11 @@ export const ScenarioFiveSimulation = ({
                 onOpen={openEvidence}
                 onClose={closeEvidence}
               />
+              <footer className="s5-control-footer"><button type="button" className="s5-secondary-button s5-back-to-decision" onClick={() => setEvidenceViewOpen(false)}>بازگشت به تصمیم</button></footer>
             </div>
           ) : (
             <section className="s5-panel s5-decision-panel">
+              <div className="s5-control-scroll" tabIndex={0} aria-label="گزینه‌های تصمیم">
               <div className="s5-section-heading"><div><span>راند {view.roundId} · پنجره تصمیم</span><h2>{SCENARIO5_ROUND_CONTENT_FA[view.roundId].problem}</h2></div></div>
               <div className="s5-action-grid">{view.availableActionIds.map((actionId) => (
                 <ScenarioFiveActionCard key={actionId} actionId={actionId} selected={selectedActionId === actionId} onSelect={() => selectAction(actionId)} />
@@ -299,15 +324,16 @@ export const ScenarioFiveSimulation = ({
                 </label>
               )}
               {selectedAction?.target === "fixed_alpha" && <p className="s5-fixed-target">هدف ثابت: کریدور شرقی / کاروان الف</p>}
-              <div className="s5-decision-actions">
+              </div>
+              <footer className="s5-control-footer s5-decision-actions">
                 <button type="button" className="s5-primary-button" disabled={!selectedActionId || (selectedAction?.target === "required" && !selectedTarget)} onClick={confirmDecision}>تأیید تصمیم</button>
                 <button type="button" className="s5-secondary-button s5-evidence-access" onClick={() => setEvidenceViewOpen(true)}>شواهد موجود ({view.visibleEvidence.length})</button>
-              </div>
+              </footer>
             </section>
           ))}
 
-          {isBeliefStage(runtime.stage.stageId) && <ScenarioFiveBeliefPanel key={runtime.stage.stageId} onSubmit={submitBelief} />}
-          {isReasonStage(runtime.stage.stageId) && reasonContext && <ScenarioFiveReasonPanel key={runtime.stage.stageId} context={reasonContext} onSubmit={submitReason} />}
+          {isBeliefStage(runtime.stage.stageId) && <ScenarioFiveBeliefPanel key={runtime.stage.stageId} stageId={runtime.stage.stageId as ScenarioFiveBeliefStage} evidence={evidenceSummaries} recentEvidenceIds={recentInvestigationIds} onSubmit={submitBelief} />}
+          {isReasonStage(runtime.stage.stageId) && reasonContext && <ScenarioFiveReasonPanel key={runtime.stage.stageId} context={reasonContext} evidence={evidenceSummaries} onSubmit={submitReason} />}
           {runtime.stage.stageId === "outcome_review" && <div className="s5-panel s5-transition-note"><span>مرور پیامد</span><p>نقشه عملیاتی پس از تصمیم به‌روزرسانی شده است.</p></div>}
         </section>
 
@@ -318,28 +344,12 @@ export const ScenarioFiveSimulation = ({
             worldClockMinutes={view.resources.worldClockMinutes}
             highlightedCorridorId={highlightedCorridorId}
             globalRoutePulse={globalRoutePulse}
+            evidence={evidenceSummaries}
           />
         </div>
       </div>
 
-      {outcome && (
-        <section className="s5-modal-layer" role="dialog" aria-modal="true" aria-labelledby="s5-outcome-title">
-          <div className="s5-outcome-modal">
-            <h2 id="s5-outcome-title">پیامد قابل مشاهده — راند {outcome.roundId}</h2>
-            <p>زمان عملیاتی: T+{outcome.worldClockBefore} → T+{outcome.worldClockAfter} دقیقه</p>
-            <p>ISR مصرف‌شده: {outcome.isrSpent}</p><p>پشتیبانی مصرف‌شده: {outcome.supportSpent}</p>
-            <div className="s5-outcome-list">{outcome.convoyChanges.map((change) => <article key={change.corridorId}>
-              <strong>{SCENARIO5_CORRIDOR_CONTENT_FA[change.corridorId].targetLabel}</strong>
-              <span>وضعیت: {SCENARIO5_STATUS_LABELS_FA[change.statusBefore]} → {SCENARIO5_STATUS_LABELS_FA[change.statusAfter]}</span>
-              <span>یکپارچگی: {change.integrityBefore} → {change.integrityAfter}</span>
-              <span>تغییر تأخیر: {change.delayDelta >= 0 ? "+" : ""}{change.delayDelta} دقیقه</span>
-              {change.newMitigations.length > 0 && <span>فعال‌شده: {change.newMitigations.join("، ")}</span>}
-            </article>)}</div>
-            {outcome.newEvidenceCount > 0 && <p>{outcome.newEvidenceCount} شاهد جدید به تصویر عملیاتی اضافه شد.</p>}
-            <button type="button" className="s5-primary-button" onClick={continueOutcome}>{outcome.nextStageId === "complete" ? "نمایش گزارش پس از اقدام" : "ادامه"}</button>
-          </div>
-        </section>
-      )}
+      {outcome && <ScenarioFiveOutcomePanel outcome={outcome} newEvidence={newEvidence} onContinue={continueOutcome} />}
     </main>
   );
 };

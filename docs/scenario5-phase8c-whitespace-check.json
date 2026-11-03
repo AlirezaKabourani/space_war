@@ -1,0 +1,17 @@
+{
+  "requested": {
+    "exitCode": 2,
+    "diagnosticLines": 35400,
+    "firstDiagnostics": [
+      "docs/scenario4-full-narrative-transcript.md:1: trailing whitespace.",
+      "+# \u0645\u062a\u0646 \u06a9\u0627\u0645\u0644 \u0631\u0648\u0627\u06cc\u06cc \u0633\u0646\u0627\u0631\u06cc\u0648 \u06f4",
+      "docs/scenario4-full-narrative-transcript.md:2: trailing whitespace.",
+      "+"
+    ]
+  },
+  "crlfAware": {
+    "exitCode": 0,
+    "diagnosticLines": 0,
+    "firstDiagnostics": []
+  }
+}

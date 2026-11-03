@@ -1,0 +1,51 @@
+{
+  "auditStatus": "COMPLETE",
+  "sourceFreeze": "PASS",
+  "protectedFiles": 297,
+  "inventoryChecks": "PASS",
+  "syncStatus": "PASS",
+  "syncComparisons": 103120,
+  "browserScreenshots": 39,
+  "browserFailures": 0,
+  "currentVerifierSuite": "NOT_ALL_PASS: historical Phase6 CRLF + Phase8B patch applicability",
+  "runtimeDistinctStageCount": 17,
+  "runtimeOrderedStageOccurrences": 24,
+  "actionCount": 33,
+  "evidenceSourceTypeCount": 7,
+  "generatedEvidenceSourceTypeCount": 4,
+  "copyCount": 645,
+  "uniqueCopyCount": 580,
+  "numericDisplayBindingCount": 130,
+  "representativeRunCount": 128,
+  "pathTraceRows": 3072,
+  "representativeHumanTraceCount": 8,
+  "cognitiveResultLeafCount": 40,
+  "issueCount": 17,
+  "issueCountsBySeverity": {
+    "blocker": 0,
+    "major": 1,
+    "moderate": 10,
+    "minor": 6
+  },
+  "naiveMaximumMissionActionTargetSequences": "24227840",
+  "resourceOnlyUpperBound": "24227840",
+  "resourceDpStates": 2244,
+  "endStateDistribution": {
+    "critical_cargo_lost_or_compromised": 0,
+    "priority_delivered_network_degradation": 26,
+    "mission_incomplete_continuity_preserved": 0,
+    "delivery_complete_threat_persistent": 56,
+    "delivery_complete_attribution_unresolved": 46,
+    "delivery_complete_threat_contained": 0
+  },
+  "selectedTraceIds": [
+    "M1-W01-E1",
+    "M10-W08-E1",
+    "M2-W14-E1",
+    "M3-W11-E1",
+    "M4-W01-E1",
+    "M5-W01-E1",
+    "M6-W01-E1",
+    "M7-W01-E1"
+  ]
+}

@@ -1,0 +1,321 @@
+{
+  "status": "PASS",
+  "files": {
+    "docs/scenario5-phase8b-aar-endstate-desktop.png": {
+      "before": "7de16684d5e1b7386f068ca79fd641e18f8991b6094ab5a9f14486808b245e51",
+      "after": "7de16684d5e1b7386f068ca79fd641e18f8991b6094ab5a9f14486808b245e51"
+    },
+    "docs/scenario5-phase8b-engineering-verification.md": {
+      "before": "31297055dba28d9c92675b98137065af78d02dbdee581a0db45f856824842ac6",
+      "after": "31297055dba28d9c92675b98137065af78d02dbdee581a0db45f856824842ac6"
+    },
+    "docs/scenario5-phase8b-report-fa.md": {
+      "before": "cc7b6db472229c6a1992863198bb19a837ea28c9631b4c35ee4fe64723b1bdca",
+      "after": "cc7b6db472229c6a1992863198bb19a837ea28c9631b4c35ee4fe64723b1bdca"
+    },
+    "docs/scenario5-phase8b-results/cognitive-distributions.csv": {
+      "before": "f3418847cc26386b2b9505242e7bbd72a71160d0521749d1bb50e43242d219ad",
+      "after": "f3418847cc26386b2b9505242e7bbd72a71160d0521749d1bb50e43242d219ad"
+    },
+    "docs/scenario5-phase8b-results/cognitive-runs.csv": {
+      "before": "cf472caca1d9e1d33680a431397ff9d580ab2358f5332c3d42485a16effc87bb",
+      "after": "cf472caca1d9e1d33680a431397ff9d580ab2358f5332c3d42485a16effc87bb"
+    },
+    "docs/scenario5-phase8b-results/end-state-distribution.csv": {
+      "before": "7e178e7315efec02b93cb7d3dc7b8405ed1d04c8ae68b3638a3981761c0f4167",
+      "after": "7e178e7315efec02b93cb7d3dc7b8405ed1d04c8ae68b3638a3981761c0f4167"
+    },
+    "docs/scenario5-phase8b-results/end-state-witnesses.csv": {
+      "before": "e4db2409876977472da10dd73429af88eed14591bbbff119a625055b16399e0c",
+      "after": "e4db2409876977472da10dd73429af88eed14591bbbff119a625055b16399e0c"
+    },
+    "docs/scenario5-phase8b-results/mission-runs.csv": {
+      "before": "e18fd3fa695f57d2d8f454a66de06f827d3eadd522881c5ef597ec0228a96231",
+      "after": "e18fd3fa695f57d2d8f454a66de06f827d3eadd522881c5ef597ec0228a96231"
+    },
+    "docs/scenario5-phase8b-results/shadow-time-sensitivity.csv": {
+      "before": "20e47f34c03d481112fb8a7e817efbfec42e2add3b6cdcb355c7183b17b552ad",
+      "after": "20e47f34c03d481112fb8a7e817efbfec42e2add3b6cdcb355c7183b17b552ad"
+    },
+    "docs/scenario5-phase8b-results/trajectory-parity.csv": {
+      "before": "05bc503ff65e8bc015f2b4f1d6df857e922b214dcb0b8984454ce97c8fb72891",
+      "after": "05bc503ff65e8bc015f2b4f1d6df857e922b214dcb0b8984454ce97c8fb72891"
+    },
+    "docs/scenario5-phase8b-summary.json": {
+      "before": "ecbfce19ea2161ad7d1e9c71f2affac457af2ecca95be955f8b1c53ff767e8b8",
+      "after": "ecbfce19ea2161ad7d1e9c71f2affac457af2ecca95be955f8b1c53ff767e8b8"
+    },
+    "docs/scenario5-phase8b.patch": {
+      "before": "49a4b1a5ba65be105907135ad448327b0dcecd0b9ba3abebbe0414ebea986c49",
+      "after": "49a4b1a5ba65be105907135ad448327b0dcecd0b9ba3abebbe0414ebea986c49"
+    },
+    "package.json": {
+      "before": "bb765f905e8d28e4b54a86d53746b4b21d78c232c1b2ce9e9c0040261ed8d5d9",
+      "after": "bb765f905e8d28e4b54a86d53746b4b21d78c232c1b2ce9e9c0040261ed8d5d9"
+    },
+    "scripts/run-s5-phase8-calibration.ts": {
+      "before": "3b5c559bbe7adc4bb9b1210100c73027da89cee48420d2d4bc070de9e1acac93",
+      "after": "3b5c559bbe7adc4bb9b1210100c73027da89cee48420d2d4bc070de9e1acac93"
+    },
+    "scripts/run-s5-phase8a-audit.ts": {
+      "before": "bd7037666994d40dcc52296ca50745c29fee554794b9aa1e2c253689260a8782",
+      "after": "bd7037666994d40dcc52296ca50745c29fee554794b9aa1e2c253689260a8782"
+    },
+    "scripts/run-s5-phase8b-calibration.ts": {
+      "before": "f6f8b8cf8f25bb104f1a5bccdc64844c7ecf8009b073da972e869b43dee86ffd",
+      "after": "f6f8b8cf8f25bb104f1a5bccdc64844c7ecf8009b073da972e869b43dee86ffd"
+    },
+    "scripts/verify-s5-phase3-model.ts": {
+      "before": "04165aa0e64325619ab873464ecf37a686cb65c1b5f2c9b407e51b96577556cc",
+      "after": "04165aa0e64325619ab873464ecf37a686cb65c1b5f2c9b407e51b96577556cc"
+    },
+    "scripts/verify-s5-phase4-mission.ts": {
+      "before": "b689f66d695927d74f2ccd6f66ffaa06a7e759e2de9a1fadee6740d15f48c44d",
+      "after": "b689f66d695927d74f2ccd6f66ffaa06a7e759e2de9a1fadee6740d15f48c44d"
+    },
+    "scripts/verify-s5-phase5-cognitive.ts": {
+      "before": "5523a5ec12c703400d1ff91b26aca065d6237822a0b310cb37beaeb188dd733a",
+      "after": "5523a5ec12c703400d1ff91b26aca065d6237822a0b310cb37beaeb188dd733a"
+    },
+    "scripts/verify-s5-phase6-runtime.ts": {
+      "before": "5871796b86999ef460a4c192bffce9d735a5d0ae27e1dbff41f33b2d6d7d4c24",
+      "after": "5871796b86999ef460a4c192bffce9d735a5d0ae27e1dbff41f33b2d6d7d4c24"
+    },
+    "scripts/verify-s5-phase8-calibration.ts": {
+      "before": "c410475106c2b89a0499f6b5caf544ba4ef64c1694746e16e3dd788637075c8e",
+      "after": "c410475106c2b89a0499f6b5caf544ba4ef64c1694746e16e3dd788637075c8e"
+    },
+    "scripts/verify-s5-phase8a-audit.ts": {
+      "before": "b732c711fb71a252c22d346edac56b95c52f9e9331b0188a27449c38325c01e6",
+      "after": "b732c711fb71a252c22d346edac56b95c52f9e9331b0188a27449c38325c01e6"
+    },
+    "scripts/verify-s5-phase8b-calibration.ts": {
+      "before": "86723265a9476fbde1bb61c1773273c05d74e45e8948d90b89ac491062a9295d",
+      "after": "86723265a9476fbde1bb61c1773273c05d74e45e8948d90b89ac491062a9295d"
+    },
+    "src/scenarios/s2_silent_waves/tree.ts": {
+      "before": "920ae74ba46f152613f09f45bf3b0b7ed2a45196ac026aaa176d78e5e3017495",
+      "after": "920ae74ba46f152613f09f45bf3b0b7ed2a45196ac026aaa176d78e5e3017495"
+    },
+    "src/services/analytics/eventLogger.ts": {
+      "before": "68cc239f0d4e19a94defa87ba093611fce64cfe10c956002058490e8da372a98",
+      "after": "68cc239f0d4e19a94defa87ba093611fce64cfe10c956002058490e8da372a98"
+    },
+    "src/ui/components/scenario/ScenarioFiveSummary.tsx": {
+      "before": "a452fea3638872c458b3dd29841c08cb108fc92f11ff4bc92291d5981bd00aaa",
+      "after": "a452fea3638872c458b3dd29841c08cb108fc92f11ff4bc92291d5981bd00aaa"
+    },
+    "src/ui/components/scenario/ScenarioTwoActionCard.tsx": {
+      "before": "f7822f1b4567329d35fbc2e2a699b5ae528fd0ea775271f78b1dd324678ed027",
+      "after": "f7822f1b4567329d35fbc2e2a699b5ae528fd0ea775271f78b1dd324678ed027"
+    },
+    "src/ui/components/scenario/ScenarioTwoMap.tsx": {
+      "before": "0eb6412dad7d4e2c3359b6e946149438a8d22a1701d66025e5948e488f5ccd41",
+      "after": "0eb6412dad7d4e2c3359b6e946149438a8d22a1701d66025e5948e488f5ccd41"
+    },
+    "src/ui/components/scenario/ScenarioTwoResourcePanel.tsx": {
+      "before": "7e1d2a5d2c28f36f665f34f108632fd7df540bc29cf786d72a9e5983b06572d8",
+      "after": "7e1d2a5d2c28f36f665f34f108632fd7df540bc29cf786d72a9e5983b06572d8"
+    },
+    "src/ui/components/scenario/ScenarioTwoSimulation.tsx": {
+      "before": "9165644ff753ff728f5dc387edfd9ecda3e859904486fb94b3d0ed8197235b31",
+      "after": "9165644ff753ff728f5dc387edfd9ecda3e859904486fb94b3d0ed8197235b31"
+    },
+    "src/ui/components/scenario/ScenarioTwoSummary.tsx": {
+      "before": "769e8ab65b336fe2201158dd3eb2d605053bd056a34573626e7769b55c137152",
+      "after": "769e8ab65b336fe2201158dd3eb2d605053bd056a34573626e7769b55c137152"
+    },
+    "src/ui/components/scenario/ScenarioTwoTypes.ts": {
+      "before": "ee8b24caf4bc52a6eba4516232958b918ebd8667958dfa5b26a2fd8e742ac455",
+      "after": "ee8b24caf4bc52a6eba4516232958b918ebd8667958dfa5b26a2fd8e742ac455"
+    },
+    "src/ui/components/scenario/scenario-five/calibration/auditMethodV2.ts": {
+      "before": "64a740ddeb312fedde82da5ee83f25d4a571abd0f98e18ea786c41583da6852f",
+      "after": "64a740ddeb312fedde82da5ee83f25d4a571abd0f98e18ea786c41583da6852f"
+    },
+    "src/ui/components/scenario/scenario-five/calibration/auditMetrics.ts": {
+      "before": "b4b2ff8271fcc3263332525bb79e5438ceaa1543850f49c21d62e4dfd4cf45f0",
+      "after": "b4b2ff8271fcc3263332525bb79e5438ceaa1543850f49c21d62e4dfd4cf45f0"
+    },
+    "src/ui/components/scenario/scenario-five/calibration/cognitivePolicies.ts": {
+      "before": "d057cd687d0aedcc30fbd961ccea82e828ab5fb79fef509841123a53117ab7c8",
+      "after": "d057cd687d0aedcc30fbd961ccea82e828ab5fb79fef509841123a53117ab7c8"
+    },
+    "src/ui/components/scenario/scenario-five/calibration/counterfactualAudit.ts": {
+      "before": "b9f510e05d75223ce48271ab0d22dafbcc5ad05260ebc636dff44416750b95e4",
+      "after": "b9f510e05d75223ce48271ab0d22dafbcc5ad05260ebc636dff44416750b95e4"
+    },
+    "src/ui/components/scenario/scenario-five/calibration/index.ts": {
+      "before": "898157d72442c732290c4f672f7ed2b9209d5e0f264077656cdb82ae8f4b23cb",
+      "after": "898157d72442c732290c4f672f7ed2b9209d5e0f264077656cdb82ae8f4b23cb"
+    },
+    "src/ui/components/scenario/scenario-five/calibration/missionPolicies.ts": {
+      "before": "eeff3b7dc882b9c874d0e1bbebfc671aac6908a4e1ba3d659237b0d1d892a805",
+      "after": "eeff3b7dc882b9c874d0e1bbebfc671aac6908a4e1ba3d659237b0d1d892a805"
+    },
+    "src/ui/components/scenario/scenario-five/calibration/policyRng.ts": {
+      "before": "145088b4413e7a359d410fcff401d2450eb49751a879a2ec3aa3a923df5f62ad",
+      "after": "145088b4413e7a359d410fcff401d2450eb49751a879a2ec3aa3a923df5f62ad"
+    },
+    "src/ui/components/scenario/scenario-five/calibration/reporting.ts": {
+      "before": "6309ea6cfca7fa5e1f519b1b4a4f44c55e190befe9ade7e4619e07ce1f5039df",
+      "after": "6309ea6cfca7fa5e1f519b1b4a4f44c55e190befe9ade7e4619e07ce1f5039df"
+    },
+    "src/ui/components/scenario/scenario-five/calibration/shadowSensitivity.ts": {
+      "before": "c70ce744f839256e2dd4765b6168cba347f483ca4a33a2c29108b26216745011",
+      "after": "c70ce744f839256e2dd4765b6168cba347f483ca4a33a2c29108b26216745011"
+    },
+    "src/ui/components/scenario/scenario-five/calibration/simulationDriver.ts": {
+      "before": "c3d1921346a72baec533dc65e155703a96d961e8544159ef7c06eda4f670c352",
+      "after": "c3d1921346a72baec533dc65e155703a96d961e8544159ef7c06eda4f670c352"
+    },
+    "src/ui/components/scenario/scenario-five/calibration/structuredReachability.ts": {
+      "before": "e9df8ccd037547dc30c567f8fea76729bca8860184f7d3838e396461be8025b2",
+      "after": "e9df8ccd037547dc30c567f8fea76729bca8860184f7d3838e396461be8025b2"
+    },
+    "src/ui/components/scenario/scenario-five/calibration/types.ts": {
+      "before": "cfce5c3c5e065791fd61126b460b1b5639f3d58a5f16bcd735b5018ecc15ce59",
+      "after": "cfce5c3c5e065791fd61126b460b1b5639f3d58a5f16bcd735b5018ecc15ce59"
+    },
+    "src/ui/components/scenario/scenario-five/calibration/versions.ts": {
+      "before": "3f134dcda4981475d673ccf4d56bee640e4a1483ae06ee7e0d1706040ea03e01",
+      "after": "3f134dcda4981475d673ccf4d56bee640e4a1483ae06ee7e0d1706040ea03e01"
+    },
+    "src/ui/components/scenario/scenario-five/model/actorModel.ts": {
+      "before": "543c19027893f596975fa93af7f0aa87a7e3e862ece92f716c22c8d39fc56f93",
+      "after": "543c19027893f596975fa93af7f0aa87a7e3e862ece92f716c22c8d39fc56f93"
+    },
+    "src/ui/components/scenario/scenario-five/model/adjudicator.ts": {
+      "before": "eb6b5cc244752b4a4c0694b2a5b87545159bbaf1e082630e1dfdaf01c7cbc4f6",
+      "after": "eb6b5cc244752b4a4c0694b2a5b87545159bbaf1e082630e1dfdaf01c7cbc4f6"
+    },
+    "src/ui/components/scenario/scenario-five/model/cognitive/cognitiveEngine.ts": {
+      "before": "80846835f858193942bde33983f5f8159ebfa2cae0b5010d003ecc727f6045a5",
+      "after": "80846835f858193942bde33983f5f8159ebfa2cae0b5010d003ecc727f6045a5"
+    },
+    "src/ui/components/scenario/scenario-five/model/cognitive/evidenceScoring.ts": {
+      "before": "40b8d9df54ceee6f47e6b76b6c84b6430fc7c400aed2368ca8ff0ee0478c025a",
+      "after": "40b8d9df54ceee6f47e6b76b6c84b6430fc7c400aed2368ca8ff0ee0478c025a"
+    },
+    "src/ui/components/scenario/scenario-five/model/cognitive/index.ts": {
+      "before": "0406013ebcfcac0a4007ad2e08709b41bb849066767859ece97f6f1c6a821fcc",
+      "after": "0406013ebcfcac0a4007ad2e08709b41bb849066767859ece97f6f1c6a821fcc"
+    },
+    "src/ui/components/scenario/scenario-five/model/cognitive/optionProfiles.ts": {
+      "before": "0f47a247715e4c884581ff6ad4710e98c0407aefb6b5d1eb81414c7206040408",
+      "after": "0f47a247715e4c884581ff6ad4710e98c0407aefb6b5d1eb81414c7206040408"
+    },
+    "src/ui/components/scenario/scenario-five/model/cognitive/reasonModel.ts": {
+      "before": "9924862da2806fdb489d5a75df8fb9eacd680009e2f5a05d69821f3daa39e589",
+      "after": "9924862da2806fdb489d5a75df8fb9eacd680009e2f5a05d69821f3daa39e589"
+    },
+    "src/ui/components/scenario/scenario-five/model/cognitive/types.ts": {
+      "before": "cc756aa8666dd9da6dbcfc14455012e941d2a3246583c4e355a50d0fc73fbefb",
+      "after": "cc756aa8666dd9da6dbcfc14455012e941d2a3246583c4e355a50d0fc73fbefb"
+    },
+    "src/ui/components/scenario/scenario-five/model/cognitive/versions.ts": {
+      "before": "9cf8d14a10b81f1208fcbff92314bc013f6dc28ca26d4be79b5103f2d82f12df",
+      "after": "9cf8d14a10b81f1208fcbff92314bc013f6dc28ca26d4be79b5103f2d82f12df"
+    },
+    "src/ui/components/scenario/scenario-five/model/evidenceModel.ts": {
+      "before": "f9a963af7f5c1e7f9f93e575ba1d6e794edd2474a2aa9ad351bc0680ebe83bc2",
+      "after": "f9a963af7f5c1e7f9f93e575ba1d6e794edd2474a2aa9ad351bc0680ebe83bc2"
+    },
+    "src/ui/components/scenario/scenario-five/model/index.ts": {
+      "before": "a9c89a5ac4f29d99b97cc222301beb16c078a162af19f591610b3bc670a6ea9d",
+      "after": "a9c89a5ac4f29d99b97cc222301beb16c078a162af19f591610b3bc670a6ea9d"
+    },
+    "src/ui/components/scenario/scenario-five/model/mission/actionCatalog.ts": {
+      "before": "f1ac6442c596a24e9b8f95fdc25c474679b402450e0b575c2e7efff4b406bb2d",
+      "after": "f1ac6442c596a24e9b8f95fdc25c474679b402450e0b575c2e7efff4b406bb2d"
+    },
+    "src/ui/components/scenario/scenario-five/model/mission/config.ts": {
+      "before": "002445b16f06b6a1632aa9063ae00427937918750e5dd582ec77beceb7759c70",
+      "after": "002445b16f06b6a1632aa9063ae00427937918750e5dd582ec77beceb7759c70"
+    },
+    "src/ui/components/scenario/scenario-five/model/mission/endStateResolver.ts": {
+      "before": "f6eb038b2e1be250aafff88dc9c867a49c4d5a93ac747b921a09878620b8dec7",
+      "after": "f6eb038b2e1be250aafff88dc9c867a49c4d5a93ac747b921a09878620b8dec7"
+    },
+    "src/ui/components/scenario/scenario-five/model/mission/index.ts": {
+      "before": "334d6e0dc70b2d13f88fa98170cd717e4a7cd2e5b236e8c268c0b7ce2afb8bf1",
+      "after": "334d6e0dc70b2d13f88fa98170cd717e4a7cd2e5b236e8c268c0b7ce2afb8bf1"
+    },
+    "src/ui/components/scenario/scenario-five/model/mission/missionEngine.ts": {
+      "before": "7dedc343f66b563c54cf78e1e33e56ef78e5925452a35f497077e760b9dd9bc8",
+      "after": "7dedc343f66b563c54cf78e1e33e56ef78e5925452a35f497077e760b9dd9bc8"
+    },
+    "src/ui/components/scenario/scenario-five/model/mission/selectors.ts": {
+      "before": "1823bb8e190074db7d1514c49dd1bad58c12551d37992c7763f2ceed0f5c376d",
+      "after": "1823bb8e190074db7d1514c49dd1bad58c12551d37992c7763f2ceed0f5c376d"
+    },
+    "src/ui/components/scenario/scenario-five/model/mission/types.ts": {
+      "before": "415a20d46ec6611599f970561b9b3d99ef979bde2aa14c2efc8e61499cb0a3c2",
+      "after": "415a20d46ec6611599f970561b9b3d99ef979bde2aa14c2efc8e61499cb0a3c2"
+    },
+    "src/ui/components/scenario/scenario-five/model/projections.ts": {
+      "before": "5c081c71074c7efc11b60c5003f7018e7c13527b98f4d9e6371db00f90844aab",
+      "after": "5c081c71074c7efc11b60c5003f7018e7c13527b98f4d9e6371db00f90844aab"
+    },
+    "src/ui/components/scenario/scenario-five/model/runtime/domainMetrics.ts": {
+      "before": "2a3bb9a2fbeee3604fcf14a81f3d5e8fb462564219deff4936fe9405c73a8fff",
+      "after": "2a3bb9a2fbeee3604fcf14a81f3d5e8fb462564219deff4936fe9405c73a8fff"
+    },
+    "src/ui/components/scenario/scenario-five/model/runtime/index.ts": {
+      "before": "3aa63cb0c41812e689474ebbaf1adfdd657bec6fd7385f9d37226822a90afb44",
+      "after": "3aa63cb0c41812e689474ebbaf1adfdd657bec6fd7385f9d37226822a90afb44"
+    },
+    "src/ui/components/scenario/scenario-five/model/runtime/runtimeEngine.ts": {
+      "before": "2b684cc2746e761733556c8724c15fe6109d3a5b542135eff4c65f933eab8eab",
+      "after": "2b684cc2746e761733556c8724c15fe6109d3a5b542135eff4c65f933eab8eab"
+    },
+    "src/ui/components/scenario/scenario-five/model/runtime/stageMachine.ts": {
+      "before": "a2a7309150aeea16484a343cbfafefe162a14a460f257266369665c1aa328195",
+      "after": "a2a7309150aeea16484a343cbfafefe162a14a460f257266369665c1aa328195"
+    },
+    "src/ui/components/scenario/scenario-five/model/runtime/telemetryAdapter.ts": {
+      "before": "f7aede172451e0f253826e9f041952f725b9e92a6bd9b9193de561c460ad3cbf",
+      "after": "f7aede172451e0f253826e9f041952f725b9e92a6bd9b9193de561c460ad3cbf"
+    },
+    "src/ui/components/scenario/scenario-five/model/runtime/types.ts": {
+      "before": "9328f26cbe08c38e3fbb9502c0fa8d0a1bf6359db4eb04f27f34ab5808b834dc",
+      "after": "9328f26cbe08c38e3fbb9502c0fa8d0a1bf6359db4eb04f27f34ab5808b834dc"
+    },
+    "src/ui/components/scenario/scenario-five/model/runtime/versions.ts": {
+      "before": "7f505fdba6ffc42354adf5c2cce8ed59d1f47a6ae93cdc6eefcdd9f1fb6d35ed",
+      "after": "7f505fdba6ffc42354adf5c2cce8ed59d1f47a6ae93cdc6eefcdd9f1fb6d35ed"
+    },
+    "src/ui/components/scenario/scenario-five/model/seededRng.ts": {
+      "before": "1735d824202c1ce33c8299964f528550b67a26c046a68a29611e80aa4b5c66b8",
+      "after": "1735d824202c1ce33c8299964f528550b67a26c046a68a29611e80aa4b5c66b8"
+    },
+    "src/ui/components/scenario/scenario-five/model/types.ts": {
+      "before": "3b227fa10a56c39acf4afcbc2441833e66f3cb4f8a9e625ac2962b34bbf14b2e",
+      "after": "3b227fa10a56c39acf4afcbc2441833e66f3cb4f8a9e625ac2962b34bbf14b2e"
+    },
+    "src/ui/components/scenario/scenario-five/model/versions.ts": {
+      "before": "d076e15663f74c067f5e2200081f781dc0376be574d0698f72974e4a7af272f9",
+      "after": "d076e15663f74c067f5e2200081f781dc0376be574d0698f72974e4a7af272f9"
+    },
+    "src/ui/components/scenario/scenario-five/model/worldCatalog.ts": {
+      "before": "710f366a23903a6fbc7fc54c03df1b003a9f7b262e0a6d1ffa5a5e3ce1f562eb",
+      "after": "710f366a23903a6fbc7fc54c03df1b003a9f7b262e0a6d1ffa5a5e3ce1f562eb"
+    },
+    "src/ui/components/scenario/scenario-five/model/worldFactory.ts": {
+      "before": "492df6c7c1e4955ffc8d930deb35f888f0b544a0eee039399397ebdafe1545fa",
+      "after": "492df6c7c1e4955ffc8d930deb35f888f0b544a0eee039399397ebdafe1545fa"
+    },
+    "src/ui/components/scenario/scenario-four/model/aarV3.ts": {
+      "before": "5fec666c9711804c7563ee4a7711a72534684194887e5efd975dfbc25970b532",
+      "after": "5fec666c9711804c7563ee4a7711a72534684194887e5efd975dfbc25970b532"
+    },
+    "src/ui/components/scenario/scenario-four/model/cognitiveEngineV3.ts": {
+      "before": "0a3139926fc716745051f0c4d6334902bfa1def18244fc7d97bfd2448e66150f",
+      "after": "0a3139926fc716745051f0c4d6334902bfa1def18244fc7d97bfd2448e66150f"
+    },
+    "src/ui/components/scenario/scenario-four/model/cognitiveOptionProfilesV3.ts": {
+      "before": "7c52100a2cdda92760981076af70b6692b6577329cf44fbd8cbd810d1d322e40",
+      "after": "7c52100a2cdda92760981076af70b6692b6577329cf44fbd8cbd810d1d322e40"
+    }
+  }
+}

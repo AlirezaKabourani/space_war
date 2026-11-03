@@ -1,0 +1,1721 @@
+{
+  "browser": "chrome.exe",
+  "capturedAt": "2026-10-31T19:54:57.154Z",
+  "snapshots": [
+    {
+      "stage": "intro",
+      "viewport": {
+        "width": 1440,
+        "height": 900
+      },
+      "document": {
+        "scrollHeight": 900,
+        "clientHeight": 900,
+        "scrollWidth": 1440,
+        "clientWidth": 1440
+      },
+      "noPageScroll": true,
+      "leftPane": null,
+      "stickyFooter": null,
+      "footerPosition": null,
+      "mapBounds": null,
+      "controlBounds": null,
+      "headerBounds": null,
+      "evidenceSummaries": 0,
+      "corridorCards": 0,
+      "rangeSliders": 0,
+      "sliderInitialization": [],
+      "hasNumericBeliefInput": false,
+      "hiddenTruthInDom": false,
+      "submitDisabled": null
+    },
+    {
+      "stage": "briefing",
+      "viewport": {
+        "width": 1440,
+        "height": 900
+      },
+      "document": {
+        "scrollHeight": 900,
+        "clientHeight": 900,
+        "scrollWidth": 1440,
+        "clientWidth": 1440
+      },
+      "noPageScroll": true,
+      "leftPane": null,
+      "stickyFooter": null,
+      "footerPosition": null,
+      "mapBounds": null,
+      "controlBounds": null,
+      "headerBounds": null,
+      "evidenceSummaries": 0,
+      "corridorCards": 0,
+      "rangeSliders": 0,
+      "sliderInitialization": [],
+      "hasNumericBeliefInput": false,
+      "hiddenTruthInDom": false,
+      "submitDisabled": null
+    },
+    {
+      "stage": "R1-decision",
+      "viewport": {
+        "width": 1440,
+        "height": 900
+      },
+      "document": {
+        "scrollHeight": 900,
+        "clientHeight": 900,
+        "scrollWidth": 1440,
+        "clientWidth": 1440
+      },
+      "noPageScroll": true,
+      "leftPane": {
+        "scrollHeight": 594,
+        "clientHeight": 594,
+        "overflowY": "auto",
+        "scrollTop": 0
+      },
+      "stickyFooter": {
+        "x": 90,
+        "y": 725.84375,
+        "width": 496.390625,
+        "height": 70.15625,
+        "top": 725.84375,
+        "right": 586.390625,
+        "bottom": 796,
+        "left": 90
+      },
+      "footerPosition": "sticky",
+      "mapBounds": {
+        "x": 595.390625,
+        "y": 131.25,
+        "width": 747.609375,
+        "height": 665.75,
+        "top": 131.25,
+        "right": 1343,
+        "bottom": 797,
+        "left": 595.390625
+      },
+      "controlBounds": {
+        "x": 89,
+        "y": 131.25,
+        "width": 498.390625,
+        "height": 665.75,
+        "top": 131.25,
+        "right": 587.390625,
+        "bottom": 797,
+        "left": 89
+      },
+      "headerBounds": {
+        "x": 89,
+        "y": 33,
+        "width": 1254,
+        "height": 90.25,
+        "top": 33,
+        "right": 1343,
+        "bottom": 123.25,
+        "left": 89
+      },
+      "evidenceSummaries": 0,
+      "corridorCards": 0,
+      "rangeSliders": 0,
+      "sliderInitialization": [],
+      "hasNumericBeliefInput": false,
+      "hiddenTruthInDom": false,
+      "submitDisabled": null
+    },
+    {
+      "stage": "R1-outcome",
+      "viewport": {
+        "width": 1440,
+        "height": 900
+      },
+      "document": {
+        "scrollHeight": 900,
+        "clientHeight": 900,
+        "scrollWidth": 1440,
+        "clientWidth": 1440
+      },
+      "noPageScroll": true,
+      "leftPane": null,
+      "stickyFooter": null,
+      "footerPosition": "sticky",
+      "mapBounds": {
+        "x": 595.390625,
+        "y": 131.25,
+        "width": 747.609375,
+        "height": 665.75,
+        "top": 131.25,
+        "right": 1343,
+        "bottom": 797,
+        "left": 595.390625
+      },
+      "controlBounds": {
+        "x": 89,
+        "y": 131.25,
+        "width": 498.390625,
+        "height": 665.75,
+        "top": 131.25,
+        "right": 587.390625,
+        "bottom": 797,
+        "left": 89
+      },
+      "headerBounds": {
+        "x": 89,
+        "y": 33,
+        "width": 1254,
+        "height": 90.25,
+        "top": 33,
+        "right": 1343,
+        "bottom": 123.25,
+        "left": 89
+      },
+      "evidenceSummaries": 4,
+      "corridorCards": 0,
+      "rangeSliders": 0,
+      "sliderInitialization": [],
+      "hasNumericBeliefInput": false,
+      "hiddenTruthInDom": false,
+      "submitDisabled": null
+    },
+    {
+      "stage": "A2-prebelief",
+      "viewport": {
+        "width": 1440,
+        "height": 900
+      },
+      "document": {
+        "scrollHeight": 900,
+        "clientHeight": 900,
+        "scrollWidth": 1440,
+        "clientWidth": 1440
+      },
+      "noPageScroll": true,
+      "leftPane": {
+        "scrollHeight": 614,
+        "clientHeight": 594,
+        "overflowY": "auto",
+        "scrollTop": 0
+      },
+      "stickyFooter": {
+        "x": 90,
+        "y": 725.84375,
+        "width": 496.390625,
+        "height": 70.15625,
+        "top": 725.84375,
+        "right": 586.390625,
+        "bottom": 796,
+        "left": 90
+      },
+      "footerPosition": "sticky",
+      "mapBounds": {
+        "x": 595.390625,
+        "y": 131.25,
+        "width": 747.609375,
+        "height": 665.75,
+        "top": 131.25,
+        "right": 1343,
+        "bottom": 797,
+        "left": 595.390625
+      },
+      "controlBounds": {
+        "x": 89,
+        "y": 131.25,
+        "width": 498.390625,
+        "height": 665.75,
+        "top": 131.25,
+        "right": 587.390625,
+        "bottom": 797,
+        "left": 89
+      },
+      "headerBounds": {
+        "x": 89,
+        "y": 33,
+        "width": 1254,
+        "height": 90.25,
+        "top": 33,
+        "right": 1343,
+        "bottom": 123.25,
+        "left": 89
+      },
+      "evidenceSummaries": 4,
+      "corridorCards": 4,
+      "rangeSliders": 3,
+      "sliderInitialization": [
+        {
+          "value": "50",
+          "state": "ثبت نشده",
+          "untouched": true,
+          "min": "0",
+          "max": "100",
+          "step": "1"
+        },
+        {
+          "value": "50",
+          "state": "ثبت نشده",
+          "untouched": true,
+          "min": "0",
+          "max": "100",
+          "step": "1"
+        },
+        {
+          "value": "50",
+          "state": "ثبت نشده",
+          "untouched": true,
+          "min": "0",
+          "max": "100",
+          "step": "1"
+        }
+      ],
+      "hasNumericBeliefInput": false,
+      "hiddenTruthInDom": false,
+      "submitDisabled": true
+    },
+    {
+      "stage": "A2-prebelief-entered",
+      "viewport": {
+        "width": 1440,
+        "height": 900
+      },
+      "document": {
+        "scrollHeight": 900,
+        "clientHeight": 900,
+        "scrollWidth": 1440,
+        "clientWidth": 1440
+      },
+      "noPageScroll": true,
+      "leftPane": {
+        "scrollHeight": 614,
+        "clientHeight": 594,
+        "overflowY": "auto",
+        "scrollTop": 0
+      },
+      "stickyFooter": {
+        "x": 90,
+        "y": 725.84375,
+        "width": 496.390625,
+        "height": 70.15625,
+        "top": 725.84375,
+        "right": 586.390625,
+        "bottom": 796,
+        "left": 90
+      },
+      "footerPosition": "sticky",
+      "mapBounds": {
+        "x": 595.390625,
+        "y": 131.25,
+        "width": 747.609375,
+        "height": 665.75,
+        "top": 131.25,
+        "right": 1343,
+        "bottom": 797,
+        "left": 595.390625
+      },
+      "controlBounds": {
+        "x": 89,
+        "y": 131.25,
+        "width": 498.390625,
+        "height": 665.75,
+        "top": 131.25,
+        "right": 587.390625,
+        "bottom": 797,
+        "left": 89
+      },
+      "headerBounds": {
+        "x": 89,
+        "y": 33,
+        "width": 1254,
+        "height": 90.25,
+        "top": 33,
+        "right": 1343,
+        "bottom": 123.25,
+        "left": 89
+      },
+      "evidenceSummaries": 4,
+      "corridorCards": 4,
+      "rangeSliders": 3,
+      "sliderInitialization": [
+        {
+          "value": "51",
+          "state": "51 از ۱۰۰",
+          "untouched": false,
+          "min": "0",
+          "max": "100",
+          "step": "1"
+        },
+        {
+          "value": "100",
+          "state": "100 از ۱۰۰",
+          "untouched": false,
+          "min": "0",
+          "max": "100",
+          "step": "1"
+        },
+        {
+          "value": "0",
+          "state": "0 از ۱۰۰",
+          "untouched": false,
+          "min": "0",
+          "max": "100",
+          "step": "1"
+        }
+      ],
+      "hasNumericBeliefInput": false,
+      "hiddenTruthInDom": false,
+      "submitDisabled": false
+    },
+    {
+      "stage": "R2-evidence",
+      "viewport": {
+        "width": 1440,
+        "height": 900
+      },
+      "document": {
+        "scrollHeight": 900,
+        "clientHeight": 900,
+        "scrollWidth": 1440,
+        "clientWidth": 1440
+      },
+      "noPageScroll": true,
+      "leftPane": {
+        "scrollHeight": 1102,
+        "clientHeight": 586,
+        "overflowY": "auto",
+        "scrollTop": 0
+      },
+      "stickyFooter": {
+        "x": 89,
+        "y": 726.84375,
+        "width": 498.390625,
+        "height": 70.15625,
+        "top": 726.84375,
+        "right": 587.390625,
+        "bottom": 797,
+        "left": 89
+      },
+      "footerPosition": "sticky",
+      "mapBounds": {
+        "x": 595.390625,
+        "y": 131.25,
+        "width": 747.609375,
+        "height": 665.75,
+        "top": 131.25,
+        "right": 1343,
+        "bottom": 797,
+        "left": 595.390625
+      },
+      "controlBounds": {
+        "x": 89,
+        "y": 131.25,
+        "width": 498.390625,
+        "height": 665.75,
+        "top": 131.25,
+        "right": 587.390625,
+        "bottom": 797,
+        "left": 89
+      },
+      "headerBounds": {
+        "x": 89,
+        "y": 33,
+        "width": 1254,
+        "height": 90.25,
+        "top": 33,
+        "right": 1343,
+        "bottom": 123.25,
+        "left": 89
+      },
+      "evidenceSummaries": 0,
+      "corridorCards": 0,
+      "rangeSliders": 0,
+      "sliderInitialization": [],
+      "hasNumericBeliefInput": false,
+      "hiddenTruthInDom": false,
+      "submitDisabled": null
+    },
+    {
+      "stage": "A2-postbelief",
+      "viewport": {
+        "width": 1440,
+        "height": 900
+      },
+      "document": {
+        "scrollHeight": 900,
+        "clientHeight": 900,
+        "scrollWidth": 1440,
+        "clientWidth": 1440
+      },
+      "noPageScroll": true,
+      "leftPane": {
+        "scrollHeight": 671,
+        "clientHeight": 594,
+        "overflowY": "auto",
+        "scrollTop": 0
+      },
+      "stickyFooter": {
+        "x": 90,
+        "y": 725.84375,
+        "width": 496.390625,
+        "height": 70.15625,
+        "top": 725.84375,
+        "right": 586.390625,
+        "bottom": 796,
+        "left": 90
+      },
+      "footerPosition": "sticky",
+      "mapBounds": {
+        "x": 595.390625,
+        "y": 131.25,
+        "width": 747.609375,
+        "height": 665.75,
+        "top": 131.25,
+        "right": 1343,
+        "bottom": 797,
+        "left": 595.390625
+      },
+      "controlBounds": {
+        "x": 89,
+        "y": 131.25,
+        "width": 498.390625,
+        "height": 665.75,
+        "top": 131.25,
+        "right": 587.390625,
+        "bottom": 797,
+        "left": 89
+      },
+      "headerBounds": {
+        "x": 89,
+        "y": 33,
+        "width": 1254,
+        "height": 90.25,
+        "top": 33,
+        "right": 1343,
+        "bottom": 123.25,
+        "left": 89
+      },
+      "evidenceSummaries": 5,
+      "corridorCards": 4,
+      "rangeSliders": 3,
+      "sliderInitialization": [
+        {
+          "value": "50",
+          "state": "ثبت نشده",
+          "untouched": true,
+          "min": "0",
+          "max": "100",
+          "step": "1"
+        },
+        {
+          "value": "50",
+          "state": "ثبت نشده",
+          "untouched": true,
+          "min": "0",
+          "max": "100",
+          "step": "1"
+        },
+        {
+          "value": "50",
+          "state": "ثبت نشده",
+          "untouched": true,
+          "min": "0",
+          "max": "100",
+          "step": "1"
+        }
+      ],
+      "hasNumericBeliefInput": false,
+      "hiddenTruthInDom": false,
+      "submitDisabled": true
+    },
+    {
+      "stage": "reason-scroll",
+      "viewport": {
+        "width": 1366,
+        "height": 768
+      },
+      "document": {
+        "scrollHeight": 768,
+        "clientHeight": 768,
+        "scrollWidth": 1366,
+        "clientWidth": 1366
+      },
+      "noPageScroll": true,
+      "leftPane": {
+        "scrollHeight": 770,
+        "clientHeight": 462,
+        "overflowY": "auto",
+        "scrollTop": 308
+      },
+      "stickyFooter": {
+        "x": 90,
+        "y": 593.84375,
+        "width": 466.796875,
+        "height": 70.15625,
+        "top": 593.84375,
+        "right": 556.796875,
+        "bottom": 664,
+        "left": 90
+      },
+      "footerPosition": "sticky",
+      "mapBounds": {
+        "x": 565.796875,
+        "y": 131.25,
+        "width": 703.1875,
+        "height": 533.75,
+        "top": 131.25,
+        "right": 1268.984375,
+        "bottom": 665,
+        "left": 565.796875
+      },
+      "controlBounds": {
+        "x": 89,
+        "y": 131.25,
+        "width": 468.796875,
+        "height": 533.75,
+        "top": 131.25,
+        "right": 557.796875,
+        "bottom": 665,
+        "left": 89
+      },
+      "headerBounds": {
+        "x": 89,
+        "y": 33,
+        "width": 1180,
+        "height": 90.25,
+        "top": 33,
+        "right": 1269,
+        "bottom": 123.25,
+        "left": 89
+      },
+      "evidenceSummaries": 6,
+      "corridorCards": 0,
+      "rangeSliders": 0,
+      "sliderInitialization": [],
+      "hasNumericBeliefInput": false,
+      "hiddenTruthInDom": false,
+      "submitDisabled": true
+    },
+    {
+      "stage": "map-evidence-cues",
+      "viewport": {
+        "width": 1440,
+        "height": 900
+      },
+      "document": {
+        "scrollHeight": 900,
+        "clientHeight": 900,
+        "scrollWidth": 1440,
+        "clientWidth": 1440
+      },
+      "noPageScroll": true,
+      "leftPane": {
+        "scrollHeight": 770,
+        "clientHeight": 594,
+        "overflowY": "auto",
+        "scrollTop": 176
+      },
+      "stickyFooter": {
+        "x": 90,
+        "y": 725.84375,
+        "width": 496.390625,
+        "height": 70.15625,
+        "top": 725.84375,
+        "right": 586.390625,
+        "bottom": 796,
+        "left": 90
+      },
+      "footerPosition": "sticky",
+      "mapBounds": {
+        "x": 595.390625,
+        "y": 131.25,
+        "width": 747.609375,
+        "height": 665.75,
+        "top": 131.25,
+        "right": 1343,
+        "bottom": 797,
+        "left": 595.390625
+      },
+      "controlBounds": {
+        "x": 89,
+        "y": 131.25,
+        "width": 498.390625,
+        "height": 665.75,
+        "top": 131.25,
+        "right": 587.390625,
+        "bottom": 797,
+        "left": 89
+      },
+      "headerBounds": {
+        "x": 89,
+        "y": 33,
+        "width": 1254,
+        "height": 90.25,
+        "top": 33,
+        "right": 1343,
+        "bottom": 123.25,
+        "left": 89
+      },
+      "evidenceSummaries": 6,
+      "corridorCards": 0,
+      "rangeSliders": 0,
+      "sliderInitialization": [],
+      "hasNumericBeliefInput": false,
+      "hiddenTruthInDom": false,
+      "submitDisabled": true
+    }
+  ],
+  "supplemental": [
+    {
+      "stage": "reason-mobile",
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "document": {
+        "scrollHeight": 1095,
+        "clientHeight": 844,
+        "scrollWidth": 375,
+        "clientWidth": 375
+      },
+      "noPageScroll": false,
+      "leftPane": {
+        "scrollHeight": 928,
+        "clientHeight": 245,
+        "overflowY": "auto",
+        "scrollTop": 365
+      },
+      "stickyFooter": {
+        "x": 36.796875,
+        "y": 923.046875,
+        "width": 238.203125,
+        "height": 70.15625,
+        "top": 923.046875,
+        "right": 275,
+        "bottom": 993.203125,
+        "left": 36.796875
+      },
+      "footerPosition": "sticky",
+      "mapBounds": {
+        "x": 35.796875,
+        "y": 352.46875,
+        "width": 240.203125,
+        "height": 316.859375,
+        "top": 352.46875,
+        "right": 276,
+        "bottom": 669.328125,
+        "left": 35.796875
+      },
+      "controlBounds": {
+        "x": 35.796875,
+        "y": 677.328125,
+        "width": 240.203125,
+        "height": 316.875,
+        "top": 677.328125,
+        "right": 276,
+        "bottom": 994.203125,
+        "left": 35.796875
+      },
+      "headerBounds": {
+        "x": 35.796875,
+        "y": 91.796875,
+        "width": 240.203125,
+        "height": 252.671875,
+        "top": 91.796875,
+        "right": 276,
+        "bottom": 344.46875,
+        "left": 35.796875
+      },
+      "evidenceSummaries": 6,
+      "corridorCards": 0,
+      "rangeSliders": 0,
+      "sliderInitialization": [],
+      "hasNumericBeliefInput": false,
+      "hiddenTruthInDom": false,
+      "submitDisabled": true
+    },
+    {
+      "stage": "aar-mobile",
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "document": {
+        "scrollHeight": 13382,
+        "clientHeight": 844,
+        "scrollWidth": 375,
+        "clientWidth": 375
+      },
+      "noPageScroll": false,
+      "leftPane": null,
+      "stickyFooter": null,
+      "footerPosition": null,
+      "mapBounds": null,
+      "controlBounds": null,
+      "headerBounds": null,
+      "evidenceSummaries": 0,
+      "corridorCards": 0,
+      "rangeSliders": 0,
+      "sliderInitialization": [],
+      "hasNumericBeliefInput": false,
+      "hiddenTruthInDom": false,
+      "submitDisabled": null
+    }
+  ],
+  "layoutChecks": [
+    {
+      "width": 1280,
+      "height": 720,
+      "scrollHeight": 720,
+      "scrollWidth": 1280
+    },
+    {
+      "width": 1366,
+      "height": 768,
+      "scrollHeight": 768,
+      "scrollWidth": 1366
+    },
+    {
+      "width": 1440,
+      "height": 900,
+      "scrollHeight": 900,
+      "scrollWidth": 1440
+    }
+  ],
+  "scrollTest": {
+    "before": {
+      "map": {
+        "x": 565.796875,
+        "y": 131.25,
+        "width": 703.1875,
+        "height": 533.75,
+        "top": 131.25,
+        "right": 1268.984375,
+        "bottom": 665,
+        "left": 565.796875
+      },
+      "header": {
+        "x": 89,
+        "y": 33,
+        "width": 1180,
+        "height": 90.25,
+        "top": 33,
+        "right": 1269,
+        "bottom": 123.25,
+        "left": 89
+      }
+    },
+    "after": {
+      "map": {
+        "x": 565.796875,
+        "y": 131.25,
+        "width": 703.1875,
+        "height": 533.75,
+        "top": 131.25,
+        "right": 1268.984375,
+        "bottom": 665,
+        "left": 565.796875
+      },
+      "header": {
+        "x": 89,
+        "y": 33,
+        "width": 1180,
+        "height": 90.25,
+        "top": 33,
+        "right": 1269,
+        "bottom": 123.25,
+        "left": 89
+      }
+    },
+    "scroll": {
+      "initial": 0,
+      "after": 308,
+      "scrollHeight": 770,
+      "clientHeight": 462
+    }
+  },
+  "propsAudit": [
+    {
+      "stage": "briefing",
+      "props": [
+        {
+          "name": "ScenarioFiveGlossary",
+          "props": {
+            "inline": true
+          }
+        }
+      ]
+    },
+    {
+      "stage": "R1-decision",
+      "props": [
+        {
+          "name": "ScenarioFiveGlossary",
+          "props": {}
+        },
+        {
+          "name": "ScenarioFiveMap",
+          "props": {
+            "convoys": [
+              {
+                "convoyId": "alpha",
+                "corridorId": "corridor_alpha_east",
+                "integrity": 100,
+                "delayMinutes": 0,
+                "projectedArrivalMinute": 210,
+                "deadlineMinute": 300,
+                "status": "moving",
+                "fallbackNav": false,
+                "routeHardened": false,
+                "groundSupport": false,
+                "escortedNow": false
+              },
+              {
+                "convoyId": "beta",
+                "corridorId": "corridor_beta_south",
+                "integrity": 100,
+                "delayMinutes": 0,
+                "projectedArrivalMinute": 235,
+                "deadlineMinute": 330,
+                "status": "moving",
+                "fallbackNav": false,
+                "routeHardened": false,
+                "groundSupport": false,
+                "escortedNow": false
+              },
+              {
+                "convoyId": "gamma",
+                "corridorId": "corridor_gamma_northwest",
+                "integrity": 100,
+                "delayMinutes": 0,
+                "projectedArrivalMinute": 225,
+                "deadlineMinute": 315,
+                "status": "moving",
+                "fallbackNav": false,
+                "routeHardened": false,
+                "groundSupport": false,
+                "escortedNow": false
+              },
+              {
+                "convoyId": "delta",
+                "corridorId": "corridor_delta_west",
+                "integrity": 100,
+                "delayMinutes": 0,
+                "projectedArrivalMinute": 250,
+                "deadlineMinute": 345,
+                "status": "moving",
+                "fallbackNav": false,
+                "routeHardened": false,
+                "groundSupport": false,
+                "escortedNow": false
+              }
+            ],
+            "worldClockMinutes": 0,
+            "highlightedCorridorId": null,
+            "globalRoutePulse": false,
+            "evidence": []
+          }
+        }
+      ]
+    },
+    {
+      "stage": "R1-outcome",
+      "props": [
+        {
+          "name": "ScenarioFiveGlossary",
+          "props": {}
+        },
+        {
+          "name": "ScenarioFiveMap",
+          "props": {
+            "convoys": [
+              {
+                "convoyId": "alpha",
+                "corridorId": "corridor_alpha_east",
+                "integrity": 100,
+                "delayMinutes": 0,
+                "projectedArrivalMinute": 210,
+                "deadlineMinute": 300,
+                "status": "moving",
+                "fallbackNav": false,
+                "routeHardened": false,
+                "groundSupport": false,
+                "escortedNow": false
+              },
+              {
+                "convoyId": "beta",
+                "corridorId": "corridor_beta_south",
+                "integrity": 100,
+                "delayMinutes": 1,
+                "projectedArrivalMinute": 236,
+                "deadlineMinute": 330,
+                "status": "moving",
+                "fallbackNav": false,
+                "routeHardened": false,
+                "groundSupport": false,
+                "escortedNow": false
+              },
+              {
+                "convoyId": "gamma",
+                "corridorId": "corridor_gamma_northwest",
+                "integrity": 100,
+                "delayMinutes": 0,
+                "projectedArrivalMinute": 225,
+                "deadlineMinute": 315,
+                "status": "moving",
+                "fallbackNav": false,
+                "routeHardened": false,
+                "groundSupport": false,
+                "escortedNow": false
+              },
+              {
+                "convoyId": "delta",
+                "corridorId": "corridor_delta_west",
+                "integrity": 100,
+                "delayMinutes": 0,
+                "projectedArrivalMinute": 250,
+                "deadlineMinute": 345,
+                "status": "moving",
+                "fallbackNav": false,
+                "routeHardened": false,
+                "groundSupport": false,
+                "escortedNow": false
+              }
+            ],
+            "worldClockMinutes": 30,
+            "highlightedCorridorId": null,
+            "globalRoutePulse": false,
+            "evidence": [
+              {
+                "evidenceId": "a1_network_baseline:tick1:corridor_alpha_east:pnt_telemetry:0",
+                "sourceType": "pnt_telemetry",
+                "observedCorridorId": "corridor_alpha_east",
+                "direction": "ambiguous",
+                "strengthBand": "weak"
+              },
+              {
+                "evidenceId": "a1_network_baseline:tick1:corridor_beta_south:pnt_telemetry:1",
+                "sourceType": "pnt_telemetry",
+                "observedCorridorId": "corridor_beta_south",
+                "direction": "supports_targeted",
+                "strengthBand": "moderate"
+              },
+              {
+                "evidenceId": "a1_network_baseline:tick1:corridor_gamma_northwest:pnt_telemetry:2",
+                "sourceType": "pnt_telemetry",
+                "observedCorridorId": "corridor_gamma_northwest",
+                "direction": "supports_nonhostile",
+                "strengthBand": "weak"
+              },
+              {
+                "evidenceId": "a1_network_baseline:tick1:corridor_delta_west:pnt_telemetry:3",
+                "sourceType": "pnt_telemetry",
+                "observedCorridorId": "corridor_delta_west",
+                "direction": "supports_targeted",
+                "strengthBand": "moderate"
+              }
+            ]
+          }
+        },
+        {
+          "name": "ScenarioFiveOutcomePanel",
+          "props": {
+            "outcome": {
+              "roundId": 1,
+              "actionId": "a1_network_baseline",
+              "effectiveTargetCorridorId": null,
+              "worldClockBefore": 0,
+              "worldClockAfter": 30,
+              "isrSpent": 16,
+              "supportSpent": 0,
+              "convoyChanges": [
+                {
+                  "corridorId": "corridor_beta_south",
+                  "statusBefore": "moving",
+                  "statusAfter": "moving",
+                  "integrityBefore": 100,
+                  "integrityAfter": 100,
+                  "delayDelta": 1,
+                  "delayBefore": 0,
+                  "delayAfter": 1,
+                  "projectedArrivalBefore": 235,
+                  "projectedArrivalAfter": 236,
+                  "deadlineMinute": 330,
+                  "deadlineMargin": 94,
+                  "newMitigations": []
+                }
+              ],
+              "newEvidenceCount": 4,
+              "nextStageId": "belief:A2_prebelief"
+            },
+            "newEvidence": [
+              {
+                "evidenceId": "a1_network_baseline:tick1:corridor_alpha_east:pnt_telemetry:0",
+                "sourceType": "pnt_telemetry",
+                "observedCorridorId": "corridor_alpha_east",
+                "direction": "ambiguous",
+                "strengthBand": "weak"
+              },
+              {
+                "evidenceId": "a1_network_baseline:tick1:corridor_beta_south:pnt_telemetry:1",
+                "sourceType": "pnt_telemetry",
+                "observedCorridorId": "corridor_beta_south",
+                "direction": "supports_targeted",
+                "strengthBand": "moderate"
+              },
+              {
+                "evidenceId": "a1_network_baseline:tick1:corridor_gamma_northwest:pnt_telemetry:2",
+                "sourceType": "pnt_telemetry",
+                "observedCorridorId": "corridor_gamma_northwest",
+                "direction": "supports_nonhostile",
+                "strengthBand": "weak"
+              },
+              {
+                "evidenceId": "a1_network_baseline:tick1:corridor_delta_west:pnt_telemetry:3",
+                "sourceType": "pnt_telemetry",
+                "observedCorridorId": "corridor_delta_west",
+                "direction": "supports_targeted",
+                "strengthBand": "moderate"
+              }
+            ]
+          }
+        },
+        {
+          "name": "ScenarioFiveInformationPicture",
+          "props": {
+            "title": "شواهد تازه",
+            "evidence": [
+              {
+                "evidenceId": "a1_network_baseline:tick1:corridor_alpha_east:pnt_telemetry:0",
+                "sourceType": "pnt_telemetry",
+                "observedCorridorId": "corridor_alpha_east",
+                "direction": "ambiguous",
+                "strengthBand": "weak"
+              },
+              {
+                "evidenceId": "a1_network_baseline:tick1:corridor_beta_south:pnt_telemetry:1",
+                "sourceType": "pnt_telemetry",
+                "observedCorridorId": "corridor_beta_south",
+                "direction": "supports_targeted",
+                "strengthBand": "moderate"
+              },
+              {
+                "evidenceId": "a1_network_baseline:tick1:corridor_gamma_northwest:pnt_telemetry:2",
+                "sourceType": "pnt_telemetry",
+                "observedCorridorId": "corridor_gamma_northwest",
+                "direction": "supports_nonhostile",
+                "strengthBand": "weak"
+              },
+              {
+                "evidenceId": "a1_network_baseline:tick1:corridor_delta_west:pnt_telemetry:3",
+                "sourceType": "pnt_telemetry",
+                "observedCorridorId": "corridor_delta_west",
+                "direction": "supports_targeted",
+                "strengthBand": "moderate"
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "stage": "A2-prebelief",
+      "props": [
+        {
+          "name": "ScenarioFiveGlossary",
+          "props": {}
+        },
+        {
+          "name": "ScenarioFiveBeliefPanel",
+          "props": {
+            "stageId": "belief:A2_prebelief",
+            "evidence": [
+              {
+                "evidenceId": "a1_network_baseline:tick1:corridor_alpha_east:pnt_telemetry:0",
+                "sourceType": "pnt_telemetry",
+                "observedCorridorId": "corridor_alpha_east",
+                "direction": "ambiguous",
+                "strengthBand": "weak"
+              },
+              {
+                "evidenceId": "a1_network_baseline:tick1:corridor_beta_south:pnt_telemetry:1",
+                "sourceType": "pnt_telemetry",
+                "observedCorridorId": "corridor_beta_south",
+                "direction": "supports_targeted",
+                "strengthBand": "moderate"
+              },
+              {
+                "evidenceId": "a1_network_baseline:tick1:corridor_gamma_northwest:pnt_telemetry:2",
+                "sourceType": "pnt_telemetry",
+                "observedCorridorId": "corridor_gamma_northwest",
+                "direction": "supports_nonhostile",
+                "strengthBand": "weak"
+              },
+              {
+                "evidenceId": "a1_network_baseline:tick1:corridor_delta_west:pnt_telemetry:3",
+                "sourceType": "pnt_telemetry",
+                "observedCorridorId": "corridor_delta_west",
+                "direction": "supports_targeted",
+                "strengthBand": "moderate"
+              }
+            ],
+            "recentEvidenceIds": {}
+          }
+        },
+        {
+          "name": "ScenarioFiveInformationPicture",
+          "props": {
+            "title": "اطلاعاتی که اکنون در اختیار دارید",
+            "evidence": [
+              {
+                "evidenceId": "a1_network_baseline:tick1:corridor_alpha_east:pnt_telemetry:0",
+                "sourceType": "pnt_telemetry",
+                "observedCorridorId": "corridor_alpha_east",
+                "direction": "ambiguous",
+                "strengthBand": "weak"
+              },
+              {
+                "evidenceId": "a1_network_baseline:tick1:corridor_beta_south:pnt_telemetry:1",
+                "sourceType": "pnt_telemetry",
+                "observedCorridorId": "corridor_beta_south",
+                "direction": "supports_targeted",
+                "strengthBand": "moderate"
+              },
+              {
+                "evidenceId": "a1_network_baseline:tick1:corridor_gamma_northwest:pnt_telemetry:2",
+                "sourceType": "pnt_telemetry",
+                "observedCorridorId": "corridor_gamma_northwest",
+                "direction": "supports_nonhostile",
+                "strengthBand": "weak"
+              },
+              {
+                "evidenceId": "a1_network_baseline:tick1:corridor_delta_west:pnt_telemetry:3",
+                "sourceType": "pnt_telemetry",
+                "observedCorridorId": "corridor_delta_west",
+                "direction": "supports_targeted",
+                "strengthBand": "moderate"
+              }
+            ]
+          }
+        },
+        {
+          "name": "ScenarioFiveMap",
+          "props": {
+            "convoys": [
+              {
+                "convoyId": "alpha",
+                "corridorId": "corridor_alpha_east",
+                "integrity": 100,
+                "delayMinutes": 0,
+                "projectedArrivalMinute": 210,
+                "deadlineMinute": 300,
+                "status": "moving",
+                "fallbackNav": false,
+                "routeHardened": false,
+                "groundSupport": false,
+                "escortedNow": false
+              },
+              {
+                "convoyId": "beta",
+                "corridorId": "corridor_beta_south",
+                "integrity": 100,
+                "delayMinutes": 1,
+                "projectedArrivalMinute": 236,
+                "deadlineMinute": 330,
+                "status": "moving",
+                "fallbackNav": false,
+                "routeHardened": false,
+                "groundSupport": false,
+                "escortedNow": false
+              },
+              {
+                "convoyId": "gamma",
+                "corridorId": "corridor_gamma_northwest",
+                "integrity": 100,
+                "delayMinutes": 0,
+                "projectedArrivalMinute": 225,
+                "deadlineMinute": 315,
+                "status": "moving",
+                "fallbackNav": false,
+                "routeHardened": false,
+                "groundSupport": false,
+                "escortedNow": false
+              },
+              {
+                "convoyId": "delta",
+                "corridorId": "corridor_delta_west",
+                "integrity": 100,
+                "delayMinutes": 0,
+                "projectedArrivalMinute": 250,
+                "deadlineMinute": 345,
+                "status": "moving",
+                "fallbackNav": false,
+                "routeHardened": false,
+                "groundSupport": false,
+                "escortedNow": false
+              }
+            ],
+            "worldClockMinutes": 30,
+            "highlightedCorridorId": null,
+            "globalRoutePulse": false,
+            "evidence": [
+              {
+                "evidenceId": "a1_network_baseline:tick1:corridor_alpha_east:pnt_telemetry:0",
+                "sourceType": "pnt_telemetry",
+                "observedCorridorId": "corridor_alpha_east",
+                "direction": "ambiguous",
+                "strengthBand": "weak"
+              },
+              {
+                "evidenceId": "a1_network_baseline:tick1:corridor_beta_south:pnt_telemetry:1",
+                "sourceType": "pnt_telemetry",
+                "observedCorridorId": "corridor_beta_south",
+                "direction": "supports_targeted",
+                "strengthBand": "moderate"
+              },
+              {
+                "evidenceId": "a1_network_baseline:tick1:corridor_gamma_northwest:pnt_telemetry:2",
+                "sourceType": "pnt_telemetry",
+                "observedCorridorId": "corridor_gamma_northwest",
+                "direction": "supports_nonhostile",
+                "strengthBand": "weak"
+              },
+              {
+                "evidenceId": "a1_network_baseline:tick1:corridor_delta_west:pnt_telemetry:3",
+                "sourceType": "pnt_telemetry",
+                "observedCorridorId": "corridor_delta_west",
+                "direction": "supports_targeted",
+                "strengthBand": "moderate"
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "stage": "A2-postbelief",
+      "props": [
+        {
+          "name": "ScenarioFiveGlossary",
+          "props": {}
+        },
+        {
+          "name": "ScenarioFiveBeliefPanel",
+          "props": {
+            "stageId": "belief:A2_postbelief",
+            "evidence": [
+              {
+                "evidenceId": "a1_network_baseline:tick1:corridor_alpha_east:pnt_telemetry:0",
+                "sourceType": "pnt_telemetry",
+                "observedCorridorId": "corridor_alpha_east",
+                "direction": "ambiguous",
+                "strengthBand": "weak"
+              },
+              {
+                "evidenceId": "a1_network_baseline:tick1:corridor_beta_south:pnt_telemetry:1",
+                "sourceType": "pnt_telemetry",
+                "observedCorridorId": "corridor_beta_south",
+                "direction": "supports_targeted",
+                "strengthBand": "moderate"
+              },
+              {
+                "evidenceId": "a1_network_baseline:tick1:corridor_gamma_northwest:pnt_telemetry:2",
+                "sourceType": "pnt_telemetry",
+                "observedCorridorId": "corridor_gamma_northwest",
+                "direction": "supports_nonhostile",
+                "strengthBand": "weak"
+              },
+              {
+                "evidenceId": "a1_network_baseline:tick1:corridor_delta_west:pnt_telemetry:3",
+                "sourceType": "pnt_telemetry",
+                "observedCorridorId": "corridor_delta_west",
+                "direction": "supports_targeted",
+                "strengthBand": "moderate"
+              },
+              {
+                "evidenceId": "a2_focused_pnt:tick2:corridor_alpha_east:pnt_telemetry:0",
+                "sourceType": "pnt_telemetry",
+                "observedCorridorId": "corridor_alpha_east",
+                "direction": "ambiguous",
+                "strengthBand": "weak"
+              }
+            ],
+            "recentEvidenceIds": {}
+          }
+        },
+        {
+          "name": "ScenarioFiveInformationPicture",
+          "props": {
+            "title": "شواهد تازه از بررسی اخیر",
+            "evidence": [
+              {
+                "evidenceId": "a2_focused_pnt:tick2:corridor_alpha_east:pnt_telemetry:0",
+                "sourceType": "pnt_telemetry",
+                "observedCorridorId": "corridor_alpha_east",
+                "direction": "ambiguous",
+                "strengthBand": "weak"
+              }
+            ],
+            "emptyText": "شاهد تازه‌ای اضافه نشد."
+          }
+        },
+        {
+          "name": "ScenarioFiveInformationPicture",
+          "props": {
+            "title": "شواهد قبلی",
+            "evidence": [
+              {
+                "evidenceId": "a1_network_baseline:tick1:corridor_alpha_east:pnt_telemetry:0",
+                "sourceType": "pnt_telemetry",
+                "observedCorridorId": "corridor_alpha_east",
+                "direction": "ambiguous",
+                "strengthBand": "weak"
+              },
+              {
+                "evidenceId": "a1_network_baseline:tick1:corridor_beta_south:pnt_telemetry:1",
+                "sourceType": "pnt_telemetry",
+                "observedCorridorId": "corridor_beta_south",
+                "direction": "supports_targeted",
+                "strengthBand": "moderate"
+              },
+              {
+                "evidenceId": "a1_network_baseline:tick1:corridor_gamma_northwest:pnt_telemetry:2",
+                "sourceType": "pnt_telemetry",
+                "observedCorridorId": "corridor_gamma_northwest",
+                "direction": "supports_nonhostile",
+                "strengthBand": "weak"
+              },
+              {
+                "evidenceId": "a1_network_baseline:tick1:corridor_delta_west:pnt_telemetry:3",
+                "sourceType": "pnt_telemetry",
+                "observedCorridorId": "corridor_delta_west",
+                "direction": "supports_targeted",
+                "strengthBand": "moderate"
+              }
+            ],
+            "emptyText": "شاهد قبلی ثبت نشده است."
+          }
+        },
+        {
+          "name": "ScenarioFiveMap",
+          "props": {
+            "convoys": [
+              {
+                "convoyId": "alpha",
+                "corridorId": "corridor_alpha_east",
+                "integrity": 100,
+                "delayMinutes": 0,
+                "projectedArrivalMinute": 210,
+                "deadlineMinute": 300,
+                "status": "moving",
+                "fallbackNav": false,
+                "routeHardened": false,
+                "groundSupport": false,
+                "escortedNow": false
+              },
+              {
+                "convoyId": "beta",
+                "corridorId": "corridor_beta_south",
+                "integrity": 100,
+                "delayMinutes": 3,
+                "projectedArrivalMinute": 238,
+                "deadlineMinute": 330,
+                "status": "moving",
+                "fallbackNav": false,
+                "routeHardened": false,
+                "groundSupport": false,
+                "escortedNow": false
+              },
+              {
+                "convoyId": "gamma",
+                "corridorId": "corridor_gamma_northwest",
+                "integrity": 100,
+                "delayMinutes": 0,
+                "projectedArrivalMinute": 225,
+                "deadlineMinute": 315,
+                "status": "moving",
+                "fallbackNav": false,
+                "routeHardened": false,
+                "groundSupport": false,
+                "escortedNow": false
+              },
+              {
+                "convoyId": "delta",
+                "corridorId": "corridor_delta_west",
+                "integrity": 100,
+                "delayMinutes": 0,
+                "projectedArrivalMinute": 250,
+                "deadlineMinute": 345,
+                "status": "moving",
+                "fallbackNav": false,
+                "routeHardened": false,
+                "groundSupport": false,
+                "escortedNow": false
+              }
+            ],
+            "worldClockMinutes": 62,
+            "highlightedCorridorId": null,
+            "globalRoutePulse": false,
+            "evidence": [
+              {
+                "evidenceId": "a1_network_baseline:tick1:corridor_alpha_east:pnt_telemetry:0",
+                "sourceType": "pnt_telemetry",
+                "observedCorridorId": "corridor_alpha_east",
+                "direction": "ambiguous",
+                "strengthBand": "weak"
+              },
+              {
+                "evidenceId": "a1_network_baseline:tick1:corridor_beta_south:pnt_telemetry:1",
+                "sourceType": "pnt_telemetry",
+                "observedCorridorId": "corridor_beta_south",
+                "direction": "supports_targeted",
+                "strengthBand": "moderate"
+              },
+              {
+                "evidenceId": "a1_network_baseline:tick1:corridor_gamma_northwest:pnt_telemetry:2",
+                "sourceType": "pnt_telemetry",
+                "observedCorridorId": "corridor_gamma_northwest",
+                "direction": "supports_nonhostile",
+                "strengthBand": "weak"
+              },
+              {
+                "evidenceId": "a1_network_baseline:tick1:corridor_delta_west:pnt_telemetry:3",
+                "sourceType": "pnt_telemetry",
+                "observedCorridorId": "corridor_delta_west",
+                "direction": "supports_targeted",
+                "strengthBand": "moderate"
+              },
+              {
+                "evidenceId": "a2_focused_pnt:tick2:corridor_alpha_east:pnt_telemetry:0",
+                "sourceType": "pnt_telemetry",
+                "observedCorridorId": "corridor_alpha_east",
+                "direction": "ambiguous",
+                "strengthBand": "weak"
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "stage": "reason",
+      "props": [
+        {
+          "name": "ScenarioFiveGlossary",
+          "props": {}
+        },
+        {
+          "name": "ScenarioFiveReasonPanel",
+          "props": {
+            "context": {
+              "actionId": "b2_continue_crosscheck",
+              "targetCorridorId": "corridor_alpha_east"
+            },
+            "evidence": [
+              {
+                "evidenceId": "a1_network_baseline:tick1:corridor_alpha_east:pnt_telemetry:0",
+                "sourceType": "pnt_telemetry",
+                "observedCorridorId": "corridor_alpha_east",
+                "direction": "ambiguous",
+                "strengthBand": "weak"
+              },
+              {
+                "evidenceId": "a1_network_baseline:tick1:corridor_beta_south:pnt_telemetry:1",
+                "sourceType": "pnt_telemetry",
+                "observedCorridorId": "corridor_beta_south",
+                "direction": "supports_targeted",
+                "strengthBand": "moderate"
+              },
+              {
+                "evidenceId": "a1_network_baseline:tick1:corridor_gamma_northwest:pnt_telemetry:2",
+                "sourceType": "pnt_telemetry",
+                "observedCorridorId": "corridor_gamma_northwest",
+                "direction": "supports_nonhostile",
+                "strengthBand": "weak"
+              },
+              {
+                "evidenceId": "a1_network_baseline:tick1:corridor_delta_west:pnt_telemetry:3",
+                "sourceType": "pnt_telemetry",
+                "observedCorridorId": "corridor_delta_west",
+                "direction": "supports_targeted",
+                "strengthBand": "moderate"
+              },
+              {
+                "evidenceId": "a2_focused_pnt:tick2:corridor_alpha_east:pnt_telemetry:0",
+                "sourceType": "pnt_telemetry",
+                "observedCorridorId": "corridor_alpha_east",
+                "direction": "ambiguous",
+                "strengthBand": "weak"
+              },
+              {
+                "evidenceId": "b1_suspect_focus:tick3:corridor_alpha_east:pnt_telemetry:0",
+                "sourceType": "pnt_telemetry",
+                "observedCorridorId": "corridor_alpha_east",
+                "direction": "ambiguous",
+                "strengthBand": "weak"
+              }
+            ]
+          }
+        },
+        {
+          "name": "ScenarioFiveInformationPicture",
+          "props": {
+            "evidence": [
+              {
+                "evidenceId": "a1_network_baseline:tick1:corridor_alpha_east:pnt_telemetry:0",
+                "sourceType": "pnt_telemetry",
+                "observedCorridorId": "corridor_alpha_east",
+                "direction": "ambiguous",
+                "strengthBand": "weak"
+              },
+              {
+                "evidenceId": "a1_network_baseline:tick1:corridor_beta_south:pnt_telemetry:1",
+                "sourceType": "pnt_telemetry",
+                "observedCorridorId": "corridor_beta_south",
+                "direction": "supports_targeted",
+                "strengthBand": "moderate"
+              },
+              {
+                "evidenceId": "a1_network_baseline:tick1:corridor_gamma_northwest:pnt_telemetry:2",
+                "sourceType": "pnt_telemetry",
+                "observedCorridorId": "corridor_gamma_northwest",
+                "direction": "supports_nonhostile",
+                "strengthBand": "weak"
+              },
+              {
+                "evidenceId": "a1_network_baseline:tick1:corridor_delta_west:pnt_telemetry:3",
+                "sourceType": "pnt_telemetry",
+                "observedCorridorId": "corridor_delta_west",
+                "direction": "supports_targeted",
+                "strengthBand": "moderate"
+              },
+              {
+                "evidenceId": "a2_focused_pnt:tick2:corridor_alpha_east:pnt_telemetry:0",
+                "sourceType": "pnt_telemetry",
+                "observedCorridorId": "corridor_alpha_east",
+                "direction": "ambiguous",
+                "strengthBand": "weak"
+              },
+              {
+                "evidenceId": "b1_suspect_focus:tick3:corridor_alpha_east:pnt_telemetry:0",
+                "sourceType": "pnt_telemetry",
+                "observedCorridorId": "corridor_alpha_east",
+                "direction": "ambiguous",
+                "strengthBand": "weak"
+              }
+            ]
+          }
+        },
+        {
+          "name": "ScenarioFiveMap",
+          "props": {
+            "convoys": [
+              {
+                "convoyId": "alpha",
+                "corridorId": "corridor_alpha_east",
+                "integrity": 100,
+                "delayMinutes": 0,
+                "projectedArrivalMinute": 210,
+                "deadlineMinute": 300,
+                "status": "moving",
+                "fallbackNav": false,
+                "routeHardened": false,
+                "groundSupport": false,
+                "escortedNow": false
+              },
+              {
+                "convoyId": "beta",
+                "corridorId": "corridor_beta_south",
+                "integrity": 97,
+                "delayMinutes": 11,
+                "projectedArrivalMinute": 246,
+                "deadlineMinute": 330,
+                "status": "moving",
+                "fallbackNav": false,
+                "routeHardened": false,
+                "groundSupport": false,
+                "escortedNow": false
+              },
+              {
+                "convoyId": "gamma",
+                "corridorId": "corridor_gamma_northwest",
+                "integrity": 100,
+                "delayMinutes": 0,
+                "projectedArrivalMinute": 225,
+                "deadlineMinute": 315,
+                "status": "moving",
+                "fallbackNav": false,
+                "routeHardened": false,
+                "groundSupport": false,
+                "escortedNow": false
+              },
+              {
+                "convoyId": "delta",
+                "corridorId": "corridor_delta_west",
+                "integrity": 100,
+                "delayMinutes": 0,
+                "projectedArrivalMinute": 250,
+                "deadlineMinute": 345,
+                "status": "moving",
+                "fallbackNav": false,
+                "routeHardened": false,
+                "groundSupport": false,
+                "escortedNow": false
+              }
+            ],
+            "worldClockMinutes": 92,
+            "highlightedCorridorId": null,
+            "globalRoutePulse": false,
+            "evidence": [
+              {
+                "evidenceId": "a1_network_baseline:tick1:corridor_alpha_east:pnt_telemetry:0",
+                "sourceType": "pnt_telemetry",
+                "observedCorridorId": "corridor_alpha_east",
+                "direction": "ambiguous",
+                "strengthBand": "weak"
+              },
+              {
+                "evidenceId": "a1_network_baseline:tick1:corridor_beta_south:pnt_telemetry:1",
+                "sourceType": "pnt_telemetry",
+                "observedCorridorId": "corridor_beta_south",
+                "direction": "supports_targeted",
+                "strengthBand": "moderate"
+              },
+              {
+                "evidenceId": "a1_network_baseline:tick1:corridor_gamma_northwest:pnt_telemetry:2",
+                "sourceType": "pnt_telemetry",
+                "observedCorridorId": "corridor_gamma_northwest",
+                "direction": "supports_nonhostile",
+                "strengthBand": "weak"
+              },
+              {
+                "evidenceId": "a1_network_baseline:tick1:corridor_delta_west:pnt_telemetry:3",
+                "sourceType": "pnt_telemetry",
+                "observedCorridorId": "corridor_delta_west",
+                "direction": "supports_targeted",
+                "strengthBand": "moderate"
+              },
+              {
+                "evidenceId": "a2_focused_pnt:tick2:corridor_alpha_east:pnt_telemetry:0",
+                "sourceType": "pnt_telemetry",
+                "observedCorridorId": "corridor_alpha_east",
+                "direction": "ambiguous",
+                "strengthBand": "weak"
+              },
+              {
+                "evidenceId": "b1_suspect_focus:tick3:corridor_alpha_east:pnt_telemetry:0",
+                "sourceType": "pnt_telemetry",
+                "observedCorridorId": "corridor_alpha_east",
+                "direction": "ambiguous",
+                "strengthBand": "weak"
+              }
+            ]
+          }
+        }
+      ]
+    }
+  ],
+  "explicitEvidenceOpenEvents": 1,
+  "glossaryTelemetryUnchanged": true,
+  "beliefEntryTelemetryUnchanged": true,
+  "playerInformationFirewall": "PASS",
+  "realRunCompleted": true,
+  "completionEvents": 1
+}

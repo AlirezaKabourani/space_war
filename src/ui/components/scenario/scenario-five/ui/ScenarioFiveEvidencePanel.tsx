@@ -14,6 +14,7 @@ export const ScenarioFiveEvidencePanel = ({
   onClose,
 }: ScenarioFiveEvidencePanelProps) => (
   <section className="s5-panel s5-evidence-panel" aria-labelledby="s5-evidence-title">
+    <div className="s5-control-scroll" tabIndex={0} aria-label="شواهد قابل مشاهده">
     <div className="s5-section-heading">
       <div>
         <span>تصویر عملیاتی</span>
@@ -21,6 +22,7 @@ export const ScenarioFiveEvidencePanel = ({
       </div>
       <b>{evidence.length} مورد</b>
     </div>
+    <p className="s5-evidence-explanation">این موارد بخشی از تصویر عملیاتی شما هستند. بازکردن جزئیات یک شاهد می‌تواند کیفیت یا محدودیت همان منبع را نشان دهد.</p>
     {evidence.length === 0 ? (
       <p className="s5-empty">هنوز شاهد جدیدی به تصویر عملیاتی اضافه نشده است.</p>
     ) : (
@@ -57,5 +59,6 @@ export const ScenarioFiveEvidencePanel = ({
       </div>
     )}
     {!interactive && evidence.length > 0 && <p className="s5-readonly-note">خلاصه شواهد در این مرحله فقط خواندنی است.</p>}
+    </div>
   </section>
 );

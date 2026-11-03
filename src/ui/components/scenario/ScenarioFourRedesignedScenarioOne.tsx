@@ -504,7 +504,7 @@ const ResourcePanel = ({
               </div>
               <div className="s4-resource-track"><div className={getResourceStatusTone(value)} style={{ width: `${value}%` }} /></div>
               <strong className="s4-resource-value">
-                <b><bdi dir="ltr">{value} / 100</bdi> · شروع <bdi>{state.resourceBaseline?.[keys[index]] ?? 100}</bdi></b>
+                <b><bdi dir="ltr">{value} / 100</bdi></b>
                 {recent && <i className={recent.delta > 0 ? "positive" : "negative"}>{recent.delta > 0 ? "+" : ""}{recent.delta}</i>}
               </strong>
             </div>

@@ -1,0 +1,10 @@
+{
+  "status": "PASS",
+  "assertions": 349,
+  "scientificOutputParity": "PASS",
+  "completeRuns": 64,
+  "frozenFiles": 79,
+  "appBoundary": "id=5 metadata only (explicit user clarification)",
+  "phase8bArchiveIntegrity": "PASS",
+  "playerInformationFirewall": "PASS"
+}

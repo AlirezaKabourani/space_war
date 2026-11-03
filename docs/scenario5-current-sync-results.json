@@ -1,0 +1,94 @@
+{
+  "status": "PASS",
+  "checks": {
+    "A": {
+      "checks": 3072,
+      "failed": 0,
+      "failures": []
+    },
+    "B": {
+      "checks": 3072,
+      "failed": 0,
+      "failures": []
+    },
+    "C": {
+      "checks": 12288,
+      "failed": 0,
+      "failures": []
+    },
+    "D": {
+      "checks": 12288,
+      "failed": 0,
+      "failures": []
+    },
+    "E": {
+      "checks": 12288,
+      "failed": 0,
+      "failures": []
+    },
+    "F": {
+      "checks": 12288,
+      "failed": 0,
+      "failures": []
+    },
+    "G": {
+      "checks": 12288,
+      "failed": 0,
+      "failures": []
+    },
+    "H": {
+      "checks": 12288,
+      "failed": 0,
+      "failures": []
+    },
+    "I": {
+      "checks": 12288,
+      "failed": 0,
+      "failures": []
+    },
+    "J": {
+      "checks": 3072,
+      "failed": 0,
+      "failures": []
+    },
+    "K": {
+      "checks": 1024,
+      "failed": 0,
+      "failures": []
+    },
+    "L": {
+      "checks": 4108,
+      "failed": 0,
+      "failures": []
+    },
+    "M": {
+      "checks": 524,
+      "failed": 0,
+      "failures": []
+    },
+    "N": {
+      "checks": 2048,
+      "failed": 0,
+      "failures": []
+    },
+    "O": {
+      "checks": 28,
+      "failed": 0,
+      "failures": []
+    },
+    "P": {
+      "checks": 28,
+      "failed": 0,
+      "failures": []
+    },
+    "Q": {
+      "checks": 128,
+      "failed": 0,
+      "failures": []
+    }
+  },
+  "runCount": 128,
+  "stageRows": 3072,
+  "parityWithUninstrumentedDriver": "PASS",
+  "policySeedRule": "missionEffectivePolicySeed(worldIndex,1,1001) for M10; current Phase-8B first base seed"
+}

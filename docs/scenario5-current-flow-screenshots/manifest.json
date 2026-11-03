@@ -1,0 +1,1409 @@
+{
+  "browser": "chrome.exe",
+  "viewport": {
+    "width": 1440,
+    "height": 900
+  },
+  "deterministicEpoch": 1793448000000,
+  "observedWorld": {
+    "worldId": "W-corridor_beta_south-deceptive_diversion",
+    "seed": 3975192650,
+    "actorProfile": "deceptive_diversion",
+    "primaryCorridor": "corridor_beta_south"
+  },
+  "screenshots": [
+    {
+      "filename": "01-scenario2-card-details.png",
+      "runtimeStageId": "scenario_card",
+      "phase": null,
+      "round": null,
+      "playerFacingTitle": "انتخاب سناریو",
+      "visibleEvidenceCount": 0,
+      "selectedAction": null,
+      "pageScrollDimensions": {
+        "scrollHeight": 900,
+        "clientHeight": 900,
+        "scrollWidth": 1440,
+        "clientWidth": 1440
+      },
+      "leftPaneScrollDimensions": null,
+      "mapVisible": false,
+      "mapMounted": false,
+      "mapBounds": null,
+      "headerClock": null,
+      "remainingTime": null,
+      "evidenceBadgeTexts": [],
+      "evidenceCountLeft": null,
+      "stageId": null,
+      "notes": "Released catalog: display scenario 2, internal id=5; expanded details."
+    },
+    {
+      "filename": "02-outer-intro.png",
+      "runtimeStageId": "outer_intro",
+      "phase": null,
+      "round": null,
+      "playerFacingTitle": "سناریو ۲ — امواج خاموش",
+      "visibleEvidenceCount": 0,
+      "selectedAction": null,
+      "pageScrollDimensions": {
+        "scrollHeight": 900,
+        "clientHeight": 900,
+        "scrollWidth": 1440,
+        "clientWidth": 1440
+      },
+      "leftPaneScrollDimensions": null,
+      "mapVisible": false,
+      "mapMounted": false,
+      "mapBounds": null,
+      "headerClock": null,
+      "remainingTime": null,
+      "evidenceBadgeTexts": [],
+      "evidenceCountLeft": null,
+      "stageId": null,
+      "notes": ""
+    },
+    {
+      "filename": "03-internal-briefing.png",
+      "runtimeStageId": "briefing",
+      "phase": null,
+      "round": null,
+      "playerFacingTitle": "فرماندهی لجستیک در اختلال PNT",
+      "visibleEvidenceCount": 0,
+      "selectedAction": null,
+      "pageScrollDimensions": {
+        "scrollHeight": 900,
+        "clientHeight": 900,
+        "scrollWidth": 1440,
+        "clientWidth": 1440
+      },
+      "leftPaneScrollDimensions": null,
+      "mapVisible": false,
+      "mapMounted": false,
+      "mapBounds": null,
+      "headerClock": null,
+      "remainingTime": null,
+      "evidenceBadgeTexts": [],
+      "evidenceCountLeft": null,
+      "stageId": null,
+      "notes": ""
+    },
+    {
+      "filename": "04-r1-decision.png",
+      "runtimeStageId": "decision:A1_baseline_monitoring",
+      "phase": "A",
+      "round": 1,
+      "playerFacingTitle": "فاز A: پایش و شکل‌دهی فرضیه",
+      "visibleEvidenceCount": 0,
+      "selectedAction": null,
+      "pageScrollDimensions": {
+        "scrollHeight": 900,
+        "clientHeight": 900,
+        "scrollWidth": 1440,
+        "clientWidth": 1440
+      },
+      "leftPaneScrollDimensions": {
+        "scrollHeight": 594,
+        "clientHeight": 594,
+        "scrollTop": 0,
+        "overflowY": "auto"
+      },
+      "mapVisible": true,
+      "mapMounted": true,
+      "mapBounds": {
+        "x": 595.390625,
+        "y": 131.25,
+        "width": 747.609375,
+        "height": 665.75,
+        "top": 131.25,
+        "right": 1343,
+        "bottom": 797,
+        "left": 595.390625
+      },
+      "headerClock": "T+0",
+      "remainingTime": "360′",
+      "evidenceBadgeTexts": [],
+      "evidenceCountLeft": "شواهد موجود (0)",
+      "stageId": "decision:A1_baseline_monitoring",
+      "notes": ""
+    },
+    {
+      "filename": "29-live-glossary.png",
+      "runtimeStageId": "decision:A1_baseline_monitoring",
+      "phase": "A",
+      "round": 1,
+      "playerFacingTitle": "فاز A: پایش و شکل‌دهی فرضیه",
+      "visibleEvidenceCount": 0,
+      "selectedAction": null,
+      "pageScrollDimensions": {
+        "scrollHeight": 900,
+        "clientHeight": 900,
+        "scrollWidth": 1440,
+        "clientWidth": 1440
+      },
+      "leftPaneScrollDimensions": {
+        "scrollHeight": 594,
+        "clientHeight": 594,
+        "scrollTop": 0,
+        "overflowY": "auto"
+      },
+      "mapVisible": true,
+      "mapMounted": true,
+      "mapBounds": {
+        "x": 595.390625,
+        "y": 131.25,
+        "width": 747.609375,
+        "height": 665.75,
+        "top": 131.25,
+        "right": 1343,
+        "bottom": 797,
+        "left": 595.390625
+      },
+      "headerClock": "T+0",
+      "remainingTime": "360′",
+      "evidenceBadgeTexts": [],
+      "evidenceCountLeft": "شواهد موجود (0)",
+      "stageId": "decision:A1_baseline_monitoring",
+      "notes": "Informational modal; no runtime stage change."
+    },
+    {
+      "filename": "05-r1-outcome.png",
+      "runtimeStageId": "outcome_review",
+      "phase": "A",
+      "round": 1,
+      "playerFacingTitle": "فاز A: پایش و شکل‌دهی فرضیه",
+      "visibleEvidenceCount": 4,
+      "selectedAction": null,
+      "pageScrollDimensions": {
+        "scrollHeight": 900,
+        "clientHeight": 900,
+        "scrollWidth": 1440,
+        "clientWidth": 1440
+      },
+      "leftPaneScrollDimensions": null,
+      "mapVisible": false,
+      "mapMounted": true,
+      "mapBounds": {
+        "x": 595.390625,
+        "y": 131.25,
+        "width": 747.609375,
+        "height": 665.75,
+        "top": 131.25,
+        "right": 1343,
+        "bottom": 797,
+        "left": 595.390625
+      },
+      "headerClock": "T+30",
+      "remainingTime": "330′",
+      "evidenceBadgeTexts": [
+        "شاهد 1",
+        "شاهد 1",
+        "شاهد 1",
+        "شاهد 1"
+      ],
+      "evidenceCountLeft": null,
+      "stageId": "outcome_review",
+      "notes": ""
+    },
+    {
+      "filename": "06-a2-prebelief.png",
+      "runtimeStageId": "belief:A2_prebelief",
+      "phase": "A",
+      "round": 1,
+      "playerFacingTitle": "فاز A: پایش و شکل‌دهی فرضیه",
+      "visibleEvidenceCount": 4,
+      "selectedAction": null,
+      "pageScrollDimensions": {
+        "scrollHeight": 900,
+        "clientHeight": 900,
+        "scrollWidth": 1440,
+        "clientWidth": 1440
+      },
+      "leftPaneScrollDimensions": {
+        "scrollHeight": 614,
+        "clientHeight": 594,
+        "scrollTop": 0,
+        "overflowY": "auto"
+      },
+      "mapVisible": true,
+      "mapMounted": true,
+      "mapBounds": {
+        "x": 595.390625,
+        "y": 131.25,
+        "width": 747.609375,
+        "height": 665.75,
+        "top": 131.25,
+        "right": 1343,
+        "bottom": 797,
+        "left": 595.390625
+      },
+      "headerClock": "T+30",
+      "remainingTime": "330′",
+      "evidenceBadgeTexts": [
+        "شاهد 1",
+        "شاهد 1",
+        "شاهد 1",
+        "شاهد 1"
+      ],
+      "evidenceCountLeft": null,
+      "stageId": "belief:A2_prebelief",
+      "notes": ""
+    },
+    {
+      "filename": "31-a2-prebelief-entered.png",
+      "runtimeStageId": "belief:A2_prebelief",
+      "phase": "A",
+      "round": 1,
+      "playerFacingTitle": "فاز A: پایش و شکل‌دهی فرضیه",
+      "visibleEvidenceCount": 4,
+      "selectedAction": null,
+      "pageScrollDimensions": {
+        "scrollHeight": 900,
+        "clientHeight": 900,
+        "scrollWidth": 1440,
+        "clientWidth": 1440
+      },
+      "leftPaneScrollDimensions": {
+        "scrollHeight": 614,
+        "clientHeight": 594,
+        "scrollTop": 0,
+        "overflowY": "auto"
+      },
+      "mapVisible": true,
+      "mapMounted": true,
+      "mapBounds": {
+        "x": 595.390625,
+        "y": 131.25,
+        "width": 747.609375,
+        "height": 665.75,
+        "top": 131.25,
+        "right": 1343,
+        "bottom": 797,
+        "left": 595.390625
+      },
+      "headerClock": "T+30",
+      "remainingTime": "330′",
+      "evidenceBadgeTexts": [
+        "شاهد 1",
+        "شاهد 1",
+        "شاهد 1",
+        "شاهد 1"
+      ],
+      "evidenceCountLeft": null,
+      "stageId": "belief:A2_prebelief",
+      "notes": "Actual submitted values: beta corridor; 51/100/0."
+    },
+    {
+      "filename": "07-r2-decision.png",
+      "runtimeStageId": "decision:A2_evidence_acquisition",
+      "phase": "A",
+      "round": 2,
+      "playerFacingTitle": "فاز A: پایش و شکل‌دهی فرضیه",
+      "visibleEvidenceCount": 4,
+      "selectedAction": null,
+      "pageScrollDimensions": {
+        "scrollHeight": 900,
+        "clientHeight": 900,
+        "scrollWidth": 1440,
+        "clientWidth": 1440
+      },
+      "leftPaneScrollDimensions": {
+        "scrollHeight": 594,
+        "clientHeight": 594,
+        "scrollTop": 0,
+        "overflowY": "auto"
+      },
+      "mapVisible": true,
+      "mapMounted": true,
+      "mapBounds": {
+        "x": 595.390625,
+        "y": 131.25,
+        "width": 747.609375,
+        "height": 665.75,
+        "top": 131.25,
+        "right": 1343,
+        "bottom": 797,
+        "left": 595.390625
+      },
+      "headerClock": "T+30",
+      "remainingTime": "330′",
+      "evidenceBadgeTexts": [
+        "شاهد 1",
+        "شاهد 1",
+        "شاهد 1",
+        "شاهد 1"
+      ],
+      "evidenceCountLeft": "شواهد موجود (4)",
+      "stageId": "decision:A2_evidence_acquisition",
+      "notes": ""
+    },
+    {
+      "filename": "08-r2-evidence-view.png",
+      "runtimeStageId": "decision:A2_evidence_acquisition",
+      "phase": "A",
+      "round": 2,
+      "playerFacingTitle": "فاز A: پایش و شکل‌دهی فرضیه",
+      "visibleEvidenceCount": 4,
+      "selectedAction": "a2_broad_sweep",
+      "pageScrollDimensions": {
+        "scrollHeight": 900,
+        "clientHeight": 900,
+        "scrollWidth": 1440,
+        "clientWidth": 1440
+      },
+      "leftPaneScrollDimensions": {
+        "scrollHeight": 1001,
+        "clientHeight": 586,
+        "scrollTop": 0,
+        "overflowY": "auto"
+      },
+      "mapVisible": true,
+      "mapMounted": true,
+      "mapBounds": {
+        "x": 595.390625,
+        "y": 131.25,
+        "width": 747.609375,
+        "height": 665.75,
+        "top": 131.25,
+        "right": 1343,
+        "bottom": 797,
+        "left": 595.390625
+      },
+      "headerClock": "T+30",
+      "remainingTime": "330′",
+      "evidenceBadgeTexts": [
+        "شاهد 1",
+        "شاهد 1",
+        "شاهد 1",
+        "شاهد 1"
+      ],
+      "evidenceCountLeft": null,
+      "stageId": "decision:A2_evidence_acquisition",
+      "notes": "Collapsed visible evidence summaries."
+    },
+    {
+      "filename": "30-r2-evidence-expanded.png",
+      "runtimeStageId": "decision:A2_evidence_acquisition",
+      "phase": "A",
+      "round": 2,
+      "playerFacingTitle": "فاز A: پایش و شکل‌دهی فرضیه",
+      "visibleEvidenceCount": 4,
+      "selectedAction": "a2_broad_sweep",
+      "pageScrollDimensions": {
+        "scrollHeight": 900,
+        "clientHeight": 900,
+        "scrollWidth": 1440,
+        "clientWidth": 1440
+      },
+      "leftPaneScrollDimensions": {
+        "scrollHeight": 1102,
+        "clientHeight": 586,
+        "scrollTop": 0,
+        "overflowY": "auto"
+      },
+      "mapVisible": true,
+      "mapMounted": true,
+      "mapBounds": {
+        "x": 595.390625,
+        "y": 131.25,
+        "width": 747.609375,
+        "height": 665.75,
+        "top": 131.25,
+        "right": 1343,
+        "bottom": 797,
+        "left": 595.390625
+      },
+      "headerClock": "T+30",
+      "remainingTime": "330′",
+      "evidenceBadgeTexts": [
+        "شاهد 1",
+        "شاهد 1",
+        "شاهد 1",
+        "شاهد 1"
+      ],
+      "evidenceCountLeft": null,
+      "stageId": "decision:A2_evidence_acquisition",
+      "notes": "Only visible quality/limitation exposed."
+    },
+    {
+      "filename": "09-r2-outcome.png",
+      "runtimeStageId": "outcome_review",
+      "phase": "A",
+      "round": 2,
+      "playerFacingTitle": "فاز A: پایش و شکل‌دهی فرضیه",
+      "visibleEvidenceCount": 8,
+      "selectedAction": null,
+      "pageScrollDimensions": {
+        "scrollHeight": 900,
+        "clientHeight": 900,
+        "scrollWidth": 1440,
+        "clientWidth": 1440
+      },
+      "leftPaneScrollDimensions": null,
+      "mapVisible": false,
+      "mapMounted": true,
+      "mapBounds": {
+        "x": 595.390625,
+        "y": 131.25,
+        "width": 747.609375,
+        "height": 665.75,
+        "top": 131.25,
+        "right": 1343,
+        "bottom": 797,
+        "left": 595.390625
+      },
+      "headerClock": "T+68",
+      "remainingTime": "292′",
+      "evidenceBadgeTexts": [
+        "شاهد 2",
+        "شاهد 2",
+        "شاهد 2",
+        "شاهد 2"
+      ],
+      "evidenceCountLeft": null,
+      "stageId": "outcome_review",
+      "notes": ""
+    },
+    {
+      "filename": "10-a2-postbelief.png",
+      "runtimeStageId": "belief:A2_postbelief",
+      "phase": "A",
+      "round": 2,
+      "playerFacingTitle": "فاز A: پایش و شکل‌دهی فرضیه",
+      "visibleEvidenceCount": 8,
+      "selectedAction": null,
+      "pageScrollDimensions": {
+        "scrollHeight": 900,
+        "clientHeight": 900,
+        "scrollWidth": 1440,
+        "clientWidth": 1440
+      },
+      "leftPaneScrollDimensions": {
+        "scrollHeight": 719,
+        "clientHeight": 594,
+        "scrollTop": 0,
+        "overflowY": "auto"
+      },
+      "mapVisible": true,
+      "mapMounted": true,
+      "mapBounds": {
+        "x": 595.390625,
+        "y": 131.25,
+        "width": 747.609375,
+        "height": 665.75,
+        "top": 131.25,
+        "right": 1343,
+        "bottom": 797,
+        "left": 595.390625
+      },
+      "headerClock": "T+68",
+      "remainingTime": "292′",
+      "evidenceBadgeTexts": [
+        "شاهد 2",
+        "شاهد 2",
+        "شاهد 2",
+        "شاهد 2"
+      ],
+      "evidenceCountLeft": null,
+      "stageId": "belief:A2_postbelief",
+      "notes": ""
+    },
+    {
+      "filename": "11-r3-decision.png",
+      "runtimeStageId": "decision:B1_monitoring_allocation",
+      "phase": "B",
+      "round": 3,
+      "playerFacingTitle": "فاز B: تشخیص و سازگارسازی مسیر",
+      "visibleEvidenceCount": 8,
+      "selectedAction": null,
+      "pageScrollDimensions": {
+        "scrollHeight": 900,
+        "clientHeight": 900,
+        "scrollWidth": 1440,
+        "clientWidth": 1440
+      },
+      "leftPaneScrollDimensions": {
+        "scrollHeight": 594,
+        "clientHeight": 594,
+        "scrollTop": 0,
+        "overflowY": "auto"
+      },
+      "mapVisible": true,
+      "mapMounted": true,
+      "mapBounds": {
+        "x": 595.390625,
+        "y": 131.25,
+        "width": 747.609375,
+        "height": 665.75,
+        "top": 131.25,
+        "right": 1343,
+        "bottom": 797,
+        "left": 595.390625
+      },
+      "headerClock": "T+68",
+      "remainingTime": "292′",
+      "evidenceBadgeTexts": [
+        "شاهد 2",
+        "شاهد 2",
+        "شاهد 2",
+        "شاهد 2"
+      ],
+      "evidenceCountLeft": "شواهد موجود (8)",
+      "stageId": "decision:B1_monitoring_allocation",
+      "notes": ""
+    },
+    {
+      "filename": "12-r3-outcome.png",
+      "runtimeStageId": "outcome_review",
+      "phase": "B",
+      "round": 3,
+      "playerFacingTitle": "فاز B: تشخیص و سازگارسازی مسیر",
+      "visibleEvidenceCount": 12,
+      "selectedAction": null,
+      "pageScrollDimensions": {
+        "scrollHeight": 900,
+        "clientHeight": 900,
+        "scrollWidth": 1440,
+        "clientWidth": 1440
+      },
+      "leftPaneScrollDimensions": null,
+      "mapVisible": false,
+      "mapMounted": true,
+      "mapBounds": {
+        "x": 595.390625,
+        "y": 131.25,
+        "width": 747.609375,
+        "height": 665.75,
+        "top": 131.25,
+        "right": 1343,
+        "bottom": 797,
+        "left": 595.390625
+      },
+      "headerClock": "T+100",
+      "remainingTime": "260′",
+      "evidenceBadgeTexts": [
+        "شاهد 3",
+        "شاهد 3",
+        "شاهد 3",
+        "شاهد 3"
+      ],
+      "evidenceCountLeft": null,
+      "stageId": "outcome_review",
+      "notes": ""
+    },
+    {
+      "filename": "13-r4-decision.png",
+      "runtimeStageId": "decision:B2_route_policy",
+      "phase": "B",
+      "round": 4,
+      "playerFacingTitle": "فاز B: تشخیص و سازگارسازی مسیر",
+      "visibleEvidenceCount": 12,
+      "selectedAction": null,
+      "pageScrollDimensions": {
+        "scrollHeight": 900,
+        "clientHeight": 900,
+        "scrollWidth": 1440,
+        "clientWidth": 1440
+      },
+      "leftPaneScrollDimensions": {
+        "scrollHeight": 594,
+        "clientHeight": 594,
+        "scrollTop": 0,
+        "overflowY": "auto"
+      },
+      "mapVisible": true,
+      "mapMounted": true,
+      "mapBounds": {
+        "x": 595.390625,
+        "y": 131.25,
+        "width": 747.609375,
+        "height": 665.75,
+        "top": 131.25,
+        "right": 1343,
+        "bottom": 797,
+        "left": 595.390625
+      },
+      "headerClock": "T+100",
+      "remainingTime": "260′",
+      "evidenceBadgeTexts": [
+        "شاهد 3",
+        "شاهد 3",
+        "شاهد 3",
+        "شاهد 3"
+      ],
+      "evidenceCountLeft": "شواهد موجود (12)",
+      "stageId": "decision:B2_route_policy",
+      "notes": ""
+    },
+    {
+      "filename": "14-b-reason.png",
+      "runtimeStageId": "reason:B",
+      "phase": "B",
+      "round": 4,
+      "playerFacingTitle": "فاز B: تشخیص و سازگارسازی مسیر",
+      "visibleEvidenceCount": 12,
+      "selectedAction": "b2_staged_checkpoints",
+      "pageScrollDimensions": {
+        "scrollHeight": 900,
+        "clientHeight": 900,
+        "scrollWidth": 1440,
+        "clientWidth": 1440
+      },
+      "leftPaneScrollDimensions": {
+        "scrollHeight": 1051,
+        "clientHeight": 594,
+        "scrollTop": 0,
+        "overflowY": "auto"
+      },
+      "mapVisible": true,
+      "mapMounted": true,
+      "mapBounds": {
+        "x": 595.390625,
+        "y": 131.25,
+        "width": 747.609375,
+        "height": 665.75,
+        "top": 131.25,
+        "right": 1343,
+        "bottom": 797,
+        "left": 595.390625
+      },
+      "headerClock": "T+100",
+      "remainingTime": "260′",
+      "evidenceBadgeTexts": [
+        "شاهد 3",
+        "شاهد 3",
+        "شاهد 3",
+        "شاهد 3"
+      ],
+      "evidenceCountLeft": null,
+      "stageId": "reason:B",
+      "notes": ""
+    },
+    {
+      "filename": "15-r4-outcome.png",
+      "runtimeStageId": "outcome_review",
+      "phase": "B",
+      "round": 4,
+      "playerFacingTitle": "فاز B: تشخیص و سازگارسازی مسیر",
+      "visibleEvidenceCount": 13,
+      "selectedAction": null,
+      "pageScrollDimensions": {
+        "scrollHeight": 900,
+        "clientHeight": 900,
+        "scrollWidth": 1440,
+        "clientWidth": 1440
+      },
+      "leftPaneScrollDimensions": null,
+      "mapVisible": false,
+      "mapMounted": true,
+      "mapBounds": {
+        "x": 595.390625,
+        "y": 131.25,
+        "width": 747.609375,
+        "height": 665.75,
+        "top": 131.25,
+        "right": 1343,
+        "bottom": 797,
+        "left": 595.390625
+      },
+      "headerClock": "T+136",
+      "remainingTime": "224′",
+      "evidenceBadgeTexts": [
+        "شاهد 4",
+        "شاهد 3",
+        "شاهد 3",
+        "شاهد 3"
+      ],
+      "evidenceCountLeft": null,
+      "stageId": "outcome_review",
+      "notes": ""
+    },
+    {
+      "filename": "16-r5-decision.png",
+      "runtimeStageId": "decision:C1_support_and_checkpoints",
+      "phase": "C",
+      "round": 5,
+      "playerFacingTitle": "فاز C: فشار لجستیکی و منابع",
+      "visibleEvidenceCount": 13,
+      "selectedAction": null,
+      "pageScrollDimensions": {
+        "scrollHeight": 900,
+        "clientHeight": 900,
+        "scrollWidth": 1440,
+        "clientWidth": 1440
+      },
+      "leftPaneScrollDimensions": {
+        "scrollHeight": 594,
+        "clientHeight": 594,
+        "scrollTop": 0,
+        "overflowY": "auto"
+      },
+      "mapVisible": true,
+      "mapMounted": true,
+      "mapBounds": {
+        "x": 595.390625,
+        "y": 131.25,
+        "width": 747.609375,
+        "height": 665.75,
+        "top": 131.25,
+        "right": 1343,
+        "bottom": 797,
+        "left": 595.390625
+      },
+      "headerClock": "T+136",
+      "remainingTime": "224′",
+      "evidenceBadgeTexts": [
+        "شاهد 4",
+        "شاهد 3",
+        "شاهد 3",
+        "شاهد 3"
+      ],
+      "evidenceCountLeft": "شواهد موجود (13)",
+      "stageId": "decision:C1_support_and_checkpoints",
+      "notes": ""
+    },
+    {
+      "filename": "17-r5-outcome.png",
+      "runtimeStageId": "outcome_review",
+      "phase": "C",
+      "round": 5,
+      "playerFacingTitle": "فاز C: فشار لجستیکی و منابع",
+      "visibleEvidenceCount": 14,
+      "selectedAction": null,
+      "pageScrollDimensions": {
+        "scrollHeight": 900,
+        "clientHeight": 900,
+        "scrollWidth": 1440,
+        "clientWidth": 1440
+      },
+      "leftPaneScrollDimensions": null,
+      "mapVisible": false,
+      "mapMounted": true,
+      "mapBounds": {
+        "x": 595.390625,
+        "y": 131.25,
+        "width": 747.609375,
+        "height": 665.75,
+        "top": 131.25,
+        "right": 1343,
+        "bottom": 797,
+        "left": 595.390625
+      },
+      "headerClock": "T+171",
+      "remainingTime": "189′",
+      "evidenceBadgeTexts": [
+        "شاهد 5",
+        "شاهد 3",
+        "شاهد 3",
+        "شاهد 3"
+      ],
+      "evidenceCountLeft": null,
+      "stageId": "outcome_review",
+      "notes": ""
+    },
+    {
+      "filename": "18-r6-decision.png",
+      "runtimeStageId": "decision:C2_resource_portfolio",
+      "phase": "C",
+      "round": 6,
+      "playerFacingTitle": "فاز C: فشار لجستیکی و منابع",
+      "visibleEvidenceCount": 14,
+      "selectedAction": null,
+      "pageScrollDimensions": {
+        "scrollHeight": 900,
+        "clientHeight": 900,
+        "scrollWidth": 1440,
+        "clientWidth": 1440
+      },
+      "leftPaneScrollDimensions": {
+        "scrollHeight": 594,
+        "clientHeight": 594,
+        "scrollTop": 0,
+        "overflowY": "auto"
+      },
+      "mapVisible": true,
+      "mapMounted": true,
+      "mapBounds": {
+        "x": 595.390625,
+        "y": 131.25,
+        "width": 747.609375,
+        "height": 665.75,
+        "top": 131.25,
+        "right": 1343,
+        "bottom": 797,
+        "left": 595.390625
+      },
+      "headerClock": "T+171",
+      "remainingTime": "189′",
+      "evidenceBadgeTexts": [
+        "شاهد 5",
+        "شاهد 3",
+        "شاهد 3",
+        "شاهد 3"
+      ],
+      "evidenceCountLeft": "شواهد موجود (14)",
+      "stageId": "decision:C2_resource_portfolio",
+      "notes": ""
+    },
+    {
+      "filename": "19-c-reason.png",
+      "runtimeStageId": "reason:C",
+      "phase": "C",
+      "round": 6,
+      "playerFacingTitle": "فاز C: فشار لجستیکی و منابع",
+      "visibleEvidenceCount": 14,
+      "selectedAction": "c2_balanced",
+      "pageScrollDimensions": {
+        "scrollHeight": 900,
+        "clientHeight": 900,
+        "scrollWidth": 1440,
+        "clientWidth": 1440
+      },
+      "leftPaneScrollDimensions": {
+        "scrollHeight": 1145,
+        "clientHeight": 594,
+        "scrollTop": 0,
+        "overflowY": "auto"
+      },
+      "mapVisible": true,
+      "mapMounted": true,
+      "mapBounds": {
+        "x": 595.390625,
+        "y": 131.25,
+        "width": 747.609375,
+        "height": 665.75,
+        "top": 131.25,
+        "right": 1343,
+        "bottom": 797,
+        "left": 595.390625
+      },
+      "headerClock": "T+171",
+      "remainingTime": "189′",
+      "evidenceBadgeTexts": [
+        "شاهد 5",
+        "شاهد 3",
+        "شاهد 3",
+        "شاهد 3"
+      ],
+      "evidenceCountLeft": null,
+      "stageId": "reason:C",
+      "notes": ""
+    },
+    {
+      "filename": "20-r6-outcome.png",
+      "runtimeStageId": "outcome_review",
+      "phase": "C",
+      "round": 6,
+      "playerFacingTitle": "فاز C: فشار لجستیکی و منابع",
+      "visibleEvidenceCount": 20,
+      "selectedAction": null,
+      "pageScrollDimensions": {
+        "scrollHeight": 900,
+        "clientHeight": 900,
+        "scrollWidth": 1440,
+        "clientWidth": 1440
+      },
+      "leftPaneScrollDimensions": null,
+      "mapVisible": false,
+      "mapMounted": true,
+      "mapBounds": {
+        "x": 595.390625,
+        "y": 131.25,
+        "width": 747.609375,
+        "height": 665.75,
+        "top": 131.25,
+        "right": 1343,
+        "bottom": 797,
+        "left": 595.390625
+      },
+      "headerClock": "T+201",
+      "remainingTime": "159′",
+      "evidenceBadgeTexts": [
+        "شاهد 6",
+        "شاهد 5",
+        "شاهد 4",
+        "شاهد 5"
+      ],
+      "evidenceCountLeft": null,
+      "stageId": "outcome_review",
+      "notes": ""
+    },
+    {
+      "filename": "21-c-belief.png",
+      "runtimeStageId": "belief:C_belief_checkpoint",
+      "phase": "C",
+      "round": 6,
+      "playerFacingTitle": "فاز C: فشار لجستیکی و منابع",
+      "visibleEvidenceCount": 20,
+      "selectedAction": null,
+      "pageScrollDimensions": {
+        "scrollHeight": 900,
+        "clientHeight": 900,
+        "scrollWidth": 1440,
+        "clientWidth": 1440
+      },
+      "leftPaneScrollDimensions": {
+        "scrollHeight": 965,
+        "clientHeight": 594,
+        "scrollTop": 0,
+        "overflowY": "auto"
+      },
+      "mapVisible": true,
+      "mapMounted": true,
+      "mapBounds": {
+        "x": 595.390625,
+        "y": 131.25,
+        "width": 747.609375,
+        "height": 665.75,
+        "top": 131.25,
+        "right": 1343,
+        "bottom": 797,
+        "left": 595.390625
+      },
+      "headerClock": "T+201",
+      "remainingTime": "159′",
+      "evidenceBadgeTexts": [
+        "شاهد 6",
+        "شاهد 5",
+        "شاهد 4",
+        "شاهد 5"
+      ],
+      "evidenceCountLeft": null,
+      "stageId": "belief:C_belief_checkpoint",
+      "notes": ""
+    },
+    {
+      "filename": "22-r7-decision.png",
+      "runtimeStageId": "decision:D1_crisis_response",
+      "phase": "D",
+      "round": 7,
+      "playerFacingTitle": "فاز D: بحران و حل مأموریت",
+      "visibleEvidenceCount": 20,
+      "selectedAction": null,
+      "pageScrollDimensions": {
+        "scrollHeight": 900,
+        "clientHeight": 900,
+        "scrollWidth": 1440,
+        "clientWidth": 1440
+      },
+      "leftPaneScrollDimensions": {
+        "scrollHeight": 646,
+        "clientHeight": 594,
+        "scrollTop": 0,
+        "overflowY": "auto"
+      },
+      "mapVisible": true,
+      "mapMounted": true,
+      "mapBounds": {
+        "x": 595.390625,
+        "y": 131.25,
+        "width": 747.609375,
+        "height": 665.75,
+        "top": 131.25,
+        "right": 1343,
+        "bottom": 797,
+        "left": 595.390625
+      },
+      "headerClock": "T+201",
+      "remainingTime": "159′",
+      "evidenceBadgeTexts": [
+        "شاهد 6",
+        "شاهد 5",
+        "شاهد 4",
+        "شاهد 5"
+      ],
+      "evidenceCountLeft": "شواهد موجود (20)",
+      "stageId": "decision:D1_crisis_response",
+      "notes": ""
+    },
+    {
+      "filename": "23-r7-outcome.png",
+      "runtimeStageId": "outcome_review",
+      "phase": "D",
+      "round": 7,
+      "playerFacingTitle": "فاز D: بحران و حل مأموریت",
+      "visibleEvidenceCount": 21,
+      "selectedAction": null,
+      "pageScrollDimensions": {
+        "scrollHeight": 900,
+        "clientHeight": 900,
+        "scrollWidth": 1440,
+        "clientWidth": 1440
+      },
+      "leftPaneScrollDimensions": null,
+      "mapVisible": false,
+      "mapMounted": true,
+      "mapBounds": {
+        "x": 595.390625,
+        "y": 131.25,
+        "width": 747.609375,
+        "height": 665.75,
+        "top": 131.25,
+        "right": 1343,
+        "bottom": 797,
+        "left": 595.390625
+      },
+      "headerClock": "T+241",
+      "remainingTime": "119′",
+      "evidenceBadgeTexts": [
+        "شاهد 7",
+        "شاهد 5",
+        "شاهد 4",
+        "شاهد 5"
+      ],
+      "evidenceCountLeft": null,
+      "stageId": "outcome_review",
+      "notes": ""
+    },
+    {
+      "filename": "24-d-final-belief.png",
+      "runtimeStageId": "belief:D_final_belief",
+      "phase": "D",
+      "round": 7,
+      "playerFacingTitle": "فاز D: بحران و حل مأموریت",
+      "visibleEvidenceCount": 21,
+      "selectedAction": null,
+      "pageScrollDimensions": {
+        "scrollHeight": 900,
+        "clientHeight": 900,
+        "scrollWidth": 1440,
+        "clientWidth": 1440
+      },
+      "leftPaneScrollDimensions": {
+        "scrollHeight": 1013,
+        "clientHeight": 594,
+        "scrollTop": 0,
+        "overflowY": "auto"
+      },
+      "mapVisible": true,
+      "mapMounted": true,
+      "mapBounds": {
+        "x": 595.390625,
+        "y": 131.25,
+        "width": 747.609375,
+        "height": 665.75,
+        "top": 131.25,
+        "right": 1343,
+        "bottom": 797,
+        "left": 595.390625
+      },
+      "headerClock": "T+241",
+      "remainingTime": "119′",
+      "evidenceBadgeTexts": [
+        "شاهد 7",
+        "شاهد 5",
+        "شاهد 4",
+        "شاهد 5"
+      ],
+      "evidenceCountLeft": null,
+      "stageId": "belief:D_final_belief",
+      "notes": ""
+    },
+    {
+      "filename": "25-r8-decision.png",
+      "runtimeStageId": "decision:D2_final_delivery_policy",
+      "phase": "D",
+      "round": 8,
+      "playerFacingTitle": "فاز D: بحران و حل مأموریت",
+      "visibleEvidenceCount": 21,
+      "selectedAction": null,
+      "pageScrollDimensions": {
+        "scrollHeight": 900,
+        "clientHeight": 900,
+        "scrollWidth": 1440,
+        "clientWidth": 1440
+      },
+      "leftPaneScrollDimensions": {
+        "scrollHeight": 594,
+        "clientHeight": 594,
+        "scrollTop": 0,
+        "overflowY": "auto"
+      },
+      "mapVisible": true,
+      "mapMounted": true,
+      "mapBounds": {
+        "x": 595.390625,
+        "y": 131.25,
+        "width": 747.609375,
+        "height": 665.75,
+        "top": 131.25,
+        "right": 1343,
+        "bottom": 797,
+        "left": 595.390625
+      },
+      "headerClock": "T+241",
+      "remainingTime": "119′",
+      "evidenceBadgeTexts": [
+        "شاهد 7",
+        "شاهد 5",
+        "شاهد 4",
+        "شاهد 5"
+      ],
+      "evidenceCountLeft": "شواهد موجود (21)",
+      "stageId": "decision:D2_final_delivery_policy",
+      "notes": ""
+    },
+    {
+      "filename": "26-d-reason.png",
+      "runtimeStageId": "reason:D",
+      "phase": "D",
+      "round": 8,
+      "playerFacingTitle": "فاز D: بحران و حل مأموریت",
+      "visibleEvidenceCount": 21,
+      "selectedAction": "d2_network_balanced_finish",
+      "pageScrollDimensions": {
+        "scrollHeight": 900,
+        "clientHeight": 900,
+        "scrollWidth": 1440,
+        "clientWidth": 1440
+      },
+      "leftPaneScrollDimensions": {
+        "scrollHeight": 1520,
+        "clientHeight": 594,
+        "scrollTop": 0,
+        "overflowY": "auto"
+      },
+      "mapVisible": true,
+      "mapMounted": true,
+      "mapBounds": {
+        "x": 595.390625,
+        "y": 131.25,
+        "width": 747.609375,
+        "height": 665.75,
+        "top": 131.25,
+        "right": 1343,
+        "bottom": 797,
+        "left": 595.390625
+      },
+      "headerClock": "T+241",
+      "remainingTime": "119′",
+      "evidenceBadgeTexts": [
+        "شاهد 7",
+        "شاهد 5",
+        "شاهد 4",
+        "شاهد 5"
+      ],
+      "evidenceCountLeft": null,
+      "stageId": "reason:D",
+      "notes": ""
+    },
+    {
+      "filename": "27-r8-outcome.png",
+      "runtimeStageId": "outcome_review",
+      "phase": "D",
+      "round": 8,
+      "playerFacingTitle": "فاز D: بحران و حل مأموریت",
+      "visibleEvidenceCount": 21,
+      "selectedAction": null,
+      "pageScrollDimensions": {
+        "scrollHeight": 900,
+        "clientHeight": 900,
+        "scrollWidth": 1440,
+        "clientWidth": 1440
+      },
+      "leftPaneScrollDimensions": null,
+      "mapVisible": false,
+      "mapMounted": true,
+      "mapBounds": {
+        "x": 595.390625,
+        "y": 131.25,
+        "width": 747.609375,
+        "height": 665.75,
+        "top": 131.25,
+        "right": 1343,
+        "bottom": 797,
+        "left": 595.390625
+      },
+      "headerClock": "T+360",
+      "remainingTime": "0′",
+      "evidenceBadgeTexts": [
+        "شاهد 7",
+        "شاهد 5",
+        "شاهد 4",
+        "شاهد 5"
+      ],
+      "evidenceCountLeft": null,
+      "stageId": "outcome_review",
+      "notes": ""
+    },
+    {
+      "filename": "28-aar-overview.png",
+      "runtimeStageId": "complete",
+      "phase": "D",
+      "round": 8,
+      "playerFacingTitle": "امواج خاموش — تحلیل اجرای مأموریت",
+      "visibleEvidenceCount": 21,
+      "selectedAction": null,
+      "pageScrollDimensions": {
+        "scrollHeight": 10955,
+        "clientHeight": 900,
+        "scrollWidth": 1425,
+        "clientWidth": 1425
+      },
+      "leftPaneScrollDimensions": null,
+      "mapVisible": false,
+      "mapMounted": false,
+      "mapBounds": null,
+      "headerClock": null,
+      "remainingTime": null,
+      "evidenceBadgeTexts": [],
+      "evidenceCountLeft": null,
+      "stageId": "complete",
+      "notes": ""
+    },
+    {
+      "filename": "32-aar-truth.png",
+      "runtimeStageId": "complete",
+      "phase": "D",
+      "round": 8,
+      "playerFacingTitle": "AAR truth",
+      "visibleEvidenceCount": 21,
+      "selectedAction": null,
+      "pageScrollDimensions": {
+        "scrollHeight": 10955,
+        "clientHeight": 900,
+        "scrollWidth": 1425,
+        "clientWidth": 1425
+      },
+      "leftPaneScrollDimensions": null,
+      "mapVisible": false,
+      "notes": "Current AAR section; page scrolled to existing section."
+    },
+    {
+      "filename": "32-aar-belief.png",
+      "runtimeStageId": "complete",
+      "phase": "D",
+      "round": 8,
+      "playerFacingTitle": "AAR belief",
+      "visibleEvidenceCount": 21,
+      "selectedAction": null,
+      "pageScrollDimensions": {
+        "scrollHeight": 10955,
+        "clientHeight": 900,
+        "scrollWidth": 1425,
+        "clientWidth": 1425
+      },
+      "leftPaneScrollDimensions": null,
+      "mapVisible": false,
+      "notes": "Current AAR section; page scrolled to existing section."
+    },
+    {
+      "filename": "32-aar-evidence.png",
+      "runtimeStageId": "complete",
+      "phase": "D",
+      "round": 8,
+      "playerFacingTitle": "AAR evidence",
+      "visibleEvidenceCount": 21,
+      "selectedAction": null,
+      "pageScrollDimensions": {
+        "scrollHeight": 10955,
+        "clientHeight": 900,
+        "scrollWidth": 1425,
+        "clientWidth": 1425
+      },
+      "leftPaneScrollDimensions": null,
+      "mapVisible": false,
+      "notes": "Current AAR section; page scrolled to existing section."
+    },
+    {
+      "filename": "32-aar-decisions.png",
+      "runtimeStageId": "complete",
+      "phase": "D",
+      "round": 8,
+      "playerFacingTitle": "AAR decisions",
+      "visibleEvidenceCount": 21,
+      "selectedAction": null,
+      "pageScrollDimensions": {
+        "scrollHeight": 10955,
+        "clientHeight": 900,
+        "scrollWidth": 1425,
+        "clientWidth": 1425
+      },
+      "leftPaneScrollDimensions": null,
+      "mapVisible": false,
+      "notes": "Current AAR section; page scrolled to existing section."
+    },
+    {
+      "filename": "32-aar-domain.png",
+      "runtimeStageId": "complete",
+      "phase": "D",
+      "round": 8,
+      "playerFacingTitle": "AAR domain",
+      "visibleEvidenceCount": 21,
+      "selectedAction": null,
+      "pageScrollDimensions": {
+        "scrollHeight": 10955,
+        "clientHeight": 900,
+        "scrollWidth": 1425,
+        "clientWidth": 1425
+      },
+      "leftPaneScrollDimensions": null,
+      "mapVisible": false,
+      "notes": "Current AAR section; page scrolled to existing section."
+    },
+    {
+      "filename": "32-aar-cognitive.png",
+      "runtimeStageId": "complete",
+      "phase": "D",
+      "round": 8,
+      "playerFacingTitle": "AAR cognitive",
+      "visibleEvidenceCount": 21,
+      "selectedAction": null,
+      "pageScrollDimensions": {
+        "scrollHeight": 10955,
+        "clientHeight": 900,
+        "scrollWidth": 1425,
+        "clientWidth": 1425
+      },
+      "leftPaneScrollDimensions": null,
+      "mapVisible": false,
+      "notes": "Current AAR section; page scrolled to existing section."
+    },
+    {
+      "filename": "32-aar-limitations.png",
+      "runtimeStageId": "complete",
+      "phase": "D",
+      "round": 8,
+      "playerFacingTitle": "AAR limitations",
+      "visibleEvidenceCount": 21,
+      "selectedAction": null,
+      "pageScrollDimensions": {
+        "scrollHeight": 10955,
+        "clientHeight": 900,
+        "scrollWidth": 1425,
+        "clientWidth": 1425
+      },
+      "leftPaneScrollDimensions": null,
+      "mapVisible": false,
+      "notes": "Current AAR section; page scrolled to existing section."
+    },
+    {
+      "filename": "33-outer-end-screen.png",
+      "runtimeStageId": "outer_end",
+      "phase": null,
+      "round": null,
+      "playerFacingTitle": "پایان مرحله",
+      "visibleEvidenceCount": 0,
+      "selectedAction": null,
+      "pageScrollDimensions": {
+        "scrollHeight": 900,
+        "clientHeight": 900,
+        "scrollWidth": 1440,
+        "clientWidth": 1440
+      },
+      "leftPaneScrollDimensions": null,
+      "mapVisible": false,
+      "mapMounted": false,
+      "mapBounds": null,
+      "headerClock": null,
+      "remainingTime": null,
+      "evidenceBadgeTexts": [],
+      "evidenceCountLeft": null,
+      "stageId": null,
+      "notes": "Actual post-AAR ScenarioRunner end node; outside S5 runtime."
+    }
+  ],
+  "syncFailures": [],
+  "allRequiredScreenshotsPresent": true,
+  "aarResultMatchesRuntime": true,
+  "notes": "Hidden world metadata below belongs to research only; no gameplay source was changed."
+}

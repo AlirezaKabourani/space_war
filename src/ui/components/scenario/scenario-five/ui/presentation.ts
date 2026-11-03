@@ -56,12 +56,12 @@ export function buildScenario5PlayerView(state: Scenario5RuntimeState): Scenario
       groundSupport: convoy.groundSupport,
       escortedNow: convoy.escortedUntilRound === state.missionState.currentRound,
     })),
-    visibleEvidence: state.evidence,
+    visibleEvidence: state.evidence.map(buildEvidenceDetail),
     availableActionIds: isDecisionStage(state.stage.stageId) ? getRuntimeAvailableActionIds(state) : [],
   };
 }
 
-export const buildEvidenceSummary = (evidence: EvidenceTelemetry): ScenarioFiveEvidenceSummary => ({
+export const buildEvidenceSummary = (evidence: ScenarioFiveEvidenceSummary): ScenarioFiveEvidenceSummary => ({
   evidenceId: evidence.evidenceId,
   sourceType: evidence.sourceType,
   observedCorridorId: evidence.observedCorridorId,
@@ -120,11 +120,19 @@ export function buildScenario5OutcomeView(state: Scenario5RuntimeState): Scenari
       integrityBefore: before.integrity,
       integrityAfter: after.integrity,
       delayDelta: after.delayMinutes - before.delayMinutes,
+      delayBefore: before.delayMinutes,
+      delayAfter: after.delayMinutes,
+      projectedArrivalBefore: before.baselineArrivalMinute + before.delayMinutes,
+      projectedArrivalAfter: after.baselineArrivalMinute + after.delayMinutes,
+      deadlineMinute: after.deadlineMinute,
+      deadlineMargin: after.deadlineMinute - (after.baselineArrivalMinute + after.delayMinutes),
       newMitigations,
     }] : [];
   });
   return {
     roundId: record.roundId,
+    actionId: record.actionId,
+    effectiveTargetCorridorId: record.effectiveTargetCorridorId,
     worldClockBefore: record.worldClockBefore,
     worldClockAfter: record.worldClockAfter,
     isrSpent: record.resourcesBefore.isrCapacity - record.resourcesAfter.isrCapacity,

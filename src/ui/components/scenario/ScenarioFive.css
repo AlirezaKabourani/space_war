@@ -143,14 +143,6 @@
 
 .s5-form-panel form, .s5-reason-options { display: grid; gap: .65rem; }
 .s5-form-panel label, .s5-reason { display: flex; align-items: start; gap: .65rem; padding: .75rem; border: 1px solid var(--s5-border); border-radius: 9px; background: rgba(5,16,29,.68); }
-.s5-form-panel label.s5-belief-field { display: grid; grid-template-columns: minmax(0,1fr) minmax(240px,360px); align-items: center; gap: .45rem 1rem; }
-.s5-belief-label { min-width: 0; font-weight: 800; line-height: 1.6; }
-.s5-belief-control { display: flex; min-width: 0; justify-content: flex-start; }
-.s5-belief-select, .s5-belief-number { min-height: 42px; border: 1px solid var(--s5-border); border-radius: 8px; color: var(--s5-text); background: #071827; color-scheme: dark; }
-.s5-belief-select { width: 100%; min-width: 240px; padding: .55rem .7rem; }
-.s5-form-panel input.s5-belief-number { flex: 0 0 135px; width: 135px; margin-top: 0; padding: .55rem; text-align: center; }
-.s5-belief-select:focus-visible, .s5-belief-number:focus-visible { border-color: var(--s5-accent-strong); box-shadow: 0 0 0 3px rgba(125,229,245,.18); }
-.s5-belief-helper { grid-column: 1 / -1; color: var(--s5-muted); line-height: 1.65; }
 .s5-form-panel label.s5-selected { border-width: 3px; border-color: var(--s5-accent-strong); }
 .s5-form-panel input, .s5-reason input { flex: 0 0 auto; margin-top: .2rem; accent-color: var(--s5-accent); }
 .s5-form-panel form > .s5-primary-button { justify-self: start; margin-top: .35rem; }
@@ -218,9 +210,6 @@
 
 @media (max-width: 600px) {
   .s5-briefing-card ul { grid-template-columns: minmax(0,1fr); }
-  .s5-form-panel label.s5-belief-field { grid-template-columns: minmax(0,1fr); }
-  .s5-belief-control, .s5-belief-select, .s5-form-panel input.s5-belief-number { width: 100%; min-width: 0; max-width: none; }
-  .s5-form-panel input.s5-belief-number { flex-basis: auto; }
 }
 
 @media (max-width: 390px) {
@@ -232,4 +221,102 @@
 
 @media (max-width: 480px) {
   .s5-root { padding-right: 4.5rem; padding-left: .55rem; }
+}
+
+/* Phase 08C: each interaction stage owns a flexible scroll body and persistent actions. */
+.s5-control-pane { display: flex; flex-direction: column; }
+.s5-control-pane > .s5-panel, .s5-control-pane .s5-form-panel, .s5-local-evidence-view { display: flex; flex-direction: column; min-height: 0; flex: 1 1 auto; overflow: hidden; padding: 0; }
+.s5-control-scroll { min-height: 0; flex: 1 1 auto; overflow-y: auto; overflow-x: hidden; scrollbar-gutter: stable; overscroll-behavior: contain; padding: .8rem; }
+.s5-control-footer { position: sticky; bottom: 0; z-index: 2; flex: 0 0 auto; padding: .65rem .8rem; border-top: 1px solid var(--s5-border); background: #0b1c2e; }
+.s5-control-footer > .s5-primary-button { width: 100%; }
+.s5-local-evidence-view .s5-evidence-panel { display: flex; flex-direction: column; flex: 1 1 auto; padding: 0; }
+.s5-evidence-list { overflow: visible; }
+.s5-decision-actions { margin: 0; }
+.s5-stage-instruction, .s5-evidence-explanation { color: #c6d5e1; font-size: .76rem; line-height: 1.75; }
+.s5-information-picture { margin: .6rem 0; }
+.s5-information-picture h3 { font-size: .78rem; color: var(--s5-accent-strong); margin: 0 0 .4rem; }
+.s5-information-list { display: grid; grid-template-columns: repeat(2,minmax(0,1fr)); gap: .4rem; }
+.s5-information-summary { display: flex; flex-direction: column; gap: .16rem; min-width: 0; padding: .5rem; border: 1px solid #31506c; border-radius: 8px; background: #081827; font-size: .66rem; line-height: 1.5; }
+.s5-information-summary strong { font-size: .7rem; }
+.s5-information-summary small { color: var(--s5-muted); }
+.s5-information-picture .s5-empty { font-size: .72rem; }
+.s5-corridor-field { min-width: 0; border: 0; padding: 0; margin: .8rem 0; }
+.s5-corridor-field legend { font-size: .8rem; font-weight: 800; margin-bottom: .4rem; }
+.s5-corridor-cards { display: grid; grid-template-columns: repeat(2,minmax(0,1fr)); gap: .4rem; }
+.s5-form-panel label.s5-corridor-card { display: flex; align-items: center; padding: .55rem; min-height: 52px; gap: .4rem; font-size: .73rem; cursor: pointer; }
+.s5-corridor-card:focus-within { outline: 3px solid var(--s5-accent-strong); outline-offset: 2px; }
+.s5-corridor-card.s5-selected { background: #123d50; }
+.s5-belief-field { display: grid; grid-template-columns: minmax(0,1fr) auto; gap: .45rem; margin-top: .6rem; padding: .55rem; border: 1px solid var(--s5-border); border-radius: 8px; background: #071827; color-scheme: dark; }
+.s5-form-panel .s5-belief-field label.s5-belief-label { display: block; border: 0; background: none; padding: 0; font-size: .75rem; line-height: 1.6; }
+.s5-belief-field output { color: var(--s5-accent-strong); font-size: .72rem; white-space: nowrap; align-self: center; }
+.s5-belief-control { grid-column: 1 / -1; min-width: 0; display: flex; }
+.s5-form-panel input.s5-belief-range { appearance: none; width: 100%; min-width: 0; height: 30px; margin: 0; background: transparent; cursor: pointer; }
+.s5-belief-range::-webkit-slider-runnable-track { height: 6px; border-radius: 8px; background: linear-gradient(to right, #49c7e5 var(--s5-range-fill), #31506c var(--s5-range-fill)); }
+.s5-belief-range::-moz-range-track { height: 6px; border-radius: 8px; background: #31506c; }
+.s5-belief-range::-moz-range-progress { height: 6px; background: #49c7e5; }
+.s5-belief-range::-webkit-slider-thumb { appearance: none; width: 18px; height: 18px; margin-top: -6px; border: 2px solid #dffaff; border-radius: 50%; background: #49c7e5; }
+.s5-belief-range::-moz-range-thumb { width: 16px; height: 16px; border: 2px solid #dffaff; border-radius: 50%; background: #49c7e5; }
+.s5-belief-range.s5-untouched::-webkit-slider-thumb { opacity: 0; }
+.s5-belief-range.s5-untouched::-moz-range-thumb { opacity: 0; }
+.s5-belief-range.s5-untouched::-webkit-slider-runnable-track { background: #31506c; }
+.s5-belief-range.s5-untouched::-moz-range-progress { background: #31506c; }
+.s5-belief-range:focus-visible { box-shadow: 0 0 0 3px rgba(125,229,245,.18); }
+.s5-slider-bounds { grid-column: 1 / -1; display: flex; justify-content: space-between; gap: .5rem; color: var(--s5-muted); font-size: .62rem; }
+.s5-belief-helper { color: var(--s5-muted); font-size: .7rem; line-height: 1.6; }
+.s5-belief-panel .s5-information-summary { display: grid; grid-template-columns: minmax(0,1fr) auto; gap: .12rem .35rem; padding: .35rem; font-size: .63rem; line-height: 1.3; }
+.s5-belief-panel .s5-information-summary strong { font-size: .65rem; }
+.s5-belief-panel .s5-information-summary small { align-self: end; }
+.s5-belief-panel .s5-information-picture { margin: .45rem 0; }
+.s5-belief-panel .s5-stage-instruction { margin-bottom: .45rem; font-size: .72rem; line-height: 1.5; }
+.s5-belief-panel .s5-corridor-field { margin: .55rem 0; }
+.s5-belief-panel label.s5-corridor-card { min-height: 40px; padding: .35rem; font-size: .7rem; }
+.s5-belief-panel .s5-belief-field { padding: .35rem; gap: .15rem; margin-top: .4rem; }
+.s5-belief-panel .s5-belief-field label.s5-belief-label { font-size: .7rem; line-height: 1.45; }
+.s5-belief-panel .s5-belief-helper { margin: .4rem 0; font-size: .65rem; line-height: 1.4; }
+.s5-belief-panel input.s5-belief-range { height: 24px; }
+.s5-slider-bounds { direction: ltr; }
+.s5-slider-bounds span { direction: rtl; }
+.s5-command-bar { grid-template-columns: minmax(200px,1fr) auto auto auto; }
+.s5-glossary-control { min-height: 36px; padding: .4rem .6rem; font-size: .72rem !important; }
+.s5-glossary-dialog { width: min(600px,calc(100vw - 2rem)); max-height: 80dvh; padding: 1.2rem; border: 1px solid #31506c; border-radius: 14px; background: #0b1c2e; color: #f1f6fb; }
+.s5-glossary-dialog::backdrop, .s5-outcome-dialog::backdrop { background: rgba(1,7,13,.76); backdrop-filter: blur(4px); }
+.s5-glossary-definitions { margin: .3rem 0; display: grid; gap: .5rem; }
+.s5-glossary-definitions > div { display: grid; grid-template-columns: 50px minmax(0,1fr); gap: .5rem; }
+.s5-glossary-definitions dt { color: #7de5f5; font-weight: 900; }
+.s5-glossary-definitions dd { margin: 0; line-height: 1.6; font-size: .78rem; }
+.s5-glossary-inline { border-top: 1px solid #31506c; padding-top: .5rem; }
+.s5-glossary-inline h3 { margin: 0 0 .4rem; font-size: .8rem; }
+.s5-briefing-card { display: flex; flex-direction: column; }
+.s5-briefing-scroll { min-height: 0; overflow-y: auto; overscroll-behavior: contain; padding: .3rem; }
+.s5-briefing-card h2 { margin: .4rem 0; font-size: .86rem; color: var(--s5-accent-strong); }
+.s5-briefing-columns { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
+.s5-briefing-card ul { display: block; }
+.s5-briefing-card li { margin-bottom: .25rem; }
+.s5-briefing-card > .s5-primary-button { flex-shrink: 0; margin-top: .5rem; }
+.s5-map-clock { display: flex; flex-direction: column; align-items: end; gap: .25rem; }
+.s5-map-clock small { font-size: .66rem; color: var(--s5-accent-strong); }
+.s5-route-evidence-badge rect { fill: #0b2d42; stroke: #49c7e5; stroke-width: 1.5; }
+.s5-route-evidence-badge text { fill: #dffaff; font-size: 13px; }
+.s5-outcome-dialog { width: min(780px,calc(100vw - 2rem)); max-width: none; max-height: calc(100dvh - 3rem); padding: 0; border: 0; background: transparent; color: #f1f6fb; }
+.s5-outcome-dialog .s5-outcome-modal { display: flex; flex-direction: column; width: 100%; height: min(760px,calc(100dvh - 3rem)); max-height: none; padding: 0; overflow: hidden; }
+.s5-outcome-block { border-top: 1px solid #31506c; padding-top: .7rem; margin-top: .7rem; }
+.s5-outcome-block h3 { font-size: 1rem; color: var(--s5-accent-strong); }
+.s5-outcome-block p { font-size: .82rem; line-height: 1.7; }
+.s5-outcome-block h3 { margin: .25rem 0 .6rem; }
+.s5-outcome-block p { margin: .4rem 0; }
+.s5-outcome-dialog .s5-outcome-list { margin: .5rem 0; }
+.s5-outcome-dialog .s5-outcome-list { grid-template-columns: 1fr 1fr; font-size: .76rem; }
+@media (max-width: 899px) {
+  .s5-command-bar { grid-template-columns: minmax(0,1fr) auto; }
+  .s5-command-identity { grid-column: 1 / -1; }
+  .s5-glossary-control { grid-column: 2; grid-row: 2; }
+  .s5-command-resources { grid-column: 1 / -1; grid-row: 3; }
+  .s5-control-pane > .s5-panel, .s5-control-pane .s5-form-panel, .s5-local-evidence-view { height: auto; overflow: visible; }
+  .s5-control-scroll { overflow-y: visible; }
+  .s5-outcome-dialog .s5-control-scroll { overflow-y: auto; }
+  .s5-briefing-columns { grid-template-columns: 1fr; gap: .2rem; }
+}
+@media (max-width: 600px) {
+  .s5-belief-control, .s5-form-panel input.s5-belief-range { width: 100%; }
+  .s5-outcome-dialog .s5-outcome-list { grid-template-columns: 1fr; }
 }

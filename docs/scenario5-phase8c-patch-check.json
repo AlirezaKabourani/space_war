@@ -1,0 +1,15 @@
+{
+  "warningScan": "PASS",
+  "binaryScreenshotsExcluded": true,
+  "existingScenario4ChangesExcluded": true,
+  "stat": {
+    "status": "PASS",
+    "exitCode": 0,
+    "stderr": ""
+  },
+  "reverse": {
+    "status": "PASS",
+    "exitCode": 0,
+    "stderr": ""
+  }
+}

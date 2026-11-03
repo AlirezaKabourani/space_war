@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from "react";
 import type { CorridorId } from "./scenario-five/model/index";
-import type { ScenarioFivePlayerConvoy } from "./ScenarioFiveTypes";
+import type { ScenarioFiveEvidenceSummary, ScenarioFivePlayerConvoy } from "./ScenarioFiveTypes";
 import { SCENARIO5_CORRIDOR_CONTENT_FA, SCENARIO5_STATUS_LABELS_FA } from "./scenario-five/ui/index";
 
 const POINTS = {
@@ -33,9 +33,10 @@ const convoySignature = (convoy: ScenarioFivePlayerConvoy): string => JSON.strin
 });
 
 export const ScenarioFiveMap = ({
-  convoys, worldClockMinutes, highlightedCorridorId, globalRoutePulse,
+  convoys, worldClockMinutes, highlightedCorridorId, globalRoutePulse, evidence,
 }: {
   convoys: readonly ScenarioFivePlayerConvoy[];
+  evidence: readonly ScenarioFiveEvidenceSummary[];
   worldClockMinutes: number;
   highlightedCorridorId: CorridorId | null;
   globalRoutePulse: boolean;
@@ -76,19 +77,26 @@ export const ScenarioFiveMap = ({
     <section className="s5-panel s5-map-panel" aria-labelledby="s5-map-title">
       <div className="s5-section-heading s5-map-heading">
         <div><span>نمای عملیاتی</span><h3 id="s5-map-title">شبکه چهار کریدور</h3></div>
-        <b>T+{worldClockMinutes}</b>
+        <div className="s5-map-clock"><b>T+{worldClockMinutes}</b>
+          {evidence.some((item) => item.observedCorridorId === null) && <small>شواهد چندمحوره: {evidence.filter((item) => item.observedCorridorId === null).length}</small>}
+        </div>
       </div>
       <div className="s5-map-frame">
-        <svg viewBox="130 34 720 540" role="img" aria-label="نقشه عملیاتی چهار کریدور سناریو پنج">
+        <svg viewBox="130 34 720 540" role="img" aria-label="نقشه عملیاتی چهار کریدور سناریو ۲">
           <image href="/vendor/iranmap/iranmap.svg" x="130" y="34" width="720" height="540" preserveAspectRatio="xMidYMid meet" className="s5-iran-base-image" />
           {(Object.keys(ROUTES) as CorridorId[]).map((corridorId) => {
             const route = ROUTES[corridorId];
             const convoy = convoys.find((item) => item.corridorId === corridorId)!;
             const highlighted = highlightedCorridorId === corridorId;
+            const evidenceCount = evidence.filter((item) => item.observedCorridorId === corridorId).length;
             return <g key={corridorId}>
               <line x1={route.from.x} y1={route.from.y} x2={route.to.x} y2={route.to.y} className={`s5-route s5-status-${convoy.status} ${highlighted ? "s5-highlighted" : ""} ${globalRoutePulse ? "s5-global-pulse" : ""}`} />
               <circle cx={route.from.x} cy={route.from.y} r="5" className={`s5-route-endpoint ${highlighted ? "s5-highlighted" : ""}`} />
               <circle cx={route.to.x} cy={route.to.y} r="5" className={`s5-route-endpoint ${highlighted ? "s5-highlighted" : ""}`} />
+              {evidenceCount > 0 && <g className="s5-route-evidence-badge" transform={`translate(${(route.from.x + route.to.x) / 2}, ${(route.from.y + route.to.y) / 2 - 25})`}>
+                <rect x="-37" y="-13" width="74" height="26" rx="10" />
+                <text textAnchor="middle" dominantBaseline="central" direction="rtl">شاهد {evidenceCount}</text>
+              </g>}
             </g>;
           })}
           {convoys.map((convoy) => {

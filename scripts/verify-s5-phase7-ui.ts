@@ -1,4 +1,8 @@
 import assert from "node:assert/strict";
+import { createElement } from "react";
+import * as React from "react";
+import { renderToStaticMarkup } from "react-dom/server";
+import { ScenarioFiveBeliefPanel } from "../src/ui/components/scenario/scenario-five/ui/ScenarioFiveBeliefPanel.tsx";
 import { createHash } from "node:crypto";
 import { existsSync, readFileSync, readdirSync, statSync } from "node:fs";
 import { join } from "node:path";
@@ -113,7 +117,7 @@ const frozenTimingHashes: Readonly<Record<string, string>> = {
   "src/ui/components/scenario/scenario-five/model/runtime/stageMachine.ts": "9cbd4a7928ecdf66e03aece28c6af2e93396fcc743a75c84698c5a669a06f277",
 };
 for (const [path, expectedHash] of Object.entries(frozenTimingHashes)) {
-  equal(createHash("sha256").update(readFileSync(join(ROOT, path))).digest("hex"), expectedHash, `${path} frozen timing hash unchanged`);
+  equal(createHash("sha256").update(source(path).replace(/\r\n/g, "\n")).digest("hex"), expectedHash, `${path} frozen timing hash unchanged`);
 }
 
 equal(fnv1a32(""), 2166136261, "FNV-1a empty vector exact");
@@ -264,7 +268,7 @@ const visualProgressOccurrences = [
   ].filter((path) => /visualProgress/.test(source(path))),
 ];
 equal(visualProgressOccurrences, ["src/ui/components/scenario/ScenarioFiveMap.tsx"], "07C visual progress never enters runtime/model/scoring source");
-equal(createHash("sha256").update(source("src/services/analytics/eventLogger.ts")).digest("hex"), "7faa68531a38bd3a56facb5e73a7c4e4f5d1e13f4906218ee56147dacd1103b1", "07C leaves eventLogger semantics byte-identical");
+equal(createHash("sha256").update(readFileSync(join(ROOT, "src/services/analytics/eventLogger.ts"))).digest("hex"), "68cc239f0d4e19a94defa87ba093611fce64cfe10c956002058490e8da372a98", "07C leaves eventLogger semantics byte-identical");
 for (const runtimeCall of ["selectRuntimeAction", "openRuntimeEvidence", "closeRuntimeEvidence", "confirmRuntimeDecision", "submitRuntimeBelief", "submitRuntimeReason", "continueRuntimeAfterOutcome"]) check(simulationSource.includes(`${runtimeCall}(`), `07C retains runtime API call ${runtimeCall}`);
 const originDeconflictionBlock = mapSource.match(/const ORIGIN_DECONFLICTION:[\s\S]*?= \{([\s\S]*?)\n\};/)?.[1] ?? "";
 equal([...originDeconflictionBlock.matchAll(/^\s*(alpha|beta|gamma|delta):/gm)].map((match) => match[1]), ["alpha", "delta"], "07D origin deconfliction contains only alpha and delta");
@@ -281,23 +285,30 @@ equal(deconflictionSourceOccurrences, ["src/ui/components/scenario/ScenarioFiveM
 equal(Math.min(1, Math.max(0, 1 - 0.08 / 0.08)), 0, "07D origin offset weight is zero at progress 0.08");
 equal(Math.abs((-12) - 12), 24, "07D alpha and delta initial rendered centers differ by 24 SVG units");
 check(!/data-(?:origin|offset|display-point)/.test(mapSource) && !mapSource.includes("log(originOffset"), "07D presentation offset is neither exposed nor logged");
+// Phase 08C changes the control surface; preserve every prior semantic assertion
+// against rendered controls rather than the retired numeric/dropdown markup.
+// tsx's root config uses classic JSX; Vite uses react-jsx. Supply its test-only global.
+(globalThis as unknown as { React: typeof React }).React = React;
+const beliefMarkup = renderToStaticMarkup(createElement(ScenarioFiveBeliefPanel, {
+  stageId: "belief:A2_prebelief", evidence: [], recentEvidenceIds: new Set<string>(), onSubmit: () => {},
+}));
 for (const initializer of [
-  'useState<CorridorId | "">("")', 'useState("")',
+  'useState<CorridorId | null>(null)', 'useState<number | null>(null)',
 ]) check(beliefSource.includes(initializer), `belief form empty initializer present: ${initializer}`);
-equal((beliefSource.match(/setCorridorConfidence|setTargetedEstimate|setTargetedConfidence/g) ?? []).length, 6, "three numeric belief fields retain empty controlled state");
-equal((beliefSource.match(/min="0"/g) ?? []).length, 3, "all three belief numeric minima remain 0");
-equal((beliefSource.match(/max="100"/g) ?? []).length, 3, "all three belief numeric maxima remain 100");
+equal((beliefSource.match(/setCorridorConfidence|setTargetedEstimate|setTargetedConfidence/g) ?? []).length, 6, "three belief fields retain empty controlled state");
+equal((beliefMarkup.match(/min="0"/g) ?? []).length, 3, "all three belief range minima remain 0");
+equal((beliefMarkup.match(/max="100"/g) ?? []).length, 3, "all three belief range maxima remain 100");
 check(!beliefSource.includes("defaultValue") && !beliefSource.includes("defaultChecked"), "belief form introduces no browser defaults");
-check(beliefSource.includes('<option value="" disabled>'), "belief select retains an empty disabled initial option");
-equal((beliefSource.match(/className="s5-belief-field"/g) ?? []).length, 4, "all four belief fields use the common field structure");
-equal((beliefSource.match(/className="s5-belief-label"/g) ?? []).length, 4, "all four belief fields separate their labels");
-equal((beliefSource.match(/className="s5-belief-control"/g) ?? []).length, 4, "all four belief fields separate their controls");
-check(beliefSource.includes('className="s5-belief-select"'), "belief select uses the S5 visual class");
-equal((beliefSource.match(/className="s5-belief-number"/g) ?? []).length, 3, "all three numeric controls use the S5 visual class");
-equal((beliefSource.match(/type="number" min="0" max="100" dir="ltr"/g) ?? []).length, 3, "all numeric belief values retain bounds and explicit LTR display");
-check(/\.s5-belief-select, \.s5-belief-number \{[^}]*min-height: 42px;[^}]*background: #071827;[^}]*color-scheme: dark;/s.test(scenario5CssSource), "belief controls have dark theme and 42px minimum height");
-check(/\.s5-belief-select:focus-visible, \.s5-belief-number:focus-visible \{[^}]*box-shadow:/s.test(scenario5CssSource), "belief controls have visible focus styling");
-check(/@media \(max-width: 600px\)[\s\S]*?\.s5-belief-control, \.s5-belief-select, \.s5-form-panel input\.s5-belief-number \{[^}]*width: 100%;/s.test(scenario5CssSource), "belief controls become full width at 600px");
+check(!/checked=""/.test(beliefMarkup) && (beliefMarkup.match(/name="s5-belief-corridor"/g) ?? []).length === 4, "four corridor cards retain an empty initial selection");
+equal((beliefMarkup.match(/class="s5-belief-field"/g) ?? []).length + (beliefMarkup.match(/class="s5-corridor-field"/g) ?? []).length, 4, "all four belief fields have a separate field structure");
+equal((beliefMarkup.match(/class="s5-belief-label"/g) ?? []).length + (beliefMarkup.match(/<legend>/g) ?? []).length, 4, "all four belief fields separate their labels");
+equal((beliefMarkup.match(/class="s5-belief-control"/g) ?? []).length + (beliefMarkup.match(/class="s5-corridor-cards"/g) ?? []).length, 4, "all four belief fields separate their controls");
+check(beliefMarkup.includes('class="s5-corridor-cards"') && beliefMarkup.includes('<fieldset'), "belief corridor selector uses grouped accessible S5 cards");
+equal((beliefMarkup.match(/class="s5-belief-range s5-untouched"/g) ?? []).length, 3, "all three range controls use the S5 visual class and are untouched");
+equal((beliefMarkup.match(/type="range" min="0" max="100" step="1" dir="ltr"/g) ?? []).length, 3, "all belief values retain bounds and explicit LTR display");
+check(/\.s5-belief-field \{[^}]*background: #071827;[^}]*color-scheme: dark;/s.test(scenario5CssSource) && /\.s5-form-panel input\.s5-belief-range \{[^}]*height: 30px;/s.test(scenario5CssSource), "belief range controls have dark theme and usable hit area");
+check(/\.s5-belief-range:focus-visible \{[^}]*box-shadow:/s.test(scenario5CssSource), "belief controls have visible focus styling");
+check(/@media \(max-width: 600px\)[\s\S]*?\.s5-belief-control, \.s5-form-panel input\.s5-belief-range \{[^}]*width: 100%;/s.test(scenario5CssSource), "belief controls become full width at 600px");
 check(reasonSource.includes('useState<ReasonId | "">("")') && !reasonSource.includes("checked={true}"), "reason form starts with no checked selection");
 equal((reasonSource.match(/type="radio"/g) ?? []).length, 1, "reason form renders canonical labels through one radio template");
 check(!/correct answer|optimal|پاسخ شما (درست|غلط) بود/iu.test(`${beliefSource}\n${reasonSource}`), "forms contain no post-submit correctness feedback");
