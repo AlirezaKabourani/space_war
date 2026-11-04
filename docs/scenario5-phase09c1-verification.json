@@ -1,0 +1,201 @@
+{
+  "status": "PASS",
+  "assertions": 764,
+  "typedScalarLeaves": [
+    "result.cognitive.scenarioId",
+    "result.cognitive.runId",
+    "result.cognitive.measurementModelVersion",
+    "result.cognitive.formulaVersion",
+    "result.cognitive.optionProfileVersion",
+    "result.cognitive.scenarioContentVersion",
+    "result.cognitive.reasonModelVersion",
+    "result.cognitive.expertPanelVersion",
+    "result.cognitive.validityStatus",
+    "result.cognitive.dataCompleteness.overall",
+    "result.cognitive.dataCompleteness.decisions",
+    "result.cognitive.dataCompleteness.timing",
+    "result.cognitive.dataCompleteness.evidence",
+    "result.cognitive.dataCompleteness.estimates",
+    "result.cognitive.dataCompleteness.reasons",
+    "result.cognitive.orientation.overall",
+    "result.cognitive.orientation.operationalStrength",
+    "result.cognitive.orientation.strategicStrength",
+    "result.cognitive.orientation.integration",
+    "result.cognitive.orientation.dispersion",
+    "result.cognitive.orientation.phaseScores[0]",
+    "result.cognitive.orientation.phaseScores[1]",
+    "result.cognitive.orientation.phaseScores[2]",
+    "result.cognitive.orientation.phaseScores[3]",
+    "result.cognitive.constructs.informationSeeking",
+    "result.cognitive.constructs.secondOrderThinking",
+    "result.cognitive.constructs.adversaryModeling",
+    "result.cognitive.constructs.escalationSensitivity",
+    "result.cognitive.constructs.informationDiscipline",
+    "result.cognitive.constructs.evidenceResponsiveUpdating",
+    "result.cognitive.constructs.resourceStewardship",
+    "result.cognitive.constructs.planningForesight",
+    "result.cognitive.constructs.multiDomainIntegration",
+    "result.cognitive.constructs.riskPosture",
+    "result.cognitive.constructs.decisionCoherence",
+    "result.cognitive.telemetrySummary.medianActiveDecisionMs",
+    "result.cognitive.telemetrySummary.iqrActiveDecisionMs",
+    "result.cognitive.telemetrySummary.totalRevisions",
+    "result.cognitive.telemetrySummary.revisedWindows",
+    "result.cognitive.telemetrySummary.evidenceTriggeredRevisionRate"
+  ],
+  "scientificParity": {
+    "runs": 112,
+    "worlds": 16,
+    "policyFamilies": 7,
+    "environmentSeed": 1,
+    "semanticMismatches": 0,
+    "fullObjectDigestsEqual": true,
+    "cognitiveDomainMissionEvidenceDigestsEqual": true
+  },
+  "frozenHashes": 63,
+  "releasedS1Unchanged": true,
+  "legacyId2Unchanged": true,
+  "gameplaySourcesUnchanged": true,
+  "nullZeroCases": "PASS",
+  "signedAxisCases": "PASS",
+  "sameRunGate": "PASS",
+  "sourceAndInstrumentationFirewall": "PASS",
+  "regressions": [
+    {
+      "id": "08D/08D.1/08D.2-header",
+      "status": "PASS",
+      "stdout": "08D.2 PASS: 115 checks; 08D 32798 PASS; 08D.1 1516 PASS; parity 112 runs / zero mismatches.\n"
+    },
+    {
+      "id": "08D.2-UX",
+      "status": "PASS",
+      "stdout": "{\n  \"status\": \"PASS\",\n  \"phase\": \"PHASE 08D.2 — Scenario 2 UI/UX refinement and ending explanation pass\",\n  \"assertions\": 2677,\n  \"accepted08DAssertions\": 32798,\n  \"scientificParity\": {\n    \"runs\": 112,\n    \"mismatches\": 0,\n    \"worlds\": 16,\n    \"policyFamilies\": 7,\n    \"seed\": 1\n  },\n  \"frozenHashes\": 63,\n  \"legacyId2\": \"UNCHANGED\",\n  \"runtimeAndTelemetryHandlers\": \"UNCHANGED\",\n  \"cognitiveFormulas\": \"UNCHANGED\",\n  \"endStateSemantics\": \"UNCHANGED\",\n  \"liveTruthFirewall\": \"PASS\"\n}\n"
+    }
+  ],
+  "phase": "PHASE 09C-1",
+  "finalStatus": "PASS",
+  "applicationFiles": {
+    "modified": [
+      "src/ui/components/scenario/ScenarioFiveSummary.tsx",
+      "src/ui/components/scenario/ScenarioFive.css"
+    ],
+    "added": [
+      "src/ui/components/scenario/scenario-five/ui/ScenarioFiveCognitiveDashboard.tsx",
+      "src/ui/components/scenario/scenario-five/ui/cognitiveDashboardPresentation.ts"
+    ]
+  },
+  "fieldToUiCoverage": {
+    "actualScalarLeaves": 40,
+    "csvRows": 40,
+    "nineMeasuredConstructs": 9,
+    "unmeasuredProperty": "informationDiscipline",
+    "signedRiskSeparate": true,
+    "scenarioId": "gate only, not an extra score"
+  },
+  "browser": {
+    "status": "PASS",
+    "normalRunId": "s5-1793448000000-43a66a45",
+    "normalRunSource": "Actual product UI, no metric/resource injection",
+    "screenshotCount": 32,
+    "desktopViewports": [
+      "1280x720",
+      "1366x768",
+      "1440x900"
+    ],
+    "mobileViewport": "390x844",
+    "sixEndingWitnesses": [
+      {
+        "endingId": "critical_cargo_lost_or_compromised",
+        "runId": "cal-M10_uniform_random-W-corridor_alpha_east-opportunistic_interdiction-19-1291847972",
+        "access": "PASS",
+        "backReopen": "PASS",
+        "passiveTelemetry": "PASS"
+      },
+      {
+        "endingId": "priority_delivered_network_degradation",
+        "runId": "cal-high_response-W-corridor_delta_west-pressure_escalator-1-none",
+        "access": "PASS",
+        "backReopen": "PASS",
+        "passiveTelemetry": "PASS"
+      },
+      {
+        "endingId": "mission_incomplete_continuity_preserved",
+        "runId": "cal-witness_random-W-corridor_alpha_east-opportunistic_interdiction-1-none",
+        "access": "PASS",
+        "backReopen": "PASS",
+        "passiveTelemetry": "PASS"
+      },
+      {
+        "endingId": "delivery_complete_threat_persistent",
+        "runId": "cal-low_response_reversible-W-corridor_delta_west-pressure_escalator-1-none",
+        "access": "PASS",
+        "backReopen": "PASS",
+        "passiveTelemetry": "PASS"
+      },
+      {
+        "endingId": "delivery_complete_attribution_unresolved",
+        "runId": "cal-resource_preserver-W-corridor_delta_west-pressure_escalator-1-none",
+        "access": "PASS",
+        "backReopen": "PASS",
+        "passiveTelemetry": "PASS"
+      },
+      {
+        "endingId": "delivery_complete_threat_contained",
+        "runId": "cal-M10_uniform_random-W-corridor_alpha_east-pressure_escalator-1-1291848714",
+        "access": "PASS",
+        "backReopen": "PASS",
+        "passiveTelemetry": "PASS"
+      }
+    ],
+    "passiveNavigation": [
+      {
+        "flow": "actual product run: dashboard/back/reopen/trace/reopen",
+        "sameRunId": "s5-1793448000000-43a66a45",
+        "immutableRuntime": true,
+        "passiveEventsUnchanged": true
+      }
+    ],
+    "completionEventCount": 1,
+    "liveMapGeometryUnchanged": true,
+    "hiddenTruthFirewall": "PASS",
+    "nullFixturesExplicitlyTestOnly": true,
+    "s4Reference": {
+      "filename": "00-s4-reference-genuine-09c0.png",
+      "source": "docs/scenario5-phase09c0-scenario1-screenshots/02-scenario1-cognitive-dashboard-1440x900.png",
+      "genuinePriorCapture": true,
+      "sourceUnchanged": true
+    }
+  },
+  "checks": [
+    {
+      "id": "verifier-and-08d-regressions",
+      "status": "PASS",
+      "exitCode": 0
+    },
+    {
+      "id": "typecheck",
+      "status": "PASS",
+      "exitCode": 0
+    },
+    {
+      "id": "build",
+      "status": "PASS",
+      "exitCode": 0
+    },
+    {
+      "id": "eslint",
+      "status": "PASS",
+      "exitCode": 0
+    }
+  ],
+  "scope": {
+    "preexistingFilesCompared": 891,
+    "unexpectedExistingChanges": [],
+    "existingGameAndMapFilesUnchanged": true,
+    "oldVerifierCodeAndArtifactsUnchanged": true
+  },
+  "knownObjectiveBlockers": [],
+  "preexistingWarnings": [
+    "(!) Some chunks are larger than 500 kB after minification. Consider:\n- Using dynamic import() to code-split the application\n- Use build.rollupOptions.output.manualChunks to improve chunking: https://rollupjs.org/configuration-options/#output-manualchunks\n- Adjust chunk size limit for this warning via build.chunkSizeWarningLimit."
+  ]
+}

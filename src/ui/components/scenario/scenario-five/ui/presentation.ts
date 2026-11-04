@@ -1,7 +1,8 @@
 import type { CorridorId } from "../model/index";
+import { escortOutcomeLabel, ESCORT_EXPIRED } from './gameplayPresentation';
 import { S5_COGNITIVE_MEASUREMENT_MODEL_VERSION } from "../model/cognitive/index";
 import type { BeliefTelemetry, EvidenceOpenTelemetry, EvidenceTelemetry, ReasonTelemetry } from "../model/cognitive/index";
-import { MISSION_MODEL_VERSION } from "../model/mission/index";
+import { BASE_ROUND_MINUTES, getMissionAction, MISSION_MODEL_VERSION } from "../model/mission/index";
 import type { MissionActionId } from "../model/mission/index";
 import {
   DECISION_STAGE_METADATA,
@@ -42,6 +43,7 @@ export function buildScenario5PlayerView(state: Scenario5RuntimeState): Scenario
       supportReserve: state.missionState.resources.supportReserve,
       worldClockMinutes: state.missionState.worldClockMinutes,
       missionHorizonMinutes: 360,
+      evidenceCount: state.evidence.length,
     },
     convoys: state.missionState.convoys.map((convoy) => ({
       convoyId: convoy.convoyId,
@@ -98,21 +100,33 @@ export function buildScenario5OutcomeView(state: Scenario5RuntimeState): Scenari
   if (state.stage.stageId !== "outcome_review" || !state.stage.nextStageId) {
     throw new Error("Scenario 5 outcome view requires outcome_review stage");
   }
-  const record = state.domainDecisionRecords.at(-1);
-  if (!record) throw new Error("Scenario 5 outcome view requires a committed decision");
+  return buildStoredScenario5Outcome(state, state.domainDecisionRecords.length - 1, state.stage.nextStageId);
+}
+
+// Uses immutable committed records; reopening never reruns mission transitions.
+export function buildStoredScenario5Outcome(state: Scenario5RuntimeState, index: number, nextStageId: RuntimeStageId = "complete"): ScenarioFiveOutcomeView {
+  const record = state.domainDecisionRecords[index];
+  if (!record) throw new Error("Missing committed outcome");
+  const action = getMissionAction(record.actionId);
+  const evidenceIds = new Set(state.domainDecisionRecords.slice(0, index + 1).flatMap(r => r.newVisibleEvidenceIds));
+  const finalBelief = state.beliefs.find(b => b.checkpointId === "D_final_belief");
   const convoyChanges = record.convoyStateBefore.flatMap((before) => {
     const after = record.convoyStateAfter.find(({ corridorId }) => corridorId === before.corridorId);
     if (!after) throw new Error(`Missing outcome convoy ${before.corridorId}`);
+    const escortApplied = before.escortedUntilRound !== record.roundId && after.escortedUntilRound === record.roundId;
+    const escortActiveAfter = after.escortedUntilRound === Math.min(8, record.roundId + 1);
     const newMitigations = [
       !before.fallbackNav && after.fallbackNav ? "ناوبری پشتیبان" : null,
-      !before.routeHardened && after.routeHardened ? "مسیر سخت‌سازی‌شده" : null,
+      !before.routeHardened && after.routeHardened ? (record.actionId === 'b2_staged_checkpoints' || record.actionId === 'c1_checkpoint_spacing' ? 'نقاط کنترل فعال' : 'مسیر تقویت‌شده') : null,
       !before.groundSupport && after.groundSupport ? "پشتیبانی زمینی" : null,
-      before.escortedUntilRound !== record.roundId && after.escortedUntilRound === record.roundId ? "اسکورت فعال" : null,
+      escortOutcomeLabel(escortApplied, escortActiveAfter),
     ].filter((value): value is string => value !== null);
+    const expiredMitigations = !escortApplied && before.escortedUntilRound === record.roundId - 1 && !escortActiveAfter
+      ? [ESCORT_EXPIRED] : [];
     const changed = before.status !== after.status
       || before.integrity !== after.integrity
       || before.delayMinutes !== after.delayMinutes
-      || newMitigations.length > 0;
+      || newMitigations.length > 0 || expiredMitigations.length > 0;
     return changed ? [{
       corridorId: before.corridorId,
       statusBefore: before.status,
@@ -126,7 +140,9 @@ export function buildScenario5OutcomeView(state: Scenario5RuntimeState): Scenari
       projectedArrivalAfter: after.baselineArrivalMinute + after.delayMinutes,
       deadlineMinute: after.deadlineMinute,
       deadlineMargin: after.deadlineMinute - (after.baselineArrivalMinute + after.delayMinutes),
+      deadlineMarginBefore: before.deadlineMinute - (before.baselineArrivalMinute + before.delayMinutes),
       newMitigations,
+      expiredMitigations,
     }] : [];
   });
   return {
@@ -137,9 +153,24 @@ export function buildScenario5OutcomeView(state: Scenario5RuntimeState): Scenari
     worldClockAfter: record.worldClockAfter,
     isrSpent: record.resourcesBefore.isrCapacity - record.resourcesAfter.isrCapacity,
     supportSpent: record.resourcesBefore.supportReserve - record.resourcesAfter.supportReserve,
+    resourcesBefore: { ...record.resourcesBefore },
+    resourcesAfter: { ...record.resourcesAfter },
+    totalEvidenceCount: evidenceIds.size,
+    convoys: record.convoyStateAfter.map(c => ({
+      convoyId: c.convoyId, corridorId: c.corridorId, status: c.status, integrity: c.integrity,
+      delayMinutes: c.delayMinutes, projectedArrivalMinute: c.baselineArrivalMinute + c.delayMinutes,
+      deadlineMinute: c.deadlineMinute, fallbackNav: c.fallbackNav, routeHardened: c.routeHardened,
+      groundSupport: c.groundSupport, escortedNow: c.escortedUntilRound === Math.min(8, record.roundId + 1),
+    })),
+    newEvidence: state.evidence.filter(e => record.newVisibleEvidenceIds.includes(e.evidenceId)).map(buildEvidenceSummary),
+    lateEvidenceIds: finalBelief ? record.newVisibleEvidenceIds.filter(id => !finalBelief.visibleEvidenceIdsAtCheckpoint.includes(id) && record.roundId === 8) : [],
+    pendingGroundRequest: action.evidence?.timing === "pending",
+    actionDurationMinutes: action.durationMinutes,
+    baselineMinutes: BASE_ROUND_MINUTES,
+    passiveHorizonMinutes: record.roundId === 8 ? Math.max(0, record.worldClockAfter - record.worldClockBefore - BASE_ROUND_MINUTES - action.durationMinutes) : 0,
     convoyChanges,
     newEvidenceCount: record.newVisibleEvidenceIds.length,
-    nextStageId: state.stage.nextStageId,
+    nextStageId,
   };
 }
 

@@ -1,0 +1,368 @@
+{
+  "testOnly": true,
+  "description": "TEST ONLY — presentation fixtures, never actual user-run/scientific outputs",
+  "nullZero": {
+    "scenarioId": "s5_silent_waves_redesign",
+    "runId": "TEST_ONLY_NULL_ZERO",
+    "measurementModelVersion": "s5-cognitive-v3-adapter-v1.0.0",
+    "formulaVersion": "cognitive-v3-semantic-v1.0.0",
+    "optionProfileVersion": "s5-option-profiles-internal-v1.0.0",
+    "scenarioContentVersion": "s5-silent-waves-redesign-content-v1.0.0",
+    "reasonModelVersion": "s5-reason-model-internal-v1.0.0",
+    "expertPanelVersion": "not-yet-expert-validated",
+    "validityStatus": "experimental_pending_expert_and_human_validation",
+    "dataCompleteness": {
+      "overall": 0,
+      "decisions": 0,
+      "timing": 0,
+      "evidence": 0,
+      "estimates": 0,
+      "reasons": 0
+    },
+    "orientation": {
+      "overall": null,
+      "phaseScores": [
+        -0.5,
+        0,
+        0.5,
+        null
+      ],
+      "operationalStrength": 0,
+      "strategicStrength": 0,
+      "integration": null,
+      "dispersion": null
+    },
+    "constructs": {
+      "informationSeeking": 0,
+      "secondOrderThinking": 67.625,
+      "adversaryModeling": 60,
+      "escalationSensitivity": 60,
+      "informationDiscipline": null,
+      "evidenceResponsiveUpdating": null,
+      "resourceStewardship": 70.625,
+      "planningForesight": 76.6875,
+      "multiDomainIntegration": 32.13518309332631,
+      "riskPosture": null,
+      "decisionCoherence": 82.06666666666666
+    },
+    "telemetrySummary": {
+      "medianActiveDecisionMs": 0,
+      "iqrActiveDecisionMs": null,
+      "totalRevisions": 0,
+      "revisedWindows": 0,
+      "evidenceTriggeredRevisionRate": null
+    }
+  },
+  "partialZero": {
+    "scenarioId": "s5_silent_waves_redesign",
+    "runId": "TEST_ONLY_NULL_ZERO",
+    "measurementModelVersion": "s5-cognitive-v3-adapter-v1.0.0",
+    "formulaVersion": "cognitive-v3-semantic-v1.0.0",
+    "optionProfileVersion": "s5-option-profiles-internal-v1.0.0",
+    "scenarioContentVersion": "s5-silent-waves-redesign-content-v1.0.0",
+    "reasonModelVersion": "s5-reason-model-internal-v1.0.0",
+    "expertPanelVersion": "not-yet-expert-validated",
+    "validityStatus": "experimental_pending_expert_and_human_validation",
+    "dataCompleteness": {
+      "overall": 62.5,
+      "decisions": 50,
+      "timing": 0,
+      "evidence": 0,
+      "estimates": 0,
+      "reasons": 0
+    },
+    "orientation": {
+      "overall": null,
+      "phaseScores": [
+        -0.5,
+        0,
+        0.5,
+        null
+      ],
+      "operationalStrength": 0,
+      "strategicStrength": 0,
+      "integration": null,
+      "dispersion": null
+    },
+    "constructs": {
+      "informationSeeking": 0,
+      "secondOrderThinking": 67.625,
+      "adversaryModeling": 60,
+      "escalationSensitivity": 60,
+      "informationDiscipline": null,
+      "evidenceResponsiveUpdating": null,
+      "resourceStewardship": 70.625,
+      "planningForesight": 76.6875,
+      "multiDomainIntegration": 32.13518309332631,
+      "riskPosture": 0,
+      "decisionCoherence": 82.06666666666666
+    },
+    "telemetrySummary": {
+      "medianActiveDecisionMs": null,
+      "iqrActiveDecisionMs": 0,
+      "totalRevisions": 0,
+      "revisedWindows": 0,
+      "evidenceTriggeredRevisionRate": 0
+    }
+  },
+  "negativeEdge": {
+    "scenarioId": "s5_silent_waves_redesign",
+    "runId": "TEST_ONLY_09C2_negativeEdge",
+    "measurementModelVersion": "s5-cognitive-v3-adapter-v1.0.0",
+    "formulaVersion": "cognitive-v3-semantic-v1.0.0",
+    "optionProfileVersion": "s5-option-profiles-internal-v1.0.0",
+    "scenarioContentVersion": "s5-silent-waves-redesign-content-v1.0.0",
+    "reasonModelVersion": "s5-reason-model-internal-v1.0.0",
+    "expertPanelVersion": "not-yet-expert-validated",
+    "validityStatus": "experimental_pending_expert_and_human_validation",
+    "dataCompleteness": {
+      "overall": 100,
+      "decisions": 100,
+      "timing": 100,
+      "evidence": 100,
+      "estimates": 100,
+      "reasons": 100
+    },
+    "orientation": {
+      "overall": -1,
+      "operationalStrength": 58.75,
+      "strategicStrength": 78.75,
+      "integration": 67.29545454545455,
+      "dispersion": 0.20379523151981294,
+      "phaseScores": [
+        -1,
+        0,
+        0.5,
+        1
+      ]
+    },
+    "constructs": {
+      "informationSeeking": 51.74999999999999,
+      "secondOrderThinking": 67.625,
+      "adversaryModeling": 60,
+      "escalationSensitivity": 60,
+      "informationDiscipline": null,
+      "evidenceResponsiveUpdating": 30.666666666666664,
+      "resourceStewardship": 70.625,
+      "planningForesight": 76.6875,
+      "multiDomainIntegration": 32.13518309332631,
+      "riskPosture": -1,
+      "decisionCoherence": 82.06666666666666
+    },
+    "telemetrySummary": {
+      "medianActiveDecisionMs": 200,
+      "iqrActiveDecisionMs": 0,
+      "totalRevisions": 0,
+      "revisedWindows": 0,
+      "evidenceTriggeredRevisionRate": null
+    }
+  },
+  "negativeReal": {
+    "scenarioId": "s5_silent_waves_redesign",
+    "runId": "TEST_ONLY_09C2_negativeReal",
+    "measurementModelVersion": "s5-cognitive-v3-adapter-v1.0.0",
+    "formulaVersion": "cognitive-v3-semantic-v1.0.0",
+    "optionProfileVersion": "s5-option-profiles-internal-v1.0.0",
+    "scenarioContentVersion": "s5-silent-waves-redesign-content-v1.0.0",
+    "reasonModelVersion": "s5-reason-model-internal-v1.0.0",
+    "expertPanelVersion": "not-yet-expert-validated",
+    "validityStatus": "experimental_pending_expert_and_human_validation",
+    "dataCompleteness": {
+      "overall": 100,
+      "decisions": 100,
+      "timing": 100,
+      "evidence": 100,
+      "estimates": 100,
+      "reasons": 100
+    },
+    "orientation": {
+      "overall": -0.14,
+      "operationalStrength": 58.75,
+      "strategicStrength": 78.75,
+      "integration": 67.29545454545455,
+      "dispersion": 0.20379523151981294,
+      "phaseScores": [
+        -1,
+        0,
+        0.5,
+        1
+      ]
+    },
+    "constructs": {
+      "informationSeeking": 51.74999999999999,
+      "secondOrderThinking": 67.625,
+      "adversaryModeling": 60,
+      "escalationSensitivity": 60,
+      "informationDiscipline": null,
+      "evidenceResponsiveUpdating": 30.666666666666664,
+      "resourceStewardship": 70.625,
+      "planningForesight": 76.6875,
+      "multiDomainIntegration": 32.13518309332631,
+      "riskPosture": -0.14,
+      "decisionCoherence": 82.06666666666666
+    },
+    "telemetrySummary": {
+      "medianActiveDecisionMs": 200,
+      "iqrActiveDecisionMs": 0,
+      "totalRevisions": 0,
+      "revisedWindows": 0,
+      "evidenceTriggeredRevisionRate": null
+    }
+  },
+  "zero": {
+    "scenarioId": "s5_silent_waves_redesign",
+    "runId": "TEST_ONLY_09C2_zero",
+    "measurementModelVersion": "s5-cognitive-v3-adapter-v1.0.0",
+    "formulaVersion": "cognitive-v3-semantic-v1.0.0",
+    "optionProfileVersion": "s5-option-profiles-internal-v1.0.0",
+    "scenarioContentVersion": "s5-silent-waves-redesign-content-v1.0.0",
+    "reasonModelVersion": "s5-reason-model-internal-v1.0.0",
+    "expertPanelVersion": "not-yet-expert-validated",
+    "validityStatus": "experimental_pending_expert_and_human_validation",
+    "dataCompleteness": {
+      "overall": 100,
+      "decisions": 100,
+      "timing": 100,
+      "evidence": 100,
+      "estimates": 100,
+      "reasons": 100
+    },
+    "orientation": {
+      "overall": 0,
+      "operationalStrength": 58.75,
+      "strategicStrength": 78.75,
+      "integration": 67.29545454545455,
+      "dispersion": 0.20379523151981294,
+      "phaseScores": [
+        -1,
+        0,
+        0.5,
+        1
+      ]
+    },
+    "constructs": {
+      "informationSeeking": 51.74999999999999,
+      "secondOrderThinking": 67.625,
+      "adversaryModeling": 60,
+      "escalationSensitivity": 60,
+      "informationDiscipline": null,
+      "evidenceResponsiveUpdating": 30.666666666666664,
+      "resourceStewardship": 70.625,
+      "planningForesight": 76.6875,
+      "multiDomainIntegration": 32.13518309332631,
+      "riskPosture": 0,
+      "decisionCoherence": 82.06666666666666
+    },
+    "telemetrySummary": {
+      "medianActiveDecisionMs": 200,
+      "iqrActiveDecisionMs": 0,
+      "totalRevisions": 0,
+      "revisedWindows": 0,
+      "evidenceTriggeredRevisionRate": null
+    }
+  },
+  "positive": {
+    "scenarioId": "s5_silent_waves_redesign",
+    "runId": "TEST_ONLY_09C2_positive",
+    "measurementModelVersion": "s5-cognitive-v3-adapter-v1.0.0",
+    "formulaVersion": "cognitive-v3-semantic-v1.0.0",
+    "optionProfileVersion": "s5-option-profiles-internal-v1.0.0",
+    "scenarioContentVersion": "s5-silent-waves-redesign-content-v1.0.0",
+    "reasonModelVersion": "s5-reason-model-internal-v1.0.0",
+    "expertPanelVersion": "not-yet-expert-validated",
+    "validityStatus": "experimental_pending_expert_and_human_validation",
+    "dataCompleteness": {
+      "overall": 100,
+      "decisions": 100,
+      "timing": 100,
+      "evidence": 100,
+      "estimates": 100,
+      "reasons": 100
+    },
+    "orientation": {
+      "overall": 0.5,
+      "operationalStrength": 58.75,
+      "strategicStrength": 78.75,
+      "integration": 67.29545454545455,
+      "dispersion": 0.20379523151981294,
+      "phaseScores": [
+        -1,
+        0,
+        0.5,
+        1
+      ]
+    },
+    "constructs": {
+      "informationSeeking": 51.74999999999999,
+      "secondOrderThinking": 67.625,
+      "adversaryModeling": 60,
+      "escalationSensitivity": 60,
+      "informationDiscipline": null,
+      "evidenceResponsiveUpdating": 30.666666666666664,
+      "resourceStewardship": 70.625,
+      "planningForesight": 76.6875,
+      "multiDomainIntegration": 32.13518309332631,
+      "riskPosture": 0.5,
+      "decisionCoherence": 82.06666666666666
+    },
+    "telemetrySummary": {
+      "medianActiveDecisionMs": 200,
+      "iqrActiveDecisionMs": 0,
+      "totalRevisions": 0,
+      "revisedWindows": 0,
+      "evidenceTriggeredRevisionRate": null
+    }
+  },
+  "positiveEdge": {
+    "scenarioId": "s5_silent_waves_redesign",
+    "runId": "TEST_ONLY_09C2_positiveEdge",
+    "measurementModelVersion": "s5-cognitive-v3-adapter-v1.0.0",
+    "formulaVersion": "cognitive-v3-semantic-v1.0.0",
+    "optionProfileVersion": "s5-option-profiles-internal-v1.0.0",
+    "scenarioContentVersion": "s5-silent-waves-redesign-content-v1.0.0",
+    "reasonModelVersion": "s5-reason-model-internal-v1.0.0",
+    "expertPanelVersion": "not-yet-expert-validated",
+    "validityStatus": "experimental_pending_expert_and_human_validation",
+    "dataCompleteness": {
+      "overall": 100,
+      "decisions": 100,
+      "timing": 100,
+      "evidence": 100,
+      "estimates": 100,
+      "reasons": 100
+    },
+    "orientation": {
+      "overall": 1,
+      "operationalStrength": 58.75,
+      "strategicStrength": 78.75,
+      "integration": 67.29545454545455,
+      "dispersion": 0.20379523151981294,
+      "phaseScores": [
+        -1,
+        0,
+        0.5,
+        1
+      ]
+    },
+    "constructs": {
+      "informationSeeking": 51.74999999999999,
+      "secondOrderThinking": 67.625,
+      "adversaryModeling": 60,
+      "escalationSensitivity": 60,
+      "informationDiscipline": null,
+      "evidenceResponsiveUpdating": 30.666666666666664,
+      "resourceStewardship": 70.625,
+      "planningForesight": 76.6875,
+      "multiDomainIntegration": 32.13518309332631,
+      "riskPosture": 1,
+      "decisionCoherence": 82.06666666666666
+    },
+    "telemetrySummary": {
+      "medianActiveDecisionMs": 200,
+      "iqrActiveDecisionMs": 0,
+      "totalRevisions": 0,
+      "revisedWindows": 0,
+      "evidenceTriggeredRevisionRate": null
+    }
+  }
+}

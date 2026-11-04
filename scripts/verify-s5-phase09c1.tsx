@@ -1,0 +1,63 @@
+import assert from 'node:assert/strict';
+import fs from 'node:fs';
+import {createHash} from 'node:crypto';
+import {execFileSync} from 'node:child_process';
+import * as React from 'react';
+import {renderToStaticMarkup} from 'react-dom/server';
+import ts from 'typescript';
+import {WORLD_CATALOG} from '../src/ui/components/scenario/scenario-five/model/index';
+import {MISSION_POLICIES} from '../src/ui/components/scenario/scenario-five/calibration/missionPolicies';
+import {simulateScenario5} from '../src/ui/components/scenario/scenario-five/calibration/simulationDriver';
+import {ScenarioFiveSummary} from '../src/ui/components/scenario/ScenarioFiveSummary';
+import {ScenarioFiveCognitiveDashboard,ScenarioFiveSignedAxis} from '../src/ui/components/scenario/scenario-five/ui/ScenarioFiveCognitiveDashboard';
+import {COGNITIVE_UNAVAILABLE,CONSTRUCT_GROUPS,INFORMATION_DISCIPLINE_UNMEASURED,REVISION_RATE_UNAVAILABLE,currentRunCognitive,numericText,secondsText,signedAxisPosition,signedText} from '../src/ui/components/scenario/scenario-five/ui/cognitiveDashboardPresentation';
+import type {Scenario5CognitiveRunResult} from '../src/ui/components/scenario/scenario-five/model/cognitive/types';
+
+(globalThis as unknown as {React: typeof React}).React=React;
+const read=(p:string)=>fs.readFileSync(p,'utf8'),h=(v:unknown)=>createHash('sha256').update(JSON.stringify(v)).digest('hex'),fileHash=(p:string)=>createHash('sha256').update(fs.readFileSync(p)).digest('hex');
+const baseline=JSON.parse(read('docs/scenario5-phase09c1-baseline.json')),beforeCorpus=JSON.parse(read('docs/scenario5-phase09c1-baseline-corpus.json')),scientific=JSON.parse(read('docs/scenario5-phase8d-baseline.json'));
+let assertions=0;const equal=(a:unknown,b:unknown,m:string)=>{assert.deepEqual(a,b,m);assertions++;};const check=(v:unknown,m:string)=>{assert.ok(v,m);assertions++;};
+for(const[p,expected]of Object.entries(scientific.frozen))equal(fileHash(p),expected,'Frozen '+p);
+const allowed=new Set(['src/ui/components/scenario/ScenarioFiveSummary.tsx','src/ui/components/scenario/ScenarioFive.css']);
+for(const[p,expected]of Object.entries(baseline.hashes))if(p.startsWith('src/')&&!allowed.has(p))equal(fileHash(p),expected,'Unchanged existing source '+p);
+const runs=WORLD_CATALOG.flatMap(w=>MISSION_POLICIES.filter(p=>!p.oraclePolicy&&!p.stressPolicy&&!p.randomPolicy).map(policy=>simulateScenario5({worldId:w.worldId,environmentSeed:1,policy})));
+const after=runs.map(r=>({worldId:r.worldId,policy:r.policyId,digest:h(r),cognitive:h(r.result.cognitive),domain:h(r.result.domain),mission:h(r.state.missionState),evidence:h(r.cognitiveBundle)}));
+equal(after,beforeCorpus,'112 full run/cognitive/domain/mission/telemetry digests equal new pre-change corpus');
+equal(after.map(({worldId,policy,digest})=>({worldId,policy,digest})),scientific.corpus,'Same accepted scientific corpus');
+const witness=runs[0]!,noop=()=>{};
+const render=(r:Scenario5CognitiveRunResult)=>renderToStaticMarkup(<ScenarioFiveCognitiveDashboard cognitive={r} onBack={noop} onComplete={noop} onTechnical={noop} onReviewTrace={noop}/>);
+for(const risk of [false,true])for(const value of [-.5,0,.5,null]){
+  equal(signedAxisPosition(value),value===null?null:(value+1)*50,'Signed axis coordinate only');
+  const html=renderToStaticMarkup(<ScenarioFiveSignedAxis label={risk?'موضع نسبی ریسک':'OSI'} value={value} field="test" risk={risk}/>);
+  equal(html.includes('data-signed-marker='),value!==null,'Null omits marker; zero retains marker');
+  if(value!==null){check(html.includes(`left:${(value+1)*50}%`),'Exact left-to-right position');check(html.includes(signedText(value)),'Explicit signed two-decimal text');}
+  else check(html.includes(COGNITIVE_UNAVAILABLE),'Null does not imply center');
+}
+equal(signedText(-.5),'−0.50','Minus sign');equal(signedText(0),'+0.00','Measured zero sign');equal(signedText(.5),'+0.50','Plus sign');
+equal(numericText(0),'0.00','Numeric zero not missing');equal(secondsText(0),'0.0 ثانیه','Zero ms not null');equal(secondsText(1500),'1.5 ثانیه','Display ms/1000 only');equal(secondsText(null),COGNITIVE_UNAVAILABLE,'Missing timing');
+const groups=CONSTRUCT_GROUPS.flatMap(g=>g.items);
+equal(groups.map(x=>x.key).sort(),['informationSeeking','evidenceResponsiveUpdating','secondOrderThinking','adversaryModeling','escalationSensitivity','resourceStewardship','planningForesight','multiDomainIntegration','decisionCoherence'].sort(),'Exactly nine measured constructs');
+const approved=read('docs/scenario2-cognitive-dashboard-final-spec-09c1.md');for(const d of groups){check(approved.includes(d.label),'Approved label '+d.key);check(approved.includes(d.definition),'Verbatim approved definition '+d.key);}
+for(const run of runs){const before=JSON.stringify(run),html=render(run.result.cognitive);equal((html.match(/data-construct=/g)??[]).length,9,'Nine construct cards');equal((html.match(/انضباط اطلاعاتی: در نسخه فعلی این سناریو سنجیده نمی‌شود\./g)??[]).length,1,'One unmeasured note');equal(JSON.stringify(run),before,'Rendering immutable');equal(currentRunCognitive(run.state,run.result),run.result.cognitive,'Current complete typed source');}
+const fixture=structuredClone(witness.result.cognitive);fixture.runId='TEST_ONLY_NULL_ZERO';fixture.dataCompleteness={overall:0,decisions:0,timing:0,evidence:0,estimates:0,reasons:0};fixture.orientation={overall:null,phaseScores:[-.5,0,.5,null],operationalStrength:0,strategicStrength:0,integration:null,dispersion:null};fixture.constructs={...fixture.constructs,informationSeeking:0,evidenceResponsiveUpdating:null,riskPosture:null};fixture.telemetrySummary={medianActiveDecisionMs:0,iqrActiveDecisionMs:null,totalRevisions:0,revisedWindows:0,evidenceTriggeredRevisionRate:null};
+let html=render(fixture);check(html.includes('0.00٪'),'Completeness 0 displayed');check(html.includes('aria-valuenow="0"'),'Measured construct 0 keeps neutral meter');check(html.includes('width:0%'),'Measured zero bar');
+const card=(markup:string,key:string)=>markup.slice(markup.indexOf(`data-construct="${key}"`),markup.indexOf('</article>',markup.indexOf(`data-construct="${key}"`)));
+check(!card(html,'evidenceResponsiveUpdating').includes('role="meter"'),'ERU null has no score bar');check(card(html,'evidenceResponsiveUpdating').includes(COGNITIVE_UNAVAILABLE),'ERU null wording');check(html.includes(REVISION_RATE_UNAVAILABLE),'No qualifying revision opportunity message');check(html.includes(INFORMATION_DISCIPLINE_UNMEASURED),'Discipline unmeasured');check(!html.includes('data-signed-marker="orientation.overall"'),'Null overall not filled from phase values');check(html.includes('data-signed-marker="orientation.phaseScores[1]"'),'Phase zero retains marker');
+const rateZero=structuredClone(fixture);rateZero.dataCompleteness.overall=62.5;rateZero.dataCompleteness.decisions=50;rateZero.telemetrySummary.evidenceTriggeredRevisionRate=0;rateZero.telemetrySummary.medianActiveDecisionMs=null;rateZero.telemetrySummary.iqrActiveDecisionMs=0;rateZero.constructs.riskPosture=0;
+html=render(rateZero);check(html.includes('62.50٪'),'Partial coverage preserves output');check(!html.includes(REVISION_RATE_UNAVAILABLE),'Revision zero distinct from unavailable');check(html.includes('data-signed-marker="constructs.riskPosture"'),'Measured zero risk marker');
+const conflict={...witness.result,runId:'other-run'};equal(currentRunCognitive(witness.state,conflict),null,'Result mismatch');equal(currentRunCognitive({...witness.state,runId:'other-user-run'},witness.result),null,'Runtime mismatch');equal(currentRunCognitive(witness.state,{...witness.result,cognitive:{...witness.result.cognitive,runId:'other-cognitive-run'}}),null,'Cognitive mismatch');equal(currentRunCognitive(null,witness.result),null,'Missing runtime');equal(currentRunCognitive(witness.state,null),null,'Missing result');
+const incomplete={...witness.state,stage:{...witness.state.stage,stageId:'decision:A1_baseline_monitoring' as const}};equal(currentRunCognitive(incomplete,witness.result),null,'Incomplete stage blocked');
+for(const props of [{runtimeState:null,result:null},{runtimeState:witness.state,result:null},{runtimeState:witness.state,result:conflict},{runtimeState:incomplete,result:witness.result}]){const unavailable=renderToStaticMarkup(<ScenarioFiveSummary {...props} onComplete={noop}/>);check(unavailable.includes('گزارش شناختی این اجرا در دسترس نیست.'),'Truthful unavailable state');check(!unavailable.includes('data-cognitive-run'),'No foreign fallback');}
+const domainTrap=new Proxy(witness.result,{get(target,key,receiver){if(key==='domain'||key==='missionEndState')throw Error('Forbidden score source');return Reflect.get(target,key,receiver);}});equal(currentRunCognitive(witness.state,domainTrap),witness.result.cognitive,'Gate reads no domain/ending data');
+const source=read('src/ui/components/scenario/scenario-five/ui/ScenarioFiveCognitiveDashboard.tsx')+read('src/ui/components/scenario/scenario-five/ui/cognitiveDashboardPresentation.ts');
+check(!/result\.domain|missionEndState|trueWorldState|actorProfile|localStorage|eventLogger|calculateScenario5|optionProfiles|perWindow|coalitionOrientation|totalEvidenceDwellMs/.test(source),'Score-source and passive-instrumentation firewall');
+check(!/s4-|scenario-four|buildCognitiveInsights|Global Cognitive Score|بار شناختی تخمینی/.test(source),'No S4/global computation or extra scores');
+const css=read('src/ui/components/scenario/ScenarioFive.css'),originalCss=Buffer.from(baseline.files['src/ui/components/scenario/ScenarioFive.css'],'base64').toString('utf8');check(css.startsWith(originalCss),'All existing gameplay styles preserved exactly');
+const uiFixtures={testOnly:true,description:'TEST ONLY — presentation fixtures, never actual user-run/scientific outputs',nullZero:fixture,partialZero:rateZero};fs.writeFileSync('docs/scenario5-phase09c1-visual-fixtures.json',JSON.stringify(uiFixtures,null,2)+'\n');
+const parseType=ts.createSourceFile('types.ts',read('src/ui/components/scenario/scenario-five/model/cognitive/types.ts'),ts.ScriptTarget.Latest,true),interfaces=new Map(parseType.statements.filter(ts.isInterfaceDeclaration).map(d=>[d.name.text,d]));const leaves:string[]=[];
+function flatten(t:ts.TypeNode,p:string){if(ts.isTypeReferenceNode(t)&&interfaces.has(t.typeName.getText(parseType))){for(const m of interfaces.get(t.typeName.getText(parseType))!.members as ts.NodeArray<ts.PropertySignature>)flatten(m.type!,p?p+'.'+m.name!.getText(parseType):m.name!.getText(parseType));}else if(ts.isTypeLiteralNode(t)){for(const m of t.members as ts.NodeArray<ts.PropertySignature>)flatten(m.type!,p+'.'+m.name!.getText(parseType));}else if(ts.isTypeOperatorNode(t)&&ts.isTupleTypeNode(t.type))t.type.elements.forEach((e,i)=>flatten(e,p+'['+i+']'));else leaves.push('result.cognitive.'+p);}
+for(const m of interfaces.get('Scenario5CognitiveRunResult')!.members as ts.NodeArray<ts.PropertySignature>)flatten(m.type!,m.name!.getText(parseType));equal(leaves.length,40,'Actual TS result scalar leaves');
+const savedPaths=['docs/scenario5-phase8d-witnesses.json','docs/scenario5-phase8d-verification.json','docs/scenario5-phase8d1-phase8d-verifier.txt','docs/scenario5-phase8d1-verification.json','docs/scenario5-phase8d2-prior-verifiers.txt','docs/scenario5-phase8d2-verification.json','docs/scenario5-phase8d2-ux-verification.json'];const saved=new Map(savedPaths.map(p=>[p,fs.readFileSync(p)]));const regressions=[];
+try {for(const [id,script]of [['08D/08D.1/08D.2-header','scripts/verify-s5-phase8d2-header.tsx'],['08D.2-UX','scripts/verify-s5-phase8d2-ux.tsx']]){try{const stdout=execFileSync(process.execPath,['node_modules/tsx/dist/cli.mjs',script],{encoding:'utf8',windowsHide:true,maxBuffer:16*1024*1024});regressions.push({id,status:'PASS',stdout});}catch(error){const e=error as {stdout?:string;stderr?:string};regressions.push({id,status:'FAIL',stdout:e.stdout??'',stderr:e.stderr??''});}}}finally{for(const[p,b]of saved)fs.writeFileSync(p,b);}
+check(regressions.every(r=>r.status==='PASS'),'Relevant unchanged 08D regressions');
+const result={status:'PASS',assertions,typedScalarLeaves:leaves,scientificParity:{runs:runs.length,worlds:16,policyFamilies:7,environmentSeed:1,semanticMismatches:0,fullObjectDigestsEqual:true,cognitiveDomainMissionEvidenceDigestsEqual:true},frozenHashes:Object.keys(scientific.frozen).length,releasedS1Unchanged:true,legacyId2Unchanged:true,gameplaySourcesUnchanged:true,nullZeroCases:'PASS',signedAxisCases:'PASS',sameRunGate:'PASS',sourceAndInstrumentationFirewall:'PASS',regressions};fs.writeFileSync('docs/scenario5-phase09c1-verification.json',JSON.stringify(result,null,2)+'\n');console.log(JSON.stringify({...result,typedScalarLeaves:40},null,2));

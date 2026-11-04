@@ -1,0 +1,14 @@
+/* TEMP-S5-DASHBOARD-PREVIEW: isolated preview shell, removable after design review. */
+.intro-modal.s5-admin-intro { position: relative; }
+.intro-modal.s5-admin-intro .s5-admin-dashboard-shortcut { position: absolute; top: .55rem; left: .55rem; z-index: 2; align-self: auto; min-height: 24px; padding: .2rem .4rem; border: 1px solid #55748c; border-radius: 5px; background: #102437; color: #cce2f1; font: inherit; font-size: .65rem; line-height: 1.4; cursor: pointer; }
+.intro-modal.s5-admin-intro .s5-admin-dashboard-shortcut:focus-visible { outline: 2px solid #7de5f5; outline-offset: 2px; }
+.s5-admin-preview-dialog { width: min(1240px,calc(100vw - 24px)); max-width: none; max-height: calc(100dvh - 24px); padding: 0; border: 1px solid #55748c; border-radius: 12px; background: #07111f; color: #e4f1fb; }
+.s5-admin-preview-dialog::backdrop { background: rgba(1,7,15,.85); }
+.s5-admin-preview-dialog .s5-admin-design-preview { margin: 0; }
+.s5-admin-design-preview { width: min(100%,1240px); margin: 12px auto; padding: 10px; }
+.s5-admin-design-preview .s5-admin-preview-notice { display: flex; align-items: center; justify-content: space-between; gap: .8rem; padding: .7rem 1rem; border: 1px solid #6386a5; border-radius: 10px; background: #152d43; color: #e4f1fb; }
+.s5-admin-design-preview .s5-admin-preview-notice p { margin: .35rem 0 0; font-size: .8rem; line-height: 1.8; }
+.s5-admin-design-preview .s5-admin-preview-notice button { flex: 0 0 auto; }
+.s5-admin-design-preview .s5-cognitive-dashboard { height: calc(100dvh - 150px); margin-top: .6rem; }
+.s5-admin-design-preview .s5-cognitive-dashboard button:disabled { opacity: .5; cursor: not-allowed; }
+@media (max-width: 600px) { .s5-admin-design-preview .s5-admin-preview-notice { flex-wrap: wrap; } .s5-admin-design-preview .s5-cognitive-dashboard { height: calc(100dvh - 210px); } }

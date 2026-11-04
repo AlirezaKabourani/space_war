@@ -1,0 +1,98 @@
+{
+  "phase": "PHASE 08D.2 — Scenario 2 UI/UX refinement and ending explanation pass",
+  "changedApplicationFiles": [
+    {
+      "path": "src/ui/components/scenario/scenario-five/ui/ScenarioFiveMissionEnding.tsx",
+      "status": "modified",
+      "purpose": "Realized-ending emphasis, five other endings and their conditions; explicit time labels.",
+      "beforeSha256": "778bda5eb295d53d38241005a96d6b94fabdf67bd18cdf527e1f429d7bb8d205",
+      "afterSha256": "039809206bafb8daba110c1ff021240b8a549ba1ca600bb9ccd8989b5dd2202e"
+    },
+    {
+      "path": "src/ui/components/scenario/scenario-five/ui/ScenarioFiveProgress.tsx",
+      "status": "modified",
+      "purpose": "Recent-action hierarchy and explicit phase-review time labels.",
+      "beforeSha256": "d77a3f83aeb491a0e62d2af17c8a2115c0495afb0dde219c2eec4797a410382e",
+      "afterSha256": "afacde852ca05b9de5ef517b86d33cca176439481889d1cf46c7ec045662d484"
+    },
+    {
+      "path": "src/ui/components/scenario/scenario-five/ui/ScenarioFiveTime.tsx",
+      "status": "added",
+      "purpose": "Added: shared presentation-only operational-time text and decorative clock icon.",
+      "beforeSha256": null,
+      "afterSha256": "a5b170f5d37d212370b22f46e254b273c7f5cf0226a30c90bbed1b6221abeaa3"
+    },
+    {
+      "path": "src/ui/components/scenario/scenario-five/ui/endingAlternatives.ts",
+      "status": "added",
+      "purpose": "Added: typed Persian copy transcribed from the existing six resolver branches; no resolver.",
+      "beforeSha256": null,
+      "afterSha256": "132d3b04bf51d77ce269eaef97240db93b48b1a99a9a7d6e7ec5156baada226c"
+    },
+    {
+      "path": "src/ui/components/scenario/scenario-five/ui/endingPresentation.ts",
+      "status": "modified",
+      "purpose": "Time-unit wording in existing explanatory strings only; calculation expressions unchanged.",
+      "beforeSha256": "e39df951476cbaf5eec694e56640be815b2fb1e7dfa650c146b37d23db59dcaa",
+      "afterSha256": "27e8a98b2a2191955b97205aca5581c88ea19f1927674551f7c1da2c18fbf9b4"
+    },
+    {
+      "path": "src/ui/components/scenario/ScenarioFive.css",
+      "status": "modified",
+      "purpose": "Fixed-height top band/map tracks, wider left panel, larger type, corridor disclosures, bounded report scroll and ending comparison styles.",
+      "beforeSha256": "8495a7c2ebdf9ac5392c32978f3634ee20dfdda95d51bd615e547d52493b6533",
+      "afterSha256": "d205a4b8d47ec7961d1fc877e937a2658f0ea95ed8a511a1a5505e4b07c1d45a"
+    },
+    {
+      "path": "src/ui/components/scenario/ScenarioFiveActionCard.tsx",
+      "status": "modified",
+      "purpose": "Final-horizon time unit in existing action copy.",
+      "beforeSha256": "7a121b297c7fe6958ba5c964d35f491b325bd5c46605662e94d40497fafc0c28",
+      "afterSha256": "ddf0bea3bea185b3bab9d7dded20494dc26b0ef8c9138f1ef2c3008da681141b"
+    },
+    {
+      "path": "src/ui/components/scenario/ScenarioFiveMap.tsx",
+      "status": "modified",
+      "purpose": "Explicit map clock and convoy time units; persistent heading instruction line to avoid geometry changes.",
+      "beforeSha256": "e4246d8419c81286c2167a7988ee4c7f4234fb3cb38342b557358f06663c44b2",
+      "afterSha256": "53ca5481a8fd5d0d712aa1c3e40f3daf0419e8da6a3ed755f6635363a06d9f25"
+    },
+    {
+      "path": "src/ui/components/scenario/ScenarioFiveResourcePanel.tsx",
+      "status": "modified",
+      "purpose": "Clock icon, operational horizon in minutes, and explicit remaining minutes.",
+      "beforeSha256": "40b61ba73f5264257ae541b5ca9ca5c729300423da57b3d795de621ea3da96cd",
+      "afterSha256": "2d9432c868505a55b1f9bec750627eb8000ecf18142c7a211a242c0e710a8dfb"
+    },
+    {
+      "path": "src/ui/components/scenario/ScenarioFiveSimulation.tsx",
+      "status": "modified",
+      "purpose": "Recent-action slot inside the top band; neutral initial placeholder; explicit final-horizon copy.",
+      "beforeSha256": "3a840f874d5ef136923c1a53fd488d3a4691720b79d8038caf180f8848f8cfa0",
+      "afterSha256": "c608d5af6a676c5f53cb8eb5b641ee0883899dfd4f6dbe38efe1fb49018cfebc"
+    },
+    {
+      "path": "src/ui/components/scenario/ScenarioFiveSummary.tsx",
+      "status": "modified",
+      "purpose": "Compatibility AAR arrival/deadline and trace time labels; no score changes.",
+      "beforeSha256": "7dd54cf040832d53718dcc1d50f7c93cb93459169045ff445f596530ca08604d",
+      "afterSha256": "ee1de398a2d98e8bc24f5c2546731bc7893ef208120a22d1dbe1c5b577941381"
+    },
+    {
+      "path": "src/ui/components/scenario/scenario-five/ui/ScenarioFiveInformationPicture.tsx",
+      "status": "modified",
+      "purpose": "Passive corridor/unknown-location grouping; every existing evidence summary retained.",
+      "beforeSha256": "ae38c78d3c9e706a8cd498813498fcc74b2058172f9b932644b0166776be77d1",
+      "afterSha256": "670115a28b6f42d6c83bb1b06ec1dd2d618f80f8c263e8934672cedc885508df"
+    },
+    {
+      "path": "src/ui/components/scenario/scenario-five/ui/ScenarioFiveOutcomePanel.tsx",
+      "status": "modified",
+      "purpose": "Explicit operational, arrival and deadline time wording.",
+      "beforeSha256": "f14b40bb30a6ce56dc3cac41b2dd1925feed5e8a15a81173dcdf06bc165f3b2b",
+      "afterSha256": "ab1d0c17f1c9642f56c1a6afda5db4c4939343298a17f1f709262d8d0c6df061"
+    }
+  ],
+  "priorFilesCompared": 842,
+  "unexpectedChanges": []
+}

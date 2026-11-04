@@ -1,0 +1,14 @@
+<!doctype html>
+<html lang="fa" dir="rtl"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Phase 08D — frozen ending witnesses</title></head>
+<body><div id="root"></div><script type="module">
+import React from 'react';
+import {createRoot} from 'react-dom/client';
+import {ScenarioFiveMissionEnding} from '../src/ui/components/scenario/scenario-five/ui/ScenarioFiveMissionEnding.tsx';
+import '../src/index.css';
+import '../src/ui/components/scenario/ScenarioFive.css';
+const witnesses=await (await fetch('/docs/scenario5-phase8d-witnesses.json')).json();
+const id=new URLSearchParams(location.search).get('id');
+const witness=witnesses.find(w=>w.id===id);
+if(!witness)throw new Error('Missing frozen witness');
+createRoot(document.getElementById('root')).render(React.createElement(ScenarioFiveMissionEnding,{state:witness.state,result:witness.result,onComplete:()=>{},onCognitiveEntry:()=>{}}));
+</script></body></html>

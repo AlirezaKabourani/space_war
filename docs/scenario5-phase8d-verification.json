@@ -1,0 +1,83 @@
+{
+  "status": "PASS",
+  "runCount": 112,
+  "mismatchCount": 0,
+  "frozenHashCount": 63,
+  "assertions": 32798,
+  "witnesses": [
+    {
+      "id": "critical_cargo_lost_or_compromised",
+      "title": "اختلال شدید در مأموریت حیاتی",
+      "result": "PASS",
+      "worldId": "W-corridor_alpha_east-opportunistic_interdiction",
+      "seed": 19,
+      "directFacts": [
+        "سلامت عملیاتی کاروان الف: 54؛ کمتر از آستانه 55."
+      ]
+    },
+    {
+      "id": "priority_delivered_network_degradation",
+      "title": "تحویل محموله اولویت‌دار با افت تداوم شبکه",
+      "result": "PASS",
+      "worldId": "W-corridor_delta_west-pressure_escalator",
+      "seed": 1,
+      "directFacts": [
+        "کاروان الف تحویل شد.",
+        "تداوم عملیاتی شبکه: 75٪؛ کمتر از 100٪.",
+        "کاروان د: سلامت 73 در برابر حداقل 60 (برقرار)؛ رسیدن T+354 در برابر مهلت T+345 (برقرار نیست)."
+      ]
+    },
+    {
+      "id": "mission_incomplete_continuity_preserved",
+      "title": "تداوم شبکه حفظ شد، اما تحویل اولویت‌دار تکمیل نشد",
+      "result": "PASS",
+      "worldId": "W-corridor_alpha_east-opportunistic_interdiction",
+      "seed": 1,
+      "directFacts": [
+        "کاروان الف تحویل نشد.",
+        "سلامت عملیاتی کاروان الف: 62؛ حداقل 55.",
+        "تداوم عملیاتی شبکه: 75٪؛ حداقل 75٪.",
+        "رسیدن برآوردی الف: T+364؛ افق مأموریت: T+360؛ 4 دقیقه عبور از افق."
+      ]
+    },
+    {
+      "id": "delivery_complete_threat_persistent",
+      "title": "تحویل کامل؛ اختلال همچنان مهارنشده",
+      "result": "PASS",
+      "worldId": "W-corridor_delta_west-pressure_escalator",
+      "seed": 1,
+      "directFacts": [
+        "کاروان الف تحویل شد.",
+        "تداوم عملیاتی شبکه: 100٪.",
+        "انتساب عملیاتی حل شد.",
+        "اختلال مهار نشد."
+      ]
+    },
+    {
+      "id": "delivery_complete_attribution_unresolved",
+      "title": "تحویل کامل؛ منشأ اختلال همچنان حل‌نشده",
+      "result": "PASS",
+      "worldId": "W-corridor_delta_west-pressure_escalator",
+      "seed": 1,
+      "directFacts": [
+        "کاروان الف تحویل شد.",
+        "تداوم عملیاتی شبکه: 100٪.",
+        "انتساب عملیاتی حل‌نشده است.",
+        "شرط انتساب، همگرایی دست‌کم دو نوع منبعِ سازگار با اخلال هدفمند روی یک کریدور، با دست‌کم یک شاهد متوسط یا قوی است؛ این شرط برقرار نشد."
+      ]
+    },
+    {
+      "id": "delivery_complete_threat_contained",
+      "title": "تحویل و تداوم کامل؛ اختلال مهار شد",
+      "result": "PASS",
+      "worldId": "W-corridor_alpha_east-pressure_escalator",
+      "seed": 1,
+      "directFacts": [
+        "کاروان الف تحویل شد.",
+        "تداوم عملیاتی شبکه: 100٪.",
+        "انتساب عملیاتی حل شد.",
+        "اختلال مهار شد."
+      ]
+    }
+  ]
+}

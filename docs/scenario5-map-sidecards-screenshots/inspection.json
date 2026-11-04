@@ -1,0 +1,1814 @@
+{
+  "status": "PASS",
+  "snapshots": [
+    {
+      "filename": "01-first-decision-1280x720.png",
+      "runtimeStage": "decision:A1_baseline_monitoring",
+      "stage": "01-first-decision",
+      "phase": "A",
+      "round": 1,
+      "clock": 0,
+      "ISR": 100,
+      "Support": 100,
+      "evidenceCount": 0,
+      "visibleConvoyValues": [
+        {
+          "convoyId": "alpha",
+          "integrity": 100,
+          "delay": 0,
+          "arrival": 210,
+          "deadline": 300,
+          "status": "moving"
+        },
+        {
+          "convoyId": "beta",
+          "integrity": 100,
+          "delay": 0,
+          "arrival": 235,
+          "deadline": 330,
+          "status": "moving"
+        },
+        {
+          "convoyId": "gamma",
+          "integrity": 100,
+          "delay": 0,
+          "arrival": 225,
+          "deadline": 315,
+          "status": "moving"
+        },
+        {
+          "convoyId": "delta",
+          "integrity": 100,
+          "delay": 0,
+          "arrival": 250,
+          "deadline": 345,
+          "status": "moving"
+        }
+      ],
+      "viewport": {
+        "width": 1280,
+        "height": 720
+      },
+      "page": {
+        "scrollHeight": 720,
+        "clientHeight": 720,
+        "scrollWidth": 1280,
+        "clientWidth": 1280
+      },
+      "leftPane": {
+        "scrollHeight": 950,
+        "clientHeight": 306,
+        "scrollTop": 0,
+        "overflowY": "auto"
+      },
+      "mapVisible": true,
+      "mapFrame": {
+        "x": 667.5625,
+        "y": 282.1875,
+        "width": 382.46875,
+        "height": 330.625,
+        "top": 282.1875,
+        "right": 1050.03125,
+        "bottom": 612.8125,
+        "left": 667.5625
+      },
+      "footerReachable": true,
+      "visibleConvoyCards": [
+        {
+          "id": "gamma",
+          "text": "کاروان ج\nدر حرکت\n\nقطعات ارتباطی · تبریز → تهران\n\nسلامت عملیاتی: 100 / 100\n\nرسیدن برآوردی: T+225 دقیقه\n\nمهلت تحویل: T+315 دقیقه\n\n90 دقیقه تا مهلت\n\nتأخیر تجمعی: +0 دقیقه\n\nشواهد این کریدور: 0"
+        },
+        {
+          "id": "delta",
+          "text": "کاروان د\nدر حرکت\n\nپشتیبانی مرزی · تهران → محور غرب\n\nسلامت عملیاتی: 100 / 100\n\nرسیدن برآوردی: T+250 دقیقه\n\nمهلت تحویل: T+345 دقیقه\n\n95 دقیقه تا مهلت\n\nتأخیر تجمعی: +0 دقیقه\n\nشواهد این کریدور: 0"
+        },
+        {
+          "id": "alpha",
+          "text": "کاروان الف\nدر حرکت\n\nتجهیزات درمانی اضطراری · تهران → مشهد\n\nسلامت عملیاتی: 100 / 100\n\nرسیدن برآوردی: T+210 دقیقه\n\nمهلت تحویل: T+300 دقیقه\n\n90 دقیقه تا مهلت\n\nتأخیر تجمعی: +0 دقیقه\n\nشواهد این کریدور: 0"
+        },
+        {
+          "id": "beta",
+          "text": "کاروان ب\nدر حرکت\n\nسوخت عملیاتی · بندرعباس → تهران\n\nسلامت عملیاتی: 100 / 100\n\nرسیدن برآوردی: T+235 دقیقه\n\nمهلت تحویل: T+330 دقیقه\n\n95 دقیقه تا مهلت\n\nتأخیر تجمعی: +0 دقیقه\n\nشواهد این کریدور: 0"
+        }
+      ],
+      "selectedAction": null,
+      "selectedTarget": null,
+      "endingId": null,
+      "hiddenTruthInDom": false,
+      "sliders": [],
+      "notes": []
+    },
+    {
+      "filename": "01-first-decision-1366x768.png",
+      "runtimeStage": "decision:A1_baseline_monitoring",
+      "stage": "01-first-decision",
+      "phase": "A",
+      "round": 1,
+      "clock": 0,
+      "ISR": 100,
+      "Support": 100,
+      "evidenceCount": 0,
+      "visibleConvoyValues": [
+        {
+          "convoyId": "alpha",
+          "integrity": 100,
+          "delay": 0,
+          "arrival": 210,
+          "deadline": 300,
+          "status": "moving"
+        },
+        {
+          "convoyId": "beta",
+          "integrity": 100,
+          "delay": 0,
+          "arrival": 235,
+          "deadline": 330,
+          "status": "moving"
+        },
+        {
+          "convoyId": "gamma",
+          "integrity": 100,
+          "delay": 0,
+          "arrival": 225,
+          "deadline": 315,
+          "status": "moving"
+        },
+        {
+          "convoyId": "delta",
+          "integrity": 100,
+          "delay": 0,
+          "arrival": 250,
+          "deadline": 345,
+          "status": "moving"
+        }
+      ],
+      "viewport": {
+        "width": 1366,
+        "height": 768
+      },
+      "page": {
+        "scrollHeight": 768,
+        "clientHeight": 768,
+        "scrollWidth": 1366,
+        "clientWidth": 1366
+      },
+      "leftPane": {
+        "scrollHeight": 821,
+        "clientHeight": 354,
+        "scrollTop": 0,
+        "overflowY": "auto"
+      },
+      "mapVisible": true,
+      "mapFrame": {
+        "x": 710.140625,
+        "y": 282.1875,
+        "width": 417.71875,
+        "height": 378.625,
+        "top": 282.1875,
+        "right": 1127.859375,
+        "bottom": 660.8125,
+        "left": 710.140625
+      },
+      "footerReachable": true,
+      "visibleConvoyCards": [
+        {
+          "id": "gamma",
+          "text": "کاروان ج\nدر حرکت\n\nقطعات ارتباطی · تبریز → تهران\n\nسلامت عملیاتی: 100 / 100\n\nرسیدن برآوردی: T+225 دقیقه\n\nمهلت تحویل: T+315 دقیقه\n\n90 دقیقه تا مهلت\n\nتأخیر تجمعی: +0 دقیقه\n\nشواهد این کریدور: 0"
+        },
+        {
+          "id": "delta",
+          "text": "کاروان د\nدر حرکت\n\nپشتیبانی مرزی · تهران → محور غرب\n\nسلامت عملیاتی: 100 / 100\n\nرسیدن برآوردی: T+250 دقیقه\n\nمهلت تحویل: T+345 دقیقه\n\n95 دقیقه تا مهلت\n\nتأخیر تجمعی: +0 دقیقه\n\nشواهد این کریدور: 0"
+        },
+        {
+          "id": "alpha",
+          "text": "کاروان الف\nدر حرکت\n\nتجهیزات درمانی اضطراری · تهران → مشهد\n\nسلامت عملیاتی: 100 / 100\n\nرسیدن برآوردی: T+210 دقیقه\n\nمهلت تحویل: T+300 دقیقه\n\n90 دقیقه تا مهلت\n\nتأخیر تجمعی: +0 دقیقه\n\nشواهد این کریدور: 0"
+        },
+        {
+          "id": "beta",
+          "text": "کاروان ب\nدر حرکت\n\nسوخت عملیاتی · بندرعباس → تهران\n\nسلامت عملیاتی: 100 / 100\n\nرسیدن برآوردی: T+235 دقیقه\n\nمهلت تحویل: T+330 دقیقه\n\n95 دقیقه تا مهلت\n\nتأخیر تجمعی: +0 دقیقه\n\nشواهد این کریدور: 0"
+        }
+      ],
+      "selectedAction": null,
+      "selectedTarget": null,
+      "endingId": null,
+      "hiddenTruthInDom": false,
+      "sliders": [],
+      "notes": []
+    },
+    {
+      "filename": "01-first-decision-1440x900.png",
+      "runtimeStage": "decision:A1_baseline_monitoring",
+      "stage": "01-first-decision",
+      "phase": "A",
+      "round": 1,
+      "clock": 0,
+      "ISR": 100,
+      "Support": 100,
+      "evidenceCount": 0,
+      "visibleConvoyValues": [
+        {
+          "convoyId": "alpha",
+          "integrity": 100,
+          "delay": 0,
+          "arrival": 210,
+          "deadline": 300,
+          "status": "moving"
+        },
+        {
+          "convoyId": "beta",
+          "integrity": 100,
+          "delay": 0,
+          "arrival": 235,
+          "deadline": 330,
+          "status": "moving"
+        },
+        {
+          "convoyId": "gamma",
+          "integrity": 100,
+          "delay": 0,
+          "arrival": 225,
+          "deadline": 315,
+          "status": "moving"
+        },
+        {
+          "convoyId": "delta",
+          "integrity": 100,
+          "delay": 0,
+          "arrival": 250,
+          "deadline": 345,
+          "status": "moving"
+        }
+      ],
+      "viewport": {
+        "width": 1440,
+        "height": 900
+      },
+      "page": {
+        "scrollHeight": 900,
+        "clientHeight": 900,
+        "scrollWidth": 1440,
+        "clientWidth": 1440
+      },
+      "leftPane": {
+        "scrollHeight": 780,
+        "clientHeight": 475,
+        "scrollTop": 0,
+        "overflowY": "auto"
+      },
+      "mapVisible": true,
+      "mapFrame": {
+        "x": 746.765625,
+        "y": 289.1875,
+        "width": 444.859375,
+        "height": 499.625,
+        "top": 289.1875,
+        "right": 1191.625,
+        "bottom": 788.8125,
+        "left": 746.765625
+      },
+      "footerReachable": true,
+      "visibleConvoyCards": [
+        {
+          "id": "gamma",
+          "text": "کاروان ج\nدر حرکت\n\nقطعات ارتباطی · تبریز → تهران\n\nسلامت عملیاتی: 100 / 100\n\nرسیدن برآوردی: T+225 دقیقه\n\nمهلت تحویل: T+315 دقیقه\n\n90 دقیقه تا مهلت\n\nتأخیر تجمعی: +0 دقیقه\n\nشواهد این کریدور: 0"
+        },
+        {
+          "id": "delta",
+          "text": "کاروان د\nدر حرکت\n\nپشتیبانی مرزی · تهران → محور غرب\n\nسلامت عملیاتی: 100 / 100\n\nرسیدن برآوردی: T+250 دقیقه\n\nمهلت تحویل: T+345 دقیقه\n\n95 دقیقه تا مهلت\n\nتأخیر تجمعی: +0 دقیقه\n\nشواهد این کریدور: 0"
+        },
+        {
+          "id": "alpha",
+          "text": "کاروان الف\nدر حرکت\n\nتجهیزات درمانی اضطراری · تهران → مشهد\n\nسلامت عملیاتی: 100 / 100\n\nرسیدن برآوردی: T+210 دقیقه\n\nمهلت تحویل: T+300 دقیقه\n\n90 دقیقه تا مهلت\n\nتأخیر تجمعی: +0 دقیقه\n\nشواهد این کریدور: 0"
+        },
+        {
+          "id": "beta",
+          "text": "کاروان ب\nدر حرکت\n\nسوخت عملیاتی · بندرعباس → تهران\n\nسلامت عملیاتی: 100 / 100\n\nرسیدن برآوردی: T+235 دقیقه\n\nمهلت تحویل: T+330 دقیقه\n\n95 دقیقه تا مهلت\n\nتأخیر تجمعی: +0 دقیقه\n\nشواهد این کریدور: 0"
+        }
+      ],
+      "selectedAction": null,
+      "selectedTarget": null,
+      "endingId": null,
+      "hiddenTruthInDom": false,
+      "sliders": [],
+      "notes": []
+    },
+    {
+      "filename": "02-after-action-1280x720.png",
+      "runtimeStage": "outcome_review",
+      "stage": "02-after-action",
+      "phase": "A",
+      "round": 1,
+      "clock": 30,
+      "ISR": 84,
+      "Support": 100,
+      "evidenceCount": 4,
+      "visibleConvoyValues": [
+        {
+          "convoyId": "alpha",
+          "integrity": 100,
+          "delay": 0,
+          "arrival": 210,
+          "deadline": 300,
+          "status": "moving"
+        },
+        {
+          "convoyId": "beta",
+          "integrity": 100,
+          "delay": 1,
+          "arrival": 236,
+          "deadline": 330,
+          "status": "moving"
+        },
+        {
+          "convoyId": "gamma",
+          "integrity": 100,
+          "delay": 0,
+          "arrival": 225,
+          "deadline": 315,
+          "status": "moving"
+        },
+        {
+          "convoyId": "delta",
+          "integrity": 100,
+          "delay": 0,
+          "arrival": 250,
+          "deadline": 345,
+          "status": "moving"
+        }
+      ],
+      "viewport": {
+        "width": 1280,
+        "height": 720
+      },
+      "page": {
+        "scrollHeight": 720,
+        "clientHeight": 720,
+        "scrollWidth": 1280,
+        "clientWidth": 1280
+      },
+      "leftPane": {
+        "scrollHeight": 1254,
+        "clientHeight": 343,
+        "scrollTop": 0,
+        "overflowY": "auto"
+      },
+      "mapVisible": true,
+      "mapFrame": {
+        "x": 667.5625,
+        "y": 282.1875,
+        "width": 382.46875,
+        "height": 330.625,
+        "top": 282.1875,
+        "right": 1050.03125,
+        "bottom": 612.8125,
+        "left": 667.5625
+      },
+      "footerReachable": true,
+      "visibleConvoyCards": [
+        {
+          "id": "gamma",
+          "text": "کاروان ج\nدر حرکت\n\nقطعات ارتباطی · تبریز → تهران\n\nسلامت عملیاتی: 100 / 100\n\nرسیدن برآوردی: T+225 دقیقه\n\nمهلت تحویل: T+315 دقیقه\n\n90 دقیقه تا مهلت\n\nتأخیر تجمعی: +0 دقیقه\n\nشواهد این کریدور: 1"
+        },
+        {
+          "id": "delta",
+          "text": "کاروان د\nدر حرکت\n\nپشتیبانی مرزی · تهران → محور غرب\n\nسلامت عملیاتی: 100 / 100\n\nرسیدن برآوردی: T+250 دقیقه\n\nمهلت تحویل: T+345 دقیقه\n\n95 دقیقه تا مهلت\n\nتأخیر تجمعی: +0 دقیقه\n\nشواهد این کریدور: 1"
+        },
+        {
+          "id": "alpha",
+          "text": "کاروان الف\nدر حرکت\n\nتجهیزات درمانی اضطراری · تهران → مشهد\n\nسلامت عملیاتی: 100 / 100\n\nرسیدن برآوردی: T+210 دقیقه\n\nمهلت تحویل: T+300 دقیقه\n\n90 دقیقه تا مهلت\n\nتأخیر تجمعی: +0 دقیقه\n\nشواهد این کریدور: 1"
+        },
+        {
+          "id": "beta",
+          "text": "کاروان ب\nدر حرکت\n\nسوخت عملیاتی · بندرعباس → تهران\n\nسلامت عملیاتی: 100 / 100\n\nرسیدن برآوردی: T+236 دقیقه\n\nمهلت تحویل: T+330 دقیقه\n\n94 دقیقه تا مهلت\n\nتأخیر تجمعی: +1 دقیقه\n\nشواهد این کریدور: 1"
+        }
+      ],
+      "selectedAction": null,
+      "selectedTarget": null,
+      "endingId": null,
+      "hiddenTruthInDom": false,
+      "sliders": [],
+      "notes": []
+    },
+    {
+      "filename": "02-after-action-1366x768.png",
+      "runtimeStage": "outcome_review",
+      "stage": "02-after-action",
+      "phase": "A",
+      "round": 1,
+      "clock": 30,
+      "ISR": 84,
+      "Support": 100,
+      "evidenceCount": 4,
+      "visibleConvoyValues": [
+        {
+          "convoyId": "alpha",
+          "integrity": 100,
+          "delay": 0,
+          "arrival": 210,
+          "deadline": 300,
+          "status": "moving"
+        },
+        {
+          "convoyId": "beta",
+          "integrity": 100,
+          "delay": 1,
+          "arrival": 236,
+          "deadline": 330,
+          "status": "moving"
+        },
+        {
+          "convoyId": "gamma",
+          "integrity": 100,
+          "delay": 0,
+          "arrival": 225,
+          "deadline": 315,
+          "status": "moving"
+        },
+        {
+          "convoyId": "delta",
+          "integrity": 100,
+          "delay": 0,
+          "arrival": 250,
+          "deadline": 345,
+          "status": "moving"
+        }
+      ],
+      "viewport": {
+        "width": 1366,
+        "height": 768
+      },
+      "page": {
+        "scrollHeight": 768,
+        "clientHeight": 768,
+        "scrollWidth": 1366,
+        "clientWidth": 1366
+      },
+      "leftPane": {
+        "scrollHeight": 1232,
+        "clientHeight": 391,
+        "scrollTop": 0,
+        "overflowY": "auto"
+      },
+      "mapVisible": true,
+      "mapFrame": {
+        "x": 710.140625,
+        "y": 282.1875,
+        "width": 417.71875,
+        "height": 378.625,
+        "top": 282.1875,
+        "right": 1127.859375,
+        "bottom": 660.8125,
+        "left": 710.140625
+      },
+      "footerReachable": true,
+      "visibleConvoyCards": [
+        {
+          "id": "gamma",
+          "text": "کاروان ج\nدر حرکت\n\nقطعات ارتباطی · تبریز → تهران\n\nسلامت عملیاتی: 100 / 100\n\nرسیدن برآوردی: T+225 دقیقه\n\nمهلت تحویل: T+315 دقیقه\n\n90 دقیقه تا مهلت\n\nتأخیر تجمعی: +0 دقیقه\n\nشواهد این کریدور: 1"
+        },
+        {
+          "id": "delta",
+          "text": "کاروان د\nدر حرکت\n\nپشتیبانی مرزی · تهران → محور غرب\n\nسلامت عملیاتی: 100 / 100\n\nرسیدن برآوردی: T+250 دقیقه\n\nمهلت تحویل: T+345 دقیقه\n\n95 دقیقه تا مهلت\n\nتأخیر تجمعی: +0 دقیقه\n\nشواهد این کریدور: 1"
+        },
+        {
+          "id": "alpha",
+          "text": "کاروان الف\nدر حرکت\n\nتجهیزات درمانی اضطراری · تهران → مشهد\n\nسلامت عملیاتی: 100 / 100\n\nرسیدن برآوردی: T+210 دقیقه\n\nمهلت تحویل: T+300 دقیقه\n\n90 دقیقه تا مهلت\n\nتأخیر تجمعی: +0 دقیقه\n\nشواهد این کریدور: 1"
+        },
+        {
+          "id": "beta",
+          "text": "کاروان ب\nدر حرکت\n\nسوخت عملیاتی · بندرعباس → تهران\n\nسلامت عملیاتی: 100 / 100\n\nرسیدن برآوردی: T+236 دقیقه\n\nمهلت تحویل: T+330 دقیقه\n\n94 دقیقه تا مهلت\n\nتأخیر تجمعی: +1 دقیقه\n\nشواهد این کریدور: 1"
+        }
+      ],
+      "selectedAction": null,
+      "selectedTarget": null,
+      "endingId": null,
+      "hiddenTruthInDom": false,
+      "sliders": [],
+      "notes": []
+    },
+    {
+      "filename": "02-after-action-1440x900.png",
+      "runtimeStage": "outcome_review",
+      "stage": "02-after-action",
+      "phase": "A",
+      "round": 1,
+      "clock": 30,
+      "ISR": 84,
+      "Support": 100,
+      "evidenceCount": 4,
+      "visibleConvoyValues": [
+        {
+          "convoyId": "alpha",
+          "integrity": 100,
+          "delay": 0,
+          "arrival": 210,
+          "deadline": 300,
+          "status": "moving"
+        },
+        {
+          "convoyId": "beta",
+          "integrity": 100,
+          "delay": 1,
+          "arrival": 236,
+          "deadline": 330,
+          "status": "moving"
+        },
+        {
+          "convoyId": "gamma",
+          "integrity": 100,
+          "delay": 0,
+          "arrival": 225,
+          "deadline": 315,
+          "status": "moving"
+        },
+        {
+          "convoyId": "delta",
+          "integrity": 100,
+          "delay": 0,
+          "arrival": 250,
+          "deadline": 345,
+          "status": "moving"
+        }
+      ],
+      "viewport": {
+        "width": 1440,
+        "height": 900
+      },
+      "page": {
+        "scrollHeight": 900,
+        "clientHeight": 900,
+        "scrollWidth": 1440,
+        "clientWidth": 1440
+      },
+      "leftPane": {
+        "scrollHeight": 1232,
+        "clientHeight": 512,
+        "scrollTop": 0,
+        "overflowY": "auto"
+      },
+      "mapVisible": true,
+      "mapFrame": {
+        "x": 746.765625,
+        "y": 289.1875,
+        "width": 444.859375,
+        "height": 499.625,
+        "top": 289.1875,
+        "right": 1191.625,
+        "bottom": 788.8125,
+        "left": 746.765625
+      },
+      "footerReachable": true,
+      "visibleConvoyCards": [
+        {
+          "id": "gamma",
+          "text": "کاروان ج\nدر حرکت\n\nقطعات ارتباطی · تبریز → تهران\n\nسلامت عملیاتی: 100 / 100\n\nرسیدن برآوردی: T+225 دقیقه\n\nمهلت تحویل: T+315 دقیقه\n\n90 دقیقه تا مهلت\n\nتأخیر تجمعی: +0 دقیقه\n\nشواهد این کریدور: 1"
+        },
+        {
+          "id": "delta",
+          "text": "کاروان د\nدر حرکت\n\nپشتیبانی مرزی · تهران → محور غرب\n\nسلامت عملیاتی: 100 / 100\n\nرسیدن برآوردی: T+250 دقیقه\n\nمهلت تحویل: T+345 دقیقه\n\n95 دقیقه تا مهلت\n\nتأخیر تجمعی: +0 دقیقه\n\nشواهد این کریدور: 1"
+        },
+        {
+          "id": "alpha",
+          "text": "کاروان الف\nدر حرکت\n\nتجهیزات درمانی اضطراری · تهران → مشهد\n\nسلامت عملیاتی: 100 / 100\n\nرسیدن برآوردی: T+210 دقیقه\n\nمهلت تحویل: T+300 دقیقه\n\n90 دقیقه تا مهلت\n\nتأخیر تجمعی: +0 دقیقه\n\nشواهد این کریدور: 1"
+        },
+        {
+          "id": "beta",
+          "text": "کاروان ب\nدر حرکت\n\nسوخت عملیاتی · بندرعباس → تهران\n\nسلامت عملیاتی: 100 / 100\n\nرسیدن برآوردی: T+236 دقیقه\n\nمهلت تحویل: T+330 دقیقه\n\n94 دقیقه تا مهلت\n\nتأخیر تجمعی: +1 دقیقه\n\nشواهد این کریدور: 1"
+        }
+      ],
+      "selectedAction": null,
+      "selectedTarget": null,
+      "endingId": null,
+      "hiddenTruthInDom": false,
+      "sliders": [],
+      "notes": []
+    },
+    {
+      "filename": "03-target-selected-1280x720.png",
+      "runtimeStage": "decision:A2_evidence_acquisition",
+      "stage": "03-target-selected",
+      "phase": "A",
+      "round": 2,
+      "clock": 30,
+      "ISR": 84,
+      "Support": 100,
+      "evidenceCount": 4,
+      "visibleConvoyValues": [
+        {
+          "convoyId": "alpha",
+          "integrity": 100,
+          "delay": 0,
+          "arrival": 210,
+          "deadline": 300,
+          "status": "moving"
+        },
+        {
+          "convoyId": "beta",
+          "integrity": 100,
+          "delay": 1,
+          "arrival": 236,
+          "deadline": 330,
+          "status": "moving"
+        },
+        {
+          "convoyId": "gamma",
+          "integrity": 100,
+          "delay": 0,
+          "arrival": 225,
+          "deadline": 315,
+          "status": "moving"
+        },
+        {
+          "convoyId": "delta",
+          "integrity": 100,
+          "delay": 0,
+          "arrival": 250,
+          "deadline": 345,
+          "status": "moving"
+        }
+      ],
+      "viewport": {
+        "width": 1280,
+        "height": 720
+      },
+      "page": {
+        "scrollHeight": 720,
+        "clientHeight": 720,
+        "scrollWidth": 1280,
+        "clientWidth": 1280
+      },
+      "leftPane": {
+        "scrollHeight": 1210,
+        "clientHeight": 306,
+        "scrollTop": 0,
+        "overflowY": "auto"
+      },
+      "mapVisible": true,
+      "mapFrame": {
+        "x": 667.5625,
+        "y": 282.1875,
+        "width": 382.46875,
+        "height": 330.625,
+        "top": 282.1875,
+        "right": 1050.03125,
+        "bottom": 612.8125,
+        "left": 667.5625
+      },
+      "footerReachable": true,
+      "visibleConvoyCards": [
+        {
+          "id": "gamma",
+          "text": "کاروان ج\nدر حرکت\n\nقطعات ارتباطی · تبریز → تهران\n\nسلامت عملیاتی: 100 / 100\n\nرسیدن برآوردی: T+225 دقیقه\n\nمهلت تحویل: T+315 دقیقه\n\n90 دقیقه تا مهلت\n\nتأخیر تجمعی: +0 دقیقه\n\nانتخاب هدف\nشواهد این کریدور: 1"
+        },
+        {
+          "id": "delta",
+          "text": "کاروان د\nدر حرکت\n\nپشتیبانی مرزی · تهران → محور غرب\n\nسلامت عملیاتی: 100 / 100\n\nرسیدن برآوردی: T+250 دقیقه\n\nمهلت تحویل: T+345 دقیقه\n\n95 دقیقه تا مهلت\n\nتأخیر تجمعی: +0 دقیقه\n\nانتخاب هدف\nشواهد این کریدور: 1"
+        },
+        {
+          "id": "alpha",
+          "text": "کاروان الف\nدر حرکت\n\nتجهیزات درمانی اضطراری · تهران → مشهد\n\nسلامت عملیاتی: 100 / 100\n\nرسیدن برآوردی: T+210 دقیقه\n\nمهلت تحویل: T+300 دقیقه\n\n90 دقیقه تا مهلت\n\nتأخیر تجمعی: +0 دقیقه\n\nانتخاب هدف\nشواهد این کریدور: 1"
+        },
+        {
+          "id": "beta",
+          "text": "کاروان ب\nدر حرکت\n\nسوخت عملیاتی · بندرعباس → تهران\n\nسلامت عملیاتی: 100 / 100\n\nرسیدن برآوردی: T+236 دقیقه\n\nمهلت تحویل: T+330 دقیقه\n\n94 دقیقه تا مهلت\n\nتأخیر تجمعی: +1 دقیقه\n\nانتخاب هدف\nشواهد این کریدور: 1"
+        }
+      ],
+      "selectedAction": "a2_focused_pnt",
+      "selectedTarget": "corridor_gamma_northwest",
+      "endingId": null,
+      "hiddenTruthInDom": false,
+      "sliders": [],
+      "notes": []
+    },
+    {
+      "filename": "03-target-selected-1366x768.png",
+      "runtimeStage": "decision:A2_evidence_acquisition",
+      "stage": "03-target-selected",
+      "phase": "A",
+      "round": 2,
+      "clock": 30,
+      "ISR": 84,
+      "Support": 100,
+      "evidenceCount": 4,
+      "visibleConvoyValues": [
+        {
+          "convoyId": "alpha",
+          "integrity": 100,
+          "delay": 0,
+          "arrival": 210,
+          "deadline": 300,
+          "status": "moving"
+        },
+        {
+          "convoyId": "beta",
+          "integrity": 100,
+          "delay": 1,
+          "arrival": 236,
+          "deadline": 330,
+          "status": "moving"
+        },
+        {
+          "convoyId": "gamma",
+          "integrity": 100,
+          "delay": 0,
+          "arrival": 225,
+          "deadline": 315,
+          "status": "moving"
+        },
+        {
+          "convoyId": "delta",
+          "integrity": 100,
+          "delay": 0,
+          "arrival": 250,
+          "deadline": 345,
+          "status": "moving"
+        }
+      ],
+      "viewport": {
+        "width": 1366,
+        "height": 768
+      },
+      "page": {
+        "scrollHeight": 768,
+        "clientHeight": 768,
+        "scrollWidth": 1366,
+        "clientWidth": 1366
+      },
+      "leftPane": {
+        "scrollHeight": 1108,
+        "clientHeight": 354,
+        "scrollTop": 0,
+        "overflowY": "auto"
+      },
+      "mapVisible": true,
+      "mapFrame": {
+        "x": 710.140625,
+        "y": 282.1875,
+        "width": 417.71875,
+        "height": 378.625,
+        "top": 282.1875,
+        "right": 1127.859375,
+        "bottom": 660.8125,
+        "left": 710.140625
+      },
+      "footerReachable": true,
+      "visibleConvoyCards": [
+        {
+          "id": "gamma",
+          "text": "کاروان ج\nدر حرکت\n\nقطعات ارتباطی · تبریز → تهران\n\nسلامت عملیاتی: 100 / 100\n\nرسیدن برآوردی: T+225 دقیقه\n\nمهلت تحویل: T+315 دقیقه\n\n90 دقیقه تا مهلت\n\nتأخیر تجمعی: +0 دقیقه\n\nانتخاب هدف\nشواهد این کریدور: 1"
+        },
+        {
+          "id": "delta",
+          "text": "کاروان د\nدر حرکت\n\nپشتیبانی مرزی · تهران → محور غرب\n\nسلامت عملیاتی: 100 / 100\n\nرسیدن برآوردی: T+250 دقیقه\n\nمهلت تحویل: T+345 دقیقه\n\n95 دقیقه تا مهلت\n\nتأخیر تجمعی: +0 دقیقه\n\nانتخاب هدف\nشواهد این کریدور: 1"
+        },
+        {
+          "id": "alpha",
+          "text": "کاروان الف\nدر حرکت\n\nتجهیزات درمانی اضطراری · تهران → مشهد\n\nسلامت عملیاتی: 100 / 100\n\nرسیدن برآوردی: T+210 دقیقه\n\nمهلت تحویل: T+300 دقیقه\n\n90 دقیقه تا مهلت\n\nتأخیر تجمعی: +0 دقیقه\n\nانتخاب هدف\nشواهد این کریدور: 1"
+        },
+        {
+          "id": "beta",
+          "text": "کاروان ب\nدر حرکت\n\nسوخت عملیاتی · بندرعباس → تهران\n\nسلامت عملیاتی: 100 / 100\n\nرسیدن برآوردی: T+236 دقیقه\n\nمهلت تحویل: T+330 دقیقه\n\n94 دقیقه تا مهلت\n\nتأخیر تجمعی: +1 دقیقه\n\nانتخاب هدف\nشواهد این کریدور: 1"
+        }
+      ],
+      "selectedAction": "a2_focused_pnt",
+      "selectedTarget": "corridor_gamma_northwest",
+      "endingId": null,
+      "hiddenTruthInDom": false,
+      "sliders": [],
+      "notes": []
+    },
+    {
+      "filename": "03-target-selected-1440x900.png",
+      "runtimeStage": "decision:A2_evidence_acquisition",
+      "stage": "03-target-selected",
+      "phase": "A",
+      "round": 2,
+      "clock": 30,
+      "ISR": 84,
+      "Support": 100,
+      "evidenceCount": 4,
+      "visibleConvoyValues": [
+        {
+          "convoyId": "alpha",
+          "integrity": 100,
+          "delay": 0,
+          "arrival": 210,
+          "deadline": 300,
+          "status": "moving"
+        },
+        {
+          "convoyId": "beta",
+          "integrity": 100,
+          "delay": 1,
+          "arrival": 236,
+          "deadline": 330,
+          "status": "moving"
+        },
+        {
+          "convoyId": "gamma",
+          "integrity": 100,
+          "delay": 0,
+          "arrival": 225,
+          "deadline": 315,
+          "status": "moving"
+        },
+        {
+          "convoyId": "delta",
+          "integrity": 100,
+          "delay": 0,
+          "arrival": 250,
+          "deadline": 345,
+          "status": "moving"
+        }
+      ],
+      "viewport": {
+        "width": 1440,
+        "height": 900
+      },
+      "page": {
+        "scrollHeight": 900,
+        "clientHeight": 900,
+        "scrollWidth": 1440,
+        "clientWidth": 1440
+      },
+      "leftPane": {
+        "scrollHeight": 1064,
+        "clientHeight": 475,
+        "scrollTop": 0,
+        "overflowY": "auto"
+      },
+      "mapVisible": true,
+      "mapFrame": {
+        "x": 746.765625,
+        "y": 289.1875,
+        "width": 444.859375,
+        "height": 499.625,
+        "top": 289.1875,
+        "right": 1191.625,
+        "bottom": 788.8125,
+        "left": 746.765625
+      },
+      "footerReachable": true,
+      "visibleConvoyCards": [
+        {
+          "id": "gamma",
+          "text": "کاروان ج\nدر حرکت\n\nقطعات ارتباطی · تبریز → تهران\n\nسلامت عملیاتی: 100 / 100\n\nرسیدن برآوردی: T+225 دقیقه\n\nمهلت تحویل: T+315 دقیقه\n\n90 دقیقه تا مهلت\n\nتأخیر تجمعی: +0 دقیقه\n\nانتخاب هدف\nشواهد این کریدور: 1"
+        },
+        {
+          "id": "delta",
+          "text": "کاروان د\nدر حرکت\n\nپشتیبانی مرزی · تهران → محور غرب\n\nسلامت عملیاتی: 100 / 100\n\nرسیدن برآوردی: T+250 دقیقه\n\nمهلت تحویل: T+345 دقیقه\n\n95 دقیقه تا مهلت\n\nتأخیر تجمعی: +0 دقیقه\n\nانتخاب هدف\nشواهد این کریدور: 1"
+        },
+        {
+          "id": "alpha",
+          "text": "کاروان الف\nدر حرکت\n\nتجهیزات درمانی اضطراری · تهران → مشهد\n\nسلامت عملیاتی: 100 / 100\n\nرسیدن برآوردی: T+210 دقیقه\n\nمهلت تحویل: T+300 دقیقه\n\n90 دقیقه تا مهلت\n\nتأخیر تجمعی: +0 دقیقه\n\nانتخاب هدف\nشواهد این کریدور: 1"
+        },
+        {
+          "id": "beta",
+          "text": "کاروان ب\nدر حرکت\n\nسوخت عملیاتی · بندرعباس → تهران\n\nسلامت عملیاتی: 100 / 100\n\nرسیدن برآوردی: T+236 دقیقه\n\nمهلت تحویل: T+330 دقیقه\n\n94 دقیقه تا مهلت\n\nتأخیر تجمعی: +1 دقیقه\n\nانتخاب هدف\nشواهد این کریدور: 1"
+        }
+      ],
+      "selectedAction": "a2_focused_pnt",
+      "selectedTarget": "corridor_gamma_northwest",
+      "endingId": null,
+      "hiddenTruthInDom": false,
+      "sliders": [],
+      "notes": []
+    }
+  ],
+  "layoutChecks": [
+    {
+      "filename": "01-first-decision-1440x900.png",
+      "width": 1280,
+      "height": 720,
+      "scrollHeight": 720,
+      "scrollWidth": 1280,
+      "mapHeight": 330.625,
+      "mapBottom": 612.8125,
+      "footerBottom": 601.609375,
+      "reviewHeaderTextFits": true
+    },
+    {
+      "filename": "01-first-decision-1440x900.png",
+      "width": 1366,
+      "height": 768,
+      "scrollHeight": 768,
+      "scrollWidth": 1366,
+      "mapHeight": 378.625,
+      "mapBottom": 660.8125,
+      "footerBottom": 649.609375,
+      "reviewHeaderTextFits": true
+    },
+    {
+      "filename": "02-after-action-1440x900.png",
+      "width": 1280,
+      "height": 720,
+      "scrollHeight": 720,
+      "scrollWidth": 1280,
+      "mapHeight": 330.625,
+      "mapBottom": 612.8125,
+      "footerBottom": 620,
+      "reviewHeaderTextFits": true
+    },
+    {
+      "filename": "02-after-action-1440x900.png",
+      "width": 1366,
+      "height": 768,
+      "scrollHeight": 768,
+      "scrollWidth": 1366,
+      "mapHeight": 378.625,
+      "mapBottom": 660.8125,
+      "footerBottom": 668,
+      "reviewHeaderTextFits": true
+    },
+    {
+      "filename": "03-target-selected-1440x900.png",
+      "width": 1280,
+      "height": 720,
+      "scrollHeight": 720,
+      "scrollWidth": 1280,
+      "mapHeight": 330.625,
+      "mapBottom": 612.8125,
+      "footerBottom": 601.609375,
+      "reviewHeaderTextFits": true
+    },
+    {
+      "filename": "03-target-selected-1440x900.png",
+      "width": 1366,
+      "height": 768,
+      "scrollHeight": 768,
+      "scrollWidth": 1366,
+      "mapHeight": 378.625,
+      "mapBottom": 660.8125,
+      "footerBottom": 649.609375,
+      "reviewHeaderTextFits": true
+    }
+  ],
+  "positions": [
+    {
+      "label": "01-first-decision",
+      "width": 1280,
+      "height": 720,
+      "pageHeight": 720,
+      "pageWidth": 1280,
+      "frame": {
+        "x": 667.5625,
+        "y": 282.1875,
+        "width": 382.46875,
+        "height": 330.625,
+        "top": 282.1875,
+        "right": 1050.03125,
+        "bottom": 612.8125,
+        "left": 667.5625
+      },
+      "scale": 0.5868303571428571,
+      "left": [
+        {
+          "id": "gamma",
+          "rect": {
+            "x": 538.78125,
+            "y": 282.1875,
+            "width": 121.59375,
+            "height": 161.71875,
+            "top": 282.1875,
+            "right": 660.375,
+            "bottom": 443.90625,
+            "left": 538.78125
+          }
+        },
+        {
+          "id": "delta",
+          "rect": {
+            "x": 538.78125,
+            "y": 451.09375,
+            "width": 121.59375,
+            "height": 161.71875,
+            "top": 451.09375,
+            "right": 660.375,
+            "bottom": 612.8125,
+            "left": 538.78125
+          }
+        }
+      ],
+      "right": [
+        {
+          "id": "alpha",
+          "rect": {
+            "x": 1057.21875,
+            "y": 282.1875,
+            "width": 121.59375,
+            "height": 161.71875,
+            "top": 282.1875,
+            "right": 1178.8125,
+            "bottom": 443.90625,
+            "left": 1057.21875
+          }
+        },
+        {
+          "id": "beta",
+          "rect": {
+            "x": 1057.21875,
+            "y": 451.09375,
+            "width": 121.59375,
+            "height": 161.71875,
+            "top": 451.09375,
+            "right": 1178.8125,
+            "bottom": 612.8125,
+            "left": 1057.21875
+          }
+        }
+      ],
+      "footer": {
+        "x": 104.390625,
+        "y": 531.453125,
+        "width": 398.8125,
+        "height": 70.15625,
+        "top": 531.453125,
+        "right": 503.203125,
+        "bottom": 601.609375,
+        "left": 104.390625
+      },
+      "previousFrame": {
+        "x": 669.21875,
+        "y": 266.1875,
+        "width": 509.59375,
+        "height": 218.625,
+        "top": 266.1875,
+        "right": 1178.8125,
+        "bottom": 484.8125,
+        "left": 669.21875
+      },
+      "previousScale": 0.4048611111111111
+    },
+    {
+      "label": "01-first-decision",
+      "width": 1366,
+      "height": 768,
+      "pageHeight": 768,
+      "pageWidth": 1366,
+      "frame": {
+        "x": 710.140625,
+        "y": 282.1875,
+        "width": 417.71875,
+        "height": 378.625,
+        "top": 282.1875,
+        "right": 1127.859375,
+        "bottom": 660.8125,
+        "left": 710.140625
+      },
+      "scale": 0.6725446428571429,
+      "left": [
+        {
+          "id": "gamma",
+          "rect": {
+            "x": 573.1875,
+            "y": 282.1875,
+            "width": 129.765625,
+            "height": 185.71875,
+            "top": 282.1875,
+            "right": 702.953125,
+            "bottom": 467.90625,
+            "left": 573.1875
+          }
+        },
+        {
+          "id": "delta",
+          "rect": {
+            "x": 573.1875,
+            "y": 475.09375,
+            "width": 129.765625,
+            "height": 185.71875,
+            "top": 475.09375,
+            "right": 702.953125,
+            "bottom": 660.8125,
+            "left": 573.1875
+          }
+        }
+      ],
+      "right": [
+        {
+          "id": "alpha",
+          "rect": {
+            "x": 1135.046875,
+            "y": 282.1875,
+            "width": 129.765625,
+            "height": 185.71875,
+            "top": 282.1875,
+            "right": 1264.8125,
+            "bottom": 467.90625,
+            "left": 1135.046875
+          }
+        },
+        {
+          "id": "beta",
+          "rect": {
+            "x": 1135.046875,
+            "y": 475.09375,
+            "width": 129.765625,
+            "height": 185.71875,
+            "top": 475.09375,
+            "right": 1264.8125,
+            "bottom": 660.8125,
+            "left": 1135.046875
+          }
+        }
+      ],
+      "footer": {
+        "x": 104.390625,
+        "y": 579.453125,
+        "width": 433.21875,
+        "height": 70.15625,
+        "top": 579.453125,
+        "right": 537.609375,
+        "bottom": 649.609375,
+        "left": 104.390625
+      },
+      "previousFrame": {
+        "x": 713.875,
+        "y": 266.1875,
+        "width": 550.9375,
+        "height": 266.625,
+        "top": 266.1875,
+        "right": 1264.8125,
+        "bottom": 532.8125,
+        "left": 713.875
+      },
+      "previousScale": 0.49375
+    },
+    {
+      "label": "01-first-decision",
+      "width": 1440,
+      "height": 900,
+      "pageHeight": 900,
+      "pageWidth": 1440,
+      "frame": {
+        "x": 746.765625,
+        "y": 289.1875,
+        "width": 444.859375,
+        "height": 499.625,
+        "top": 289.1875,
+        "right": 1191.625,
+        "bottom": 788.8125,
+        "left": 746.765625
+      },
+      "scale": 0.7769462719298246,
+      "left": [
+        {
+          "id": "gamma",
+          "rect": {
+            "x": 603.578125,
+            "y": 289.1875,
+            "width": 136,
+            "height": 246.21875,
+            "top": 289.1875,
+            "right": 739.578125,
+            "bottom": 535.40625,
+            "left": 603.578125
+          }
+        },
+        {
+          "id": "delta",
+          "rect": {
+            "x": 603.578125,
+            "y": 542.59375,
+            "width": 136,
+            "height": 246.21875,
+            "top": 542.59375,
+            "right": 739.578125,
+            "bottom": 788.8125,
+            "left": 603.578125
+          }
+        }
+      ],
+      "right": [
+        {
+          "id": "alpha",
+          "rect": {
+            "x": 1198.8125,
+            "y": 289.1875,
+            "width": 136,
+            "height": 246.21875,
+            "top": 289.1875,
+            "right": 1334.8125,
+            "bottom": 535.40625,
+            "left": 1198.8125
+          }
+        },
+        {
+          "id": "beta",
+          "rect": {
+            "x": 1198.8125,
+            "y": 542.59375,
+            "width": 136,
+            "height": 246.21875,
+            "top": 542.59375,
+            "right": 1334.8125,
+            "bottom": 788.8125,
+            "left": 1198.8125
+          }
+        }
+      ],
+      "footer": {
+        "x": 108.390625,
+        "y": 707.453125,
+        "width": 459.609375,
+        "height": 70.15625,
+        "top": 707.453125,
+        "right": 568,
+        "bottom": 777.609375,
+        "left": 108.390625
+      },
+      "previousFrame": {
+        "x": 752.140625,
+        "y": 273.1875,
+        "width": 582.671875,
+        "height": 387.625,
+        "top": 273.1875,
+        "right": 1334.8125,
+        "bottom": 660.8125,
+        "left": 752.140625
+      },
+      "previousScale": 0.7178240740740741
+    },
+    {
+      "label": "02-after-action",
+      "width": 1280,
+      "height": 720,
+      "pageHeight": 720,
+      "pageWidth": 1280,
+      "frame": {
+        "x": 667.5625,
+        "y": 282.1875,
+        "width": 382.46875,
+        "height": 330.625,
+        "top": 282.1875,
+        "right": 1050.03125,
+        "bottom": 612.8125,
+        "left": 667.5625
+      },
+      "scale": 0.5868303571428571,
+      "left": [
+        {
+          "id": "gamma",
+          "rect": {
+            "x": 538.78125,
+            "y": 282.1875,
+            "width": 121.59375,
+            "height": 161.71875,
+            "top": 282.1875,
+            "right": 660.375,
+            "bottom": 443.90625,
+            "left": 538.78125
+          }
+        },
+        {
+          "id": "delta",
+          "rect": {
+            "x": 538.78125,
+            "y": 451.09375,
+            "width": 121.59375,
+            "height": 161.71875,
+            "top": 451.09375,
+            "right": 660.375,
+            "bottom": 612.8125,
+            "left": 538.78125
+          }
+        }
+      ],
+      "right": [
+        {
+          "id": "alpha",
+          "rect": {
+            "x": 1057.21875,
+            "y": 282.1875,
+            "width": 121.59375,
+            "height": 161.71875,
+            "top": 282.1875,
+            "right": 1178.8125,
+            "bottom": 443.90625,
+            "left": 1057.21875
+          }
+        },
+        {
+          "id": "beta",
+          "rect": {
+            "x": 1057.21875,
+            "y": 451.09375,
+            "width": 121.59375,
+            "height": 161.71875,
+            "top": 451.09375,
+            "right": 1178.8125,
+            "bottom": 612.8125,
+            "left": 1057.21875
+          }
+        }
+      ],
+      "footer": {
+        "x": 86,
+        "y": 549.84375,
+        "width": 435.59375,
+        "height": 70.15625,
+        "top": 549.84375,
+        "right": 521.59375,
+        "bottom": 620,
+        "left": 86
+      },
+      "previousFrame": {
+        "x": 669.21875,
+        "y": 266.1875,
+        "width": 509.59375,
+        "height": 218.625,
+        "top": 266.1875,
+        "right": 1178.8125,
+        "bottom": 484.8125,
+        "left": 669.21875
+      },
+      "previousScale": 0.4048611111111111
+    },
+    {
+      "label": "02-after-action",
+      "width": 1366,
+      "height": 768,
+      "pageHeight": 768,
+      "pageWidth": 1366,
+      "frame": {
+        "x": 710.140625,
+        "y": 282.1875,
+        "width": 417.71875,
+        "height": 378.625,
+        "top": 282.1875,
+        "right": 1127.859375,
+        "bottom": 660.8125,
+        "left": 710.140625
+      },
+      "scale": 0.6725446428571429,
+      "left": [
+        {
+          "id": "gamma",
+          "rect": {
+            "x": 573.1875,
+            "y": 282.1875,
+            "width": 129.765625,
+            "height": 185.71875,
+            "top": 282.1875,
+            "right": 702.953125,
+            "bottom": 467.90625,
+            "left": 573.1875
+          }
+        },
+        {
+          "id": "delta",
+          "rect": {
+            "x": 573.1875,
+            "y": 475.09375,
+            "width": 129.765625,
+            "height": 185.71875,
+            "top": 475.09375,
+            "right": 702.953125,
+            "bottom": 660.8125,
+            "left": 573.1875
+          }
+        }
+      ],
+      "right": [
+        {
+          "id": "alpha",
+          "rect": {
+            "x": 1135.046875,
+            "y": 282.1875,
+            "width": 129.765625,
+            "height": 185.71875,
+            "top": 282.1875,
+            "right": 1264.8125,
+            "bottom": 467.90625,
+            "left": 1135.046875
+          }
+        },
+        {
+          "id": "beta",
+          "rect": {
+            "x": 1135.046875,
+            "y": 475.09375,
+            "width": 129.765625,
+            "height": 185.71875,
+            "top": 475.09375,
+            "right": 1264.8125,
+            "bottom": 660.8125,
+            "left": 1135.046875
+          }
+        }
+      ],
+      "footer": {
+        "x": 86,
+        "y": 597.84375,
+        "width": 470,
+        "height": 70.15625,
+        "top": 597.84375,
+        "right": 556,
+        "bottom": 668,
+        "left": 86
+      },
+      "previousFrame": {
+        "x": 713.875,
+        "y": 266.1875,
+        "width": 550.9375,
+        "height": 266.625,
+        "top": 266.1875,
+        "right": 1264.8125,
+        "bottom": 532.8125,
+        "left": 713.875
+      },
+      "previousScale": 0.49375
+    },
+    {
+      "label": "02-after-action",
+      "width": 1440,
+      "height": 900,
+      "pageHeight": 900,
+      "pageWidth": 1440,
+      "frame": {
+        "x": 746.765625,
+        "y": 289.1875,
+        "width": 444.859375,
+        "height": 499.625,
+        "top": 289.1875,
+        "right": 1191.625,
+        "bottom": 788.8125,
+        "left": 746.765625
+      },
+      "scale": 0.7769462719298246,
+      "left": [
+        {
+          "id": "gamma",
+          "rect": {
+            "x": 603.578125,
+            "y": 289.1875,
+            "width": 136,
+            "height": 246.21875,
+            "top": 289.1875,
+            "right": 739.578125,
+            "bottom": 535.40625,
+            "left": 603.578125
+          }
+        },
+        {
+          "id": "delta",
+          "rect": {
+            "x": 603.578125,
+            "y": 542.59375,
+            "width": 136,
+            "height": 246.21875,
+            "top": 542.59375,
+            "right": 739.578125,
+            "bottom": 788.8125,
+            "left": 603.578125
+          }
+        }
+      ],
+      "right": [
+        {
+          "id": "alpha",
+          "rect": {
+            "x": 1198.8125,
+            "y": 289.1875,
+            "width": 136,
+            "height": 246.21875,
+            "top": 289.1875,
+            "right": 1334.8125,
+            "bottom": 535.40625,
+            "left": 1198.8125
+          }
+        },
+        {
+          "id": "beta",
+          "rect": {
+            "x": 1198.8125,
+            "y": 542.59375,
+            "width": 136,
+            "height": 246.21875,
+            "top": 542.59375,
+            "right": 1334.8125,
+            "bottom": 788.8125,
+            "left": 1198.8125
+          }
+        }
+      ],
+      "footer": {
+        "x": 90,
+        "y": 725.84375,
+        "width": 496.390625,
+        "height": 70.15625,
+        "top": 725.84375,
+        "right": 586.390625,
+        "bottom": 796,
+        "left": 90
+      },
+      "previousFrame": {
+        "x": 752.140625,
+        "y": 273.1875,
+        "width": 582.671875,
+        "height": 387.625,
+        "top": 273.1875,
+        "right": 1334.8125,
+        "bottom": 660.8125,
+        "left": 752.140625
+      },
+      "previousScale": 0.7178240740740741
+    },
+    {
+      "label": "03-target-selected",
+      "width": 1280,
+      "height": 720,
+      "pageHeight": 720,
+      "pageWidth": 1280,
+      "frame": {
+        "x": 667.5625,
+        "y": 282.1875,
+        "width": 382.46875,
+        "height": 330.625,
+        "top": 282.1875,
+        "right": 1050.03125,
+        "bottom": 612.8125,
+        "left": 667.5625
+      },
+      "scale": 0.5868303571428571,
+      "left": [
+        {
+          "id": "gamma",
+          "rect": {
+            "x": 538.78125,
+            "y": 282.1875,
+            "width": 121.59375,
+            "height": 161.71875,
+            "top": 282.1875,
+            "right": 660.375,
+            "bottom": 443.90625,
+            "left": 538.78125
+          }
+        },
+        {
+          "id": "delta",
+          "rect": {
+            "x": 538.78125,
+            "y": 451.09375,
+            "width": 121.59375,
+            "height": 161.71875,
+            "top": 451.09375,
+            "right": 660.375,
+            "bottom": 612.8125,
+            "left": 538.78125
+          }
+        }
+      ],
+      "right": [
+        {
+          "id": "alpha",
+          "rect": {
+            "x": 1057.21875,
+            "y": 282.1875,
+            "width": 121.59375,
+            "height": 161.71875,
+            "top": 282.1875,
+            "right": 1178.8125,
+            "bottom": 443.90625,
+            "left": 1057.21875
+          }
+        },
+        {
+          "id": "beta",
+          "rect": {
+            "x": 1057.21875,
+            "y": 451.09375,
+            "width": 121.59375,
+            "height": 161.71875,
+            "top": 451.09375,
+            "right": 1178.8125,
+            "bottom": 612.8125,
+            "left": 1057.21875
+          }
+        }
+      ],
+      "footer": {
+        "x": 104.390625,
+        "y": 531.453125,
+        "width": 398.8125,
+        "height": 70.15625,
+        "top": 531.453125,
+        "right": 503.203125,
+        "bottom": 601.609375,
+        "left": 104.390625
+      },
+      "previousFrame": {
+        "x": 669.21875,
+        "y": 266.1875,
+        "width": 509.59375,
+        "height": 218.625,
+        "top": 266.1875,
+        "right": 1178.8125,
+        "bottom": 484.8125,
+        "left": 669.21875
+      },
+      "previousScale": 0.4048611111111111
+    },
+    {
+      "label": "03-target-selected",
+      "width": 1366,
+      "height": 768,
+      "pageHeight": 768,
+      "pageWidth": 1366,
+      "frame": {
+        "x": 710.140625,
+        "y": 282.1875,
+        "width": 417.71875,
+        "height": 378.625,
+        "top": 282.1875,
+        "right": 1127.859375,
+        "bottom": 660.8125,
+        "left": 710.140625
+      },
+      "scale": 0.6725446428571429,
+      "left": [
+        {
+          "id": "gamma",
+          "rect": {
+            "x": 573.1875,
+            "y": 282.1875,
+            "width": 129.765625,
+            "height": 185.71875,
+            "top": 282.1875,
+            "right": 702.953125,
+            "bottom": 467.90625,
+            "left": 573.1875
+          }
+        },
+        {
+          "id": "delta",
+          "rect": {
+            "x": 573.1875,
+            "y": 475.09375,
+            "width": 129.765625,
+            "height": 185.71875,
+            "top": 475.09375,
+            "right": 702.953125,
+            "bottom": 660.8125,
+            "left": 573.1875
+          }
+        }
+      ],
+      "right": [
+        {
+          "id": "alpha",
+          "rect": {
+            "x": 1135.046875,
+            "y": 282.1875,
+            "width": 129.765625,
+            "height": 185.71875,
+            "top": 282.1875,
+            "right": 1264.8125,
+            "bottom": 467.90625,
+            "left": 1135.046875
+          }
+        },
+        {
+          "id": "beta",
+          "rect": {
+            "x": 1135.046875,
+            "y": 475.09375,
+            "width": 129.765625,
+            "height": 185.71875,
+            "top": 475.09375,
+            "right": 1264.8125,
+            "bottom": 660.8125,
+            "left": 1135.046875
+          }
+        }
+      ],
+      "footer": {
+        "x": 104.390625,
+        "y": 579.453125,
+        "width": 433.21875,
+        "height": 70.15625,
+        "top": 579.453125,
+        "right": 537.609375,
+        "bottom": 649.609375,
+        "left": 104.390625
+      },
+      "previousFrame": {
+        "x": 713.875,
+        "y": 266.1875,
+        "width": 550.9375,
+        "height": 266.625,
+        "top": 266.1875,
+        "right": 1264.8125,
+        "bottom": 532.8125,
+        "left": 713.875
+      },
+      "previousScale": 0.49375
+    },
+    {
+      "label": "03-target-selected",
+      "width": 1440,
+      "height": 900,
+      "pageHeight": 900,
+      "pageWidth": 1440,
+      "frame": {
+        "x": 746.765625,
+        "y": 289.1875,
+        "width": 444.859375,
+        "height": 499.625,
+        "top": 289.1875,
+        "right": 1191.625,
+        "bottom": 788.8125,
+        "left": 746.765625
+      },
+      "scale": 0.7769462719298246,
+      "left": [
+        {
+          "id": "gamma",
+          "rect": {
+            "x": 603.578125,
+            "y": 289.1875,
+            "width": 136,
+            "height": 246.21875,
+            "top": 289.1875,
+            "right": 739.578125,
+            "bottom": 535.40625,
+            "left": 603.578125
+          }
+        },
+        {
+          "id": "delta",
+          "rect": {
+            "x": 603.578125,
+            "y": 542.59375,
+            "width": 136,
+            "height": 246.21875,
+            "top": 542.59375,
+            "right": 739.578125,
+            "bottom": 788.8125,
+            "left": 603.578125
+          }
+        }
+      ],
+      "right": [
+        {
+          "id": "alpha",
+          "rect": {
+            "x": 1198.8125,
+            "y": 289.1875,
+            "width": 136,
+            "height": 246.21875,
+            "top": 289.1875,
+            "right": 1334.8125,
+            "bottom": 535.40625,
+            "left": 1198.8125
+          }
+        },
+        {
+          "id": "beta",
+          "rect": {
+            "x": 1198.8125,
+            "y": 542.59375,
+            "width": 136,
+            "height": 246.21875,
+            "top": 542.59375,
+            "right": 1334.8125,
+            "bottom": 788.8125,
+            "left": 1198.8125
+          }
+        }
+      ],
+      "footer": {
+        "x": 108.390625,
+        "y": 707.453125,
+        "width": 459.609375,
+        "height": 70.15625,
+        "top": 707.453125,
+        "right": 568,
+        "bottom": 777.609375,
+        "left": 108.390625
+      },
+      "previousFrame": {
+        "x": 752.140625,
+        "y": 273.1875,
+        "width": 582.671875,
+        "height": 387.625,
+        "top": 273.1875,
+        "right": 1334.8125,
+        "bottom": 660.8125,
+        "left": 752.140625
+      },
+      "previousScale": 0.7178240740740741
+    }
+  ],
+  "left": [
+    "gamma",
+    "delta"
+  ],
+  "right": [
+    "alpha",
+    "beta"
+  ],
+  "stableMap": true,
+  "enlargedMap": true,
+  "liveHiddenTruthFirewall": "PASS"
+}

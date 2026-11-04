@@ -13,6 +13,10 @@ import { AdminLoginForm } from "./ui/components/profile/AdminLoginForm";
 import { SystemManagement } from "./ui/components/admin/SystemManagement";
 import { systemLogger } from "./services/analytics/systemLogger";
 import { ScenarioZeroLearning } from "./ui/components/scenario/scenario-zero/ScenarioZeroLearning";
+import { ScenarioFiveAdminDashboardPreview } from "./ui/components/scenario/scenario-five/ui/ScenarioFiveAdminDashboardPreview";
+
+// TEMP-S5-DASHBOARD-PREVIEW: remove after dashboard design review.
+const ENABLE_TEMP_SCENARIO_TWO_DASHBOARD_PREVIEW = true;
 
 interface Scenario {
   id: number;
@@ -284,7 +288,7 @@ const SCENARIOS: Scenario[] = [
     image: "/images/scenario2.png",
     badges: ["لجستیک چندمسیره", "اختلال", "منابع محدود", "شواهد متعارض"],
     descriptionPreview: `چهار کاروان به‌طور هم‌زمان در چهار کریدور عملیاتی حرکت می‌کنند. نشانه‌های موقعیتی و گزارش‌های میدانی ممکن است با هم ناسازگار شوند. شما باید بدون فرض زودهنگام، شواهد را بررسی کنید، منابع محدود را مدیریت کنید و بین حفاظت از محموله اولویت‌دار و تداوم کل شبکه تعادل برقرار کنید.`,
-    fullDescription: `در نقش فرمانده شبکه لجستیکی، چهار کاروان را در شرایط ابهام اطلاعاتی و اختلال احتمالی PNT هدایت می‌کنید. کاروان الف حامل تجهیزات درمانی اضطراری و از نظر مأموریتی اولویت‌دار است؛ این اولویت به معنی آن نیست که از ابتدا بدانید کدام کاروان یا کریدور هدف اختلال است. تصمیم‌های شما زمان عملیاتی و منابع ISR یا پشتیبانی مصرف می‌کنند و می‌توانند گزینه‌های مراحل بعد را محدود کنند. هدف، ساختن تصویر اطلاعاتی قابل دفاع، حفظ تداوم شبکه و مدیریت تحویل کاروان‌ها تحت عدم‌قطعیت است.`,
+    fullDescription: `در نقش فرمانده شبکه لجستیکی، چهار کاروان را در شرایط ابهام اطلاعاتی و اختلال احتمالی PNT هدایت می‌کنید. کاروان الف حامل تجهیزات درمانی اضطراری و از نظر مأموریتی اولویت‌دار است؛ این اولویت به معنی آن نیست که از ابتدا بدانید کدام کاروان یا کریدور هدف اختلال است. تصمیم‌های شما زمان عملیاتی و منابع ISR یا پشتیبانی مصرف می‌کنند. منابع محدودند و نحوه مصرف آنها بر ظرفیت باقی‌مانده، تاب‌آوری و نتیجه مأموریت اثر می‌گذارد. هدف، ساختن تصویر اطلاعاتی قابل دفاع، حفظ تداوم شبکه و مدیریت تحویل کاروان‌ها تحت عدم‌قطعیت است.`,
     introBackgroundImage: scenario2IntroBackground,
     introText: `شما فرمانده شبکه لجستیکی هستید. چهار کاروان به‌طور هم‌زمان در چهار کریدور عملیاتی در حرکت‌اند. کاروان الف حامل تجهیزات درمانی اضطراری و از نظر مأموریتی اولویت‌دار است؛ اما این اولویت، شاهدی درباره محل یا هدف اختلال نیست.
 
@@ -362,6 +366,7 @@ const App = () => {
   const [activeScenarioId, setActiveScenarioId] = useState<number | null>(null);
   const [activeScenarioNodeId, setActiveScenarioNodeId] = useState<string | null>(null);
   const [scenarioCompletionUiActive, setScenarioCompletionUiActive] = useState(false);
+  const [scenarioFivePreviewOpen, setScenarioFivePreviewOpen] = useState(false); // TEMP-S5-DASHBOARD-PREVIEW
   const [scenarioMenuOpen, setScenarioMenuOpen] = useState<boolean>(false);
   const [introModalText, setIntroModalText] = useState<string | null>(null);
   const showBackgroundVideo = view !== "scenarioPlay";
@@ -2514,9 +2519,15 @@ const renderScenarioPlay = () => {
       {introModalText && !isScenarioZero && (
         <div className="intro-modal-backdrop">
           <div
-            className={"intro-modal" + (scenario.introBackgroundImage ? " intro-modal-with-bg" : "")}
+            className={"intro-modal" + (scenario.introBackgroundImage ? " intro-modal-with-bg" : "") + (isScenarioFive && activeProfile.role === "admin" ? " s5-admin-intro" : "")}
             style={introModalStyle}
           >
+            {ENABLE_TEMP_SCENARIO_TWO_DASHBOARD_PREVIEW && isScenarioFive && activeProfile.role === "admin" && (
+              <>
+                <button type="button" className="s5-admin-dashboard-shortcut" data-admin-s5-dashboard-shortcut title="پیش‌نمایش موقت داشبورد سناریو ۲" aria-label="پیش‌نمایش موقت داشبورد سناریو ۲" onClick={() => setScenarioFivePreviewOpen(true)}>داشبورد موقت</button>
+                {scenarioFivePreviewOpen && <ScenarioFiveAdminDashboardPreview isAdmin={activeProfile.role === "admin"} onExit={() => setScenarioFivePreviewOpen(false)} />}
+              </>
+            )}
             <h3>{scenario.introTitle ?? "شروع مسیر"}</h3>
             <p className="intro-modal-text">{introModalText}</p>
             <button className="primary" onClick={() => setIntroModalText(null)}>

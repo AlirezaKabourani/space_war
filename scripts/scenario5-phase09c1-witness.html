@@ -1,0 +1,27 @@
+<!doctype html>
+<html lang="fa" dir="rtl"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>09C-1 — isolated browser witnesses, test only</title></head>
+<body style="padding-top:64px"><div id="qa-label" style="position:fixed;top:0;left:0;right:0;z-index:1000;padding:10px;background:#152438;color:#e4eff9;font:14px system-ui;border-bottom:1px solid #58718a"></div><div id="root"></div>
+<script type="module">
+import React from 'react';
+import {createRoot} from 'react-dom/client';
+import {ScenarioFiveSummary} from '../src/ui/components/scenario/ScenarioFiveSummary.tsx';
+import '../src/index.css';
+import '../src/App.css';
+import '../src/ui/components/scenario/ScenarioFive.css';
+const all=await(await fetch('/docs/scenario5-phase8d-witnesses.json')).json();
+const query=new URLSearchParams(location.search),id=query.get('id');
+const witness=all.find(w=>w.id===id)??all[0];
+let state=witness.state,result=witness.result;
+const fixture=query.get('fixture');
+if(fixture){
+  const fixtures=await(await fetch('/docs/scenario5-phase09c1-visual-fixtures.json')).json();
+  const r=fixture==='partial'?fixtures.partialZero:fixtures.nullZero;
+  state={...state,runId:r.runId};result={...result,runId:r.runId,cognitive:r};
+  if(fixture==='missing')result=null;
+  if(fixture==='mismatch')result={...result,runId:'TEST_ONLY_MISMATCH'};
+}
+document.getElementById('qa-label').textContent=fixture?'حالت نمایشی آزمون — TEST ONLY — صفر / داده ناموجود؛ داده واقعی بازیکن نیست.':'شاهد آزمون بازپخش قطعی موتور — TEST WITNESS — خارج از مسیر محصول';
+window.__phase09c1Witness={testOnly:true,fixture:fixture??null,endingId:witness.id,runId:state.runId,cognitiveRunId:result?.cognitive.runId??null,finished:0};
+const root=createRoot(document.getElementById('root'));
+root.render(React.createElement(ScenarioFiveSummary,{runtimeState:state,result,onComplete:()=>{window.__phase09c1Witness.finished++;root.render(React.createElement('p',{'data-test-finished':'true'},'پایان آزمون'));}}));
+</script></body></html>

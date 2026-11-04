@@ -1,0 +1,568 @@
+{
+  "changedApplicationFiles": [
+    "src/scenarios/s5_silent_waves_redesign/tree.ts",
+    "src/ui/components/scenario/ScenarioFive.css",
+    "src/ui/components/scenario/ScenarioFiveActionCard.tsx",
+    "src/ui/components/scenario/ScenarioFiveMap.tsx",
+    "src/ui/components/scenario/ScenarioFiveResourcePanel.tsx",
+    "src/ui/components/scenario/ScenarioFiveSimulation.tsx",
+    "src/ui/components/scenario/ScenarioFiveSummary.tsx",
+    "src/ui/components/scenario/ScenarioFiveTypes.ts",
+    "src/ui/components/scenario/scenario-five/ui/ScenarioFiveBeliefPanel.tsx",
+    "src/ui/components/scenario/scenario-five/ui/ScenarioFiveOutcomePanel.tsx",
+    "src/ui/components/scenario/scenario-five/ui/ScenarioFiveReasonPanel.tsx",
+    "src/ui/components/scenario/scenario-five/ui/presentation.ts",
+    "src/ui/components/scenario/scenario-five/ui/uiContentFa.ts"
+  ],
+  "addedApplicationFiles": [
+    "src/ui/components/scenario/scenario-five/ui/ScenarioFiveMissionEnding.tsx",
+    "src/ui/components/scenario/scenario-five/ui/ScenarioFiveProgress.tsx",
+    "src/ui/components/scenario/scenario-five/ui/endingPresentation.ts",
+    "src/ui/components/scenario/scenario-five/ui/gameplayPresentation.ts"
+  ],
+  "addedVerificationDocsFiles": [
+    "docs/scenario5-phase8d-baseline.json",
+    "docs/scenario5-phase8d-check-results.json",
+    "docs/scenario5-phase8d-checks/after-3-model.txt",
+    "docs/scenario5-phase8d-checks/after-4-mission.txt",
+    "docs/scenario5-phase8d-checks/after-5-cognitive.txt",
+    "docs/scenario5-phase8d-checks/after-6-runtime.txt",
+    "docs/scenario5-phase8d-checks/after-7-ui.txt",
+    "docs/scenario5-phase8d-checks/after-8-calibration.txt",
+    "docs/scenario5-phase8d-checks/after-8a-audit.txt",
+    "docs/scenario5-phase8d-checks/after-8b-calibration.txt",
+    "docs/scenario5-phase8d-checks/after-8c-ui.txt",
+    "docs/scenario5-phase8d-checks/after-8d-integrated-gameplay.txt",
+    "docs/scenario5-phase8d-checks/after-build.txt",
+    "docs/scenario5-phase8d-checks/after-metric-inventory.txt",
+    "docs/scenario5-phase8d-checks/after-typecheck.txt",
+    "docs/scenario5-phase8d-checks/before-3-model.txt",
+    "docs/scenario5-phase8d-checks/before-4-mission.txt",
+    "docs/scenario5-phase8d-checks/before-5-cognitive.txt",
+    "docs/scenario5-phase8d-checks/before-6-runtime.txt",
+    "docs/scenario5-phase8d-checks/before-7-ui.txt",
+    "docs/scenario5-phase8d-checks/before-8-calibration.txt",
+    "docs/scenario5-phase8d-checks/before-8a-audit.txt",
+    "docs/scenario5-phase8d-checks/before-8b-calibration.txt",
+    "docs/scenario5-phase8d-checks/before-8c-ui.txt",
+    "docs/scenario5-phase8d-ending-aar-verification.md",
+    "docs/scenario5-phase8d-file-manifest.json",
+    "docs/scenario5-phase8d-gameplay-flow-fa.md",
+    "docs/scenario5-phase8d-integrated-gameplay-spec.md",
+    "docs/scenario5-phase8d-numeric-sync-verification.md",
+    "docs/scenario5-phase8d-scientific-parity.md",
+    "docs/scenario5-phase8d-screenshots/01-briefing-or-entry-1440x900.png",
+    "docs/scenario5-phase8d-screenshots/02-r1-decision-1440x900.png",
+    "docs/scenario5-phase8d-screenshots/03-r1-outcome-1440x900.png",
+    "docs/scenario5-phase8d-screenshots/04-prebelief-1440x900.png",
+    "docs/scenario5-phase8d-screenshots/05-r2-target-selection-1440x900.png",
+    "docs/scenario5-phase8d-screenshots/06-postbelief-1440x900.png",
+    "docs/scenario5-phase8d-screenshots/07-r3-decision-1440x900.png",
+    "docs/scenario5-phase8d-screenshots/08-r4-reroute-selected-1440x900.png",
+    "docs/scenario5-phase8d-screenshots/09-r4-outcome-reroute-map-1440x900.png",
+    "docs/scenario5-phase8d-screenshots/10-r5-resilience-1440x900.png",
+    "docs/scenario5-phase8d-screenshots/11-r6-resource-preview-1440x900.png",
+    "docs/scenario5-phase8d-screenshots/12-c-belief-1440x900.png",
+    "docs/scenario5-phase8d-screenshots/13-r7-decision-1440x900.png",
+    "docs/scenario5-phase8d-screenshots/14-final-belief-1440x900.png",
+    "docs/scenario5-phase8d-screenshots/15-r8-decision-1440x900.png",
+    "docs/scenario5-phase8d-screenshots/16-r8-outcome-time-breakdown-1440x900.png",
+    "docs/scenario5-phase8d-screenshots/17-mission-ending-1440x900.png",
+    "docs/scenario5-phase8d-screenshots/18-why-this-ending-1440x900.png",
+    "docs/scenario5-phase8d-screenshots/19-decision-trace-1440x900.png",
+    "docs/scenario5-phase8d-screenshots/20-hidden-truth-belief-timeline-1440x900.png",
+    "docs/scenario5-phase8d-screenshots/21-left-pane-scroll-1366x768.png",
+    "docs/scenario5-phase8d-screenshots/22-live-console-1280x720.png",
+    "docs/scenario5-phase8d-screenshots/inspection.json",
+    "docs/scenario5-phase8d-screenshots/witness-1-critical_cargo_lost_or_compromised-1440x900.png",
+    "docs/scenario5-phase8d-screenshots/witness-2-priority_delivered_network_degradation-1440x900.png",
+    "docs/scenario5-phase8d-screenshots/witness-3-mission_incomplete_continuity_preserved-1440x900.png",
+    "docs/scenario5-phase8d-screenshots/witness-4-delivery_complete_threat_persistent-1440x900.png",
+    "docs/scenario5-phase8d-screenshots/witness-5-delivery_complete_attribution_unresolved-1440x900.png",
+    "docs/scenario5-phase8d-screenshots/witness-6-delivery_complete_threat_contained-1440x900.png",
+    "docs/scenario5-phase8d-verification.json",
+    "docs/scenario5-phase8d-witnesses.json",
+    "scripts/capture-s5-phase8d.mjs",
+    "scripts/document-s5-phase8d.mjs",
+    "scripts/package-s5-phase8d.mjs",
+    "scripts/run-s5-phase8d-checks.mjs",
+    "scripts/scenario5-phase8d-witness.html",
+    "scripts/verify-s5-phase8d-integrated-gameplay.ts",
+    "scripts/verify-s5-phase8d-presentation.tsx"
+  ],
+  "excludedPreexisting": [
+    "docs/thesis-evidence/"
+  ],
+  "frozen": [
+    {
+      "path": "src/ui/components/scenario/scenario-five/model/actorModel.ts",
+      "before": "469f681c75220a52b40e2e465b858c3901fb683a3b256511fba3d67cc3134aac",
+      "after": "469f681c75220a52b40e2e465b858c3901fb683a3b256511fba3d67cc3134aac",
+      "unchanged": true
+    },
+    {
+      "path": "src/ui/components/scenario/scenario-five/model/adjudicator.ts",
+      "before": "3e49e559914eb574cb3cd595ece88b4f2226cb102fddafa93fb13ea4374ed301",
+      "after": "3e49e559914eb574cb3cd595ece88b4f2226cb102fddafa93fb13ea4374ed301",
+      "unchanged": true
+    },
+    {
+      "path": "src/ui/components/scenario/scenario-five/model/cognitive/cognitiveEngine.ts",
+      "before": "dbcc476007a5dda0188fe89f0f950dc7063ba341090b026e8875ad239073e91d",
+      "after": "dbcc476007a5dda0188fe89f0f950dc7063ba341090b026e8875ad239073e91d",
+      "unchanged": true
+    },
+    {
+      "path": "src/ui/components/scenario/scenario-five/model/cognitive/evidenceScoring.ts",
+      "before": "52b886b74eedb7e371cbb0990c8a63c033bd9391235141930e0284e6e5ae7353",
+      "after": "52b886b74eedb7e371cbb0990c8a63c033bd9391235141930e0284e6e5ae7353",
+      "unchanged": true
+    },
+    {
+      "path": "src/ui/components/scenario/scenario-five/model/cognitive/index.ts",
+      "before": "b375c80bc8dbd91217383bbf08ec2bf0e46b589e9b6c00d523061b91161310ba",
+      "after": "b375c80bc8dbd91217383bbf08ec2bf0e46b589e9b6c00d523061b91161310ba",
+      "unchanged": true
+    },
+    {
+      "path": "src/ui/components/scenario/scenario-five/model/cognitive/optionProfiles.ts",
+      "before": "84a6c87700210701b58ced9af47297ddba16aa62f31764fb51814c14a9e99e70",
+      "after": "84a6c87700210701b58ced9af47297ddba16aa62f31764fb51814c14a9e99e70",
+      "unchanged": true
+    },
+    {
+      "path": "src/ui/components/scenario/scenario-five/model/cognitive/reasonModel.ts",
+      "before": "fdc462e69bdc897d8ddcfeed0aa96a399e2aae1f7595c9fa4deb5db9c805fd3c",
+      "after": "fdc462e69bdc897d8ddcfeed0aa96a399e2aae1f7595c9fa4deb5db9c805fd3c",
+      "unchanged": true
+    },
+    {
+      "path": "src/ui/components/scenario/scenario-five/model/cognitive/types.ts",
+      "before": "a4876edbc46fd4c709b75fd2b0bbe37bb90aacc1e065d2a87faa449738bbbe55",
+      "after": "a4876edbc46fd4c709b75fd2b0bbe37bb90aacc1e065d2a87faa449738bbbe55",
+      "unchanged": true
+    },
+    {
+      "path": "src/ui/components/scenario/scenario-five/model/cognitive/versions.ts",
+      "before": "ff21d79714907bbdb0c889548907b024bd791549dc24850a75e2923bd0d9ad65",
+      "after": "ff21d79714907bbdb0c889548907b024bd791549dc24850a75e2923bd0d9ad65",
+      "unchanged": true
+    },
+    {
+      "path": "src/ui/components/scenario/scenario-five/model/evidenceModel.ts",
+      "before": "09434dd221a0e51edda05e9185a4b98d63c8333589872039115770e9f7c0f863",
+      "after": "09434dd221a0e51edda05e9185a4b98d63c8333589872039115770e9f7c0f863",
+      "unchanged": true
+    },
+    {
+      "path": "src/ui/components/scenario/scenario-five/model/index.ts",
+      "before": "05502b66da36d4e1bbffd1dc5e78ffaf50c661d62d33b4defd468348a00e9a58",
+      "after": "05502b66da36d4e1bbffd1dc5e78ffaf50c661d62d33b4defd468348a00e9a58",
+      "unchanged": true
+    },
+    {
+      "path": "src/ui/components/scenario/scenario-five/model/mission/actionCatalog.ts",
+      "before": "2fc85f31e51745be92ce9c73dfcfaec1df2d555dd17086e70e0248a1e4dd2931",
+      "after": "2fc85f31e51745be92ce9c73dfcfaec1df2d555dd17086e70e0248a1e4dd2931",
+      "unchanged": true
+    },
+    {
+      "path": "src/ui/components/scenario/scenario-five/model/mission/config.ts",
+      "before": "f1f61707b42d368c47c5eb6716ea5e03fe31511a6d8d570ce994f9d3df3beb6c",
+      "after": "f1f61707b42d368c47c5eb6716ea5e03fe31511a6d8d570ce994f9d3df3beb6c",
+      "unchanged": true
+    },
+    {
+      "path": "src/ui/components/scenario/scenario-five/model/mission/endStateResolver.ts",
+      "before": "f8e0f8c980a7ea8191595cc6a6cc37e6c5f873b74c4abe055a97e0ccd040db93",
+      "after": "f8e0f8c980a7ea8191595cc6a6cc37e6c5f873b74c4abe055a97e0ccd040db93",
+      "unchanged": true
+    },
+    {
+      "path": "src/ui/components/scenario/scenario-five/model/mission/index.ts",
+      "before": "0262bf012d362d62975bc4921efc98419ddfca691aa1ec2f6b68768b79b15800",
+      "after": "0262bf012d362d62975bc4921efc98419ddfca691aa1ec2f6b68768b79b15800",
+      "unchanged": true
+    },
+    {
+      "path": "src/ui/components/scenario/scenario-five/model/mission/missionEngine.ts",
+      "before": "3b5c5a5b2a80cffbcb66bacbc6fd078749f1b7e08e28bbfe55e18a1a42c35e5b",
+      "after": "3b5c5a5b2a80cffbcb66bacbc6fd078749f1b7e08e28bbfe55e18a1a42c35e5b",
+      "unchanged": true
+    },
+    {
+      "path": "src/ui/components/scenario/scenario-five/model/mission/selectors.ts",
+      "before": "c585a07e055bced5d8138496a132fd1bbd676f0c6da14d02e8951d3905a18280",
+      "after": "c585a07e055bced5d8138496a132fd1bbd676f0c6da14d02e8951d3905a18280",
+      "unchanged": true
+    },
+    {
+      "path": "src/ui/components/scenario/scenario-five/model/mission/types.ts",
+      "before": "d41f8367e0c89afa2dc02a086beff53252abe90a295416aac88b774ad6f2f985",
+      "after": "d41f8367e0c89afa2dc02a086beff53252abe90a295416aac88b774ad6f2f985",
+      "unchanged": true
+    },
+    {
+      "path": "src/ui/components/scenario/scenario-five/model/projections.ts",
+      "before": "dc8ebf124291e372596b2345143a1a94c743878a4319080232272da88981be71",
+      "after": "dc8ebf124291e372596b2345143a1a94c743878a4319080232272da88981be71",
+      "unchanged": true
+    },
+    {
+      "path": "src/ui/components/scenario/scenario-five/model/runtime/domainMetrics.ts",
+      "before": "5fed45dbcce8d88237280f7794c1a274aa6ab0c1d2630aacf5ee0e77551c8363",
+      "after": "5fed45dbcce8d88237280f7794c1a274aa6ab0c1d2630aacf5ee0e77551c8363",
+      "unchanged": true
+    },
+    {
+      "path": "src/ui/components/scenario/scenario-five/model/runtime/index.ts",
+      "before": "e9fdb3582cf5243d0a3f1543cbaaf43cf46a7b9cef84a76d70387a291f91968b",
+      "after": "e9fdb3582cf5243d0a3f1543cbaaf43cf46a7b9cef84a76d70387a291f91968b",
+      "unchanged": true
+    },
+    {
+      "path": "src/ui/components/scenario/scenario-five/model/runtime/runtimeEngine.ts",
+      "before": "e03ace9618c929f862bd932294bf7e811db2ceef796953ff3376ab821bc61615",
+      "after": "e03ace9618c929f862bd932294bf7e811db2ceef796953ff3376ab821bc61615",
+      "unchanged": true
+    },
+    {
+      "path": "src/ui/components/scenario/scenario-five/model/runtime/stageMachine.ts",
+      "before": "9cbd4a7928ecdf66e03aece28c6af2e93396fcc743a75c84698c5a669a06f277",
+      "after": "9cbd4a7928ecdf66e03aece28c6af2e93396fcc743a75c84698c5a669a06f277",
+      "unchanged": true
+    },
+    {
+      "path": "src/ui/components/scenario/scenario-five/model/runtime/telemetryAdapter.ts",
+      "before": "5f54ac00184def0ada077d4914dadfdbf745145c424e7b9490d6d4efe70fe8b3",
+      "after": "5f54ac00184def0ada077d4914dadfdbf745145c424e7b9490d6d4efe70fe8b3",
+      "unchanged": true
+    },
+    {
+      "path": "src/ui/components/scenario/scenario-five/model/runtime/types.ts",
+      "before": "90f9528f636fc5040eb15417e6a9eda782622cd0d27c503329727668f936e4da",
+      "after": "90f9528f636fc5040eb15417e6a9eda782622cd0d27c503329727668f936e4da",
+      "unchanged": true
+    },
+    {
+      "path": "src/ui/components/scenario/scenario-five/model/runtime/versions.ts",
+      "before": "6b0e16ef22e9dc950f15d1be972719d5f7402905dce9115f7000063a732a3752",
+      "after": "6b0e16ef22e9dc950f15d1be972719d5f7402905dce9115f7000063a732a3752",
+      "unchanged": true
+    },
+    {
+      "path": "src/ui/components/scenario/scenario-five/model/seededRng.ts",
+      "before": "4d82eab3ed925ad51a0fa3fce550c8d0141f41abd4eef8ae0a82ea06c9fabd62",
+      "after": "4d82eab3ed925ad51a0fa3fce550c8d0141f41abd4eef8ae0a82ea06c9fabd62",
+      "unchanged": true
+    },
+    {
+      "path": "src/ui/components/scenario/scenario-five/model/types.ts",
+      "before": "67a58115f073aa28946ec1d3ce00695c5edca7c28a1dc19537714ad948f074ce",
+      "after": "67a58115f073aa28946ec1d3ce00695c5edca7c28a1dc19537714ad948f074ce",
+      "unchanged": true
+    },
+    {
+      "path": "src/ui/components/scenario/scenario-five/model/versions.ts",
+      "before": "d4158b8db24a6ed809fb61a7fc487c7f88e68441bc117a3a95540e989e227d58",
+      "after": "d4158b8db24a6ed809fb61a7fc487c7f88e68441bc117a3a95540e989e227d58",
+      "unchanged": true
+    },
+    {
+      "path": "src/ui/components/scenario/scenario-five/model/worldCatalog.ts",
+      "before": "64205b83bd032c7b042efa65b782b8c9f4da183e123892260cf6ac67ba81b8f8",
+      "after": "64205b83bd032c7b042efa65b782b8c9f4da183e123892260cf6ac67ba81b8f8",
+      "unchanged": true
+    },
+    {
+      "path": "src/ui/components/scenario/scenario-five/model/worldFactory.ts",
+      "before": "39c5088a483bb6d987b3423775ac2dc9f3fa67b229bf53959e8ba85a9316d55c",
+      "after": "39c5088a483bb6d987b3423775ac2dc9f3fa67b229bf53959e8ba85a9316d55c",
+      "unchanged": true
+    },
+    {
+      "path": "src/ui/components/scenario/scenario-five/calibration/auditMethodV2.ts",
+      "before": "ae6cdeb634ed02d2f1ccd3634dc7b6af43cd435cc98043e1f0302f67b825b78b",
+      "after": "ae6cdeb634ed02d2f1ccd3634dc7b6af43cd435cc98043e1f0302f67b825b78b",
+      "unchanged": true
+    },
+    {
+      "path": "src/ui/components/scenario/scenario-five/calibration/auditMetrics.ts",
+      "before": "de9ef2882be31d13f3e43ea37f7a82fde906006696eb038134f3d56ddf3c2e88",
+      "after": "de9ef2882be31d13f3e43ea37f7a82fde906006696eb038134f3d56ddf3c2e88",
+      "unchanged": true
+    },
+    {
+      "path": "src/ui/components/scenario/scenario-five/calibration/cognitivePolicies.ts",
+      "before": "8a89fbf457dbf942c2b1558c665c1fad5caec5a97c8dfa3871ff6c7d91fe81d4",
+      "after": "8a89fbf457dbf942c2b1558c665c1fad5caec5a97c8dfa3871ff6c7d91fe81d4",
+      "unchanged": true
+    },
+    {
+      "path": "src/ui/components/scenario/scenario-five/calibration/counterfactualAudit.ts",
+      "before": "a0958e993116daac608123df559864a81a630225971b28c5ed054189ec3d0dde",
+      "after": "a0958e993116daac608123df559864a81a630225971b28c5ed054189ec3d0dde",
+      "unchanged": true
+    },
+    {
+      "path": "src/ui/components/scenario/scenario-five/calibration/index.ts",
+      "before": "42faff7feaf9d85fbd7e958eb0b8323f033478a3917eb27d18a0b60c937059e0",
+      "after": "42faff7feaf9d85fbd7e958eb0b8323f033478a3917eb27d18a0b60c937059e0",
+      "unchanged": true
+    },
+    {
+      "path": "src/ui/components/scenario/scenario-five/calibration/missionPolicies.ts",
+      "before": "d3ad70dae95602bace98eab4726229d99de639f48cb475683ba9748942b3039a",
+      "after": "d3ad70dae95602bace98eab4726229d99de639f48cb475683ba9748942b3039a",
+      "unchanged": true
+    },
+    {
+      "path": "src/ui/components/scenario/scenario-five/calibration/policyRng.ts",
+      "before": "3c50efaaef296713b7f90f998daddd1fa29a4fa1285c4884b3f149aa17379193",
+      "after": "3c50efaaef296713b7f90f998daddd1fa29a4fa1285c4884b3f149aa17379193",
+      "unchanged": true
+    },
+    {
+      "path": "src/ui/components/scenario/scenario-five/calibration/reporting.ts",
+      "before": "799acd2b4a3c2f10f1aca17e7098e1605b7634929d684bd20a9c407f389e0c25",
+      "after": "799acd2b4a3c2f10f1aca17e7098e1605b7634929d684bd20a9c407f389e0c25",
+      "unchanged": true
+    },
+    {
+      "path": "src/ui/components/scenario/scenario-five/calibration/shadowSensitivity.ts",
+      "before": "711dbb853a6d40b9a5bd2ca6e28d07530acc750107684c6513eb5fd09e25845d",
+      "after": "711dbb853a6d40b9a5bd2ca6e28d07530acc750107684c6513eb5fd09e25845d",
+      "unchanged": true
+    },
+    {
+      "path": "src/ui/components/scenario/scenario-five/calibration/simulationDriver.ts",
+      "before": "bcf366d68e18fe48382964f3539460040a36bd2c2f9292500b1b4848d3345cad",
+      "after": "bcf366d68e18fe48382964f3539460040a36bd2c2f9292500b1b4848d3345cad",
+      "unchanged": true
+    },
+    {
+      "path": "src/ui/components/scenario/scenario-five/calibration/structuredReachability.ts",
+      "before": "fc2f0835f9caa329a0b059811e576ba76d4f87f9073c62f24abd9a7a35086d04",
+      "after": "fc2f0835f9caa329a0b059811e576ba76d4f87f9073c62f24abd9a7a35086d04",
+      "unchanged": true
+    },
+    {
+      "path": "src/ui/components/scenario/scenario-five/calibration/types.ts",
+      "before": "239423acd899f6be12b15f4f01d13dc5c95b21976c67ff886476c18da6e6fa18",
+      "after": "239423acd899f6be12b15f4f01d13dc5c95b21976c67ff886476c18da6e6fa18",
+      "unchanged": true
+    },
+    {
+      "path": "src/ui/components/scenario/scenario-five/calibration/versions.ts",
+      "before": "434cf10c5e9c6eb520c60415f10919f87e5afe51882b36bd673008f0256ee9d4",
+      "after": "434cf10c5e9c6eb520c60415f10919f87e5afe51882b36bd673008f0256ee9d4",
+      "unchanged": true
+    },
+    {
+      "path": "src/scenarios/s2_silent_waves/tree.ts",
+      "before": "25acfe2b7b6090453c821eefac40a0fe1aeea4ced2a8d6c5d46f18b78e857fcd",
+      "after": "25acfe2b7b6090453c821eefac40a0fe1aeea4ced2a8d6c5d46f18b78e857fcd",
+      "unchanged": true
+    },
+    {
+      "path": "src/ui/components/scenario/ScenarioTwoActionCard.tsx",
+      "before": "76f5e04cfe6d0e12f66ffbb255fb2d701771c0bb41a9fa0ef9dcbdc974ab31df",
+      "after": "76f5e04cfe6d0e12f66ffbb255fb2d701771c0bb41a9fa0ef9dcbdc974ab31df",
+      "unchanged": true
+    },
+    {
+      "path": "src/ui/components/scenario/ScenarioTwoMap.tsx",
+      "before": "1d0004fd4e24403e2df0f819b0735eb5c80d451c1afbb7cbebb26b5a9346b4be",
+      "after": "1d0004fd4e24403e2df0f819b0735eb5c80d451c1afbb7cbebb26b5a9346b4be",
+      "unchanged": true
+    },
+    {
+      "path": "src/ui/components/scenario/ScenarioTwoResourcePanel.tsx",
+      "before": "021458487a7515145dabf6097b48a35005c2224574e70b685d0a7bc574a6f8f4",
+      "after": "021458487a7515145dabf6097b48a35005c2224574e70b685d0a7bc574a6f8f4",
+      "unchanged": true
+    },
+    {
+      "path": "src/ui/components/scenario/ScenarioTwoSimulation.tsx",
+      "before": "ef36d35fe5d3af1ae4ca70c9326eab462f547f208e37c94eaa8e230e9fd674a5",
+      "after": "ef36d35fe5d3af1ae4ca70c9326eab462f547f208e37c94eaa8e230e9fd674a5",
+      "unchanged": true
+    },
+    {
+      "path": "src/ui/components/scenario/ScenarioTwoSummary.tsx",
+      "before": "c0afad334a23a13d11535cb6645ed2d5a63714a3e4b6f5ab76c5ed8f58a8a892",
+      "after": "c0afad334a23a13d11535cb6645ed2d5a63714a3e4b6f5ab76c5ed8f58a8a892",
+      "unchanged": true
+    },
+    {
+      "path": "src/ui/components/scenario/ScenarioTwoTypes.ts",
+      "before": "dbe116cab019607e7c907fe9a7039c2c6a31aef714f57bf47e50d18c31423ea2",
+      "after": "dbe116cab019607e7c907fe9a7039c2c6a31aef714f57bf47e50d18c31423ea2",
+      "unchanged": true
+    },
+    {
+      "path": "docs/scenario5-phase8b-aar-endstate-desktop.png",
+      "before": "7de16684d5e1b7386f068ca79fd641e18f8991b6094ab5a9f14486808b245e51",
+      "after": "7de16684d5e1b7386f068ca79fd641e18f8991b6094ab5a9f14486808b245e51",
+      "unchanged": true
+    },
+    {
+      "path": "docs/scenario5-phase8b-engineering-verification.md",
+      "before": "3fae7ae0349b34a4a22e1b17ae35f09f4f06529afc6d884d2b0cfefbe4e6fab0",
+      "after": "3fae7ae0349b34a4a22e1b17ae35f09f4f06529afc6d884d2b0cfefbe4e6fab0",
+      "unchanged": true
+    },
+    {
+      "path": "docs/scenario5-phase8b-report-fa.md",
+      "before": "4cd1903a4057e21056452e40a8230cf49f1b2cb0b24f5d6a92792942437e719b",
+      "after": "4cd1903a4057e21056452e40a8230cf49f1b2cb0b24f5d6a92792942437e719b",
+      "unchanged": true
+    },
+    {
+      "path": "docs/scenario5-phase8b-results/cognitive-distributions.csv",
+      "before": "5626498c2b935fb99aa02bccb6bc0d2874c35554620ed72333440086d255c126",
+      "after": "5626498c2b935fb99aa02bccb6bc0d2874c35554620ed72333440086d255c126",
+      "unchanged": true
+    },
+    {
+      "path": "docs/scenario5-phase8b-results/cognitive-runs.csv",
+      "before": "2e77d468c5c7510806155ed954ffdb5ebf47ac8f5480aff9f5a9447409d7a5a5",
+      "after": "2e77d468c5c7510806155ed954ffdb5ebf47ac8f5480aff9f5a9447409d7a5a5",
+      "unchanged": true
+    },
+    {
+      "path": "docs/scenario5-phase8b-results/end-state-distribution.csv",
+      "before": "6cd7bf22cc225c417fa803ab3de961ce5dc6a4872330e6b98f495808bffc3389",
+      "after": "6cd7bf22cc225c417fa803ab3de961ce5dc6a4872330e6b98f495808bffc3389",
+      "unchanged": true
+    },
+    {
+      "path": "docs/scenario5-phase8b-results/end-state-witnesses.csv",
+      "before": "45d35bb38d9c545a3d7af5c63630c2250b212ae0ffadf5d52d6da52df5a44e09",
+      "after": "45d35bb38d9c545a3d7af5c63630c2250b212ae0ffadf5d52d6da52df5a44e09",
+      "unchanged": true
+    },
+    {
+      "path": "docs/scenario5-phase8b-results/mission-runs.csv",
+      "before": "70e9d9afefa7047a274df2a11637e73cc84fa1a7882cd60e6869fd2aa20b1268",
+      "after": "70e9d9afefa7047a274df2a11637e73cc84fa1a7882cd60e6869fd2aa20b1268",
+      "unchanged": true
+    },
+    {
+      "path": "docs/scenario5-phase8b-results/shadow-time-sensitivity.csv",
+      "before": "70d152e368b00af61f011afd95c20a40935b239edfbabf47d596d6756f76995f",
+      "after": "70d152e368b00af61f011afd95c20a40935b239edfbabf47d596d6756f76995f",
+      "unchanged": true
+    },
+    {
+      "path": "docs/scenario5-phase8b-results/trajectory-parity.csv",
+      "before": "15836e7dd3da17a43a33fd0091a5900a9c0db718659d464aba9e8c6782a771ef",
+      "after": "15836e7dd3da17a43a33fd0091a5900a9c0db718659d464aba9e8c6782a771ef",
+      "unchanged": true
+    },
+    {
+      "path": "docs/scenario5-phase8b-summary.json",
+      "before": "54f733a43c6604607b9efe207c1ed496b6d2c9c38aa19c0bfd75bfd71c3f6439",
+      "after": "54f733a43c6604607b9efe207c1ed496b6d2c9c38aa19c0bfd75bfd71c3f6439",
+      "unchanged": true
+    },
+    {
+      "path": "docs/scenario5-phase8b.patch",
+      "before": "b42265d0ea19e6eee533b43c84c9b77c8ab98b8edabc050ae2df1063b8b228df",
+      "after": "b42265d0ea19e6eee533b43c84c9b77c8ab98b8edabc050ae2df1063b8b228df",
+      "unchanged": true
+    }
+  ],
+  "appUnchanged": true,
+  "legacyGuard": "PASS",
+  "frozenGuard": "PASS",
+  "deliveryFiles": [
+    "src/scenarios/s5_silent_waves_redesign/tree.ts",
+    "src/ui/components/scenario/ScenarioFive.css",
+    "src/ui/components/scenario/ScenarioFiveActionCard.tsx",
+    "src/ui/components/scenario/ScenarioFiveMap.tsx",
+    "src/ui/components/scenario/ScenarioFiveResourcePanel.tsx",
+    "src/ui/components/scenario/ScenarioFiveSimulation.tsx",
+    "src/ui/components/scenario/ScenarioFiveSummary.tsx",
+    "src/ui/components/scenario/ScenarioFiveTypes.ts",
+    "src/ui/components/scenario/scenario-five/ui/ScenarioFiveBeliefPanel.tsx",
+    "src/ui/components/scenario/scenario-five/ui/ScenarioFiveOutcomePanel.tsx",
+    "src/ui/components/scenario/scenario-five/ui/ScenarioFiveReasonPanel.tsx",
+    "src/ui/components/scenario/scenario-five/ui/presentation.ts",
+    "src/ui/components/scenario/scenario-five/ui/uiContentFa.ts",
+    "docs/scenario5-phase8d-baseline.json",
+    "docs/scenario5-phase8d-check-results.json",
+    "docs/scenario5-phase8d-checks/after-3-model.txt",
+    "docs/scenario5-phase8d-checks/after-4-mission.txt",
+    "docs/scenario5-phase8d-checks/after-5-cognitive.txt",
+    "docs/scenario5-phase8d-checks/after-6-runtime.txt",
+    "docs/scenario5-phase8d-checks/after-7-ui.txt",
+    "docs/scenario5-phase8d-checks/after-8-calibration.txt",
+    "docs/scenario5-phase8d-checks/after-8a-audit.txt",
+    "docs/scenario5-phase8d-checks/after-8b-calibration.txt",
+    "docs/scenario5-phase8d-checks/after-8c-ui.txt",
+    "docs/scenario5-phase8d-checks/after-8d-integrated-gameplay.txt",
+    "docs/scenario5-phase8d-checks/after-build.txt",
+    "docs/scenario5-phase8d-checks/after-metric-inventory.txt",
+    "docs/scenario5-phase8d-checks/after-typecheck.txt",
+    "docs/scenario5-phase8d-checks/before-3-model.txt",
+    "docs/scenario5-phase8d-checks/before-4-mission.txt",
+    "docs/scenario5-phase8d-checks/before-5-cognitive.txt",
+    "docs/scenario5-phase8d-checks/before-6-runtime.txt",
+    "docs/scenario5-phase8d-checks/before-7-ui.txt",
+    "docs/scenario5-phase8d-checks/before-8-calibration.txt",
+    "docs/scenario5-phase8d-checks/before-8a-audit.txt",
+    "docs/scenario5-phase8d-checks/before-8b-calibration.txt",
+    "docs/scenario5-phase8d-checks/before-8c-ui.txt",
+    "docs/scenario5-phase8d-ending-aar-verification.md",
+    "docs/scenario5-phase8d-file-manifest.json",
+    "docs/scenario5-phase8d-gameplay-flow-fa.md",
+    "docs/scenario5-phase8d-integrated-gameplay-spec.md",
+    "docs/scenario5-phase8d-numeric-sync-verification.md",
+    "docs/scenario5-phase8d-scientific-parity.md",
+    "docs/scenario5-phase8d-screenshots/01-briefing-or-entry-1440x900.png",
+    "docs/scenario5-phase8d-screenshots/02-r1-decision-1440x900.png",
+    "docs/scenario5-phase8d-screenshots/03-r1-outcome-1440x900.png",
+    "docs/scenario5-phase8d-screenshots/04-prebelief-1440x900.png",
+    "docs/scenario5-phase8d-screenshots/05-r2-target-selection-1440x900.png",
+    "docs/scenario5-phase8d-screenshots/06-postbelief-1440x900.png",
+    "docs/scenario5-phase8d-screenshots/07-r3-decision-1440x900.png",
+    "docs/scenario5-phase8d-screenshots/08-r4-reroute-selected-1440x900.png",
+    "docs/scenario5-phase8d-screenshots/09-r4-outcome-reroute-map-1440x900.png",
+    "docs/scenario5-phase8d-screenshots/10-r5-resilience-1440x900.png",
+    "docs/scenario5-phase8d-screenshots/11-r6-resource-preview-1440x900.png",
+    "docs/scenario5-phase8d-screenshots/12-c-belief-1440x900.png",
+    "docs/scenario5-phase8d-screenshots/13-r7-decision-1440x900.png",
+    "docs/scenario5-phase8d-screenshots/14-final-belief-1440x900.png",
+    "docs/scenario5-phase8d-screenshots/15-r8-decision-1440x900.png",
+    "docs/scenario5-phase8d-screenshots/16-r8-outcome-time-breakdown-1440x900.png",
+    "docs/scenario5-phase8d-screenshots/17-mission-ending-1440x900.png",
+    "docs/scenario5-phase8d-screenshots/18-why-this-ending-1440x900.png",
+    "docs/scenario5-phase8d-screenshots/19-decision-trace-1440x900.png",
+    "docs/scenario5-phase8d-screenshots/20-hidden-truth-belief-timeline-1440x900.png",
+    "docs/scenario5-phase8d-screenshots/21-left-pane-scroll-1366x768.png",
+    "docs/scenario5-phase8d-screenshots/22-live-console-1280x720.png",
+    "docs/scenario5-phase8d-screenshots/inspection.json",
+    "docs/scenario5-phase8d-screenshots/witness-1-critical_cargo_lost_or_compromised-1440x900.png",
+    "docs/scenario5-phase8d-screenshots/witness-2-priority_delivered_network_degradation-1440x900.png",
+    "docs/scenario5-phase8d-screenshots/witness-3-mission_incomplete_continuity_preserved-1440x900.png",
+    "docs/scenario5-phase8d-screenshots/witness-4-delivery_complete_threat_persistent-1440x900.png",
+    "docs/scenario5-phase8d-screenshots/witness-5-delivery_complete_attribution_unresolved-1440x900.png",
+    "docs/scenario5-phase8d-screenshots/witness-6-delivery_complete_threat_contained-1440x900.png",
+    "docs/scenario5-phase8d-verification.json",
+    "docs/scenario5-phase8d-witnesses.json",
+    "scripts/capture-s5-phase8d.mjs",
+    "scripts/document-s5-phase8d.mjs",
+    "scripts/package-s5-phase8d.mjs",
+    "scripts/run-s5-phase8d-checks.mjs",
+    "scripts/scenario5-phase8d-witness.html",
+    "scripts/verify-s5-phase8d-integrated-gameplay.ts",
+    "scripts/verify-s5-phase8d-presentation.tsx",
+    "src/ui/components/scenario/scenario-five/ui/ScenarioFiveMissionEnding.tsx",
+    "src/ui/components/scenario/scenario-five/ui/ScenarioFiveProgress.tsx",
+    "src/ui/components/scenario/scenario-five/ui/endingPresentation.ts",
+    "src/ui/components/scenario/scenario-five/ui/gameplayPresentation.ts"
+  ],
+  "patch": "docs/scenario5-phase8d.patch",
+  "patchIncludes": "All delivery files, including binary captures, except patch itself."
+}

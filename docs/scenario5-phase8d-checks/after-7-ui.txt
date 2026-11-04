@@ -1,0 +1,24 @@
+node:internal/modules/run_main:107
+    triggerUncaughtException(
+    ^
+
+AssertionError [ERR_ASSERTION]: 07C leaves eventLogger semantics byte-identical
++ actual - expected
+
++ 'f34668cde75a930ceb99272bb48b417e56a1e176546320191c5e37ca703def28'
+- '68cc239f0d4e19a94defa87ba093611fce64cfe10c956002058490e8da372a98'
+
+    at equal (E:\war\space_war\scripts\verify-s5-phase7-ui.ts:65:87)
+    at <anonymous> (E:\war\space_war\scripts\verify-s5-phase7-ui.ts:271:1)
+    at ModuleJob.run (node:internal/modules/esm/module_job:377:25)
+    at async onImport.tracePromise.__proto__ (node:internal/modules/esm/loader:671:26)
+    at async asyncRunEntryPointWithESMLoader (node:internal/modules/run_main:101:5) {
+  generatedMessage: false,
+  code: 'ERR_ASSERTION',
+  actual: 'f34668cde75a930ceb99272bb48b417e56a1e176546320191c5e37ca703def28',
+  expected: '68cc239f0d4e19a94defa87ba093611fce64cfe10c956002058490e8da372a98',
+  operator: 'deepStrictEqual',
+  diff: 'simple'
+}
+
+Node.js v24.11.1

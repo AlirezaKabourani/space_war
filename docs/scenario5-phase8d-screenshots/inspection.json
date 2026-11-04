@@ -1,0 +1,2705 @@
+{
+  "snapshots": [
+    {
+      "filename": "01-briefing-or-entry-1440x900.png",
+      "runtimeStage": "briefing",
+      "stage": "briefing",
+      "phase": null,
+      "round": null,
+      "clock": null,
+      "ISR": null,
+      "Support": null,
+      "evidenceCount": 0,
+      "visibleConvoyValues": [],
+      "viewport": {
+        "width": 1440,
+        "height": 900
+      },
+      "page": {
+        "scrollHeight": 900,
+        "clientHeight": 900,
+        "scrollWidth": 1440,
+        "clientWidth": 1440
+      },
+      "leftPane": null,
+      "mapVisible": false,
+      "footerReachable": true,
+      "visibleConvoyCards": [],
+      "selectedAction": null,
+      "selectedTarget": null,
+      "endingId": null,
+      "hiddenTruthInDom": false,
+      "sliders": [],
+      "notes": []
+    },
+    {
+      "filename": "02-r1-decision-1440x900.png",
+      "runtimeStage": "decision:A1_baseline_monitoring",
+      "stage": "R1 decision",
+      "phase": "A",
+      "round": 1,
+      "clock": 0,
+      "ISR": 100,
+      "Support": 100,
+      "evidenceCount": 0,
+      "visibleConvoyValues": [
+        {
+          "convoyId": "alpha",
+          "integrity": 100,
+          "delay": 0,
+          "arrival": 210,
+          "deadline": 300,
+          "status": "moving"
+        },
+        {
+          "convoyId": "beta",
+          "integrity": 100,
+          "delay": 0,
+          "arrival": 235,
+          "deadline": 330,
+          "status": "moving"
+        },
+        {
+          "convoyId": "gamma",
+          "integrity": 100,
+          "delay": 0,
+          "arrival": 225,
+          "deadline": 315,
+          "status": "moving"
+        },
+        {
+          "convoyId": "delta",
+          "integrity": 100,
+          "delay": 0,
+          "arrival": 250,
+          "deadline": 345,
+          "status": "moving"
+        }
+      ],
+      "viewport": {
+        "width": 1440,
+        "height": 900
+      },
+      "page": {
+        "scrollHeight": 900,
+        "clientHeight": 900,
+        "scrollWidth": 1440,
+        "clientWidth": 1440
+      },
+      "leftPane": {
+        "scrollHeight": 688,
+        "clientHeight": 529,
+        "scrollTop": 0,
+        "overflowY": "auto"
+      },
+      "mapVisible": true,
+      "mapFrame": {
+        "x": 606.78125,
+        "y": 224.046875,
+        "width": 724.828125,
+        "height": 352.4375,
+        "top": 224.046875,
+        "right": 1331.609375,
+        "bottom": 576.484375,
+        "left": 606.78125
+      },
+      "footerReachable": true,
+      "visibleConvoyCards": [
+        {
+          "id": "alpha",
+          "text": "کاروان الف\nدر حرکت\n\nتجهیزات درمانی اضطراری · تهران → مشهد\n\nسلامت عملیاتی: 100 / 100\n\nرسیدن برآوردی: T+210\n\nمهلت تحویل: T+300\n\n90 دقیقه تا مهلت\n\nتأخیر تجمعی: +0 دقیقه\n\nشواهد این کریدور: 0"
+        },
+        {
+          "id": "beta",
+          "text": "کاروان ب\nدر حرکت\n\nسوخت عملیاتی · بندرعباس → تهران\n\nسلامت عملیاتی: 100 / 100\n\nرسیدن برآوردی: T+235\n\nمهلت تحویل: T+330\n\n95 دقیقه تا مهلت\n\nتأخیر تجمعی: +0 دقیقه\n\nشواهد این کریدور: 0"
+        },
+        {
+          "id": "gamma",
+          "text": "کاروان ج\nدر حرکت\n\nقطعات ارتباطی · تبریز → تهران\n\nسلامت عملیاتی: 100 / 100\n\nرسیدن برآوردی: T+225\n\nمهلت تحویل: T+315\n\n90 دقیقه تا مهلت\n\nتأخیر تجمعی: +0 دقیقه\n\nشواهد این کریدور: 0"
+        },
+        {
+          "id": "delta",
+          "text": "کاروان د\nدر حرکت\n\nپشتیبانی مرزی · تهران → محور غرب\n\nسلامت عملیاتی: 100 / 100\n\nرسیدن برآوردی: T+250\n\nمهلت تحویل: T+345\n\n95 دقیقه تا مهلت\n\nتأخیر تجمعی: +0 دقیقه\n\nشواهد این کریدور: 0"
+        }
+      ],
+      "selectedAction": null,
+      "selectedTarget": null,
+      "endingId": null,
+      "hiddenTruthInDom": false,
+      "sliders": [],
+      "notes": []
+    },
+    {
+      "filename": "03-r1-outcome-1440x900.png",
+      "runtimeStage": "outcome_review",
+      "stage": "R1 outcome",
+      "phase": "A",
+      "round": 1,
+      "clock": 30,
+      "ISR": 84,
+      "Support": 100,
+      "evidenceCount": 4,
+      "visibleConvoyValues": [
+        {
+          "convoyId": "alpha",
+          "integrity": 100,
+          "delay": 0,
+          "arrival": 210,
+          "deadline": 300,
+          "status": "moving"
+        },
+        {
+          "convoyId": "beta",
+          "integrity": 100,
+          "delay": 1,
+          "arrival": 236,
+          "deadline": 330,
+          "status": "moving"
+        },
+        {
+          "convoyId": "gamma",
+          "integrity": 100,
+          "delay": 0,
+          "arrival": 225,
+          "deadline": 315,
+          "status": "moving"
+        },
+        {
+          "convoyId": "delta",
+          "integrity": 100,
+          "delay": 0,
+          "arrival": 250,
+          "deadline": 345,
+          "status": "moving"
+        }
+      ],
+      "viewport": {
+        "width": 1440,
+        "height": 900
+      },
+      "page": {
+        "scrollHeight": 900,
+        "clientHeight": 900,
+        "scrollWidth": 1440,
+        "clientWidth": 1440
+      },
+      "leftPane": {
+        "scrollHeight": 970,
+        "clientHeight": 517,
+        "scrollTop": 0,
+        "overflowY": "auto"
+      },
+      "mapVisible": true,
+      "mapFrame": {
+        "x": 606.78125,
+        "y": 273.140625,
+        "width": 724.828125,
+        "height": 303.34375,
+        "top": 273.140625,
+        "right": 1331.609375,
+        "bottom": 576.484375,
+        "left": 606.78125
+      },
+      "footerReachable": true,
+      "visibleConvoyCards": [
+        {
+          "id": "alpha",
+          "text": "کاروان الف\nدر حرکت\n\nتجهیزات درمانی اضطراری · تهران → مشهد\n\nسلامت عملیاتی: 100 / 100\n\nرسیدن برآوردی: T+210\n\nمهلت تحویل: T+300\n\n90 دقیقه تا مهلت\n\nتأخیر تجمعی: +0 دقیقه\n\nشواهد این کریدور: 1"
+        },
+        {
+          "id": "beta",
+          "text": "کاروان ب\nدر حرکت\n\nسوخت عملیاتی · بندرعباس → تهران\n\nسلامت عملیاتی: 100 / 100\n\nرسیدن برآوردی: T+236\n\nمهلت تحویل: T+330\n\n94 دقیقه تا مهلت\n\nتأخیر تجمعی: +1 دقیقه\n\nشواهد این کریدور: 1"
+        },
+        {
+          "id": "gamma",
+          "text": "کاروان ج\nدر حرکت\n\nقطعات ارتباطی · تبریز → تهران\n\nسلامت عملیاتی: 100 / 100\n\nرسیدن برآوردی: T+225\n\nمهلت تحویل: T+315\n\n90 دقیقه تا مهلت\n\nتأخیر تجمعی: +0 دقیقه\n\nشواهد این کریدور: 1"
+        },
+        {
+          "id": "delta",
+          "text": "کاروان د\nدر حرکت\n\nپشتیبانی مرزی · تهران → محور غرب\n\nسلامت عملیاتی: 100 / 100\n\nرسیدن برآوردی: T+250\n\nمهلت تحویل: T+345\n\n95 دقیقه تا مهلت\n\nتأخیر تجمعی: +0 دقیقه\n\nشواهد این کریدور: 1"
+        }
+      ],
+      "selectedAction": null,
+      "selectedTarget": null,
+      "endingId": null,
+      "hiddenTruthInDom": false,
+      "sliders": [],
+      "notes": []
+    },
+    {
+      "filename": "04-prebelief-1440x900.png",
+      "runtimeStage": "belief:A2_prebelief",
+      "stage": "prebelief",
+      "phase": "A",
+      "round": 1,
+      "clock": 30,
+      "ISR": 84,
+      "Support": 100,
+      "evidenceCount": 4,
+      "visibleConvoyValues": [
+        {
+          "convoyId": "alpha",
+          "integrity": 100,
+          "delay": 0,
+          "arrival": 210,
+          "deadline": 300,
+          "status": "moving"
+        },
+        {
+          "convoyId": "beta",
+          "integrity": 100,
+          "delay": 1,
+          "arrival": 236,
+          "deadline": 330,
+          "status": "moving"
+        },
+        {
+          "convoyId": "gamma",
+          "integrity": 100,
+          "delay": 0,
+          "arrival": 225,
+          "deadline": 315,
+          "status": "moving"
+        },
+        {
+          "convoyId": "delta",
+          "integrity": 100,
+          "delay": 0,
+          "arrival": 250,
+          "deadline": 345,
+          "status": "moving"
+        }
+      ],
+      "viewport": {
+        "width": 1440,
+        "height": 900
+      },
+      "page": {
+        "scrollHeight": 900,
+        "clientHeight": 900,
+        "scrollWidth": 1440,
+        "clientWidth": 1440
+      },
+      "leftPane": {
+        "scrollHeight": 597,
+        "clientHeight": 517,
+        "scrollTop": 0,
+        "overflowY": "auto"
+      },
+      "mapVisible": true,
+      "mapFrame": {
+        "x": 606.78125,
+        "y": 273.140625,
+        "width": 724.828125,
+        "height": 303.34375,
+        "top": 273.140625,
+        "right": 1331.609375,
+        "bottom": 576.484375,
+        "left": 606.78125
+      },
+      "footerReachable": true,
+      "visibleConvoyCards": [
+        {
+          "id": "alpha",
+          "text": "کاروان الف\nدر حرکت\n\nتجهیزات درمانی اضطراری · تهران → مشهد\n\nسلامت عملیاتی: 100 / 100\n\nرسیدن برآوردی: T+210\n\nمهلت تحویل: T+300\n\n90 دقیقه تا مهلت\n\nتأخیر تجمعی: +0 دقیقه\n\nشواهد این کریدور: 1"
+        },
+        {
+          "id": "beta",
+          "text": "کاروان ب\nدر حرکت\n\nسوخت عملیاتی · بندرعباس → تهران\n\nسلامت عملیاتی: 100 / 100\n\nرسیدن برآوردی: T+236\n\nمهلت تحویل: T+330\n\n94 دقیقه تا مهلت\n\nتأخیر تجمعی: +1 دقیقه\n\nشواهد این کریدور: 1"
+        },
+        {
+          "id": "gamma",
+          "text": "کاروان ج\nدر حرکت\n\nقطعات ارتباطی · تبریز → تهران\n\nسلامت عملیاتی: 100 / 100\n\nرسیدن برآوردی: T+225\n\nمهلت تحویل: T+315\n\n90 دقیقه تا مهلت\n\nتأخیر تجمعی: +0 دقیقه\n\nشواهد این کریدور: 1"
+        },
+        {
+          "id": "delta",
+          "text": "کاروان د\nدر حرکت\n\nپشتیبانی مرزی · تهران → محور غرب\n\nسلامت عملیاتی: 100 / 100\n\nرسیدن برآوردی: T+250\n\nمهلت تحویل: T+345\n\n95 دقیقه تا مهلت\n\nتأخیر تجمعی: +0 دقیقه\n\nشواهد این کریدور: 1"
+        }
+      ],
+      "selectedAction": null,
+      "selectedTarget": null,
+      "endingId": null,
+      "hiddenTruthInDom": false,
+      "sliders": [
+        {
+          "value": "50",
+          "label": "ثبت نشده"
+        },
+        {
+          "value": "50",
+          "label": "ثبت نشده"
+        },
+        {
+          "value": "50",
+          "label": "ثبت نشده"
+        }
+      ],
+      "notes": []
+    },
+    {
+      "filename": "05-r2-target-selection-1440x900.png",
+      "runtimeStage": "decision:A2_evidence_acquisition",
+      "stage": "R2 target",
+      "phase": "A",
+      "round": 2,
+      "clock": 30,
+      "ISR": 84,
+      "Support": 100,
+      "evidenceCount": 4,
+      "visibleConvoyValues": [
+        {
+          "convoyId": "alpha",
+          "integrity": 100,
+          "delay": 0,
+          "arrival": 210,
+          "deadline": 300,
+          "status": "moving"
+        },
+        {
+          "convoyId": "beta",
+          "integrity": 100,
+          "delay": 1,
+          "arrival": 236,
+          "deadline": 330,
+          "status": "moving"
+        },
+        {
+          "convoyId": "gamma",
+          "integrity": 100,
+          "delay": 0,
+          "arrival": 225,
+          "deadline": 315,
+          "status": "moving"
+        },
+        {
+          "convoyId": "delta",
+          "integrity": 100,
+          "delay": 0,
+          "arrival": 250,
+          "deadline": 345,
+          "status": "moving"
+        }
+      ],
+      "viewport": {
+        "width": 1440,
+        "height": 900
+      },
+      "page": {
+        "scrollHeight": 900,
+        "clientHeight": 900,
+        "scrollWidth": 1440,
+        "clientWidth": 1440
+      },
+      "leftPane": {
+        "scrollHeight": 944,
+        "clientHeight": 480,
+        "scrollTop": 0,
+        "overflowY": "auto"
+      },
+      "mapVisible": true,
+      "mapFrame": {
+        "x": 606.78125,
+        "y": 297.140625,
+        "width": 724.828125,
+        "height": 247.359375,
+        "top": 297.140625,
+        "right": 1331.609375,
+        "bottom": 544.5,
+        "left": 606.78125
+      },
+      "footerReachable": true,
+      "visibleConvoyCards": [
+        {
+          "id": "alpha",
+          "text": "کاروان الف\nدر حرکت\n\nتجهیزات درمانی اضطراری · تهران → مشهد\n\nسلامت عملیاتی: 100 / 100\n\nرسیدن برآوردی: T+210\n\nمهلت تحویل: T+300\n\n90 دقیقه تا مهلت\n\nتأخیر تجمعی: +0 دقیقه\n\nانتخاب هدف\nشواهد این کریدور: 1"
+        },
+        {
+          "id": "beta",
+          "text": "کاروان ب\nدر حرکت\n\nسوخت عملیاتی · بندرعباس → تهران\n\nسلامت عملیاتی: 100 / 100\n\nرسیدن برآوردی: T+236\n\nمهلت تحویل: T+330\n\n94 دقیقه تا مهلت\n\nتأخیر تجمعی: +1 دقیقه\n\nانتخاب هدف\nشواهد این کریدور: 1"
+        },
+        {
+          "id": "gamma",
+          "text": "کاروان ج\nدر حرکت\n\nقطعات ارتباطی · تبریز → تهران\n\nسلامت عملیاتی: 100 / 100\n\nرسیدن برآوردی: T+225\n\nمهلت تحویل: T+315\n\n90 دقیقه تا مهلت\n\nتأخیر تجمعی: +0 دقیقه\n\nانتخاب هدف\nشواهد این کریدور: 1"
+        },
+        {
+          "id": "delta",
+          "text": "کاروان د\nدر حرکت\n\nپشتیبانی مرزی · تهران → محور غرب\n\nسلامت عملیاتی: 100 / 100\n\nرسیدن برآوردی: T+250\n\nمهلت تحویل: T+345\n\n95 دقیقه تا مهلت\n\nتأخیر تجمعی: +0 دقیقه\n\nانتخاب هدف\nشواهد این کریدور: 1"
+        }
+      ],
+      "selectedAction": "a2_focused_pnt",
+      "selectedTarget": "corridor_alpha_east",
+      "endingId": null,
+      "hiddenTruthInDom": false,
+      "sliders": [],
+      "notes": []
+    },
+    {
+      "filename": "06-postbelief-1440x900.png",
+      "runtimeStage": "belief:A2_postbelief",
+      "stage": "postbelief",
+      "phase": "A",
+      "round": 2,
+      "clock": 62,
+      "ISR": 70,
+      "Support": 100,
+      "evidenceCount": 5,
+      "visibleConvoyValues": [
+        {
+          "convoyId": "alpha",
+          "integrity": 100,
+          "delay": 0,
+          "arrival": 210,
+          "deadline": 300,
+          "status": "moving"
+        },
+        {
+          "convoyId": "beta",
+          "integrity": 100,
+          "delay": 3,
+          "arrival": 238,
+          "deadline": 330,
+          "status": "moving"
+        },
+        {
+          "convoyId": "gamma",
+          "integrity": 100,
+          "delay": 0,
+          "arrival": 225,
+          "deadline": 315,
+          "status": "moving"
+        },
+        {
+          "convoyId": "delta",
+          "integrity": 100,
+          "delay": 0,
+          "arrival": 250,
+          "deadline": 345,
+          "status": "moving"
+        }
+      ],
+      "viewport": {
+        "width": 1440,
+        "height": 900
+      },
+      "page": {
+        "scrollHeight": 900,
+        "clientHeight": 900,
+        "scrollWidth": 1440,
+        "clientWidth": 1440
+      },
+      "leftPane": {
+        "scrollHeight": 806,
+        "clientHeight": 517,
+        "scrollTop": 0,
+        "overflowY": "auto"
+      },
+      "mapVisible": true,
+      "mapFrame": {
+        "x": 606.78125,
+        "y": 273.140625,
+        "width": 724.828125,
+        "height": 303.34375,
+        "top": 273.140625,
+        "right": 1331.609375,
+        "bottom": 576.484375,
+        "left": 606.78125
+      },
+      "footerReachable": true,
+      "visibleConvoyCards": [
+        {
+          "id": "alpha",
+          "text": "کاروان الف\nدر حرکت\n\nتجهیزات درمانی اضطراری · تهران → مشهد\n\nسلامت عملیاتی: 100 / 100\n\nرسیدن برآوردی: T+210\n\nمهلت تحویل: T+300\n\n90 دقیقه تا مهلت\n\nتأخیر تجمعی: +0 دقیقه\n\nشواهد این کریدور: 2"
+        },
+        {
+          "id": "beta",
+          "text": "کاروان ب\nدر حرکت\n\nسوخت عملیاتی · بندرعباس → تهران\n\nسلامت عملیاتی: 100 / 100\n\nرسیدن برآوردی: T+238\n\nمهلت تحویل: T+330\n\n92 دقیقه تا مهلت\n\nتأخیر تجمعی: +3 دقیقه\n\nشواهد این کریدور: 1"
+        },
+        {
+          "id": "gamma",
+          "text": "کاروان ج\nدر حرکت\n\nقطعات ارتباطی · تبریز → تهران\n\nسلامت عملیاتی: 100 / 100\n\nرسیدن برآوردی: T+225\n\nمهلت تحویل: T+315\n\n90 دقیقه تا مهلت\n\nتأخیر تجمعی: +0 دقیقه\n\nشواهد این کریدور: 1"
+        },
+        {
+          "id": "delta",
+          "text": "کاروان د\nدر حرکت\n\nپشتیبانی مرزی · تهران → محور غرب\n\nسلامت عملیاتی: 100 / 100\n\nرسیدن برآوردی: T+250\n\nمهلت تحویل: T+345\n\n95 دقیقه تا مهلت\n\nتأخیر تجمعی: +0 دقیقه\n\nشواهد این کریدور: 1"
+        }
+      ],
+      "selectedAction": null,
+      "selectedTarget": null,
+      "endingId": null,
+      "hiddenTruthInDom": false,
+      "sliders": [
+        {
+          "value": "50",
+          "label": "ثبت نشده"
+        },
+        {
+          "value": "50",
+          "label": "ثبت نشده"
+        },
+        {
+          "value": "50",
+          "label": "ثبت نشده"
+        }
+      ],
+      "notes": []
+    },
+    {
+      "filename": "07-r3-decision-1440x900.png",
+      "runtimeStage": "decision:B1_monitoring_allocation",
+      "stage": "R3 decision",
+      "phase": "B",
+      "round": 3,
+      "clock": 62,
+      "ISR": 70,
+      "Support": 100,
+      "evidenceCount": 5,
+      "visibleConvoyValues": [
+        {
+          "convoyId": "alpha",
+          "integrity": 100,
+          "delay": 0,
+          "arrival": 210,
+          "deadline": 300,
+          "status": "moving"
+        },
+        {
+          "convoyId": "beta",
+          "integrity": 100,
+          "delay": 3,
+          "arrival": 238,
+          "deadline": 330,
+          "status": "moving"
+        },
+        {
+          "convoyId": "gamma",
+          "integrity": 100,
+          "delay": 0,
+          "arrival": 225,
+          "deadline": 315,
+          "status": "moving"
+        },
+        {
+          "convoyId": "delta",
+          "integrity": 100,
+          "delay": 0,
+          "arrival": 250,
+          "deadline": 345,
+          "status": "moving"
+        }
+      ],
+      "viewport": {
+        "width": 1440,
+        "height": 900
+      },
+      "page": {
+        "scrollHeight": 900,
+        "clientHeight": 900,
+        "scrollWidth": 1440,
+        "clientWidth": 1440
+      },
+      "leftPane": {
+        "scrollHeight": 662,
+        "clientHeight": 438,
+        "scrollTop": 0,
+        "overflowY": "auto"
+      },
+      "mapVisible": true,
+      "mapFrame": {
+        "x": 606.78125,
+        "y": 273.140625,
+        "width": 724.828125,
+        "height": 303.34375,
+        "top": 273.140625,
+        "right": 1331.609375,
+        "bottom": 576.484375,
+        "left": 606.78125
+      },
+      "footerReachable": true,
+      "visibleConvoyCards": [
+        {
+          "id": "alpha",
+          "text": "کاروان الف\nدر حرکت\n\nتجهیزات درمانی اضطراری · تهران → مشهد\n\nسلامت عملیاتی: 100 / 100\n\nرسیدن برآوردی: T+210\n\nمهلت تحویل: T+300\n\n90 دقیقه تا مهلت\n\nتأخیر تجمعی: +0 دقیقه\n\nشواهد این کریدور: 2"
+        },
+        {
+          "id": "beta",
+          "text": "کاروان ب\nدر حرکت\n\nسوخت عملیاتی · بندرعباس → تهران\n\nسلامت عملیاتی: 100 / 100\n\nرسیدن برآوردی: T+238\n\nمهلت تحویل: T+330\n\n92 دقیقه تا مهلت\n\nتأخیر تجمعی: +3 دقیقه\n\nشواهد این کریدور: 1"
+        },
+        {
+          "id": "gamma",
+          "text": "کاروان ج\nدر حرکت\n\nقطعات ارتباطی · تبریز → تهران\n\nسلامت عملیاتی: 100 / 100\n\nرسیدن برآوردی: T+225\n\nمهلت تحویل: T+315\n\n90 دقیقه تا مهلت\n\nتأخیر تجمعی: +0 دقیقه\n\nشواهد این کریدور: 1"
+        },
+        {
+          "id": "delta",
+          "text": "کاروان د\nدر حرکت\n\nپشتیبانی مرزی · تهران → محور غرب\n\nسلامت عملیاتی: 100 / 100\n\nرسیدن برآوردی: T+250\n\nمهلت تحویل: T+345\n\n95 دقیقه تا مهلت\n\nتأخیر تجمعی: +0 دقیقه\n\nشواهد این کریدور: 1"
+        }
+      ],
+      "selectedAction": null,
+      "selectedTarget": null,
+      "endingId": null,
+      "hiddenTruthInDom": false,
+      "sliders": [],
+      "notes": []
+    },
+    {
+      "filename": "08-r4-reroute-selected-1440x900.png",
+      "runtimeStage": "decision:B2_route_policy",
+      "stage": "R4 reroute",
+      "phase": "B",
+      "round": 4,
+      "clock": 94,
+      "ISR": 54,
+      "Support": 100,
+      "evidenceCount": 9,
+      "visibleConvoyValues": [
+        {
+          "convoyId": "alpha",
+          "integrity": 100,
+          "delay": 0,
+          "arrival": 210,
+          "deadline": 300,
+          "status": "moving"
+        },
+        {
+          "convoyId": "beta",
+          "integrity": 97,
+          "delay": 11,
+          "arrival": 246,
+          "deadline": 330,
+          "status": "moving"
+        },
+        {
+          "convoyId": "gamma",
+          "integrity": 100,
+          "delay": 0,
+          "arrival": 225,
+          "deadline": 315,
+          "status": "moving"
+        },
+        {
+          "convoyId": "delta",
+          "integrity": 100,
+          "delay": 0,
+          "arrival": 250,
+          "deadline": 345,
+          "status": "moving"
+        }
+      ],
+      "viewport": {
+        "width": 1440,
+        "height": 900
+      },
+      "page": {
+        "scrollHeight": 900,
+        "clientHeight": 900,
+        "scrollWidth": 1440,
+        "clientWidth": 1440
+      },
+      "leftPane": {
+        "scrollHeight": 941,
+        "clientHeight": 438,
+        "scrollTop": 0,
+        "overflowY": "auto"
+      },
+      "mapVisible": true,
+      "mapFrame": {
+        "x": 606.78125,
+        "y": 297.140625,
+        "width": 724.828125,
+        "height": 247.359375,
+        "top": 297.140625,
+        "right": 1331.609375,
+        "bottom": 544.5,
+        "left": 606.78125
+      },
+      "footerReachable": true,
+      "visibleConvoyCards": [
+        {
+          "id": "alpha",
+          "text": "کاروان الف\nدر حرکت\n\nتجهیزات درمانی اضطراری · تهران → مشهد\n\nسلامت عملیاتی: 100 / 100\n\nرسیدن برآوردی: T+210\n\nمهلت تحویل: T+300\n\n90 دقیقه تا مهلت\n\nتأخیر تجمعی: +0 دقیقه\n\nانتخاب هدف\nشواهد این کریدور: 3"
+        },
+        {
+          "id": "beta",
+          "text": "کاروان ب\nدر حرکت\n\nسوخت عملیاتی · بندرعباس → تهران\n\nسلامت عملیاتی: 97 / 100\n\nرسیدن برآوردی: T+246\n\nمهلت تحویل: T+330\n\n84 دقیقه تا مهلت\n\nتأخیر تجمعی: +11 دقیقه\n\nانتخاب هدف\nشواهد این کریدور: 2"
+        },
+        {
+          "id": "gamma",
+          "text": "کاروان ج\nدر حرکت\n\nقطعات ارتباطی · تبریز → تهران\n\nسلامت عملیاتی: 100 / 100\n\nرسیدن برآوردی: T+225\n\nمهلت تحویل: T+315\n\n90 دقیقه تا مهلت\n\nتأخیر تجمعی: +0 دقیقه\n\nانتخاب هدف\nشواهد این کریدور: 2"
+        },
+        {
+          "id": "delta",
+          "text": "کاروان د\nدر حرکت\n\nپشتیبانی مرزی · تهران → محور غرب\n\nسلامت عملیاتی: 100 / 100\n\nرسیدن برآوردی: T+250\n\nمهلت تحویل: T+345\n\n95 دقیقه تا مهلت\n\nتأخیر تجمعی: +0 دقیقه\n\nانتخاب هدف\nشواهد این کریدور: 2"
+        }
+      ],
+      "selectedAction": "b2_reroute",
+      "selectedTarget": "corridor_alpha_east",
+      "endingId": null,
+      "hiddenTruthInDom": false,
+      "sliders": [],
+      "notes": []
+    },
+    {
+      "filename": "09-r4-outcome-reroute-map-1440x900.png",
+      "runtimeStage": "outcome_review",
+      "stage": "R4 outcome",
+      "phase": "B",
+      "round": 4,
+      "clock": 134,
+      "ISR": 54,
+      "Support": 86,
+      "evidenceCount": 9,
+      "visibleConvoyValues": [
+        {
+          "convoyId": "alpha",
+          "integrity": 100,
+          "delay": 25,
+          "arrival": 235,
+          "deadline": 300,
+          "status": "moving"
+        },
+        {
+          "convoyId": "beta",
+          "integrity": 94,
+          "delay": 19,
+          "arrival": 254,
+          "deadline": 330,
+          "status": "moving"
+        },
+        {
+          "convoyId": "gamma",
+          "integrity": 100,
+          "delay": 0,
+          "arrival": 225,
+          "deadline": 315,
+          "status": "moving"
+        },
+        {
+          "convoyId": "delta",
+          "integrity": 100,
+          "delay": 0,
+          "arrival": 250,
+          "deadline": 345,
+          "status": "moving"
+        }
+      ],
+      "viewport": {
+        "width": 1440,
+        "height": 900
+      },
+      "page": {
+        "scrollHeight": 900,
+        "clientHeight": 900,
+        "scrollWidth": 1440,
+        "clientWidth": 1440
+      },
+      "leftPane": {
+        "scrollHeight": 992,
+        "clientHeight": 475,
+        "scrollTop": 0,
+        "overflowY": "auto"
+      },
+      "mapVisible": true,
+      "mapFrame": {
+        "x": 606.78125,
+        "y": 273.140625,
+        "width": 724.828125,
+        "height": 280.28125,
+        "top": 273.140625,
+        "right": 1331.609375,
+        "bottom": 553.421875,
+        "left": 606.78125
+      },
+      "footerReachable": true,
+      "visibleConvoyCards": [
+        {
+          "id": "alpha",
+          "text": "کاروان الف\nدر حرکت\n\nتجهیزات درمانی اضطراری · تهران → مشهد\n\nسلامت عملیاتی: 100 / 100\n\nرسیدن برآوردی: T+235\n\nمهلت تحویل: T+300\n\n65 دقیقه تا مهلت\n\nتأخیر تجمعی: +25 دقیقه\n\nمسیر تقویت‌شده\nشواهد این کریدور: 3"
+        },
+        {
+          "id": "beta",
+          "text": "کاروان ب\nدر حرکت\n\nسوخت عملیاتی · بندرعباس → تهران\n\nسلامت عملیاتی: 94 / 100\n\nرسیدن برآوردی: T+254\n\nمهلت تحویل: T+330\n\n76 دقیقه تا مهلت\n\nتأخیر تجمعی: +19 دقیقه\n\nشواهد این کریدور: 2"
+        },
+        {
+          "id": "gamma",
+          "text": "کاروان ج\nدر حرکت\n\nقطعات ارتباطی · تبریز → تهران\n\nسلامت عملیاتی: 100 / 100\n\nرسیدن برآوردی: T+225\n\nمهلت تحویل: T+315\n\n90 دقیقه تا مهلت\n\nتأخیر تجمعی: +0 دقیقه\n\nشواهد این کریدور: 2"
+        },
+        {
+          "id": "delta",
+          "text": "کاروان د\nدر حرکت\n\nپشتیبانی مرزی · تهران → محور غرب\n\nسلامت عملیاتی: 100 / 100\n\nرسیدن برآوردی: T+250\n\nمهلت تحویل: T+345\n\n95 دقیقه تا مهلت\n\nتأخیر تجمعی: +0 دقیقه\n\nشواهد این کریدور: 2"
+        }
+      ],
+      "selectedAction": null,
+      "selectedTarget": null,
+      "endingId": null,
+      "hiddenTruthInDom": false,
+      "sliders": [],
+      "notes": []
+    },
+    {
+      "filename": "10-r5-resilience-1440x900.png",
+      "runtimeStage": "decision:C1_support_and_checkpoints",
+      "stage": "R5 resilience",
+      "phase": "C",
+      "round": 5,
+      "clock": 134,
+      "ISR": 54,
+      "Support": 86,
+      "evidenceCount": 9,
+      "visibleConvoyValues": [
+        {
+          "convoyId": "alpha",
+          "integrity": 100,
+          "delay": 25,
+          "arrival": 235,
+          "deadline": 300,
+          "status": "moving"
+        },
+        {
+          "convoyId": "beta",
+          "integrity": 94,
+          "delay": 19,
+          "arrival": 254,
+          "deadline": 330,
+          "status": "moving"
+        },
+        {
+          "convoyId": "gamma",
+          "integrity": 100,
+          "delay": 0,
+          "arrival": 225,
+          "deadline": 315,
+          "status": "moving"
+        },
+        {
+          "convoyId": "delta",
+          "integrity": 100,
+          "delay": 0,
+          "arrival": 250,
+          "deadline": 345,
+          "status": "moving"
+        }
+      ],
+      "viewport": {
+        "width": 1440,
+        "height": 900
+      },
+      "page": {
+        "scrollHeight": 900,
+        "clientHeight": 900,
+        "scrollWidth": 1440,
+        "clientWidth": 1440
+      },
+      "leftPane": {
+        "scrollHeight": 925,
+        "clientHeight": 438,
+        "scrollTop": 0,
+        "overflowY": "auto"
+      },
+      "mapVisible": true,
+      "mapFrame": {
+        "x": 606.78125,
+        "y": 297.140625,
+        "width": 724.828125,
+        "height": 229.484375,
+        "top": 297.140625,
+        "right": 1331.609375,
+        "bottom": 526.625,
+        "left": 606.78125
+      },
+      "footerReachable": true,
+      "visibleConvoyCards": [
+        {
+          "id": "alpha",
+          "text": "کاروان الف\nدر حرکت\n\nتجهیزات درمانی اضطراری · تهران → مشهد\n\nسلامت عملیاتی: 100 / 100\n\nرسیدن برآوردی: T+235\n\nمهلت تحویل: T+300\n\n65 دقیقه تا مهلت\n\nتأخیر تجمعی: +25 دقیقه\n\nمسیر تقویت‌شده\nانتخاب هدف\nشواهد این کریدور: 3"
+        },
+        {
+          "id": "beta",
+          "text": "کاروان ب\nدر حرکت\n\nسوخت عملیاتی · بندرعباس → تهران\n\nسلامت عملیاتی: 94 / 100\n\nرسیدن برآوردی: T+254\n\nمهلت تحویل: T+330\n\n76 دقیقه تا مهلت\n\nتأخیر تجمعی: +19 دقیقه\n\nانتخاب هدف\nشواهد این کریدور: 2"
+        },
+        {
+          "id": "gamma",
+          "text": "کاروان ج\nدر حرکت\n\nقطعات ارتباطی · تبریز → تهران\n\nسلامت عملیاتی: 100 / 100\n\nرسیدن برآوردی: T+225\n\nمهلت تحویل: T+315\n\n90 دقیقه تا مهلت\n\nتأخیر تجمعی: +0 دقیقه\n\nانتخاب هدف\nشواهد این کریدور: 2"
+        },
+        {
+          "id": "delta",
+          "text": "کاروان د\nدر حرکت\n\nپشتیبانی مرزی · تهران → محور غرب\n\nسلامت عملیاتی: 100 / 100\n\nرسیدن برآوردی: T+250\n\nمهلت تحویل: T+345\n\n95 دقیقه تا مهلت\n\nتأخیر تجمعی: +0 دقیقه\n\nانتخاب هدف\nشواهد این کریدور: 2"
+        }
+      ],
+      "selectedAction": "c1_fallback_nav",
+      "selectedTarget": "corridor_alpha_east",
+      "endingId": null,
+      "hiddenTruthInDom": false,
+      "sliders": [],
+      "notes": []
+    },
+    {
+      "filename": "11-r6-resource-preview-1440x900.png",
+      "runtimeStage": "decision:C2_resource_portfolio",
+      "stage": "R6 preview",
+      "phase": "C",
+      "round": 6,
+      "clock": 166,
+      "ISR": 54,
+      "Support": 72,
+      "evidenceCount": 9,
+      "visibleConvoyValues": [
+        {
+          "convoyId": "alpha",
+          "integrity": 100,
+          "delay": 30,
+          "arrival": 240,
+          "deadline": 300,
+          "status": "moving"
+        },
+        {
+          "convoyId": "beta",
+          "integrity": 91,
+          "delay": 27,
+          "arrival": 262,
+          "deadline": 330,
+          "status": "moving"
+        },
+        {
+          "convoyId": "gamma",
+          "integrity": 100,
+          "delay": 0,
+          "arrival": 225,
+          "deadline": 315,
+          "status": "moving"
+        },
+        {
+          "convoyId": "delta",
+          "integrity": 100,
+          "delay": 0,
+          "arrival": 250,
+          "deadline": 345,
+          "status": "moving"
+        }
+      ],
+      "viewport": {
+        "width": 1440,
+        "height": 900
+      },
+      "page": {
+        "scrollHeight": 900,
+        "clientHeight": 900,
+        "scrollWidth": 1440,
+        "clientWidth": 1440
+      },
+      "leftPane": {
+        "scrollHeight": 961,
+        "clientHeight": 438,
+        "scrollTop": 523,
+        "overflowY": "auto"
+      },
+      "mapVisible": true,
+      "mapFrame": {
+        "x": 606.78125,
+        "y": 273.140625,
+        "width": 724.828125,
+        "height": 282.28125,
+        "top": 273.140625,
+        "right": 1331.609375,
+        "bottom": 555.421875,
+        "left": 606.78125
+      },
+      "footerReachable": true,
+      "visibleConvoyCards": [
+        {
+          "id": "alpha",
+          "text": "کاروان الف\nدر حرکت\n\nتجهیزات درمانی اضطراری · تهران → مشهد\n\nسلامت عملیاتی: 100 / 100\n\nرسیدن برآوردی: T+240\n\nمهلت تحویل: T+300\n\n60 دقیقه تا مهلت\n\nتأخیر تجمعی: +30 دقیقه\n\nناوبری پشتیبان\nمسیر تقویت‌شده\nشواهد این کریدور: 3"
+        },
+        {
+          "id": "beta",
+          "text": "کاروان ب\nدر حرکت\n\nسوخت عملیاتی · بندرعباس → تهران\n\nسلامت عملیاتی: 91 / 100\n\nرسیدن برآوردی: T+262\n\nمهلت تحویل: T+330\n\n68 دقیقه تا مهلت\n\nتأخیر تجمعی: +27 دقیقه\n\nشواهد این کریدور: 2"
+        },
+        {
+          "id": "gamma",
+          "text": "کاروان ج\nدر حرکت\n\nقطعات ارتباطی · تبریز → تهران\n\nسلامت عملیاتی: 100 / 100\n\nرسیدن برآوردی: T+225\n\nمهلت تحویل: T+315\n\n90 دقیقه تا مهلت\n\nتأخیر تجمعی: +0 دقیقه\n\nشواهد این کریدور: 2"
+        },
+        {
+          "id": "delta",
+          "text": "کاروان د\nدر حرکت\n\nپشتیبانی مرزی · تهران → محور غرب\n\nسلامت عملیاتی: 100 / 100\n\nرسیدن برآوردی: T+250\n\nمهلت تحویل: T+345\n\n95 دقیقه تا مهلت\n\nتأخیر تجمعی: +0 دقیقه\n\nشواهد این کریدور: 2"
+        }
+      ],
+      "selectedAction": "c2_balanced",
+      "selectedTarget": null,
+      "endingId": null,
+      "hiddenTruthInDom": false,
+      "sliders": [],
+      "notes": []
+    },
+    {
+      "filename": "21-left-pane-scroll-1366x768.png",
+      "runtimeStage": "reason:C",
+      "stage": "reason scroll",
+      "phase": "C",
+      "round": 6,
+      "clock": 166,
+      "ISR": 54,
+      "Support": 72,
+      "evidenceCount": 9,
+      "visibleConvoyValues": [
+        {
+          "convoyId": "alpha",
+          "integrity": 100,
+          "delay": 30,
+          "arrival": 240,
+          "deadline": 300,
+          "status": "moving"
+        },
+        {
+          "convoyId": "beta",
+          "integrity": 91,
+          "delay": 27,
+          "arrival": 262,
+          "deadline": 330,
+          "status": "moving"
+        },
+        {
+          "convoyId": "gamma",
+          "integrity": 100,
+          "delay": 0,
+          "arrival": 225,
+          "deadline": 315,
+          "status": "moving"
+        },
+        {
+          "convoyId": "delta",
+          "integrity": 100,
+          "delay": 0,
+          "arrival": 250,
+          "deadline": 345,
+          "status": "moving"
+        }
+      ],
+      "viewport": {
+        "width": 1366,
+        "height": 768
+      },
+      "page": {
+        "scrollHeight": 768,
+        "clientHeight": 768,
+        "scrollWidth": 1366,
+        "clientWidth": 1366
+      },
+      "leftPane": {
+        "scrollHeight": 975,
+        "clientHeight": 374,
+        "scrollTop": 601,
+        "overflowY": "auto"
+      },
+      "mapVisible": true,
+      "mapFrame": {
+        "x": 572.390625,
+        "y": 241.734375,
+        "width": 693.21875,
+        "height": 209.875,
+        "top": 241.734375,
+        "right": 1265.609375,
+        "bottom": 451.609375,
+        "left": 572.390625
+      },
+      "footerReachable": true,
+      "visibleConvoyCards": [
+        {
+          "id": "alpha",
+          "text": "کاروان الف\nدر حرکت\n\nتجهیزات درمانی اضطراری · تهران → مشهد\n\nسلامت عملیاتی: 100 / 100\n\nرسیدن برآوردی: T+240\n\nمهلت تحویل: T+300\n\n60 دقیقه تا مهلت\n\nتأخیر تجمعی: +30 دقیقه\n\nناوبری پشتیبان\nمسیر تقویت‌شده\nشواهد این کریدور: 3"
+        },
+        {
+          "id": "beta",
+          "text": "کاروان ب\nدر حرکت\n\nسوخت عملیاتی · بندرعباس → تهران\n\nسلامت عملیاتی: 91 / 100\n\nرسیدن برآوردی: T+262\n\nمهلت تحویل: T+330\n\n68 دقیقه تا مهلت\n\nتأخیر تجمعی: +27 دقیقه\n\nشواهد این کریدور: 2"
+        },
+        {
+          "id": "gamma",
+          "text": "کاروان ج\nدر حرکت\n\nقطعات ارتباطی · تبریز → تهران\n\nسلامت عملیاتی: 100 / 100\n\nرسیدن برآوردی: T+225\n\nمهلت تحویل: T+315\n\n90 دقیقه تا مهلت\n\nتأخیر تجمعی: +0 دقیقه\n\nشواهد این کریدور: 2"
+        },
+        {
+          "id": "delta",
+          "text": "کاروان د\nدر حرکت\n\nپشتیبانی مرزی · تهران → محور غرب\n\nسلامت عملیاتی: 100 / 100\n\nرسیدن برآوردی: T+250\n\nمهلت تحویل: T+345\n\n95 دقیقه تا مهلت\n\nتأخیر تجمعی: +0 دقیقه\n\nشواهد این کریدور: 2"
+        }
+      ],
+      "selectedAction": "c2_balanced",
+      "selectedTarget": null,
+      "endingId": null,
+      "hiddenTruthInDom": false,
+      "sliders": [],
+      "notes": []
+    },
+    {
+      "filename": "22-live-console-1280x720.png",
+      "runtimeStage": "reason:C",
+      "stage": "live console",
+      "phase": "C",
+      "round": 6,
+      "clock": 166,
+      "ISR": 54,
+      "Support": 72,
+      "evidenceCount": 9,
+      "visibleConvoyValues": [
+        {
+          "convoyId": "alpha",
+          "integrity": 100,
+          "delay": 30,
+          "arrival": 240,
+          "deadline": 300,
+          "status": "moving"
+        },
+        {
+          "convoyId": "beta",
+          "integrity": 91,
+          "delay": 27,
+          "arrival": 262,
+          "deadline": 330,
+          "status": "moving"
+        },
+        {
+          "convoyId": "gamma",
+          "integrity": 100,
+          "delay": 0,
+          "arrival": 225,
+          "deadline": 315,
+          "status": "moving"
+        },
+        {
+          "convoyId": "delta",
+          "integrity": 100,
+          "delay": 0,
+          "arrival": 250,
+          "deadline": 345,
+          "status": "moving"
+        }
+      ],
+      "viewport": {
+        "width": 1280,
+        "height": 720
+      },
+      "page": {
+        "scrollHeight": 720,
+        "clientHeight": 720,
+        "scrollWidth": 1280,
+        "clientWidth": 1280
+      },
+      "leftPane": {
+        "scrollHeight": 992,
+        "clientHeight": 326,
+        "scrollTop": 0,
+        "overflowY": "auto"
+      },
+      "mapVisible": true,
+      "mapFrame": {
+        "x": 537.984375,
+        "y": 241.734375,
+        "width": 641.625,
+        "height": 161.875,
+        "top": 241.734375,
+        "right": 1179.609375,
+        "bottom": 403.609375,
+        "left": 537.984375
+      },
+      "footerReachable": true,
+      "visibleConvoyCards": [
+        {
+          "id": "alpha",
+          "text": "کاروان الف\nدر حرکت\n\nتجهیزات درمانی اضطراری · تهران → مشهد\n\nسلامت عملیاتی: 100 / 100\n\nرسیدن برآوردی: T+240\n\nمهلت تحویل: T+300\n\n60 دقیقه تا مهلت\n\nتأخیر تجمعی: +30 دقیقه\n\nناوبری پشتیبان\nمسیر تقویت‌شده\nشواهد این کریدور: 3"
+        },
+        {
+          "id": "beta",
+          "text": "کاروان ب\nدر حرکت\n\nسوخت عملیاتی · بندرعباس → تهران\n\nسلامت عملیاتی: 91 / 100\n\nرسیدن برآوردی: T+262\n\nمهلت تحویل: T+330\n\n68 دقیقه تا مهلت\n\nتأخیر تجمعی: +27 دقیقه\n\nشواهد این کریدور: 2"
+        },
+        {
+          "id": "gamma",
+          "text": "کاروان ج\nدر حرکت\n\nقطعات ارتباطی · تبریز → تهران\n\nسلامت عملیاتی: 100 / 100\n\nرسیدن برآوردی: T+225\n\nمهلت تحویل: T+315\n\n90 دقیقه تا مهلت\n\nتأخیر تجمعی: +0 دقیقه\n\nشواهد این کریدور: 2"
+        },
+        {
+          "id": "delta",
+          "text": "کاروان د\nدر حرکت\n\nپشتیبانی مرزی · تهران → محور غرب\n\nسلامت عملیاتی: 100 / 100\n\nرسیدن برآوردی: T+250\n\nمهلت تحویل: T+345\n\n95 دقیقه تا مهلت\n\nتأخیر تجمعی: +0 دقیقه\n\nشواهد این کریدور: 2"
+        }
+      ],
+      "selectedAction": "c2_balanced",
+      "selectedTarget": null,
+      "endingId": null,
+      "hiddenTruthInDom": false,
+      "sliders": [],
+      "notes": []
+    },
+    {
+      "filename": "12-c-belief-1440x900.png",
+      "runtimeStage": "belief:C_belief_checkpoint",
+      "stage": "C belief",
+      "phase": "C",
+      "round": 6,
+      "clock": 196,
+      "ISR": 44,
+      "Support": 62,
+      "evidenceCount": 15,
+      "visibleConvoyValues": [
+        {
+          "convoyId": "alpha",
+          "integrity": 100,
+          "delay": 30,
+          "arrival": 240,
+          "deadline": 300,
+          "status": "moving"
+        },
+        {
+          "convoyId": "beta",
+          "integrity": 88,
+          "delay": 34,
+          "arrival": 269,
+          "deadline": 330,
+          "status": "moving"
+        },
+        {
+          "convoyId": "gamma",
+          "integrity": 100,
+          "delay": 0,
+          "arrival": 225,
+          "deadline": 315,
+          "status": "moving"
+        },
+        {
+          "convoyId": "delta",
+          "integrity": 100,
+          "delay": 0,
+          "arrival": 250,
+          "deadline": 345,
+          "status": "moving"
+        }
+      ],
+      "viewport": {
+        "width": 1440,
+        "height": 900
+      },
+      "page": {
+        "scrollHeight": 900,
+        "clientHeight": 900,
+        "scrollWidth": 1440,
+        "clientWidth": 1440
+      },
+      "leftPane": {
+        "scrollHeight": 1020,
+        "clientHeight": 475,
+        "scrollTop": 0,
+        "overflowY": "auto"
+      },
+      "mapVisible": true,
+      "mapFrame": {
+        "x": 606.78125,
+        "y": 273.140625,
+        "width": 724.828125,
+        "height": 282.28125,
+        "top": 273.140625,
+        "right": 1331.609375,
+        "bottom": 555.421875,
+        "left": 606.78125
+      },
+      "footerReachable": true,
+      "visibleConvoyCards": [
+        {
+          "id": "alpha",
+          "text": "کاروان الف\nدر حرکت\n\nتجهیزات درمانی اضطراری · تهران → مشهد\n\nسلامت عملیاتی: 100 / 100\n\nرسیدن برآوردی: T+240\n\nمهلت تحویل: T+300\n\n60 دقیقه تا مهلت\n\nتأخیر تجمعی: +30 دقیقه\n\nناوبری پشتیبان\nمسیر تقویت‌شده\nشواهد این کریدور: 4"
+        },
+        {
+          "id": "beta",
+          "text": "کاروان ب\nدر حرکت\n\nسوخت عملیاتی · بندرعباس → تهران\n\nسلامت عملیاتی: 88 / 100\n\nرسیدن برآوردی: T+269\n\nمهلت تحویل: T+330\n\n61 دقیقه تا مهلت\n\nتأخیر تجمعی: +34 دقیقه\n\nشواهد این کریدور: 4"
+        },
+        {
+          "id": "gamma",
+          "text": "کاروان ج\nدر حرکت\n\nقطعات ارتباطی · تبریز → تهران\n\nسلامت عملیاتی: 100 / 100\n\nرسیدن برآوردی: T+225\n\nمهلت تحویل: T+315\n\n90 دقیقه تا مهلت\n\nتأخیر تجمعی: +0 دقیقه\n\nشواهد این کریدور: 3"
+        },
+        {
+          "id": "delta",
+          "text": "کاروان د\nدر حرکت\n\nپشتیبانی مرزی · تهران → محور غرب\n\nسلامت عملیاتی: 100 / 100\n\nرسیدن برآوردی: T+250\n\nمهلت تحویل: T+345\n\n95 دقیقه تا مهلت\n\nتأخیر تجمعی: +0 دقیقه\n\nشواهد این کریدور: 4"
+        }
+      ],
+      "selectedAction": null,
+      "selectedTarget": null,
+      "endingId": null,
+      "hiddenTruthInDom": false,
+      "sliders": [
+        {
+          "value": "50",
+          "label": "ثبت نشده"
+        },
+        {
+          "value": "50",
+          "label": "ثبت نشده"
+        },
+        {
+          "value": "50",
+          "label": "ثبت نشده"
+        }
+      ],
+      "notes": []
+    },
+    {
+      "filename": "13-r7-decision-1440x900.png",
+      "runtimeStage": "decision:D1_crisis_response",
+      "stage": "R7 decision",
+      "phase": "D",
+      "round": 7,
+      "clock": 196,
+      "ISR": 44,
+      "Support": 62,
+      "evidenceCount": 15,
+      "visibleConvoyValues": [
+        {
+          "convoyId": "alpha",
+          "integrity": 100,
+          "delay": 30,
+          "arrival": 240,
+          "deadline": 300,
+          "status": "moving"
+        },
+        {
+          "convoyId": "beta",
+          "integrity": 88,
+          "delay": 34,
+          "arrival": 269,
+          "deadline": 330,
+          "status": "moving"
+        },
+        {
+          "convoyId": "gamma",
+          "integrity": 100,
+          "delay": 0,
+          "arrival": 225,
+          "deadline": 315,
+          "status": "moving"
+        },
+        {
+          "convoyId": "delta",
+          "integrity": 100,
+          "delay": 0,
+          "arrival": 250,
+          "deadline": 345,
+          "status": "moving"
+        }
+      ],
+      "viewport": {
+        "width": 1440,
+        "height": 900
+      },
+      "page": {
+        "scrollHeight": 900,
+        "clientHeight": 900,
+        "scrollWidth": 1440,
+        "clientWidth": 1440
+      },
+      "leftPane": {
+        "scrollHeight": 998,
+        "clientHeight": 438,
+        "scrollTop": 0,
+        "overflowY": "auto"
+      },
+      "mapVisible": true,
+      "mapFrame": {
+        "x": 606.78125,
+        "y": 273.140625,
+        "width": 724.828125,
+        "height": 282.28125,
+        "top": 273.140625,
+        "right": 1331.609375,
+        "bottom": 555.421875,
+        "left": 606.78125
+      },
+      "footerReachable": true,
+      "visibleConvoyCards": [
+        {
+          "id": "alpha",
+          "text": "کاروان الف\nدر حرکت\n\nتجهیزات درمانی اضطراری · تهران → مشهد\n\nسلامت عملیاتی: 100 / 100\n\nرسیدن برآوردی: T+240\n\nمهلت تحویل: T+300\n\n60 دقیقه تا مهلت\n\nتأخیر تجمعی: +30 دقیقه\n\nناوبری پشتیبان\nمسیر تقویت‌شده\nشواهد این کریدور: 4"
+        },
+        {
+          "id": "beta",
+          "text": "کاروان ب\nدر حرکت\n\nسوخت عملیاتی · بندرعباس → تهران\n\nسلامت عملیاتی: 88 / 100\n\nرسیدن برآوردی: T+269\n\nمهلت تحویل: T+330\n\n61 دقیقه تا مهلت\n\nتأخیر تجمعی: +34 دقیقه\n\nشواهد این کریدور: 4"
+        },
+        {
+          "id": "gamma",
+          "text": "کاروان ج\nدر حرکت\n\nقطعات ارتباطی · تبریز → تهران\n\nسلامت عملیاتی: 100 / 100\n\nرسیدن برآوردی: T+225\n\nمهلت تحویل: T+315\n\n90 دقیقه تا مهلت\n\nتأخیر تجمعی: +0 دقیقه\n\nشواهد این کریدور: 3"
+        },
+        {
+          "id": "delta",
+          "text": "کاروان د\nدر حرکت\n\nپشتیبانی مرزی · تهران → محور غرب\n\nسلامت عملیاتی: 100 / 100\n\nرسیدن برآوردی: T+250\n\nمهلت تحویل: T+345\n\n95 دقیقه تا مهلت\n\nتأخیر تجمعی: +0 دقیقه\n\nشواهد این کریدور: 4"
+        }
+      ],
+      "selectedAction": null,
+      "selectedTarget": null,
+      "endingId": null,
+      "hiddenTruthInDom": false,
+      "sliders": [],
+      "notes": []
+    },
+    {
+      "filename": "14-final-belief-1440x900.png",
+      "runtimeStage": "belief:D_final_belief",
+      "stage": "final belief",
+      "phase": "D",
+      "round": 7,
+      "clock": 228,
+      "ISR": 44,
+      "Support": 44,
+      "evidenceCount": 16,
+      "visibleConvoyValues": [
+        {
+          "convoyId": "alpha",
+          "integrity": 100,
+          "delay": 35,
+          "arrival": 245,
+          "deadline": 300,
+          "status": "moving"
+        },
+        {
+          "convoyId": "beta",
+          "integrity": 85,
+          "delay": 41,
+          "arrival": 276,
+          "deadline": 330,
+          "status": "moving"
+        },
+        {
+          "convoyId": "gamma",
+          "integrity": 100,
+          "delay": 0,
+          "arrival": 225,
+          "deadline": 315,
+          "status": "delivered"
+        },
+        {
+          "convoyId": "delta",
+          "integrity": 100,
+          "delay": 0,
+          "arrival": 250,
+          "deadline": 345,
+          "status": "moving"
+        }
+      ],
+      "viewport": {
+        "width": 1440,
+        "height": 900
+      },
+      "page": {
+        "scrollHeight": 900,
+        "clientHeight": 900,
+        "scrollWidth": 1440,
+        "clientWidth": 1440
+      },
+      "leftPane": {
+        "scrollHeight": 1020,
+        "clientHeight": 475,
+        "scrollTop": 0,
+        "overflowY": "auto"
+      },
+      "mapVisible": true,
+      "mapFrame": {
+        "x": 606.78125,
+        "y": 273.140625,
+        "width": 724.828125,
+        "height": 266.9375,
+        "top": 273.140625,
+        "right": 1331.609375,
+        "bottom": 540.078125,
+        "left": 606.78125
+      },
+      "footerReachable": true,
+      "visibleConvoyCards": [
+        {
+          "id": "alpha",
+          "text": "کاروان الف\nدر حرکت\n\nتجهیزات درمانی اضطراری · تهران → مشهد\n\nسلامت عملیاتی: 100 / 100\n\nرسیدن برآوردی: T+245\n\nمهلت تحویل: T+300\n\n55 دقیقه تا مهلت\n\nتأخیر تجمعی: +35 دقیقه\n\nناوبری پشتیبان\nمسیر تقویت‌شده\nاسکورت مرحله قبل پایان یافته\nشواهد این کریدور: 5"
+        },
+        {
+          "id": "beta",
+          "text": "کاروان ب\nدر حرکت\n\nسوخت عملیاتی · بندرعباس → تهران\n\nسلامت عملیاتی: 85 / 100\n\nرسیدن برآوردی: T+276\n\nمهلت تحویل: T+330\n\n54 دقیقه تا مهلت\n\nتأخیر تجمعی: +41 دقیقه\n\nشواهد این کریدور: 4"
+        },
+        {
+          "id": "gamma",
+          "text": "کاروان ج\nتحویل‌شده\n\nقطعات ارتباطی · تبریز → تهران\n\nسلامت عملیاتی: 100 / 100\n\nرسیدن برآوردی: T+225\n\nمهلت تحویل: T+315\n\n90 دقیقه تا مهلت\n\nتأخیر تجمعی: +0 دقیقه\n\nشواهد این کریدور: 3"
+        },
+        {
+          "id": "delta",
+          "text": "کاروان د\nدر حرکت\n\nپشتیبانی مرزی · تهران → محور غرب\n\nسلامت عملیاتی: 100 / 100\n\nرسیدن برآوردی: T+250\n\nمهلت تحویل: T+345\n\n95 دقیقه تا مهلت\n\nتأخیر تجمعی: +0 دقیقه\n\nشواهد این کریدور: 4"
+        }
+      ],
+      "selectedAction": null,
+      "selectedTarget": null,
+      "endingId": null,
+      "hiddenTruthInDom": false,
+      "sliders": [
+        {
+          "value": "50",
+          "label": "ثبت نشده"
+        },
+        {
+          "value": "50",
+          "label": "ثبت نشده"
+        },
+        {
+          "value": "50",
+          "label": "ثبت نشده"
+        }
+      ],
+      "notes": []
+    },
+    {
+      "filename": "15-r8-decision-1440x900.png",
+      "runtimeStage": "decision:D2_final_delivery_policy",
+      "stage": "R8 decision",
+      "phase": "D",
+      "round": 8,
+      "clock": 228,
+      "ISR": 44,
+      "Support": 44,
+      "evidenceCount": 16,
+      "visibleConvoyValues": [
+        {
+          "convoyId": "alpha",
+          "integrity": 100,
+          "delay": 35,
+          "arrival": 245,
+          "deadline": 300,
+          "status": "moving"
+        },
+        {
+          "convoyId": "beta",
+          "integrity": 85,
+          "delay": 41,
+          "arrival": 276,
+          "deadline": 330,
+          "status": "moving"
+        },
+        {
+          "convoyId": "gamma",
+          "integrity": 100,
+          "delay": 0,
+          "arrival": 225,
+          "deadline": 315,
+          "status": "delivered"
+        },
+        {
+          "convoyId": "delta",
+          "integrity": 100,
+          "delay": 0,
+          "arrival": 250,
+          "deadline": 345,
+          "status": "moving"
+        }
+      ],
+      "viewport": {
+        "width": 1440,
+        "height": 900
+      },
+      "page": {
+        "scrollHeight": 900,
+        "clientHeight": 900,
+        "scrollWidth": 1440,
+        "clientWidth": 1440
+      },
+      "leftPane": {
+        "scrollHeight": 762,
+        "clientHeight": 438,
+        "scrollTop": 0,
+        "overflowY": "auto"
+      },
+      "mapVisible": true,
+      "mapFrame": {
+        "x": 606.78125,
+        "y": 273.140625,
+        "width": 724.828125,
+        "height": 266.9375,
+        "top": 273.140625,
+        "right": 1331.609375,
+        "bottom": 540.078125,
+        "left": 606.78125
+      },
+      "footerReachable": true,
+      "visibleConvoyCards": [
+        {
+          "id": "alpha",
+          "text": "کاروان الف\nدر حرکت\n\nتجهیزات درمانی اضطراری · تهران → مشهد\n\nسلامت عملیاتی: 100 / 100\n\nرسیدن برآوردی: T+245\n\nمهلت تحویل: T+300\n\n55 دقیقه تا مهلت\n\nتأخیر تجمعی: +35 دقیقه\n\nناوبری پشتیبان\nمسیر تقویت‌شده\nاسکورت مرحله قبل پایان یافته\nشواهد این کریدور: 5"
+        },
+        {
+          "id": "beta",
+          "text": "کاروان ب\nدر حرکت\n\nسوخت عملیاتی · بندرعباس → تهران\n\nسلامت عملیاتی: 85 / 100\n\nرسیدن برآوردی: T+276\n\nمهلت تحویل: T+330\n\n54 دقیقه تا مهلت\n\nتأخیر تجمعی: +41 دقیقه\n\nشواهد این کریدور: 4"
+        },
+        {
+          "id": "gamma",
+          "text": "کاروان ج\nتحویل‌شده\n\nقطعات ارتباطی · تبریز → تهران\n\nسلامت عملیاتی: 100 / 100\n\nرسیدن برآوردی: T+225\n\nمهلت تحویل: T+315\n\n90 دقیقه تا مهلت\n\nتأخیر تجمعی: +0 دقیقه\n\nشواهد این کریدور: 3"
+        },
+        {
+          "id": "delta",
+          "text": "کاروان د\nدر حرکت\n\nپشتیبانی مرزی · تهران → محور غرب\n\nسلامت عملیاتی: 100 / 100\n\nرسیدن برآوردی: T+250\n\nمهلت تحویل: T+345\n\n95 دقیقه تا مهلت\n\nتأخیر تجمعی: +0 دقیقه\n\nشواهد این کریدور: 4"
+        }
+      ],
+      "selectedAction": null,
+      "selectedTarget": null,
+      "endingId": null,
+      "hiddenTruthInDom": false,
+      "sliders": [],
+      "notes": []
+    },
+    {
+      "filename": "16-r8-outcome-time-breakdown-1440x900.png",
+      "runtimeStage": "outcome_review",
+      "stage": "R8 outcome",
+      "phase": "D",
+      "round": 8,
+      "clock": 360,
+      "ISR": 44,
+      "Support": 34,
+      "evidenceCount": 16,
+      "visibleConvoyValues": [
+        {
+          "convoyId": "alpha",
+          "integrity": 100,
+          "delay": 30,
+          "arrival": 240,
+          "deadline": 300,
+          "status": "delivered"
+        },
+        {
+          "convoyId": "beta",
+          "integrity": 82,
+          "delay": 43,
+          "arrival": 278,
+          "deadline": 330,
+          "status": "delivered"
+        },
+        {
+          "convoyId": "gamma",
+          "integrity": 100,
+          "delay": 0,
+          "arrival": 225,
+          "deadline": 315,
+          "status": "delivered"
+        },
+        {
+          "convoyId": "delta",
+          "integrity": 100,
+          "delay": 0,
+          "arrival": 250,
+          "deadline": 345,
+          "status": "delivered"
+        }
+      ],
+      "viewport": {
+        "width": 1440,
+        "height": 900
+      },
+      "page": {
+        "scrollHeight": 900,
+        "clientHeight": 900,
+        "scrollWidth": 1440,
+        "clientWidth": 1440
+      },
+      "leftPane": {
+        "scrollHeight": 1444,
+        "clientHeight": 475,
+        "scrollTop": 0,
+        "overflowY": "auto"
+      },
+      "mapVisible": true,
+      "mapFrame": {
+        "x": 606.78125,
+        "y": 273.140625,
+        "width": 724.828125,
+        "height": 266.9375,
+        "top": 273.140625,
+        "right": 1331.609375,
+        "bottom": 540.078125,
+        "left": 606.78125
+      },
+      "footerReachable": true,
+      "visibleConvoyCards": [
+        {
+          "id": "alpha",
+          "text": "کاروان الف\nتحویل‌شده\n\nتجهیزات درمانی اضطراری · تهران → مشهد\n\nسلامت عملیاتی: 100 / 100\n\nرسیدن برآوردی: T+240\n\nمهلت تحویل: T+300\n\n60 دقیقه تا مهلت\n\nتأخیر تجمعی: +30 دقیقه\n\nناوبری پشتیبان\nمسیر تقویت‌شده\nاسکورت مرحله قبل پایان یافته\nشواهد این کریدور: 5"
+        },
+        {
+          "id": "beta",
+          "text": "کاروان ب\nتحویل‌شده\n\nسوخت عملیاتی · بندرعباس → تهران\n\nسلامت عملیاتی: 82 / 100\n\nرسیدن برآوردی: T+278\n\nمهلت تحویل: T+330\n\n52 دقیقه تا مهلت\n\nتأخیر تجمعی: +43 دقیقه\n\nشواهد این کریدور: 4"
+        },
+        {
+          "id": "gamma",
+          "text": "کاروان ج\nتحویل‌شده\n\nقطعات ارتباطی · تبریز → تهران\n\nسلامت عملیاتی: 100 / 100\n\nرسیدن برآوردی: T+225\n\nمهلت تحویل: T+315\n\n90 دقیقه تا مهلت\n\nتأخیر تجمعی: +0 دقیقه\n\nشواهد این کریدور: 3"
+        },
+        {
+          "id": "delta",
+          "text": "کاروان د\nتحویل‌شده\n\nپشتیبانی مرزی · تهران → محور غرب\n\nسلامت عملیاتی: 100 / 100\n\nرسیدن برآوردی: T+250\n\nمهلت تحویل: T+345\n\n95 دقیقه تا مهلت\n\nتأخیر تجمعی: +0 دقیقه\n\nشواهد این کریدور: 4"
+        }
+      ],
+      "selectedAction": null,
+      "selectedTarget": null,
+      "endingId": null,
+      "hiddenTruthInDom": false,
+      "sliders": [],
+      "notes": []
+    },
+    {
+      "filename": "17-mission-ending-1440x900.png",
+      "runtimeStage": "complete",
+      "stage": "ending",
+      "phase": "D",
+      "round": 8,
+      "clock": 360,
+      "ISR": 44,
+      "Support": 34,
+      "evidenceCount": 16,
+      "visibleConvoyValues": [
+        {
+          "convoyId": "alpha",
+          "integrity": 100,
+          "delay": 30,
+          "arrival": 240,
+          "deadline": 300,
+          "status": "delivered"
+        },
+        {
+          "convoyId": "beta",
+          "integrity": 82,
+          "delay": 43,
+          "arrival": 278,
+          "deadline": 330,
+          "status": "delivered"
+        },
+        {
+          "convoyId": "gamma",
+          "integrity": 100,
+          "delay": 0,
+          "arrival": 225,
+          "deadline": 315,
+          "status": "delivered"
+        },
+        {
+          "convoyId": "delta",
+          "integrity": 100,
+          "delay": 0,
+          "arrival": 250,
+          "deadline": 345,
+          "status": "delivered"
+        }
+      ],
+      "viewport": {
+        "width": 1440,
+        "height": 900
+      },
+      "page": {
+        "scrollHeight": 5019,
+        "clientHeight": 900,
+        "scrollWidth": 1425,
+        "clientWidth": 1425
+      },
+      "leftPane": null,
+      "mapVisible": false,
+      "footerReachable": true,
+      "visibleConvoyCards": [],
+      "selectedAction": null,
+      "selectedTarget": null,
+      "endingId": "delivery_complete_threat_persistent",
+      "hiddenTruthInDom": false,
+      "sliders": [],
+      "notes": []
+    },
+    {
+      "filename": "18-why-this-ending-1440x900.png",
+      "runtimeStage": "complete",
+      "stage": "why",
+      "phase": "D",
+      "round": 8,
+      "clock": 360,
+      "ISR": 44,
+      "Support": 34,
+      "evidenceCount": 16,
+      "visibleConvoyValues": [
+        {
+          "convoyId": "alpha",
+          "integrity": 100,
+          "delay": 30,
+          "arrival": 240,
+          "deadline": 300,
+          "status": "delivered"
+        },
+        {
+          "convoyId": "beta",
+          "integrity": 82,
+          "delay": 43,
+          "arrival": 278,
+          "deadline": 330,
+          "status": "delivered"
+        },
+        {
+          "convoyId": "gamma",
+          "integrity": 100,
+          "delay": 0,
+          "arrival": 225,
+          "deadline": 315,
+          "status": "delivered"
+        },
+        {
+          "convoyId": "delta",
+          "integrity": 100,
+          "delay": 0,
+          "arrival": 250,
+          "deadline": 345,
+          "status": "delivered"
+        }
+      ],
+      "viewport": {
+        "width": 1440,
+        "height": 900
+      },
+      "page": {
+        "scrollHeight": 5019,
+        "clientHeight": 900,
+        "scrollWidth": 1425,
+        "clientWidth": 1425
+      },
+      "leftPane": null,
+      "mapVisible": false,
+      "footerReachable": true,
+      "visibleConvoyCards": [],
+      "selectedAction": null,
+      "selectedTarget": null,
+      "endingId": "delivery_complete_threat_persistent",
+      "hiddenTruthInDom": false,
+      "sliders": [],
+      "notes": []
+    },
+    {
+      "filename": "19-decision-trace-1440x900.png",
+      "runtimeStage": "complete",
+      "stage": "trace",
+      "phase": "D",
+      "round": 8,
+      "clock": 360,
+      "ISR": 44,
+      "Support": 34,
+      "evidenceCount": 16,
+      "visibleConvoyValues": [
+        {
+          "convoyId": "alpha",
+          "integrity": 100,
+          "delay": 30,
+          "arrival": 240,
+          "deadline": 300,
+          "status": "delivered"
+        },
+        {
+          "convoyId": "beta",
+          "integrity": 82,
+          "delay": 43,
+          "arrival": 278,
+          "deadline": 330,
+          "status": "delivered"
+        },
+        {
+          "convoyId": "gamma",
+          "integrity": 100,
+          "delay": 0,
+          "arrival": 225,
+          "deadline": 315,
+          "status": "delivered"
+        },
+        {
+          "convoyId": "delta",
+          "integrity": 100,
+          "delay": 0,
+          "arrival": 250,
+          "deadline": 345,
+          "status": "delivered"
+        }
+      ],
+      "viewport": {
+        "width": 1440,
+        "height": 900
+      },
+      "page": {
+        "scrollHeight": 5019,
+        "clientHeight": 900,
+        "scrollWidth": 1425,
+        "clientWidth": 1425
+      },
+      "leftPane": null,
+      "mapVisible": false,
+      "footerReachable": true,
+      "visibleConvoyCards": [],
+      "selectedAction": null,
+      "selectedTarget": null,
+      "endingId": "delivery_complete_threat_persistent",
+      "hiddenTruthInDom": false,
+      "sliders": [],
+      "notes": []
+    },
+    {
+      "filename": "20-hidden-truth-belief-timeline-1440x900.png",
+      "runtimeStage": "complete",
+      "stage": "truth",
+      "phase": "D",
+      "round": 8,
+      "clock": 360,
+      "ISR": 44,
+      "Support": 34,
+      "evidenceCount": 16,
+      "visibleConvoyValues": [
+        {
+          "convoyId": "alpha",
+          "integrity": 100,
+          "delay": 30,
+          "arrival": 240,
+          "deadline": 300,
+          "status": "delivered"
+        },
+        {
+          "convoyId": "beta",
+          "integrity": 82,
+          "delay": 43,
+          "arrival": 278,
+          "deadline": 330,
+          "status": "delivered"
+        },
+        {
+          "convoyId": "gamma",
+          "integrity": 100,
+          "delay": 0,
+          "arrival": 225,
+          "deadline": 315,
+          "status": "delivered"
+        },
+        {
+          "convoyId": "delta",
+          "integrity": 100,
+          "delay": 0,
+          "arrival": 250,
+          "deadline": 345,
+          "status": "delivered"
+        }
+      ],
+      "viewport": {
+        "width": 1440,
+        "height": 900
+      },
+      "page": {
+        "scrollHeight": 5019,
+        "clientHeight": 900,
+        "scrollWidth": 1425,
+        "clientWidth": 1425
+      },
+      "leftPane": null,
+      "mapVisible": false,
+      "footerReachable": true,
+      "visibleConvoyCards": [],
+      "selectedAction": null,
+      "selectedTarget": null,
+      "endingId": "delivery_complete_threat_persistent",
+      "hiddenTruthInDom": false,
+      "sliders": [],
+      "notes": []
+    },
+    {
+      "filename": "witness-1-critical_cargo_lost_or_compromised-1440x900.png",
+      "runtimeStage": "complete",
+      "stage": "completed deterministic witness",
+      "phase": "D",
+      "round": 8,
+      "clock": 360,
+      "ISR": 42,
+      "Support": 84,
+      "evidenceCount": 12,
+      "visibleConvoyValues": [
+        {
+          "convoyId": "alpha",
+          "integrity": 54,
+          "delay": 122,
+          "arrival": 332,
+          "deadline": 300,
+          "status": "compromised"
+        },
+        {
+          "convoyId": "beta",
+          "integrity": 99,
+          "delay": 0,
+          "arrival": 235,
+          "deadline": 330,
+          "status": "delivered"
+        },
+        {
+          "convoyId": "gamma",
+          "integrity": 100,
+          "delay": 0,
+          "arrival": 225,
+          "deadline": 315,
+          "status": "delivered"
+        },
+        {
+          "convoyId": "delta",
+          "integrity": 100,
+          "delay": 25,
+          "arrival": 275,
+          "deadline": 345,
+          "status": "delivered"
+        }
+      ],
+      "viewport": {
+        "width": 1440,
+        "height": 900
+      },
+      "page": {
+        "scrollHeight": 4981,
+        "clientHeight": 900,
+        "scrollWidth": 1425,
+        "clientWidth": 1425
+      },
+      "leftPane": null,
+      "mapVisible": false,
+      "footerReachable": true,
+      "visibleConvoyCards": [],
+      "selectedAction": null,
+      "selectedTarget": null,
+      "endingId": "critical_cargo_lost_or_compromised",
+      "hiddenTruthInDom": false,
+      "sliders": [],
+      "notes": [
+        "Real browser rendering of an unmodified frozen-engine witness; QA harness, not a production route."
+      ]
+    },
+    {
+      "filename": "witness-2-priority_delivered_network_degradation-1440x900.png",
+      "runtimeStage": "complete",
+      "stage": "completed deterministic witness",
+      "phase": "D",
+      "round": 8,
+      "clock": 360,
+      "ISR": 68,
+      "Support": 6,
+      "evidenceCount": 8,
+      "visibleConvoyValues": [
+        {
+          "convoyId": "alpha",
+          "integrity": 100,
+          "delay": 0,
+          "arrival": 210,
+          "deadline": 300,
+          "status": "delivered"
+        },
+        {
+          "convoyId": "beta",
+          "integrity": 100,
+          "delay": 0,
+          "arrival": 235,
+          "deadline": 330,
+          "status": "delivered"
+        },
+        {
+          "convoyId": "gamma",
+          "integrity": 100,
+          "delay": 0,
+          "arrival": 225,
+          "deadline": 315,
+          "status": "delivered"
+        },
+        {
+          "convoyId": "delta",
+          "integrity": 73,
+          "delay": 104,
+          "arrival": 354,
+          "deadline": 345,
+          "status": "delivered"
+        }
+      ],
+      "viewport": {
+        "width": 1440,
+        "height": 900
+      },
+      "page": {
+        "scrollHeight": 4996,
+        "clientHeight": 900,
+        "scrollWidth": 1425,
+        "clientWidth": 1425
+      },
+      "leftPane": null,
+      "mapVisible": false,
+      "footerReachable": true,
+      "visibleConvoyCards": [],
+      "selectedAction": null,
+      "selectedTarget": null,
+      "endingId": "priority_delivered_network_degradation",
+      "hiddenTruthInDom": false,
+      "sliders": [],
+      "notes": [
+        "Real browser rendering of an unmodified frozen-engine witness; QA harness, not a production route."
+      ]
+    },
+    {
+      "filename": "witness-3-mission_incomplete_continuity_preserved-1440x900.png",
+      "runtimeStage": "complete",
+      "stage": "completed deterministic witness",
+      "phase": "D",
+      "round": 8,
+      "clock": 360,
+      "ISR": 20,
+      "Support": 70,
+      "evidenceCount": 16,
+      "visibleConvoyValues": [
+        {
+          "convoyId": "alpha",
+          "integrity": 62,
+          "delay": 154,
+          "arrival": 364,
+          "deadline": 300,
+          "status": "moving"
+        },
+        {
+          "convoyId": "beta",
+          "integrity": 99,
+          "delay": 2,
+          "arrival": 237,
+          "deadline": 330,
+          "status": "delivered"
+        },
+        {
+          "convoyId": "gamma",
+          "integrity": 100,
+          "delay": 0,
+          "arrival": 225,
+          "deadline": 315,
+          "status": "delivered"
+        },
+        {
+          "convoyId": "delta",
+          "integrity": 100,
+          "delay": 0,
+          "arrival": 250,
+          "deadline": 345,
+          "status": "delivered"
+        }
+      ],
+      "viewport": {
+        "width": 1440,
+        "height": 900
+      },
+      "page": {
+        "scrollHeight": 4973,
+        "clientHeight": 900,
+        "scrollWidth": 1425,
+        "clientWidth": 1425
+      },
+      "leftPane": null,
+      "mapVisible": false,
+      "footerReachable": true,
+      "visibleConvoyCards": [],
+      "selectedAction": null,
+      "selectedTarget": null,
+      "endingId": "mission_incomplete_continuity_preserved",
+      "hiddenTruthInDom": false,
+      "sliders": [],
+      "notes": [
+        "Real browser rendering of an unmodified frozen-engine witness; QA harness, not a production route."
+      ]
+    },
+    {
+      "filename": "witness-4-delivery_complete_threat_persistent-1440x900.png",
+      "runtimeStage": "complete",
+      "stage": "completed deterministic witness",
+      "phase": "D",
+      "round": 8,
+      "clock": 360,
+      "ISR": 70,
+      "Support": 52,
+      "evidenceCount": 13,
+      "visibleConvoyValues": [
+        {
+          "convoyId": "alpha",
+          "integrity": 100,
+          "delay": 15,
+          "arrival": 225,
+          "deadline": 300,
+          "status": "delivered"
+        },
+        {
+          "convoyId": "beta",
+          "integrity": 100,
+          "delay": 0,
+          "arrival": 235,
+          "deadline": 330,
+          "status": "delivered"
+        },
+        {
+          "convoyId": "gamma",
+          "integrity": 100,
+          "delay": 0,
+          "arrival": 225,
+          "deadline": 315,
+          "status": "delivered"
+        },
+        {
+          "convoyId": "delta",
+          "integrity": 79,
+          "delay": 72,
+          "arrival": 322,
+          "deadline": 345,
+          "status": "delivered"
+        }
+      ],
+      "viewport": {
+        "width": 1440,
+        "height": 900
+      },
+      "page": {
+        "scrollHeight": 4973,
+        "clientHeight": 900,
+        "scrollWidth": 1425,
+        "clientWidth": 1425
+      },
+      "leftPane": null,
+      "mapVisible": false,
+      "footerReachable": true,
+      "visibleConvoyCards": [],
+      "selectedAction": null,
+      "selectedTarget": null,
+      "endingId": "delivery_complete_threat_persistent",
+      "hiddenTruthInDom": false,
+      "sliders": [],
+      "notes": [
+        "Real browser rendering of an unmodified frozen-engine witness; QA harness, not a production route."
+      ]
+    },
+    {
+      "filename": "witness-5-delivery_complete_attribution_unresolved-1440x900.png",
+      "runtimeStage": "complete",
+      "stage": "completed deterministic witness",
+      "phase": "D",
+      "round": 8,
+      "clock": 360,
+      "ISR": 70,
+      "Support": 70,
+      "evidenceCount": 13,
+      "visibleConvoyValues": [
+        {
+          "convoyId": "alpha",
+          "integrity": 100,
+          "delay": 35,
+          "arrival": 245,
+          "deadline": 300,
+          "status": "delivered"
+        },
+        {
+          "convoyId": "beta",
+          "integrity": 100,
+          "delay": 0,
+          "arrival": 235,
+          "deadline": 330,
+          "status": "delivered"
+        },
+        {
+          "convoyId": "gamma",
+          "integrity": 100,
+          "delay": 0,
+          "arrival": 225,
+          "deadline": 315,
+          "status": "delivered"
+        },
+        {
+          "convoyId": "delta",
+          "integrity": 79,
+          "delay": 47,
+          "arrival": 297,
+          "deadline": 345,
+          "status": "delivered"
+        }
+      ],
+      "viewport": {
+        "width": 1440,
+        "height": 900
+      },
+      "page": {
+        "scrollHeight": 5005,
+        "clientHeight": 900,
+        "scrollWidth": 1425,
+        "clientWidth": 1425
+      },
+      "leftPane": null,
+      "mapVisible": false,
+      "footerReachable": true,
+      "visibleConvoyCards": [],
+      "selectedAction": null,
+      "selectedTarget": null,
+      "endingId": "delivery_complete_attribution_unresolved",
+      "hiddenTruthInDom": false,
+      "sliders": [],
+      "notes": [
+        "Real browser rendering of an unmodified frozen-engine witness; QA harness, not a production route."
+      ]
+    },
+    {
+      "filename": "witness-6-delivery_complete_threat_contained-1440x900.png",
+      "runtimeStage": "complete",
+      "stage": "completed deterministic witness",
+      "phase": "D",
+      "round": 8,
+      "clock": 360,
+      "ISR": 78,
+      "Support": 12,
+      "evidenceCount": 10,
+      "visibleConvoyValues": [
+        {
+          "convoyId": "alpha",
+          "integrity": 62,
+          "delay": 87,
+          "arrival": 297,
+          "deadline": 300,
+          "status": "delivered"
+        },
+        {
+          "convoyId": "beta",
+          "integrity": 100,
+          "delay": 10,
+          "arrival": 245,
+          "deadline": 330,
+          "status": "delivered"
+        },
+        {
+          "convoyId": "gamma",
+          "integrity": 100,
+          "delay": 0,
+          "arrival": 225,
+          "deadline": 315,
+          "status": "delivered"
+        },
+        {
+          "convoyId": "delta",
+          "integrity": 100,
+          "delay": 20,
+          "arrival": 270,
+          "deadline": 345,
+          "status": "delivered"
+        }
+      ],
+      "viewport": {
+        "width": 1440,
+        "height": 900
+      },
+      "page": {
+        "scrollHeight": 5068,
+        "clientHeight": 900,
+        "scrollWidth": 1425,
+        "clientWidth": 1425
+      },
+      "leftPane": null,
+      "mapVisible": false,
+      "footerReachable": true,
+      "visibleConvoyCards": [],
+      "selectedAction": null,
+      "selectedTarget": null,
+      "endingId": "delivery_complete_threat_contained",
+      "hiddenTruthInDom": false,
+      "sliders": [],
+      "notes": [
+        "Real browser rendering of an unmodified frozen-engine witness; QA harness, not a production route."
+      ]
+    }
+  ],
+  "layoutChecks": [
+    {
+      "filename": "02-r1-decision-1440x900.png",
+      "width": 1280,
+      "height": 720,
+      "scrollHeight": 720,
+      "scrollWidth": 1280,
+      "mapHeight": 207.96875,
+      "mapBottom": 403.609375,
+      "footerBottom": 601.609375
+    },
+    {
+      "filename": "02-r1-decision-1440x900.png",
+      "width": 1366,
+      "height": 768,
+      "scrollHeight": 768,
+      "scrollWidth": 1366,
+      "mapHeight": 255.96875,
+      "mapBottom": 451.609375,
+      "footerBottom": 649.609375
+    },
+    {
+      "filename": "03-r1-outcome-1440x900.png",
+      "width": 1280,
+      "height": 720,
+      "scrollHeight": 720,
+      "scrollWidth": 1280,
+      "mapHeight": 161.875,
+      "mapBottom": 403.609375,
+      "footerBottom": 620
+    },
+    {
+      "filename": "03-r1-outcome-1440x900.png",
+      "width": 1366,
+      "height": 768,
+      "scrollHeight": 768,
+      "scrollWidth": 1366,
+      "mapHeight": 209.875,
+      "mapBottom": 451.609375,
+      "footerBottom": 668
+    },
+    {
+      "filename": "04-prebelief-1440x900.png",
+      "width": 1280,
+      "height": 720,
+      "scrollHeight": 720,
+      "scrollWidth": 1280,
+      "mapHeight": 161.875,
+      "mapBottom": 403.609375,
+      "footerBottom": 620
+    },
+    {
+      "filename": "04-prebelief-1440x900.png",
+      "width": 1366,
+      "height": 768,
+      "scrollHeight": 768,
+      "scrollWidth": 1366,
+      "mapHeight": 209.875,
+      "mapBottom": 451.609375,
+      "footerBottom": 668
+    },
+    {
+      "filename": "05-r2-target-selection-1440x900.png",
+      "width": 1280,
+      "height": 720,
+      "scrollHeight": 720,
+      "scrollWidth": 1280,
+      "mapHeight": 155,
+      "mapBottom": 420.734375,
+      "footerBottom": 601.609375
+    },
+    {
+      "filename": "05-r2-target-selection-1440x900.png",
+      "width": 1366,
+      "height": 768,
+      "scrollHeight": 768,
+      "scrollWidth": 1366,
+      "mapHeight": 185.875,
+      "mapBottom": 451.609375,
+      "footerBottom": 649.609375
+    },
+    {
+      "filename": "06-postbelief-1440x900.png",
+      "width": 1280,
+      "height": 720,
+      "scrollHeight": 720,
+      "scrollWidth": 1280,
+      "mapHeight": 161.875,
+      "mapBottom": 403.609375,
+      "footerBottom": 620
+    },
+    {
+      "filename": "06-postbelief-1440x900.png",
+      "width": 1366,
+      "height": 768,
+      "scrollHeight": 768,
+      "scrollWidth": 1366,
+      "mapHeight": 209.875,
+      "mapBottom": 451.609375,
+      "footerBottom": 668
+    },
+    {
+      "filename": "07-r3-decision-1440x900.png",
+      "width": 1280,
+      "height": 720,
+      "scrollHeight": 720,
+      "scrollWidth": 1280,
+      "mapHeight": 161.875,
+      "mapBottom": 403.609375,
+      "footerBottom": 601.609375
+    },
+    {
+      "filename": "07-r3-decision-1440x900.png",
+      "width": 1366,
+      "height": 768,
+      "scrollHeight": 768,
+      "scrollWidth": 1366,
+      "mapHeight": 209.875,
+      "mapBottom": 451.609375,
+      "footerBottom": 649.609375
+    },
+    {
+      "filename": "08-r4-reroute-selected-1440x900.png",
+      "width": 1280,
+      "height": 720,
+      "scrollHeight": 720,
+      "scrollWidth": 1280,
+      "mapHeight": 155,
+      "mapBottom": 420.734375,
+      "footerBottom": 601.609375
+    },
+    {
+      "filename": "08-r4-reroute-selected-1440x900.png",
+      "width": 1366,
+      "height": 768,
+      "scrollHeight": 768,
+      "scrollWidth": 1366,
+      "mapHeight": 185.875,
+      "mapBottom": 451.609375,
+      "footerBottom": 649.609375
+    },
+    {
+      "filename": "09-r4-outcome-reroute-map-1440x900.png",
+      "width": 1280,
+      "height": 720,
+      "scrollHeight": 720,
+      "scrollWidth": 1280,
+      "mapHeight": 161.875,
+      "mapBottom": 403.609375,
+      "footerBottom": 620
+    },
+    {
+      "filename": "09-r4-outcome-reroute-map-1440x900.png",
+      "width": 1366,
+      "height": 768,
+      "scrollHeight": 768,
+      "scrollWidth": 1366,
+      "mapHeight": 209.875,
+      "mapBottom": 451.609375,
+      "footerBottom": 668
+    },
+    {
+      "filename": "10-r5-resilience-1440x900.png",
+      "width": 1280,
+      "height": 720,
+      "scrollHeight": 720,
+      "scrollWidth": 1280,
+      "mapHeight": 155,
+      "mapBottom": 420.734375,
+      "footerBottom": 601.609375
+    },
+    {
+      "filename": "10-r5-resilience-1440x900.png",
+      "width": 1366,
+      "height": 768,
+      "scrollHeight": 768,
+      "scrollWidth": 1366,
+      "mapHeight": 185.875,
+      "mapBottom": 451.609375,
+      "footerBottom": 649.609375
+    },
+    {
+      "filename": "11-r6-resource-preview-1440x900.png",
+      "width": 1280,
+      "height": 720,
+      "scrollHeight": 720,
+      "scrollWidth": 1280,
+      "mapHeight": 161.875,
+      "mapBottom": 403.609375,
+      "footerBottom": 601.609375
+    },
+    {
+      "filename": "11-r6-resource-preview-1440x900.png",
+      "width": 1366,
+      "height": 768,
+      "scrollHeight": 768,
+      "scrollWidth": 1366,
+      "mapHeight": 209.875,
+      "mapBottom": 451.609375,
+      "footerBottom": 649.609375
+    },
+    {
+      "filename": "12-c-belief-1440x900.png",
+      "width": 1280,
+      "height": 720,
+      "scrollHeight": 720,
+      "scrollWidth": 1280,
+      "mapHeight": 161.875,
+      "mapBottom": 403.609375,
+      "footerBottom": 620
+    },
+    {
+      "filename": "12-c-belief-1440x900.png",
+      "width": 1366,
+      "height": 768,
+      "scrollHeight": 768,
+      "scrollWidth": 1366,
+      "mapHeight": 209.875,
+      "mapBottom": 451.609375,
+      "footerBottom": 668
+    },
+    {
+      "filename": "13-r7-decision-1440x900.png",
+      "width": 1280,
+      "height": 720,
+      "scrollHeight": 720,
+      "scrollWidth": 1280,
+      "mapHeight": 161.875,
+      "mapBottom": 403.609375,
+      "footerBottom": 601.609375
+    },
+    {
+      "filename": "13-r7-decision-1440x900.png",
+      "width": 1366,
+      "height": 768,
+      "scrollHeight": 768,
+      "scrollWidth": 1366,
+      "mapHeight": 209.875,
+      "mapBottom": 451.609375,
+      "footerBottom": 649.609375
+    },
+    {
+      "filename": "14-final-belief-1440x900.png",
+      "width": 1280,
+      "height": 720,
+      "scrollHeight": 720,
+      "scrollWidth": 1280,
+      "mapHeight": 161.875,
+      "mapBottom": 403.609375,
+      "footerBottom": 620
+    },
+    {
+      "filename": "14-final-belief-1440x900.png",
+      "width": 1366,
+      "height": 768,
+      "scrollHeight": 768,
+      "scrollWidth": 1366,
+      "mapHeight": 209.875,
+      "mapBottom": 451.609375,
+      "footerBottom": 668
+    },
+    {
+      "filename": "15-r8-decision-1440x900.png",
+      "width": 1280,
+      "height": 720,
+      "scrollHeight": 720,
+      "scrollWidth": 1280,
+      "mapHeight": 161.875,
+      "mapBottom": 403.609375,
+      "footerBottom": 601.609375
+    },
+    {
+      "filename": "15-r8-decision-1440x900.png",
+      "width": 1366,
+      "height": 768,
+      "scrollHeight": 768,
+      "scrollWidth": 1366,
+      "mapHeight": 209.875,
+      "mapBottom": 451.609375,
+      "footerBottom": 649.609375
+    },
+    {
+      "filename": "16-r8-outcome-time-breakdown-1440x900.png",
+      "width": 1280,
+      "height": 720,
+      "scrollHeight": 720,
+      "scrollWidth": 1280,
+      "mapHeight": 161.875,
+      "mapBottom": 403.609375,
+      "footerBottom": 620
+    },
+    {
+      "filename": "16-r8-outcome-time-breakdown-1440x900.png",
+      "width": 1366,
+      "height": 768,
+      "scrollHeight": 768,
+      "scrollWidth": 1366,
+      "mapHeight": 209.875,
+      "mapBottom": 451.609375,
+      "footerBottom": 668
+    }
+  ],
+  "explicitEvidenceOpenCount": 1,
+  "completionEventCount": 1,
+  "passiveEvidenceTelemetry": "PASS",
+  "liveHiddenTruthFirewall": "PASS"
+}

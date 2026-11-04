@@ -2,6 +2,8 @@ import { useEffect, useRef, useState } from "react";
 import type { CorridorId } from "./scenario-five/model/index";
 import type { ScenarioFiveEvidenceSummary, ScenarioFivePlayerConvoy } from "./ScenarioFiveTypes";
 import { SCENARIO5_CORRIDOR_CONTENT_FA, SCENARIO5_STATUS_LABELS_FA } from "./scenario-five/ui/index";
+import { alternateRouteControlPoint, deadlineMargin, ESCORT_EXPIRED, marginLabel, mitigationLabels, routePresentationPoint } from "./scenario-five/ui/gameplayPresentation";
+import { ScenarioFiveClockIcon } from "./scenario-five/ui/ScenarioFiveTime";
 
 const POINTS = {
   tehran: { x: 428, y: 200 }, mashhad: { x: 612, y: 175 }, bandar: { x: 541, y: 462 },
@@ -34,17 +36,36 @@ const convoySignature = (convoy: ScenarioFivePlayerConvoy): string => JSON.strin
 
 export const ScenarioFiveMap = ({
   convoys, worldClockMinutes, highlightedCorridorId, globalRoutePulse, evidence,
+  legalTargets = [], onSelectTarget, reroutes = [], checkpoints = [], expiredEscortCorridors = [],
 }: {
   convoys: readonly ScenarioFivePlayerConvoy[];
   evidence: readonly ScenarioFiveEvidenceSummary[];
   worldClockMinutes: number;
   highlightedCorridorId: CorridorId | null;
   globalRoutePulse: boolean;
+  legalTargets?: readonly CorridorId[];
+  onSelectTarget?: (id: CorridorId) => void;
+  reroutes?: readonly CorridorId[];
+  checkpoints?: readonly CorridorId[];
+  expiredEscortCorridors?: readonly CorridorId[];
 }) => {
   const previousVisualProgressRef = useRef(new Map(convoys.map((convoy) => [convoy.convoyId, desiredVisualProgress(convoy, worldClockMinutes)])));
   const previousSignatureRef = useRef(new Map(convoys.map((convoy) => [convoy.convoyId, convoySignature(convoy)])));
   const [visualProgress, setVisualProgress] = useState(() => Object.fromEntries(previousVisualProgressRef.current));
   const [pulsingConvoys, setPulsingConvoys] = useState<ReadonlySet<string>>(new Set());
+  const previousEvidenceRef = useRef(new Set(evidence.map(e => e.evidenceId)));
+  const [freshCorridors, setFreshCorridors] = useState<ReadonlySet<CorridorId>>(new Set());
+  useEffect(() => {
+    const fresh = evidence.filter(e => !previousEvidenceRef.current.has(e.evidenceId));
+    previousEvidenceRef.current = new Set(evidence.map(e => e.evidenceId));
+    if (!fresh.length) return;
+    setFreshCorridors(new Set(fresh.flatMap(e => e.observedCorridorId ? [e.observedCorridorId] : [])));
+  }, [evidence]);
+  useEffect(() => {
+    if (!freshCorridors.size) return;
+    const timer = window.setTimeout(() => setFreshCorridors(new Set()), 1500);
+    return () => window.clearTimeout(timer);
+  }, [freshCorridors]);
 
   useEffect(() => {
     const nextProgress: Record<string, number> = {};
@@ -69,40 +90,54 @@ export const ScenarioFiveMap = ({
     }
     if (changed.size === 0) return;
     setPulsingConvoys(changed);
+  }, [convoys]);
+  useEffect(() => {
+    if (!pulsingConvoys.size) return;
     const timer = window.setTimeout(() => setPulsingConvoys(new Set()), 1500);
     return () => window.clearTimeout(timer);
-  }, [convoys]);
+  }, [pulsingConvoys]);
 
   return (
     <section className="s5-panel s5-map-panel" aria-labelledby="s5-map-title">
       <div className="s5-section-heading s5-map-heading">
-        <div><span>نمای عملیاتی</span><h3 id="s5-map-title">شبکه چهار کریدور</h3></div>
-        <div className="s5-map-clock"><b>T+{worldClockMinutes}</b>
+        <div><span>نمای عملیاتی</span><h3 id="s5-map-title">شبکه چهار کریدور</h3><small>{onSelectTarget ? 'انتخاب هدف: نقشه یا فهرست سمت چپ' : 'جابه‌جایی کاروان‌ها بر اساس زمان عملیاتی'}</small></div>
+        <div className="s5-map-clock"><b><ScenarioFiveClockIcon /> زمان فعلی نقشه: <bdi dir="ltr">T+{worldClockMinutes}</bdi> دقیقه</b>
           {evidence.some((item) => item.observedCorridorId === null) && <small>شواهد چندمحوره: {evidence.filter((item) => item.observedCorridorId === null).length}</small>}
         </div>
       </div>
       <div className="s5-map-frame">
-        <svg viewBox="130 34 720 540" role="img" aria-label="نقشه عملیاتی چهار کریدور سناریو ۲">
+        <svg viewBox="130 34 720 540" role="group" aria-label="نقشه عملیاتی چهار کریدور سناریو ۲">
           <image href="/vendor/iranmap/iranmap.svg" x="130" y="34" width="720" height="540" preserveAspectRatio="xMidYMid meet" className="s5-iran-base-image" />
           {(Object.keys(ROUTES) as CorridorId[]).map((corridorId) => {
             const route = ROUTES[corridorId];
             const convoy = convoys.find((item) => item.corridorId === corridorId)!;
             const highlighted = highlightedCorridorId === corridorId;
             const evidenceCount = evidence.filter((item) => item.observedCorridorId === corridorId).length;
-            return <g key={corridorId}>
-              <line x1={route.from.x} y1={route.from.y} x2={route.to.x} y2={route.to.y} className={`s5-route s5-status-${convoy.status} ${highlighted ? "s5-highlighted" : ""} ${globalRoutePulse ? "s5-global-pulse" : ""}`} />
+            const rerouted = reroutes.includes(corridorId);
+            const selectable = legalTargets.includes(corridorId) && !!onSelectTarget;
+            const midX = (route.from.x + route.to.x) / 2;
+            const midY = (route.from.y + route.to.y) / 2;
+            const control = alternateRouteControlPoint(route);
+            return <g key={corridorId} className={freshCorridors.has(corridorId) ? 's5-fresh-evidence' : ''}>
+              <title>{`${SCENARIO5_CORRIDOR_CONTENT_FA[corridorId].targetLabel}؛ شاهد ${evidenceCount}؛ ${mitigationLabels(convoy).join('، ')}`}</title>
+              <line x1={route.from.x} y1={route.from.y} x2={route.to.x} y2={route.to.y} className={`s5-route s5-status-${convoy.status} ${rerouted ? 's5-original-route' : ''} ${highlighted ? "s5-highlighted" : ""} ${globalRoutePulse ? "s5-global-pulse" : ""}`} />
+              {rerouted && <g className="s5-alternate-route"><path data-corridor-id={corridorId} d={`M${route.from.x} ${route.from.y} Q${control.x} ${control.y} ${route.to.x} ${route.to.y}`} /><text x={midX + 25} y={midY - 45} textAnchor="middle">مسیر جایگزین</text></g>}
+              {convoy.routeHardened && checkpoints.includes(corridorId) && <g className="s5-checkpoints"><title>نقاط کنترل فعال</title>{[.25,.5,.75].map(t => <circle key={t} cx={route.from.x + (route.to.x-route.from.x)*t} cy={route.from.y + (route.to.y-route.from.y)*t} r="5" />)}</g>}
+              {selectable && <line role="button" tabIndex={0} aria-label={`انتخاب ${SCENARIO5_CORRIDOR_CONTENT_FA[corridorId].targetLabel}`} aria-pressed={highlighted}
+                className="s5-route-hit" x1={route.from.x} y1={route.from.y} x2={route.to.x} y2={route.to.y}
+                onClick={() => onSelectTarget(corridorId)} onKeyDown={e => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); onSelectTarget(corridorId); } }} />}
               <circle cx={route.from.x} cy={route.from.y} r="5" className={`s5-route-endpoint ${highlighted ? "s5-highlighted" : ""}`} />
               <circle cx={route.to.x} cy={route.to.y} r="5" className={`s5-route-endpoint ${highlighted ? "s5-highlighted" : ""}`} />
-              {evidenceCount > 0 && <g className="s5-route-evidence-badge" transform={`translate(${(route.from.x + route.to.x) / 2}, ${(route.from.y + route.to.y) / 2 - 25})`}>
+              <g className="s5-route-evidence-badge" transform={`translate(${(route.from.x + route.to.x) / 2}, ${(route.from.y + route.to.y) / 2 - 25})`}>
                 <rect x="-37" y="-13" width="74" height="26" rx="10" />
                 <text textAnchor="middle" dominantBaseline="central" direction="rtl">شاهد {evidenceCount}</text>
-              </g>}
+              </g>
             </g>;
           })}
           {convoys.map((convoy) => {
             const route = ROUTES[convoy.corridorId];
             const progress = visualProgress[convoy.convoyId] ?? 0;
-            const routePoint = { x: route.from.x + (route.to.x - route.from.x) * progress, y: route.from.y + (route.to.y - route.from.y) * progress };
+            const routePoint = routePresentationPoint(route, progress, reroutes.includes(convoy.corridorId));
             const originSeparationWeight = clamp(1 - progress / 0.08, 0, 1);
             const originOffset = ORIGIN_DECONFLICTION[convoy.convoyId] ?? { x: 0, y: 0 };
             const displayPoint = {
@@ -114,6 +149,11 @@ export const ScenarioFiveMap = ({
               key={convoy.convoyId}
               data-convoy-id={convoy.convoyId}
               data-visual-progress={progress}
+              role={legalTargets.includes(convoy.corridorId) && onSelectTarget ? 'button' : undefined}
+              tabIndex={legalTargets.includes(convoy.corridorId) && onSelectTarget ? 0 : undefined}
+              aria-label={SCENARIO5_CORRIDOR_CONTENT_FA[convoy.corridorId].targetLabel}
+              onClick={() => legalTargets.includes(convoy.corridorId) && onSelectTarget?.(convoy.corridorId)}
+              onKeyDown={e => { if ((e.key === 'Enter' || e.key === ' ') && legalTargets.includes(convoy.corridorId)) { e.preventDefault(); onSelectTarget?.(convoy.corridorId); } }}
               style={{ transform: `translate(${displayPoint.x}px, ${displayPoint.y}px)` }}
               className={`s5-convoy-marker s5-status-${convoy.status} ${highlightedCorridorId === convoy.corridorId ? "s5-highlighted" : ""} ${pulsingConvoys.has(convoy.convoyId) ? "s5-state-changed" : ""}`}
             >
@@ -136,12 +176,23 @@ export const ScenarioFiveMap = ({
       <div className="s5-convoy-strip">
         {convoys.map((convoy) => {
           const content = SCENARIO5_CORRIDOR_CONTENT_FA[convoy.corridorId];
-          const mitigations = [convoy.fallbackNav ? "NAV" : null, convoy.routeHardened ? "H" : null, convoy.groundSupport ? "G" : null, convoy.escortedNow ? "E" : null].filter((item): item is string => item !== null);
-          return <article key={convoy.convoyId} className={`s5-convoy-mini s5-status-${convoy.status}`}>
+          const mitigations = [...mitigationLabels(convoy), ...(convoy.routeHardened && checkpoints.includes(convoy.corridorId) ? ['نقاط کنترل فعال'] : [])];
+          return <article key={convoy.convoyId} data-convoy-card={convoy.convoyId} className={`s5-convoy-mini s5-status-${convoy.status} ${highlightedCorridorId === convoy.corridorId ? 's5-selected' : ''}`}>
             <header><strong>{content.convoyLabel}</strong><span>{SCENARIO5_STATUS_LABELS_FA[convoy.status]}</span></header>
-            <div><span>یکپارچگی {convoy.integrity}</span><span>تأخیر {convoy.delayMinutes}′</span></div>
-            <small>ETA T+{convoy.projectedArrivalMinute} / D T+{convoy.deadlineMinute}</small>
+            <p>{content.cargoLabel} · <bdi>{content.routeLabel}</bdi></p>
+            <p>سلامت عملیاتی: <bdi dir="ltr">{convoy.integrity} / 100</bdi></p>
+            <p>رسیدن برآوردی: <bdi dir="ltr">T+{convoy.projectedArrivalMinute}</bdi> دقیقه</p>
+            <p>مهلت تحویل: <bdi dir="ltr">T+{convoy.deadlineMinute}</bdi> دقیقه</p>
+            <p>{marginLabel(deadlineMargin(convoy))}</p>
+            <p>تأخیر تجمعی: +{convoy.delayMinutes} دقیقه</p>
             {mitigations.length > 0 && <div className="s5-mini-badges">{mitigations.map((item) => <b key={item}>{item}</b>)}</div>}
+            {expiredEscortCorridors.includes(convoy.corridorId) && !convoy.escortedNow && <small>{ESCORT_EXPIRED}</small>}
+            {onSelectTarget && <button type="button" className="s5-map-target" disabled={!legalTargets.includes(convoy.corridorId)} aria-pressed={highlightedCorridorId === convoy.corridorId} onClick={() => onSelectTarget(convoy.corridorId)}>انتخاب هدف</button>}
+            <details><summary>شواهد این کریدور: {evidence.filter(e => e.observedCorridorId === convoy.corridorId).length}</summary>
+              <p>{evidence.filter(e => e.observedCorridorId === convoy.corridorId && e.direction === 'supports_targeted').length} مشاهده سازگار با اخلال هدفمند</p>
+              <p>{evidence.filter(e => e.observedCorridorId === convoy.corridorId && e.direction === 'ambiguous').length} مشاهده مبهم / چندتفسیره</p>
+              <p>{evidence.filter(e => e.observedCorridorId === convoy.corridorId && e.direction === 'supports_nonhostile').length} مشاهده بیشتر سازگار با علت غیرخصمانه</p>
+            </details>
           </article>;
         })}
       </div>

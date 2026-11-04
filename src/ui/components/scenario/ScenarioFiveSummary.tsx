@@ -1,4 +1,7 @@
-import type { ReactNode } from "react";
+import { useEffect, useRef, useState, type ReactNode } from "react";
+import { ScenarioFiveMissionEnding } from "./scenario-five/ui/ScenarioFiveMissionEnding";
+import { ScenarioFiveCognitiveDashboard, ScenarioFiveCognitiveUnavailable } from "./scenario-five/ui/ScenarioFiveCognitiveDashboard";
+import { currentRunCognitive } from "./scenario-five/ui/cognitiveDashboardPresentation";
 import type { Scenario5RuntimeResult, Scenario5RuntimeState } from "./scenario-five/model/runtime/index";
 import {
   SCENARIO5_ACTION_COPY_FA,
@@ -45,13 +48,37 @@ const AarStat = ({
 );
 
 export const ScenarioFiveSummary = ({
+  runtimeState, result, onComplete,
+}: {
+  runtimeState: Scenario5RuntimeState | null;
+  result: Scenario5RuntimeResult | null;
+  onComplete: () => void;
+}) => {
+  const [screen, setScreen] = useState<'mission' | 'cognitive' | 'technical'>('mission');
+  const missionEntry = useRef<'top' | 'trace'>('top');
+  useEffect(() => {
+    if (screen !== 'mission') return;
+    if (missionEntry.current === 'trace') document.querySelector('.s5-ending #s5-trace')?.scrollIntoView({ block: 'start' });
+    else document.querySelector('.s5-ending')?.scrollTo(0, 0);
+  }, [screen]);
+  const cognitive = currentRunCognitive(runtimeState, result);
+  if (!cognitive || !runtimeState || !result) return <ScenarioFiveCognitiveUnavailable onComplete={onComplete} />;
+  const goMission = (entry: 'top' | 'trace' = 'top') => { missionEntry.current = entry; setScreen('mission'); };
+  if (screen === 'cognitive') return <ScenarioFiveCognitiveDashboard cognitive={cognitive} onBack={() => goMission()} onComplete={onComplete} onTechnical={() => setScreen('technical')} onReviewTrace={() => goMission('trace')} />;
+  if (screen === 'technical') return <ScenarioFiveTechnicalReport runtimeState={runtimeState} result={result} onComplete={onComplete} onBack={() => setScreen('cognitive')} />;
+  return <ScenarioFiveMissionEnding state={runtimeState} result={result} onCognitiveEntry={() => setScreen('cognitive')} onComplete={onComplete} />;
+};
+
+const ScenarioFiveTechnicalReport = ({
   runtimeState,
   result,
   onComplete,
+  onBack,
 }: {
   runtimeState: Scenario5RuntimeState;
   result: Scenario5RuntimeResult;
   onComplete: () => void;
+  onBack: () => void;
 }) => {
   const aar = buildScenario5AarView(runtimeState, result);
   const { domain, cognitive } = result;
@@ -60,6 +87,7 @@ export const ScenarioFiveSummary = ({
   const reasonByPhase = new Map(runtimeState.reasons.map((reason) => [reason.phaseId, reason.reasonId]));
   return (
     <main className="s5-root s5-aar" dir="rtl">
+      <button type="button" className="s5-secondary-button" onClick={onBack}>بازگشت به الگوی تصمیم‌گیری</button>
       <header className="s5-aar-header">
         <span>گزارش پس از اقدام</span>
         <h1>امواج خاموش — تحلیل اجرای مأموریت</h1>
@@ -73,7 +101,7 @@ export const ScenarioFiveSummary = ({
           <AarStat label="تحویل کاروان الف" value={yesNo(alpha.deliveredByMissionHorizon)} />
           <AarStat label="یکپارچگی کاروان الف" value={alpha.integrity} />
           <AarStat label="تأخیر کاروان الف" value={`${alpha.delayMinutes} دقیقه`} />
-          <AarStat label="ورود / مهلت" value={`T+${alpha.projectedArrivalMinute} / T+${alpha.deadlineMinute}`} />
+          <AarStat label="رسیدن برآوردی / مهلت تحویل (دقیقه از آغاز)" value={`T+${alpha.projectedArrivalMinute} / T+${alpha.deadlineMinute}`} />
           <AarStat label="تداوم شبکه" value={`${domain.logisticsResilience.networkContinuityPercent}%`} />
           <AarStat label="کاروان‌های تحویل‌شده" value={domain.logisticsResilience.deliveredConvoyCount} />
           <AarStat label="تحویل عملیاتی به‌موقع" value={domain.logisticsResilience.onTimeOperationalConvoyCount} />
@@ -138,7 +166,7 @@ export const ScenarioFiveSummary = ({
             <p>{SCENARIO5_ACTION_COPY_FA[decision.finalSelectedActionId!].title}</p>
             <p>هدف: {record.effectiveTargetCorridorId ? SCENARIO5_CORRIDOR_CONTENT_FA[record.effectiveTargetCorridorId].targetLabel : "بدون هدف انتخابی"}</p>
             <p>بازنگری: {decision.revisionCount} · منابع ISR {record.resourcesBefore.isrCapacity} → {record.resourcesAfter.isrCapacity} · پشتیبانی {record.resourcesBefore.supportReserve} → {record.resourcesAfter.supportReserve}</p>
-            <p>زمان عملیاتی: T+{record.worldClockBefore} → T+{record.worldClockAfter}</p>
+            <p>زمان عملیاتی: T+{record.worldClockBefore} → T+{record.worldClockAfter} دقیقه از آغاز مأموریت</p>
             {reason && <p>دلیل: {SCENARIO5_REASON_LABELS_FA[reason]}</p>}
           </article>;
         })}</div>

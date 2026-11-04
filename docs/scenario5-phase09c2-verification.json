@@ -1,0 +1,259 @@
+{
+  "phase": "PHASE 09C-2",
+  "status": "FAIL",
+  "implementationStatus": "PASS",
+  "strictAcceptanceStatus": "FAIL",
+  "strictAcceptanceReason": "The required unchanged historical 09C-1 verifier fails on the pre-existing App.tsx hash from the authorized temporary admin shortcut. It failed before these edits with the same actual/expected hashes. No 09C-2 functional, scientific or browser check failed. Historical tests/baselines were not changed.",
+  "applicationFiles": [
+    "src/ui/components/scenario/scenario-five/ui/ScenarioFiveCognitiveDashboard.tsx",
+    "src/ui/components/scenario/ScenarioFive.css"
+  ],
+  "focused": {
+    "status": "PASS",
+    "assertions": 1591,
+    "typedScalarLeaves": [
+      "result.cognitive.scenarioId",
+      "result.cognitive.runId",
+      "result.cognitive.measurementModelVersion",
+      "result.cognitive.formulaVersion",
+      "result.cognitive.optionProfileVersion",
+      "result.cognitive.scenarioContentVersion",
+      "result.cognitive.reasonModelVersion",
+      "result.cognitive.expertPanelVersion",
+      "result.cognitive.validityStatus",
+      "result.cognitive.dataCompleteness.overall",
+      "result.cognitive.dataCompleteness.decisions",
+      "result.cognitive.dataCompleteness.timing",
+      "result.cognitive.dataCompleteness.evidence",
+      "result.cognitive.dataCompleteness.estimates",
+      "result.cognitive.dataCompleteness.reasons",
+      "result.cognitive.orientation.overall",
+      "result.cognitive.orientation.operationalStrength",
+      "result.cognitive.orientation.strategicStrength",
+      "result.cognitive.orientation.integration",
+      "result.cognitive.orientation.dispersion",
+      "result.cognitive.orientation.phaseScores[0]",
+      "result.cognitive.orientation.phaseScores[1]",
+      "result.cognitive.orientation.phaseScores[2]",
+      "result.cognitive.orientation.phaseScores[3]",
+      "result.cognitive.constructs.informationSeeking",
+      "result.cognitive.constructs.secondOrderThinking",
+      "result.cognitive.constructs.adversaryModeling",
+      "result.cognitive.constructs.escalationSensitivity",
+      "result.cognitive.constructs.informationDiscipline",
+      "result.cognitive.constructs.evidenceResponsiveUpdating",
+      "result.cognitive.constructs.resourceStewardship",
+      "result.cognitive.constructs.planningForesight",
+      "result.cognitive.constructs.multiDomainIntegration",
+      "result.cognitive.constructs.riskPosture",
+      "result.cognitive.constructs.decisionCoherence",
+      "result.cognitive.telemetrySummary.medianActiveDecisionMs",
+      "result.cognitive.telemetrySummary.iqrActiveDecisionMs",
+      "result.cognitive.telemetrySummary.totalRevisions",
+      "result.cognitive.telemetrySummary.revisedWindows",
+      "result.cognitive.telemetrySummary.evidenceTriggeredRevisionRate"
+    ],
+    "scientificParity": {
+      "runs": 112,
+      "worlds": 16,
+      "policyFamilies": 7,
+      "environmentSeed": 1,
+      "semanticMismatches": 0,
+      "fullObjectDigestsEqual": true,
+      "cognitiveDomainMissionEvidenceDigestsEqual": true
+    },
+    "frozenHashes": 63,
+    "applicationFilesChanged": [
+      "src/ui/components/scenario/scenario-five/ui/ScenarioFiveCognitiveDashboard.tsx",
+      "src/ui/components/scenario/ScenarioFive.css"
+    ],
+    "allOtherExistingFilesUnchanged": true,
+    "releasedS1Unchanged": true,
+    "legacyId2Unchanged": true,
+    "gameplaySourcesUnchanged": true,
+    "nullZeroCases": "PASS",
+    "signedAxisCases": "PASS",
+    "sameRunGate": "PASS",
+    "sourceAndInstrumentationFirewall": "PASS",
+    "definitionsAndHelperHash": "d1c55c6b2e152548f6a0b306636913acf9fe44a9978de4a3b172defcefde8f91",
+    "unchanged09c1": {
+      "status": "FAIL",
+      "preExisting": true,
+      "failure": "Unchanged existing source src/App.tsx; existing temporary admin shortcut predates 09C-2",
+      "beforeLog": "docs/scenario5-phase09c2-09c1-before.txt",
+      "afterLog": "docs/scenario5-phase09c2-09c1-after.txt"
+    }
+  },
+  "checks": {
+    "typecheck": {
+      "status": "PASS"
+    },
+    "scopedLint": {
+      "status": "PASS"
+    },
+    "productionBuild": {
+      "status": "PASS"
+    }
+  },
+  "browser": {
+    "status": "PASS",
+    "screenshotCount": 44,
+    "viewports": [
+      "1440x900",
+      "1366x768",
+      "1280x720",
+      "390x844"
+    ],
+    "normalRunSource": "Actual product UI, no metric/resource injection",
+    "normalRunId": "s5-1793448000000-43a66a45",
+    "firstFold": {
+      "root": {
+        "x": 96,
+        "y": 23,
+        "width": 1240,
+        "height": 784,
+        "top": 23,
+        "right": 1336,
+        "bottom": 807,
+        "left": 96
+      },
+      "axis": {
+        "x": 184.984375,
+        "y": 545.796875,
+        "width": 1077.03125,
+        "height": 73.203125,
+        "top": 545.796875,
+        "right": 1262.015625,
+        "bottom": 619,
+        "left": 184.984375
+      },
+      "title": {
+        "x": 179.390625,
+        "y": 429.15625,
+        "width": 1088.21875,
+        "height": 41.4375,
+        "top": 429.15625,
+        "right": 1267.609375,
+        "bottom": 470.59375,
+        "left": 179.390625
+      },
+      "coverage": {
+        "x": 135,
+        "y": 199.765625,
+        "width": 1177,
+        "height": 120.21875,
+        "top": 199.765625,
+        "right": 1312,
+        "bottom": 319.984375,
+        "left": 135
+      },
+      "complete": true
+    },
+    "endpointContainment": "PASS; left edge of marker at -1; right edge at +1; other values use center",
+    "negativePointFourteen": "43% from physical left",
+    "nullAndZero": "Null has no marker; measured zero retains 50% marker",
+    "physicalRtlLabels": "PASS for OSI, all four phases and risk",
+    "reducedMotion": {
+      "matches": true,
+      "animation": "none",
+      "transition": "0s"
+    },
+    "passiveNavigation": [
+      {
+        "flow": "actual product run: dashboard/back/reopen/trace/reopen",
+        "sameRunId": "s5-1793448000000-43a66a45",
+        "immutableRuntime": true,
+        "passiveEventsUnchanged": true
+      }
+    ],
+    "completionEventCount": 1,
+    "sixEndingWitnesses": [
+      {
+        "endingId": "critical_cargo_lost_or_compromised",
+        "runId": "cal-M10_uniform_random-W-corridor_alpha_east-opportunistic_interdiction-19-1291847972",
+        "access": "PASS",
+        "backReopen": "PASS",
+        "passiveTelemetry": "PASS"
+      },
+      {
+        "endingId": "priority_delivered_network_degradation",
+        "runId": "cal-high_response-W-corridor_delta_west-pressure_escalator-1-none",
+        "access": "PASS",
+        "backReopen": "PASS",
+        "passiveTelemetry": "PASS"
+      },
+      {
+        "endingId": "mission_incomplete_continuity_preserved",
+        "runId": "cal-witness_random-W-corridor_alpha_east-opportunistic_interdiction-1-none",
+        "access": "PASS",
+        "backReopen": "PASS",
+        "passiveTelemetry": "PASS"
+      },
+      {
+        "endingId": "delivery_complete_threat_persistent",
+        "runId": "cal-low_response_reversible-W-corridor_delta_west-pressure_escalator-1-none",
+        "access": "PASS",
+        "backReopen": "PASS",
+        "passiveTelemetry": "PASS"
+      },
+      {
+        "endingId": "delivery_complete_attribution_unresolved",
+        "runId": "cal-resource_preserver-W-corridor_delta_west-pressure_escalator-1-none",
+        "access": "PASS",
+        "backReopen": "PASS",
+        "passiveTelemetry": "PASS"
+      },
+      {
+        "endingId": "delivery_complete_threat_contained",
+        "runId": "cal-M10_uniform_random-W-corridor_alpha_east-pressure_escalator-1-1291848714",
+        "access": "PASS",
+        "backReopen": "PASS",
+        "passiveTelemetry": "PASS"
+      }
+    ],
+    "liveMapGeometryUnchanged": true,
+    "inspection": "docs/scenario5-phase09c2-screenshots/inspection.json"
+  },
+  "scope": {
+    "preexistingFilesCompared": 960,
+    "unexpectedExistingChanges": [],
+    "onlyTwoApplicationFilesChanged": true,
+    "all63FrozenScientificHashesMatch": true,
+    "allOtherScenarioFilesUnchanged": true,
+    "appAndAdminShortcutUnchanged": true,
+    "historicalVerifierAndBaselinesUnchanged": true
+  },
+  "referenceComparison": {
+    "reviewedInImageViewer": [
+      "00-s4-reference-genuine-09c0.png",
+      "01-normal-dashboard-top-1440x900.png",
+      "02-orientation-and-phases-1440x900.png",
+      "03-all-nine-constructs-1440x900.png",
+      "03b-constructs-resources-and-coherence-1440x900.png",
+      "05-risk-and-interaction-1440x900.png",
+      "07-normal-top-1280x720.png",
+      "07-normal-top-1366x768.png",
+      "07-normal-top-390x844.png",
+      "test-only-positiveEdge-mobile-390x844.png",
+      "test-only-null-orientation.png"
+    ],
+    "referenceComparison": "Accessible archived released S1 capture and read-only S4 source. Golden/green/cyan palette, rounded substantial track, white vertical marker, navy panel and centered title matched. Not pixel-identical; S5 four phases, signed risk, nine neutral constructs and caveats intentionally preserved.",
+    "missingSeparateAttachment": "No separate user image was accessible; no claim of comparison against one."
+  },
+  "patch": {
+    "path": "docs/scenario5-phase09c2.patch",
+    "relativeTo": "Workspace captured at start of 09C-2, preserving earlier uncommitted changes",
+    "reverseApplyCheck": "PASS",
+    "realIndexUnchanged": true
+  },
+  "residualIssues": [
+    {
+      "id": "PREEXISTING_09C1_APP_HASH",
+      "status": "FAIL",
+      "reproduction": "node node_modules/tsx/dist/cli.mjs scripts/verify-s5-phase09c1.tsx",
+      "beforeLog": "docs/scenario5-phase09c2-09c1-before.txt",
+      "afterLog": "docs/scenario5-phase09c2-09c1-after.txt",
+      "reason": "Earlier authorized temporary admin shortcut changed App.tsx after the 09C-1 baseline. App.tsx is out of scope in 09C-2."
+    }
+  ]
+}

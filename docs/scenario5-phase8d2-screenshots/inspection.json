@@ -1,0 +1,1222 @@
+{
+  "status": "PASS",
+  "snapshots": [
+    {
+      "filename": "08d2-summary-a-1440x900.png",
+      "runtimeStage": "decision:B1_monitoring_allocation",
+      "stage": "phase A review",
+      "phase": "B",
+      "round": 3,
+      "clock": 62,
+      "ISR": 70,
+      "Support": 100,
+      "evidenceCount": 5,
+      "visibleConvoyValues": [
+        {
+          "convoyId": "alpha",
+          "integrity": 100,
+          "delay": 0,
+          "arrival": 210,
+          "deadline": 300,
+          "status": "moving"
+        },
+        {
+          "convoyId": "beta",
+          "integrity": 100,
+          "delay": 3,
+          "arrival": 238,
+          "deadline": 330,
+          "status": "moving"
+        },
+        {
+          "convoyId": "gamma",
+          "integrity": 100,
+          "delay": 0,
+          "arrival": 225,
+          "deadline": 315,
+          "status": "moving"
+        },
+        {
+          "convoyId": "delta",
+          "integrity": 100,
+          "delay": 0,
+          "arrival": 250,
+          "deadline": 345,
+          "status": "moving"
+        }
+      ],
+      "viewport": {
+        "width": 1440,
+        "height": 900
+      },
+      "page": {
+        "scrollHeight": 900,
+        "clientHeight": 900,
+        "scrollWidth": 1440,
+        "clientWidth": 1440
+      },
+      "leftPane": {
+        "scrollHeight": 495,
+        "clientHeight": 472,
+        "scrollTop": 0,
+        "overflowY": "auto"
+      },
+      "mapVisible": true,
+      "mapFrame": {
+        "x": 606.78125,
+        "y": 276.21875,
+        "width": 724.828125,
+        "height": 300.265625,
+        "top": 276.21875,
+        "right": 1331.609375,
+        "bottom": 576.484375,
+        "left": 606.78125
+      },
+      "footerReachable": true,
+      "visibleConvoyCards": [
+        {
+          "id": "alpha",
+          "text": "کاروان الف\nدر حرکت\n\nتجهیزات درمانی اضطراری · تهران → مشهد\n\nسلامت عملیاتی: 100 / 100\n\nرسیدن برآوردی: T+210\n\nمهلت تحویل: T+300\n\n90 دقیقه تا مهلت\n\nتأخیر تجمعی: +0 دقیقه\n\nشواهد این کریدور: 2"
+        },
+        {
+          "id": "beta",
+          "text": "کاروان ب\nدر حرکت\n\nسوخت عملیاتی · بندرعباس → تهران\n\nسلامت عملیاتی: 100 / 100\n\nرسیدن برآوردی: T+238\n\nمهلت تحویل: T+330\n\n92 دقیقه تا مهلت\n\nتأخیر تجمعی: +3 دقیقه\n\nشواهد این کریدور: 1"
+        },
+        {
+          "id": "gamma",
+          "text": "کاروان ج\nدر حرکت\n\nقطعات ارتباطی · تبریز → تهران\n\nسلامت عملیاتی: 100 / 100\n\nرسیدن برآوردی: T+225\n\nمهلت تحویل: T+315\n\n90 دقیقه تا مهلت\n\nتأخیر تجمعی: +0 دقیقه\n\nشواهد این کریدور: 1"
+        },
+        {
+          "id": "delta",
+          "text": "کاروان د\nدر حرکت\n\nپشتیبانی مرزی · تهران → محور غرب\n\nسلامت عملیاتی: 100 / 100\n\nرسیدن برآوردی: T+250\n\nمهلت تحویل: T+345\n\n95 دقیقه تا مهلت\n\nتأخیر تجمعی: +0 دقیقه\n\nشواهد این کریدور: 1"
+        }
+      ],
+      "selectedAction": null,
+      "selectedTarget": null,
+      "endingId": null,
+      "hiddenTruthInDom": false,
+      "sliders": [],
+      "notes": [],
+      "header": {
+        "title": "مرور پایان فاز ۱ — ساخت تصویر اولیه",
+        "subtitle": "مرحله بعد: فاز ۲ — تمرکز و مدیریت مسیر · تصمیم ۳ از ۸",
+        "label": "مرور فاز",
+        "progress": [
+          {
+            "text": "✓ ساخت تصویر ←",
+            "current": null,
+            "completed": true
+          },
+          {
+            "text": "مدیریت مسیر ←",
+            "current": null,
+            "completed": false
+          },
+          {
+            "text": "تاب‌آوری ←",
+            "current": null,
+            "completed": false
+          },
+          {
+            "text": "پایان مأموریت",
+            "current": null,
+            "completed": false
+          }
+        ],
+        "counters": [
+          "ظرفیت پایش و اطلاعات (ISR)\n70/100",
+          "ذخیره پشتیبانی\n100/100",
+          "زمان عملیاتی\nT+62 / 360",
+          "باقی‌مانده\n298′",
+          "شواهد ثبت‌شده\n5"
+        ],
+        "convoys": [
+          "کاروان الف\nدر حرکت\n\nتجهیزات درمانی اضطراری · تهران → مشهد\n\nسلامت عملیاتی: 100 / 100\n\nرسیدن برآوردی: T+210\n\nمهلت تحویل: T+300\n\n90 دقیقه تا مهلت\n\nتأخیر تجمعی: +0 دقیقه\n\nشواهد این کریدور: 2",
+          "کاروان ب\nدر حرکت\n\nسوخت عملیاتی · بندرعباس → تهران\n\nسلامت عملیاتی: 100 / 100\n\nرسیدن برآوردی: T+238\n\nمهلت تحویل: T+330\n\n92 دقیقه تا مهلت\n\nتأخیر تجمعی: +3 دقیقه\n\nشواهد این کریدور: 1",
+          "کاروان ج\nدر حرکت\n\nقطعات ارتباطی · تبریز → تهران\n\nسلامت عملیاتی: 100 / 100\n\nرسیدن برآوردی: T+225\n\nمهلت تحویل: T+315\n\n90 دقیقه تا مهلت\n\nتأخیر تجمعی: +0 دقیقه\n\nشواهد این کریدور: 1",
+          "کاروان د\nدر حرکت\n\nپشتیبانی مرزی · تهران → محور غرب\n\nسلامت عملیاتی: 100 / 100\n\nرسیدن برآوردی: T+250\n\nمهلت تحویل: T+345\n\n95 دقیقه تا مهلت\n\nتأخیر تجمعی: +0 دقیقه\n\nشواهد این کریدور: 1"
+        ]
+      }
+    },
+    {
+      "filename": "08d2-after-a-continue-1440x900.png",
+      "runtimeStage": "decision:B1_monitoring_allocation",
+      "stage": "phase A immediately after Continue",
+      "phase": "B",
+      "round": 3,
+      "clock": 62,
+      "ISR": 70,
+      "Support": 100,
+      "evidenceCount": 5,
+      "visibleConvoyValues": [
+        {
+          "convoyId": "alpha",
+          "integrity": 100,
+          "delay": 0,
+          "arrival": 210,
+          "deadline": 300,
+          "status": "moving"
+        },
+        {
+          "convoyId": "beta",
+          "integrity": 100,
+          "delay": 3,
+          "arrival": 238,
+          "deadline": 330,
+          "status": "moving"
+        },
+        {
+          "convoyId": "gamma",
+          "integrity": 100,
+          "delay": 0,
+          "arrival": 225,
+          "deadline": 315,
+          "status": "moving"
+        },
+        {
+          "convoyId": "delta",
+          "integrity": 100,
+          "delay": 0,
+          "arrival": 250,
+          "deadline": 345,
+          "status": "moving"
+        }
+      ],
+      "viewport": {
+        "width": 1440,
+        "height": 900
+      },
+      "page": {
+        "scrollHeight": 900,
+        "clientHeight": 900,
+        "scrollWidth": 1440,
+        "clientWidth": 1440
+      },
+      "leftPane": {
+        "scrollHeight": 662,
+        "clientHeight": 438,
+        "scrollTop": 0,
+        "overflowY": "auto"
+      },
+      "mapVisible": true,
+      "mapFrame": {
+        "x": 606.78125,
+        "y": 273.140625,
+        "width": 724.828125,
+        "height": 303.34375,
+        "top": 273.140625,
+        "right": 1331.609375,
+        "bottom": 576.484375,
+        "left": 606.78125
+      },
+      "footerReachable": true,
+      "visibleConvoyCards": [
+        {
+          "id": "alpha",
+          "text": "کاروان الف\nدر حرکت\n\nتجهیزات درمانی اضطراری · تهران → مشهد\n\nسلامت عملیاتی: 100 / 100\n\nرسیدن برآوردی: T+210\n\nمهلت تحویل: T+300\n\n90 دقیقه تا مهلت\n\nتأخیر تجمعی: +0 دقیقه\n\nشواهد این کریدور: 2"
+        },
+        {
+          "id": "beta",
+          "text": "کاروان ب\nدر حرکت\n\nسوخت عملیاتی · بندرعباس → تهران\n\nسلامت عملیاتی: 100 / 100\n\nرسیدن برآوردی: T+238\n\nمهلت تحویل: T+330\n\n92 دقیقه تا مهلت\n\nتأخیر تجمعی: +3 دقیقه\n\nشواهد این کریدور: 1"
+        },
+        {
+          "id": "gamma",
+          "text": "کاروان ج\nدر حرکت\n\nقطعات ارتباطی · تبریز → تهران\n\nسلامت عملیاتی: 100 / 100\n\nرسیدن برآوردی: T+225\n\nمهلت تحویل: T+315\n\n90 دقیقه تا مهلت\n\nتأخیر تجمعی: +0 دقیقه\n\nشواهد این کریدور: 1"
+        },
+        {
+          "id": "delta",
+          "text": "کاروان د\nدر حرکت\n\nپشتیبانی مرزی · تهران → محور غرب\n\nسلامت عملیاتی: 100 / 100\n\nرسیدن برآوردی: T+250\n\nمهلت تحویل: T+345\n\n95 دقیقه تا مهلت\n\nتأخیر تجمعی: +0 دقیقه\n\nشواهد این کریدور: 1"
+        }
+      ],
+      "selectedAction": null,
+      "selectedTarget": null,
+      "endingId": null,
+      "hiddenTruthInDom": false,
+      "sliders": [],
+      "notes": [],
+      "header": {
+        "title": "فاز 2 از ۴ — تمرکز و مدیریت مسیر",
+        "subtitle": "تصمیم 3 از ۸ — تخصیص توجه",
+        "label": "تصمیم عملیاتی",
+        "progress": [
+          {
+            "text": "✓ ساخت تصویر ←",
+            "current": null,
+            "completed": true
+          },
+          {
+            "text": "مدیریت مسیر ←",
+            "current": "step",
+            "completed": false
+          },
+          {
+            "text": "تاب‌آوری ←",
+            "current": null,
+            "completed": false
+          },
+          {
+            "text": "پایان مأموریت",
+            "current": null,
+            "completed": false
+          }
+        ],
+        "counters": [
+          "ظرفیت پایش و اطلاعات (ISR)\n70/100",
+          "ذخیره پشتیبانی\n100/100",
+          "زمان عملیاتی\nT+62 / 360",
+          "باقی‌مانده\n298′",
+          "شواهد ثبت‌شده\n5"
+        ],
+        "convoys": [
+          "کاروان الف\nدر حرکت\n\nتجهیزات درمانی اضطراری · تهران → مشهد\n\nسلامت عملیاتی: 100 / 100\n\nرسیدن برآوردی: T+210\n\nمهلت تحویل: T+300\n\n90 دقیقه تا مهلت\n\nتأخیر تجمعی: +0 دقیقه\n\nشواهد این کریدور: 2",
+          "کاروان ب\nدر حرکت\n\nسوخت عملیاتی · بندرعباس → تهران\n\nسلامت عملیاتی: 100 / 100\n\nرسیدن برآوردی: T+238\n\nمهلت تحویل: T+330\n\n92 دقیقه تا مهلت\n\nتأخیر تجمعی: +3 دقیقه\n\nشواهد این کریدور: 1",
+          "کاروان ج\nدر حرکت\n\nقطعات ارتباطی · تبریز → تهران\n\nسلامت عملیاتی: 100 / 100\n\nرسیدن برآوردی: T+225\n\nمهلت تحویل: T+315\n\n90 دقیقه تا مهلت\n\nتأخیر تجمعی: +0 دقیقه\n\nشواهد این کریدور: 1",
+          "کاروان د\nدر حرکت\n\nپشتیبانی مرزی · تهران → محور غرب\n\nسلامت عملیاتی: 100 / 100\n\nرسیدن برآوردی: T+250\n\nمهلت تحویل: T+345\n\n95 دقیقه تا مهلت\n\nتأخیر تجمعی: +0 دقیقه\n\nشواهد این کریدور: 1"
+        ]
+      }
+    },
+    {
+      "filename": "08d2-summary-b-1440x900.png",
+      "runtimeStage": "decision:C1_support_and_checkpoints",
+      "stage": "phase B review",
+      "phase": "C",
+      "round": 5,
+      "clock": 134,
+      "ISR": 54,
+      "Support": 86,
+      "evidenceCount": 9,
+      "visibleConvoyValues": [
+        {
+          "convoyId": "alpha",
+          "integrity": 100,
+          "delay": 25,
+          "arrival": 235,
+          "deadline": 300,
+          "status": "moving"
+        },
+        {
+          "convoyId": "beta",
+          "integrity": 94,
+          "delay": 19,
+          "arrival": 254,
+          "deadline": 330,
+          "status": "moving"
+        },
+        {
+          "convoyId": "gamma",
+          "integrity": 100,
+          "delay": 0,
+          "arrival": 225,
+          "deadline": 315,
+          "status": "moving"
+        },
+        {
+          "convoyId": "delta",
+          "integrity": 100,
+          "delay": 0,
+          "arrival": 250,
+          "deadline": 345,
+          "status": "moving"
+        }
+      ],
+      "viewport": {
+        "width": 1440,
+        "height": 900
+      },
+      "page": {
+        "scrollHeight": 900,
+        "clientHeight": 900,
+        "scrollWidth": 1440,
+        "clientWidth": 1440
+      },
+      "leftPane": {
+        "scrollHeight": 535,
+        "clientHeight": 472,
+        "scrollTop": 0,
+        "overflowY": "auto"
+      },
+      "mapVisible": true,
+      "mapFrame": {
+        "x": 606.78125,
+        "y": 276.21875,
+        "width": 724.828125,
+        "height": 279.203125,
+        "top": 276.21875,
+        "right": 1331.609375,
+        "bottom": 555.421875,
+        "left": 606.78125
+      },
+      "footerReachable": true,
+      "visibleConvoyCards": [
+        {
+          "id": "alpha",
+          "text": "کاروان الف\nدر حرکت\n\nتجهیزات درمانی اضطراری · تهران → مشهد\n\nسلامت عملیاتی: 100 / 100\n\nرسیدن برآوردی: T+235\n\nمهلت تحویل: T+300\n\n65 دقیقه تا مهلت\n\nتأخیر تجمعی: +25 دقیقه\n\nمسیر تقویت‌شده\nشواهد این کریدور: 3"
+        },
+        {
+          "id": "beta",
+          "text": "کاروان ب\nدر حرکت\n\nسوخت عملیاتی · بندرعباس → تهران\n\nسلامت عملیاتی: 94 / 100\n\nرسیدن برآوردی: T+254\n\nمهلت تحویل: T+330\n\n76 دقیقه تا مهلت\n\nتأخیر تجمعی: +19 دقیقه\n\nشواهد این کریدور: 2"
+        },
+        {
+          "id": "gamma",
+          "text": "کاروان ج\nدر حرکت\n\nقطعات ارتباطی · تبریز → تهران\n\nسلامت عملیاتی: 100 / 100\n\nرسیدن برآوردی: T+225\n\nمهلت تحویل: T+315\n\n90 دقیقه تا مهلت\n\nتأخیر تجمعی: +0 دقیقه\n\nشواهد این کریدور: 2"
+        },
+        {
+          "id": "delta",
+          "text": "کاروان د\nدر حرکت\n\nپشتیبانی مرزی · تهران → محور غرب\n\nسلامت عملیاتی: 100 / 100\n\nرسیدن برآوردی: T+250\n\nمهلت تحویل: T+345\n\n95 دقیقه تا مهلت\n\nتأخیر تجمعی: +0 دقیقه\n\nشواهد این کریدور: 2"
+        }
+      ],
+      "selectedAction": null,
+      "selectedTarget": null,
+      "endingId": null,
+      "hiddenTruthInDom": false,
+      "sliders": [],
+      "notes": [],
+      "header": {
+        "title": "مرور پایان فاز ۲ — تمرکز و مدیریت مسیر",
+        "subtitle": "مرحله بعد: فاز ۳ — ایجاد تاب‌آوری · تصمیم ۵ از ۸",
+        "label": "مرور فاز",
+        "progress": [
+          {
+            "text": "✓ ساخت تصویر ←",
+            "current": null,
+            "completed": true
+          },
+          {
+            "text": "✓ مدیریت مسیر ←",
+            "current": null,
+            "completed": true
+          },
+          {
+            "text": "تاب‌آوری ←",
+            "current": null,
+            "completed": false
+          },
+          {
+            "text": "پایان مأموریت",
+            "current": null,
+            "completed": false
+          }
+        ],
+        "counters": [
+          "ظرفیت پایش و اطلاعات (ISR)\n54/100",
+          "ذخیره پشتیبانی\n86/100",
+          "زمان عملیاتی\nT+134 / 360",
+          "باقی‌مانده\n226′",
+          "شواهد ثبت‌شده\n9"
+        ],
+        "convoys": [
+          "کاروان الف\nدر حرکت\n\nتجهیزات درمانی اضطراری · تهران → مشهد\n\nسلامت عملیاتی: 100 / 100\n\nرسیدن برآوردی: T+235\n\nمهلت تحویل: T+300\n\n65 دقیقه تا مهلت\n\nتأخیر تجمعی: +25 دقیقه\n\nمسیر تقویت‌شده\nشواهد این کریدور: 3",
+          "کاروان ب\nدر حرکت\n\nسوخت عملیاتی · بندرعباس → تهران\n\nسلامت عملیاتی: 94 / 100\n\nرسیدن برآوردی: T+254\n\nمهلت تحویل: T+330\n\n76 دقیقه تا مهلت\n\nتأخیر تجمعی: +19 دقیقه\n\nشواهد این کریدور: 2",
+          "کاروان ج\nدر حرکت\n\nقطعات ارتباطی · تبریز → تهران\n\nسلامت عملیاتی: 100 / 100\n\nرسیدن برآوردی: T+225\n\nمهلت تحویل: T+315\n\n90 دقیقه تا مهلت\n\nتأخیر تجمعی: +0 دقیقه\n\nشواهد این کریدور: 2",
+          "کاروان د\nدر حرکت\n\nپشتیبانی مرزی · تهران → محور غرب\n\nسلامت عملیاتی: 100 / 100\n\nرسیدن برآوردی: T+250\n\nمهلت تحویل: T+345\n\n95 دقیقه تا مهلت\n\nتأخیر تجمعی: +0 دقیقه\n\nشواهد این کریدور: 2"
+        ]
+      }
+    },
+    {
+      "filename": "08d2-after-b-continue-1440x900.png",
+      "runtimeStage": "decision:C1_support_and_checkpoints",
+      "stage": "phase B immediately after Continue",
+      "phase": "C",
+      "round": 5,
+      "clock": 134,
+      "ISR": 54,
+      "Support": 86,
+      "evidenceCount": 9,
+      "visibleConvoyValues": [
+        {
+          "convoyId": "alpha",
+          "integrity": 100,
+          "delay": 25,
+          "arrival": 235,
+          "deadline": 300,
+          "status": "moving"
+        },
+        {
+          "convoyId": "beta",
+          "integrity": 94,
+          "delay": 19,
+          "arrival": 254,
+          "deadline": 330,
+          "status": "moving"
+        },
+        {
+          "convoyId": "gamma",
+          "integrity": 100,
+          "delay": 0,
+          "arrival": 225,
+          "deadline": 315,
+          "status": "moving"
+        },
+        {
+          "convoyId": "delta",
+          "integrity": 100,
+          "delay": 0,
+          "arrival": 250,
+          "deadline": 345,
+          "status": "moving"
+        }
+      ],
+      "viewport": {
+        "width": 1440,
+        "height": 900
+      },
+      "page": {
+        "scrollHeight": 900,
+        "clientHeight": 900,
+        "scrollWidth": 1440,
+        "clientWidth": 1440
+      },
+      "leftPane": {
+        "scrollHeight": 688,
+        "clientHeight": 438,
+        "scrollTop": 0,
+        "overflowY": "auto"
+      },
+      "mapVisible": true,
+      "mapFrame": {
+        "x": 606.78125,
+        "y": 273.140625,
+        "width": 724.828125,
+        "height": 282.28125,
+        "top": 273.140625,
+        "right": 1331.609375,
+        "bottom": 555.421875,
+        "left": 606.78125
+      },
+      "footerReachable": true,
+      "visibleConvoyCards": [
+        {
+          "id": "alpha",
+          "text": "کاروان الف\nدر حرکت\n\nتجهیزات درمانی اضطراری · تهران → مشهد\n\nسلامت عملیاتی: 100 / 100\n\nرسیدن برآوردی: T+235\n\nمهلت تحویل: T+300\n\n65 دقیقه تا مهلت\n\nتأخیر تجمعی: +25 دقیقه\n\nمسیر تقویت‌شده\nشواهد این کریدور: 3"
+        },
+        {
+          "id": "beta",
+          "text": "کاروان ب\nدر حرکت\n\nسوخت عملیاتی · بندرعباس → تهران\n\nسلامت عملیاتی: 94 / 100\n\nرسیدن برآوردی: T+254\n\nمهلت تحویل: T+330\n\n76 دقیقه تا مهلت\n\nتأخیر تجمعی: +19 دقیقه\n\nشواهد این کریدور: 2"
+        },
+        {
+          "id": "gamma",
+          "text": "کاروان ج\nدر حرکت\n\nقطعات ارتباطی · تبریز → تهران\n\nسلامت عملیاتی: 100 / 100\n\nرسیدن برآوردی: T+225\n\nمهلت تحویل: T+315\n\n90 دقیقه تا مهلت\n\nتأخیر تجمعی: +0 دقیقه\n\nشواهد این کریدور: 2"
+        },
+        {
+          "id": "delta",
+          "text": "کاروان د\nدر حرکت\n\nپشتیبانی مرزی · تهران → محور غرب\n\nسلامت عملیاتی: 100 / 100\n\nرسیدن برآوردی: T+250\n\nمهلت تحویل: T+345\n\n95 دقیقه تا مهلت\n\nتأخیر تجمعی: +0 دقیقه\n\nشواهد این کریدور: 2"
+        }
+      ],
+      "selectedAction": null,
+      "selectedTarget": null,
+      "endingId": null,
+      "hiddenTruthInDom": false,
+      "sliders": [],
+      "notes": [],
+      "header": {
+        "title": "فاز 3 از ۴ — ایجاد تاب‌آوری",
+        "subtitle": "تصمیم 5 از ۸ — تاب‌آوری و پشتیبانی",
+        "label": "تصمیم عملیاتی",
+        "progress": [
+          {
+            "text": "✓ ساخت تصویر ←",
+            "current": null,
+            "completed": true
+          },
+          {
+            "text": "✓ مدیریت مسیر ←",
+            "current": null,
+            "completed": true
+          },
+          {
+            "text": "تاب‌آوری ←",
+            "current": "step",
+            "completed": false
+          },
+          {
+            "text": "پایان مأموریت",
+            "current": null,
+            "completed": false
+          }
+        ],
+        "counters": [
+          "ظرفیت پایش و اطلاعات (ISR)\n54/100",
+          "ذخیره پشتیبانی\n86/100",
+          "زمان عملیاتی\nT+134 / 360",
+          "باقی‌مانده\n226′",
+          "شواهد ثبت‌شده\n9"
+        ],
+        "convoys": [
+          "کاروان الف\nدر حرکت\n\nتجهیزات درمانی اضطراری · تهران → مشهد\n\nسلامت عملیاتی: 100 / 100\n\nرسیدن برآوردی: T+235\n\nمهلت تحویل: T+300\n\n65 دقیقه تا مهلت\n\nتأخیر تجمعی: +25 دقیقه\n\nمسیر تقویت‌شده\nشواهد این کریدور: 3",
+          "کاروان ب\nدر حرکت\n\nسوخت عملیاتی · بندرعباس → تهران\n\nسلامت عملیاتی: 94 / 100\n\nرسیدن برآوردی: T+254\n\nمهلت تحویل: T+330\n\n76 دقیقه تا مهلت\n\nتأخیر تجمعی: +19 دقیقه\n\nشواهد این کریدور: 2",
+          "کاروان ج\nدر حرکت\n\nقطعات ارتباطی · تبریز → تهران\n\nسلامت عملیاتی: 100 / 100\n\nرسیدن برآوردی: T+225\n\nمهلت تحویل: T+315\n\n90 دقیقه تا مهلت\n\nتأخیر تجمعی: +0 دقیقه\n\nشواهد این کریدور: 2",
+          "کاروان د\nدر حرکت\n\nپشتیبانی مرزی · تهران → محور غرب\n\nسلامت عملیاتی: 100 / 100\n\nرسیدن برآوردی: T+250\n\nمهلت تحویل: T+345\n\n95 دقیقه تا مهلت\n\nتأخیر تجمعی: +0 دقیقه\n\nشواهد این کریدور: 2"
+        ]
+      }
+    },
+    {
+      "filename": "08d2-summary-c-1440x900.png",
+      "runtimeStage": "decision:D1_crisis_response",
+      "stage": "phase C review",
+      "phase": "D",
+      "round": 7,
+      "clock": 196,
+      "ISR": 44,
+      "Support": 62,
+      "evidenceCount": 15,
+      "visibleConvoyValues": [
+        {
+          "convoyId": "alpha",
+          "integrity": 100,
+          "delay": 30,
+          "arrival": 240,
+          "deadline": 300,
+          "status": "moving"
+        },
+        {
+          "convoyId": "beta",
+          "integrity": 88,
+          "delay": 34,
+          "arrival": 269,
+          "deadline": 330,
+          "status": "moving"
+        },
+        {
+          "convoyId": "gamma",
+          "integrity": 100,
+          "delay": 0,
+          "arrival": 225,
+          "deadline": 315,
+          "status": "moving"
+        },
+        {
+          "convoyId": "delta",
+          "integrity": 100,
+          "delay": 0,
+          "arrival": 250,
+          "deadline": 345,
+          "status": "moving"
+        }
+      ],
+      "viewport": {
+        "width": 1440,
+        "height": 900
+      },
+      "page": {
+        "scrollHeight": 900,
+        "clientHeight": 900,
+        "scrollWidth": 1440,
+        "clientWidth": 1440
+      },
+      "leftPane": {
+        "scrollHeight": 535,
+        "clientHeight": 472,
+        "scrollTop": 0,
+        "overflowY": "auto"
+      },
+      "mapVisible": true,
+      "mapFrame": {
+        "x": 606.78125,
+        "y": 276.21875,
+        "width": 724.828125,
+        "height": 279.203125,
+        "top": 276.21875,
+        "right": 1331.609375,
+        "bottom": 555.421875,
+        "left": 606.78125
+      },
+      "footerReachable": true,
+      "visibleConvoyCards": [
+        {
+          "id": "alpha",
+          "text": "کاروان الف\nدر حرکت\n\nتجهیزات درمانی اضطراری · تهران → مشهد\n\nسلامت عملیاتی: 100 / 100\n\nرسیدن برآوردی: T+240\n\nمهلت تحویل: T+300\n\n60 دقیقه تا مهلت\n\nتأخیر تجمعی: +30 دقیقه\n\nناوبری پشتیبان\nمسیر تقویت‌شده\nشواهد این کریدور: 4"
+        },
+        {
+          "id": "beta",
+          "text": "کاروان ب\nدر حرکت\n\nسوخت عملیاتی · بندرعباس → تهران\n\nسلامت عملیاتی: 88 / 100\n\nرسیدن برآوردی: T+269\n\nمهلت تحویل: T+330\n\n61 دقیقه تا مهلت\n\nتأخیر تجمعی: +34 دقیقه\n\nشواهد این کریدور: 4"
+        },
+        {
+          "id": "gamma",
+          "text": "کاروان ج\nدر حرکت\n\nقطعات ارتباطی · تبریز → تهران\n\nسلامت عملیاتی: 100 / 100\n\nرسیدن برآوردی: T+225\n\nمهلت تحویل: T+315\n\n90 دقیقه تا مهلت\n\nتأخیر تجمعی: +0 دقیقه\n\nشواهد این کریدور: 3"
+        },
+        {
+          "id": "delta",
+          "text": "کاروان د\nدر حرکت\n\nپشتیبانی مرزی · تهران → محور غرب\n\nسلامت عملیاتی: 100 / 100\n\nرسیدن برآوردی: T+250\n\nمهلت تحویل: T+345\n\n95 دقیقه تا مهلت\n\nتأخیر تجمعی: +0 دقیقه\n\nشواهد این کریدور: 4"
+        }
+      ],
+      "selectedAction": null,
+      "selectedTarget": null,
+      "endingId": null,
+      "hiddenTruthInDom": false,
+      "sliders": [],
+      "notes": [],
+      "header": {
+        "title": "مرور پایان فاز ۳ — ایجاد تاب‌آوری",
+        "subtitle": "مرحله بعد: فاز ۴ — مدیریت فشار و تحویل · تصمیم ۷ از ۸",
+        "label": "مرور فاز",
+        "progress": [
+          {
+            "text": "✓ ساخت تصویر ←",
+            "current": null,
+            "completed": true
+          },
+          {
+            "text": "✓ مدیریت مسیر ←",
+            "current": null,
+            "completed": true
+          },
+          {
+            "text": "✓ تاب‌آوری ←",
+            "current": null,
+            "completed": true
+          },
+          {
+            "text": "پایان مأموریت",
+            "current": null,
+            "completed": false
+          }
+        ],
+        "counters": [
+          "ظرفیت پایش و اطلاعات (ISR)\n44/100",
+          "ذخیره پشتیبانی\n62/100",
+          "زمان عملیاتی\nT+196 / 360",
+          "باقی‌مانده\n164′",
+          "شواهد ثبت‌شده\n15"
+        ],
+        "convoys": [
+          "کاروان الف\nدر حرکت\n\nتجهیزات درمانی اضطراری · تهران → مشهد\n\nسلامت عملیاتی: 100 / 100\n\nرسیدن برآوردی: T+240\n\nمهلت تحویل: T+300\n\n60 دقیقه تا مهلت\n\nتأخیر تجمعی: +30 دقیقه\n\nناوبری پشتیبان\nمسیر تقویت‌شده\nشواهد این کریدور: 4",
+          "کاروان ب\nدر حرکت\n\nسوخت عملیاتی · بندرعباس → تهران\n\nسلامت عملیاتی: 88 / 100\n\nرسیدن برآوردی: T+269\n\nمهلت تحویل: T+330\n\n61 دقیقه تا مهلت\n\nتأخیر تجمعی: +34 دقیقه\n\nشواهد این کریدور: 4",
+          "کاروان ج\nدر حرکت\n\nقطعات ارتباطی · تبریز → تهران\n\nسلامت عملیاتی: 100 / 100\n\nرسیدن برآوردی: T+225\n\nمهلت تحویل: T+315\n\n90 دقیقه تا مهلت\n\nتأخیر تجمعی: +0 دقیقه\n\nشواهد این کریدور: 3",
+          "کاروان د\nدر حرکت\n\nپشتیبانی مرزی · تهران → محور غرب\n\nسلامت عملیاتی: 100 / 100\n\nرسیدن برآوردی: T+250\n\nمهلت تحویل: T+345\n\n95 دقیقه تا مهلت\n\nتأخیر تجمعی: +0 دقیقه\n\nشواهد این کریدور: 4"
+        ]
+      }
+    },
+    {
+      "filename": "08d2-after-c-continue-1440x900.png",
+      "runtimeStage": "decision:D1_crisis_response",
+      "stage": "phase C immediately after Continue",
+      "phase": "D",
+      "round": 7,
+      "clock": 196,
+      "ISR": 44,
+      "Support": 62,
+      "evidenceCount": 15,
+      "visibleConvoyValues": [
+        {
+          "convoyId": "alpha",
+          "integrity": 100,
+          "delay": 30,
+          "arrival": 240,
+          "deadline": 300,
+          "status": "moving"
+        },
+        {
+          "convoyId": "beta",
+          "integrity": 88,
+          "delay": 34,
+          "arrival": 269,
+          "deadline": 330,
+          "status": "moving"
+        },
+        {
+          "convoyId": "gamma",
+          "integrity": 100,
+          "delay": 0,
+          "arrival": 225,
+          "deadline": 315,
+          "status": "moving"
+        },
+        {
+          "convoyId": "delta",
+          "integrity": 100,
+          "delay": 0,
+          "arrival": 250,
+          "deadline": 345,
+          "status": "moving"
+        }
+      ],
+      "viewport": {
+        "width": 1440,
+        "height": 900
+      },
+      "page": {
+        "scrollHeight": 900,
+        "clientHeight": 900,
+        "scrollWidth": 1440,
+        "clientWidth": 1440
+      },
+      "leftPane": {
+        "scrollHeight": 998,
+        "clientHeight": 438,
+        "scrollTop": 0,
+        "overflowY": "auto"
+      },
+      "mapVisible": true,
+      "mapFrame": {
+        "x": 606.78125,
+        "y": 273.140625,
+        "width": 724.828125,
+        "height": 282.28125,
+        "top": 273.140625,
+        "right": 1331.609375,
+        "bottom": 555.421875,
+        "left": 606.78125
+      },
+      "footerReachable": true,
+      "visibleConvoyCards": [
+        {
+          "id": "alpha",
+          "text": "کاروان الف\nدر حرکت\n\nتجهیزات درمانی اضطراری · تهران → مشهد\n\nسلامت عملیاتی: 100 / 100\n\nرسیدن برآوردی: T+240\n\nمهلت تحویل: T+300\n\n60 دقیقه تا مهلت\n\nتأخیر تجمعی: +30 دقیقه\n\nناوبری پشتیبان\nمسیر تقویت‌شده\nشواهد این کریدور: 4"
+        },
+        {
+          "id": "beta",
+          "text": "کاروان ب\nدر حرکت\n\nسوخت عملیاتی · بندرعباس → تهران\n\nسلامت عملیاتی: 88 / 100\n\nرسیدن برآوردی: T+269\n\nمهلت تحویل: T+330\n\n61 دقیقه تا مهلت\n\nتأخیر تجمعی: +34 دقیقه\n\nشواهد این کریدور: 4"
+        },
+        {
+          "id": "gamma",
+          "text": "کاروان ج\nدر حرکت\n\nقطعات ارتباطی · تبریز → تهران\n\nسلامت عملیاتی: 100 / 100\n\nرسیدن برآوردی: T+225\n\nمهلت تحویل: T+315\n\n90 دقیقه تا مهلت\n\nتأخیر تجمعی: +0 دقیقه\n\nشواهد این کریدور: 3"
+        },
+        {
+          "id": "delta",
+          "text": "کاروان د\nدر حرکت\n\nپشتیبانی مرزی · تهران → محور غرب\n\nسلامت عملیاتی: 100 / 100\n\nرسیدن برآوردی: T+250\n\nمهلت تحویل: T+345\n\n95 دقیقه تا مهلت\n\nتأخیر تجمعی: +0 دقیقه\n\nشواهد این کریدور: 4"
+        }
+      ],
+      "selectedAction": null,
+      "selectedTarget": null,
+      "endingId": null,
+      "hiddenTruthInDom": false,
+      "sliders": [],
+      "notes": [],
+      "header": {
+        "title": "فاز 4 از ۴ — مدیریت فشار و تحویل",
+        "subtitle": "تصمیم 7 از ۸ — پاسخ به فشار عملیاتی",
+        "label": "تصمیم عملیاتی",
+        "progress": [
+          {
+            "text": "✓ ساخت تصویر ←",
+            "current": null,
+            "completed": true
+          },
+          {
+            "text": "✓ مدیریت مسیر ←",
+            "current": null,
+            "completed": true
+          },
+          {
+            "text": "✓ تاب‌آوری ←",
+            "current": null,
+            "completed": true
+          },
+          {
+            "text": "پایان مأموریت",
+            "current": "step",
+            "completed": false
+          }
+        ],
+        "counters": [
+          "ظرفیت پایش و اطلاعات (ISR)\n44/100",
+          "ذخیره پشتیبانی\n62/100",
+          "زمان عملیاتی\nT+196 / 360",
+          "باقی‌مانده\n164′",
+          "شواهد ثبت‌شده\n15"
+        ],
+        "convoys": [
+          "کاروان الف\nدر حرکت\n\nتجهیزات درمانی اضطراری · تهران → مشهد\n\nسلامت عملیاتی: 100 / 100\n\nرسیدن برآوردی: T+240\n\nمهلت تحویل: T+300\n\n60 دقیقه تا مهلت\n\nتأخیر تجمعی: +30 دقیقه\n\nناوبری پشتیبان\nمسیر تقویت‌شده\nشواهد این کریدور: 4",
+          "کاروان ب\nدر حرکت\n\nسوخت عملیاتی · بندرعباس → تهران\n\nسلامت عملیاتی: 88 / 100\n\nرسیدن برآوردی: T+269\n\nمهلت تحویل: T+330\n\n61 دقیقه تا مهلت\n\nتأخیر تجمعی: +34 دقیقه\n\nشواهد این کریدور: 4",
+          "کاروان ج\nدر حرکت\n\nقطعات ارتباطی · تبریز → تهران\n\nسلامت عملیاتی: 100 / 100\n\nرسیدن برآوردی: T+225\n\nمهلت تحویل: T+315\n\n90 دقیقه تا مهلت\n\nتأخیر تجمعی: +0 دقیقه\n\nشواهد این کریدور: 3",
+          "کاروان د\nدر حرکت\n\nپشتیبانی مرزی · تهران → محور غرب\n\nسلامت عملیاتی: 100 / 100\n\nرسیدن برآوردی: T+250\n\nمهلت تحویل: T+345\n\n95 دقیقه تا مهلت\n\nتأخیر تجمعی: +0 دقیقه\n\nشواهد این کریدور: 4"
+        ]
+      }
+    }
+  ],
+  "layoutChecks": [
+    {
+      "filename": "08d2-summary-a-1440x900.png",
+      "width": 1280,
+      "height": 720,
+      "scrollHeight": 720,
+      "scrollWidth": 1280,
+      "mapHeight": 159.21875,
+      "mapBottom": 403.609375,
+      "footerBottom": 620,
+      "reviewHeaderTextFits": true
+    },
+    {
+      "filename": "08d2-summary-a-1440x900.png",
+      "width": 1366,
+      "height": 768,
+      "scrollHeight": 768,
+      "scrollWidth": 1366,
+      "mapHeight": 207.21875,
+      "mapBottom": 451.609375,
+      "footerBottom": 668,
+      "reviewHeaderTextFits": true
+    },
+    {
+      "filename": "08d2-after-a-continue-1440x900.png",
+      "width": 1280,
+      "height": 720,
+      "scrollHeight": 720,
+      "scrollWidth": 1280,
+      "mapHeight": 161.875,
+      "mapBottom": 403.609375,
+      "footerBottom": 601.609375,
+      "reviewHeaderTextFits": true
+    },
+    {
+      "filename": "08d2-after-a-continue-1440x900.png",
+      "width": 1366,
+      "height": 768,
+      "scrollHeight": 768,
+      "scrollWidth": 1366,
+      "mapHeight": 209.875,
+      "mapBottom": 451.609375,
+      "footerBottom": 649.609375,
+      "reviewHeaderTextFits": true
+    },
+    {
+      "filename": "08d2-summary-b-1440x900.png",
+      "width": 1280,
+      "height": 720,
+      "scrollHeight": 720,
+      "scrollWidth": 1280,
+      "mapHeight": 159.21875,
+      "mapBottom": 403.609375,
+      "footerBottom": 620,
+      "reviewHeaderTextFits": true
+    },
+    {
+      "filename": "08d2-summary-b-1440x900.png",
+      "width": 1366,
+      "height": 768,
+      "scrollHeight": 768,
+      "scrollWidth": 1366,
+      "mapHeight": 207.21875,
+      "mapBottom": 451.609375,
+      "footerBottom": 668,
+      "reviewHeaderTextFits": true
+    },
+    {
+      "filename": "08d2-after-b-continue-1440x900.png",
+      "width": 1280,
+      "height": 720,
+      "scrollHeight": 720,
+      "scrollWidth": 1280,
+      "mapHeight": 161.875,
+      "mapBottom": 403.609375,
+      "footerBottom": 601.609375,
+      "reviewHeaderTextFits": true
+    },
+    {
+      "filename": "08d2-after-b-continue-1440x900.png",
+      "width": 1366,
+      "height": 768,
+      "scrollHeight": 768,
+      "scrollWidth": 1366,
+      "mapHeight": 209.875,
+      "mapBottom": 451.609375,
+      "footerBottom": 649.609375,
+      "reviewHeaderTextFits": true
+    },
+    {
+      "filename": "08d2-summary-c-1440x900.png",
+      "width": 1280,
+      "height": 720,
+      "scrollHeight": 720,
+      "scrollWidth": 1280,
+      "mapHeight": 159.21875,
+      "mapBottom": 403.609375,
+      "footerBottom": 620,
+      "reviewHeaderTextFits": true
+    },
+    {
+      "filename": "08d2-summary-c-1440x900.png",
+      "width": 1366,
+      "height": 768,
+      "scrollHeight": 768,
+      "scrollWidth": 1366,
+      "mapHeight": 207.21875,
+      "mapBottom": 451.609375,
+      "footerBottom": 668,
+      "reviewHeaderTextFits": true
+    },
+    {
+      "filename": "08d2-after-c-continue-1440x900.png",
+      "width": 1280,
+      "height": 720,
+      "scrollHeight": 720,
+      "scrollWidth": 1280,
+      "mapHeight": 161.875,
+      "mapBottom": 403.609375,
+      "footerBottom": 601.609375,
+      "reviewHeaderTextFits": true
+    },
+    {
+      "filename": "08d2-after-c-continue-1440x900.png",
+      "width": 1366,
+      "height": 768,
+      "scrollHeight": 768,
+      "scrollWidth": 1366,
+      "mapHeight": 209.875,
+      "mapBottom": 451.609375,
+      "footerBottom": 649.609375,
+      "reviewHeaderTextFits": true
+    }
+  ],
+  "transitions": [
+    {
+      "phase": "A",
+      "before": {
+        "title": "مرور پایان فاز ۱ — ساخت تصویر اولیه",
+        "subtitle": "مرحله بعد: فاز ۲ — تمرکز و مدیریت مسیر · تصمیم ۳ از ۸",
+        "label": "مرور فاز",
+        "progress": [
+          {
+            "text": "✓ ساخت تصویر ←",
+            "current": null,
+            "completed": true
+          },
+          {
+            "text": "مدیریت مسیر ←",
+            "current": null,
+            "completed": false
+          },
+          {
+            "text": "تاب‌آوری ←",
+            "current": null,
+            "completed": false
+          },
+          {
+            "text": "پایان مأموریت",
+            "current": null,
+            "completed": false
+          }
+        ],
+        "counters": [
+          "ظرفیت پایش و اطلاعات (ISR)\n70/100",
+          "ذخیره پشتیبانی\n100/100",
+          "زمان عملیاتی\nT+62 / 360",
+          "باقی‌مانده\n298′",
+          "شواهد ثبت‌شده\n5"
+        ],
+        "convoys": [
+          "کاروان الف\nدر حرکت\n\nتجهیزات درمانی اضطراری · تهران → مشهد\n\nسلامت عملیاتی: 100 / 100\n\nرسیدن برآوردی: T+210\n\nمهلت تحویل: T+300\n\n90 دقیقه تا مهلت\n\nتأخیر تجمعی: +0 دقیقه\n\nشواهد این کریدور: 2",
+          "کاروان ب\nدر حرکت\n\nسوخت عملیاتی · بندرعباس → تهران\n\nسلامت عملیاتی: 100 / 100\n\nرسیدن برآوردی: T+238\n\nمهلت تحویل: T+330\n\n92 دقیقه تا مهلت\n\nتأخیر تجمعی: +3 دقیقه\n\nشواهد این کریدور: 1",
+          "کاروان ج\nدر حرکت\n\nقطعات ارتباطی · تبریز → تهران\n\nسلامت عملیاتی: 100 / 100\n\nرسیدن برآوردی: T+225\n\nمهلت تحویل: T+315\n\n90 دقیقه تا مهلت\n\nتأخیر تجمعی: +0 دقیقه\n\nشواهد این کریدور: 1",
+          "کاروان د\nدر حرکت\n\nپشتیبانی مرزی · تهران → محور غرب\n\nسلامت عملیاتی: 100 / 100\n\nرسیدن برآوردی: T+250\n\nمهلت تحویل: T+345\n\n95 دقیقه تا مهلت\n\nتأخیر تجمعی: +0 دقیقه\n\nشواهد این کریدور: 1"
+        ]
+      },
+      "after": {
+        "title": "فاز 2 از ۴ — تمرکز و مدیریت مسیر",
+        "subtitle": "تصمیم 3 از ۸ — تخصیص توجه",
+        "label": "تصمیم عملیاتی",
+        "progress": [
+          {
+            "text": "✓ ساخت تصویر ←",
+            "current": null,
+            "completed": true
+          },
+          {
+            "text": "مدیریت مسیر ←",
+            "current": "step",
+            "completed": false
+          },
+          {
+            "text": "تاب‌آوری ←",
+            "current": null,
+            "completed": false
+          },
+          {
+            "text": "پایان مأموریت",
+            "current": null,
+            "completed": false
+          }
+        ],
+        "counters": [
+          "ظرفیت پایش و اطلاعات (ISR)\n70/100",
+          "ذخیره پشتیبانی\n100/100",
+          "زمان عملیاتی\nT+62 / 360",
+          "باقی‌مانده\n298′",
+          "شواهد ثبت‌شده\n5"
+        ],
+        "convoys": [
+          "کاروان الف\nدر حرکت\n\nتجهیزات درمانی اضطراری · تهران → مشهد\n\nسلامت عملیاتی: 100 / 100\n\nرسیدن برآوردی: T+210\n\nمهلت تحویل: T+300\n\n90 دقیقه تا مهلت\n\nتأخیر تجمعی: +0 دقیقه\n\nشواهد این کریدور: 2",
+          "کاروان ب\nدر حرکت\n\nسوخت عملیاتی · بندرعباس → تهران\n\nسلامت عملیاتی: 100 / 100\n\nرسیدن برآوردی: T+238\n\nمهلت تحویل: T+330\n\n92 دقیقه تا مهلت\n\nتأخیر تجمعی: +3 دقیقه\n\nشواهد این کریدور: 1",
+          "کاروان ج\nدر حرکت\n\nقطعات ارتباطی · تبریز → تهران\n\nسلامت عملیاتی: 100 / 100\n\nرسیدن برآوردی: T+225\n\nمهلت تحویل: T+315\n\n90 دقیقه تا مهلت\n\nتأخیر تجمعی: +0 دقیقه\n\nشواهد این کریدور: 1",
+          "کاروان د\nدر حرکت\n\nپشتیبانی مرزی · تهران → محور غرب\n\nسلامت عملیاتی: 100 / 100\n\nرسیدن برآوردی: T+250\n\nمهلت تحویل: T+345\n\n95 دقیقه تا مهلت\n\nتأخیر تجمعی: +0 دقیقه\n\nشواهد این کریدور: 1"
+        ]
+      },
+      "runtimeStage": "decision:B1_monitoring_allocation",
+      "canonicalValuesUnchanged": true,
+      "runtimeAndTelemetryUnchanged": true
+    },
+    {
+      "phase": "B",
+      "before": {
+        "title": "مرور پایان فاز ۲ — تمرکز و مدیریت مسیر",
+        "subtitle": "مرحله بعد: فاز ۳ — ایجاد تاب‌آوری · تصمیم ۵ از ۸",
+        "label": "مرور فاز",
+        "progress": [
+          {
+            "text": "✓ ساخت تصویر ←",
+            "current": null,
+            "completed": true
+          },
+          {
+            "text": "✓ مدیریت مسیر ←",
+            "current": null,
+            "completed": true
+          },
+          {
+            "text": "تاب‌آوری ←",
+            "current": null,
+            "completed": false
+          },
+          {
+            "text": "پایان مأموریت",
+            "current": null,
+            "completed": false
+          }
+        ],
+        "counters": [
+          "ظرفیت پایش و اطلاعات (ISR)\n54/100",
+          "ذخیره پشتیبانی\n86/100",
+          "زمان عملیاتی\nT+134 / 360",
+          "باقی‌مانده\n226′",
+          "شواهد ثبت‌شده\n9"
+        ],
+        "convoys": [
+          "کاروان الف\nدر حرکت\n\nتجهیزات درمانی اضطراری · تهران → مشهد\n\nسلامت عملیاتی: 100 / 100\n\nرسیدن برآوردی: T+235\n\nمهلت تحویل: T+300\n\n65 دقیقه تا مهلت\n\nتأخیر تجمعی: +25 دقیقه\n\nمسیر تقویت‌شده\nشواهد این کریدور: 3",
+          "کاروان ب\nدر حرکت\n\nسوخت عملیاتی · بندرعباس → تهران\n\nسلامت عملیاتی: 94 / 100\n\nرسیدن برآوردی: T+254\n\nمهلت تحویل: T+330\n\n76 دقیقه تا مهلت\n\nتأخیر تجمعی: +19 دقیقه\n\nشواهد این کریدور: 2",
+          "کاروان ج\nدر حرکت\n\nقطعات ارتباطی · تبریز → تهران\n\nسلامت عملیاتی: 100 / 100\n\nرسیدن برآوردی: T+225\n\nمهلت تحویل: T+315\n\n90 دقیقه تا مهلت\n\nتأخیر تجمعی: +0 دقیقه\n\nشواهد این کریدور: 2",
+          "کاروان د\nدر حرکت\n\nپشتیبانی مرزی · تهران → محور غرب\n\nسلامت عملیاتی: 100 / 100\n\nرسیدن برآوردی: T+250\n\nمهلت تحویل: T+345\n\n95 دقیقه تا مهلت\n\nتأخیر تجمعی: +0 دقیقه\n\nشواهد این کریدور: 2"
+        ]
+      },
+      "after": {
+        "title": "فاز 3 از ۴ — ایجاد تاب‌آوری",
+        "subtitle": "تصمیم 5 از ۸ — تاب‌آوری و پشتیبانی",
+        "label": "تصمیم عملیاتی",
+        "progress": [
+          {
+            "text": "✓ ساخت تصویر ←",
+            "current": null,
+            "completed": true
+          },
+          {
+            "text": "✓ مدیریت مسیر ←",
+            "current": null,
+            "completed": true
+          },
+          {
+            "text": "تاب‌آوری ←",
+            "current": "step",
+            "completed": false
+          },
+          {
+            "text": "پایان مأموریت",
+            "current": null,
+            "completed": false
+          }
+        ],
+        "counters": [
+          "ظرفیت پایش و اطلاعات (ISR)\n54/100",
+          "ذخیره پشتیبانی\n86/100",
+          "زمان عملیاتی\nT+134 / 360",
+          "باقی‌مانده\n226′",
+          "شواهد ثبت‌شده\n9"
+        ],
+        "convoys": [
+          "کاروان الف\nدر حرکت\n\nتجهیزات درمانی اضطراری · تهران → مشهد\n\nسلامت عملیاتی: 100 / 100\n\nرسیدن برآوردی: T+235\n\nمهلت تحویل: T+300\n\n65 دقیقه تا مهلت\n\nتأخیر تجمعی: +25 دقیقه\n\nمسیر تقویت‌شده\nشواهد این کریدور: 3",
+          "کاروان ب\nدر حرکت\n\nسوخت عملیاتی · بندرعباس → تهران\n\nسلامت عملیاتی: 94 / 100\n\nرسیدن برآوردی: T+254\n\nمهلت تحویل: T+330\n\n76 دقیقه تا مهلت\n\nتأخیر تجمعی: +19 دقیقه\n\nشواهد این کریدور: 2",
+          "کاروان ج\nدر حرکت\n\nقطعات ارتباطی · تبریز → تهران\n\nسلامت عملیاتی: 100 / 100\n\nرسیدن برآوردی: T+225\n\nمهلت تحویل: T+315\n\n90 دقیقه تا مهلت\n\nتأخیر تجمعی: +0 دقیقه\n\nشواهد این کریدور: 2",
+          "کاروان د\nدر حرکت\n\nپشتیبانی مرزی · تهران → محور غرب\n\nسلامت عملیاتی: 100 / 100\n\nرسیدن برآوردی: T+250\n\nمهلت تحویل: T+345\n\n95 دقیقه تا مهلت\n\nتأخیر تجمعی: +0 دقیقه\n\nشواهد این کریدور: 2"
+        ]
+      },
+      "runtimeStage": "decision:C1_support_and_checkpoints",
+      "canonicalValuesUnchanged": true,
+      "runtimeAndTelemetryUnchanged": true
+    },
+    {
+      "phase": "C",
+      "before": {
+        "title": "مرور پایان فاز ۳ — ایجاد تاب‌آوری",
+        "subtitle": "مرحله بعد: فاز ۴ — مدیریت فشار و تحویل · تصمیم ۷ از ۸",
+        "label": "مرور فاز",
+        "progress": [
+          {
+            "text": "✓ ساخت تصویر ←",
+            "current": null,
+            "completed": true
+          },
+          {
+            "text": "✓ مدیریت مسیر ←",
+            "current": null,
+            "completed": true
+          },
+          {
+            "text": "✓ تاب‌آوری ←",
+            "current": null,
+            "completed": true
+          },
+          {
+            "text": "پایان مأموریت",
+            "current": null,
+            "completed": false
+          }
+        ],
+        "counters": [
+          "ظرفیت پایش و اطلاعات (ISR)\n44/100",
+          "ذخیره پشتیبانی\n62/100",
+          "زمان عملیاتی\nT+196 / 360",
+          "باقی‌مانده\n164′",
+          "شواهد ثبت‌شده\n15"
+        ],
+        "convoys": [
+          "کاروان الف\nدر حرکت\n\nتجهیزات درمانی اضطراری · تهران → مشهد\n\nسلامت عملیاتی: 100 / 100\n\nرسیدن برآوردی: T+240\n\nمهلت تحویل: T+300\n\n60 دقیقه تا مهلت\n\nتأخیر تجمعی: +30 دقیقه\n\nناوبری پشتیبان\nمسیر تقویت‌شده\nشواهد این کریدور: 4",
+          "کاروان ب\nدر حرکت\n\nسوخت عملیاتی · بندرعباس → تهران\n\nسلامت عملیاتی: 88 / 100\n\nرسیدن برآوردی: T+269\n\nمهلت تحویل: T+330\n\n61 دقیقه تا مهلت\n\nتأخیر تجمعی: +34 دقیقه\n\nشواهد این کریدور: 4",
+          "کاروان ج\nدر حرکت\n\nقطعات ارتباطی · تبریز → تهران\n\nسلامت عملیاتی: 100 / 100\n\nرسیدن برآوردی: T+225\n\nمهلت تحویل: T+315\n\n90 دقیقه تا مهلت\n\nتأخیر تجمعی: +0 دقیقه\n\nشواهد این کریدور: 3",
+          "کاروان د\nدر حرکت\n\nپشتیبانی مرزی · تهران → محور غرب\n\nسلامت عملیاتی: 100 / 100\n\nرسیدن برآوردی: T+250\n\nمهلت تحویل: T+345\n\n95 دقیقه تا مهلت\n\nتأخیر تجمعی: +0 دقیقه\n\nشواهد این کریدور: 4"
+        ]
+      },
+      "after": {
+        "title": "فاز 4 از ۴ — مدیریت فشار و تحویل",
+        "subtitle": "تصمیم 7 از ۸ — پاسخ به فشار عملیاتی",
+        "label": "تصمیم عملیاتی",
+        "progress": [
+          {
+            "text": "✓ ساخت تصویر ←",
+            "current": null,
+            "completed": true
+          },
+          {
+            "text": "✓ مدیریت مسیر ←",
+            "current": null,
+            "completed": true
+          },
+          {
+            "text": "✓ تاب‌آوری ←",
+            "current": null,
+            "completed": true
+          },
+          {
+            "text": "پایان مأموریت",
+            "current": "step",
+            "completed": false
+          }
+        ],
+        "counters": [
+          "ظرفیت پایش و اطلاعات (ISR)\n44/100",
+          "ذخیره پشتیبانی\n62/100",
+          "زمان عملیاتی\nT+196 / 360",
+          "باقی‌مانده\n164′",
+          "شواهد ثبت‌شده\n15"
+        ],
+        "convoys": [
+          "کاروان الف\nدر حرکت\n\nتجهیزات درمانی اضطراری · تهران → مشهد\n\nسلامت عملیاتی: 100 / 100\n\nرسیدن برآوردی: T+240\n\nمهلت تحویل: T+300\n\n60 دقیقه تا مهلت\n\nتأخیر تجمعی: +30 دقیقه\n\nناوبری پشتیبان\nمسیر تقویت‌شده\nشواهد این کریدور: 4",
+          "کاروان ب\nدر حرکت\n\nسوخت عملیاتی · بندرعباس → تهران\n\nسلامت عملیاتی: 88 / 100\n\nرسیدن برآوردی: T+269\n\nمهلت تحویل: T+330\n\n61 دقیقه تا مهلت\n\nتأخیر تجمعی: +34 دقیقه\n\nشواهد این کریدور: 4",
+          "کاروان ج\nدر حرکت\n\nقطعات ارتباطی · تبریز → تهران\n\nسلامت عملیاتی: 100 / 100\n\nرسیدن برآوردی: T+225\n\nمهلت تحویل: T+315\n\n90 دقیقه تا مهلت\n\nتأخیر تجمعی: +0 دقیقه\n\nشواهد این کریدور: 3",
+          "کاروان د\nدر حرکت\n\nپشتیبانی مرزی · تهران → محور غرب\n\nسلامت عملیاتی: 100 / 100\n\nرسیدن برآوردی: T+250\n\nمهلت تحویل: T+345\n\n95 دقیقه تا مهلت\n\nتأخیر تجمعی: +0 دقیقه\n\nشواهد این کریدور: 4"
+        ]
+      },
+      "runtimeStage": "decision:D1_crisis_response",
+      "canonicalValuesUnchanged": true,
+      "runtimeAndTelemetryUnchanged": true
+    }
+  ],
+  "hiddenTruthFirewall": "PASS"
+}

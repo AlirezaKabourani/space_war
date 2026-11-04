@@ -7,9 +7,10 @@ import { SCENARIO5_BELIEF_COPY_FA, SCENARIO5_CORRIDOR_CONTENT_FA } from "./uiCon
 import { ScenarioFiveInformationPicture } from "./ScenarioFiveInformationPicture";
 const CORRIDORS = Object.keys(SCENARIO5_CORRIDOR_CONTENT_FA) as CorridorId[];
 export type ScenarioFiveBeliefStage = keyof typeof SCENARIO5_BELIEF_COPY_FA;
-export const ScenarioFiveBeliefPanel = ({ stageId, evidence, recentEvidenceIds, onSubmit }: {
+export const ScenarioFiveBeliefPanel = ({ stageId, evidence, recentEvidenceIds, onSubmit, previousBelief }: {
   stageId: ScenarioFiveBeliefStage; evidence: readonly ScenarioFiveEvidenceSummary[]; recentEvidenceIds: ReadonlySet<string>;
   onSubmit: (input: Omit<RuntimeBeliefInput, "recordedAtMs">) => void;
+  previousBelief?: Omit<RuntimeBeliefInput, "recordedAtMs">;
 }) => {
   const [corridorId, setCorridorId] = useState<CorridorId | null>(null);
   const [corridorConfidence, setCorridorConfidence] = useState<number | null>(null);
@@ -46,6 +47,7 @@ export const ScenarioFiveBeliefPanel = ({ stageId, evidence, recentEvidenceIds, 
   return <section className="s5-panel s5-form-panel s5-belief-panel" aria-labelledby="s5-belief-title">
     <div className="s5-control-scroll" tabIndex={0} aria-label="شواهد و ثبت برداشت">
       <h2 id="s5-belief-title">{copy.title}</h2><p className="s5-stage-instruction">{copy.instruction}</p>
+      {previousBelief && <aside className="s5-method-note"><strong>برداشت قبلی شما</strong><p>{SCENARIO5_CORRIDOR_CONTENT_FA[previousBelief.mostLikelyCorridorId].corridorLabel} · اطمینان کریدور: {previousBelief.corridorConfidence} · برآورد اخلال هدفمند: {previousBelief.targetedInterferenceEstimate} · اطمینان برآورد: {previousBelief.targetedInterferenceConfidence}</p></aside>}
       {stageId === "belief:A2_postbelief" ? <>
         {fresh.length === 0 && <p className="s5-method-note">در بررسی اخیر شاهد تازه‌ای اضافه نشد؛ می‌توانید برداشت قبلی خود را حفظ یا بازنگری کنید.</p>}
         <ScenarioFiveInformationPicture title="شواهد تازه از بررسی اخیر" evidence={fresh} emptyText="شاهد تازه‌ای اضافه نشد." />

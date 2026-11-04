@@ -1,0 +1,118 @@
+{
+  "status": "PASS",
+  "assertions": 1516,
+  "frozenScientificGuard": "PASS",
+  "frozenFileCount": 63,
+  "changedFrozenFiles": [],
+  "scientificParity": {
+    "runs": 112,
+    "mismatches": 0,
+    "environmentSeed": 1,
+    "worlds": 16,
+    "policyFamilies": 7
+  },
+  "phase08d": {
+    "assertions": 32798,
+    "result": "PASS"
+  },
+  "legacyId2Guard": "PASS",
+  "activeId5Guard": "PASS",
+  "phaseSummaryGuard": "PASS",
+  "escortLifecycleGuard": "PASS",
+  "reroute": {
+    "convoyId": "alpha",
+    "progress": 0.5714285714285714,
+    "originalPoint": {
+      "x": 533.1428571428571,
+      "y": 185.71428571428572
+    },
+    "alternatePoint": {
+      "x": 555.1836734693877,
+      "y": 156.3265306122449
+    },
+    "renderedPoint": {
+      "x": 555.1836734693877,
+      "y": 156.3265306122449
+    },
+    "projectedArrivalMinute": 245,
+    "delayMinutes": 35,
+    "result": "PASS"
+  },
+  "checks": [
+    {
+      "id": "phase08d1",
+      "status": "PASS",
+      "exitCode": 0
+    },
+    {
+      "id": "typecheck",
+      "status": "PASS",
+      "exitCode": 0
+    },
+    {
+      "id": "build",
+      "status": "PASS",
+      "exitCode": 0
+    },
+    {
+      "id": "eslint",
+      "status": "PASS",
+      "exitCode": 0
+    }
+  ],
+  "changedApplicationFiles": [
+    "src/App.tsx",
+    "src/ui/components/scenario/ScenarioFiveMap.tsx",
+    "src/ui/components/scenario/ScenarioFiveSimulation.tsx",
+    "src/ui/components/scenario/scenario-five/ui/ScenarioFiveProgress.tsx",
+    "src/ui/components/scenario/scenario-five/ui/gameplayPresentation.ts",
+    "src/ui/components/scenario/scenario-five/ui/presentation.ts"
+  ],
+  "changedVerifierFiles": [
+    "scripts/verify-s5-phase8d-integrated-gameplay.ts"
+  ],
+  "browser": {
+    "status": "PASS",
+    "screenshotCount": 6,
+    "inspection": "docs/scenario5-phase8d1-screenshots/inspection.json",
+    "viewportSizes": [
+      [
+        1280,
+        720
+      ],
+      [
+        1366,
+        768
+      ],
+      [
+        1440,
+        900
+      ]
+    ],
+    "additionalLayoutChecks": 12,
+    "reroute": {
+      "convoyId": "alpha",
+      "corridorId": "corridor_alpha_east",
+      "progress": 0.5702127659574469,
+      "originalPoint": {
+        "x": 532.9191489361702,
+        "y": 185.74468085106383
+      },
+      "alternatePoint": {
+        "x": 554.9754640108647,
+        "y": 156.33626075147126
+      },
+      "actualRenderedPoint": {
+        "x": 554.9754638671873,
+        "y": 156.3362579345703
+      },
+      "projectedArrivalMinute": 235,
+      "delayMinutes": 25,
+      "baselineProjectedArrivalMinute": 235,
+      "baselineDelayMinutes": 25
+    },
+    "coordinateErrorSvgUnits": 0.0000028205627344101917,
+    "toleranceSvgUnits": 0.001
+  },
+  "patchVerification": "PASS"
+}

@@ -1,0 +1,108 @@
+{
+  "testOnly": true,
+  "description": "TEST ONLY — presentation fixtures, never actual user-run/scientific outputs",
+  "nullZero": {
+    "scenarioId": "s5_silent_waves_redesign",
+    "runId": "TEST_ONLY_NULL_ZERO",
+    "measurementModelVersion": "s5-cognitive-v3-adapter-v1.0.0",
+    "formulaVersion": "cognitive-v3-semantic-v1.0.0",
+    "optionProfileVersion": "s5-option-profiles-internal-v1.0.0",
+    "scenarioContentVersion": "s5-silent-waves-redesign-content-v1.0.0",
+    "reasonModelVersion": "s5-reason-model-internal-v1.0.0",
+    "expertPanelVersion": "not-yet-expert-validated",
+    "validityStatus": "experimental_pending_expert_and_human_validation",
+    "dataCompleteness": {
+      "overall": 0,
+      "decisions": 0,
+      "timing": 0,
+      "evidence": 0,
+      "estimates": 0,
+      "reasons": 0
+    },
+    "orientation": {
+      "overall": null,
+      "phaseScores": [
+        -0.5,
+        0,
+        0.5,
+        null
+      ],
+      "operationalStrength": 0,
+      "strategicStrength": 0,
+      "integration": null,
+      "dispersion": null
+    },
+    "constructs": {
+      "informationSeeking": 0,
+      "secondOrderThinking": 67.625,
+      "adversaryModeling": 60,
+      "escalationSensitivity": 60,
+      "informationDiscipline": null,
+      "evidenceResponsiveUpdating": null,
+      "resourceStewardship": 70.625,
+      "planningForesight": 76.6875,
+      "multiDomainIntegration": 32.13518309332631,
+      "riskPosture": null,
+      "decisionCoherence": 82.06666666666666
+    },
+    "telemetrySummary": {
+      "medianActiveDecisionMs": 0,
+      "iqrActiveDecisionMs": null,
+      "totalRevisions": 0,
+      "revisedWindows": 0,
+      "evidenceTriggeredRevisionRate": null
+    }
+  },
+  "partialZero": {
+    "scenarioId": "s5_silent_waves_redesign",
+    "runId": "TEST_ONLY_NULL_ZERO",
+    "measurementModelVersion": "s5-cognitive-v3-adapter-v1.0.0",
+    "formulaVersion": "cognitive-v3-semantic-v1.0.0",
+    "optionProfileVersion": "s5-option-profiles-internal-v1.0.0",
+    "scenarioContentVersion": "s5-silent-waves-redesign-content-v1.0.0",
+    "reasonModelVersion": "s5-reason-model-internal-v1.0.0",
+    "expertPanelVersion": "not-yet-expert-validated",
+    "validityStatus": "experimental_pending_expert_and_human_validation",
+    "dataCompleteness": {
+      "overall": 62.5,
+      "decisions": 50,
+      "timing": 0,
+      "evidence": 0,
+      "estimates": 0,
+      "reasons": 0
+    },
+    "orientation": {
+      "overall": null,
+      "phaseScores": [
+        -0.5,
+        0,
+        0.5,
+        null
+      ],
+      "operationalStrength": 0,
+      "strategicStrength": 0,
+      "integration": null,
+      "dispersion": null
+    },
+    "constructs": {
+      "informationSeeking": 0,
+      "secondOrderThinking": 67.625,
+      "adversaryModeling": 60,
+      "escalationSensitivity": 60,
+      "informationDiscipline": null,
+      "evidenceResponsiveUpdating": null,
+      "resourceStewardship": 70.625,
+      "planningForesight": 76.6875,
+      "multiDomainIntegration": 32.13518309332631,
+      "riskPosture": 0,
+      "decisionCoherence": 82.06666666666666
+    },
+    "telemetrySummary": {
+      "medianActiveDecisionMs": null,
+      "iqrActiveDecisionMs": 0,
+      "totalRevisions": 0,
+      "revisedWindows": 0,
+      "evidenceTriggeredRevisionRate": 0
+    }
+  }
+}

@@ -1,0 +1,34 @@
+{
+  "status": "PASS",
+  "assertions": 764,
+  "typedScalarLeaves": 40,
+  "scientificParity": {
+    "runs": 112,
+    "worlds": 16,
+    "policyFamilies": 7,
+    "environmentSeed": 1,
+    "semanticMismatches": 0,
+    "fullObjectDigestsEqual": true,
+    "cognitiveDomainMissionEvidenceDigestsEqual": true
+  },
+  "frozenHashes": 63,
+  "releasedS1Unchanged": true,
+  "legacyId2Unchanged": true,
+  "gameplaySourcesUnchanged": true,
+  "nullZeroCases": "PASS",
+  "signedAxisCases": "PASS",
+  "sameRunGate": "PASS",
+  "sourceAndInstrumentationFirewall": "PASS",
+  "regressions": [
+    {
+      "id": "08D/08D.1/08D.2-header",
+      "status": "PASS",
+      "stdout": "08D.2 PASS: 115 checks; 08D 32798 PASS; 08D.1 1516 PASS; parity 112 runs / zero mismatches.\n"
+    },
+    {
+      "id": "08D.2-UX",
+      "status": "PASS",
+      "stdout": "{\n  \"status\": \"PASS\",\n  \"phase\": \"PHASE 08D.2 — Scenario 2 UI/UX refinement and ending explanation pass\",\n  \"assertions\": 2677,\n  \"accepted08DAssertions\": 32798,\n  \"scientificParity\": {\n    \"runs\": 112,\n    \"mismatches\": 0,\n    \"worlds\": 16,\n    \"policyFamilies\": 7,\n    \"seed\": 1\n  },\n  \"frozenHashes\": 63,\n  \"legacyId2\": \"UNCHANGED\",\n  \"runtimeAndTelemetryHandlers\": \"UNCHANGED\",\n  \"cognitiveFormulas\": \"UNCHANGED\",\n  \"endStateSemantics\": \"UNCHANGED\",\n  \"liveTruthFirewall\": \"PASS\"\n}\n"
+    }
+  ]
+}

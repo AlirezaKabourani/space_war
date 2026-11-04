@@ -1,0 +1,24 @@
+node:internal/modules/run_main:107
+    triggerUncaughtException(
+    ^
+
+AssertionError [ERR_ASSERTION]: Frozen source/archive: docs/scenario5-phase8b-engineering-verification.md
++ actual - expected
+
++ '3fae7ae0349b34a4a22e1b17ae35f09f4f06529afc6d884d2b0cfefbe4e6fab0'
+- '31297055dba28d9c92675b98137065af78d02dbdee581a0db45f856824842ac6'
+
+    at equal (E:\war\space_war\scripts\verify-s5-phase8c-ui.ts:30:81)
+    at <anonymous> (E:\war\space_war\scripts\verify-s5-phase8c-ui.ts:132:67)
+    at ModuleJob.run (node:internal/modules/esm/module_job:377:25)
+    at async onImport.tracePromise.__proto__ (node:internal/modules/esm/loader:671:26)
+    at async asyncRunEntryPointWithESMLoader (node:internal/modules/run_main:101:5) {
+  generatedMessage: false,
+  code: 'ERR_ASSERTION',
+  actual: '3fae7ae0349b34a4a22e1b17ae35f09f4f06529afc6d884d2b0cfefbe4e6fab0',
+  expected: '31297055dba28d9c92675b98137065af78d02dbdee581a0db45f856824842ac6',
+  operator: 'deepStrictEqual',
+  diff: 'simple'
+}
+
+Node.js v24.11.1

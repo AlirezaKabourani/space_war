@@ -1,6 +1,7 @@
 import { getMissionAction } from "./scenario-five/model/mission/index";
 import type { MissionActionId } from "./scenario-five/model/mission/index";
 import { SCENARIO5_ACTION_COPY_FA } from "./scenario-five/ui/index";
+import { actionTiming } from "./scenario-five/ui/gameplayPresentation";
 
 export const ScenarioFiveActionCard = ({
   actionId,
@@ -13,6 +14,7 @@ export const ScenarioFiveActionCard = ({
 }) => {
   const action = getMissionAction(actionId);
   const copy = SCENARIO5_ACTION_COPY_FA[actionId];
+  const timing = actionTiming(actionId);
   const targetText = action.target === "required"
     ? "هدف: انتخاب کریدور توسط شما"
     : action.target === "fixed_alpha"
@@ -30,9 +32,10 @@ export const ScenarioFiveActionCard = ({
       <p>{copy.description}</p>
       <div className="s5-known-effect"><strong>اثر شناخته‌شده:</strong> {copy.knownEffect}</div>
       <div className="s5-action-metadata">
-        <span>ISR: {action.isrCost}</span>
-        <span>پشتیبانی: {action.supportCost}</span>
-        <span>مدت: {action.durationMinutes} دقیقه</span>
+        <span>هزینه پایش و اطلاعات (ISR): {action.isrCost}</span>
+        <span>هزینه پشتیبانی: {action.supportCost}</span>
+        <span>زمان اجرای اقدام: {timing.duration} دقیقه</span>
+        <span>{timing.final ? "پس از اقدام نهایی، مأموریت تا افق T+360 دقیقه ادامه می‌یابد." : `زمان تا ارزیابی بعدی: ${timing.assessment} دقیقه`}</span>
       </div>
       <small>{targetText}</small>
     </button>

@@ -1,0 +1,30 @@
+[
+  {
+    "id": "verifier-and-08d-regressions",
+    "status": "PASS",
+    "exitCode": 0,
+    "stdout": "{\n  \"status\": \"PASS\",\n  \"assertions\": 764,\n  \"typedScalarLeaves\": 40,\n  \"scientificParity\": {\n    \"runs\": 112,\n    \"worlds\": 16,\n    \"policyFamilies\": 7,\n    \"environmentSeed\": 1,\n    \"semanticMismatches\": 0,\n    \"fullObjectDigestsEqual\": true,\n    \"cognitiveDomainMissionEvidenceDigestsEqual\": true\n  },\n  \"frozenHashes\": 63,\n  \"releasedS1Unchanged\": true,\n  \"legacyId2Unchanged\": true,\n  \"gameplaySourcesUnchanged\": true,\n  \"nullZeroCases\": \"PASS\",\n  \"signedAxisCases\": \"PASS\",\n  \"sameRunGate\": \"PASS\",\n  \"sourceAndInstrumentationFirewall\": \"PASS\",\n  \"regressions\": [\n    {\n      \"id\": \"08D/08D.1/08D.2-header\",\n      \"status\": \"PASS\",\n      \"stdout\": \"08D.2 PASS: 115 checks; 08D 32798 PASS; 08D.1 1516 PASS; parity 112 runs / zero mismatches.\\n\"\n    },\n    {\n      \"id\": \"08D.2-UX\",\n      \"status\": \"PASS\",\n      \"stdout\": \"{\\n  \\\"status\\\": \\\"PASS\\\",\\n  \\\"phase\\\": \\\"PHASE 08D.2 — Scenario 2 UI/UX refinement and ending explanation pass\\\",\\n  \\\"assertions\\\": 2677,\\n  \\\"accepted08DAssertions\\\": 32798,\\n  \\\"scientificParity\\\": {\\n    \\\"runs\\\": 112,\\n    \\\"mismatches\\\": 0,\\n    \\\"worlds\\\": 16,\\n    \\\"policyFamilies\\\": 7,\\n    \\\"seed\\\": 1\\n  },\\n  \\\"frozenHashes\\\": 63,\\n  \\\"legacyId2\\\": \\\"UNCHANGED\\\",\\n  \\\"runtimeAndTelemetryHandlers\\\": \\\"UNCHANGED\\\",\\n  \\\"cognitiveFormulas\\\": \\\"UNCHANGED\\\",\\n  \\\"endStateSemantics\\\": \\\"UNCHANGED\\\",\\n  \\\"liveTruthFirewall\\\": \\\"PASS\\\"\\n}\\n\"\n    }\n  ]\n}\n",
+    "stderr": ""
+  },
+  {
+    "id": "typecheck",
+    "status": "PASS",
+    "exitCode": 0,
+    "stdout": "",
+    "stderr": ""
+  },
+  {
+    "id": "build",
+    "status": "PASS",
+    "exitCode": 0,
+    "stdout": "vite v7.3.6 building client environment for production...\ntransforming...\n✓ 145 modules transformed.\nrendering chunks...\ncomputing gzip size...\ndist/index.html                                            0.65 kB │ gzip:   0.45 kB\ndist/assets/A2-D4FrC2go.png                              588.46 kB\ndist/assets/enemy_drone_icon-D34fXmtR.png                712.48 kB\ndist/assets/A3-CgU3nE5r.png                              839.13 kB\ndist/assets/card_frame_tactical-hUrZNK1S.png           1,176.55 kB\ndist/assets/cargo_icon-DusPgqRM.png                    1,207.96 kB\ndist/assets/A1-dHRt997N.png                            2,205.73 kB\ndist/assets/friendly_satellite_icon-zvobxqhm.png       2,305.74 kB\ndist/assets/scenario3_dungeon_background-Dy7gsnrJ.png  2,311.05 kB\ndist/assets/index-B63soREr.css                           141.65 kB │ gzip:  28.74 kB\ndist/assets/index-DWj4O8FY.js                          1,133.29 kB │ gzip: 299.45 kB\n✓ built in 1.27s\n",
+    "stderr": "\n(!) Some chunks are larger than 500 kB after minification. Consider:\n- Using dynamic import() to code-split the application\n- Use build.rollupOptions.output.manualChunks to improve chunking: https://rollupjs.org/configuration-options/#output-manualchunks\n- Adjust chunk size limit for this warning via build.chunkSizeWarningLimit.\n"
+  },
+  {
+    "id": "eslint",
+    "status": "PASS",
+    "exitCode": 0,
+    "stdout": "",
+    "stderr": ""
+  }
+]

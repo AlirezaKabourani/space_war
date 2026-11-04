@@ -1,0 +1,60 @@
+{
+  "status": "PASS",
+  "changedApplicationFiles": [
+    "src/ui/components/scenario/ScenarioFiveMap.tsx",
+    "src/ui/components/scenario/ScenarioFive.css"
+  ],
+  "typecheck": "PASS",
+  "build": "PASS",
+  "scopedEslint": "PASS",
+  "browser": {
+    "screenshots": 9,
+    "viewports": 3,
+    "left": [
+      "gamma",
+      "delta"
+    ],
+    "right": [
+      "alpha",
+      "beta"
+    ],
+    "mapLargerAtEveryViewport": true,
+    "stableMapAcrossActions": true,
+    "noPageOverflow": true,
+    "liveTruthFirewall": "PASS",
+    "sizes": [
+      {
+        "viewport": "1280x720",
+        "frameWidth": 382.46875,
+        "frameHeight": 330.625,
+        "previousHeight": 218.625,
+        "renderScale": 0.5868303571428571,
+        "previousRenderScale": 0.4048611111111111
+      },
+      {
+        "viewport": "1366x768",
+        "frameWidth": 417.71875,
+        "frameHeight": 378.625,
+        "previousHeight": 266.625,
+        "renderScale": 0.6725446428571429,
+        "previousRenderScale": 0.49375
+      },
+      {
+        "viewport": "1440x900",
+        "frameWidth": 444.859375,
+        "frameHeight": 499.625,
+        "previousHeight": 387.625,
+        "renderScale": 0.7769462719298246,
+        "previousRenderScale": 0.7178240740740741
+      }
+    ]
+  },
+  "scope": {
+    "preexistingFilesCompared": 876,
+    "unexpectedChanges": [],
+    "frozenHashesUnchanged": 63,
+    "legacyId2Unchanged": true,
+    "scientificFilesUnchanged": true
+  },
+  "patchReverseCheck": "PASS"
+}

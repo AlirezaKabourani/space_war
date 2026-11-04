@@ -1,0 +1,102 @@
+[
+  {
+    "id": "3-model",
+    "status": "PASS",
+    "exitCode": 0,
+    "stdout": "Scenario 5 Phase-3 model verification passed (86 assertions).\n",
+    "stderr": "",
+    "beforeOutput": "﻿Scenario 5 Phase-3 model verification passed (86 assertions).\r\n"
+  },
+  {
+    "id": "4-mission",
+    "status": "PASS",
+    "exitCode": 0,
+    "stdout": "Scenario 5 Phase-4 mission verification passed (470 assertions).\n",
+    "stderr": "",
+    "beforeOutput": "﻿Scenario 5 Phase-4 mission verification passed (470 assertions).\r\n"
+  },
+  {
+    "id": "5-cognitive",
+    "status": "PASS",
+    "exitCode": 0,
+    "stdout": "Scenario 5 Phase-5 cognitive verification passed (388 assertions).\n",
+    "stderr": "",
+    "beforeOutput": "﻿Scenario 5 Phase-5 cognitive verification passed (388 assertions).\r\n"
+  },
+  {
+    "id": "6-runtime",
+    "status": "PASS",
+    "exitCode": 0,
+    "stdout": "Scenario 5 Phase-6 runtime verification passed (2979 assertions).\n",
+    "stderr": "",
+    "beforeOutput": "﻿Scenario 5 Phase-6 runtime verification passed (2979 assertions).\r\n"
+  },
+  {
+    "id": "7-ui",
+    "status": "FAIL",
+    "exitCode": 1,
+    "stdout": "",
+    "stderr": "node:internal/modules/run_main:107\r\n    triggerUncaughtException(\r\n    ^\r\n\r\nAssertionError [ERR_ASSERTION]: 07C leaves eventLogger semantics byte-identical\r\n+ actual - expected\r\n\r\n+ 'f34668cde75a930ceb99272bb48b417e56a1e176546320191c5e37ca703def28'\r\n- '68cc239f0d4e19a94defa87ba093611fce64cfe10c956002058490e8da372a98'\r\n\r\n    at equal (E:\\war\\space_war\\scripts\\verify-s5-phase7-ui.ts:65:87)\r\n    at <anonymous> (E:\\war\\space_war\\scripts\\verify-s5-phase7-ui.ts:271:1)\r\n    at ModuleJob.run (node:internal/modules/esm/module_job:377:25)\r\n    at async onImport.tracePromise.__proto__ (node:internal/modules/esm/loader:671:26)\r\n    at async asyncRunEntryPointWithESMLoader (node:internal/modules/run_main:101:5) {\r\n  generatedMessage: false,\r\n  code: 'ERR_ASSERTION',\r\n  actual: 'f34668cde75a930ceb99272bb48b417e56a1e176546320191c5e37ca703def28',\r\n  expected: '68cc239f0d4e19a94defa87ba093611fce64cfe10c956002058490e8da372a98',\r\n  operator: 'deepStrictEqual',\r\n  diff: 'simple'\r\n}\r\n\r\nNode.js v24.11.1\r\n",
+    "beforeOutput": "﻿node.exe : node:internal/modules/run_main:107\r\nAt line:2 char:236\r\n+ ...  $checks) { & node node_modules/tsx/dist/cli.mjs \"scripts/verify-s5-p ...\r\n+                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\r\n    + CategoryInfo          : NotSpecified: (node:internal/modules/run_main:107:String) [], RemoteException\r\n    + FullyQualifiedErrorId : NativeCommandError\r\n \r\n    triggerUncaughtException(\r\n    ^\r\n\r\nAssertionError [ERR_ASSERTION]: 07C leaves eventLogger semantics byte-identical\r\n+ actual - expected\r\n\r\n+ 'f34668cde75a930ceb99272bb48b417e56a1e176546320191c5e37ca703def28'\r\n- '68cc239f0d4e19a94defa87ba093611fce64cfe10c956002058490e8da372a98'\r\n\r\n    at equal (E:\\war\\space_war\\scripts\\verify-s5-phase7-ui.ts:65:87)\r\n    at <anonymous> (E:\\war\\space_war\\scripts\\verify-s5-phase7-ui.ts:271:1)\r\n    at ModuleJob.run (node:internal/modules/esm/module_job:377:25)\r\n    at async onImport.tracePromise.__proto__ (node:internal/modules/esm/loader:671:26)\r\n    at async asyncRunEntryPointWithESMLoader (node:internal/modules/run_main:101:5) {\r\n  generatedMessage: false,\r\n  code: 'ERR_ASSERTION',\r\n  actual: 'f34668cde75a930ceb99272bb48b417e56a1e176546320191c5e37ca703def28',\r\n  expected: '68cc239f0d4e19a94defa87ba093611fce64cfe10c956002058490e8da372a98',\r\n  operator: 'deepStrictEqual',\r\n  diff: 'simple'\r\n}\r\n\r\nNode.js v24.11.1\r\n"
+  },
+  {
+    "id": "8-calibration",
+    "status": "FAIL",
+    "exitCode": 1,
+    "stdout": "",
+    "stderr": "node:internal/modules/run_main:107\r\n    triggerUncaughtException(\r\n    ^\r\n\r\nAssertionError [ERR_ASSERTION]: protected manifest contains exactly 68 frozen files\r\n\r\n75 !== 68\r\n\r\n    at equal (E:\\war\\space_war\\scripts\\verify-s5-phase8-calibration.ts:8:87)\r\n    at <anonymous> (E:\\war\\space_war\\scripts\\verify-s5-phase8-calibration.ts:37:1)\r\n    at ModuleJob.run (node:internal/modules/esm/module_job:377:25)\r\n    at async onImport.tracePromise.__proto__ (node:internal/modules/esm/loader:671:26)\r\n    at async asyncRunEntryPointWithESMLoader (node:internal/modules/run_main:101:5) {\r\n  generatedMessage: false,\r\n  code: 'ERR_ASSERTION',\r\n  actual: 75,\r\n  expected: 68,\r\n  operator: 'deepStrictEqual',\r\n  diff: 'simple'\r\n}\r\n\r\nNode.js v24.11.1\r\n",
+    "beforeOutput": "﻿node.exe : node:internal/modules/run_main:107\r\nAt line:2 char:236\r\n+ ...  $checks) { & node node_modules/tsx/dist/cli.mjs \"scripts/verify-s5-p ...\r\n+                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\r\n    + CategoryInfo          : NotSpecified: (node:internal/modules/run_main:107:String) [], RemoteException\r\n    + FullyQualifiedErrorId : NativeCommandError\r\n \r\n    triggerUncaughtException(\r\n    ^\r\n\r\nAssertionError [ERR_ASSERTION]: protected manifest contains exactly 68 frozen files\r\n\r\n71 !== 68\r\n\r\n    at equal (E:\\war\\space_war\\scripts\\verify-s5-phase8-calibration.ts:8:87)\r\n    at <anonymous> (E:\\war\\space_war\\scripts\\verify-s5-phase8-calibration.ts:37:1)\r\n    at ModuleJob.run (node:internal/modules/esm/module_job:377:25)\r\n    at async onImport.tracePromise.__proto__ (node:internal/modules/esm/loader:671:26)\r\n    at async asyncRunEntryPointWithESMLoader (node:internal/modules/run_main:101:5) {\r\n  generatedMessage: false,\r\n  code: 'ERR_ASSERTION',\r\n  actual: 71,\r\n  expected: 68,\r\n  operator: 'deepStrictEqual',\r\n  diff: 'simple'\r\n}\r\n\r\nNode.js v24.11.1\r\n"
+  },
+  {
+    "id": "8a-audit",
+    "status": "FAIL",
+    "exitCode": 1,
+    "stdout": "",
+    "stderr": "node:internal/modules/run_main:107\r\n    triggerUncaughtException(\r\n    ^\r\n\r\nAssertionError [ERR_ASSERTION]: frozen manifest has 68 paths\r\n\r\n75 !== 68\r\n\r\n    at equal (E:\\war\\space_war\\scripts\\verify-s5-phase8a-audit.ts:8:87)\r\n    at <anonymous> (E:\\war\\space_war\\scripts\\verify-s5-phase8a-audit.ts:31:1)\r\n    at ModuleJob.run (node:internal/modules/esm/module_job:377:25)\r\n    at async onImport.tracePromise.__proto__ (node:internal/modules/esm/loader:671:26)\r\n    at async asyncRunEntryPointWithESMLoader (node:internal/modules/run_main:101:5) {\r\n  generatedMessage: false,\r\n  code: 'ERR_ASSERTION',\r\n  actual: 75,\r\n  expected: 68,\r\n  operator: 'deepStrictEqual',\r\n  diff: 'simple'\r\n}\r\n\r\nNode.js v24.11.1\r\n",
+    "beforeOutput": "﻿node.exe : node:internal/modules/run_main:107\r\nAt line:2 char:236\r\n+ ...  $checks) { & node node_modules/tsx/dist/cli.mjs \"scripts/verify-s5-p ...\r\n+                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\r\n    + CategoryInfo          : NotSpecified: (node:internal/modules/run_main:107:String) [], RemoteException\r\n    + FullyQualifiedErrorId : NativeCommandError\r\n \r\n    triggerUncaughtException(\r\n    ^\r\n\r\nAssertionError [ERR_ASSERTION]: frozen manifest has 68 paths\r\n\r\n71 !== 68\r\n\r\n    at equal (E:\\war\\space_war\\scripts\\verify-s5-phase8a-audit.ts:8:87)\r\n    at <anonymous> (E:\\war\\space_war\\scripts\\verify-s5-phase8a-audit.ts:31:1)\r\n    at ModuleJob.run (node:internal/modules/esm/module_job:377:25)\r\n    at async onImport.tracePromise.__proto__ (node:internal/modules/esm/loader:671:26)\r\n    at async asyncRunEntryPointWithESMLoader (node:internal/modules/run_main:101:5) {\r\n  generatedMessage: false,\r\n  code: 'ERR_ASSERTION',\r\n  actual: 71,\r\n  expected: 68,\r\n  operator: 'deepStrictEqual',\r\n  diff: 'simple'\r\n}\r\n\r\nNode.js v24.11.1\r\n"
+  },
+  {
+    "id": "8b-calibration",
+    "status": "FAIL",
+    "exitCode": 1,
+    "stdout": "",
+    "stderr": "E:\\war\\space_war\\scripts\\verify-s5-phase8b-calibration.ts:10\r\n  if (!condition) throw new Error(`Phase 08B verification failed: ${message}`);\r\n                        ^\r\n\r\nError: Phase 08B verification failed: frozen live UI aggregate hash\r\n    at assert (E:\\war\\space_war\\scripts\\verify-s5-phase8b-calibration.ts:10:25)\r\n    at <anonymous> (E:\\war\\space_war\\scripts\\verify-s5-phase8b-calibration.ts:200:1)\r\n    at ModuleJob.run (node:internal/modules/esm/module_job:377:25)\r\n    at async onImport.tracePromise.__proto__ (node:internal/modules/esm/loader:671:26)\r\n    at async asyncRunEntryPointWithESMLoader (node:internal/modules/run_main:101:5)\r\n\r\nNode.js v24.11.1\r\n",
+    "beforeOutput": "﻿node.exe : E:\\war\\space_war\\scripts\\verify-s5-phase8b-calibration.ts:10\r\nAt line:2 char:236\r\n+ ...  $checks) { & node node_modules/tsx/dist/cli.mjs \"scripts/verify-s5-p ...\r\n+                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\r\n    + CategoryInfo          : NotSpecified: (E:\\war\\space_wa...libration.ts:10:String) [], RemoteException\r\n    + FullyQualifiedErrorId : NativeCommandError\r\n \r\n  if (!condition) throw new Error(`Phase 08B verification failed: ${message}`);\r\n                        ^\r\n\r\nError: Phase 08B verification failed: frozen live UI aggregate hash\r\n    at assert (E:\\war\\space_war\\scripts\\verify-s5-phase8b-calibration.ts:10:25)\r\n    at <anonymous> (E:\\war\\space_war\\scripts\\verify-s5-phase8b-calibration.ts:200:1)\r\n    at ModuleJob.run (node:internal/modules/esm/module_job:377:25)\r\n    at async onImport.tracePromise.__proto__ (node:internal/modules/esm/loader:671:26)\r\n    at async asyncRunEntryPointWithESMLoader (node:internal/modules/run_main:101:5)\r\n\r\nNode.js v24.11.1\r\n"
+  },
+  {
+    "id": "8c-ui",
+    "status": "FAIL",
+    "exitCode": 1,
+    "stdout": "",
+    "stderr": "node:internal/modules/run_main:107\r\n    triggerUncaughtException(\r\n    ^\r\n\r\nAssertionError [ERR_ASSERTION]: Frozen source/archive: docs/scenario5-phase8b-engineering-verification.md\r\n+ actual - expected\r\n\r\n+ '3fae7ae0349b34a4a22e1b17ae35f09f4f06529afc6d884d2b0cfefbe4e6fab0'\r\n- '31297055dba28d9c92675b98137065af78d02dbdee581a0db45f856824842ac6'\r\n\r\n    at equal (E:\\war\\space_war\\scripts\\verify-s5-phase8c-ui.ts:30:81)\r\n    at <anonymous> (E:\\war\\space_war\\scripts\\verify-s5-phase8c-ui.ts:132:67)\r\n    at ModuleJob.run (node:internal/modules/esm/module_job:377:25)\r\n    at async onImport.tracePromise.__proto__ (node:internal/modules/esm/loader:671:26)\r\n    at async asyncRunEntryPointWithESMLoader (node:internal/modules/run_main:101:5) {\r\n  generatedMessage: false,\r\n  code: 'ERR_ASSERTION',\r\n  actual: '3fae7ae0349b34a4a22e1b17ae35f09f4f06529afc6d884d2b0cfefbe4e6fab0',\r\n  expected: '31297055dba28d9c92675b98137065af78d02dbdee581a0db45f856824842ac6',\r\n  operator: 'deepStrictEqual',\r\n  diff: 'simple'\r\n}\r\n\r\nNode.js v24.11.1\r\n",
+    "beforeOutput": "﻿node.exe : node:internal/modules/run_main:107\r\nAt line:2 char:236\r\n+ ...  $checks) { & node node_modules/tsx/dist/cli.mjs \"scripts/verify-s5-p ...\r\n+                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\r\n    + CategoryInfo          : NotSpecified: (node:internal/modules/run_main:107:String) [], RemoteException\r\n    + FullyQualifiedErrorId : NativeCommandError\r\n \r\n    triggerUncaughtException(\r\n    ^\r\n\r\nAssertionError [ERR_ASSERTION]: Frozen source/archive: docs/scenario5-phase8b-engineering-verification.md\r\n+ actual - expected\r\n\r\n+ '3fae7ae0349b34a4a22e1b17ae35f09f4f06529afc6d884d2b0cfefbe4e6fab0'\r\n- '31297055dba28d9c92675b98137065af78d02dbdee581a0db45f856824842ac6'\r\n\r\n    at equal (E:\\war\\space_war\\scripts\\verify-s5-phase8c-ui.ts:30:81)\r\n    at <anonymous> (E:\\war\\space_war\\scripts\\verify-s5-phase8c-ui.ts:132:67)\r\n    at ModuleJob.run (node:internal/modules/esm/module_job:377:25)\r\n    at async onImport.tracePromise.__proto__ (node:internal/modules/esm/loader:671:26)\r\n    at async asyncRunEntryPointWithESMLoader (node:internal/modules/run_main:101:5) {\r\n  generatedMessage: false,\r\n  code: 'ERR_ASSERTION',\r\n  actual: '3fae7ae0349b34a4a22e1b17ae35f09f4f06529afc6d884d2b0cfefbe4e6fab0',\r\n  expected: '31297055dba28d9c92675b98137065af78d02dbdee581a0db45f856824842ac6',\r\n  operator: 'deepStrictEqual',\r\n  diff: 'simple'\r\n}\r\n\r\nNode.js v24.11.1\r\n"
+  },
+  {
+    "id": "8d-integrated-gameplay",
+    "status": "PASS",
+    "exitCode": 0,
+    "stdout": "Phase 08D presentation PASS: 32798 assertions; 6 ending witnesses.\nPhase 08D parity PASS: 112 runs; zero mismatches; all frozen hashes unchanged.\n",
+    "stderr": ""
+  },
+  {
+    "id": "metric-inventory",
+    "status": "FAIL",
+    "exitCode": 1,
+    "stdout": "",
+    "stderr": "E:\\war\\space_war\\scripts\\verify-s5-metric-inventory.ts:19\r\n  if (!condition) throw new Error(message);\r\n                        ^\r\n\r\nError: Protected source file count changed\r\n    at assert (E:\\war\\space_war\\scripts\\verify-s5-metric-inventory.ts:19:25)\r\n    at <anonymous> (E:\\war\\space_war\\scripts\\verify-s5-metric-inventory.ts:242:1)\r\n    at ModuleJob.run (node:internal/modules/esm/module_job:377:25)\r\n    at async onImport.tracePromise.__proto__ (node:internal/modules/esm/loader:671:26)\r\n    at async asyncRunEntryPointWithESMLoader (node:internal/modules/run_main:101:5)\r\n\r\nNode.js v24.11.1\r\n"
+  },
+  {
+    "id": "typecheck",
+    "status": "PASS",
+    "exitCode": 0,
+    "stdout": "",
+    "stderr": ""
+  },
+  {
+    "id": "build",
+    "status": "PASS",
+    "exitCode": 0,
+    "stdout": "vite v7.3.6 building client environment for production...\ntransforming...\n✓ 140 modules transformed.\nrendering chunks...\ncomputing gzip size...\ndist/index.html                                            0.65 kB │ gzip:   0.45 kB\ndist/assets/A2-D4FrC2go.png                              588.46 kB\ndist/assets/enemy_drone_icon-D34fXmtR.png                712.48 kB\ndist/assets/A3-CgU3nE5r.png                              839.13 kB\ndist/assets/card_frame_tactical-hUrZNK1S.png           1,176.55 kB\ndist/assets/cargo_icon-DusPgqRM.png                    1,207.96 kB\ndist/assets/A1-dHRt997N.png                            2,205.73 kB\ndist/assets/friendly_satellite_icon-zvobxqhm.png       2,305.74 kB\ndist/assets/scenario3_dungeon_background-Dy7gsnrJ.png  2,311.05 kB\ndist/assets/index-C3Gn26Ah.css                           129.69 kB │ gzip:  26.64 kB\ndist/assets/index-CNxhXgAG.js                          1,108.90 kB │ gzip: 293.60 kB\n✓ built in 1.32s\n",
+    "stderr": "\n(!) Some chunks are larger than 500 kB after minification. Consider:\n- Using dynamic import() to code-split the application\n- Use build.rollupOptions.output.manualChunks to improve chunking: https://rollupjs.org/configuration-options/#output-manualchunks\n- Adjust chunk size limit for this warning via build.chunkSizeWarningLimit.\n"
+  }
+]

@@ -1,0 +1,94 @@
+{
+  "status": "PASS",
+  "changedExistingFiles": [
+    "src/ui/components/scenario/scenario-five/ui/ScenarioFiveCognitiveDashboard.tsx",
+    "src/App.tsx"
+  ],
+  "newPresentationFiles": [
+    "src/ui/components/scenario/scenario-five/ui/ScenarioFiveAdminDashboardPreview.tsx",
+    "src/ui/components/scenario/scenario-five/ui/ScenarioFiveAdminDashboardPreview.css"
+  ],
+  "typecheck": "PASS",
+  "build": "PASS",
+  "scopedEslint": "PASS",
+  "browser": {
+    "status": "PASS",
+    "snapshots": [
+      {
+        "filename": "01-admin-only-menu-button.png",
+        "runtimeStage": "authenticated admin menu",
+        "stage": "authenticated admin menu",
+        "phase": null,
+        "round": null,
+        "clock": null,
+        "ISR": null,
+        "Support": null,
+        "evidenceCount": 0,
+        "visibleConvoyValues": [],
+        "viewport": {
+          "width": 1440,
+          "height": 900
+        },
+        "page": {
+          "scrollHeight": 900,
+          "clientHeight": 900,
+          "scrollWidth": 1440,
+          "clientWidth": 1440
+        },
+        "leftPane": null,
+        "mapVisible": false,
+        "footerReachable": true,
+        "visibleConvoyCards": [],
+        "selectedAction": null,
+        "selectedTarget": null,
+        "endingId": null,
+        "hiddenTruthInDom": false,
+        "sliders": [],
+        "notes": []
+      },
+      {
+        "filename": "02-admin-design-dashboard.png",
+        "runtimeStage": "temporary admin-only sample preview",
+        "stage": "temporary admin-only sample preview",
+        "phase": null,
+        "round": null,
+        "clock": null,
+        "ISR": null,
+        "Support": null,
+        "evidenceCount": 0,
+        "visibleConvoyValues": [],
+        "viewport": {
+          "width": 1440,
+          "height": 900
+        },
+        "page": {
+          "scrollHeight": 900,
+          "clientHeight": 900,
+          "scrollWidth": 1440,
+          "clientWidth": 1440
+        },
+        "leftPane": null,
+        "mapVisible": false,
+        "footerReachable": true,
+        "visibleConvoyCards": [],
+        "selectedAction": null,
+        "selectedTarget": null,
+        "endingId": null,
+        "hiddenTruthInDom": false,
+        "sliders": [],
+        "notes": []
+      }
+    ],
+    "playerButtonAbsent": true,
+    "playerForcedRouteBlocked": true,
+    "authenticatedAdminShortcut": true,
+    "sampleClearlyLabeled": true,
+    "closeAndFinishReturnToMenu": true,
+    "gameplayTelemetryUnchanged": true,
+    "shortcutHiddenAfterProfileSwitch": true
+  },
+  "frozenHashesUnchanged": 63,
+  "normalRunGateAndSummaryUnchanged": true,
+  "removalMarker": "TEMP-S5-DASHBOARD-PREVIEW",
+  "featureFlag": "ENABLE_TEMP_SCENARIO_TWO_DASHBOARD_PREVIEW"
+}

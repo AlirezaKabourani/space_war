@@ -1,0 +1,114 @@
+{
+  "status": "PASS",
+  "snapshots": [
+    {
+      "filename": "01-admin-scenario2-intro-corner.png",
+      "runtimeStage": "small admin-only shortcut on Scenario2 first screen",
+      "stage": "small admin-only shortcut on Scenario2 first screen",
+      "phase": null,
+      "round": null,
+      "clock": null,
+      "ISR": null,
+      "Support": null,
+      "evidenceCount": 0,
+      "visibleConvoyValues": [],
+      "viewport": {
+        "width": 1440,
+        "height": 900
+      },
+      "page": {
+        "scrollHeight": 900,
+        "clientHeight": 900,
+        "scrollWidth": 1440,
+        "clientWidth": 1440
+      },
+      "leftPane": null,
+      "mapVisible": false,
+      "footerReachable": true,
+      "visibleConvoyCards": [],
+      "selectedAction": null,
+      "selectedTarget": null,
+      "endingId": null,
+      "hiddenTruthInDom": false,
+      "sliders": [],
+      "notes": []
+    },
+    {
+      "filename": "01-admin-scenario2-intro-corner-1280x720.png",
+      "runtimeStage": "small admin-only shortcut on Scenario2 first screen",
+      "stage": "small admin-only shortcut on Scenario2 first screen",
+      "phase": null,
+      "round": null,
+      "clock": null,
+      "ISR": null,
+      "Support": null,
+      "evidenceCount": 0,
+      "visibleConvoyValues": [],
+      "viewport": {
+        "width": 1280,
+        "height": 720
+      },
+      "page": {
+        "scrollHeight": 720,
+        "clientHeight": 720,
+        "scrollWidth": 1280,
+        "clientWidth": 1280
+      },
+      "leftPane": null,
+      "mapVisible": false,
+      "footerReachable": true,
+      "visibleConvoyCards": [],
+      "selectedAction": null,
+      "selectedTarget": null,
+      "endingId": null,
+      "hiddenTruthInDom": false,
+      "sliders": [],
+      "notes": []
+    },
+    {
+      "filename": "02-preview-from-scenario-intro.png",
+      "runtimeStage": "admin design preview from first Scenario2 screen",
+      "stage": "admin design preview from first Scenario2 screen",
+      "phase": null,
+      "round": null,
+      "clock": null,
+      "ISR": null,
+      "Support": null,
+      "evidenceCount": 0,
+      "visibleConvoyValues": [],
+      "viewport": {
+        "width": 1440,
+        "height": 900
+      },
+      "page": {
+        "scrollHeight": 900,
+        "clientHeight": 900,
+        "scrollWidth": 1440,
+        "clientWidth": 1440
+      },
+      "leftPane": null,
+      "mapVisible": false,
+      "footerReachable": true,
+      "visibleConvoyCards": [],
+      "selectedAction": null,
+      "selectedTarget": null,
+      "endingId": null,
+      "hiddenTruthInDom": false,
+      "sliders": [],
+      "notes": []
+    }
+  ],
+  "corner": {
+    "width": 73.71875,
+    "height": 24,
+    "leftOffset": 9.796875,
+    "topOffset": 9.796875
+  },
+  "noMainMenuShortcut": true,
+  "adminScenario2IntroOnly": true,
+  "playerIntroShortcutAbsent": true,
+  "modalPreservesIntro": true,
+  "closeEscapeAndFinishReturnToIntro": true,
+  "gameplayTelemetryUnchanged": true,
+  "shortcutHiddenAfterStartingScenario": true
+}

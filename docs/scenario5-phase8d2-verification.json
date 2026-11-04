@@ -1,0 +1,116 @@
+{
+  "status": "PASS",
+  "assertions": 115,
+  "phase08d": {
+    "result": "PASS",
+    "assertions": 32798
+  },
+  "phase08d1": {
+    "result": "PASS",
+    "assertions": 1516
+  },
+  "scientificParity": {
+    "runs": 112,
+    "mismatches": 0,
+    "environmentSeed": 1,
+    "worlds": 16,
+    "policyFamilies": 7
+  },
+  "frozenGuard": "PASS",
+  "frozenHashes": 63,
+  "changedFrozenFiles": [],
+  "legacyGuard": "PASS",
+  "appUnchanged": true,
+  "observed": [
+    {
+      "reviewedPhase": "A",
+      "title": "مرور پایان فاز ۱ — ساخت تصویر اولیه",
+      "subtitle": "مرحله بعد: فاز ۲ — تمرکز و مدیریت مسیر · تصمیم ۳ از ۸",
+      "stageLabel": "مرور فاز",
+      "nextRuntimeStage": "decision:B1_monitoring_allocation",
+      "nextHeader": "فاز 2 از ۴ — تمرکز و مدیریت مسیر",
+      "nextDecision": "تصمیم 3 از ۸ — تخصیص توجه",
+      "clock": 68,
+      "ISR": 62,
+      "Support": 100,
+      "evidenceCount": 8
+    },
+    {
+      "reviewedPhase": "B",
+      "title": "مرور پایان فاز ۲ — تمرکز و مدیریت مسیر",
+      "subtitle": "مرحله بعد: فاز ۳ — ایجاد تاب‌آوری · تصمیم ۵ از ۸",
+      "stageLabel": "مرور فاز",
+      "nextRuntimeStage": "decision:C1_support_and_checkpoints",
+      "nextHeader": "فاز 3 از ۴ — ایجاد تاب‌آوری",
+      "nextDecision": "تصمیم 5 از ۸ — تاب‌آوری و پشتیبانی",
+      "clock": 136,
+      "ISR": 46,
+      "Support": 90,
+      "evidenceCount": 14
+    },
+    {
+      "reviewedPhase": "C",
+      "title": "مرور پایان فاز ۳ — ایجاد تاب‌آوری",
+      "subtitle": "مرحله بعد: فاز ۴ — مدیریت فشار و تحویل · تصمیم ۷ از ۸",
+      "stageLabel": "مرور فاز",
+      "nextRuntimeStage": "decision:D1_crisis_response",
+      "nextHeader": "فاز 4 از ۴ — مدیریت فشار و تحویل",
+      "nextDecision": "تصمیم 7 از ۸ — پاسخ به فشار عملیاتی",
+      "clock": 201,
+      "ISR": 36,
+      "Support": 70,
+      "evidenceCount": 20
+    }
+  ],
+  "changedApplicationFiles": [
+    "src/ui/components/scenario/ScenarioFiveSimulation.tsx",
+    "src/ui/components/scenario/scenario-five/ui/ScenarioFiveProgress.tsx",
+    "src/ui/components/scenario/ScenarioFive.css"
+  ],
+  "addedApplicationFiles": [
+    "src/ui/components/scenario/scenario-five/ui/phaseHeader.ts"
+  ],
+  "checks": [
+    {
+      "id": "phase08d2",
+      "status": "PASS",
+      "exitCode": 0
+    },
+    {
+      "id": "typecheck",
+      "status": "PASS",
+      "exitCode": 0
+    },
+    {
+      "id": "build",
+      "status": "PASS",
+      "exitCode": 0
+    },
+    {
+      "id": "eslint",
+      "status": "PASS",
+      "exitCode": 0
+    }
+  ],
+  "browser": {
+    "status": "PASS",
+    "screenshots": 6,
+    "inspection": "docs/scenario5-phase8d2-screenshots/inspection.json",
+    "sizes": [
+      [
+        1280,
+        720
+      ],
+      [
+        1366,
+        768
+      ],
+      [
+        1440,
+        900
+      ]
+    ],
+    "additionalLayoutChecks": 12
+  },
+  "patchReverseCheck": "PASS"
+}

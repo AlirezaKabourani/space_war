@@ -1,0 +1,12 @@
+E:\war\space_war\scripts\verify-s5-metric-inventory.ts:19
+  if (!condition) throw new Error(message);
+                        ^
+
+Error: Protected source file count changed
+    at assert (E:\war\space_war\scripts\verify-s5-metric-inventory.ts:19:25)
+    at <anonymous> (E:\war\space_war\scripts\verify-s5-metric-inventory.ts:242:1)
+    at ModuleJob.run (node:internal/modules/esm/module_job:377:25)
+    at async onImport.tracePromise.__proto__ (node:internal/modules/esm/loader:671:26)
+    at async asyncRunEntryPointWithESMLoader (node:internal/modules/run_main:101:5)
+
+Node.js v24.11.1

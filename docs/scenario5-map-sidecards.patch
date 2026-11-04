@@ -1,0 +1,102 @@
+diff --git a/src/ui/components/scenario/ScenarioFive.css b/src/ui/components/scenario/ScenarioFive.css
+index e1b2a81..62d5ae7 100644
+--- a/src/ui/components/scenario/ScenarioFive.css
++++ b/src/ui/components/scenario/ScenarioFive.css
+@@ -459,3 +459,21 @@
+   .s5-last-decision { height: auto; grid-template-columns: 1fr; }
+ }
+ @media (max-width: 600px) { .s5-ending-alternatives { grid-template-columns: 1fr; } }
++
++/* Convoy information flanks the enlarged map; physical sides are explicit in RTL. */
++.s5-map-layout { display: grid; direction: ltr; grid-template-columns: clamp(120px,9.5vw,136px) minmax(0,1fr) clamp(120px,9.5vw,136px); grid-template-areas: "left map right"; gap: .45rem; min-width: 0; min-height: 0; }
++.s5-map-layout > .s5-map-frame { grid-area: map; }
++.s5-convoy-column { display: grid; direction: rtl; grid-template-rows: repeat(2,minmax(0,1fr)); gap: .45rem; min-width: 0; min-height: 0; }
++.s5-convoy-column-left { grid-area: left; }
++.s5-convoy-column-right { grid-area: right; }
++.s5-convoy-column .s5-convoy-mini { overflow-y: auto; overscroll-behavior: contain; scrollbar-gutter: stable; padding: .5rem; }
++.s5-convoy-column .s5-convoy-mini header { position: sticky; top: -.5rem; padding-block: .2rem; background: #091a2b; z-index: 1; }
++.s5-convoy-column .s5-convoy-mini p { font-size: .72rem; }
++@media (min-width: 900px) {
++  .s5-workspace { grid-template-columns: minmax(360px,2fr) minmax(0,3fr); }
++  .s5-map-panel { grid-template-rows: 68px minmax(0,1fr); }
++}
++@media (max-width: 899px) {
++  .s5-map-panel { grid-template-rows: auto minmax(400px,1fr); }
++  .s5-map-layout { grid-template-columns: minmax(110px,.4fr) minmax(0,1fr) minmax(110px,.4fr); }
++}
+diff --git a/src/ui/components/scenario/ScenarioFiveMap.tsx b/src/ui/components/scenario/ScenarioFiveMap.tsx
+index a508ead..120c2b1 100644
+--- a/src/ui/components/scenario/ScenarioFiveMap.tsx
++++ b/src/ui/components/scenario/ScenarioFiveMap.tsx
+@@ -97,6 +97,29 @@ export const ScenarioFiveMap = ({
+     return () => window.clearTimeout(timer);
+   }, [pulsingConvoys]);
+ 
++  const renderConvoyCard = (convoy: ScenarioFivePlayerConvoy) => {
++          const content = SCENARIO5_CORRIDOR_CONTENT_FA[convoy.corridorId];
++          const mitigations = [...mitigationLabels(convoy), ...(convoy.routeHardened && checkpoints.includes(convoy.corridorId) ? ['نقاط کنترل فعال'] : [])];
++          return <article key={convoy.convoyId} data-convoy-card={convoy.convoyId} className={`s5-convoy-mini s5-status-${convoy.status} ${highlightedCorridorId === convoy.corridorId ? 's5-selected' : ''}`}>
++            <header><strong>{content.convoyLabel}</strong><span>{SCENARIO5_STATUS_LABELS_FA[convoy.status]}</span></header>
++            <p>{content.cargoLabel} · <bdi>{content.routeLabel}</bdi></p>
++            <p>سلامت عملیاتی: <bdi dir="ltr">{convoy.integrity} / 100</bdi></p>
++            <p>رسیدن برآوردی: <bdi dir="ltr">T+{convoy.projectedArrivalMinute}</bdi> دقیقه</p>
++            <p>مهلت تحویل: <bdi dir="ltr">T+{convoy.deadlineMinute}</bdi> دقیقه</p>
++            <p>{marginLabel(deadlineMargin(convoy))}</p>
++            <p>تأخیر تجمعی: +{convoy.delayMinutes} دقیقه</p>
++            {mitigations.length > 0 && <div className="s5-mini-badges">{mitigations.map((item) => <b key={item}>{item}</b>)}</div>}
++            {expiredEscortCorridors.includes(convoy.corridorId) && !convoy.escortedNow && <small>{ESCORT_EXPIRED}</small>}
++            {onSelectTarget && <button type="button" className="s5-map-target" disabled={!legalTargets.includes(convoy.corridorId)} aria-pressed={highlightedCorridorId === convoy.corridorId} onClick={() => onSelectTarget(convoy.corridorId)}>انتخاب هدف</button>}
++            <details><summary>شواهد این کریدور: {evidence.filter(e => e.observedCorridorId === convoy.corridorId).length}</summary>
++              <p>{evidence.filter(e => e.observedCorridorId === convoy.corridorId && e.direction === 'supports_targeted').length} مشاهده سازگار با اخلال هدفمند</p>
++              <p>{evidence.filter(e => e.observedCorridorId === convoy.corridorId && e.direction === 'ambiguous').length} مشاهده مبهم / چندتفسیره</p>
++              <p>{evidence.filter(e => e.observedCorridorId === convoy.corridorId && e.direction === 'supports_nonhostile').length} مشاهده بیشتر سازگار با علت غیرخصمانه</p>
++            </details>
++          </article>;
++
++  };
++
+   return (
+     <section className="s5-panel s5-map-panel" aria-labelledby="s5-map-title">
+       <div className="s5-section-heading s5-map-heading">
+@@ -105,8 +128,10 @@ export const ScenarioFiveMap = ({
+           {evidence.some((item) => item.observedCorridorId === null) && <small>شواهد چندمحوره: {evidence.filter((item) => item.observedCorridorId === null).length}</small>}
+         </div>
+       </div>
++      <div className="s5-map-layout">
++        <aside className="s5-convoy-column s5-convoy-column-left" aria-label="اطلاعات کاروان‌های ج و د">{convoys.filter(convoy => convoy.convoyId === 'gamma' || convoy.convoyId === 'delta').map(renderConvoyCard)}</aside>
+       <div className="s5-map-frame">
+-        <svg viewBox="130 34 720 540" role="group" aria-label="نقشه عملیاتی چهار کریدور سناریو ۲">
++        <svg viewBox="205 24 570 560" role="group" aria-label="نقشه عملیاتی چهار کریدور سناریو ۲">
+           <image href="/vendor/iranmap/iranmap.svg" x="130" y="34" width="720" height="540" preserveAspectRatio="xMidYMid meet" className="s5-iran-base-image" />
+           {(Object.keys(ROUTES) as CorridorId[]).map((corridorId) => {
+             const route = ROUTES[corridorId];
+@@ -173,28 +198,7 @@ export const ScenarioFiveMap = ({
+           })}
+         </svg>
+       </div>
+-      <div className="s5-convoy-strip">
+-        {convoys.map((convoy) => {
+-          const content = SCENARIO5_CORRIDOR_CONTENT_FA[convoy.corridorId];
+-          const mitigations = [...mitigationLabels(convoy), ...(convoy.routeHardened && checkpoints.includes(convoy.corridorId) ? ['نقاط کنترل فعال'] : [])];
+-          return <article key={convoy.convoyId} data-convoy-card={convoy.convoyId} className={`s5-convoy-mini s5-status-${convoy.status} ${highlightedCorridorId === convoy.corridorId ? 's5-selected' : ''}`}>
+-            <header><strong>{content.convoyLabel}</strong><span>{SCENARIO5_STATUS_LABELS_FA[convoy.status]}</span></header>
+-            <p>{content.cargoLabel} · <bdi>{content.routeLabel}</bdi></p>
+-            <p>سلامت عملیاتی: <bdi dir="ltr">{convoy.integrity} / 100</bdi></p>
+-            <p>رسیدن برآوردی: <bdi dir="ltr">T+{convoy.projectedArrivalMinute}</bdi> دقیقه</p>
+-            <p>مهلت تحویل: <bdi dir="ltr">T+{convoy.deadlineMinute}</bdi> دقیقه</p>
+-            <p>{marginLabel(deadlineMargin(convoy))}</p>
+-            <p>تأخیر تجمعی: +{convoy.delayMinutes} دقیقه</p>
+-            {mitigations.length > 0 && <div className="s5-mini-badges">{mitigations.map((item) => <b key={item}>{item}</b>)}</div>}
+-            {expiredEscortCorridors.includes(convoy.corridorId) && !convoy.escortedNow && <small>{ESCORT_EXPIRED}</small>}
+-            {onSelectTarget && <button type="button" className="s5-map-target" disabled={!legalTargets.includes(convoy.corridorId)} aria-pressed={highlightedCorridorId === convoy.corridorId} onClick={() => onSelectTarget(convoy.corridorId)}>انتخاب هدف</button>}
+-            <details><summary>شواهد این کریدور: {evidence.filter(e => e.observedCorridorId === convoy.corridorId).length}</summary>
+-              <p>{evidence.filter(e => e.observedCorridorId === convoy.corridorId && e.direction === 'supports_targeted').length} مشاهده سازگار با اخلال هدفمند</p>
+-              <p>{evidence.filter(e => e.observedCorridorId === convoy.corridorId && e.direction === 'ambiguous').length} مشاهده مبهم / چندتفسیره</p>
+-              <p>{evidence.filter(e => e.observedCorridorId === convoy.corridorId && e.direction === 'supports_nonhostile').length} مشاهده بیشتر سازگار با علت غیرخصمانه</p>
+-            </details>
+-          </article>;
+-        })}
++        <aside className="s5-convoy-column s5-convoy-column-right" aria-label="اطلاعات کاروان‌های الف و ب">{convoys.filter(convoy => convoy.convoyId === 'alpha' || convoy.convoyId === 'beta').map(renderConvoyCard)}</aside>
+       </div>
+     </section>
+   );

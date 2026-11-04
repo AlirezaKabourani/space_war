@@ -26,6 +26,7 @@ export interface ScenarioFivePlayerViewModel {
     readonly supportReserve: number;
     readonly worldClockMinutes: number;
     readonly missionHorizonMinutes: 360;
+    readonly evidenceCount: number;
   };
   readonly convoys: readonly ScenarioFivePlayerConvoy[];
   readonly visibleEvidence: readonly ScenarioFiveEvidenceDetail[];
@@ -58,7 +59,9 @@ export interface ScenarioFiveOutcomeConvoyChange {
   readonly projectedArrivalAfter: number;
   readonly deadlineMinute: number;
   readonly deadlineMargin: number;
+  readonly deadlineMarginBefore: number;
   readonly newMitigations: readonly string[];
+  readonly expiredMitigations: readonly string[];
 }
 
 export interface ScenarioFiveOutcomeView {
@@ -69,6 +72,16 @@ export interface ScenarioFiveOutcomeView {
   readonly worldClockAfter: number;
   readonly isrSpent: number;
   readonly supportSpent: number;
+  readonly resourcesBefore: { readonly isrCapacity: number; readonly supportReserve: number };
+  readonly resourcesAfter: { readonly isrCapacity: number; readonly supportReserve: number };
+  readonly totalEvidenceCount: number;
+  readonly convoys: readonly ScenarioFivePlayerConvoy[];
+  readonly newEvidence: readonly ScenarioFiveEvidenceSummary[];
+  readonly lateEvidenceIds: readonly string[];
+  readonly pendingGroundRequest: boolean;
+  readonly actionDurationMinutes: number;
+  readonly baselineMinutes: number;
+  readonly passiveHorizonMinutes: number;
   readonly convoyChanges: readonly ScenarioFiveOutcomeConvoyChange[];
   readonly newEvidenceCount: number;
   readonly nextStageId: RuntimeStageId;

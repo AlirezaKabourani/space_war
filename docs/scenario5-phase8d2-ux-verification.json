@@ -1,0 +1,101 @@
+{
+  "status": "PASS",
+  "phase": "PHASE 08D.2 — Scenario 2 UI/UX refinement and ending explanation pass",
+  "assertions": 2677,
+  "accepted08DAssertions": 32798,
+  "scientificParity": {
+    "runs": 112,
+    "mismatches": 0,
+    "worlds": 16,
+    "policyFamilies": 7,
+    "seed": 1
+  },
+  "frozenHashes": 63,
+  "legacyId2": "UNCHANGED",
+  "runtimeAndTelemetryHandlers": "UNCHANGED",
+  "cognitiveFormulas": "UNCHANGED",
+  "endStateSemantics": "UNCHANGED",
+  "liveTruthFirewall": "PASS",
+  "checks": [
+    {
+      "id": "refinement-and-parity",
+      "status": "PASS",
+      "exitCode": 0
+    },
+    {
+      "id": "typecheck",
+      "status": "PASS",
+      "exitCode": 0
+    },
+    {
+      "id": "build",
+      "status": "PASS",
+      "exitCode": 0
+    },
+    {
+      "id": "eslint",
+      "status": "PASS",
+      "exitCode": 0
+    }
+  ],
+  "browser": {
+    "status": "PASS",
+    "screenshots": 17,
+    "geometrySamples": 63,
+    "sizes": [
+      {
+        "viewport": "1280x720",
+        "mapWidth": 509.59375,
+        "mapHeight": 218.625,
+        "leftPanelWidth": 568.03125,
+        "samples": 17,
+        "maxGeometryDelta": 0
+      },
+      {
+        "viewport": "1366x768",
+        "mapWidth": 550.9375,
+        "mapHeight": 266.625,
+        "leftPanelWidth": 612.6875,
+        "samples": 17,
+        "maxGeometryDelta": 0
+      },
+      {
+        "viewport": "1440x900",
+        "mapWidth": 582.671875,
+        "mapHeight": 387.625,
+        "leftPanelWidth": 646.953125,
+        "samples": 17,
+        "maxGeometryDelta": 0
+      }
+    ],
+    "liveHiddenTruthFirewall": "PASS",
+    "groupDisclosuresMutateTelemetry": false,
+    "explicitEvidenceOpenCount": 0,
+    "completionEventCount": 1,
+    "endingAlternatives": 5
+  },
+  "scope": {
+    "preexistingFilesCompared": 842,
+    "changedOriginalFiles": [
+      "src/ui/components/scenario/scenario-five/ui/ScenarioFiveMissionEnding.tsx",
+      "src/ui/components/scenario/scenario-five/ui/ScenarioFiveProgress.tsx",
+      "src/ui/components/scenario/scenario-five/ui/endingPresentation.ts",
+      "src/ui/components/scenario/ScenarioFive.css",
+      "src/ui/components/scenario/ScenarioFiveActionCard.tsx",
+      "src/ui/components/scenario/ScenarioFiveMap.tsx",
+      "src/ui/components/scenario/ScenarioFiveResourcePanel.tsx",
+      "src/ui/components/scenario/ScenarioFiveSimulation.tsx",
+      "src/ui/components/scenario/ScenarioFiveSummary.tsx",
+      "src/ui/components/scenario/scenario-five/ui/ScenarioFiveInformationPicture.tsx",
+      "src/ui/components/scenario/scenario-five/ui/ScenarioFiveOutcomePanel.tsx"
+    ],
+    "addedApplicationFiles": [
+      "src/ui/components/scenario/scenario-five/ui/ScenarioFiveTime.tsx",
+      "src/ui/components/scenario/scenario-five/ui/endingAlternatives.ts"
+    ],
+    "unexpectedChanges": [],
+    "appUnchanged": true,
+    "legacyId2Unchanged": true,
+    "priorDeliveryAndAuditArtifactsUnchanged": true
+  }
+}
