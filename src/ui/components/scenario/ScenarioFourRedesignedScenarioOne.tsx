@@ -1,5 +1,7 @@
 import { useEffect, useMemo, useRef, useState, type CSSProperties } from "react";
 import { eventLogger } from "../../../services/analytics/eventLogger";
+import { archiveS1Completion, beginCognitiveAttempt, completionArchiveStatus, type CognitiveAttempt } from "../../../services/storage/completedCognitiveAttempt";
+import { CognitiveArchiveDisclosure } from "./CognitiveArchiveDisclosure";
 import { Card } from "../common/Card";
 import "./ScenarioFourRedesignedScenarioOne.css";
 import friendlySatelliteAsset from "../../../../assets/s1/A2.png";
@@ -1290,6 +1292,8 @@ export const ScenarioFourRedesignedScenarioOne = ({
   onComplete,
 }: ScenarioFourRedesignedScenarioOneProps) => {
   const isAdmin = userProfileId === "admin";
+  const archiveAttemptRef = useRef<CognitiveAttempt | null>(null);
+  const [archiveStatus, setArchiveStatus] = useState("");
   const runIdRef = useRef<string>("");
   const startedAtRef = useRef(new Date().toISOString());
   const windowStartedAtRef = useRef(getNow());
@@ -2017,6 +2021,8 @@ export const ScenarioFourRedesignedScenarioOne = ({
     });
     setMove3Snapshot(result.move3);
     setFinalSnapshot(result.finalSnapshot);
+    setArchiveStatus("در حال بررسی ذخیره گزارش شناختی…");
+    void completionArchiveStatus(() => archiveS1Completion(archiveAttemptRef.current, result.finalSnapshot, cognitiveV3)).then(setArchiveStatus);
     setState(result.finalSnapshot.finalState);
     localStorage.setItem(
       "space-war.scenario4.redesigned-s1.move3.snapshot",
@@ -2070,6 +2076,10 @@ export const ScenarioFourRedesignedScenarioOne = ({
     const current = order.indexOf(phase);
     const next = order[current + 1] ?? "brief";
     if (next === "brief") {
+      if (!archiveAttemptRef.current) {
+        try { archiveAttemptRef.current = beginCognitiveAttempt(userProfileId, scenarioId, runIdRef.current); }
+        catch (error) { setArchiveStatus(error instanceof Error ? error.message : "هویت تلاش برای آرشیو معتبر نیست."); }
+      }
       logScenarioFour("s4_intro_complete", scenarioId, nodeId, { runId: runIdRef.current });
     }
     setPhase(next);
@@ -2178,6 +2188,7 @@ export const ScenarioFourRedesignedScenarioOne = ({
   if (phase.startsWith("intro")) {
     return (
       <div className="s4-shell">
+        <CognitiveArchiveDisclosure />
         <IntroScreen phase={phase as IntroNarrativeScreen["id"]} onNext={goNextIntro} />
       </div>
     );
@@ -2185,6 +2196,7 @@ export const ScenarioFourRedesignedScenarioOne = ({
 
   return (
     <div className="s4-shell">
+      {archiveStatus && (!archiveAttemptRef.current || archiveAttemptRef.current.userProfileId === userProfileId) && <p role="status" dir="rtl" data-cognitive-archive-status>{archiveStatus}</p>}
       <GameplayHeader
         phase={phase}
         guideActive={toolbarGuideOpen}

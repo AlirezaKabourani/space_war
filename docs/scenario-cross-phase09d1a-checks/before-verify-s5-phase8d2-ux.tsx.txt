@@ -1,0 +1,24 @@
+node:internal/modules/run_main:107
+    triggerUncaughtException(
+    ^
+
+AssertionError [ERR_ASSERTION]: App including legacy id=2 and active id=5 unchanged
++ actual - expected
+
++ '86cc3359fda4133163ae2d8a4c972f4c5f62d6bafd1458d0a1983d78fc59cc05'
+- 'b296cc547fe34afe58d2de543650fc210a5d28f5cc0da0fa3857bf39c3596871'
+
+    at equal (C:\Users\pc\AppData\Local\Temp\cross09d1a-history-M6tSNF\before\scripts\verify-s5-phase8d2-ux.tsx:26:67)
+    at <anonymous> (C:\Users\pc\AppData\Local\Temp\cross09d1a-history-M6tSNF\before\scripts\verify-s5-phase8d2-ux.tsx:29:1)
+    at ModuleJob.run (node:internal/modules/esm/module_job:377:25)
+    at async onImport.tracePromise.__proto__ (node:internal/modules/esm/loader:671:26)
+    at async asyncRunEntryPointWithESMLoader (node:internal/modules/run_main:101:5) {
+  generatedMessage: false,
+  code: 'ERR_ASSERTION',
+  actual: '86cc3359fda4133163ae2d8a4c972f4c5f62d6bafd1458d0a1983d78fc59cc05',
+  expected: 'b296cc547fe34afe58d2de543650fc210a5d28f5cc0da0fa3857bf39c3596871',
+  operator: 'deepStrictEqual',
+  diff: 'simple'
+}
+
+Node.js v24.11.1

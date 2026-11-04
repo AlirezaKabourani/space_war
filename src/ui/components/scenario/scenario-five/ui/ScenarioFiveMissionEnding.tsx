@@ -6,11 +6,9 @@ import { marginLabel, deadlineMargin } from './gameplayPresentation';
 import { ScenarioFiveOutcomeContent } from './ScenarioFiveOutcomePanel';
 import { SCENARIO5_ACTION_COPY_FA, SCENARIO5_ACTOR_LABELS_FA, SCENARIO5_BELIEF_COPY_FA, SCENARIO5_CORRIDOR_CONTENT_FA, SCENARIO5_PROVENANCE_LABELS_FA, SCENARIO5_REASON_LABELS_FA, SCENARIO5_SOURCE_LABELS_FA, SCENARIO5_STATUS_LABELS_FA } from './uiContentFa';
 import { getScenario5OperationalAttributionLabel } from './uiContentFa';
-import { ENDING_CONDITIONS } from './endingAlternatives';
-import type { Scenario5EndStateId } from '../model/mission/index';
 import { ScenarioFiveOperationalTime } from './ScenarioFiveTime';
 
-export const ScenarioFiveMissionEnding = ({state, result, onCognitiveEntry, onComplete}: {
+export const ScenarioFiveMissionEnding = ({state, result, onCognitiveEntry}: {
   state: Scenario5RuntimeState; result: Scenario5RuntimeResult; onCognitiveEntry: () => void; onComplete: () => void;
 }) => {
   if (state.stage.stageId !== 'complete') throw new Error('Mission ending cannot render before completion');
@@ -46,14 +44,6 @@ export const ScenarioFiveMissionEnding = ({state, result, onCognitiveEntry, onCo
       <h3>زمینه اجرا</h3><p>منابع نهایی: ISR {view.resources.isrCapacity}، پشتیبانی {view.resources.supportReserve}؛ {view.visibleEvidence.length} شاهد. این مقادیر زمینه اجرا هستند و به‌تنهایی علت نتیجه را تعیین نمی‌کنند.</p>
       <h3>تداوم عملیاتی شبکه</h3><p>برای تداوم عملیاتی، کاروان باید یکپارچگی حداقل ۶۰ داشته باشد و تا مهلت خود برسد.</p>
       <div className="s5-table-wrap"><table><thead><tr><th>کاروان</th><th>سلامت ≥۶۰</th><th>رسیدن تا مهلت</th><th>سهم در تداوم</th></tr></thead><tbody>{aar.rows.map(r => <tr key={r.corridorId}><td>{SCENARIO5_CORRIDOR_CONTENT_FA[r.corridorId].convoyLabel}</td><td>{r.integrity}: {r.healthPass ? 'برقرار ✓' : 'برقرار نیست ×'}</td><td>رسیدن <bdi dir="ltr">T+{r.arrival}</bdi> / مهلت <bdi dir="ltr">T+{r.deadline}</bdi> دقیقه — {r.deadlinePass ? 'برقرار ✓' : 'برقرار نیست ×'}</td><td>{r.contributes ? 'بله' : 'خیر'}</td></tr>)}</tbody></table></div>
-      <section className="s5-other-endings" aria-labelledby="s5-other-endings-title">
-        <h3 id="s5-other-endings-title">پایان‌های دیگر که ممکن بود رخ دهند</h3>
-        <p>این‌ها شرط‌های پایان‌های دیگرند، نه پیش‌بینی نتیجه یک انتخاب خاص. تحویل محموله حیاتی به سلامت کاروان الف و رسیدن تا پایان ۳۶۰ دقیقه وابسته است؛ تداوم هر کاروان به سلامت حداقل ۶۰ و رسیدن تا مهلت خودش بستگی دارد.</p>
-        <div className="s5-ending-alternatives">{(Object.keys(ENDING_TITLES) as Scenario5EndStateId[]).filter(id => id !== aar.end.endStateId).map(id => <article className="s5-ending-alternative" key={id}>
-          <h4>{ENDING_TITLES[id]}</h4><p>{ENDING_CONDITIONS[id]}</p>
-        </article>)}</div>
-        <p className="s5-method-note">حفاظت و پشتیبانی، مدیریت زمان و مسیر، و جمع‌آوری شواهد می‌توانند این شرایط را تغییر دهند. هزینه منابع و واکنش عامل مقابل نیز در مسیر اجرا اثر دارند؛ یک اقدام به‌تنهایی تضمین‌کننده پایان مشخصی نیست.</p>
-      </section>
     </section>
     <section id="s5-trace" className="s5-panel s5-aar-section" data-aar-section="decisions"><h2>مسیر تصمیم‌ها — هر ۸ تصمیم</h2>
       {aar.outcomes.map(o => {
@@ -87,6 +77,6 @@ export const ScenarioFiveMissionEnding = ({state, result, onCognitiveEntry, onCo
       {state.beliefs.map(b=><article className="s5-trace-card" key={b.checkpointId}><h3>{SCENARIO5_BELIEF_COPY_FA[`belief:${b.checkpointId}`].title}</h3><p>{SCENARIO5_CORRIDOR_CONTENT_FA[b.mostLikelyCorridorId].corridorLabel} · اطمینان کریدور: {b.corridorConfidence} · برآورد اخلال هدفمند: {b.targetedInterferenceEstimate} · اطمینان برآورد: {b.targetedInterferenceConfidence}</p><p>شواهد در دسترس آن زمان: {b.visibleEvidenceIdsAtCheckpoint.length} · مقایسه با کریدور واقعی: {b.mostLikelyCorridorId===audit.truth.primaryAffectedCorridorId ? 'یکسان' : 'متفاوت'}</p></article>)}
       <p>شواهدی که پس از برآورد نهایی رسیدند در برداشت‌های ثبت‌شده وارد نمی‌شوند.</p>
     </section>
-    <footer className="s5-ending-actions"><button type="button" className="s5-secondary-button" onClick={onCognitiveEntry}>مشاهده الگوی تصمیم‌گیری</button> <button type="button" className="s5-primary-button" onClick={onComplete}>ثبت پایان و بازگشت</button></footer>
+    <footer className="s5-ending-actions"><button type="button" className="s5-primary-button" onClick={onCognitiveEntry}>مشاهده الگوی تصمیم‌گیری</button></footer>
   </main>;
 };

@@ -1,0 +1,846 @@
+node:internal/modules/run_main:107
+    triggerUncaughtException(
+    ^
+
+AssertionError [ERR_ASSERTION]: App, id=2, id=5 routing and all metadata unchanged
++ actual - expected
+
++ 'import { useCallback, useEffect, useRef, useState } from "react";\n' +
++   'import "./App.css";\n' +
++   '\n' +
++   'import { ScenarioRunner } from "./ui/components/scenario/ScenarioRunner";\n' +
++   'import { AllScenarios, type ScenarioId } from "./scenarios";\n' +
++   'import { eventLogger } from "./services/analytics/eventLogger";\n' +
++   'import scenario2IntroBackground from "../assets/s2/A1.png";\n' +
++   'import { SCENARIO4_ENTRY_COPY_FA } from "./ui/components/scenario/scenario-four/narrative/narrativeCatalogFa";\n' +
++   'import { canDeleteProfile, createPlayerProfile, validateProfileInput, type Profile, type ProfileInput, type ProfileFormErrors } from "./core/types/profile";\n' +
++   'import { deleteProfile, loadProfileState, saveProfileState, selectProfile } from "./services/storage/profileStorage";\n' +
++   'import { ProfileCreateForm } from "./ui/components/profile/ProfileCreateForm";\n' +
++   'import { AdminLoginForm } from "./ui/components/profile/AdminLoginForm";\n' +
++   'import { SystemManagement } from "./ui/components/admin/SystemManagement";\n' +
++   'import { systemLogger } from "./services/analytics/systemLogger";\n' +
++   'import { ScenarioZeroLearning } from "./ui/components/scenario/scenario-zero/ScenarioZeroLearning";\n' +
++   'import { ScenarioFiveAdminDashboardPreview } from "./ui/components/scenario/scenario-five/ui/ScenarioFiveAdminDashboardPreview";\n' +
++   '\n' +
++   '// TEMP-S5-DASHBOARD-PREVIEW: remove after dashboard design review.\n' +
++   'const ENABLE_TEMP_SCENARIO_TWO_DASHBOARD_PREVIEW = true;\n' +
++   '\n' +
++   'interface Scenario {\n' +
++   '  id: number;\n' +
++   '  title: string;\n' +
++   '  introTitle?: string;\n' +
++   '  summary: string;\n' +
++   '  fullDescription?: string;\n' +
++   '  descriptionPreview?: string;\n' +
++   '  introText?: string;\n' +
++   '  introBackgroundImage?: string;\n' +
++   '  image?: string;\n' +
++   '  badges?: readonly string[];\n' +
++   '  ctaLabel?: string;\n' +
++   '}\n' +
++   '\n' +
++   'interface Question {\n' +
++   '  id: string;\n' +
++   '  text: string;\n' +
++   '  options: string[];\n' +
++   '}\n' +
++   'const SCENARIO_QUESTIONS: Record<number, Question[]> = {\n' +
++   '  0: [\n' +
++   '    {\n' +
++   '      id: "q1",\n' +
++   '      text: "در این سناریو اولین اقدام شما برای حفظ پوشش اطلاعاتی چه خواهد بود؟",\n' +
++   '      options: [\n' +
++   '        "افزایش تعداد ماهواره‌های فعال بدون تحلیل وضعیت",\n' +
++   '        "تحلیل الگوی حرکت ماهواره‌های دشمن و تنظیم مجدد مدار",\n' +
++   '        "خاموش کردن تمام حسگرها برای کاهش ریسک کشف"\n' +
++   '      ]\n' +
++   '    },\n' +
++   '    {\n' +
++   '      id: "q2",\n' +
++   '      text: "اگر یک لینک ارتباطی در آستانه اخلال باشد، کدام اقدام منطقی‌تر است؟",\n' +
++   '      options: [\n' +
++   '        "قطع کامل ارتباط تا اطلاع ثانوی",\n' +
++   '        "تغییر مسیر ترافیک به لینک پشتیبان و مانیتورینگ لینک اصلی",\n' +
++   '        "نادیده گرفتن اخطار تا زمان قطع ارتباط"\n' +
++   '      ]\n' +
++   '    }\n' +
++   '  ],\n' +
++   '  // برای بقیه سناریوها فعلاً یک سوال فرضی:\n' +
++   '  1: [\n' +
++   '    {\n' +
++   '      id: "q1",\n' +
++   '      text: "در سایه‌های مدار پایین هدف اصلی شما چیست؟",\n' +
++   '      options: [\n' +
++   '        "کاهش تعداد ماهواره‌ها",\n' +
++   '        "حفظ اشراف اطلاعاتی پایدار",\n' +
++   '        "خاموش‌کردن تمام لینک‌های ارتباطی"\n' +
++   '      ]\n' +
++   '    }\n' +
++   '  ]\n' +
++   '  // می‌توانی بعداً بقیه را اضافه کنی\n' +
++   '};\n' +
++   '\n' +
++   'const SCENARIO_TREE_IDS: Partial<Record<number, ScenarioId>> = {\n' +
++   '  0: "s0_gateway_space_wargaming",\n' +
++   '  1: "s1_shadows_low_orbit",\n' +
++   '  2: "s2_silent_waves",\n' +
++   '  3: "s3_secure_corridor",\n' +
++   '  4: "s4_redesigned_scenario_one",\n' +
++   '  5: "s5_silent_waves_redesign",\n' +
++   '};\n' +
++   '\n' +
++   '\n' +
++   'type View =\n' +
++   '  | "mainMenu"\n' +
++   '  | "scenarioList"\n' +
++   '  | "scenarioPlay"\n' +
++   '  | "profileManager"\n' +
++   '  | "systemManagement";\n' +
++   '\n' +
++   'const SCENARIOS: Scenario[] = [\n' +
++   '  {\n' +
++   '    id: 0,\n' +
++   '    title: "آستانه ورود",\n' +
++   '    summary: "یک مأموریت ساده و آزمایشی برای آشنایی با محیط تصمیم‌گیری.",\n' +
++   '    image: "/images/scenario0.png",\n' +
++   '    fullDescription: `پیش از آنکه قدم در میدان نبرد فضایی بگذارید، باید چشمانتان را به جهانی باز کنید که تصمیم‌ها در آن خطی نیستند؛ هر انتخاب شما، پاسخی از سوی بازیگر مقابل می‌آفریند، و هر حرکت، تنها بخشی از حقیقت را آشکار می‌کند.\n' +
++   'در «آستانه ورود»، شما در آستانه سفری قرار دارید که فرماندهان فضایی و تحلیلگران امنیتی سال‌ها برای آن تمرین می‌کنند: درک چگونگی فکر کردن در فضای بازی جنگ.\n' +
++   'همه‌چیز از یک مرکز شبیه‌سازی آغاز می‌شود؛ جایی که هنوز خبری از ماهواره‌های واقعی، تهدیدات ناشناس یا آشوب‌های مدار پایین نیست. در اینجا محیطی کنترل‌شده و آرام پیش روی شماست؛ اما همین سکوت، مقدمه دنیایی است که در آن هر تصمیم، سرنوشت یک شبکه فضایی را تغییر می‌دهد.`,\n' +
++   '    introText: `به سناریو 0 خوش آمدید!\n' +
++   'در این سناریو سیستم، سه درگاه مفهومی پیش رویتان می‌گذارد:\n' +
++   'درگاه نظریه بازی، جایی که می‌آموزید دشمن همیشه تنها یک «تهدید» نیست، بلکه یک «بازیگر راهبردی» است\n' +
++   'درگاه بازی جنگ، جایی که می‌بینید تصمیم‌گیری تنها یک انتخاب نیست، بلکه پاسخی است در برابر پاسخی دیگر\n' +
++   'و درگاه بازی جنگ فضایی، جایی که یاد می‌گیرید در مدار، زمان، اطلاعات و منابع همیشه محدودتر از آن‌اند که به نظر می‌رسند.\n' +
++   'در این سناریو، هنوز وارد نبرد نمی‌شوید، اما آجرهای اولِ مدل ذهنی‌تان ساخته می‌شود.\n' +
++   'با موقعیت‌های ساده، مثال‌های کوچک و انتخاب‌هایی کم‌ریسک روبه‌رو می‌شوید که هرکدام دریچه‌ای است به مفهومی بزرگ:\n' +
++   '«تعادل»، «همکاری»، «تهدید»، «عدم قطعیت»، «پوشش اطلاعاتی» و «رفتار دشمن».\n' +
++   '«آستانه ورود» تنها یک آموزش نیست، نوعی تطبیق ذهنی است. مسیری است که شما را از یک ناظر بیرونی، به یک تصمیم‌گیرنده راهبردی تبدیل می‌کند، تصمیم‌گیرنده‌ای که در سناریوی‌های بعدی، باید برای نخستین بار با تهدیدی حقیقی روبه‌رو شود.\n' +
++   'بازی جنگ جایی است که یاد می‌گیرید «چگونه فکر کنید»، پیش از آنکه بیاموزید «چگونه بجنگید».`\n' +
++   '  },\n' +
++   '  {\n' +
++   '    id: 1,\n' +
++   '    title: "۱ — سایه‌های مدار پایین",\n' +
++   '    summary: "در مدار پایین زمین، نبردی خاموش در جریان است؛ ماهواره‌ها در ظاهر برای علم و ارتباط پرتاب می‌شوند،",\n' +
++   '    image: "/images/scenario1.png",\n' +
++   '    fullDescription: `در مدار پایین زمین، نبردی خاموش در جریان است؛ ماهواره‌ها در ظاهر برای علم و ارتباط پرتاب می‌شوند، اما هر حرکت می‌تواند معنایی پنهان داشته باشد. در این سناریو، شما فرمانده عملیات اطلاعاتی ایران هستید. مأموریتتان ساده به نظر می‌رسد: حفظ پوشش اطلاعاتی در چند منطقه کلیدی. اما هر تصمیم شما، می‌تواند تفاوت بین «اشراف فضایی» و «کور شدن میدان نبرد» باشد. آیا می‌توانید پیش از دشمن، حرکت بعدی او را ببینید؟ `\n' +
++   '  },\n' +
++   '  {\n' +
++   '    id: 2,\n' +
++   '    title: "۲ — امواج خاموش",\n' +
++   '    introTitle: "سناریو ۲ — امواج خاموش",\n' +
++   '    summary: "مأموریت ۸ راندی مدیریت کاروان‌ها؛ اختلال GNSS از یک هشدار مبهم به تهدید عملیاتی آشکار تبدیل می‌شود.",\n' +
++   '    image: "/images/scenario2.png",\n' +
++   '    descriptionPreview: `چهار کاروان طبق برنامه در حال حرکت‌اند. ابتدا همه‌چیز عادی است، اما یک اختلاف کوچک در داده‌های ناوبری دیده می‌شود. شما باید محل اختلال را پیدا کنید، مسیرهای امن را مدیریت کنید و هم‌زمان شبکه لجستیک را زنده نگه دارید.`,\n' +
++   '    fullDescription: `در این نسخه مأموریت‌محور، شما فرمانده قرارگاه لجستیک هستید. مأموریت اصلی، رساندن همه کاروان‌ها به مقصد تا پایان راند ۸ است. برای موفقیت باید اختلال را به‌موقع شناسایی کنید، مسیرهای امن طراحی کنید، منابع ISR/انرژی/زمان را حفظ کنید، کاروان‌ها را رها نکنید و در صورت آشکار شدن تهدید با مسیر یا منبع اختلال مقابله کنید.`,\n' +
++   '    introBackgroundImage: scenario2IntroBackground,\n' +
++   '    introText: `شما فرمانده قرارگاه لجستیک هستید. چهار کاروان حیاتی و پشتیبانی در مسیرهای مختلف کشور در حال حرکت‌اند. هر کاروان مقصد و مأموریت خودش را دارد و در آغاز هیچ‌کدام به‌عنوان هدف اصلی تهدید شناخته نشده است.\n' +
++   '\n' +
++   'در آغاز همه‌چیز عادی است؛ اما یک اختلال خاموش در داده‌های ناوبری ظاهر می‌شود. ابتدا فقط یک اختلاف کوچک میان گزارش میدانی و GNSS دیده می‌شود. شما باید بدون فرض زودهنگام، محل واقعی اختلال را پیدا کنید.\n' +
++   '\n' +
++   'مأموریت شما در ۸ راند پیش می‌رود: پایش روتین، کشف محل اختلال، پایش مسیر مشکوک، طراحی مسیر امن، مدیریت توقف‌ها و پشتیبانی، تقسیم منابع، مقابله با تهدید آشکار و نتیجه نهایی.\n' +
++   '\n' +
++   'هدف اصلی روشن است: تمام کاروان‌ها باید تا پایان راند ۸ به مقصد برسند. باید منابع را پیش از راندهای پایانی تمام نکنید و اگر یک کاروان به‌عنوان محموله در خطر آشکار شد، آن را بدون رها کردن بقیه شبکه نجات دهید.\n' +
++   '\n' +
++   'در «امواج خاموش»، دشمن دیده نمی‌شود، اما در داده‌ها، مسیرها و اعتماد شما به سامانه ناوبری حضور دارد. هر تصمیم باید روی نقشه دیده شود، منبع مصرف کند و در پایان قابل توضیح باشد.`\n' +
++   '  },\n' +
++   '  {\n' +
++   '    id: 3,\n' +
++   '    title: "۳- کریدور امن",\n' +
++   '    introTitle: "سناریو ۳ — کریدور امن",\n' +
++   '    summary: "در نبردهای آینده، فاصله میان موفقیت و شکست همیشه روی زمین تعیین نمی‌شود.",\n' +
++   '    image: "/images/scenario3.png",\n' +
++   '    introBackgroundImage: "/images/scenario3.png",\n' +
++   '    introText: `یک محموله حساس باید از چند محوطه عملیاتی عبور کند. شما فرمانده مستقیم محموله نیستید؛ نقش شما هدایت، پایش و هشداردهی ماهواره‌ای است.\n' +
++   '\n' +
++   'در هر محوطه فقط بخشی از نقشه روشن است. باید با اسکن، مصرف کارت‌های یک‌بارمصرف، استفاده از قابلیت‌های تیم ماهواره‌ای و انتخاب مسیر، محموله را تا خروجی هدایت کنید.\n' +
++   '\n' +
++   'هدف فعلی: عبور از کریدورهای ناشناخته با حفظ سلامت محموله، کنترل سطح افشا و نگه داشتن کیفیت داده‌ها.`,\n' +
++   '    fullDescription: `در نبردهای آینده، فاصله میان موفقیت و شکست همیشه روی زمین تعیین نمی‌شود. گاهی سرنوشت یک عملیات، در تصویری رقم می‌خورد که از مدار زمین دریافت می‌شود؛ تصویری ناقص، گذرا و وابسته به تصمیمی که باید در لحظه گرفته شود.\n' +
++   'یک محموله حساس در آستانه انتقال قرار دارد. ارزش این محموله فقط در مقصد آن نیست؛ در زمانی است که باید برسد، در مسیری است که نباید آشکار شود، و در تصمیم‌هایی است که پیش از دیده‌شدن دشمن باید گرفته شوند.\n' +
++   'شما در این مأموریت، چشم عملیات در مدار هستید. وظیفه شما هدایت مستقیم نیست؛ بلکه دیدن پیش از دیگران، تشخیص پیش از تهدید، و هشدار پیش از دیر شدن است. مسیر روی نقشه ساده به نظر می‌رسد، اما در میدان واقعی، هیچ مسیر امنی برای همیشه امن باقی نمی‌ماند. ما دشمن نیز بیکار نیست. واحدهای تعقیب، پهپادهای شناسایی، سامانه‌های اخلال‌گر و ماهواره‌های مراقبتی دشمن در منطقه فعال‌اند.\n' +
++   'هر لحظه ممکن است داده‌ای تازه، ردی مشکوک یا تغییری کوچک در محیط، معنای کل مسیر را عوض کند. باید میان سرعت، پنهان‌کاری و امنیت تعادل برقرار کنید؛ زیرا هر انتخاب، فرصت‌هایی می‌سازد و خطرهایی پنهان می‌کند.\n' +
++   'مأموریت آغاز می‌شود.\n' +
++   'محموله باید حرکت کند.\n' +
++   'و این‌بار، آنچه از مدار می‌بینید، می‌تواند تفاوت میان عبور موفق و شکست کامل باشد.\n' +
++   '`\n' +
++   '  },\n' +
++   '  {\n' +
++   '    id: 4,\n' +
++   '    title: SCENARIO4_ENTRY_COPY_FA.title,\n' +
++   '    introTitle: SCENARIO4_ENTRY_COPY_FA.title,\n' +
++   '    summary: SCENARIO4_ENTRY_COPY_FA.subtitle,\n' +
++   '    image: "/images/scenario4.png",\n' +
++   '    descriptionPreview: SCENARIO4_ENTRY_COPY_FA.shortDescription,\n' +
++   '    fullDescription: `${SCENARIO4_ENTRY_COPY_FA.subtitle}\\n\\n${SCENARIO4_ENTRY_COPY_FA.shortDescription}`,\n' +
++   '    badges: SCENARIO4_ENTRY_COPY_FA.badges,\n' +
++   '    ctaLabel: SCENARIO4_ENTRY_COPY_FA.cta,\n' +
++   '  },\n' +
++   '  {\n' +
++   '    id: 5,\n' +
++   '    title: "امواج خاموش — نسخه بازطراحی",\n' +
++   '    introTitle: `سناریو ۲ — امواج خاموش`,\n' +
++   '    summary: `چهار کاروان در شبکه لجستیکی در حرکت‌اند. ناهمخوانی‌های PNT/GNSS به‌تدریج ظاهر می‌شوند؛ با منابع محدود باید تصویر اطلاعاتی قابل اتکایی بسازید، تداوم شبکه را حفظ کنید و محموله اولویت‌دار را از دست ندهید.`,\n' +
++   '    im'... 37548 more characters
+- 'import { useCallback, useEffect, useRef, useState } from "react";\r\n' +
+-   'import "./App.css";\r\n' +
+-   '\r\n' +
+-   'import { ScenarioRunner } from "./ui/components/scenario/ScenarioRunner";\r\n' +
+-   'import { AllScenarios, type ScenarioId } from "./scenarios";\r\n' +
+-   'import { eventLogger } from "./services/analytics/eventLogger";\r\n' +
+-   'import scenario2IntroBackground from "../assets/s2/A1.png";\r\n' +
+-   'import { SCENARIO4_ENTRY_COPY_FA } from "./ui/components/scenario/scenario-four/narrative/narrativeCatalogFa";\r\n' +
+-   'import { canDeleteProfile, createPlayerProfile, validateProfileInput, type Profile, type ProfileInput, type ProfileFormErrors } from "./core/types/profile";\r\n' +
+-   'import { deleteProfile, loadProfileState, saveProfileState, selectProfile } from "./services/storage/profileStorage";\r\n' +
+-   'import { ProfileCreateForm } from "./ui/components/profile/ProfileCreateForm";\r\n' +
+-   'import { AdminLoginForm } from "./ui/components/profile/AdminLoginForm";\r\n' +
+-   'import { SystemManagement } from "./ui/components/admin/SystemManagement";\r\n' +
+-   'import { systemLogger } from "./services/analytics/systemLogger";\r\n' +
+-   'import { ScenarioZeroLearning } from "./ui/components/scenario/scenario-zero/ScenarioZeroLearning";\r\n' +
+-   '\r\n' +
+-   'interface Scenario {\r\n' +
+-   '  id: number;\r\n' +
+-   '  title: string;\r\n' +
+-   '  introTitle?: string;\r\n' +
+-   '  summary: string;\r\n' +
+-   '  fullDescription?: string;\r\n' +
+-   '  descriptionPreview?: string;\r\n' +
+-   '  introText?: string;\r\n' +
+-   '  introBackgroundImage?: string;\r\n' +
+-   '  image?: string;\r\n' +
+-   '  badges?: readonly string[];\r\n' +
+-   '  ctaLabel?: string;\r\n' +
+-   '}\r\n' +
+-   '\r\n' +
+-   'interface Question {\r\n' +
+-   '  id: string;\r\n' +
+-   '  text: string;\r\n' +
+-   '  options: string[];\r\n' +
+-   '}\r\n' +
+-   '\r\n' +
+-   'interface UserAnalyticsSummary {\r\n' +
+-   '  userId: string;\r\n' +
+-   '  userName: string;\r\n' +
+-   '  role: string;\r\n' +
+-   '  totalEvents: number;\r\n' +
+-   '  scenarioStarts: number;\r\n' +
+-   '  scenarioEnds: number;\r\n' +
+-   '  scenarioExits: number;\r\n' +
+-   '  questionsAnswered: number;\r\n' +
+-   '  avgScenarioDurationSec: number;\r\n' +
+-   '  lastActivityTs: number;\r\n' +
+-   '}\r\n' +
+-   '\r\n' +
+-   'interface UserAnalyticsInsights {\r\n' +
+-   '  totalQuestions: number;\r\n' +
+-   '  answeredQuestions: number;\r\n' +
+-   '  scoredAnswers: number;\r\n' +
+-   '  correctAnswers: number;\r\n' +
+-   '  correctAnswerRate: number;\r\n' +
+-   '  avgThinkingMs: number;\r\n' +
+-   '  referenceClicks: number;\r\n' +
+-   '  descriptionReadSec: number;\r\n' +
+-   '  referenceReadSec: number;\r\n' +
+-   '  avgScenarioDurationSec: number;\r\n' +
+-   '  scenarioRuns: number;\r\n' +
+-   '  eventTypeCounts: Array<{ type: string; count: number }>;\r\n' +
+-   '  questionThinking: Array<{ question: string; ms: number }>;\r\n' +
+-   '  questionTimeline: Array<{ label: string; ms: number }>;\r\n' +
+-   '}\r\n' +
+-   '\r\n' +
+-   'interface CognitiveDomainScore {\r\n' +
+-   '  domain: string;\r\n' +
+-   '  total: number;\r\n' +
+-   '  correct: number;\r\n' +
+-   '  accuracy: number;\r\n' +
+-   '}\r\n' +
+-   '\r\n' +
+-   'interface CognitiveInsights {\r\n' +
+-   '  overallAccuracy: number;\r\n' +
+-   '  decisionSpeedSec: number;\r\n' +
+-   '  hesitationRate: number;\r\n' +
+-   '  answerChangeRate: number;\r\n' +
+-   '  successfulRevisionRate: number;\r\n' +
+-   '  referenceUsageRate: number;\r\n' +
+-   '  explanationUsageRate: number;\r\n' +
+-   '  avgExplanationSec: number;\r\n' +
+-   '  guidanceBenefitScore: number;\r\n' +
+-   '  overconfidenceErrorRate: number;\r\n' +
+-   '  productiveHesitationRate: number;\r\n' +
+-   '  conceptFrictionScore: number;\r\n' +
+-   '  unfinishedExitRate: number;\r\n' +
+-   '  estimatedCognitiveLoad: number;\r\n' +
+-   '  styleLabel: string;\r\n' +
+-   '  speedAccuracyQuadrant: string;\r\n' +
+-   '  domainScores: CognitiveDomainScore[];\r\n' +
+-   '  frequentErrors: Array<{ nodeId: string; wrongCount: number }>;\r\n' +
+-   '}\r\n' +
+-   '\r\n' +
+-   'const clampDashboardValue = (value: number, min: number, max: number) =>\r\n' +
+-   '  Math.max(min, Math.min(max, value));\r\n' +
+-   '\r\n' +
+-   'const OperationalStrategicScale = ({ value }: { value: number }) => {\r\n' +
+-   '  const markerPosition = clampDashboardValue(((value + 1) / 2) * 100, 0, 100);\r\n' +
+-   '  return (\r\n' +
+-   '    <div\r\n' +
+-   '      style={{\r\n' +
+-   '        border: "1px solid var(--border-soft)",\r\n' +
+-   '        borderRadius: "14px",\r\n' +
+-   '        padding: "1rem",\r\n' +
+-   '        background: "rgba(15, 23, 42, 0.65)",\r\n' +
+-   '        marginTop: "0.8rem",\r\n' +
+-   '      }}\r\n' +
+-   '    >\r\n' +
+-   '      <div style={{ display: "flex", justifyContent: "space-between", gap: "1rem", marginBottom: "0.65rem" }}>\r\n' +
+-   '        <strong>طیف عملیاتی–راهبردی</strong>\r\n' +
+-   '        <span>{value.toFixed(2)}</span>\r\n' +
+-   '      </div>\r\n' +
+-   '      <div\r\n' +
+-   '        style={{\r\n' +
+-   '          position: "relative",\r\n' +
+-   '          height: "18px",\r\n' +
+-   '          borderRadius: "999px",\r\n' +
+-   '          background:\r\n' +
+-   '            "linear-gradient(90deg, #ef4444 0%, #f59e0b 36%, #22c55e 50%, #38bdf8 64%, #6366f1 100%)",\r\n' +
+-   '          boxShadow: "inset 0 0 0 1px rgba(255,255,255,0.18)",\r\n' +
+-   '        }}\r\n' +
+-   '      >\r\n' +
+-   '        <div\r\n' +
+-   '          style={{\r\n' +
+-   '            position: "absolute",\r\n' +
+-   '            top: "-7px",\r\n' +
+-   '            left: `${markerPosition}%`,\r\n' +
+-   '            width: "4px",\r\n' +
+-   '            height: "32px",\r\n' +
+-   '            borderRadius: "999px",\r\n' +
+-   '            background: "#fff",\r\n' +
+-   '            transform: "translateX(-50%)",\r\n' +
+-   '            boxShadow: "0 0 16px rgba(255,255,255,0.85)",\r\n' +
+-   '          }}\r\n' +
+-   '        />\r\n' +
+-   '      </div>\r\n' +
+-   '      <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr 1fr", gap: "0.5rem", marginTop: "0.65rem", fontSize: "0.85rem", color: "var(--text-muted)", direction: "ltr" }}>\r\n' +
+-   '        <span style={{ textAlign: "left" }}>عملیاتی (1-)</span>\r\n' +
+-   '        <span style={{ textAlign: "center" }}>ترکیبی (0)</span>\r\n' +
+-   '        <span style={{ textAlign: "right" }}>راهبردی (1+)</span>\r\n' +
+-   '      </div>\r\n' +
+-   '    </div>\r\n' +
+-   '  );\r\n' +
+-   '};\r\n' +
+-   '\r\n' +
+-   'const SCENARIO_QUESTIONS: Record<number, Question[]> = {\r\n' +
+-   '  0: [\r\n' +
+-   '    {\r\n' +
+-   '      id: "q1",\r\n' +
+-   '      text: "در این سناریو اولین اقدام شما برای حفظ پوشش اطلاعاتی چه خواهد بود؟",\r\n' +
+-   '      options: [\r\n' +
+-   '        "افزایش تعداد ماهواره‌های فعال بدون تحلیل وضعیت",\r\n' +
+-   '        "تحلیل الگوی حرکت ماهواره‌های دشمن و تنظیم مجدد مدار",\r\n' +
+-   '        "خاموش کردن تمام حسگرها برای کاهش ریسک کشف"\r\n' +
+-   '      ]\r\n' +
+-   '    },\r\n' +
+-   '    {\r\n' +
+-   '      id: "q2",\r\n' +
+-   '      text: "اگر یک لینک ارتباطی در آستانه اخلال باشد، کدام اقدام منطقی‌تر است؟",\r\n' +
+-   '      options: [\r\n' +
+-   '        "قطع کامل ارتباط تا اطلاع ثانوی",\r\n' +
+-   '        "تغییر مسیر ترافیک به لینک پشتیبان و مانیتورینگ لینک اصلی",\r\n' +
+-   '        "نادیده گرفتن اخطار تا زمان قطع ارتباط"\r\n' +
+-   '      ]\r\n' +
+-   '    }\r\n' +
+-   '  ],\r\n' +
+-   '  // برای بقیه سناریوها فعلاً یک سوال فرضی:\r\n' +
+-   '  1: [\r\n' +
+-   '    {\r\n' +
+-   '      id: "q1",\r\n' +
+-   '      text: "در سایه‌های مدار پایین هدف اصلی شما چیست؟",\r\n' +
+-   '      options: [\r\n' +
+-   '        "کاهش تعداد ماهواره‌ها",\r\n' +
+-   '        "حفظ اشراف اطلاعاتی پایدار",\r\n' +
+-   '        "خاموش‌کردن تمام لینک‌های ارتباطی"\r\n' +
+-   '      ]\r\n' +
+-   '    }\r\n' +
+-   '  ]\r\n' +
+-   '  // می‌توانی بعداً بقیه را اضافه کنی\r\n' +
+-   '};\r\n' +
+-   '\r\n' +
+-   'const SCENARIO_TREE_IDS: Partial<Record<number, ScenarioId>> = {\r\n' +
+-   '  0: "s0_gateway_space_wargaming",\r\n' +
+-   '  1: "s1_shadows_low_orbit",\r\n' +
+-   '  2: "s2_silent_waves",\r\n' +
+-   '  3: "s3_secure_corridor",\r\n' +
+-   '  4: "s4_redesigned_scenario_one",\r\n' +
+-   '  5: "s5_silent_waves_redesign",\r\n' +
+-   '};\r\n' +
+-   '\r\n' +
+-   '\r\n' +
+-   'type View =\r\n' +
+-   '  | "mainMenu"\r\n' +
+-   '  | "scenarioList"\r\n' +
+-   '  | "scenarioPlay"\r\n' +
+-   '  | "profileManager"\r\n' +
+-   '  | "systemManagement"\r\n' +
+-   '  | "adminAnalytics";\r\n' +
+-   '\r\n' +
+-   'const SCENARIOS: Scenario[] = [\r\n' +
+-   '  {\r\n' +
+-   '    id: 0,\r\n' +
+-   '    title: "آستانه ورود",\r\n' +
+-   '    summary: "یک مأموریت ساده و آزمایشی برای آشنایی با محیط تصمیم‌گیری.",\r\n' +
+-   '    image: "/images/scenario0.png",\r\n' +
+-   '    fullDescription: `پیش از آنکه قدم در میدان نبرد فضایی بگذارید، باید چشمانتان را به جهانی باز کنید که تصمیم‌ها در آن خطی نیستند؛ هر انتخاب شما، پاسخی از سوی بازیگر مقابل می‌آفریند، و هر حرکت، تنها بخشی از حقیقت را آشکار می‌کند.\r\n' +
+-   'در «آستانه ورود»، شما در آستانه سفری قرار دارید که فرماندهان فضایی و تحلیلگران امنیتی سال‌ها برای آن تمرین می‌کنند: درک چگونگی فکر کردن در فضای بازی جنگ.\r\n' +
+-   'همه‌چیز از یک مرکز شبیه‌سازی آغاز می‌شود؛ جایی که هنوز خبری از ماهواره‌های واقعی، تهدیدات ناشناس یا آشوب‌های مدار پایین نیست. در اینجا محیطی کنترل‌شده و آرام پیش روی شماست؛ اما همین سکوت، مقدمه دنیایی است که در آن هر تصمیم، سرنوشت یک شبکه فضایی را تغییر می‌دهد.`,\r\n' +
+-   '    introText: `به سناریو 0 خوش آمدید!\r\n' +
+-   'در این سناریو سیستم، سه درگاه مفهومی پیش رویتان می‌گذارد:\r\n' +
+-   'درگاه نظریه بازی، جایی که می‌آموزید دشمن همیشه تنها یک «تهدید» نیست، بلکه یک «بازیگر راهبردی» است\r\n' +
+-   'درگاه بازی جنگ، جایی که می‌بینید تصمیم‌گیری تنها یک انتخاب نیست، بلکه پاسخی است در برابر پاسخی دیگر\r\n' +
+-   'و درگاه بازی جنگ فضایی، جایی که یاد می‌گیرید در مدار، زمان، اطلاعات و منابع همیشه محدودتر از آن‌اند که به نظر می‌رسند.\r\n' +
+-   'در این سناریو، هنوز وارد نبرد نمی‌شوید، اما آجرهای اولِ مدل ذهنی‌تان ساخته می‌شود.\r\n' +
+-   'با موقعیت‌های ساده، مثال‌های کوچک و انتخاب‌هایی کم‌ریسک روبه‌رو می‌شوید که هرکدام دریچه‌ای است به مفهومی بزرگ:\r\n' +
+-   '«تعادل»، «همکاری»، «تهدید»، «عدم قطعیت»، «پوشش اطلاعاتی» و «رفتار دشمن».\r\n' +
+-   '«آستانه ورود» تنها یک آموزش نیست، نوعی تطبیق ذهنی است. مسیری است که شما را از یک ناظر بیرونی، به یک تصمیم‌گیرنده راهبردی تبدیل می‌کند، تصمیم‌گیرنده‌ای که در سناریوی‌های بعدی، باید برای نخستین بار با تهدیدی حقیقی روبه‌رو شود.\r\n' +
+-   'بازی جنگ جایی است که یاد می‌گیرید «چگونه فکر کنید»، پیش از آنکه بیاموزید «چگونه بجنگید».`\r\n' +
+-   '  },\r\n' +
+-   '  {\r\n' +
+-   '    id: 1,\r\n' +
+-   '    title: "۱ — سایه‌های مدار پایین",\r\n' +
+-   '    summary: "در مدار پایین زمین، نبردی خاموش در جریان است؛ ماهواره‌ها در ظاهر برای علم و ارتباط پرتاب می‌شوند،",\r\n' +
+-   '    image: "/images/scenario1.png",\r\n' +
+-   '    fullDescription: `در مدار پایین زمین، نبردی خاموش در جریان است؛ ماهواره‌ها در ظاهر برای علم و ارتباط پرتاب می‌شوند، اما هر حرکت می‌تواند معنایی پنهان داشته باشد. در این سناریو، شما فرمانده عملیات اطلاعاتی ایران هستید. مأموریتتان ساده به نظر می‌رسد: حفظ پوشش اطلاعاتی در چند منطقه کلیدی. اما هر تصمیم شما، می‌تواند تفاوت بین «اشراف فضایی» و «کور شدن میدان نبرد» باشد. آیا می‌توانید پیش از دشمن، حرکت بعدی او را ببینید؟ `\r\n' +
+-   '  },\r\n' +
+-   '  {\r\n' +
+-   '    id: 2,\r\n' +
+-   '    title: "۲ — امواج خاموش",\r\n' +
+-   '    introTitle: "سناریو ۲ — امواج خاموش",\r\n' +
+-   '    summary: "مأموریت ۸ راندی مدیریت کاروان‌ها؛ اختلال GNSS از یک هشدار مبهم به تهدید عملیاتی آشکار تبدیل می‌شود.",\r\n' +
+-   '    image: "/images/scenario2.png",\r\n' +
+-   '    descriptionPreview: `چهار کاروان طبق برنامه در حال حرکت‌اند. ابتدا همه‌چیز عادی است، اما یک اختلاف کوچک در داده‌های ناوبری دیده می‌شود. شما باید محل اختلال را پیدا کنید، مسیرهای امن را مدیریت کنید و هم‌زمان شبکه لجستیک را زنده نگه دارید.`,\r\n' +
+-   '    fullDescription: `در این نسخه مأموریت‌محور، شما فرمانده قرارگاه لجستیک هستید. مأموریت اصلی، رساندن همه کاروان‌ها به مقصد تا پایان راند ۸ است. برای موفقیت باید اختلال را به‌موقع شناسایی کنید، مسیرهای امن طراحی کنید، منابع ISR/انرژی/زمان را حفظ کنید، کاروان‌ها را رها نکنید و در صورت آشکار شدن تهدید با مسیر یا منبع اختلال مقابله کنید.`,\r\n' +
+-   '    introBackgroundImage: scenario2IntroBackground,\r\n' +
+-   '    introText: `شما فرمانده قرارگاه لجستیک هستید. چهار کاروان حیاتی و پشتیبانی در مسیرهای مختلف کشور در حال حرکت‌اند. هر کاروان مقصد و مأموریت خودش را دارد و در آغاز هیچ‌کدام به‌عنوان هدف اصلی تهدید شناخته نشده است.'... 113560 more characters
+
+    at equal (C:\Users\pc\AppData\Local\Temp\cross09d1a-history-M6tSNF\before\scripts\verify-s5-phase8d2-header.tsx:28:55)
+    at <anonymous> (C:\Users\pc\AppData\Local\Temp\cross09d1a-history-M6tSNF\before\scripts\verify-s5-phase8d2-header.tsx:30:3)
+    at ModuleJob.run (node:internal/modules/esm/module_job:377:25)
+    at async onImport.tracePromise.__proto__ (node:internal/modules/esm/loader:671:26)
+    at async asyncRunEntryPointWithESMLoader (node:internal/modules/run_main:101:5) {
+  generatedMessage: false,
+  code: 'ERR_ASSERTION',
+  actual: 'import { useCallback, useEffect, useRef, useState } from "react";\n' +
+    'import "./App.css";\n' +
+    '\n' +
+    'import { ScenarioRunner } from "./ui/components/scenario/ScenarioRunner";\n' +
+    'import { AllScenarios, type ScenarioId } from "./scenarios";\n' +
+    'import { eventLogger } from "./services/analytics/eventLogger";\n' +
+    'import scenario2IntroBackground from "../assets/s2/A1.png";\n' +
+    'import { SCENARIO4_ENTRY_COPY_FA } from "./ui/components/scenario/scenario-four/narrative/narrativeCatalogFa";\n' +
+    'import { canDeleteProfile, createPlayerProfile, validateProfileInput, type Profile, type ProfileInput, type ProfileFormErrors } from "./core/types/profile";\n' +
+    'import { deleteProfile, loadProfileState, saveProfileState, selectProfile } from "./services/storage/profileStorage";\n' +
+    'import { ProfileCreateForm } from "./ui/components/profile/ProfileCreateForm";\n' +
+    'import { AdminLoginForm } from "./ui/components/profile/AdminLoginForm";\n' +
+    'import { SystemManagement } from "./ui/components/admin/SystemManagement";\n' +
+    'import { systemLogger } from "./services/analytics/systemLogger";\n' +
+    'import { ScenarioZeroLearning } from "./ui/components/scenario/scenario-zero/ScenarioZeroLearning";\n' +
+    'import { ScenarioFiveAdminDashboardPreview } from "./ui/components/scenario/scenario-five/ui/ScenarioFiveAdminDashboardPreview";\n' +
+    '\n' +
+    '// TEMP-S5-DASHBOARD-PREVIEW: remove after dashboard design review.\n' +
+    'const ENABLE_TEMP_SCENARIO_TWO_DASHBOARD_PREVIEW = true;\n' +
+    '\n' +
+    'interface Scenario {\n' +
+    '  id: number;\n' +
+    '  title: string;\n' +
+    '  introTitle?: string;\n' +
+    '  summary: string;\n' +
+    '  fullDescription?: string;\n' +
+    '  descriptionPreview?: string;\n' +
+    '  introText?: string;\n' +
+    '  introBackgroundImage?: string;\n' +
+    '  image?: string;\n' +
+    '  badges?: readonly string[];\n' +
+    '  ctaLabel?: string;\n' +
+    '}\n' +
+    '\n' +
+    'interface Question {\n' +
+    '  id: string;\n' +
+    '  text: string;\n' +
+    '  options: string[];\n' +
+    '}\n' +
+    'const SCENARIO_QUESTIONS: Record<number, Question[]> = {\n' +
+    '  0: [\n' +
+    '    {\n' +
+    '      id: "q1",\n' +
+    '      text: "در این سناریو اولین اقدام شما برای حفظ پوشش اطلاعاتی چه خواهد بود؟",\n' +
+    '      options: [\n' +
+    '        "افزایش تعداد ماهواره‌های فعال بدون تحلیل وضعیت",\n' +
+    '        "تحلیل الگوی حرکت ماهواره‌های دشمن و تنظیم مجدد مدار",\n' +
+    '        "خاموش کردن تمام حسگرها برای کاهش ریسک کشف"\n' +
+    '      ]\n' +
+    '    },\n' +
+    '    {\n' +
+    '      id: "q2",\n' +
+    '      text: "اگر یک لینک ارتباطی در آستانه اخلال باشد، کدام اقدام منطقی‌تر است؟",\n' +
+    '      options: [\n' +
+    '        "قطع کامل ارتباط تا اطلاع ثانوی",\n' +
+    '        "تغییر مسیر ترافیک به لینک پشتیبان و مانیتورینگ لینک اصلی",\n' +
+    '        "نادیده گرفتن اخطار تا زمان قطع ارتباط"\n' +
+    '      ]\n' +
+    '    }\n' +
+    '  ],\n' +
+    '  // برای بقیه سناریوها فعلاً یک سوال فرضی:\n' +
+    '  1: [\n' +
+    '    {\n' +
+    '      id: "q1",\n' +
+    '      text: "در سایه‌های مدار پایین هدف اصلی شما چیست؟",\n' +
+    '      options: [\n' +
+    '        "کاهش تعداد ماهواره‌ها",\n' +
+    '        "حفظ اشراف اطلاعاتی پایدار",\n' +
+    '        "خاموش‌کردن تمام لینک‌های ارتباطی"\n' +
+    '      ]\n' +
+    '    }\n' +
+    '  ]\n' +
+    '  // می‌توانی بعداً بقیه را اضافه کنی\n' +
+    '};\n' +
+    '\n' +
+    'const SCENARIO_TREE_IDS: Partial<Record<number, ScenarioId>> = {\n' +
+    '  0: "s0_gateway_space_wargaming",\n' +
+    '  1: "s1_shadows_low_orbit",\n' +
+    '  2: "s2_silent_waves",\n' +
+    '  3: "s3_secure_corridor",\n' +
+    '  4: "s4_redesigned_scenario_one",\n' +
+    '  5: "s5_silent_waves_redesign",\n' +
+    '};\n' +
+    '\n' +
+    '\n' +
+    'type View =\n' +
+    '  | "mainMenu"\n' +
+    '  | "scenarioList"\n' +
+    '  | "scenarioPlay"\n' +
+    '  | "profileManager"\n' +
+    '  | "systemManagement";\n' +
+    '\n' +
+    'const SCENARIOS: Scenario[] = [\n' +
+    '  {\n' +
+    '    id: 0,\n' +
+    '    title: "آستانه ورود",\n' +
+    '    summary: "یک مأموریت ساده و آزمایشی برای آشنایی با محیط تصمیم‌گیری.",\n' +
+    '    image: "/images/scenario0.png",\n' +
+    '    fullDescription: `پیش از آنکه قدم در میدان نبرد فضایی بگذارید، باید چشمانتان را به جهانی باز کنید که تصمیم‌ها در آن خطی نیستند؛ هر انتخاب شما، پاسخی از سوی بازیگر مقابل می‌آفریند، و هر حرکت، تنها بخشی از حقیقت را آشکار می‌کند.\n' +
+    'در «آستانه ورود»، شما در آستانه سفری قرار دارید که فرماندهان فضایی و تحلیلگران امنیتی سال‌ها برای آن تمرین می‌کنند: درک چگونگی فکر کردن در فضای بازی جنگ.\n' +
+    'همه‌چیز از یک مرکز شبیه‌سازی آغاز می‌شود؛ جایی که هنوز خبری از ماهواره‌های واقعی، تهدیدات ناشناس یا آشوب‌های مدار پایین نیست. در اینجا محیطی کنترل‌شده و آرام پیش روی شماست؛ اما همین سکوت، مقدمه دنیایی است که در آن هر تصمیم، سرنوشت یک شبکه فضایی را تغییر می‌دهد.`,\n' +
+    '    introText: `به سناریو 0 خوش آمدید!\n' +
+    'در این سناریو سیستم، سه درگاه مفهومی پیش رویتان می‌گذارد:\n' +
+    'درگاه نظریه بازی، جایی که می‌آموزید دشمن همیشه تنها یک «تهدید» نیست، بلکه یک «بازیگر راهبردی» است\n' +
+    'درگاه بازی جنگ، جایی که می‌بینید تصمیم‌گیری تنها یک انتخاب نیست، بلکه پاسخی است در برابر پاسخی دیگر\n' +
+    'و درگاه بازی جنگ فضایی، جایی که یاد می‌گیرید در مدار، زمان، اطلاعات و منابع همیشه محدودتر از آن‌اند که به نظر می‌رسند.\n' +
+    'در این سناریو، هنوز وارد نبرد نمی‌شوید، اما آجرهای اولِ مدل ذهنی‌تان ساخته می‌شود.\n' +
+    'با موقعیت‌های ساده، مثال‌های کوچک و انتخاب‌هایی کم‌ریسک روبه‌رو می‌شوید که هرکدام دریچه‌ای است به مفهومی بزرگ:\n' +
+    '«تعادل»، «همکاری»، «تهدید»، «عدم قطعیت»، «پوشش اطلاعاتی» و «رفتار دشمن».\n' +
+    '«آستانه ورود» تنها یک آموزش نیست، نوعی تطبیق ذهنی است. مسیری است که شما را از یک ناظر بیرونی، به یک تصمیم‌گیرنده راهبردی تبدیل می‌کند، تصمیم‌گیرنده‌ای که در سناریوی‌های بعدی، باید برای نخستین بار با تهدیدی حقیقی روبه‌رو شود.\n' +
+    'بازی جنگ جایی است که یاد می‌گیرید «چگونه فکر کنید»، پیش از آنکه بیاموزید «چگونه بجنگید».`\n' +
+    '  },\n' +
+    '  {\n' +
+    '    id: 1,\n' +
+    '    title: "۱ — سایه‌های مدار پایین",\n' +
+    '    summary: "در مدار پایین زمین، نبردی خاموش در جریان است؛ ماهواره‌ها در ظاهر برای علم و ارتباط پرتاب می‌شوند،",\n' +
+    '    image: "/images/scenario1.png",\n' +
+    '    fullDescription: `در مدار پایین زمین، نبردی خاموش در جریان است؛ ماهواره‌ها در ظاهر برای علم و ارتباط پرتاب می‌شوند، اما هر حرکت می‌تواند معنایی پنهان داشته باشد. در این سناریو، شما فرمانده عملیات اطلاعاتی ایران هستید. مأموریتتان ساده به نظر می‌رسد: حفظ پوشش اطلاعاتی در چند منطقه کلیدی. اما هر تصمیم شما، می‌تواند تفاوت بین «اشراف فضایی» و «کور شدن میدان نبرد» باشد. آیا می‌توانید پیش از دشمن، حرکت بعدی او را ببینید؟ `\n' +
+    '  },\n' +
+    '  {\n' +
+    '    id: 2,\n' +
+    '    title: "۲ — امواج خاموش",\n' +
+    '    introTitle: "سناریو ۲ — امواج خاموش",\n' +
+    '    summary: "مأموریت ۸ راندی مدیریت کاروان‌ها؛ اختلال GNSS از یک هشدار مبهم به تهدید عملیاتی آشکار تبدیل می‌شود.",\n' +
+    '    image: "/images/scenario2.png",\n' +
+    '    descriptionPreview: `چهار کاروان طبق برنامه در حال حرکت‌اند. ابتدا همه‌چیز عادی است، اما یک اختلاف کوچک در داده‌های ناوبری دیده می‌شود. شما باید محل اختلال را پیدا کنید، مسیرهای امن را مدیریت کنید و هم‌زمان شبکه لجستیک را زنده نگه دارید.`,\n' +
+    '    fullDescription: `در این نسخه مأموریت‌محور، شما فرمانده قرارگاه لجستیک هستید. مأموریت اصلی، رساندن همه کاروان‌ها به مقصد تا پایان راند ۸ است. برای موفقیت باید اختلال را به‌موقع شناسایی کنید، مسیرهای امن طراحی کنید، منابع ISR/انرژی/زمان را حفظ کنید، کاروان‌ها را رها نکنید و در صورت آشکار شدن تهدید با مسیر یا منبع اختلال مقابله کنید.`,\n' +
+    '    introBackgroundImage: scenario2IntroBackground,\n' +
+    '    introText: `شما فرمانده قرارگاه لجستیک هستید. چهار کاروان حیاتی و پشتیبانی در مسیرهای مختلف کشور در حال حرکت‌اند. هر کاروان مقصد و مأموریت خودش را دارد و در آغاز هیچ‌کدام به‌عنوان هدف اصلی تهدید شناخته نشده است.\n' +
+    '\n' +
+    'در آغاز همه‌چیز عادی است؛ اما یک اختلال خاموش در داده‌های ناوبری ظاهر می‌شود. ابتدا فقط یک اختلاف کوچک میان گزارش میدانی و GNSS دیده می‌شود. شما باید بدون فرض زودهنگام، محل واقعی اختلال را پیدا کنید.\n' +
+    '\n' +
+    'مأموریت شما در ۸ راند پیش می‌رود: پایش روتین، کشف محل اختلال، پایش مسیر مشکوک، طراحی مسیر امن، مدیریت توقف‌ها و پشتیبانی، تقسیم منابع، مقابله با تهدید آشکار و نتیجه نهایی.\n' +
+    '\n' +
+    'هدف اصلی روشن است: تمام کاروان‌ها باید تا پایان راند ۸ به مقصد برسند. باید منابع را پیش از راندهای پایانی تمام نکنید و اگر یک کاروان به‌عنوان محموله در خطر آشکار شد، آن را بدون رها کردن بقیه شبکه نجات دهید.\n' +
+    '\n' +
+    'در «امواج خاموش»، دشمن دیده نمی‌شود، اما در داده‌ها، مسیرها و اعتماد شما به سامانه ناوبری حضور دارد. هر تصمیم باید روی نقشه دیده شود، منبع مصرف کند و در پایان قابل توضیح باشد.`\n' +
+    '  },\n' +
+    '  {\n' +
+    '    id: 3,\n' +
+    '    title: "۳- کریدور امن",\n' +
+    '    introTitle: "سناریو ۳ — کریدور امن",\n' +
+    '    summary: "در نبردهای آینده، فاصله میان موفقیت و شکست همیشه روی زمین تعیین نمی‌شود.",\n' +
+    '    image: "/images/scenario3.png",\n' +
+    '    introBackgroundImage: "/images/scenario3.png",\n' +
+    '    introText: `یک محموله حساس باید از چند محوطه عملیاتی عبور کند. شما فرمانده مستقیم محموله نیستید؛ نقش شما هدایت، پایش و هشداردهی ماهواره‌ای است.\n' +
+    '\n' +
+    'در هر محوطه فقط بخشی از نقشه روشن است. باید با اسکن، مصرف کارت‌های یک‌بارمصرف، استفاده از قابلیت‌های تیم ماهواره‌ای و انتخاب مسیر، محموله را تا خروجی هدایت کنید.\n' +
+    '\n' +
+    'هدف فعلی: عبور از کریدورهای ناشناخته با حفظ سلامت محموله، کنترل سطح افشا و نگه داشتن کیفیت داده‌ها.`,\n' +
+    '    fullDescription: `در نبردهای آینده، فاصله میان موفقیت و شکست همیشه روی زمین تعیین نمی‌شود. گاهی سرنوشت یک عملیات، در تصویری رقم می‌خورد که از مدار زمین دریافت می‌شود؛ تصویری ناقص، گذرا و وابسته به تصمیمی که باید در لحظه گرفته شود.\n' +
+    'یک محموله حساس در آستانه انتقال قرار دارد. ارزش این محموله فقط در مقصد آن نیست؛ در زمانی است که باید برسد، در مسیری است که نباید آشکار شود، و در تصمیم‌هایی است که پیش از دیده‌شدن دشمن باید گرفته شوند.\n' +
+    'شما در این مأموریت، چشم عملیات در مدار هستید. وظیفه شما هدایت مستقیم نیست؛ بلکه دیدن پیش از دیگران، تشخیص پیش از تهدید، و هشدار پیش از دیر شدن است. مسیر روی نقشه ساده به نظر می‌رسد، اما در میدان واقعی، هیچ مسیر امنی برای همیشه امن باقی نمی‌ماند. ما دشمن نیز بیکار نیست. واحدهای تعقیب، پهپادهای شناسایی، سامانه‌های اخلال‌گر و ماهواره‌های مراقبتی دشمن در منطقه فعال‌اند.\n' +
+    'هر لحظه ممکن است داده‌ای تازه، ردی مشکوک یا تغییری کوچک در محیط، معنای کل مسیر را عوض کند. باید میان سرعت، پنهان‌کاری و امنیت تعادل برقرار کنید؛ زیرا هر انتخاب، فرصت‌هایی می‌سازد و خطرهایی پنهان می‌کند.\n' +
+    'مأموریت آغاز می‌شود.\n' +
+    'محموله باید حرکت کند.\n' +
+    'و این‌بار، آنچه از مدار می‌بینید، می‌تواند تفاوت میان عبور موفق و شکست کامل باشد.\n' +
+    '`\n' +
+    '  },\n' +
+    '  {\n' +
+    '    id: 4,\n' +
+    '    title: SCENARIO4_ENTRY_COPY_FA.title,\n' +
+    '    introTitle: SCENARIO4_ENTRY_COPY_FA.title,\n' +
+    '    summary: SCENARIO4_ENTRY_COPY_FA.subtitle,\n' +
+    '    image: "/images/scenario4.png",\n' +
+    '    descriptionPreview: SCENARIO4_ENTRY_COPY_FA.shortDescription,\n' +
+    '    fullDescription: `${SCENARIO4_ENTRY_COPY_FA.subtitle}\\n\\n${SCENARIO4_ENTRY_COPY_FA.shortDescription}`,\n' +
+    '    badges: SCENARIO4_ENTRY_COPY_FA.badges,\n' +
+    '    ctaLabel: SCENARIO4_ENTRY_COPY_FA.cta,\n' +
+    '  },\n' +
+    '  {\n' +
+    '    id: 5,\n' +
+    '    title: "امواج خاموش — نسخه بازطراحی",\n' +
+    '    introTitle: `سناریو ۲ — امواج خاموش`,\n' +
+    '    summary: `چهار کاروان در شبکه لجستیکی در حرکت‌اند. ناهمخوانی‌های PNT/GNSS به‌تدریج ظاهر می‌شوند؛ با منابع محدود باید تصویر اطلاعاتی قابل اتکایی بسازید، تداوم شبکه را حفظ کنید و محموله اولویت‌دار را از دست ندهید.`,\n' +
+    '    im'... 37548 more characters,
+  expected: 'import { useCallback, useEffect, useRef, useState } from "react";\r\n' +
+    'import "./App.css";\r\n' +
+    '\r\n' +
+    'import { ScenarioRunner } from "./ui/components/scenario/ScenarioRunner";\r\n' +
+    'import { AllScenarios, type ScenarioId } from "./scenarios";\r\n' +
+    'import { eventLogger } from "./services/analytics/eventLogger";\r\n' +
+    'import scenario2IntroBackground from "../assets/s2/A1.png";\r\n' +
+    'import { SCENARIO4_ENTRY_COPY_FA } from "./ui/components/scenario/scenario-four/narrative/narrativeCatalogFa";\r\n' +
+    'import { canDeleteProfile, createPlayerProfile, validateProfileInput, type Profile, type ProfileInput, type ProfileFormErrors } from "./core/types/profile";\r\n' +
+    'import { deleteProfile, loadProfileState, saveProfileState, selectProfile } from "./services/storage/profileStorage";\r\n' +
+    'import { ProfileCreateForm } from "./ui/components/profile/ProfileCreateForm";\r\n' +
+    'import { AdminLoginForm } from "./ui/components/profile/AdminLoginForm";\r\n' +
+    'import { SystemManagement } from "./ui/components/admin/SystemManagement";\r\n' +
+    'import { systemLogger } from "./services/analytics/systemLogger";\r\n' +
+    'import { ScenarioZeroLearning } from "./ui/components/scenario/scenario-zero/ScenarioZeroLearning";\r\n' +
+    '\r\n' +
+    'interface Scenario {\r\n' +
+    '  id: number;\r\n' +
+    '  title: string;\r\n' +
+    '  introTitle?: string;\r\n' +
+    '  summary: string;\r\n' +
+    '  fullDescription?: string;\r\n' +
+    '  descriptionPreview?: string;\r\n' +
+    '  introText?: string;\r\n' +
+    '  introBackgroundImage?: string;\r\n' +
+    '  image?: string;\r\n' +
+    '  badges?: readonly string[];\r\n' +
+    '  ctaLabel?: string;\r\n' +
+    '}\r\n' +
+    '\r\n' +
+    'interface Question {\r\n' +
+    '  id: string;\r\n' +
+    '  text: string;\r\n' +
+    '  options: string[];\r\n' +
+    '}\r\n' +
+    '\r\n' +
+    'interface UserAnalyticsSummary {\r\n' +
+    '  userId: string;\r\n' +
+    '  userName: string;\r\n' +
+    '  role: string;\r\n' +
+    '  totalEvents: number;\r\n' +
+    '  scenarioStarts: number;\r\n' +
+    '  scenarioEnds: number;\r\n' +
+    '  scenarioExits: number;\r\n' +
+    '  questionsAnswered: number;\r\n' +
+    '  avgScenarioDurationSec: number;\r\n' +
+    '  lastActivityTs: number;\r\n' +
+    '}\r\n' +
+    '\r\n' +
+    'interface UserAnalyticsInsights {\r\n' +
+    '  totalQuestions: number;\r\n' +
+    '  answeredQuestions: number;\r\n' +
+    '  scoredAnswers: number;\r\n' +
+    '  correctAnswers: number;\r\n' +
+    '  correctAnswerRate: number;\r\n' +
+    '  avgThinkingMs: number;\r\n' +
+    '  referenceClicks: number;\r\n' +
+    '  descriptionReadSec: number;\r\n' +
+    '  referenceReadSec: number;\r\n' +
+    '  avgScenarioDurationSec: number;\r\n' +
+    '  scenarioRuns: number;\r\n' +
+    '  eventTypeCounts: Array<{ type: string; count: number }>;\r\n' +
+    '  questionThinking: Array<{ question: string; ms: number }>;\r\n' +
+    '  questionTimeline: Array<{ label: string; ms: number }>;\r\n' +
+    '}\r\n' +
+    '\r\n' +
+    'interface CognitiveDomainScore {\r\n' +
+    '  domain: string;\r\n' +
+    '  total: number;\r\n' +
+    '  correct: number;\r\n' +
+    '  accuracy: number;\r\n' +
+    '}\r\n' +
+    '\r\n' +
+    'interface CognitiveInsights {\r\n' +
+    '  overallAccuracy: number;\r\n' +
+    '  decisionSpeedSec: number;\r\n' +
+    '  hesitationRate: number;\r\n' +
+    '  answerChangeRate: number;\r\n' +
+    '  successfulRevisionRate: number;\r\n' +
+    '  referenceUsageRate: number;\r\n' +
+    '  explanationUsageRate: number;\r\n' +
+    '  avgExplanationSec: number;\r\n' +
+    '  guidanceBenefitScore: number;\r\n' +
+    '  overconfidenceErrorRate: number;\r\n' +
+    '  productiveHesitationRate: number;\r\n' +
+    '  conceptFrictionScore: number;\r\n' +
+    '  unfinishedExitRate: number;\r\n' +
+    '  estimatedCognitiveLoad: number;\r\n' +
+    '  styleLabel: string;\r\n' +
+    '  speedAccuracyQuadrant: string;\r\n' +
+    '  domainScores: CognitiveDomainScore[];\r\n' +
+    '  frequentErrors: Array<{ nodeId: string; wrongCount: number }>;\r\n' +
+    '}\r\n' +
+    '\r\n' +
+    'const clampDashboardValue = (value: number, min: number, max: number) =>\r\n' +
+    '  Math.max(min, Math.min(max, value));\r\n' +
+    '\r\n' +
+    'const OperationalStrategicScale = ({ value }: { value: number }) => {\r\n' +
+    '  const markerPosition = clampDashboardValue(((value + 1) / 2) * 100, 0, 100);\r\n' +
+    '  return (\r\n' +
+    '    <div\r\n' +
+    '      style={{\r\n' +
+    '        border: "1px solid var(--border-soft)",\r\n' +
+    '        borderRadius: "14px",\r\n' +
+    '        padding: "1rem",\r\n' +
+    '        background: "rgba(15, 23, 42, 0.65)",\r\n' +
+    '        marginTop: "0.8rem",\r\n' +
+    '      }}\r\n' +
+    '    >\r\n' +
+    '      <div style={{ display: "flex", justifyContent: "space-between", gap: "1rem", marginBottom: "0.65rem" }}>\r\n' +
+    '        <strong>طیف عملیاتی–راهبردی</strong>\r\n' +
+    '        <span>{value.toFixed(2)}</span>\r\n' +
+    '      </div>\r\n' +
+    '      <div\r\n' +
+    '        style={{\r\n' +
+    '          position: "relative",\r\n' +
+    '          height: "18px",\r\n' +
+    '          borderRadius: "999px",\r\n' +
+    '          background:\r\n' +
+    '            "linear-gradient(90deg, #ef4444 0%, #f59e0b 36%, #22c55e 50%, #38bdf8 64%, #6366f1 100%)",\r\n' +
+    '          boxShadow: "inset 0 0 0 1px rgba(255,255,255,0.18)",\r\n' +
+    '        }}\r\n' +
+    '      >\r\n' +
+    '        <div\r\n' +
+    '          style={{\r\n' +
+    '            position: "absolute",\r\n' +
+    '            top: "-7px",\r\n' +
+    '            left: `${markerPosition}%`,\r\n' +
+    '            width: "4px",\r\n' +
+    '            height: "32px",\r\n' +
+    '            borderRadius: "999px",\r\n' +
+    '            background: "#fff",\r\n' +
+    '            transform: "translateX(-50%)",\r\n' +
+    '            boxShadow: "0 0 16px rgba(255,255,255,0.85)",\r\n' +
+    '          }}\r\n' +
+    '        />\r\n' +
+    '      </div>\r\n' +
+    '      <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr 1fr", gap: "0.5rem", marginTop: "0.65rem", fontSize: "0.85rem", color: "var(--text-muted)", direction: "ltr" }}>\r\n' +
+    '        <span style={{ textAlign: "left" }}>عملیاتی (1-)</span>\r\n' +
+    '        <span style={{ textAlign: "center" }}>ترکیبی (0)</span>\r\n' +
+    '        <span style={{ textAlign: "right" }}>راهبردی (1+)</span>\r\n' +
+    '      </div>\r\n' +
+    '    </div>\r\n' +
+    '  );\r\n' +
+    '};\r\n' +
+    '\r\n' +
+    'const SCENARIO_QUESTIONS: Record<number, Question[]> = {\r\n' +
+    '  0: [\r\n' +
+    '    {\r\n' +
+    '      id: "q1",\r\n' +
+    '      text: "در این سناریو اولین اقدام شما برای حفظ پوشش اطلاعاتی چه خواهد بود؟",\r\n' +
+    '      options: [\r\n' +
+    '        "افزایش تعداد ماهواره‌های فعال بدون تحلیل وضعیت",\r\n' +
+    '        "تحلیل الگوی حرکت ماهواره‌های دشمن و تنظیم مجدد مدار",\r\n' +
+    '        "خاموش کردن تمام حسگرها برای کاهش ریسک کشف"\r\n' +
+    '      ]\r\n' +
+    '    },\r\n' +
+    '    {\r\n' +
+    '      id: "q2",\r\n' +
+    '      text: "اگر یک لینک ارتباطی در آستانه اخلال باشد، کدام اقدام منطقی‌تر است؟",\r\n' +
+    '      options: [\r\n' +
+    '        "قطع کامل ارتباط تا اطلاع ثانوی",\r\n' +
+    '        "تغییر مسیر ترافیک به لینک پشتیبان و مانیتورینگ لینک اصلی",\r\n' +
+    '        "نادیده گرفتن اخطار تا زمان قطع ارتباط"\r\n' +
+    '      ]\r\n' +
+    '    }\r\n' +
+    '  ],\r\n' +
+    '  // برای بقیه سناریوها فعلاً یک سوال فرضی:\r\n' +
+    '  1: [\r\n' +
+    '    {\r\n' +
+    '      id: "q1",\r\n' +
+    '      text: "در سایه‌های مدار پایین هدف اصلی شما چیست؟",\r\n' +
+    '      options: [\r\n' +
+    '        "کاهش تعداد ماهواره‌ها",\r\n' +
+    '        "حفظ اشراف اطلاعاتی پایدار",\r\n' +
+    '        "خاموش‌کردن تمام لینک‌های ارتباطی"\r\n' +
+    '      ]\r\n' +
+    '    }\r\n' +
+    '  ]\r\n' +
+    '  // می‌توانی بعداً بقیه را اضافه کنی\r\n' +
+    '};\r\n' +
+    '\r\n' +
+    'const SCENARIO_TREE_IDS: Partial<Record<number, ScenarioId>> = {\r\n' +
+    '  0: "s0_gateway_space_wargaming",\r\n' +
+    '  1: "s1_shadows_low_orbit",\r\n' +
+    '  2: "s2_silent_waves",\r\n' +
+    '  3: "s3_secure_corridor",\r\n' +
+    '  4: "s4_redesigned_scenario_one",\r\n' +
+    '  5: "s5_silent_waves_redesign",\r\n' +
+    '};\r\n' +
+    '\r\n' +
+    '\r\n' +
+    'type View =\r\n' +
+    '  | "mainMenu"\r\n' +
+    '  | "scenarioList"\r\n' +
+    '  | "scenarioPlay"\r\n' +
+    '  | "profileManager"\r\n' +
+    '  | "systemManagement"\r\n' +
+    '  | "adminAnalytics";\r\n' +
+    '\r\n' +
+    'const SCENARIOS: Scenario[] = [\r\n' +
+    '  {\r\n' +
+    '    id: 0,\r\n' +
+    '    title: "آستانه ورود",\r\n' +
+    '    summary: "یک مأموریت ساده و آزمایشی برای آشنایی با محیط تصمیم‌گیری.",\r\n' +
+    '    image: "/images/scenario0.png",\r\n' +
+    '    fullDescription: `پیش از آنکه قدم در میدان نبرد فضایی بگذارید، باید چشمانتان را به جهانی باز کنید که تصمیم‌ها در آن خطی نیستند؛ هر انتخاب شما، پاسخی از سوی بازیگر مقابل می‌آفریند، و هر حرکت، تنها بخشی از حقیقت را آشکار می‌کند.\r\n' +
+    'در «آستانه ورود»، شما در آستانه سفری قرار دارید که فرماندهان فضایی و تحلیلگران امنیتی سال‌ها برای آن تمرین می‌کنند: درک چگونگی فکر کردن در فضای بازی جنگ.\r\n' +
+    'همه‌چیز از یک مرکز شبیه‌سازی آغاز می‌شود؛ جایی که هنوز خبری از ماهواره‌های واقعی، تهدیدات ناشناس یا آشوب‌های مدار پایین نیست. در اینجا محیطی کنترل‌شده و آرام پیش روی شماست؛ اما همین سکوت، مقدمه دنیایی است که در آن هر تصمیم، سرنوشت یک شبکه فضایی را تغییر می‌دهد.`,\r\n' +
+    '    introText: `به سناریو 0 خوش آمدید!\r\n' +
+    'در این سناریو سیستم، سه درگاه مفهومی پیش رویتان می‌گذارد:\r\n' +
+    'درگاه نظریه بازی، جایی که می‌آموزید دشمن همیشه تنها یک «تهدید» نیست، بلکه یک «بازیگر راهبردی» است\r\n' +
+    'درگاه بازی جنگ، جایی که می‌بینید تصمیم‌گیری تنها یک انتخاب نیست، بلکه پاسخی است در برابر پاسخی دیگر\r\n' +
+    'و درگاه بازی جنگ فضایی، جایی که یاد می‌گیرید در مدار، زمان، اطلاعات و منابع همیشه محدودتر از آن‌اند که به نظر می‌رسند.\r\n' +
+    'در این سناریو، هنوز وارد نبرد نمی‌شوید، اما آجرهای اولِ مدل ذهنی‌تان ساخته می‌شود.\r\n' +
+    'با موقعیت‌های ساده، مثال‌های کوچک و انتخاب‌هایی کم‌ریسک روبه‌رو می‌شوید که هرکدام دریچه‌ای است به مفهومی بزرگ:\r\n' +
+    '«تعادل»، «همکاری»، «تهدید»، «عدم قطعیت»، «پوشش اطلاعاتی» و «رفتار دشمن».\r\n' +
+    '«آستانه ورود» تنها یک آموزش نیست، نوعی تطبیق ذهنی است. مسیری است که شما را از یک ناظر بیرونی، به یک تصمیم‌گیرنده راهبردی تبدیل می‌کند، تصمیم‌گیرنده‌ای که در سناریوی‌های بعدی، باید برای نخستین بار با تهدیدی حقیقی روبه‌رو شود.\r\n' +
+    'بازی جنگ جایی است که یاد می‌گیرید «چگونه فکر کنید»، پیش از آنکه بیاموزید «چگونه بجنگید».`\r\n' +
+    '  },\r\n' +
+    '  {\r\n' +
+    '    id: 1,\r\n' +
+    '    title: "۱ — سایه‌های مدار پایین",\r\n' +
+    '    summary: "در مدار پایین زمین، نبردی خاموش در جریان است؛ ماهواره‌ها در ظاهر برای علم و ارتباط پرتاب می‌شوند،",\r\n' +
+    '    image: "/images/scenario1.png",\r\n' +
+    '    fullDescription: `در مدار پایین زمین، نبردی خاموش در جریان است؛ ماهواره‌ها در ظاهر برای علم و ارتباط پرتاب می‌شوند، اما هر حرکت می‌تواند معنایی پنهان داشته باشد. در این سناریو، شما فرمانده عملیات اطلاعاتی ایران هستید. مأموریتتان ساده به نظر می‌رسد: حفظ پوشش اطلاعاتی در چند منطقه کلیدی. اما هر تصمیم شما، می‌تواند تفاوت بین «اشراف فضایی» و «کور شدن میدان نبرد» باشد. آیا می‌توانید پیش از دشمن، حرکت بعدی او را ببینید؟ `\r\n' +
+    '  },\r\n' +
+    '  {\r\n' +
+    '    id: 2,\r\n' +
+    '    title: "۲ — امواج خاموش",\r\n' +
+    '    introTitle: "سناریو ۲ — امواج خاموش",\r\n' +
+    '    summary: "مأموریت ۸ راندی مدیریت کاروان‌ها؛ اختلال GNSS از یک هشدار مبهم به تهدید عملیاتی آشکار تبدیل می‌شود.",\r\n' +
+    '    image: "/images/scenario2.png",\r\n' +
+    '    descriptionPreview: `چهار کاروان طبق برنامه در حال حرکت‌اند. ابتدا همه‌چیز عادی است، اما یک اختلاف کوچک در داده‌های ناوبری دیده می‌شود. شما باید محل اختلال را پیدا کنید، مسیرهای امن را مدیریت کنید و هم‌زمان شبکه لجستیک را زنده نگه دارید.`,\r\n' +
+    '    fullDescription: `در این نسخه مأموریت‌محور، شما فرمانده قرارگاه لجستیک هستید. مأموریت اصلی، رساندن همه کاروان‌ها به مقصد تا پایان راند ۸ است. برای موفقیت باید اختلال را به‌موقع شناسایی کنید، مسیرهای امن طراحی کنید، منابع ISR/انرژی/زمان را حفظ کنید، کاروان‌ها را رها نکنید و در صورت آشکار شدن تهدید با مسیر یا منبع اختلال مقابله کنید.`,\r\n' +
+    '    introBackgroundImage: scenario2IntroBackground,\r\n' +
+    '    introText: `شما فرمانده قرارگاه لجستیک هستید. چهار کاروان حیاتی و پشتیبانی در مسیرهای مختلف کشور در حال حرکت‌اند. هر کاروان مقصد و مأموریت خودش را دارد و در آغاز هیچ‌کدام به‌عنوان هدف اصلی تهدید شناخته نشده است.'... 113560 more characters,
+  operator: 'deepStrictEqual',
+  diff: 'simple'
+}
+
+Node.js v24.11.1

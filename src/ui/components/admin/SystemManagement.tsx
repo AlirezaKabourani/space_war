@@ -3,6 +3,7 @@ import type { Profile } from "../../../core/types/profile";
 import { eventLogger } from "../../../services/analytics/eventLogger";
 import { buildLogCSV, downloadFile } from "../../../services/analytics/logExport";
 import { systemLogger } from "../../../services/analytics/systemLogger";
+import { readCognitiveArchivePolicy, setCognitiveArchivePolicy } from "../../../services/storage/cognitiveArchivePolicy";
 import {
   createSystemBackup, getBackupSummary, parseSystemBackup, resetSystemStorage,
   restoreSystemBackup, type SystemBackup,
@@ -37,6 +38,7 @@ export const SystemManagement = ({ activeProfile, profiles, onBack, onManageProf
   const behaviorEvents = eventLogger.getEvents();
   const systemEvents = systemLogger.getEvents();
   const loggingEnabled = eventLogger.isLoggingEnabled();
+  const archivePolicy = readCognitiveArchivePolicy();
   const users = new Map(profiles.map((profile) => [profile.id, profile.name]));
   for (const event of behaviorEvents) {
     if (event.userId && !users.has(event.userId)) users.set(event.userId, `${event.userName ?? event.userId} (پروفایل حذف‌شده)`);
@@ -125,14 +127,30 @@ export const SystemManagement = ({ activeProfile, profiles, onBack, onManageProf
         </section>
 
         <section className="system-management-section" aria-labelledby="logging-title">
-          <h3 id="logging-title">ثبت رفتار بازیکنان</h3>
+          <h3 id="logging-title">ثبت رویدادهای رفتاری (سامانه قدیمی)</h3>
           <p>وضعیت فعلی: <strong className={loggingEnabled ? "logging-active" : "logging-paused"}>{loggingEnabled ? "لاگ‌برداری فعال است" : "لاگ‌برداری متوقف است"}</strong></p>
           <p className="hint">این تنظیم برای همهٔ بازیکنان و سناریوهای قدیمی و جدید اعمال می‌شود و با بستن صفحه باقی می‌ماند. توقف، لاگ‌های قبلی را پاک نمی‌کند؛ رخدادهای مدیریتی سامانه مستقل ثبت می‌شوند.</p>
+          <p className="hint">این کلید فقط لاگ جزئی رویدادهای رفتاری سامانه قدیمی را در همین مرورگر و مبدأ سایت کنترل می‌کند و آرشیو گزارش شناختی تکمیل‌شده را کنترل نمی‌کند. همگام‌سازی بین دستگاه‌ها وجود ندارد.</p>
+          <p className="hint">طبق رفتار موجود، لاگ تکمیل سناریوی ۲ می‌تواند نتیجه شناختی را هم در بر داشته باشد؛ توقف آرشیو جدید، لاگ قدیمی فعال را متوقف نمی‌کند.</p>
           <button className={loggingEnabled ? "secondary" : "primary"} onClick={() => run(() => {
             eventLogger.setLoggingEnabled(!loggingEnabled);
             systemLogger.log(loggingEnabled ? "behavior_logging_stopped" : "behavior_logging_started", activeProfile);
             setMessage(loggingEnabled ? "ثبت لاگ رفتاری متوقف شد." : "ثبت لاگ رفتاری شروع شد.");
           })}>{loggingEnabled ? "توقف لاگ‌برداری رفتاری" : "شروع لاگ‌برداری رفتاری"}</button>
+        </section>
+
+        <section className="system-management-section" aria-labelledby="cognitive-archive-title">
+          <h3 id="cognitive-archive-title">ذخیره گزارش‌های شناختی تکمیل‌شده (داشبورد کاربران)</h3>
+          <p>وضعیت آرشیو گزارش شناختی: <strong>{archivePolicy.enabled ? "فعال" : "غیرفعال"}</strong></p>
+          <p className="hint">فقط گزارش اجراهای آینده و تکمیل‌شده سناریوهای ۱ و ۲ برای پروفایل آغازکننده در همین مرورگر و مبدأ سایت ذخیره می‌شود. گزارش از رفتار بازیکن به دست می‌آید. این تنظیم از ثبت رویدادهای رفتاری مستقل است؛ خاموش کردن آن گزارش‌های ذخیره‌شده قبلی را حذف نمی‌کند. همگام‌سازی بین دستگاه‌ها وجود ندارد.</p>
+          <p className="hint">سناریوی ۱ همچنان آخرین وضعیت فنی اجرای خود را طبق رفتار قبلی در مرورگر نگه می‌دارد؛ این تنظیم فقط آرشیو جدید گزارش‌های پروفایل‌ها را کنترل می‌کند.</p>
+          <p className="hint">آرشیو شناختی در فایل پشتیبان فعلی سامانه گنجانده نمی‌شود. نشست ادمین فقط دسترسی رابط را محدود می‌کند؛ مجوزدهی سرور یا رمزنگاری داده‌ها وجود ندارد.</p>
+          {archivePolicy.error && <p role="alert">{archivePolicy.error}</p>}
+          <button type="button" role="switch" aria-checked={archivePolicy.enabled} aria-labelledby="cognitive-archive-title" className={archivePolicy.enabled ? "secondary" : "primary"} onClick={() => run(() => {
+            setCognitiveArchivePolicy(activeProfile, !archivePolicy.enabled);
+            systemLogger.log(archivePolicy.enabled ? "cognitive_archive_stopped" : "cognitive_archive_started", activeProfile);
+            setMessage(archivePolicy.enabled ? "ذخیره گزارش‌های جدید متوقف شد؛ گزارش‌های قبلی باقی می‌مانند." : "ذخیره گزارش‌های شناختی تکمیل‌شده فعال شد.");
+          })}>{archivePolicy.enabled ? "توقف ذخیره گزارش شناختی" : "فعال‌سازی ذخیره گزارش شناختی"}</button>
         </section>
 
         <section className="system-management-section" aria-labelledby="logs-title">
@@ -164,6 +182,7 @@ export const SystemManagement = ({ activeProfile, profiles, onBack, onManageProf
         <section className="system-management-section" aria-labelledby="backup-title">
           <h3 id="backup-title">پشتیبان کامل و انتقال سامانه</h3>
           <p>فایل پشتیبان شامل همهٔ پروفایل‌ها و اطلاعات تماس، پیشرفت بازی، لاگ‌های رفتاری و سامانه، داده‌های ذخیره‌شدهٔ سناریوها و تنظیمات است.</p>
+          <p className="hint">این خروجی فقط داده‌های قدیمی localStorage را منتقل می‌کند؛ آرشیو شناختی جدید و تنظیم فعال‌سازی آن در پشتیبان نیستند و به دستگاه دیگر منتقل نمی‌شوند.</p>
           <p className="hint">بازیِ در حال اجرا فقط تا آخرین دادهٔ ذخیره‌شده منتقل می‌شود. بهتر است بازیکن پیش از تهیهٔ پشتیبان سناریو را تمام کند.</p>
           <ol className="system-transfer-steps"><li>در سیستم مبدأ، پشتیبان کامل را دانلود کنید.</li><li>فایل را به ویندوز یا مرورگر مقصد منتقل کنید.</li><li>با ادمین وارد شوید، فایل را بارگذاری و بازیابی را تأیید کنید.</li></ol>
           <div className="system-management-actions">
@@ -185,6 +204,7 @@ export const SystemManagement = ({ activeProfile, profiles, onBack, onManageProf
         <section className="system-management-section system-reset-section" aria-labelledby="reset-title">
           <h3 id="reset-title">ریست سامانه</h3>
           <p>تمام پروفایل‌های ساخته‌شده، پیشرفت‌ها، لاگ‌ها و داده‌های ذخیره‌شدهٔ سامانه در این مرورگر پاک می‌شوند. سامانه به سه پروفایل اولیه و تنظیمات پیش‌فرض برمی‌گردد.</p>
+          <p className="hint">این ریست مربوط به ذخیره‌سازی قدیمی سامانه است؛ آرشیو شناختی جداگانه و تنظیم آن را پاک نمی‌کند. گزارش‌های پروفایل حذف‌شده به پروفایل دیگری متصل نمی‌شوند.</p>
           <button className="danger" disabled={readingFile} onClick={() => { setShowReset(true); setResetConfirmation(""); setPendingBackup(null); }}>ریست سامانه</button>
           {showReset && (
             <div className="system-confirmation">

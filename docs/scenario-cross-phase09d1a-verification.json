@@ -1,0 +1,1227 @@
+{
+  "phase": "09D-1A",
+  "status": "PASS",
+  "statusMeaning": "Implementation, current scientific parity and regression comparison pass; whole-repository lint and five historical verifiers still fail pre-existing checks. No assertion of a clean legacy verifier suite.",
+  "clientDate": "2026-11-04",
+  "clientTimezone": "Asia/Tehran",
+  "completedAtUtc": "2026-11-04T15:37:26.676258+00:00",
+  "git": {
+    "originalHead": "09d591120ef50b5b1f10de983a9862735629e79f",
+    "finalHead": "09d591120ef50b5b1f10de983a9862735629e79f",
+    "originalStatus": " M src/App.css\n M src/App.tsx\n M src/ui/components/scenario/ScenarioFive.css\n M src/ui/components/scenario/ScenarioFiveActionCard.tsx\n M src/ui/components/scenario/ScenarioFiveMap.tsx\n M src/ui/components/scenario/scenario-five/ui/ScenarioFiveMissionEnding.tsx\n?? docs/scenario-cross-09d0-audit-report.md\n?? docs/scenario-cross-09d0-cognitive-crosswalk.csv\n?? docs/scenario-cross-09d0-formula-comparison.md\n?? docs/scenario-cross-09d0-open-questions-factual.md\n?? docs/scenario-cross-09d0-source-hash-manifest.json\n?? docs/scenario-cross-09d0-unique-fields.md\n?? docs/scenario-cross-09d0-user-run-storage-readiness.md\n?? docs/scenario5-c2-refinement-baseline.json\n?? docs/scenario5-c2-refinement-before/\n?? docs/scenario5-c2-refinement-build-checks.json\n?? docs/scenario5-c2-refinement-focused-verification.json\n?? docs/scenario5-c2-refinement-historical-tests.json\n?? docs/scenario5-c2-refinement-report.md\n?? docs/scenario5-c2-refinement-screenshots/\n?? docs/scenario5-c2-refinement-verification.json\n?? docs/scenario5-c2-refinement.patch\n?? docs/scenario5-ending-dashboard-flow-screenshots/\n?? docs/thesis-evidence/README.md\n?? docs/thesis-evidence/aar-s4.json\n?? docs/thesis-evidence/aar-s4.md\n?? docs/thesis-evidence/aar-s5.json\n?? docs/thesis-evidence/aar-s5.md\n?? docs/thesis-evidence/assemble-package.mjs\n?? docs/thesis-evidence/capture-current-v2.mjs\n?? docs/thesis-evidence/capture-current.mjs\n?? docs/thesis-evidence/design-document-mapping.md\n?? docs/thesis-evidence/educational-traceability.csv\n?? docs/thesis-evidence/educational-traceability.md\n?? docs/thesis-evidence/evidence-manifest.json\n?? docs/thesis-evidence/finalize-package.mjs\n?? docs/thesis-evidence/inventory.md\n?? docs/thesis-evidence/prepare-snapshot.mjs\n?? docs/thesis-evidence/raw/\n?? docs/thesis-evidence/replay-aar.mjs\n?? docs/thesis-evidence/reproduce.mjs\n?? docs/thesis-evidence/reproduction.md\n?? docs/thesis-evidence/run-verifiers.mjs\n?? docs/thesis-evidence/s4-reproduction.md\n?? docs/thesis-evidence/s5-current-witness.html\n?? docs/thesis-evidence/s5-verification.json\n?? docs/thesis-evidence/s5-verification.md\n?? docs/thesis-evidence/screenshot-manifest.md\n?? docs/thesis-evidence/screenshots/\n?? docs/thesis-evidence/source-baseline.md\n?? docs/thesis-evidence/thesis-evidence-summary-fa.md\n?? docs/thesis-evidence/verify-current-integration-v2.mjs\n?? docs/thesis-evidence/verify-current-integration.mjs\n?? scripts/capture-s5-c2-refinement.mjs\n?? scripts/capture-s5-ending-dashboard-flow.mjs\n?? scripts/package-s5-c2-refinement.mjs\n?? scripts/verify-s5-c2-refinement.tsx\n",
+    "finalStatus": "M src/App.css\n M src/App.tsx\n M src/ui/components/admin/SystemManagement.tsx\n M src/ui/components/scenario/ScenarioFive.css\n M src/ui/components/scenario/ScenarioFiveActionCard.tsx\n M src/ui/components/scenario/ScenarioFiveMap.tsx\n M src/ui/components/scenario/ScenarioFiveSimulation.tsx\n M src/ui/components/scenario/ScenarioFourRedesignedScenarioOne.tsx\n M src/ui/components/scenario/scenario-five/ui/ScenarioFiveMissionEnding.tsx\n?? docs/scenario-cross-09d0-audit-report.md\n?? docs/scenario-cross-09d0-cognitive-crosswalk.csv\n?? docs/scenario-cross-09d0-formula-comparison.md\n?? docs/scenario-cross-09d0-open-questions-factual.md\n?? docs/scenario-cross-09d0-source-hash-manifest.json\n?? docs/scenario-cross-09d0-unique-fields.md\n?? docs/scenario-cross-09d0-user-run-storage-readiness.md\n?? docs/scenario-cross-phase09d1a-baseline.json\n?? docs/scenario-cross-phase09d1a-before-application-files.json\n?? docs/scenario-cross-phase09d1a-browser-verification.json\n?? docs/scenario-cross-phase09d1a-checks/\n?? docs/scenario-cross-phase09d1a-completion-witnesses.json\n?? docs/scenario-cross-phase09d1a-historical-verification.json\n?? docs/scenario-cross-phase09d1a-implementation.md\n?? docs/scenario-cross-phase09d1a-logging-separation.md\n?? docs/scenario-cross-phase09d1a-scientific-parity.md\n?? docs/scenario-cross-phase09d1a-scientific-verification.json\n?? docs/scenario-cross-phase09d1a-screenshots/\n?? docs/scenario-cross-phase09d1a-storage-contract.md\n?? docs/scenario-cross-phase09d1a-verification.json\n?? docs/scenario-cross-phase09d1a.patch\n?? docs/scenario5-c2-refinement-baseline.json\n?? docs/scenario5-c2-refinement-before/\n?? docs/scenario5-c2-refinement-build-checks.json\n?? docs/scenario5-c2-refinement-focused-verification.json\n?? docs/scenario5-c2-refinement-historical-tests.json\n?? docs/scenario5-c2-refinement-report.md\n?? docs/scenario5-c2-refinement-screenshots/\n?? docs/scenario5-c2-refinement-verification.json\n?? docs/scenario5-c2-refinement.patch\n?? docs/scenario5-ending-dashboard-flow-screenshots/\n?? docs/thesis-evidence/README.md\n?? docs/thesis-evidence/aar-s4.json\n?? docs/thesis-evidence/aar-s4.md\n?? docs/thesis-evidence/aar-s5.json\n?? docs/thesis-evidence/aar-s5.md\n?? docs/thesis-evidence/assemble-package.mjs\n?? docs/thesis-evidence/capture-current-v2.mjs\n?? docs/thesis-evidence/capture-current.mjs\n?? docs/thesis-evidence/design-document-mapping.md\n?? docs/thesis-evidence/educational-traceability.csv\n?? docs/thesis-evidence/educational-traceability.md\n?? docs/thesis-evidence/evidence-manifest.json\n?? docs/thesis-evidence/finalize-package.mjs\n?? docs/thesis-evidence/inventory.md\n?? docs/thesis-evidence/prepare-snapshot.mjs\n?? docs/thesis-evidence/raw/\n?? docs/thesis-evidence/replay-aar.mjs\n?? docs/thesis-evidence/reproduce.mjs\n?? docs/thesis-evidence/reproduction.md\n?? docs/thesis-evidence/run-verifiers.mjs\n?? docs/thesis-evidence/s4-reproduction.md\n?? docs/thesis-evidence/s5-current-witness.html\n?? docs/thesis-evidence/s5-verification.json\n?? docs/thesis-evidence/s5-verification.md\n?? docs/thesis-evidence/screenshot-manifest.md\n?? docs/thesis-evidence/screenshots/\n?? docs/thesis-evidence/source-baseline.md\n?? docs/thesis-evidence/thesis-evidence-summary-fa.md\n?? docs/thesis-evidence/verify-current-integration-v2.mjs\n?? docs/thesis-evidence/verify-current-integration.mjs\n?? scripts/capture-s5-c2-refinement.mjs\n?? scripts/capture-s5-ending-dashboard-flow.mjs\n?? scripts/check-cross-phase09d1a-history.mjs\n?? scripts/package-s5-c2-refinement.mjs\n?? scripts/scenario-cross-phase09d1a-witness.html\n?? scripts/scenario-cross-phase09d1a-witness.tsx\n?? scripts/verify-cross-phase09d1a-browser.mjs\n?? scripts/verify-cross-phase09d1a-scientific.ts\n?? scripts/verify-s5-c2-refinement.tsx\n?? src/services/storage/cognitiveArchivePolicy.ts\n?? src/services/storage/cognitiveRunRepository.ts\n?? src/services/storage/cognitiveRunValidation.ts\n?? src/services/storage/completedCognitiveAttempt.ts\n?? src/ui/components/scenario/CognitiveArchiveDisclosure.tsx",
+    "originalDiffStat": " src/App.css                                        |  396 +----\n src/App.tsx                                        | 1666 +-------------------\n src/ui/components/scenario/ScenarioFive.css        |  154 +-\n .../components/scenario/ScenarioFiveActionCard.tsx |    9 +-\n src/ui/components/scenario/ScenarioFiveMap.tsx     |   12 +-\n .../scenario-five/ui/ScenarioFiveMissionEnding.tsx |   14 +-\n 6 files changed, 124 insertions(+), 2127 deletions(-)\n",
+    "finalDiffStat": "src/App.css                                        |  396 +----\n src/App.tsx                                        | 1666 +-------------------\n src/ui/components/admin/SystemManagement.tsx       |   22 +-\n src/ui/components/scenario/ScenarioFive.css        |  154 +-\n .../components/scenario/ScenarioFiveActionCard.tsx |    9 +-\n src/ui/components/scenario/ScenarioFiveMap.tsx     |   12 +-\n .../components/scenario/ScenarioFiveSimulation.tsx |   14 +-\n .../scenario/ScenarioFourRedesignedScenarioOne.tsx |   12 +\n .../scenario-five/ui/ScenarioFiveMissionEnding.tsx |   14 +-\n 9 files changed, 170 insertions(+), 2129 deletions(-)",
+    "commitCreated": false
+  },
+  "preflight": {
+    "stableRepeatedHashes": true,
+    "processes": "Existing Vite server and RStudio language server; no observed source writer. Prior audit documented LFS/gitattributes changes; current .gitattributes empty and matches HEAD. No baseline repaired.",
+    "designDecisions": "09D-1 design-decision files absent; attached contract applied.",
+    "telemetry": "S1 appendDecisionTelemetry/buildDecisionTelemetry, refs and calculateCognitiveModelV3 bypass eventLogger; S2 runtimeEngine + telemetryAdapter + calculateScenario5RuntimeResult bypass eventLogger. eventLogger.log alone checks legacy flag; presentation log calls serialize existing results.",
+    "scope": "Only released internal IDs S4/S5; legacy 1/2 excluded."
+  },
+  "changedApplicationFiles": [
+    "src/ui/components/admin/SystemManagement.tsx",
+    "src/ui/components/scenario/ScenarioFourRedesignedScenarioOne.tsx",
+    "src/ui/components/scenario/ScenarioFiveSimulation.tsx"
+  ],
+  "addedApplicationFiles": [
+    "src/services/storage/cognitiveArchivePolicy.ts",
+    "src/services/storage/cognitiveRunValidation.ts",
+    "src/services/storage/cognitiveRunRepository.ts",
+    "src/services/storage/completedCognitiveAttempt.ts",
+    "src/ui/components/scenario/CognitiveArchiveDisclosure.tsx"
+  ],
+  "testSources": [
+    "scripts/scenario-cross-phase09d1a-witness.html",
+    "scripts/scenario-cross-phase09d1a-witness.tsx",
+    "scripts/verify-cross-phase09d1a-browser.mjs",
+    "scripts/verify-cross-phase09d1a-scientific.ts",
+    "scripts/check-cross-phase09d1a-history.mjs"
+  ],
+  "allOtherPreExistingSourceAndScriptHashesUnchanged": true,
+  "preExistingHashes": {
+    "src/App.css": {
+      "before": "ee29bc2def7db8ca327cf1fc4dcbe9b37531836799e0c09cdda82b8f64568ac9",
+      "after": "ee29bc2def7db8ca327cf1fc4dcbe9b37531836799e0c09cdda82b8f64568ac9"
+    },
+    "src/App.tsx": {
+      "before": "86cc3359fda4133163ae2d8a4c972f4c5f62d6bafd1458d0a1983d78fc59cc05",
+      "after": "86cc3359fda4133163ae2d8a4c972f4c5f62d6bafd1458d0a1983d78fc59cc05"
+    },
+    "src/index.css": {
+      "before": "9f27cfee905c1663c2fc77ef8787746985a1f42e53d8aea94070042d87b6ef25",
+      "after": "9f27cfee905c1663c2fc77ef8787746985a1f42e53d8aea94070042d87b6ef25"
+    },
+    "src/main.tsx": {
+      "before": "a64b3e8e4e12fe22f3bdd36cc81b0152e6547fe52b8bc1219f77993c1560e487",
+      "after": "a64b3e8e4e12fe22f3bdd36cc81b0152e6547fe52b8bc1219f77993c1560e487"
+    },
+    "src/vite-env.d.ts": {
+      "before": "424faf9241dd699dda995b367ed36665732da1e6ec1f33b2fd40394488ecac92",
+      "after": "424faf9241dd699dda995b367ed36665732da1e6ec1f33b2fd40394488ecac92"
+    },
+    "src/assets/react.svg": {
+      "before": "35ef61ed53b323ae94a16a8ec659b3d0af3880698791133f23b084085ab1c2e5",
+      "after": "35ef61ed53b323ae94a16a8ec659b3d0af3880698791133f23b084085ab1c2e5"
+    },
+    "src/scenarios/index.ts": {
+      "before": "23e28e017974872d07098bcd4b132824350963da2044d1cd58c449e29c194ab8",
+      "after": "23e28e017974872d07098bcd4b132824350963da2044d1cd58c449e29c194ab8"
+    },
+    "src/state/gameStore.ts": {
+      "before": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "after": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "src/state/userStore.ts": {
+      "before": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "after": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "src/ui/layout/DashboardLayout.tsx": {
+      "before": "c7b16e637175caa1855a5b430f7c7c2b84f116ce84334a5b659795e5c8c71f9f",
+      "after": "c7b16e637175caa1855a5b430f7c7c2b84f116ce84334a5b659795e5c8c71f9f"
+    },
+    "src/ui/layout/ScenarioLayout.tsx": {
+      "before": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "after": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "src/ui/theme/colors.ts": {
+      "before": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "after": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "src/ui/theme/layout.ts": {
+      "before": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "after": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "src/ui/components/admin/SystemManagement.tsx": {
+      "before": "11665cd1f26dd17c3b28419e415ae2d4aef52cca00b82012c1c2bcd910251fed",
+      "after": "ca1b5356cc8f69817e04670cc154b28999a21cbc89513955e10f532220eec294"
+    },
+    "src/ui/components/common/BackgroundMusic.css": {
+      "before": "3b3aac626535a10b04266ed6a3ac0c59683f58aeeac413258c6093148b1b7311",
+      "after": "3b3aac626535a10b04266ed6a3ac0c59683f58aeeac413258c6093148b1b7311"
+    },
+    "src/ui/components/common/BackgroundMusic.tsx": {
+      "before": "0282bdef71ace5896cbf5015fc74ce49f927a82c1f52cd6af36535e6dbf81d5a",
+      "after": "0282bdef71ace5896cbf5015fc74ce49f927a82c1f52cd6af36535e6dbf81d5a"
+    },
+    "src/ui/components/common/Badge.tsx": {
+      "before": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "after": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "src/ui/components/common/Button.tsx": {
+      "before": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "after": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "src/ui/components/common/Card.tsx": {
+      "before": "29b2170ccd650b92e78e059dedf89927932ec92a0137761f8313e8d7eb2f0b10",
+      "after": "29b2170ccd650b92e78e059dedf89927932ec92a0137761f8313e8d7eb2f0b10"
+    },
+    "src/ui/components/dashboard/CognitiveScoreWidget.tsx": {
+      "before": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "after": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "src/ui/components/dashboard/ScenarioCard.tsx": {
+      "before": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "after": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "src/ui/components/dashboard/ScenarioListPanel.tsx": {
+      "before": "49a22e0245edec4cd7e051e7b94f0ecb6a233b64b6bd779ce348d69f12422c6c",
+      "after": "49a22e0245edec4cd7e051e7b94f0ecb6a233b64b6bd779ce348d69f12422c6c"
+    },
+    "src/ui/components/dashboard/SessionHistoryTable.tsx": {
+      "before": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "after": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "src/ui/components/navigation/Sidebar.tsx": {
+      "before": "85d7eb00cecefcbb501ed7fdd720667b37feb47031f80d977ee1ab1e043d0bdc",
+      "after": "85d7eb00cecefcbb501ed7fdd720667b37feb47031f80d977ee1ab1e043d0bdc"
+    },
+    "src/ui/components/navigation/TopBar.tsx": {
+      "before": "ef139bde8f6c8e04b6e76d9b63c3e5b30ae849b5a1802cbe43ab3831e577ff14",
+      "after": "ef139bde8f6c8e04b6e76d9b63c3e5b30ae849b5a1802cbe43ab3831e577ff14"
+    },
+    "src/ui/components/profile/AdminLoginForm.tsx": {
+      "before": "c3590b84e42a17d162b3539f93ac8fa640f41673c7560c7d28df7db04b5894e4",
+      "after": "c3590b84e42a17d162b3539f93ac8fa640f41673c7560c7d28df7db04b5894e4"
+    },
+    "src/ui/components/profile/ProfileCreateForm.tsx": {
+      "before": "7d012d59fb0bc30850a12212e1b0bd55fcc3d179b021ad8c21fb48727c3234c3",
+      "after": "7d012d59fb0bc30850a12212e1b0bd55fcc3d179b021ad8c21fb48727c3234c3"
+    },
+    "src/ui/components/scenario/DecisionNodeView.tsx": {
+      "before": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "after": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "src/ui/components/scenario/MiniGameHost.tsx": {
+      "before": "f7774aaea12c5d6572d68e2575c4c788302adbad113f58edcf2a8c4bcfdfa668",
+      "after": "f7774aaea12c5d6572d68e2575c4c788302adbad113f58edcf2a8c4bcfdfa668"
+    },
+    "src/ui/components/scenario/ResourcePanel.tsx": {
+      "before": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "after": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "src/ui/components/scenario/ScenarioFive.css": {
+      "before": "20c8fbd4c13a70eb2a9f820c39c5c75ab0e414e756d3b9666f76a9e415ef4aa2",
+      "after": "20c8fbd4c13a70eb2a9f820c39c5c75ab0e414e756d3b9666f76a9e415ef4aa2"
+    },
+    "src/ui/components/scenario/ScenarioFiveActionCard.tsx": {
+      "before": "84558e4f0395132238a4fbcd28b7ed2a74c584854b2dde2249afb24e185b8130",
+      "after": "84558e4f0395132238a4fbcd28b7ed2a74c584854b2dde2249afb24e185b8130"
+    },
+    "src/ui/components/scenario/ScenarioFiveMap.tsx": {
+      "before": "a14dd6967de8056ca4d56bf893f56ff0252ac88cddb721561a2dc2cb7937c8b0",
+      "after": "a14dd6967de8056ca4d56bf893f56ff0252ac88cddb721561a2dc2cb7937c8b0"
+    },
+    "src/ui/components/scenario/ScenarioFiveResourcePanel.tsx": {
+      "before": "2d9432c868505a55b1f9bec750627eb8000ecf18142c7a211a242c0e710a8dfb",
+      "after": "2d9432c868505a55b1f9bec750627eb8000ecf18142c7a211a242c0e710a8dfb"
+    },
+    "src/ui/components/scenario/ScenarioFiveSimulation.tsx": {
+      "before": "c608d5af6a676c5f53cb8eb5b641ee0883899dfd4f6dbe38efe1fb49018cfebc",
+      "after": "48b457d0096167902b0338421f31b9fceb22017b3c427673c662e8077469de87"
+    },
+    "src/ui/components/scenario/ScenarioFiveSummary.tsx": {
+      "before": "2108864ea4d90a00293a06f0ce07e57c3890ce1e95d6543107e823e333d6304d",
+      "after": "2108864ea4d90a00293a06f0ce07e57c3890ce1e95d6543107e823e333d6304d"
+    },
+    "src/ui/components/scenario/ScenarioFiveTypes.ts": {
+      "before": "fe8718f6e73c823de218eed862b694106fb6e12772ee1814a47c393a541ede42",
+      "after": "fe8718f6e73c823de218eed862b694106fb6e12772ee1814a47c393a541ede42"
+    },
+    "src/ui/components/scenario/ScenarioFourRedesignedScenarioOne.css": {
+      "before": "513bc5e29a2347be84e97c8f900fa3ff88b085be23fd046da65d70bf2182c566",
+      "after": "513bc5e29a2347be84e97c8f900fa3ff88b085be23fd046da65d70bf2182c566"
+    },
+    "src/ui/components/scenario/ScenarioFourRedesignedScenarioOne.tsx": {
+      "before": "1b31d5f6731fc4c1686af6afd460c42d06b0231a6b1a4e731a028457238b2cc5",
+      "after": "80316bc867cac166eeb9628360735d1c80b159ac864d9d6b31d34194a00028e4"
+    },
+    "src/ui/components/scenario/ScenarioOneSimulation.tsx": {
+      "before": "ca73c8e3c07f7dfbc1a32bd60a70c3180a7ef0b26ea37c210b74b024611e258d",
+      "after": "ca73c8e3c07f7dfbc1a32bd60a70c3180a7ef0b26ea37c210b74b024611e258d"
+    },
+    "src/ui/components/scenario/ScenarioRunner.tsx": {
+      "before": "ce0263c5c2bffa874d6eaa4435dc9ebc1f9d1f7e8d159c46c58c8a7637766b49",
+      "after": "ce0263c5c2bffa874d6eaa4435dc9ebc1f9d1f7e8d159c46c58c8a7637766b49"
+    },
+    "src/ui/components/scenario/ScenarioThreeDungeon.tsx": {
+      "before": "cfdf93b16487f4047dab7c34b2030494c50da6d303c11aad67610565ea63f541",
+      "after": "cfdf93b16487f4047dab7c34b2030494c50da6d303c11aad67610565ea63f541"
+    },
+    "src/ui/components/scenario/ScenarioTwoActionCard.tsx": {
+      "before": "76f5e04cfe6d0e12f66ffbb255fb2d701771c0bb41a9fa0ef9dcbdc974ab31df",
+      "after": "76f5e04cfe6d0e12f66ffbb255fb2d701771c0bb41a9fa0ef9dcbdc974ab31df"
+    },
+    "src/ui/components/scenario/ScenarioTwoMap.tsx": {
+      "before": "1d0004fd4e24403e2df0f819b0735eb5c80d451c1afbb7cbebb26b5a9346b4be",
+      "after": "1d0004fd4e24403e2df0f819b0735eb5c80d451c1afbb7cbebb26b5a9346b4be"
+    },
+    "src/ui/components/scenario/ScenarioTwoResourcePanel.tsx": {
+      "before": "021458487a7515145dabf6097b48a35005c2224574e70b685d0a7bc574a6f8f4",
+      "after": "021458487a7515145dabf6097b48a35005c2224574e70b685d0a7bc574a6f8f4"
+    },
+    "src/ui/components/scenario/ScenarioTwoSimulation.tsx": {
+      "before": "ef36d35fe5d3af1ae4ca70c9326eab462f547f208e37c94eaa8e230e9fd674a5",
+      "after": "ef36d35fe5d3af1ae4ca70c9326eab462f547f208e37c94eaa8e230e9fd674a5"
+    },
+    "src/ui/components/scenario/ScenarioTwoSummary.tsx": {
+      "before": "c0afad334a23a13d11535cb6645ed2d5a63714a3e4b6f5ab76c5ed8f58a8a892",
+      "after": "c0afad334a23a13d11535cb6645ed2d5a63714a3e4b6f5ab76c5ed8f58a8a892"
+    },
+    "src/ui/components/scenario/ScenarioTwoTypes.ts": {
+      "before": "dbe116cab019607e7c907fe9a7039c2c6a31aef714f57bf47e50d18c31423ea2",
+      "after": "dbe116cab019607e7c907fe9a7039c2c6a31aef714f57bf47e50d18c31423ea2"
+    },
+    "src/ui/components/scenario/TimerDisplay.tsx": {
+      "before": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "after": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "src/ui/components/scenario/scenario-zero/learningContent.ts": {
+      "before": "835f90c132091b9505bb9dda5219c26ff3d9abbe2182ea9b286759f65482c105",
+      "after": "835f90c132091b9505bb9dda5219c26ff3d9abbe2182ea9b286759f65482c105"
+    },
+    "src/ui/components/scenario/scenario-zero/LessonReading.tsx": {
+      "before": "45c4d0853848b59133e6939b32fbba47476f4a4a3f740dcfc077ca82ca583567",
+      "after": "45c4d0853848b59133e6939b32fbba47476f4a4a3f740dcfc077ca82ca583567"
+    },
+    "src/ui/components/scenario/scenario-zero/QuestionReference.tsx": {
+      "before": "4bae2b8e11d4007132e9c3f8756437bb33b7aa3a8649829e77dcad61eb300372",
+      "after": "4bae2b8e11d4007132e9c3f8756437bb33b7aa3a8649829e77dcad61eb300372"
+    },
+    "src/ui/components/scenario/scenario-zero/ScenarioZeroLearning.css": {
+      "before": "d566db9cc0d0fdf4ee12b68ce8b85b702334d2d7edda1ce841fb2148dbc30cc6",
+      "after": "d566db9cc0d0fdf4ee12b68ce8b85b702334d2d7edda1ce841fb2148dbc30cc6"
+    },
+    "src/ui/components/scenario/scenario-zero/ScenarioZeroLearning.tsx": {
+      "before": "9d3ecbee8d664bd70fb0dd124ac8b5ed7ddf9aae0789dfa9abacdc545b52381e",
+      "after": "9d3ecbee8d664bd70fb0dd124ac8b5ed7ddf9aae0789dfa9abacdc545b52381e"
+    },
+    "src/ui/components/scenario/scenario-four/actors/allyActor.ts": {
+      "before": "4053f79966f9c323629eeca5aff41b19f78013863e7fd2f992b789e1ba929a2b",
+      "after": "4053f79966f9c323629eeca5aff41b19f78013863e7fd2f992b789e1ba929a2b"
+    },
+    "src/ui/components/scenario/scenario-four/actors/commercialActor.ts": {
+      "before": "6562eacd48b1f7854feaeefdda8fff892278b341b5b335503b3c99a85276f03c",
+      "after": "6562eacd48b1f7854feaeefdda8fff892278b341b5b335503b3c99a85276f03c"
+    },
+    "src/ui/components/scenario/scenario-four/actors/redActor.ts": {
+      "before": "30917fc572d2220c25ec80b94560951a8c0a1153b8e9124141c8a5824fbb9ab4",
+      "after": "30917fc572d2220c25ec80b94560951a8c0a1153b8e9124141c8a5824fbb9ab4"
+    },
+    "src/ui/components/scenario/scenario-four/adjudication/adjudicator.ts": {
+      "before": "9c8e59118da97a8669ac2e75985ff98c499c773150e18b6b933f8e33d111098d",
+      "after": "9c8e59118da97a8669ac2e75985ff98c499c773150e18b6b933f8e33d111098d"
+    },
+    "src/ui/components/scenario/scenario-four/adjudication/move2Adjudicator.ts": {
+      "before": "ae12901b991a3b01dad3bcf0b7eec7f3a80943251a7d0cc3b7d8240839d03a26",
+      "after": "ae12901b991a3b01dad3bcf0b7eec7f3a80943251a7d0cc3b7d8240839d03a26"
+    },
+    "src/ui/components/scenario/scenario-four/adjudication/move3Adjudicator.ts": {
+      "before": "2dad26afc1d92660a2c68beaa2f65dc848058ad81d7eacef0e372953c26b85bc",
+      "after": "2dad26afc1d92660a2c68beaa2f65dc848058ad81d7eacef0e372953c26b85bc"
+    },
+    "src/ui/components/scenario/scenario-four/adjudication/seededRandom.ts": {
+      "before": "a932e618d6b25d5cf215c6f2dc21ee43f049e2a15876b739e182fb3add6a2826",
+      "after": "a932e618d6b25d5cf215c6f2dc21ee43f049e2a15876b739e182fb3add6a2826"
+    },
+    "src/ui/components/scenario/scenario-four/model/aarV3.ts": {
+      "before": "93b40e16403c93997342c34eef3fdddee52b31fd5e6b610a4742c89cc8e91039",
+      "after": "93b40e16403c93997342c34eef3fdddee52b31fd5e6b610a4742c89cc8e91039"
+    },
+    "src/ui/components/scenario/scenario-four/model/cognitiveEngineV3.ts": {
+      "before": "989eb8bf7a6bb4085fbac14e6ded637c01b02ba28d0e0fe5a7608b5e10143eca",
+      "after": "989eb8bf7a6bb4085fbac14e6ded637c01b02ba28d0e0fe5a7608b5e10143eca"
+    },
+    "src/ui/components/scenario/scenario-four/model/cognitiveOptionProfilesV3.ts": {
+      "before": "00d981ecf4bd09acf91c0d53c5d740c08388f65f56775044533f43f88d39b145",
+      "after": "00d981ecf4bd09acf91c0d53c5d740c08388f65f56775044533f43f88d39b145"
+    },
+    "src/ui/components/scenario/scenario-four/model/displayLabelsFa.ts": {
+      "before": "46356dd2e5e2df8e127f487617c71a866fd9ed2848570ddbbc51b90303445246",
+      "after": "46356dd2e5e2df8e127f487617c71a866fd9ed2848570ddbbc51b90303445246"
+    },
+    "src/ui/components/scenario/scenario-four/model/initialState.ts": {
+      "before": "1f50f4c04050fa201575cbf53af27743f8439b68f0a9f38a11a46e15f082654f",
+      "after": "1f50f4c04050fa201575cbf53af27743f8439b68f0a9f38a11a46e15f082654f"
+    },
+    "src/ui/components/scenario/scenario-four/model/orientationModelV2.ts": {
+      "before": "7fc445207e79358e119aa561f7c79cb256bef2559d94fa983a0cf369c3625726",
+      "after": "7fc445207e79358e119aa561f7c79cb256bef2559d94fa983a0cf369c3625726"
+    },
+    "src/ui/components/scenario/scenario-four/model/resourceEngineV2.ts": {
+      "before": "59c3c4a730f4cce7bd844f88f2ee6731be79e6f94356ee95ddf559e4da3dea02",
+      "after": "59c3c4a730f4cce7bd844f88f2ee6731be79e6f94356ee95ddf559e4da3dea02"
+    },
+    "src/ui/components/scenario/scenario-four/model/types.ts": {
+      "before": "1b6438d1b48004545c6bf3d32c60790c4b50fe3785940ac2ad9f853c6b0a87ec",
+      "after": "1b6438d1b48004545c6bf3d32c60790c4b50fe3785940ac2ad9f853c6b0a87ec"
+    },
+    "src/ui/components/scenario/scenario-four/moves/move1.ts": {
+      "before": "37e4d9f94585b11a56ee6f3b8dc1d7ed620db9382525d25c5d2a1536d70cc702",
+      "after": "37e4d9f94585b11a56ee6f3b8dc1d7ed620db9382525d25c5d2a1536d70cc702"
+    },
+    "src/ui/components/scenario/scenario-four/moves/move2.ts": {
+      "before": "32798de392e266db251193e37b93d9f411c58f02da4fa27ce48880bc86be5dde",
+      "after": "32798de392e266db251193e37b93d9f411c58f02da4fa27ce48880bc86be5dde"
+    },
+    "src/ui/components/scenario/scenario-four/moves/move3.ts": {
+      "before": "f5691262a796f766f1baab3048d8801d38acb6093cd2b0e7c22bec8c64725c54",
+      "after": "f5691262a796f766f1baab3048d8801d38acb6093cd2b0e7c22bec8c64725c54"
+    },
+    "src/ui/components/scenario/scenario-four/narrative/buildNarrativeContext.ts": {
+      "before": "399968a9bba1fb9bc168b5a08f39fdf77fe8afd9e569c8419fbb23ec524431d3",
+      "after": "399968a9bba1fb9bc168b5a08f39fdf77fe8afd9e569c8419fbb23ec524431d3"
+    },
+    "src/ui/components/scenario/scenario-four/narrative/narrativeCatalogFa.ts": {
+      "before": "72f31b92bd2d139b52974b5e82c998e6bd1639d2d9bd4801a9f667336840c3a5",
+      "after": "72f31b92bd2d139b52974b5e82c998e6bd1639d2d9bd4801a9f667336840c3a5"
+    },
+    "src/ui/components/scenario/scenario-four/narrative/narrativeConsistency.ts": {
+      "before": "7677ca4027d3d898c36a35ca1e3b0da6d243860084049f3ca5d7e45ddd817a43",
+      "after": "7677ca4027d3d898c36a35ca1e3b0da6d243860084049f3ca5d7e45ddd817a43"
+    },
+    "src/ui/components/scenario/scenario-four/narrative/narrativeSelectors.ts": {
+      "before": "d97fee1ead11de9617c6ed326e57d6ea84ba06f6e03c97f05b0cc4700d1d6aed",
+      "after": "d97fee1ead11de9617c6ed326e57d6ea84ba06f6e03c97f05b0cc4700d1d6aed"
+    },
+    "src/ui/components/scenario/scenario-four/narrative/narrativeTypes.ts": {
+      "before": "d3832a97aca1466f390889b39fcd0e3e267ace1a1df575ea91abe54beb6faa32",
+      "after": "d3832a97aca1466f390889b39fcd0e3e267ace1a1df575ea91abe54beb6faa32"
+    },
+    "src/ui/components/scenario/scenario-five/calibration/auditMethodV2.ts": {
+      "before": "ae6cdeb634ed02d2f1ccd3634dc7b6af43cd435cc98043e1f0302f67b825b78b",
+      "after": "ae6cdeb634ed02d2f1ccd3634dc7b6af43cd435cc98043e1f0302f67b825b78b"
+    },
+    "src/ui/components/scenario/scenario-five/calibration/auditMetrics.ts": {
+      "before": "de9ef2882be31d13f3e43ea37f7a82fde906006696eb038134f3d56ddf3c2e88",
+      "after": "de9ef2882be31d13f3e43ea37f7a82fde906006696eb038134f3d56ddf3c2e88"
+    },
+    "src/ui/components/scenario/scenario-five/calibration/cognitivePolicies.ts": {
+      "before": "8a89fbf457dbf942c2b1558c665c1fad5caec5a97c8dfa3871ff6c7d91fe81d4",
+      "after": "8a89fbf457dbf942c2b1558c665c1fad5caec5a97c8dfa3871ff6c7d91fe81d4"
+    },
+    "src/ui/components/scenario/scenario-five/calibration/counterfactualAudit.ts": {
+      "before": "a0958e993116daac608123df559864a81a630225971b28c5ed054189ec3d0dde",
+      "after": "a0958e993116daac608123df559864a81a630225971b28c5ed054189ec3d0dde"
+    },
+    "src/ui/components/scenario/scenario-five/calibration/index.ts": {
+      "before": "42faff7feaf9d85fbd7e958eb0b8323f033478a3917eb27d18a0b60c937059e0",
+      "after": "42faff7feaf9d85fbd7e958eb0b8323f033478a3917eb27d18a0b60c937059e0"
+    },
+    "src/ui/components/scenario/scenario-five/calibration/missionPolicies.ts": {
+      "before": "d3ad70dae95602bace98eab4726229d99de639f48cb475683ba9748942b3039a",
+      "after": "d3ad70dae95602bace98eab4726229d99de639f48cb475683ba9748942b3039a"
+    },
+    "src/ui/components/scenario/scenario-five/calibration/policyRng.ts": {
+      "before": "3c50efaaef296713b7f90f998daddd1fa29a4fa1285c4884b3f149aa17379193",
+      "after": "3c50efaaef296713b7f90f998daddd1fa29a4fa1285c4884b3f149aa17379193"
+    },
+    "src/ui/components/scenario/scenario-five/calibration/reporting.ts": {
+      "before": "799acd2b4a3c2f10f1aca17e7098e1605b7634929d684bd20a9c407f389e0c25",
+      "after": "799acd2b4a3c2f10f1aca17e7098e1605b7634929d684bd20a9c407f389e0c25"
+    },
+    "src/ui/components/scenario/scenario-five/calibration/shadowSensitivity.ts": {
+      "before": "711dbb853a6d40b9a5bd2ca6e28d07530acc750107684c6513eb5fd09e25845d",
+      "after": "711dbb853a6d40b9a5bd2ca6e28d07530acc750107684c6513eb5fd09e25845d"
+    },
+    "src/ui/components/scenario/scenario-five/calibration/simulationDriver.ts": {
+      "before": "bcf366d68e18fe48382964f3539460040a36bd2c2f9292500b1b4848d3345cad",
+      "after": "bcf366d68e18fe48382964f3539460040a36bd2c2f9292500b1b4848d3345cad"
+    },
+    "src/ui/components/scenario/scenario-five/calibration/structuredReachability.ts": {
+      "before": "fc2f0835f9caa329a0b059811e576ba76d4f87f9073c62f24abd9a7a35086d04",
+      "after": "fc2f0835f9caa329a0b059811e576ba76d4f87f9073c62f24abd9a7a35086d04"
+    },
+    "src/ui/components/scenario/scenario-five/calibration/types.ts": {
+      "before": "239423acd899f6be12b15f4f01d13dc5c95b21976c67ff886476c18da6e6fa18",
+      "after": "239423acd899f6be12b15f4f01d13dc5c95b21976c67ff886476c18da6e6fa18"
+    },
+    "src/ui/components/scenario/scenario-five/calibration/versions.ts": {
+      "before": "434cf10c5e9c6eb520c60415f10919f87e5afe51882b36bd673008f0256ee9d4",
+      "after": "434cf10c5e9c6eb520c60415f10919f87e5afe51882b36bd673008f0256ee9d4"
+    },
+    "src/ui/components/scenario/scenario-five/model/actorModel.ts": {
+      "before": "469f681c75220a52b40e2e465b858c3901fb683a3b256511fba3d67cc3134aac",
+      "after": "469f681c75220a52b40e2e465b858c3901fb683a3b256511fba3d67cc3134aac"
+    },
+    "src/ui/components/scenario/scenario-five/model/adjudicator.ts": {
+      "before": "3e49e559914eb574cb3cd595ece88b4f2226cb102fddafa93fb13ea4374ed301",
+      "after": "3e49e559914eb574cb3cd595ece88b4f2226cb102fddafa93fb13ea4374ed301"
+    },
+    "src/ui/components/scenario/scenario-five/model/evidenceModel.ts": {
+      "before": "09434dd221a0e51edda05e9185a4b98d63c8333589872039115770e9f7c0f863",
+      "after": "09434dd221a0e51edda05e9185a4b98d63c8333589872039115770e9f7c0f863"
+    },
+    "src/ui/components/scenario/scenario-five/model/index.ts": {
+      "before": "05502b66da36d4e1bbffd1dc5e78ffaf50c661d62d33b4defd468348a00e9a58",
+      "after": "05502b66da36d4e1bbffd1dc5e78ffaf50c661d62d33b4defd468348a00e9a58"
+    },
+    "src/ui/components/scenario/scenario-five/model/projections.ts": {
+      "before": "dc8ebf124291e372596b2345143a1a94c743878a4319080232272da88981be71",
+      "after": "dc8ebf124291e372596b2345143a1a94c743878a4319080232272da88981be71"
+    },
+    "src/ui/components/scenario/scenario-five/model/seededRng.ts": {
+      "before": "4d82eab3ed925ad51a0fa3fce550c8d0141f41abd4eef8ae0a82ea06c9fabd62",
+      "after": "4d82eab3ed925ad51a0fa3fce550c8d0141f41abd4eef8ae0a82ea06c9fabd62"
+    },
+    "src/ui/components/scenario/scenario-five/model/types.ts": {
+      "before": "67a58115f073aa28946ec1d3ce00695c5edca7c28a1dc19537714ad948f074ce",
+      "after": "67a58115f073aa28946ec1d3ce00695c5edca7c28a1dc19537714ad948f074ce"
+    },
+    "src/ui/components/scenario/scenario-five/model/versions.ts": {
+      "before": "d4158b8db24a6ed809fb61a7fc487c7f88e68441bc117a3a95540e989e227d58",
+      "after": "d4158b8db24a6ed809fb61a7fc487c7f88e68441bc117a3a95540e989e227d58"
+    },
+    "src/ui/components/scenario/scenario-five/model/worldCatalog.ts": {
+      "before": "64205b83bd032c7b042efa65b782b8c9f4da183e123892260cf6ac67ba81b8f8",
+      "after": "64205b83bd032c7b042efa65b782b8c9f4da183e123892260cf6ac67ba81b8f8"
+    },
+    "src/ui/components/scenario/scenario-five/model/worldFactory.ts": {
+      "before": "39c5088a483bb6d987b3423775ac2dc9f3fa67b229bf53959e8ba85a9316d55c",
+      "after": "39c5088a483bb6d987b3423775ac2dc9f3fa67b229bf53959e8ba85a9316d55c"
+    },
+    "src/ui/components/scenario/scenario-five/ui/cognitiveDashboardPresentation.ts": {
+      "before": "d1c55c6b2e152548f6a0b306636913acf9fe44a9978de4a3b172defcefde8f91",
+      "after": "d1c55c6b2e152548f6a0b306636913acf9fe44a9978de4a3b172defcefde8f91"
+    },
+    "src/ui/components/scenario/scenario-five/ui/endingAlternatives.ts": {
+      "before": "132d3b04bf51d77ce269eaef97240db93b48b1a99a9a7d6e7ec5156baada226c",
+      "after": "132d3b04bf51d77ce269eaef97240db93b48b1a99a9a7d6e7ec5156baada226c"
+    },
+    "src/ui/components/scenario/scenario-five/ui/endingPresentation.ts": {
+      "before": "27e8a98b2a2191955b97205aca5581c88ea19f1927674551f7c1da2c18fbf9b4",
+      "after": "27e8a98b2a2191955b97205aca5581c88ea19f1927674551f7c1da2c18fbf9b4"
+    },
+    "src/ui/components/scenario/scenario-five/ui/gameplayPresentation.ts": {
+      "before": "380da44c630bf4a1a2ebdc1219b07e1149f9185c5b626014a106e7cee7a91baa",
+      "after": "380da44c630bf4a1a2ebdc1219b07e1149f9185c5b626014a106e7cee7a91baa"
+    },
+    "src/ui/components/scenario/scenario-five/ui/index.ts": {
+      "before": "8057dcbc4721b074ab36c5838047e4fcf644e4302d72a396e289c4bce9a3c221",
+      "after": "8057dcbc4721b074ab36c5838047e4fcf644e4302d72a396e289c4bce9a3c221"
+    },
+    "src/ui/components/scenario/scenario-five/ui/phaseHeader.ts": {
+      "before": "db31e592e607790a1f4c121a1532365cecb9836dfa11e1c53debebbe861f5dcf",
+      "after": "db31e592e607790a1f4c121a1532365cecb9836dfa11e1c53debebbe861f5dcf"
+    },
+    "src/ui/components/scenario/scenario-five/ui/presentation.ts": {
+      "before": "c041dc1a5a0628314ab044f7dc8857ce195f83181f1643af9e4403bdf7fa017c",
+      "after": "c041dc1a5a0628314ab044f7dc8857ce195f83181f1643af9e4403bdf7fa017c"
+    },
+    "src/ui/components/scenario/scenario-five/ui/runAssignment.ts": {
+      "before": "bf880caf60cb8850aa553ab53d4615d9e4f38196694721e05bb8c05af49a771f",
+      "after": "bf880caf60cb8850aa553ab53d4615d9e4f38196694721e05bb8c05af49a771f"
+    },
+    "src/ui/components/scenario/scenario-five/ui/ScenarioFiveAdminDashboardPreview.css": {
+      "before": "a285d33962af97e6fdfacbb6465101571d5143ba42accd2100b44bd611640930",
+      "after": "a285d33962af97e6fdfacbb6465101571d5143ba42accd2100b44bd611640930"
+    },
+    "src/ui/components/scenario/scenario-five/ui/ScenarioFiveAdminDashboardPreview.tsx": {
+      "before": "dacc2d511506f0c23d87adc1e76b3fb8b5d7053f88bb1ba9e99e1270799d1f20",
+      "after": "dacc2d511506f0c23d87adc1e76b3fb8b5d7053f88bb1ba9e99e1270799d1f20"
+    },
+    "src/ui/components/scenario/scenario-five/ui/ScenarioFiveBeliefPanel.tsx": {
+      "before": "ac03c75fdd210e6dcc8e2f94f03fcf84c6926f435481c14bd329c62a1951d249",
+      "after": "ac03c75fdd210e6dcc8e2f94f03fcf84c6926f435481c14bd329c62a1951d249"
+    },
+    "src/ui/components/scenario/scenario-five/ui/ScenarioFiveCognitiveDashboard.tsx": {
+      "before": "a94d4129e49137ab1708e410cd14b33f0283cf856274c27ce7e8772d5cb1fd4d",
+      "after": "a94d4129e49137ab1708e410cd14b33f0283cf856274c27ce7e8772d5cb1fd4d"
+    },
+    "src/ui/components/scenario/scenario-five/ui/ScenarioFiveEvidencePanel.tsx": {
+      "before": "827443f6cd0baa74f2753fab36315458e90f1cbcdbd50351f01f9bcc3cb195f3",
+      "after": "827443f6cd0baa74f2753fab36315458e90f1cbcdbd50351f01f9bcc3cb195f3"
+    },
+    "src/ui/components/scenario/scenario-five/ui/ScenarioFiveGlossary.tsx": {
+      "before": "3bdb80caed2a2c42756a260fefb28c29bc754cbfffeaa69b1ea93c087dbeb5d0",
+      "after": "3bdb80caed2a2c42756a260fefb28c29bc754cbfffeaa69b1ea93c087dbeb5d0"
+    },
+    "src/ui/components/scenario/scenario-five/ui/ScenarioFiveInformationPicture.tsx": {
+      "before": "670115a28b6f42d6c83bb1b06ec1dd2d618f80f8c263e8934672cedc885508df",
+      "after": "670115a28b6f42d6c83bb1b06ec1dd2d618f80f8c263e8934672cedc885508df"
+    },
+    "src/ui/components/scenario/scenario-five/ui/ScenarioFiveMissionEnding.tsx": {
+      "before": "ce48ea799f7e375c1a644682db47595cb37886e840ca8485e423eea2991a2198",
+      "after": "ce48ea799f7e375c1a644682db47595cb37886e840ca8485e423eea2991a2198"
+    },
+    "src/ui/components/scenario/scenario-five/ui/ScenarioFiveOutcomePanel.tsx": {
+      "before": "ab1d0c17f1c9642f56c1a6afda5db4c4939343298a17f1f709262d8d0c6df061",
+      "after": "ab1d0c17f1c9642f56c1a6afda5db4c4939343298a17f1f709262d8d0c6df061"
+    },
+    "src/ui/components/scenario/scenario-five/ui/ScenarioFiveProgress.tsx": {
+      "before": "afacde852ca05b9de5ef517b86d33cca176439481889d1cf46c7ec045662d484",
+      "after": "afacde852ca05b9de5ef517b86d33cca176439481889d1cf46c7ec045662d484"
+    },
+    "src/ui/components/scenario/scenario-five/ui/ScenarioFiveReasonPanel.tsx": {
+      "before": "d2fee30fea9285e22a97ea008ebb15b57d714fdc4d4b1274e945a54f0efc05e9",
+      "after": "d2fee30fea9285e22a97ea008ebb15b57d714fdc4d4b1274e945a54f0efc05e9"
+    },
+    "src/ui/components/scenario/scenario-five/ui/ScenarioFiveTime.tsx": {
+      "before": "a5b170f5d37d212370b22f46e254b273c7f5cf0226a30c90bbed1b6221abeaa3",
+      "after": "a5b170f5d37d212370b22f46e254b273c7f5cf0226a30c90bbed1b6221abeaa3"
+    },
+    "src/ui/components/scenario/scenario-five/ui/uiContentFa.ts": {
+      "before": "0559525b33da931181bdab4871718afce953aaac9172de8a878726159357f65e",
+      "after": "0559525b33da931181bdab4871718afce953aaac9172de8a878726159357f65e"
+    },
+    "src/ui/components/scenario/scenario-five/model/cognitive/cognitiveEngine.ts": {
+      "before": "dbcc476007a5dda0188fe89f0f950dc7063ba341090b026e8875ad239073e91d",
+      "after": "dbcc476007a5dda0188fe89f0f950dc7063ba341090b026e8875ad239073e91d"
+    },
+    "src/ui/components/scenario/scenario-five/model/cognitive/evidenceScoring.ts": {
+      "before": "52b886b74eedb7e371cbb0990c8a63c033bd9391235141930e0284e6e5ae7353",
+      "after": "52b886b74eedb7e371cbb0990c8a63c033bd9391235141930e0284e6e5ae7353"
+    },
+    "src/ui/components/scenario/scenario-five/model/cognitive/index.ts": {
+      "before": "b375c80bc8dbd91217383bbf08ec2bf0e46b589e9b6c00d523061b91161310ba",
+      "after": "b375c80bc8dbd91217383bbf08ec2bf0e46b589e9b6c00d523061b91161310ba"
+    },
+    "src/ui/components/scenario/scenario-five/model/cognitive/optionProfiles.ts": {
+      "before": "84a6c87700210701b58ced9af47297ddba16aa62f31764fb51814c14a9e99e70",
+      "after": "84a6c87700210701b58ced9af47297ddba16aa62f31764fb51814c14a9e99e70"
+    },
+    "src/ui/components/scenario/scenario-five/model/cognitive/reasonModel.ts": {
+      "before": "fdc462e69bdc897d8ddcfeed0aa96a399e2aae1f7595c9fa4deb5db9c805fd3c",
+      "after": "fdc462e69bdc897d8ddcfeed0aa96a399e2aae1f7595c9fa4deb5db9c805fd3c"
+    },
+    "src/ui/components/scenario/scenario-five/model/cognitive/types.ts": {
+      "before": "a4876edbc46fd4c709b75fd2b0bbe37bb90aacc1e065d2a87faa449738bbbe55",
+      "after": "a4876edbc46fd4c709b75fd2b0bbe37bb90aacc1e065d2a87faa449738bbbe55"
+    },
+    "src/ui/components/scenario/scenario-five/model/cognitive/versions.ts": {
+      "before": "ff21d79714907bbdb0c889548907b024bd791549dc24850a75e2923bd0d9ad65",
+      "after": "ff21d79714907bbdb0c889548907b024bd791549dc24850a75e2923bd0d9ad65"
+    },
+    "src/ui/components/scenario/scenario-five/model/mission/actionCatalog.ts": {
+      "before": "2fc85f31e51745be92ce9c73dfcfaec1df2d555dd17086e70e0248a1e4dd2931",
+      "after": "2fc85f31e51745be92ce9c73dfcfaec1df2d555dd17086e70e0248a1e4dd2931"
+    },
+    "src/ui/components/scenario/scenario-five/model/mission/config.ts": {
+      "before": "f1f61707b42d368c47c5eb6716ea5e03fe31511a6d8d570ce994f9d3df3beb6c",
+      "after": "f1f61707b42d368c47c5eb6716ea5e03fe31511a6d8d570ce994f9d3df3beb6c"
+    },
+    "src/ui/components/scenario/scenario-five/model/mission/endStateResolver.ts": {
+      "before": "f8e0f8c980a7ea8191595cc6a6cc37e6c5f873b74c4abe055a97e0ccd040db93",
+      "after": "f8e0f8c980a7ea8191595cc6a6cc37e6c5f873b74c4abe055a97e0ccd040db93"
+    },
+    "src/ui/components/scenario/scenario-five/model/mission/index.ts": {
+      "before": "0262bf012d362d62975bc4921efc98419ddfca691aa1ec2f6b68768b79b15800",
+      "after": "0262bf012d362d62975bc4921efc98419ddfca691aa1ec2f6b68768b79b15800"
+    },
+    "src/ui/components/scenario/scenario-five/model/mission/missionEngine.ts": {
+      "before": "3b5c5a5b2a80cffbcb66bacbc6fd078749f1b7e08e28bbfe55e18a1a42c35e5b",
+      "after": "3b5c5a5b2a80cffbcb66bacbc6fd078749f1b7e08e28bbfe55e18a1a42c35e5b"
+    },
+    "src/ui/components/scenario/scenario-five/model/mission/selectors.ts": {
+      "before": "c585a07e055bced5d8138496a132fd1bbd676f0c6da14d02e8951d3905a18280",
+      "after": "c585a07e055bced5d8138496a132fd1bbd676f0c6da14d02e8951d3905a18280"
+    },
+    "src/ui/components/scenario/scenario-five/model/mission/types.ts": {
+      "before": "d41f8367e0c89afa2dc02a086beff53252abe90a295416aac88b774ad6f2f985",
+      "after": "d41f8367e0c89afa2dc02a086beff53252abe90a295416aac88b774ad6f2f985"
+    },
+    "src/ui/components/scenario/scenario-five/model/runtime/domainMetrics.ts": {
+      "before": "5fed45dbcce8d88237280f7794c1a274aa6ab0c1d2630aacf5ee0e77551c8363",
+      "after": "5fed45dbcce8d88237280f7794c1a274aa6ab0c1d2630aacf5ee0e77551c8363"
+    },
+    "src/ui/components/scenario/scenario-five/model/runtime/index.ts": {
+      "before": "e9fdb3582cf5243d0a3f1543cbaaf43cf46a7b9cef84a76d70387a291f91968b",
+      "after": "e9fdb3582cf5243d0a3f1543cbaaf43cf46a7b9cef84a76d70387a291f91968b"
+    },
+    "src/ui/components/scenario/scenario-five/model/runtime/runtimeEngine.ts": {
+      "before": "e03ace9618c929f862bd932294bf7e811db2ceef796953ff3376ab821bc61615",
+      "after": "e03ace9618c929f862bd932294bf7e811db2ceef796953ff3376ab821bc61615"
+    },
+    "src/ui/components/scenario/scenario-five/model/runtime/stageMachine.ts": {
+      "before": "9cbd4a7928ecdf66e03aece28c6af2e93396fcc743a75c84698c5a669a06f277",
+      "after": "9cbd4a7928ecdf66e03aece28c6af2e93396fcc743a75c84698c5a669a06f277"
+    },
+    "src/ui/components/scenario/scenario-five/model/runtime/telemetryAdapter.ts": {
+      "before": "5f54ac00184def0ada077d4914dadfdbf745145c424e7b9490d6d4efe70fe8b3",
+      "after": "5f54ac00184def0ada077d4914dadfdbf745145c424e7b9490d6d4efe70fe8b3"
+    },
+    "src/ui/components/scenario/scenario-five/model/runtime/types.ts": {
+      "before": "90f9528f636fc5040eb15417e6a9eda782622cd0d27c503329727668f936e4da",
+      "after": "90f9528f636fc5040eb15417e6a9eda782622cd0d27c503329727668f936e4da"
+    },
+    "src/ui/components/scenario/scenario-five/model/runtime/versions.ts": {
+      "before": "6b0e16ef22e9dc950f15d1be972719d5f7402905dce9115f7000063a732a3752",
+      "after": "6b0e16ef22e9dc950f15d1be972719d5f7402905dce9115f7000063a732a3752"
+    },
+    "src/services/analytics/eventLogger.ts": {
+      "before": "f34668cde75a930ceb99272bb48b417e56a1e176546320191c5e37ca703def28",
+      "after": "f34668cde75a930ceb99272bb48b417e56a1e176546320191c5e37ca703def28"
+    },
+    "src/services/analytics/logExport.ts": {
+      "before": "3b83e8ac06b9629636d23f89812fedc4e3c3885b2bae8a34df7594637a0fd879",
+      "after": "3b83e8ac06b9629636d23f89812fedc4e3c3885b2bae8a34df7594637a0fd879"
+    },
+    "src/services/analytics/systemLogger.ts": {
+      "before": "5665b8d8bc52ba66311ef05e2e7f309eb49a77bfa25fb4cd32ffd30de553d34b",
+      "after": "5665b8d8bc52ba66311ef05e2e7f309eb49a77bfa25fb4cd32ffd30de553d34b"
+    },
+    "src/services/storage/localStorageAdapter.ts": {
+      "before": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "after": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "src/services/storage/profileStorage.ts": {
+      "before": "2da08263bce193c4f01a9b44f5108dac4d1bce16a8e685b57a69d1c3f3a34431",
+      "after": "2da08263bce193c4f01a9b44f5108dac4d1bce16a8e685b57a69d1c3f3a34431"
+    },
+    "src/services/storage/storageKeys.ts": {
+      "before": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "after": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "src/services/storage/systemStorage.ts": {
+      "before": "ac3c7945e9aef9f94dd58a92479cfc8cb5d2ba67aac2a31466d18145159eb5af",
+      "after": "ac3c7945e9aef9f94dd58a92479cfc8cb5d2ba67aac2a31466d18145159eb5af"
+    },
+    "src/services/utils/id.ts": {
+      "before": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "after": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "src/services/utils/time.ts": {
+      "before": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "after": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "src/scenarios/s0_gateway_space_wargaming/tree.ts": {
+      "before": "b56dc9d519355ca4aa908d6b68140e3024e5fc526100cebfa2d3084ddb6871b2",
+      "after": "b56dc9d519355ca4aa908d6b68140e3024e5fc526100cebfa2d3084ddb6871b2"
+    },
+    "src/scenarios/s1_shadows_low_orbit/config.ts": {
+      "before": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "after": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "src/scenarios/s1_shadows_low_orbit/meta.ts": {
+      "before": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "after": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "src/scenarios/s1_shadows_low_orbit/tree.ts": {
+      "before": "179ca014c5a2f5f886b985a410b2b45eb774dcb43107d22e6b29382387b3aea9",
+      "after": "179ca014c5a2f5f886b985a410b2b45eb774dcb43107d22e6b29382387b3aea9"
+    },
+    "src/scenarios/s2_silent_waves/tree.ts": {
+      "before": "25acfe2b7b6090453c821eefac40a0fe1aeea4ced2a8d6c5d46f18b78e857fcd",
+      "after": "25acfe2b7b6090453c821eefac40a0fe1aeea4ced2a8d6c5d46f18b78e857fcd"
+    },
+    "src/scenarios/s3_secure_corridor/tree.ts": {
+      "before": "ed39b17aa66276be683c919b37c46958ed49a73945f97519e7647040e1b522ad",
+      "after": "ed39b17aa66276be683c919b37c46958ed49a73945f97519e7647040e1b522ad"
+    },
+    "src/scenarios/s4_redesigned_scenario_one/tree.ts": {
+      "before": "241b40cc33cabf75f9baa4b446a5ffe182fd0b0094e7bf13e05f3880524395da",
+      "after": "241b40cc33cabf75f9baa4b446a5ffe182fd0b0094e7bf13e05f3880524395da"
+    },
+    "src/scenarios/s5_silent_waves_redesign/tree.ts": {
+      "before": "4cca2c6319bad626ace5a51226d1a7565e6821bc7b8ddd0442a4282641d46cc9",
+      "after": "4cca2c6319bad626ace5a51226d1a7565e6821bc7b8ddd0442a4282641d46cc9"
+    },
+    "src/core/engine/assessmentRecorder.ts": {
+      "before": "e3cfa202a814fdc70589f001f7ab11e1bc9a0f143056e85d6911cace6bcab694",
+      "after": "e3cfa202a814fdc70589f001f7ab11e1bc9a0f143056e85d6911cace6bcab694"
+    },
+    "src/core/engine/scenarioEngine.ts": {
+      "before": "edc7b59aa817f8df4c57c2bb7e6c3ab3366faf37a1ecd31f8845f5d59f9d1434",
+      "after": "edc7b59aa817f8df4c57c2bb7e6c3ab3366faf37a1ecd31f8845f5d59f9d1434"
+    },
+    "src/core/engine/scoringEngine.ts": {
+      "before": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "after": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "src/core/engine/timeTracker.ts": {
+      "before": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "after": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "src/core/miniGames/reactionTest.ts": {
+      "before": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "after": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "src/core/miniGames/types.ts": {
+      "before": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "after": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "src/core/types/player.ts": {
+      "before": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "after": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "src/core/types/profile.ts": {
+      "before": "70285e870503d8fcca8346f07abef6886781da92c9a29ff3645dd61dec809c76",
+      "after": "70285e870503d8fcca8346f07abef6886781da92c9a29ff3645dd61dec809c76"
+    },
+    "src/core/types/scenario.ts": {
+      "before": "1c0c6feabae842d95c9b905dd3e5024790e27f07ba47ee65bf66859fc4326138",
+      "after": "1c0c6feabae842d95c9b905dd3e5024790e27f07ba47ee65bf66859fc4326138"
+    },
+    "src/core/types/scoring.ts": {
+      "before": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "after": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "scripts/analyze-s4-report.ts": {
+      "before": "337a49477a5008d7b6993b58100172fa71c9980cbc02f2d61274959ceb67d462",
+      "after": "337a49477a5008d7b6993b58100172fa71c9980cbc02f2d61274959ceb67d462"
+    },
+    "scripts/audit-s4-resource-profiles.ts": {
+      "before": "27629a4cdb6091d405f9d90190dd43fa31376af6eda81c3f0f4f8241cafea1b1",
+      "after": "27629a4cdb6091d405f9d90190dd43fa31376af6eda81c3f0f4f8241cafea1b1"
+    },
+    "scripts/audit-s5-current-flow-browser.mjs": {
+      "before": "5b7c3ab7b06adc2248fe36e5c82c9318426107fa61f237a6273b8f14bf3abec7",
+      "after": "5b7c3ab7b06adc2248fe36e5c82c9318426107fa61f237a6273b8f14bf3abec7"
+    },
+    "scripts/audit-s5-current-flow-catalogs.ts": {
+      "before": "ad2caab277382d6c0f853895ff9e9f03a3f87dc3ec210ad9826d66fe827f27d8",
+      "after": "ad2caab277382d6c0f853895ff9e9f03a3f87dc3ec210ad9826d66fe827f27d8"
+    },
+    "scripts/audit-s5-current-flow-docs.ts": {
+      "before": "f79aaa78d9da3814cf4da3cba3a8a4f310f3dea55013a48d9a537de20bf78ff9",
+      "after": "f79aaa78d9da3814cf4da3cba3a8a4f310f3dea55013a48d9a537de20bf78ff9"
+    },
+    "scripts/audit-s5-current-flow-verifiers.mjs": {
+      "before": "eed1b97a72d414ab144398b3bfc76e2fef0b1775b0db58543642e9fceeda2480",
+      "after": "eed1b97a72d414ab144398b3bfc76e2fef0b1775b0db58543642e9fceeda2480"
+    },
+    "scripts/audit-s5-current-flow-verify.ts": {
+      "before": "59ac53e9f96a6a5b38d0431088e81df74de574c6b6f9dd9ec5d9cc451e1b4c3c",
+      "after": "59ac53e9f96a6a5b38d0431088e81df74de574c6b6f9dd9ec5d9cc451e1b4c3c"
+    },
+    "scripts/audit-s5-current-flow.ts": {
+      "before": "3bcf046251e0d16fc52b935f1f5099993cbacbafb382decf3f17d7db2d132156",
+      "after": "3bcf046251e0d16fc52b935f1f5099993cbacbafb382decf3f17d7db2d132156"
+    },
+    "scripts/capture-s4-phase5-qa.mjs": {
+      "before": "542929214d1dc936210689219bf4e003b5e1f67ef88edb54c2445a0589f9627c",
+      "after": "542929214d1dc936210689219bf4e003b5e1f67ef88edb54c2445a0589f9627c"
+    },
+    "scripts/capture-s4-phase6-qa.mjs": {
+      "before": "262c9076df9f3687412eda7e5fd2d4da9af23828d1d27770a77b1edc8bba0023",
+      "after": "262c9076df9f3687412eda7e5fd2d4da9af23828d1d27770a77b1edc8bba0023"
+    },
+    "scripts/capture-s5-admin-preview-corner.mjs": {
+      "before": "77c737c29104c5b5580b1008045b6ebd82b0c5a3151942b88d22907065892fdb",
+      "after": "77c737c29104c5b5580b1008045b6ebd82b0c5a3151942b88d22907065892fdb"
+    },
+    "scripts/capture-s5-admin-preview.mjs": {
+      "before": "cbba1a99a1a9667c22d7e4d3904efe4e2b55d6a072b767420aae8ecd0cdaf7bd",
+      "after": "cbba1a99a1a9667c22d7e4d3904efe4e2b55d6a072b767420aae8ecd0cdaf7bd"
+    },
+    "scripts/capture-s5-c2-refinement.mjs": {
+      "before": "3ee5bcc5d4b31eb7f9d26c331744d2d48028292d55b5387f1f0d2e851592a67d",
+      "after": "3ee5bcc5d4b31eb7f9d26c331744d2d48028292d55b5387f1f0d2e851592a67d"
+    },
+    "scripts/capture-s5-ending-dashboard-flow.mjs": {
+      "before": "6683d376fdf748da69d722216b06b5950434504a2d06d9d324e1e2123fb6674b",
+      "after": "6683d376fdf748da69d722216b06b5950434504a2d06d9d324e1e2123fb6674b"
+    },
+    "scripts/capture-s5-map-sidecards.mjs": {
+      "before": "afa91464da2bb229f8019b9419faee53df7704dfd7d483469c01a0e7f0032740",
+      "after": "afa91464da2bb229f8019b9419faee53df7704dfd7d483469c01a0e7f0032740"
+    },
+    "scripts/capture-s5-phase09c1.mjs": {
+      "before": "21970efd493967dde982fbaed1225738be844372d8369fbf4cd2a5bd7c90f477",
+      "after": "21970efd493967dde982fbaed1225738be844372d8369fbf4cd2a5bd7c90f477"
+    },
+    "scripts/capture-s5-phase09c2.mjs": {
+      "before": "9d32502045841f36f01f45720d1be36b2c1c92ee96cccc6306144f666c7be545",
+      "after": "9d32502045841f36f01f45720d1be36b2c1c92ee96cccc6306144f666c7be545"
+    },
+    "scripts/capture-s5-phase7c.mjs": {
+      "before": "5858ae53547f491f958a1cbd493fbf465118f142125240f6b239952e1ecee2b4",
+      "after": "5858ae53547f491f958a1cbd493fbf465118f142125240f6b239952e1ecee2b4"
+    },
+    "scripts/capture-s5-phase8c.mjs": {
+      "before": "8c75381d87390970a6f4f720607f4c29a45ae5594dab81c708fba4358cdcf781",
+      "after": "8c75381d87390970a6f4f720607f4c29a45ae5594dab81c708fba4358cdcf781"
+    },
+    "scripts/capture-s5-phase8d.mjs": {
+      "before": "635e353592620e3aa036ade474b3d8c3f5ffadeb1ead2c84ed87f55461eec217",
+      "after": "635e353592620e3aa036ade474b3d8c3f5ffadeb1ead2c84ed87f55461eec217"
+    },
+    "scripts/capture-s5-phase8d1.mjs": {
+      "before": "0ba5e65a1e042e2db92b39423a7c32770201b57406c07ee9f6cdc87b1ca5e950",
+      "after": "0ba5e65a1e042e2db92b39423a7c32770201b57406c07ee9f6cdc87b1ca5e950"
+    },
+    "scripts/capture-s5-phase8d2-ux.mjs": {
+      "before": "5e01283e70648512f073c9de6710c15658dddd89e07727ae01d33bc46691037c",
+      "after": "5e01283e70648512f073c9de6710c15658dddd89e07727ae01d33bc46691037c"
+    },
+    "scripts/capture-s5-phase8d2.mjs": {
+      "before": "63bc3a745068452ff426148f205f78f43b67b4815f2f64f0cfa6e5874eb65ef8",
+      "after": "63bc3a745068452ff426148f205f78f43b67b4815f2f64f0cfa6e5874eb65ef8"
+    },
+    "scripts/check-s5-phase09c1.mjs": {
+      "before": "6b02b28f0ef0d33aa4a1ebaf9f4ad49a9cbdff3ed0eddaf262c8d4791b91746f",
+      "after": "6b02b28f0ef0d33aa4a1ebaf9f4ad49a9cbdff3ed0eddaf262c8d4791b91746f"
+    },
+    "scripts/check-s5-phase8d1.mjs": {
+      "before": "ae42aa72ae4f4f19a85f7b025d2fe2b26d84edba0266642dcae72c3dd2195475",
+      "after": "ae42aa72ae4f4f19a85f7b025d2fe2b26d84edba0266642dcae72c3dd2195475"
+    },
+    "scripts/check-s5-phase8d2-ux.mjs": {
+      "before": "76358f6311ecf02ff1a5c421194ef6236f24e496cd49d48de6ad11e9ee99150c",
+      "after": "76358f6311ecf02ff1a5c421194ef6236f24e496cd49d48de6ad11e9ee99150c"
+    },
+    "scripts/check-s5-phase8d2.mjs": {
+      "before": "d49c9c3d675dd0811f7615256689f719f574ca2fdb0bbe04b8a467d4f0200f16",
+      "after": "d49c9c3d675dd0811f7615256689f719f574ca2fdb0bbe04b8a467d4f0200f16"
+    },
+    "scripts/document-s5-phase8d.mjs": {
+      "before": "dd5bbebc282b619da8017b83f32afed063b064d027be4fc8ec637f094539be61",
+      "after": "dd5bbebc282b619da8017b83f32afed063b064d027be4fc8ec637f094539be61"
+    },
+    "scripts/exhaustive-s4-outcomes.ts": {
+      "before": "2402ab9cd94b5e1c2382071e4d9cf6f3b13c6adc694ccf47f7ffdad3094739c3",
+      "after": "2402ab9cd94b5e1c2382071e4d9cf6f3b13c6adc694ccf47f7ffdad3094739c3"
+    },
+    "scripts/export-s4-cognitive-profiles-v3.mjs": {
+      "before": "7ca2a803f4de328cf10f2341be53792f9841699b36ef39ea8c53dd736f4cdf45",
+      "after": "7ca2a803f4de328cf10f2341be53792f9841699b36ef39ea8c53dd736f4cdf45"
+    },
+    "scripts/generate-s4-narrative-final-exports.mjs": {
+      "before": "e1328425a4c059561da1a3ab8fbd7e3811c6fb408268123aaebc32d67f6e061b",
+      "after": "e1328425a4c059561da1a3ab8fbd7e3811c6fb408268123aaebc32d67f6e061b"
+    },
+    "scripts/package-s5-c2-refinement.mjs": {
+      "before": "3f628f22df1bda55edaa4b8fc27bc4cd7848301785060b967e14d8688fc3a903",
+      "after": "3f628f22df1bda55edaa4b8fc27bc4cd7848301785060b967e14d8688fc3a903"
+    },
+    "scripts/package-s5-phase09c1.mjs": {
+      "before": "bd7ea43b76286d7cebd6d747a83b775fcefc0b6d8eb6b894381f65963b475661",
+      "after": "bd7ea43b76286d7cebd6d747a83b775fcefc0b6d8eb6b894381f65963b475661"
+    },
+    "scripts/package-s5-phase09c2.mjs": {
+      "before": "8b22f4f573f2891ace297067b05c43549f58bda45a277aeb0cf9228a51ded50a",
+      "after": "8b22f4f573f2891ace297067b05c43549f58bda45a277aeb0cf9228a51ded50a"
+    },
+    "scripts/package-s5-phase8d.mjs": {
+      "before": "427e443d435f26c0cad89708a5d43148d82854986534335d47ff88169e0f6f88",
+      "after": "427e443d435f26c0cad89708a5d43148d82854986534335d47ff88169e0f6f88"
+    },
+    "scripts/package-s5-phase8d1.mjs": {
+      "before": "14fabcef14c7734011034669475bb7ed806944f1b71611598f1cedcadf007133",
+      "after": "14fabcef14c7734011034669475bb7ed806944f1b71611598f1cedcadf007133"
+    },
+    "scripts/package-s5-phase8d2-ux.mjs": {
+      "before": "13d758c28a7a6923eb44a8264fe1cfb5cdaef419b6fc46fa045c16de804f85b1",
+      "after": "13d758c28a7a6923eb44a8264fe1cfb5cdaef419b6fc46fa045c16de804f85b1"
+    },
+    "scripts/package-s5-phase8d2.mjs": {
+      "before": "5d65b83a9416c0b0e9d8bf1e94fa67c78a87b6e274b38ab868bc1150de11743e",
+      "after": "5d65b83a9416c0b0e9d8bf1e94fa67c78a87b6e274b38ab868bc1150de11743e"
+    },
+    "scripts/run-s4-report-study.ps1": {
+      "before": "13db3060729ed056233e2d0621c81982dcba82d3de2de27ab63ba6c6fff72529",
+      "after": "13db3060729ed056233e2d0621c81982dcba82d3de2de27ab63ba6c6fff72529"
+    },
+    "scripts/run-s5-phase8-calibration.ts": {
+      "before": "7b5b33f52329f5ba1391775b01353cccf73f966414c6ba8515e0a94b220e4aa9",
+      "after": "7b5b33f52329f5ba1391775b01353cccf73f966414c6ba8515e0a94b220e4aa9"
+    },
+    "scripts/run-s5-phase8a-audit.ts": {
+      "before": "64eabd55bb9adc87b7acf14c26fa2d24522e1f3486e9112f2dcfcdbd349d701f",
+      "after": "64eabd55bb9adc87b7acf14c26fa2d24522e1f3486e9112f2dcfcdbd349d701f"
+    },
+    "scripts/run-s5-phase8b-calibration.ts": {
+      "before": "07dcfdb4cbfab7115dd860930935d15ff64be45c0917300c70b1f4a6228a8959",
+      "after": "07dcfdb4cbfab7115dd860930935d15ff64be45c0917300c70b1f4a6228a8959"
+    },
+    "scripts/run-s5-phase8d-checks.mjs": {
+      "before": "91f1a3258b19d8b3ba186f93dc77f2378e89cc9640f76f3b0daf016e87f5b3c2",
+      "after": "91f1a3258b19d8b3ba186f93dc77f2378e89cc9640f76f3b0daf016e87f5b3c2"
+    },
+    "scripts/scenario5-phase09c1-witness.html": {
+      "before": "0763535984c6adc4154ecc820674e6dfd7d04ba7af156a7255051b2cda67c0bd",
+      "after": "0763535984c6adc4154ecc820674e6dfd7d04ba7af156a7255051b2cda67c0bd"
+    },
+    "scripts/scenario5-phase09c2-witness.html": {
+      "before": "5d4a4d90b21daff77e5ca9bf256ac9a52cd0790b1a4adbfd2a77998dc7b22059",
+      "after": "5d4a4d90b21daff77e5ca9bf256ac9a52cd0790b1a4adbfd2a77998dc7b22059"
+    },
+    "scripts/scenario5-phase8d-witness.html": {
+      "before": "046338e888bf1705588fa5133e260e5d9a3f90be2e752d24724e9ddfff1e1b0d",
+      "after": "046338e888bf1705588fa5133e260e5d9a3f90be2e752d24724e9ddfff1e1b0d"
+    },
+    "scripts/validate-profiles.ts": {
+      "before": "2bd00df694ee292e98212edbe8d91742a9e8f24974c1b6d85ca811032cc86fc6",
+      "after": "2bd00df694ee292e98212edbe8d91742a9e8f24974c1b6d85ca811032cc86fc6"
+    },
+    "scripts/validate-s0-learning-browser.mjs": {
+      "before": "2a08636e7036395f77efda61115a6ca24ec63863a75c1779db1af16a77d5076c",
+      "after": "2a08636e7036395f77efda61115a6ca24ec63863a75c1779db1af16a77d5076c"
+    },
+    "scripts/validate-s4-aar-ux.mjs": {
+      "before": "bcc57cd206979ddefb302f4ef3f6f0ece2a44ca5bd01e67ad03a3c3339be7459",
+      "after": "bcc57cd206979ddefb302f4ef3f6f0ece2a44ca5bd01e67ad03a3c3339be7459"
+    },
+    "scripts/validate-s4-attribution-confidence.mjs": {
+      "before": "efee33f13a7c43e7d73e8444b3337bee668884d632972cd8c644d60279ed2a69",
+      "after": "efee33f13a7c43e7d73e8444b3337bee668884d632972cd8c644d60279ed2a69"
+    },
+    "scripts/validate-s4-cognitive-v3.mjs": {
+      "before": "274be3a3460ffee2e1ddfa6b5333d7f1bd07443c9e0767805deaa96d107d5c1a",
+      "after": "274be3a3460ffee2e1ddfa6b5333d7f1bd07443c9e0767805deaa96d107d5c1a"
+    },
+    "scripts/validate-s4-models.mjs": {
+      "before": "a77306f1a6372b970ee736f5c9f0f270e8c92d6d3b3af01b7c8e793173a056ba",
+      "after": "a77306f1a6372b970ee736f5c9f0f270e8c92d6d3b3af01b7c8e793173a056ba"
+    },
+    "scripts/validate-s4-narrative-phase1.mjs": {
+      "before": "f530ed7b1cee8cb17425bf05889e6b3cafbd3ce2500dad7f58b8d50a13be467f",
+      "after": "f530ed7b1cee8cb17425bf05889e6b3cafbd3ce2500dad7f58b8d50a13be467f"
+    },
+    "scripts/validate-s4-narrative-phase2.mjs": {
+      "before": "7d7dbbc23df0ff5fbbea8a55ed6d6967290f72cf8cb8ae2060a6d88626e83071",
+      "after": "7d7dbbc23df0ff5fbbea8a55ed6d6967290f72cf8cb8ae2060a6d88626e83071"
+    },
+    "scripts/validate-s4-narrative-phase3.mjs": {
+      "before": "e5c0372b0b4be77c0ee3a85e37b793d299f1018c394ecf0630dfa99d07a297e8",
+      "after": "e5c0372b0b4be77c0ee3a85e37b793d299f1018c394ecf0630dfa99d07a297e8"
+    },
+    "scripts/validate-s4-narrative-phase4.mjs": {
+      "before": "72aa80fd37f86692fcb36a53017ee3f3c8473d6222db998800011d908efee392",
+      "after": "72aa80fd37f86692fcb36a53017ee3f3c8473d6222db998800011d908efee392"
+    },
+    "scripts/validate-s4-narrative-phase5.mjs": {
+      "before": "dd8ab5104e6764150d66158e8cbbb7b7c83aa0d7ba90ec1e74fda9665c30cce7",
+      "after": "dd8ab5104e6764150d66158e8cbbb7b7c83aa0d7ba90ec1e74fda9665c30cce7"
+    },
+    "scripts/validate-s4-narrative-phase6.mjs": {
+      "before": "b5e829729627d6dcebdbbc00e61ce149100e610095265626d00ca278811a242a",
+      "after": "b5e829729627d6dcebdbbc00e61ce149100e610095265626d00ca278811a242a"
+    },
+    "scripts/validate-s4-resource-calibration.ts": {
+      "before": "ebe15db557ed95dd1aa01668246090d37e58003d3728b56212d97bd03705749d",
+      "after": "ebe15db557ed95dd1aa01668246090d37e58003d3728b56212d97bd03705749d"
+    },
+    "scripts/validate-system-management-browser.mjs": {
+      "before": "2256cee7238c419133593feb7c32a7d44fa08891f5f8557d9a49d0380ebc3ada",
+      "after": "2256cee7238c419133593feb7c32a7d44fa08891f5f8557d9a49d0380ebc3ada"
+    },
+    "scripts/validate-system-management.ts": {
+      "before": "eb6ac8af85096f7be6bba520b86cea3e2162224d7a09f06faa95aedb2e7a8a40",
+      "after": "eb6ac8af85096f7be6bba520b86cea3e2162224d7a09f06faa95aedb2e7a8a40"
+    },
+    "scripts/verify-s5-c2-refinement.tsx": {
+      "before": "2ab1cd050177f36431f7d73a1cf77b1c03210c47e7075bb9fb82f1514ef1a49e",
+      "after": "2ab1cd050177f36431f7d73a1cf77b1c03210c47e7075bb9fb82f1514ef1a49e"
+    },
+    "scripts/verify-s5-metric-inventory.ts": {
+      "before": "f431e2f052988e5af03b04a95c28e80ea96a069b2caab6223f107476e4981cbb",
+      "after": "f431e2f052988e5af03b04a95c28e80ea96a069b2caab6223f107476e4981cbb"
+    },
+    "scripts/verify-s5-phase09c1.tsx": {
+      "before": "98c0b8119a1b0ebf88a62a05c03ee3348cdc76038dba3a5fb4732789327623af",
+      "after": "98c0b8119a1b0ebf88a62a05c03ee3348cdc76038dba3a5fb4732789327623af"
+    },
+    "scripts/verify-s5-phase09c2.tsx": {
+      "before": "3a4d924b333b6e853d55170fb699fd9c350b39154fc6d93772f56d4cd080d147",
+      "after": "3a4d924b333b6e853d55170fb699fd9c350b39154fc6d93772f56d4cd080d147"
+    },
+    "scripts/verify-s5-phase3-model.ts": {
+      "before": "815fc245c40d5d04937637dfae82f30bfd62fdee6ff51c620fbb4fdf95139c99",
+      "after": "815fc245c40d5d04937637dfae82f30bfd62fdee6ff51c620fbb4fdf95139c99"
+    },
+    "scripts/verify-s5-phase4-mission.ts": {
+      "before": "f02623329d354c6cea3d6136a458d8c3371b7fbec0d7f7dc8ddb5448bb1d45cf",
+      "after": "f02623329d354c6cea3d6136a458d8c3371b7fbec0d7f7dc8ddb5448bb1d45cf"
+    },
+    "scripts/verify-s5-phase5-cognitive.ts": {
+      "before": "3e92b78eb7efe3dc6e223daab9fa47141e1f762ef3c916198cd0b6309915d563",
+      "after": "3e92b78eb7efe3dc6e223daab9fa47141e1f762ef3c916198cd0b6309915d563"
+    },
+    "scripts/verify-s5-phase6-runtime.ts": {
+      "before": "c8b39ce497f01beed24e8926b32b0a0103bee26333f2a9c3cc93adeadbfb060e",
+      "after": "c8b39ce497f01beed24e8926b32b0a0103bee26333f2a9c3cc93adeadbfb060e"
+    },
+    "scripts/verify-s5-phase7-ui.ts": {
+      "before": "1cb68da3c2ea8f75677d6af65d30e92e2197303af5bbf3f93274456620024d13",
+      "after": "1cb68da3c2ea8f75677d6af65d30e92e2197303af5bbf3f93274456620024d13"
+    },
+    "scripts/verify-s5-phase8-calibration.ts": {
+      "before": "9b9f9f95e8682b95857a8060253594cfbcf00d91668bdc944e119d98882c3249",
+      "after": "9b9f9f95e8682b95857a8060253594cfbcf00d91668bdc944e119d98882c3249"
+    },
+    "scripts/verify-s5-phase8a-audit.ts": {
+      "before": "39a016993793ad090500e137503873599de17f259af737fcfe5e2144d1a3b756",
+      "after": "39a016993793ad090500e137503873599de17f259af737fcfe5e2144d1a3b756"
+    },
+    "scripts/verify-s5-phase8b-calibration.ts": {
+      "before": "af85506f24895909bed7d8c3645ee770bbc8641660b725d7126383cd8e87fc42",
+      "after": "af85506f24895909bed7d8c3645ee770bbc8641660b725d7126383cd8e87fc42"
+    },
+    "scripts/verify-s5-phase8c-ui.ts": {
+      "before": "eaf2d41cb22bab2070845009d78f01e40f0b9fe47dbe195f3453facb4919f496",
+      "after": "eaf2d41cb22bab2070845009d78f01e40f0b9fe47dbe195f3453facb4919f496"
+    },
+    "scripts/verify-s5-phase8d-integrated-gameplay.ts": {
+      "before": "c6a279a099780b006a3a4496994749d95e9ca8bae201cf9bf6e28213df2640f1",
+      "after": "c6a279a099780b006a3a4496994749d95e9ca8bae201cf9bf6e28213df2640f1"
+    },
+    "scripts/verify-s5-phase8d-presentation.tsx": {
+      "before": "946f52844707e3187618b7498c2052ba0e35db6b09dd0291925e389bdbadbeaf",
+      "after": "946f52844707e3187618b7498c2052ba0e35db6b09dd0291925e389bdbadbeaf"
+    },
+    "scripts/verify-s5-phase8d1-corrections.tsx": {
+      "before": "c0c096a86b3aec578d36272b9ad3ebacb5a266951b25374cf1874629f2c3fce9",
+      "after": "c0c096a86b3aec578d36272b9ad3ebacb5a266951b25374cf1874629f2c3fce9"
+    },
+    "scripts/verify-s5-phase8d2-header.tsx": {
+      "before": "06f23a86f418463dbf68277aa0a4c89fd7c5d82751609875f417606ff8b5bd8d",
+      "after": "06f23a86f418463dbf68277aa0a4c89fd7c5d82751609875f417606ff8b5bd8d"
+    },
+    "scripts/verify-s5-phase8d2-ux.tsx": {
+      "before": "858c1daabd3a1e905ba3e5c2669d16f6c01a643b084bd53ea467f9fb175b5492",
+      "after": "858c1daabd3a1e905ba3e5c2669d16f6c01a643b084bd53ea467f9fb175b5492"
+    },
+    ".gitattributes": {
+      "before": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "after": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    ".git/config": {
+      "before": "479042c9085b9840f3efe8f61771b6aec535a3992bc9162ae3dfbd7aee2a032d",
+      "after": "479042c9085b9840f3efe8f61771b6aec535a3992bc9162ae3dfbd7aee2a032d"
+    }
+  },
+  "legacyLoggerUntouched": true,
+  "legacyLoggerDefault": "Existing default-ON behavior preserved; no new activation call on mount.",
+  "archiveDefault": "OFF",
+  "archivePolicyKey": "space-war-cognitive-archive.policy.v1",
+  "archiveDatabase": "space-war.completed-cognitive-runs.v1",
+  "truthTable": [
+    {
+      "legacy": false,
+      "archive": false,
+      "newLegacyEvents": false,
+      "newCanonicalArchiveOnRealValidCompletion": false,
+      "systemAdministrativeEvents": "existing independent behavior"
+    },
+    {
+      "legacy": false,
+      "archive": true,
+      "newLegacyEvents": false,
+      "newCanonicalArchiveOnRealValidCompletion": true,
+      "systemAdministrativeEvents": "existing independent behavior"
+    },
+    {
+      "legacy": true,
+      "archive": false,
+      "newLegacyEvents": true,
+      "newCanonicalArchiveOnRealValidCompletion": false,
+      "systemAdministrativeEvents": "existing independent behavior"
+    },
+    {
+      "legacy": true,
+      "archive": true,
+      "newLegacyEvents": true,
+      "newCanonicalArchiveOnRealValidCompletion": true,
+      "systemAdministrativeEvents": "existing independent behavior"
+    }
+  ],
+  "matrix": {
+    "A": "PASS: genuine S1/S2 completions with logging OFF, archive ON; owner-scoped list/read and reload.",
+    "B": "PASS: logging ON archive OFF; legacy completion retained, no new archive row.",
+    "C": "PASS: both OFF, no new behavioral event or archive row; system admin logger independent.",
+    "D": "PASS: both ON; separate legacy events and one owner-bound archive record per completed attempt.",
+    "E": "PASS: OFF retains readable prior records and blocks future inserts.",
+    "F": "PASS: double S1 final callback, StrictMode, atomic duplicate insertion, identity conflict, reload without duplication.",
+    "G": "PASS: two actual S1 runs with same scientific run ID have distinct record IDs and owners.",
+    "H": "PASS: profile switch mid S2, original owner retained, status hidden, mismatched list/read rejected.",
+    "I": "PASS: missing and unknown profile IDs rejected; no owner inference.",
+    "J": "PASS: incomplete route, mismatched IDs, preview/legacy/forged handles, malformed schema/version/fields rejected.",
+    "K": "PASS: signed/null/zero schema preservation, exact real S1 object, canonical persisted S2 nulls, required omission rejected.",
+    "L": "PASS: isolated unavailable/quota faults, explicit failure status without success; read corruption rejected.",
+    "M": "PASS: default OFF, no activation, independent reload persistence, corrupt config fail-closed; toggles re-read at completion in both directions.",
+    "N": "PASS: deleting owner refuses orphan reads and does not attach records to another profile.",
+    "O": "PASS for current scientific parity and no new verifier regressions; historical 08D/09C failures explicitly retained below."
+  },
+  "browser": {
+    "status": "PASS",
+    "assertions": 60,
+    "realUiCompletions": {
+      "s1": 2,
+      "s2": 6
+    },
+    "strictMode": true,
+    "isolatedProfileOnly": true,
+    "screenshots": [
+      "docs/scenario-cross-phase09d1a-screenshots/01-real-app-admin-two-controls.png",
+      "docs/scenario-cross-phase09d1a-screenshots/02-s1-enabled-disclosure.png",
+      "docs/scenario-cross-phase09d1a-screenshots/03-s1-real-completion-saved.png",
+      "docs/scenario-cross-phase09d1a-screenshots/04-s2-real-completion-saved.png",
+      "docs/scenario-cross-phase09d1a-screenshots/05-archive-disabled-completion.png",
+      "docs/scenario-cross-phase09d1a-screenshots/06-owner-switch-completion.png",
+      "docs/scenario-cross-phase09d1a-screenshots/07-refresh-admin-independent-settings.png"
+    ]
+  },
+  "tests": {
+    "newBrowserFailures": 0,
+    "s1ScientificUnitTests": 60,
+    "s2RuntimeAssertions": 2979,
+    "s2DeterministicRuns": 112,
+    "semanticMismatches": 0,
+    "s2CanonicalValidatorRuns": 112,
+    "protectedHashesUnchanged": 159,
+    "build": "PASS",
+    "typecheck": "PASS",
+    "targetedLint": "PASS",
+    "repositoryLintBefore": {
+      "errors": 140,
+      "warnings": 3
+    },
+    "repositoryLintAfter": {
+      "errors": 140,
+      "warnings": 3
+    },
+    "newLintIssues": 0,
+    "historicalVerifiersSameStatusAndFirstFailure": true,
+    "patchReverseApplyCheck": "PASS",
+    "changedFileWhitespaceCheck": "PASS",
+    "requiredArtifactsAndScreenshots": "PASS"
+  },
+  "knownHistoricalFailures": [
+    {
+      "script": "scripts/verify-s5-phase8d-integrated-gameplay.ts",
+      "before": "FAIL",
+      "after": "FAIL",
+      "sameFirstFailure": true,
+      "reason": "AssertionError [ERR_ASSERTION]: App identity including legacy id=2 unchanged except exact approved id=5 resource sentence",
+      "beforeLog": "docs/scenario-cross-phase09d1a-checks/before-verify-s5-phase8d-integrated-gameplay.ts.txt",
+      "afterLog": "docs/scenario-cross-phase09d1a-checks/after-verify-s5-phase8d-integrated-gameplay.ts.txt"
+    },
+    {
+      "script": "scripts/verify-s5-phase8d2-header.tsx",
+      "before": "FAIL",
+      "after": "FAIL",
+      "sameFirstFailure": true,
+      "reason": "AssertionError [ERR_ASSERTION]: App, id=2, id=5 routing and all metadata unchanged",
+      "beforeLog": "docs/scenario-cross-phase09d1a-checks/before-verify-s5-phase8d2-header.tsx.txt",
+      "afterLog": "docs/scenario-cross-phase09d1a-checks/after-verify-s5-phase8d2-header.tsx.txt"
+    },
+    {
+      "script": "scripts/verify-s5-phase8d2-ux.tsx",
+      "before": "FAIL",
+      "after": "FAIL",
+      "sameFirstFailure": true,
+      "reason": "AssertionError [ERR_ASSERTION]: App including legacy id=2 and active id=5 unchanged",
+      "beforeLog": "docs/scenario-cross-phase09d1a-checks/before-verify-s5-phase8d2-ux.tsx.txt",
+      "afterLog": "docs/scenario-cross-phase09d1a-checks/after-verify-s5-phase8d2-ux.tsx.txt"
+    },
+    {
+      "script": "scripts/verify-s5-phase09c1.tsx",
+      "before": "FAIL",
+      "after": "FAIL",
+      "sameFirstFailure": true,
+      "reason": "AssertionError [ERR_ASSERTION]: Unchanged existing source src/ui/components/scenario/scenario-five/ui/ScenarioFiveMissionEnding.tsx",
+      "beforeLog": "docs/scenario-cross-phase09d1a-checks/before-verify-s5-phase09c1.tsx.txt",
+      "afterLog": "docs/scenario-cross-phase09d1a-checks/after-verify-s5-phase09c1.tsx.txt"
+    },
+    {
+      "script": "scripts/verify-s5-phase09c2.tsx",
+      "before": "FAIL",
+      "after": "FAIL",
+      "sameFirstFailure": true,
+      "reason": "AssertionError [ERR_ASSERTION]: Unchanged existing source src/ui/components/scenario/scenario-five/ui/ScenarioFiveMissionEnding.tsx",
+      "beforeLog": "docs/scenario-cross-phase09d1a-checks/before-verify-s5-phase09c2.tsx.txt",
+      "afterLog": "docs/scenario-cross-phase09d1a-checks/after-verify-s5-phase09c2.tsx.txt"
+    }
+  ],
+  "limitations": [
+    "Browser/origin-local IndexedDB; no server, sync, encryption or authenticated authorization.",
+    "Current profile read argument is an interface-level gate, not protection against same-origin script tampering.",
+    "Existing backup/reset excludes new archive and policy.",
+    "Existing S1 technical singleton snapshot and legacy S2 cognitive completion logs remain governed by their old behavior.",
+    "No old-data migration, owner guessing, clinical validation or new metrics.",
+    "Unfinished runtime does not resume after reload; successful saved rows survive reload and their UUID keys prevent overwrite/duplicate retries.",
+    "Deleted owners are not reassigned; archive retention is unchanged."
+  ],
+  "artifacts": {
+    "implementation": "docs/scenario-cross-phase09d1a-implementation.md",
+    "loggingSeparation": "docs/scenario-cross-phase09d1a-logging-separation.md",
+    "storageContract": "docs/scenario-cross-phase09d1a-storage-contract.md",
+    "scientificParity": "docs/scenario-cross-phase09d1a-scientific-parity.md",
+    "patch": "docs/scenario-cross-phase09d1a.patch",
+    "baseline": "docs/scenario-cross-phase09d1a-baseline.json",
+    "beforeApplicationBytes": "docs/scenario-cross-phase09d1a-before-application-files.json",
+    "browserVerification": "docs/scenario-cross-phase09d1a-browser-verification.json",
+    "completionWitnesses": "docs/scenario-cross-phase09d1a-completion-witnesses.json",
+    "scientificVerification": "docs/scenario-cross-phase09d1a-scientific-verification.json",
+    "historicalVerification": "docs/scenario-cross-phase09d1a-historical-verification.json"
+  },
+  "stopBoundary": "09D-1A only; no 09D-1B UI or 09D-2 harmonization.",
+  "finalApplicationAndTestHashes": {
+    "src/ui/components/admin/SystemManagement.tsx": "ca1b5356cc8f69817e04670cc154b28999a21cbc89513955e10f532220eec294",
+    "src/ui/components/scenario/ScenarioFourRedesignedScenarioOne.tsx": "80316bc867cac166eeb9628360735d1c80b159ac864d9d6b31d34194a00028e4",
+    "src/ui/components/scenario/ScenarioFiveSimulation.tsx": "48b457d0096167902b0338421f31b9fceb22017b3c427673c662e8077469de87",
+    "src/services/storage/cognitiveArchivePolicy.ts": "343f4ae59ca1e1ed8a2988dd68ec695e7b38b8d262fe29941ba67f3b793ae3ad",
+    "src/services/storage/cognitiveRunValidation.ts": "34508edabd6cd4d7ca670c787096d50b1d01ee06375b84df14896b85bae3b424",
+    "src/services/storage/cognitiveRunRepository.ts": "8a5667918cecd6d16c2dd4ee3e736e1a48b584b8d81c247c8ddce30c2a2f4e37",
+    "src/services/storage/completedCognitiveAttempt.ts": "6722c977268797f6649a6c197f674f5c824e5e2bc61746e6eefdfc8a42c72c1b",
+    "src/ui/components/scenario/CognitiveArchiveDisclosure.tsx": "1bd37fc00e08ffa651ca19869225c75e7c292fb52d5d2d5f5e97076c43ca0988",
+    "scripts/scenario-cross-phase09d1a-witness.html": "2b5867ef18243d0e6eaf321773d6d46f6f3b6b3615f5cd9f8480c031d00f7528",
+    "scripts/scenario-cross-phase09d1a-witness.tsx": "7bc39a8362050333073a5a497820b3237cabdbf55c062344938fc0808a116499",
+    "scripts/verify-cross-phase09d1a-browser.mjs": "7a744d870c786d8cdbd79f4b9603326641d91c009f4bd69cd7d989c61d45a4ea",
+    "scripts/verify-cross-phase09d1a-scientific.ts": "bd24ab76a43cb711951fba34a134c5179ad67a001d68b1d0be35670d128b9822",
+    "scripts/check-cross-phase09d1a-history.mjs": "f810d78d862fc566ddb1f1a821fa58a18f34d11d740924c85fe883f7e23acb18"
+  }
+}

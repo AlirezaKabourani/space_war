@@ -1,6 +1,8 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import "./ScenarioFive.css";
 import { eventLogger } from "../../../services/analytics/eventLogger";
+import { archiveS2Completion, beginCognitiveAttempt, completionArchiveStatus, type CognitiveAttempt } from "../../../services/storage/completedCognitiveAttempt";
+import { CognitiveArchiveDisclosure } from "./CognitiveArchiveDisclosure";
 import type { CorridorId } from "./scenario-five/model/index";
 import type { ReasonId } from "./scenario-five/model/cognitive/index";
 import { getMissionAction } from "./scenario-five/model/mission/index";
@@ -73,6 +75,7 @@ interface ScenarioFiveSimulationProps {
 const ANALYTICS_SCENARIO_ID = "s5_silent_waves_redesign";
 
 export const ScenarioFiveSimulation = ({
+  scenarioId,
   nodeId,
   userProfileId,
   onCompletionUiActiveChange,
@@ -90,6 +93,8 @@ export const ScenarioFiveSimulation = ({
   const investigationEvidenceIdsRef = useRef<ReadonlySet<string>>(new Set());
   const hiddenTimingRef = useRef<HiddenTabTimingState>(resetHiddenTabTiming());
   const completionLoggedRunRef = useRef<string | null>(null);
+  const archiveAttemptRef = useRef<CognitiveAttempt | null>(null);
+  const [archiveStatus, setArchiveStatus] = useState("");
 
   const log = useCallback((type: string, detail: Readonly<Record<string, unknown>>) => {
     eventLogger.log({
@@ -148,6 +153,8 @@ export const ScenarioFiveSimulation = ({
     const completedResult = calculateScenario5RuntimeResult(runtime);
     completionLoggedRunRef.current = runtime.runId;
     setResult(completedResult);
+    setArchiveStatus("در حال بررسی ذخیره گزارش شناختی…");
+    void completionArchiveStatus(() => archiveS2Completion(archiveAttemptRef.current, runtime, completedResult)).then(setArchiveStatus);
     onCompletionUiActiveChange?.(true);
     log("s5_v3_run_completed", buildRunCompletedLogDetail(runtime, completedResult));
   }, [runtime, onCompletionUiActiveChange, log]);
@@ -161,6 +168,10 @@ export const ScenarioFiveSimulation = ({
       seed: assignment.seed,
       startedAtMs: monotonicNow(),
     });
+    archiveAttemptRef.current = null;
+    setArchiveStatus("");
+    try { archiveAttemptRef.current = beginCognitiveAttempt(userProfileId, scenarioId, next.runId); }
+    catch (error) { setArchiveStatus(error instanceof Error ? error.message : "هویت تلاش برای آرشیو معتبر نیست."); }
     preCommitEvidenceIdsRef.current = new Set(next.evidence.map((item) => item.evidenceId));
     investigationEvidenceIdsRef.current = new Set();
     completionLoggedRunRef.current = null;
@@ -265,6 +276,7 @@ export const ScenarioFiveSimulation = ({
     return (
       <main className="s5-root s5-briefing" dir="rtl">
         <section className="s5-briefing-card">
+          <CognitiveArchiveDisclosure />
           <span>{SCENARIO5_BRIEFING_FA.heading}</span>
           <h1>{SCENARIO5_BRIEFING_FA.title}</h1>
           <div className="s5-briefing-scroll">
@@ -285,7 +297,7 @@ export const ScenarioFiveSimulation = ({
   }
 
   if (runtime.stage.stageId === "complete" && result) {
-    return <ScenarioFiveSummary runtimeState={runtime} result={result} onComplete={finish} />;
+    return <>{archiveStatus && (!archiveAttemptRef.current || archiveAttemptRef.current.userProfileId === userProfileId) && <p role="status" dir="rtl" data-cognitive-archive-status>{archiveStatus}</p>}<ScenarioFiveSummary runtimeState={runtime} result={result} onComplete={finish} /></>;
   }
 
   if (!view) return null;

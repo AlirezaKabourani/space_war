@@ -120,8 +120,8 @@ export const ScenarioFiveMap = ({
             const control = alternateRouteControlPoint(route);
             return <g key={corridorId} className={freshCorridors.has(corridorId) ? 's5-fresh-evidence' : ''}>
               <title>{`${SCENARIO5_CORRIDOR_CONTENT_FA[corridorId].targetLabel}؛ شاهد ${evidenceCount}؛ ${mitigationLabels(convoy).join('، ')}`}</title>
-              <line x1={route.from.x} y1={route.from.y} x2={route.to.x} y2={route.to.y} className={`s5-route s5-status-${convoy.status} ${rerouted ? 's5-original-route' : ''} ${highlighted ? "s5-highlighted" : ""} ${globalRoutePulse ? "s5-global-pulse" : ""}`} />
-              {rerouted && <g className="s5-alternate-route"><path data-corridor-id={corridorId} d={`M${route.from.x} ${route.from.y} Q${control.x} ${control.y} ${route.to.x} ${route.to.y}`} /><text x={midX + 25} y={midY - 45} textAnchor="middle">مسیر جایگزین</text></g>}
+              <line data-convoy-route={convoy.convoyId} x1={route.from.x} y1={route.from.y} x2={route.to.x} y2={route.to.y} className={`s5-route s5-status-${convoy.status} ${rerouted ? 's5-original-route' : ''} ${highlighted ? "s5-highlighted" : ""} ${globalRoutePulse ? "s5-global-pulse" : ""}`} />
+              {rerouted && <g className="s5-alternate-route"><path data-convoy-route={convoy.convoyId} data-corridor-id={corridorId} d={`M${route.from.x} ${route.from.y} Q${control.x} ${control.y} ${route.to.x} ${route.to.y}`} /><text x={midX + 25} y={midY - 45} textAnchor="middle">مسیر جایگزین</text></g>}
               {convoy.routeHardened && checkpoints.includes(corridorId) && <g className="s5-checkpoints"><title>نقاط کنترل فعال</title>{[.25,.5,.75].map(t => <circle key={t} cx={route.from.x + (route.to.x-route.from.x)*t} cy={route.from.y + (route.to.y-route.from.y)*t} r="5" />)}</g>}
               {selectable && <line role="button" tabIndex={0} aria-label={`انتخاب ${SCENARIO5_CORRIDOR_CONTENT_FA[corridorId].targetLabel}`} aria-pressed={highlighted}
                 className="s5-route-hit" x1={route.from.x} y1={route.from.y} x2={route.to.x} y2={route.to.y}
@@ -180,9 +180,11 @@ export const ScenarioFiveMap = ({
           return <article key={convoy.convoyId} data-convoy-card={convoy.convoyId} className={`s5-convoy-mini s5-status-${convoy.status} ${highlightedCorridorId === convoy.corridorId ? 's5-selected' : ''}`}>
             <header><strong>{content.convoyLabel}</strong><span>{SCENARIO5_STATUS_LABELS_FA[convoy.status]}</span></header>
             <p>{content.cargoLabel} · <bdi>{content.routeLabel}</bdi></p>
-            <p>سلامت عملیاتی: <bdi dir="ltr">{convoy.integrity} / 100</bdi></p>
-            <p>رسیدن برآوردی: <bdi dir="ltr">T+{convoy.projectedArrivalMinute}</bdi> دقیقه</p>
-            <p>مهلت تحویل: <bdi dir="ltr">T+{convoy.deadlineMinute}</bdi> دقیقه</p>
+            <dl className="s5-convoy-facts">
+              <div><dt>سلامت عملیاتی:</dt><dd><bdi dir="ltr">{convoy.integrity} / 100</bdi></dd></div>
+              <div><dt>رسیدن برآوردی:</dt><dd><bdi dir="ltr">T+{convoy.projectedArrivalMinute}</bdi> دقیقه</dd></div>
+              <div><dt>مهلت تحویل:</dt><dd><bdi dir="ltr">T+{convoy.deadlineMinute}</bdi> دقیقه</dd></div>
+            </dl>
             <p>{marginLabel(deadlineMargin(convoy))}</p>
             <p>تأخیر تجمعی: +{convoy.delayMinutes} دقیقه</p>
             {mitigations.length > 0 && <div className="s5-mini-badges">{mitigations.map((item) => <b key={item}>{item}</b>)}</div>}

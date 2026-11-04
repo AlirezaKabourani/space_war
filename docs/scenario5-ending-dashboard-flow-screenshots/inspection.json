@@ -1,0 +1,143 @@
+{
+  "status": "PASS",
+  "source": "Six genuine archived completed runs rendered through production ScenarioFiveSummary; isolated TEST WITNESS page",
+  "results": [
+    {
+      "endingId": "critical_cargo_lost_or_compromised",
+      "ending": {
+        "id": "critical_cargo_lost_or_compromised",
+        "alternatives": false,
+        "alternativeText": false,
+        "directFinish": false,
+        "actionCount": 1,
+        "cta": {
+          "label": "مشاهده الگوی تصمیم‌گیری",
+          "primary": true,
+          "disabled": false,
+          "background": "linear-gradient(135deg, rgb(125, 229, 245), rgb(73, 199, 229))"
+        },
+        "traceCount": 8,
+        "finished": 0
+      },
+      "entryBackReentry": "PASS",
+      "sameRunDashboard": "PASS",
+      "passiveNavigation": "PASS",
+      "finishOnlyAfterDashboard": "PASS"
+    },
+    {
+      "endingId": "priority_delivered_network_degradation",
+      "ending": {
+        "id": "priority_delivered_network_degradation",
+        "alternatives": false,
+        "alternativeText": false,
+        "directFinish": false,
+        "actionCount": 1,
+        "cta": {
+          "label": "مشاهده الگوی تصمیم‌گیری",
+          "primary": true,
+          "disabled": false,
+          "background": "linear-gradient(135deg, rgb(125, 229, 245), rgb(73, 199, 229))"
+        },
+        "traceCount": 8,
+        "finished": 0
+      },
+      "entryBackReentry": "PASS",
+      "sameRunDashboard": "PASS",
+      "passiveNavigation": "PASS",
+      "finishOnlyAfterDashboard": "PASS"
+    },
+    {
+      "endingId": "mission_incomplete_continuity_preserved",
+      "ending": {
+        "id": "mission_incomplete_continuity_preserved",
+        "alternatives": false,
+        "alternativeText": false,
+        "directFinish": false,
+        "actionCount": 1,
+        "cta": {
+          "label": "مشاهده الگوی تصمیم‌گیری",
+          "primary": true,
+          "disabled": false,
+          "background": "linear-gradient(135deg, rgb(125, 229, 245), rgb(73, 199, 229))"
+        },
+        "traceCount": 8,
+        "finished": 0
+      },
+      "entryBackReentry": "PASS",
+      "sameRunDashboard": "PASS",
+      "passiveNavigation": "PASS",
+      "finishOnlyAfterDashboard": "PASS"
+    },
+    {
+      "endingId": "delivery_complete_threat_persistent",
+      "ending": {
+        "id": "delivery_complete_threat_persistent",
+        "alternatives": false,
+        "alternativeText": false,
+        "directFinish": false,
+        "actionCount": 1,
+        "cta": {
+          "label": "مشاهده الگوی تصمیم‌گیری",
+          "primary": true,
+          "disabled": false,
+          "background": "linear-gradient(135deg, rgb(125, 229, 245), rgb(73, 199, 229))"
+        },
+        "traceCount": 8,
+        "finished": 0
+      },
+      "entryBackReentry": "PASS",
+      "sameRunDashboard": "PASS",
+      "passiveNavigation": "PASS",
+      "finishOnlyAfterDashboard": "PASS"
+    },
+    {
+      "endingId": "delivery_complete_attribution_unresolved",
+      "ending": {
+        "id": "delivery_complete_attribution_unresolved",
+        "alternatives": false,
+        "alternativeText": false,
+        "directFinish": false,
+        "actionCount": 1,
+        "cta": {
+          "label": "مشاهده الگوی تصمیم‌گیری",
+          "primary": true,
+          "disabled": false,
+          "background": "linear-gradient(135deg, rgb(125, 229, 245), rgb(73, 199, 229))"
+        },
+        "traceCount": 8,
+        "finished": 0
+      },
+      "entryBackReentry": "PASS",
+      "sameRunDashboard": "PASS",
+      "passiveNavigation": "PASS",
+      "finishOnlyAfterDashboard": "PASS"
+    },
+    {
+      "endingId": "delivery_complete_threat_contained",
+      "ending": {
+        "id": "delivery_complete_threat_contained",
+        "alternatives": false,
+        "alternativeText": false,
+        "directFinish": false,
+        "actionCount": 1,
+        "cta": {
+          "label": "مشاهده الگوی تصمیم‌گیری",
+          "primary": true,
+          "disabled": false,
+          "background": "linear-gradient(135deg, rgb(125, 229, 245), rgb(73, 199, 229))"
+        },
+        "traceCount": 8,
+        "finished": 0
+      },
+      "entryBackReentry": "PASS",
+      "sameRunDashboard": "PASS",
+      "passiveNavigation": "PASS",
+      "finishOnlyAfterDashboard": "PASS"
+    }
+  ],
+  "screenshots": [
+    "01-ending-footer-primary-1440x900.png",
+    "02-dashboard-with-finish-1440x900.png",
+    "03-ending-footer-primary-390x844.png"
+  ]
+}

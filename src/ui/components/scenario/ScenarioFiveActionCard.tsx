@@ -27,14 +27,13 @@ export const ScenarioFiveActionCard = ({
       aria-pressed={selected}
       onClick={onSelect}
     >
-      <span className="s5-action-state">{selected ? "✓ انتخاب‌شده" : "انتخاب اقدام"}</span>
-      <h3>{copy.title}</h3>
+      <div className="s5-action-heading"><h3>{copy.title}</h3><span className="s5-action-state">{selected ? "✓ انتخاب‌شده" : "انتخاب اقدام"}</span></div>
       <p>{copy.description}</p>
       <div className="s5-known-effect"><strong>اثر شناخته‌شده:</strong> {copy.knownEffect}</div>
       <div className="s5-action-metadata">
-        <span>هزینه پایش و اطلاعات (ISR): {action.isrCost}</span>
-        <span>هزینه پشتیبانی: {action.supportCost}</span>
-        <span>زمان اجرای اقدام: {timing.duration} دقیقه</span>
+        <span>هزینه پایش و اطلاعات (ISR): <bdi dir="ltr">{action.isrCost}</bdi></span>
+        <span>هزینه پشتیبانی: <bdi dir="ltr">{action.supportCost}</bdi></span>
+        <span>زمان اجرای اقدام: <bdi dir="ltr">{timing.duration}</bdi> دقیقه</span>
         <span>{timing.final ? "پس از اقدام نهایی، مأموریت تا افق T+360 دقیقه ادامه می‌یابد." : `زمان تا ارزیابی بعدی: ${timing.assessment} دقیقه`}</span>
       </div>
       <small>{targetText}</small>

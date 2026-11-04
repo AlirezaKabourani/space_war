@@ -1,0 +1,55 @@
+{
+  "status": "PASS",
+  "assertions": 28021,
+  "existingPresentationAssertions": 32798,
+  "fullRuns": 112,
+  "preDecisionRenderStates": 896,
+  "semanticMismatches": 0,
+  "frozenFileHashes": 63,
+  "onlyApplicationChanges": [
+    "src/ui/components/scenario/ScenarioFive.css",
+    "src/ui/components/scenario/ScenarioFiveMap.tsx",
+    "src/ui/components/scenario/ScenarioFiveActionCard.tsx"
+  ],
+  "allOtherApplicationFilesUnchanged": true,
+  "concurrentDocumentationChanges": [
+    {
+      "path": "docs/scenario-cross-09d0-cognitive-crosswalk.csv",
+      "before": "684a01784e38d6460ad3ff377a988d982614fbc4dde632636424a99bfd1db990",
+      "after": "dcfcc9b34b273f1de67dacfd20588430f1487a83e1a3c49ac2f7e43a8b740eb5",
+      "handling": "Observed external documentation changes; not written by this task, preserved, excluded from UI patch"
+    },
+    {
+      "path": "docs/scenario-cross-09d0-formula-comparison.md",
+      "before": "002361af374a0102616d06cf9bf737908ecc512391940e24e96e018aab435c10",
+      "after": "d84fda05924eb232b6c6808874694b7b379dc97cdf61f7840c47647df8b61702",
+      "handling": "Observed external documentation changes; not written by this task, preserved, excluded from UI patch"
+    },
+    {
+      "path": "docs/scenario-cross-09d0-unique-fields.md",
+      "before": "b5a13cb08e75f7891315583a1ed42415769f59b52d2382926c14b67752e6bf63",
+      "after": "00c600162e117dcfe4af7431d5aab763d3e990bb64e54089bcff9f4a367f165d",
+      "handling": "Observed external documentation changes; not written by this task, preserved, excluded from UI patch"
+    },
+    {
+      "path": "docs/scenario-cross-09d0-user-run-storage-readiness.md",
+      "before": "0a51712599c924c8e44b63753b3cc2a62e584ba21d57e3aea5abd4c5318a7ee9",
+      "after": "4bf358fab78cb4ae1698f30e2e3eaa0fd21f3ea2bd58d2bbdbe708ca68286b8f",
+      "handling": "Observed external documentation changes; not written by this task, preserved, excluded from UI patch"
+    }
+  ],
+  "cognitiveDashboardUnchanged": true,
+  "geometryAndGameplayUnchanged": true,
+  "historicalWrappers": [
+    {
+      "script": "scripts/verify-s5-phase8d2-ux.tsx",
+      "status": "FAIL",
+      "reason": "Pre-existing App.tsx historical snapshot mismatch; see full log"
+    },
+    {
+      "script": "scripts/verify-s5-phase09c1.tsx",
+      "status": "FAIL",
+      "reason": "Pre-existing App.tsx historical snapshot mismatch; see full log"
+    }
+  ]
+}

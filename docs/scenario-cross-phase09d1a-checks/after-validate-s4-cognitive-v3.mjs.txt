@@ -1,0 +1,291 @@
+{
+  "model": "s4-cog-v3",
+  "unitTests": 60,
+  "hiddenStateIndependence": "passed",
+  "anchorTestVersion": "s4-anchor-first-options-v1",
+  "anchorPaths": "passed",
+  "aarConsistency": "passed",
+  "countryNaming": "passed",
+  "endStateConsistency": "passed",
+  "fullPathRegression": "passed",
+  "monteCarlo": {
+    "iterations": 100000,
+    "constructs": {
+      "osi": {
+        "mean": 0.0004975284066998196,
+        "sd": 0.21846279293340656,
+        "min": -0.8956406006016641,
+        "max": 0.7554165605525741,
+        "p05": -0.36493348837860046,
+        "p25": -0.14817484738144968,
+        "p50": 0.003476804282910889,
+        "p75": 0.1520687250850506,
+        "p95": 0.35543005771590047,
+        "floorRate": 0.00006,
+        "ceilingRate": 0,
+        "warnings": []
+      },
+      "integration": {
+        "mean": 59.66926384014151,
+        "sd": 3.2467897441902434,
+        "min": 45.690919467984436,
+        "max": 68.83415606470555,
+        "p05": 53.99043271690961,
+        "p25": 57.51053577483252,
+        "p50": 59.86947646936476,
+        "p75": 62.02484481699865,
+        "p95": 64.67621882871943,
+        "floorRate": 0,
+        "ceilingRate": 0,
+        "warnings": [
+          "low_discrimination",
+          "low_variance"
+        ]
+      },
+      "informationSeeking": {
+        "mean": 72.59755,
+        "sd": 21.8520704739189,
+        "min": 15.000000000000002,
+        "max": 92.5,
+        "p05": 47.5,
+        "p25": 55.00000000000001,
+        "p50": 87.5,
+        "p75": 90,
+        "p95": 92.5,
+        "floorRate": 0,
+        "ceilingRate": 0.29975,
+        "warnings": [
+          "ceiling"
+        ]
+      },
+      "secondOrderThinking": {
+        "mean": 62.436553333333556,
+        "sd": 3.5981030001239427,
+        "min": 47.194444444444436,
+        "max": 73.80555555555556,
+        "p05": 56.25,
+        "p25": 60.05555555555555,
+        "p50": 62.61111111111111,
+        "p75": 65,
+        "p95": 68.02777777777779,
+        "floorRate": 0,
+        "ceilingRate": 0,
+        "warnings": [
+          "low_discrimination",
+          "low_variance"
+        ]
+      },
+      "adversaryModeling": {
+        "mean": 65.94245357142856,
+        "sd": 4.6253230915745815,
+        "min": 47.658730158730165,
+        "max": 78.57142857142858,
+        "p05": 57.38095238095239,
+        "p25": 62.97619047619049,
+        "p50": 66.54761904761907,
+        "p75": 69.36507936507937,
+        "p95": 72.5416666666662,
+        "floorRate": 0,
+        "ceilingRate": 0,
+        "warnings": [
+          "low_discrimination",
+          "low_variance"
+        ]
+      },
+      "escalationSensitivity": {
+        "mean": 62.75315357142869,
+        "sd": 6.614277828306868,
+        "min": 37.023809523809526,
+        "max": 81.58730158730158,
+        "p05": 51.1904761904762,
+        "p25": 58.25396825396826,
+        "p50": 63.055555555555564,
+        "p75": 67.65873015873017,
+        "p95": 73.01587301587301,
+        "floorRate": 0,
+        "ceilingRate": 0,
+        "warnings": [
+          "low_variance"
+        ]
+      },
+      "informationDiscipline": {
+        "mean": 75.54639999999988,
+        "sd": 4.863482228369904,
+        "min": 54.44444444444445,
+        "max": 88.88888888888889,
+        "p05": 67.22222222222221,
+        "p25": 72.22222222222223,
+        "p50": 76.11111111111111,
+        "p75": 78.8888888888889,
+        "p95": 82.7777777777778,
+        "floorRate": 0,
+        "ceilingRate": 0,
+        "warnings": [
+          "low_discrimination",
+          "low_variance"
+        ]
+      },
+      "evidenceResponsiveUpdating": {
+        "mean": 47.635758199611686,
+        "sd": 28.964740913289294,
+        "min": 0,
+        "max": 99.86197471622928,
+        "p05": 0.7085157981750848,
+        "p25": 23.31813899498288,
+        "p50": 47.36059163423401,
+        "p75": 72.64323247729268,
+        "p95": 92.18796816645549,
+        "floorRate": 0.14046,
+        "ceilingRate": 0.07208,
+        "warnings": []
+      },
+      "coalitionOrientation": {
+        "mean": 50.01006242185093,
+        "sd": 11.447849388756433,
+        "min": 18.243725536193516,
+        "max": 93.52326468344775,
+        "p05": 32.08265605566351,
+        "p25": 41.739682599400695,
+        "p50": 49.4779466115461,
+        "p75": 57.752130093967565,
+        "p95": 69.67710873770073,
+        "floorRate": 0,
+        "ceilingRate": 0.00031,
+        "warnings": []
+      },
+      "resourceStewardship": {
+        "mean": 58.61202055555588,
+        "sd": 3.5108617184737727,
+        "min": 44.44444444444444,
+        "max": 70.77777777777779,
+        "p05": 52.722222222222214,
+        "p25": 56.27777777777777,
+        "p50": 58.666666666666664,
+        "p75": 61.05555555555555,
+        "p95": 64.27777777777777,
+        "floorRate": 0,
+        "ceilingRate": 0,
+        "warnings": [
+          "low_discrimination",
+          "low_variance"
+        ]
+      },
+      "planningForesight": {
+        "mean": 61.82370000000016,
+        "sd": 4.65297877258728,
+        "min": 42.22222222222222,
+        "max": 76.11111111111111,
+        "p05": 53.80555555555555,
+        "p25": 58.74999999999999,
+        "p50": 62.05555555555554,
+        "p75": 65.1388888888889,
+        "p95": 69.08333333333333,
+        "floorRate": 0,
+        "ceilingRate": 0,
+        "warnings": [
+          "low_discrimination",
+          "low_variance"
+        ]
+      },
+      "multiDomainIntegration": {
+        "mean": 65.88426710513502,
+        "sd": 4.766052901322619,
+        "min": 46.17927333482286,
+        "max": 81.83000200394216,
+        "p05": 57.89794673268549,
+        "p25": 62.63903440519043,
+        "p50": 65.94803859257655,
+        "p75": 69.22196696315926,
+        "p95": 73.61193494739784,
+        "floorRate": 0,
+        "ceilingRate": 0,
+        "warnings": [
+          "low_discrimination",
+          "low_variance"
+        ]
+      },
+      "riskPosture": {
+        "mean": 49.96142328035659,
+        "sd": 10.987990623516433,
+        "min": 12.83370953164733,
+        "max": 93.58561460010736,
+        "p05": 32.15262510109572,
+        "p25": 42.33916408551518,
+        "p50": 49.78623356053208,
+        "p75": 57.46120495097569,
+        "p95": 68.30680987368268,
+        "floorRate": 0,
+        "ceilingRate": 0.0001,
+        "warnings": []
+      }
+    },
+    "osi": {
+      "mean": 0.0004975284066998196,
+      "sd": 0.21846279293340656,
+      "min": -0.8956406006016641,
+      "max": 0.7554165605525741,
+      "p05": -0.36493348837860046,
+      "p25": -0.14817484738144968,
+      "p50": 0.003476804282910889,
+      "p75": 0.1520687250850506,
+      "p95": 0.35543005771590047,
+      "floorRate": 0.00006,
+      "ceilingRate": 0,
+      "warnings": []
+    },
+    "integration": {
+      "mean": 59.66926384014151,
+      "sd": 3.2467897441902434,
+      "min": 45.690919467984436,
+      "max": 68.83415606470555,
+      "p05": 53.99043271690961,
+      "p25": 57.51053577483252,
+      "p50": 59.86947646936476,
+      "p75": 62.02484481699865,
+      "p95": 64.67621882871943,
+      "floorRate": 0,
+      "ceilingRate": 0,
+      "warnings": [
+        "low_discrimination",
+        "low_variance"
+      ]
+    },
+    "constructWarnings": {
+      "integration": [
+        "low_discrimination",
+        "low_variance"
+      ],
+      "informationSeeking": [
+        "ceiling"
+      ],
+      "secondOrderThinking": [
+        "low_discrimination",
+        "low_variance"
+      ],
+      "adversaryModeling": [
+        "low_discrimination",
+        "low_variance"
+      ],
+      "escalationSensitivity": [
+        "low_variance"
+      ],
+      "informationDiscipline": [
+        "low_discrimination",
+        "low_variance"
+      ],
+      "resourceStewardship": [
+        "low_discrimination",
+        "low_variance"
+      ],
+      "planningForesight": [
+        "low_discrimination",
+        "low_variance"
+      ],
+      "multiDomainIntegration": [
+        "low_discrimination",
+        "low_variance"
+      ]
+    },
+    "passed": true
+  }
+}

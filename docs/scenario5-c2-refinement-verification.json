@@ -1,0 +1,191 @@
+{
+  "implementationStatus": "PASS",
+  "allTestsPass": false,
+  "focused": {
+    "status": "PASS",
+    "assertions": 28021,
+    "existingPresentationAssertions": 32798,
+    "fullRuns": 112,
+    "preDecisionRenderStates": 896,
+    "semanticMismatches": 0,
+    "frozenFileHashes": 63,
+    "onlyApplicationChanges": [
+      "src/ui/components/scenario/ScenarioFive.css",
+      "src/ui/components/scenario/ScenarioFiveMap.tsx",
+      "src/ui/components/scenario/ScenarioFiveActionCard.tsx"
+    ],
+    "allOtherApplicationFilesUnchanged": true,
+    "concurrentDocumentationChanges": [
+      {
+        "path": "docs/scenario-cross-09d0-cognitive-crosswalk.csv",
+        "before": "684a01784e38d6460ad3ff377a988d982614fbc4dde632636424a99bfd1db990",
+        "after": "dcfcc9b34b273f1de67dacfd20588430f1487a83e1a3c49ac2f7e43a8b740eb5",
+        "handling": "Observed external documentation changes; not written by this task, preserved, excluded from UI patch"
+      },
+      {
+        "path": "docs/scenario-cross-09d0-formula-comparison.md",
+        "before": "002361af374a0102616d06cf9bf737908ecc512391940e24e96e018aab435c10",
+        "after": "d84fda05924eb232b6c6808874694b7b379dc97cdf61f7840c47647df8b61702",
+        "handling": "Observed external documentation changes; not written by this task, preserved, excluded from UI patch"
+      },
+      {
+        "path": "docs/scenario-cross-09d0-unique-fields.md",
+        "before": "b5a13cb08e75f7891315583a1ed42415769f59b52d2382926c14b67752e6bf63",
+        "after": "00c600162e117dcfe4af7431d5aab763d3e990bb64e54089bcff9f4a367f165d",
+        "handling": "Observed external documentation changes; not written by this task, preserved, excluded from UI patch"
+      },
+      {
+        "path": "docs/scenario-cross-09d0-user-run-storage-readiness.md",
+        "before": "0a51712599c924c8e44b63753b3cc2a62e584ba21d57e3aea5abd4c5318a7ee9",
+        "after": "4bf358fab78cb4ae1698f30e2e3eaa0fd21f3ea2bd58d2bbdbe708ca68286b8f",
+        "handling": "Observed external documentation changes; not written by this task, preserved, excluded from UI patch"
+      }
+    ],
+    "cognitiveDashboardUnchanged": true,
+    "geometryAndGameplayUnchanged": true,
+    "historicalWrappers": [
+      {
+        "script": "scripts/verify-s5-phase8d2-ux.tsx",
+        "status": "FAIL",
+        "reason": "Pre-existing App.tsx historical snapshot mismatch; see full log"
+      },
+      {
+        "script": "scripts/verify-s5-phase09c1.tsx",
+        "status": "FAIL",
+        "reason": "Pre-existing App.tsx historical snapshot mismatch; see full log"
+      }
+    ]
+  },
+  "build": {
+    "typecheck": "PASS",
+    "scopedLint": "PASS",
+    "productionBuild": "PASS"
+  },
+  "browser": {
+    "status": "PASS",
+    "realProduct": true,
+    "viewportResults": [
+      {
+        "viewport": "1920x1080",
+        "oldHeaderHeight": 172,
+        "newHeaderHeight": 143.21875,
+        "oldMapHeight": 523.625,
+        "newMapHeight": 489.78125,
+        "oldConvoyPanel": {
+          "height": 128,
+          "scrollHeight": 202,
+          "overflow": "auto"
+        },
+        "newConvoyPanel": {
+          "height": 212,
+          "scrollHeight": 212,
+          "overflow": "visible",
+          "columns": "225.406px 225.406px 225.406px 225.422px"
+        },
+        "allFourInitiallyVisible": true,
+        "horizontalOverflow": false,
+        "wholePageScrolling": false,
+        "stopButtonInsideViewport": true
+      },
+      {
+        "viewport": "1600x900",
+        "oldHeaderHeight": 172,
+        "newHeaderHeight": 143.21875,
+        "oldMapHeight": 387.625,
+        "newMapHeight": 290.59375,
+        "oldConvoyPanel": {
+          "height": 128,
+          "scrollHeight": 202,
+          "overflow": "auto"
+        },
+        "newConvoyPanel": {
+          "height": 231,
+          "scrollHeight": 231,
+          "overflow": "visible",
+          "columns": "181.766px 181.766px 181.766px 181.781px"
+        },
+        "allFourInitiallyVisible": true,
+        "horizontalOverflow": false,
+        "wholePageScrolling": false,
+        "stopButtonInsideViewport": true
+      },
+      {
+        "viewport": "1366x768",
+        "oldHeaderHeight": 172,
+        "newHeaderHeight": 192.515625,
+        "oldMapHeight": 266.625,
+        "newMapHeight": 240,
+        "oldConvoyPanel": {
+          "height": 128,
+          "scrollHeight": 257,
+          "overflow": "auto"
+        },
+        "newConvoyPanel": {
+          "height": 432,
+          "scrollHeight": 432,
+          "overflow": "visible",
+          "columns": "304.734px 304.734px"
+        },
+        "allFourInitiallyVisible": false,
+        "horizontalOverflow": false,
+        "wholePageScrolling": true,
+        "stopButtonInsideViewport": false
+      }
+    ],
+    "additionalViewport": "390x844",
+    "screenshots": 26,
+    "beforeScreenshots": 3,
+    "eightDecisionFlow": true,
+    "passiveMapInspection": true,
+    "glossaryOpenClose": true,
+    "stopConfirmationAndCancel": true,
+    "allEightSelectedLayoutsCheckedAt1600": true,
+    "svgAspectAndGeometry": "PASS; equal CTM x/y scales in browser, complete SVG markup unchanged except passive data attributes",
+    "currentConvoyData": "PASS; actual props arrival/deadline/integrity compared to DOM",
+    "keyboardFocus": "PASS",
+    "inspection": "docs/scenario5-c2-refinement-screenshots/inspection.json"
+  },
+  "applicationFiles": [
+    "src/ui/components/scenario/ScenarioFive.css",
+    "src/ui/components/scenario/ScenarioFiveMap.tsx",
+    "src/ui/components/scenario/ScenarioFiveActionCard.tsx"
+  ],
+  "concurrentDocumentationChanges": [
+    {
+      "path": "docs/scenario-cross-09d0-cognitive-crosswalk.csv",
+      "before": "684a01784e38d6460ad3ff377a988d982614fbc4dde632636424a99bfd1db990",
+      "after": "dcfcc9b34b273f1de67dacfd20588430f1487a83e1a3c49ac2f7e43a8b740eb5",
+      "handling": "Preserved concurrent documentation edits; excluded from this patch"
+    },
+    {
+      "path": "docs/scenario-cross-09d0-formula-comparison.md",
+      "before": "002361af374a0102616d06cf9bf737908ecc512391940e24e96e018aab435c10",
+      "after": "d84fda05924eb232b6c6808874694b7b379dc97cdf61f7840c47647df8b61702",
+      "handling": "Preserved concurrent documentation edits; excluded from this patch"
+    },
+    {
+      "path": "docs/scenario-cross-09d0-unique-fields.md",
+      "before": "b5a13cb08e75f7891315583a1ed42415769f59b52d2382926c14b67752e6bf63",
+      "after": "00c600162e117dcfe4af7431d5aab763d3e990bb64e54089bcff9f4a367f165d",
+      "handling": "Preserved concurrent documentation edits; excluded from this patch"
+    },
+    {
+      "path": "docs/scenario-cross-09d0-user-run-storage-readiness.md",
+      "before": "0a51712599c924c8e44b63753b3cc2a62e584ba21d57e3aea5abd4c5318a7ee9",
+      "after": "4bf358fab78cb4ae1698f30e2e3eaa0fd21f3ea2bd58d2bbdbe708ca68286b8f",
+      "handling": "Preserved concurrent documentation edits; excluded from this patch"
+    }
+  ],
+  "limitations": [
+    "At 1366x768 and smaller, normal page scrolling preserves all content; four cards use two columns then one on phones.",
+    "Desktop decision/evidence/form panes retain their existing internal scroll body and persistent actions. The convoy panel has no internal scroll at any tested size.",
+    "Expanding convoy evidence can grow the overall page; no evidence is clipped.",
+    "Unchanged historical wrapper tests still fail their pre-existing App.tsx snapshot assertions. Existing presentation tests themselves pass 32,798 assertions; full logs retained."
+  ],
+  "patch": {
+    "path": "docs/scenario5-c2-refinement.patch",
+    "relativeTo": "Current workspace snapshot at start of C2 request, not repository HEAD",
+    "reverseApplyCheck": "PASS",
+    "indexUnchanged": true
+  }
+}

@@ -1,0 +1,847 @@
+{
+  "testOnly": true,
+  "source": "Eight genuine UI completions in a disposable browser; canonical records read back after reload; never migration input",
+  "s1": [
+    {
+      "schemaVersion": "cross-scenario-run-v1",
+      "recordId": "3e4ad2cc-9d39-4d8e-ab3a-fcc5619d098a",
+      "userProfileId": "test-player",
+      "releasedScenarioId": 4,
+      "sourceRunId": "run-1793806536985",
+      "recordedAtIso": "2026-11-04T15:35:41.612Z",
+      "source": "new-completion-v1",
+      "internalScenarioId": "s4_redesigned_scenario_one",
+      "cognitive": {
+        "versions": {
+          "measurementModelVersion": "s4-cog-v3",
+          "formulaVersion": "3.0.0",
+          "optionProfileVersion": "s4-options-v3.1-postfix",
+          "scenarioContentVersion": "s4-content-2026-09",
+          "expertPanelVersion": "provisional-unvalidated",
+          "anchorTestVersion": "s4-anchor-first-options-v1"
+        },
+        "orientation": {
+          "overall": -0.19241584612890525,
+          "markerPercent": 40.37920769355473,
+          "perMove": {
+            "move1": -0.34726080849870794,
+            "move2": -0.3654298890576712,
+            "move3": 0.13544315916966337
+          },
+          "operationalStrength": 46.14942528735633,
+          "strategicStrength": 46.14942528735633,
+          "integration": 46.14942528735633,
+          "dispersion": 0.23194995780500394,
+          "dispersionLabel": "جهت‌گیری وابسته به موقعیت",
+          "interpretation": "تمایل عملیاتی"
+        },
+        "scores": {
+          "informationSeeking": 31.5,
+          "secondOrderThinking": 52.22222222222223,
+          "adversaryModeling": 47.658730158730165,
+          "escalationSensitivity": 62.579365079365076,
+          "informationDiscipline": 98.60000000000001,
+          "evidenceResponsiveUpdating": 67.04329896907217,
+          "coalitionOrientation": 32.628927671967745,
+          "resourceStewardship": 52.77777777777777,
+          "planningForesight": 47.19444444444445,
+          "multiDomainIntegration": 48.74641206531601,
+          "riskPosture": -0.5413666037846594,
+          "decisionCoherence": 53
+        },
+        "dataCompleteness": {
+          "overall": 100,
+          "components": {
+            "coreDecisionRecords": 100,
+            "timingIntegrity": 100,
+            "evidenceTelemetry": 100,
+            "attributionEstimates": 100,
+            "reasonCapture": 100
+          }
+        },
+        "timing": {
+          "medianActiveDecisionMs": 0.20000000298023224,
+          "iqrActiveDecisionMs": 0.10000000894069672,
+          "totalEvidenceDwellMs": 0,
+          "longestDecision": {
+            "runId": "run-1793806536985",
+            "moveId": "move_2",
+            "windowId": "m2_investigation",
+            "enteredAt": "2026-11-04T15:35:39.389Z",
+            "confirmedAt": "2026-11-04T15:35:39.594Z",
+            "elapsedMs": 204.79999999701977,
+            "activeDecisionMs": 204.79999999701977,
+            "firstSelectedOptionId": "m2_a_technical_diagnostics",
+            "finalSelectedOptionId": "m2_a_technical_diagnostics",
+            "optionChangeCount": 0,
+            "selectionTimeline": [
+              {
+                "optionId": "m2_a_technical_diagnostics",
+                "ts": "2026-11-04T15:35:39.499Z"
+              }
+            ],
+            "evidenceAvailableIds": [
+              "E_BASE_01",
+              "E_BASE_02",
+              "E_BASE_03",
+              "E_M2_01",
+              "E_M2_02",
+              "E_M2_03"
+            ],
+            "evidenceOpenedIds": [],
+            "evidenceOpenTimeline": [],
+            "helpOpened": false,
+            "glossaryOpened": false,
+            "playerAttributionEstimateAfter": 50,
+            "systemAttributionConfidenceVisibleAtDecision": 20,
+            "resourcesBefore": {
+              "ssaCapacity": 85,
+              "protectiveCapacity": 85,
+              "politicalCapital": 85,
+              "disclosureBudget": 75
+            },
+            "resourcesAfterUserAction": {
+              "ssaCapacity": 81,
+              "protectiveCapacity": 85,
+              "politicalCapital": 85,
+              "disclosureBudget": 75
+            }
+          },
+          "shortestDecision": {
+            "runId": "run-1793806536985",
+            "moveId": "move_3",
+            "windowId": "m3_coa",
+            "enteredAt": "2026-11-04T15:35:41.090Z",
+            "confirmedAt": "2026-11-04T15:35:41.090Z",
+            "elapsedMs": 0,
+            "activeDecisionMs": 0,
+            "firstSelectedOptionId": "m3_coa_contain_understand",
+            "finalSelectedOptionId": "m3_coa_contain_understand",
+            "optionChangeCount": 0,
+            "selectionTimeline": [],
+            "evidenceAvailableIds": [
+              "E_BASE_01",
+              "E_BASE_02",
+              "E_BASE_03",
+              "E_M2_01",
+              "E_M2_02",
+              "E_M2_03",
+              "E_M2_TECH_STRONG"
+            ],
+            "evidenceOpenedIds": [],
+            "evidenceOpenTimeline": [],
+            "helpOpened": false,
+            "glossaryOpened": false,
+            "playerAttributionEstimateBefore": 50,
+            "playerAttributionEstimateAfter": 50,
+            "systemAttributionConfidenceVisibleAtDecision": 2,
+            "resourcesBefore": {
+              "ssaCapacity": 77,
+              "protectiveCapacity": 79,
+              "politicalCapital": 85,
+              "disclosureBudget": 75
+            },
+            "resourcesAfterUserAction": {
+              "ssaCapacity": 77,
+              "protectiveCapacity": 79,
+              "politicalCapital": 85,
+              "disclosureBudget": 75
+            }
+          },
+          "totalRevisions": 0,
+          "revisedWindows": 0,
+          "firstToFinalChanges": [],
+          "evidenceTriggeredRevisionRate": null
+        },
+        "attribution": {
+          "evidenceAlignment": [
+            {
+              "phase": "m2_pre_investigation",
+              "score": 70
+            },
+            {
+              "phase": "m2_post_investigation",
+              "score": 52
+            },
+            {
+              "phase": "m3_final",
+              "score": 52
+            }
+          ],
+          "meanEvidenceAlignment": 58,
+          "evidenceUpdatingAudit": [
+            {
+              "phaseBefore": "m2_pre_investigation",
+              "phaseAfter": "m2_post_investigation",
+              "playerBefore": 50,
+              "playerAfter": 50,
+              "evidenceBefore": 20,
+              "evidenceAfter": 2,
+              "dP": 0,
+              "dE": -0.18,
+              "directionAgreement": 0.5,
+              "magnitudeAlignment": 0.64,
+              "weight": 0.72,
+              "rawScore": 0.556,
+              "finalContribution": 41.27010309278351
+            },
+            {
+              "phaseBefore": "m2_post_investigation",
+              "phaseAfter": "m3_final",
+              "playerBefore": 50,
+              "playerAfter": 50,
+              "evidenceBefore": 2,
+              "evidenceAfter": 2,
+              "dP": 0,
+              "dE": 0,
+              "directionAgreement": 1,
+              "magnitudeAlignment": 1,
+              "weight": 0.25,
+              "rawScore": 1,
+              "finalContribution": 25.773195876288664
+            }
+          ]
+        },
+        "responseProcess": {
+          "flags": {
+            "uniform_option_position": true,
+            "very_low_active_time": true,
+            "zero_evidence_engagement": true,
+            "invariant_attribution": true,
+            "minimal_revision": true,
+            "rapid_straightlining": true
+          },
+          "activeFlags": [
+            "uniform_option_position",
+            "very_low_active_time",
+            "zero_evidence_engagement",
+            "invariant_attribution",
+            "minimal_revision",
+            "rapid_straightlining"
+          ],
+          "status": "caution"
+        },
+        "perWindow": [
+          {
+            "windowId": "m1_information",
+            "optionId": "m1_i_passive",
+            "adjustedOsi": -1,
+            "operationalLoading": 0.45,
+            "strategicLoading": 0.2,
+            "diagnosticWeight": 0.85,
+            "evidenceCoverage": 0
+          },
+          {
+            "windowId": "m1_protection",
+            "optionId": "m1_p_hold",
+            "adjustedOsi": 0.8603066957786822,
+            "operationalLoading": 0.35,
+            "strategicLoading": 0.35,
+            "diagnosticWeight": 1,
+            "evidenceCoverage": null
+          },
+          {
+            "windowId": "m1_communication",
+            "optionId": "m1_c_none",
+            "adjustedOsi": -1,
+            "operationalLoading": 0.35,
+            "strategicLoading": 0.3,
+            "diagnosticWeight": 1,
+            "evidenceCoverage": 0
+          },
+          {
+            "windowId": "m2_investigation",
+            "optionId": "m2_a_technical_diagnostics",
+            "adjustedOsi": -0.1311399849713381,
+            "operationalLoading": 0.65,
+            "strategicLoading": 0.55,
+            "diagnosticWeight": 0.9,
+            "evidenceCoverage": 0
+          },
+          {
+            "windowId": "m2_mission",
+            "optionId": "m2_m_continue_normal",
+            "adjustedOsi": -1,
+            "operationalLoading": 0.9,
+            "strategicLoading": 0.2,
+            "diagnosticWeight": 1,
+            "evidenceCoverage": null
+          },
+          {
+            "windowId": "m2_response",
+            "optionId": "m2_r_no_counteraction",
+            "adjustedOsi": 0.019760290273809808,
+            "operationalLoading": 0.3,
+            "strategicLoading": 0.5,
+            "diagnosticWeight": 1.1,
+            "evidenceCoverage": 0
+          },
+          {
+            "windowId": "m3_threshold",
+            "optionId": "m3_t_insufficient",
+            "adjustedOsi": 1,
+            "operationalLoading": 0.25,
+            "strategicLoading": 0.6,
+            "diagnosticWeight": 0.55,
+            "evidenceCoverage": null
+          },
+          {
+            "windowId": "m3_coa",
+            "optionId": "m3_coa_contain_understand",
+            "adjustedOsi": 0.3499122924457855,
+            "operationalLoading": 0.45,
+            "strategicLoading": 0.8,
+            "diagnosticWeight": 1.2,
+            "evidenceCoverage": null
+          },
+          {
+            "windowId": "m3_info",
+            "optionId": "m3_info_keep_restricted",
+            "adjustedOsi": -0.5308015884558199,
+            "operationalLoading": 0.4,
+            "strategicLoading": 0.6,
+            "diagnosticWeight": 1.1,
+            "evidenceCoverage": 0
+          }
+        ],
+        "missingReasons": []
+      },
+      "modelStamps": {
+        "measurementModelVersion": "s4-cog-v3",
+        "formulaVersion": "3.0.0",
+        "optionProfileVersion": "s4-options-v3.1-postfix",
+        "scenarioContentVersion": "s4-content-2026-09",
+        "expertPanelVersion": "provisional-unvalidated",
+        "anchorTestVersion": "s4-anchor-first-options-v1"
+      }
+    },
+    {
+      "schemaVersion": "cross-scenario-run-v1",
+      "recordId": "d7e15a0e-7090-48fc-8c1a-6d7a5a620349",
+      "userProfileId": "scenario-tester",
+      "releasedScenarioId": 4,
+      "sourceRunId": "run-1793806536985",
+      "recordedAtIso": "2026-11-04T15:35:51.308Z",
+      "source": "new-completion-v1",
+      "internalScenarioId": "s4_redesigned_scenario_one",
+      "cognitive": {
+        "versions": {
+          "measurementModelVersion": "s4-cog-v3",
+          "formulaVersion": "3.0.0",
+          "optionProfileVersion": "s4-options-v3.1-postfix",
+          "scenarioContentVersion": "s4-content-2026-09",
+          "expertPanelVersion": "provisional-unvalidated",
+          "anchorTestVersion": "s4-anchor-first-options-v1"
+        },
+        "orientation": {
+          "overall": -0.19241584612890525,
+          "markerPercent": 40.37920769355473,
+          "perMove": {
+            "move1": -0.34726080849870794,
+            "move2": -0.3654298890576712,
+            "move3": 0.13544315916966337
+          },
+          "operationalStrength": 46.14942528735633,
+          "strategicStrength": 46.14942528735633,
+          "integration": 46.14942528735633,
+          "dispersion": 0.23194995780500394,
+          "dispersionLabel": "جهت‌گیری وابسته به موقعیت",
+          "interpretation": "تمایل عملیاتی"
+        },
+        "scores": {
+          "informationSeeking": 31.5,
+          "secondOrderThinking": 52.22222222222223,
+          "adversaryModeling": 47.658730158730165,
+          "escalationSensitivity": 62.579365079365076,
+          "informationDiscipline": 100,
+          "evidenceResponsiveUpdating": 76.61538461538461,
+          "coalitionOrientation": 32.628927671967745,
+          "resourceStewardship": 52.77777777777777,
+          "planningForesight": 47.19444444444445,
+          "multiDomainIntegration": 48.74641206531601,
+          "riskPosture": -0.5413666037846594,
+          "decisionCoherence": 53
+        },
+        "dataCompleteness": {
+          "overall": 100,
+          "components": {
+            "coreDecisionRecords": 100,
+            "timingIntegrity": 100,
+            "evidenceTelemetry": 100,
+            "attributionEstimates": 100,
+            "reasonCapture": 100
+          }
+        },
+        "timing": {
+          "medianActiveDecisionMs": 0.10000000894069672,
+          "iqrActiveDecisionMs": 0.10000000894069672,
+          "totalEvidenceDwellMs": 0,
+          "longestDecision": {
+            "runId": "run-1793806536985",
+            "moveId": "move_2",
+            "windowId": "m2_investigation",
+            "enteredAt": "2026-11-04T15:35:49.184Z",
+            "confirmedAt": "2026-11-04T15:35:49.414Z",
+            "elapsedMs": 229.8999999910593,
+            "activeDecisionMs": 229.8999999910593,
+            "firstSelectedOptionId": "m2_a_technical_diagnostics",
+            "finalSelectedOptionId": "m2_a_technical_diagnostics",
+            "optionChangeCount": 0,
+            "selectionTimeline": [
+              {
+                "optionId": "m2_a_technical_diagnostics",
+                "ts": "2026-11-04T15:35:49.301Z"
+              }
+            ],
+            "evidenceAvailableIds": [
+              "E_BASE_01",
+              "E_BASE_02",
+              "E_BASE_03",
+              "E_M2_01",
+              "E_M2_02",
+              "E_M2_03"
+            ],
+            "evidenceOpenedIds": [],
+            "evidenceOpenTimeline": [],
+            "helpOpened": false,
+            "glossaryOpened": false,
+            "playerAttributionEstimateAfter": 50,
+            "systemAttributionConfidenceVisibleAtDecision": 20,
+            "resourcesBefore": {
+              "ssaCapacity": 85,
+              "protectiveCapacity": 85,
+              "politicalCapital": 85,
+              "disclosureBudget": 75
+            },
+            "resourcesAfterUserAction": {
+              "ssaCapacity": 81,
+              "protectiveCapacity": 85,
+              "politicalCapital": 85,
+              "disclosureBudget": 75
+            }
+          },
+          "shortestDecision": {
+            "runId": "run-1793806536985",
+            "moveId": "move_2",
+            "windowId": "m2_mission",
+            "enteredAt": "2026-11-04T15:35:49.714Z",
+            "confirmedAt": "2026-11-04T15:35:49.714Z",
+            "elapsedMs": 0.09999999403953552,
+            "activeDecisionMs": 0.09999999403953552,
+            "firstSelectedOptionId": "m2_m_continue_normal",
+            "finalSelectedOptionId": "m2_m_continue_normal",
+            "optionChangeCount": 0,
+            "selectionTimeline": [],
+            "evidenceAvailableIds": [
+              "E_BASE_01",
+              "E_BASE_02",
+              "E_BASE_03",
+              "E_M2_01",
+              "E_M2_02",
+              "E_M2_03",
+              "E_M2_TECH_INCONCLUSIVE"
+            ],
+            "evidenceOpenedIds": [],
+            "evidenceOpenTimeline": [],
+            "helpOpened": false,
+            "glossaryOpened": false,
+            "playerAttributionEstimateBefore": 50,
+            "playerAttributionEstimateAfter": 50,
+            "systemAttributionConfidenceVisibleAtDecision": 30,
+            "resourcesBefore": {
+              "ssaCapacity": 81,
+              "protectiveCapacity": 85,
+              "politicalCapital": 85,
+              "disclosureBudget": 75
+            },
+            "resourcesAfterUserAction": {
+              "ssaCapacity": 81,
+              "protectiveCapacity": 85,
+              "politicalCapital": 85,
+              "disclosureBudget": 75
+            }
+          },
+          "totalRevisions": 0,
+          "revisedWindows": 0,
+          "firstToFinalChanges": [],
+          "evidenceTriggeredRevisionRate": null
+        },
+        "attribution": {
+          "evidenceAlignment": [
+            {
+              "phase": "m2_pre_investigation",
+              "score": 70
+            },
+            {
+              "phase": "m2_post_investigation",
+              "score": 80
+            },
+            {
+              "phase": "m3_final",
+              "score": 80
+            }
+          ],
+          "meanEvidenceAlignment": 76.66666666666667,
+          "evidenceUpdatingAudit": [
+            {
+              "phaseBefore": "m2_pre_investigation",
+              "phaseAfter": "m2_post_investigation",
+              "playerBefore": 50,
+              "playerAfter": 50,
+              "evidenceBefore": 20,
+              "evidenceAfter": 30,
+              "dP": 0,
+              "dE": 0.1,
+              "directionAgreement": 0.5,
+              "magnitudeAlignment": 0.8,
+              "weight": 0.4,
+              "rawScore": 0.6200000000000001,
+              "finalContribution": 38.15384615384616
+            },
+            {
+              "phaseBefore": "m2_post_investigation",
+              "phaseAfter": "m3_final",
+              "playerBefore": 50,
+              "playerAfter": 50,
+              "evidenceBefore": 30,
+              "evidenceAfter": 30,
+              "dP": 0,
+              "dE": 0,
+              "directionAgreement": 1,
+              "magnitudeAlignment": 1,
+              "weight": 0.25,
+              "rawScore": 1,
+              "finalContribution": 38.46153846153846
+            }
+          ]
+        },
+        "responseProcess": {
+          "flags": {
+            "uniform_option_position": true,
+            "very_low_active_time": true,
+            "zero_evidence_engagement": true,
+            "invariant_attribution": true,
+            "minimal_revision": true,
+            "rapid_straightlining": true
+          },
+          "activeFlags": [
+            "uniform_option_position",
+            "very_low_active_time",
+            "zero_evidence_engagement",
+            "invariant_attribution",
+            "minimal_revision",
+            "rapid_straightlining"
+          ],
+          "status": "caution"
+        },
+        "perWindow": [
+          {
+            "windowId": "m1_information",
+            "optionId": "m1_i_passive",
+            "adjustedOsi": -1,
+            "operationalLoading": 0.45,
+            "strategicLoading": 0.2,
+            "diagnosticWeight": 0.85,
+            "evidenceCoverage": 0
+          },
+          {
+            "windowId": "m1_protection",
+            "optionId": "m1_p_hold",
+            "adjustedOsi": 0.8603066957786822,
+            "operationalLoading": 0.35,
+            "strategicLoading": 0.35,
+            "diagnosticWeight": 1,
+            "evidenceCoverage": null
+          },
+          {
+            "windowId": "m1_communication",
+            "optionId": "m1_c_none",
+            "adjustedOsi": -1,
+            "operationalLoading": 0.35,
+            "strategicLoading": 0.3,
+            "diagnosticWeight": 1,
+            "evidenceCoverage": 0
+          },
+          {
+            "windowId": "m2_investigation",
+            "optionId": "m2_a_technical_diagnostics",
+            "adjustedOsi": -0.1311399849713381,
+            "operationalLoading": 0.65,
+            "strategicLoading": 0.55,
+            "diagnosticWeight": 0.9,
+            "evidenceCoverage": 0
+          },
+          {
+            "windowId": "m2_mission",
+            "optionId": "m2_m_continue_normal",
+            "adjustedOsi": -1,
+            "operationalLoading": 0.9,
+            "strategicLoading": 0.2,
+            "diagnosticWeight": 1,
+            "evidenceCoverage": null
+          },
+          {
+            "windowId": "m2_response",
+            "optionId": "m2_r_no_counteraction",
+            "adjustedOsi": 0.019760290273809808,
+            "operationalLoading": 0.3,
+            "strategicLoading": 0.5,
+            "diagnosticWeight": 1.1,
+            "evidenceCoverage": 0
+          },
+          {
+            "windowId": "m3_threshold",
+            "optionId": "m3_t_insufficient",
+            "adjustedOsi": 1,
+            "operationalLoading": 0.25,
+            "strategicLoading": 0.6,
+            "diagnosticWeight": 0.55,
+            "evidenceCoverage": null
+          },
+          {
+            "windowId": "m3_coa",
+            "optionId": "m3_coa_contain_understand",
+            "adjustedOsi": 0.3499122924457855,
+            "operationalLoading": 0.45,
+            "strategicLoading": 0.8,
+            "diagnosticWeight": 1.2,
+            "evidenceCoverage": null
+          },
+          {
+            "windowId": "m3_info",
+            "optionId": "m3_info_keep_restricted",
+            "adjustedOsi": -0.5308015884558199,
+            "operationalLoading": 0.4,
+            "strategicLoading": 0.6,
+            "diagnosticWeight": 1.1,
+            "evidenceCoverage": 0
+          }
+        ],
+        "missingReasons": []
+      },
+      "modelStamps": {
+        "measurementModelVersion": "s4-cog-v3",
+        "formulaVersion": "3.0.0",
+        "optionProfileVersion": "s4-options-v3.1-postfix",
+        "scenarioContentVersion": "s4-content-2026-09",
+        "expertPanelVersion": "provisional-unvalidated",
+        "anchorTestVersion": "s4-anchor-first-options-v1"
+      }
+    }
+  ],
+  "s2": [
+    {
+      "schemaVersion": "cross-scenario-run-v1",
+      "recordId": "3392ca89-4496-4420-92e1-2eca2345e417",
+      "userProfileId": "test-player",
+      "releasedScenarioId": 5,
+      "sourceRunId": "s5-1793806571512-b1ce747a",
+      "recordedAtIso": "2026-11-04T15:36:15.892Z",
+      "source": "new-completion-v1",
+      "internalScenarioId": "s5_silent_waves_redesign",
+      "cognitive": {
+        "scenarioId": "s5_silent_waves_redesign",
+        "runId": "s5-1793806571512-b1ce747a",
+        "measurementModelVersion": "s5-cognitive-v3-adapter-v1.0.0",
+        "formulaVersion": "cognitive-v3-semantic-v1.0.0",
+        "optionProfileVersion": "s5-option-profiles-internal-v1.0.0",
+        "scenarioContentVersion": "s5-silent-waves-redesign-content-v1.0.0",
+        "reasonModelVersion": "s5-reason-model-internal-v1.0.0",
+        "expertPanelVersion": "not-yet-expert-validated",
+        "validityStatus": "experimental_pending_expert_and_human_validation",
+        "dataCompleteness": {
+          "overall": 100,
+          "decisions": 100,
+          "timing": 100,
+          "evidence": 100,
+          "estimates": 100,
+          "reasons": 100
+        },
+        "orientation": {
+          "overall": -0.31896531942215955,
+          "operationalStrength": 70,
+          "strategicStrength": 56.25,
+          "integration": 62.37623762376238,
+          "dispersion": 0.34684747205729693,
+          "phaseScores": [
+            0.11475409833915604,
+            -0.3472594760797518,
+            -0.19755238659197363,
+            -0.8458035133560687
+          ]
+        },
+        "constructs": {
+          "informationSeeking": 39,
+          "secondOrderThinking": 52.0625,
+          "adversaryModeling": 50,
+          "escalationSensitivity": 55.00000000000001,
+          "informationDiscipline": null,
+          "evidenceResponsiveUpdating": null,
+          "resourceStewardship": 53.25,
+          "planningForesight": 61.87499999999999,
+          "multiDomainIntegration": 19.263406092104486,
+          "riskPosture": 0.3703703703703704,
+          "decisionCoherence": 69.25000000000001
+        },
+        "telemetrySummary": {
+          "medianActiveDecisionMs": 258.19999999552965,
+          "iqrActiveDecisionMs": 126.34999999776483,
+          "totalRevisions": 0,
+          "revisedWindows": 0,
+          "evidenceTriggeredRevisionRate": null
+        }
+      },
+      "modelStamps": {
+        "measurementModelVersion": "s5-cognitive-v3-adapter-v1.0.0",
+        "formulaVersion": "cognitive-v3-semantic-v1.0.0",
+        "optionProfileVersion": "s5-option-profiles-internal-v1.0.0",
+        "scenarioContentVersion": "s5-silent-waves-redesign-content-v1.0.0",
+        "reasonModelVersion": "s5-reason-model-internal-v1.0.0",
+        "expertPanelVersion": "not-yet-expert-validated",
+        "validityStatus": "experimental_pending_expert_and_human_validation"
+      }
+    },
+    {
+      "schemaVersion": "cross-scenario-run-v1",
+      "recordId": "0b162a62-9f9a-4a1c-a63b-6f8b71ea50e9",
+      "userProfileId": "test-player",
+      "releasedScenarioId": 5,
+      "sourceRunId": "s5-1793806561647-70bdaa16",
+      "recordedAtIso": "2026-11-04T15:36:06.223Z",
+      "source": "new-completion-v1",
+      "internalScenarioId": "s5_silent_waves_redesign",
+      "cognitive": {
+        "scenarioId": "s5_silent_waves_redesign",
+        "runId": "s5-1793806561647-70bdaa16",
+        "measurementModelVersion": "s5-cognitive-v3-adapter-v1.0.0",
+        "formulaVersion": "cognitive-v3-semantic-v1.0.0",
+        "optionProfileVersion": "s5-option-profiles-internal-v1.0.0",
+        "scenarioContentVersion": "s5-silent-waves-redesign-content-v1.0.0",
+        "reasonModelVersion": "s5-reason-model-internal-v1.0.0",
+        "expertPanelVersion": "not-yet-expert-validated",
+        "validityStatus": "experimental_pending_expert_and_human_validation",
+        "dataCompleteness": {
+          "overall": 100,
+          "decisions": 100,
+          "timing": 100,
+          "evidence": 100,
+          "estimates": 100,
+          "reasons": 100
+        },
+        "orientation": {
+          "overall": -0.31896531942215955,
+          "operationalStrength": 70,
+          "strategicStrength": 56.25,
+          "integration": 62.37623762376238,
+          "dispersion": 0.34684747205729693,
+          "phaseScores": [
+            0.11475409833915604,
+            -0.3472594760797518,
+            -0.19755238659197363,
+            -0.8458035133560687
+          ]
+        },
+        "constructs": {
+          "informationSeeking": 39,
+          "secondOrderThinking": 52.0625,
+          "adversaryModeling": 50,
+          "escalationSensitivity": 55.00000000000001,
+          "informationDiscipline": null,
+          "evidenceResponsiveUpdating": null,
+          "resourceStewardship": 53.25,
+          "planningForesight": 61.87499999999999,
+          "multiDomainIntegration": 19.263406092104486,
+          "riskPosture": 0.3703703703703704,
+          "decisionCoherence": 69.25000000000001
+        },
+        "telemetrySummary": {
+          "medianActiveDecisionMs": 259.6000000014901,
+          "iqrActiveDecisionMs": 111.69999999180436,
+          "totalRevisions": 0,
+          "revisedWindows": 0,
+          "evidenceTriggeredRevisionRate": null
+        }
+      },
+      "modelStamps": {
+        "measurementModelVersion": "s5-cognitive-v3-adapter-v1.0.0",
+        "formulaVersion": "cognitive-v3-semantic-v1.0.0",
+        "optionProfileVersion": "s5-option-profiles-internal-v1.0.0",
+        "scenarioContentVersion": "s5-silent-waves-redesign-content-v1.0.0",
+        "reasonModelVersion": "s5-reason-model-internal-v1.0.0",
+        "expertPanelVersion": "not-yet-expert-validated",
+        "validityStatus": "experimental_pending_expert_and_human_validation"
+      }
+    },
+    {
+      "schemaVersion": "cross-scenario-run-v1",
+      "recordId": "43e0bb20-f508-45a5-adc2-4ae0d3258823",
+      "userProfileId": "test-player",
+      "releasedScenarioId": 5,
+      "sourceRunId": "s5-1793806541979-da52fc4c",
+      "recordedAtIso": "2026-11-04T15:35:46.530Z",
+      "source": "new-completion-v1",
+      "internalScenarioId": "s5_silent_waves_redesign",
+      "cognitive": {
+        "scenarioId": "s5_silent_waves_redesign",
+        "runId": "s5-1793806541979-da52fc4c",
+        "measurementModelVersion": "s5-cognitive-v3-adapter-v1.0.0",
+        "formulaVersion": "cognitive-v3-semantic-v1.0.0",
+        "optionProfileVersion": "s5-option-profiles-internal-v1.0.0",
+        "scenarioContentVersion": "s5-silent-waves-redesign-content-v1.0.0",
+        "reasonModelVersion": "s5-reason-model-internal-v1.0.0",
+        "expertPanelVersion": "not-yet-expert-validated",
+        "validityStatus": "experimental_pending_expert_and_human_validation",
+        "dataCompleteness": {
+          "overall": 100,
+          "decisions": 100,
+          "timing": 100,
+          "evidence": 100,
+          "estimates": 100,
+          "reasons": 100
+        },
+        "orientation": {
+          "overall": -0.31896531942215955,
+          "operationalStrength": 70,
+          "strategicStrength": 56.25,
+          "integration": 62.37623762376238,
+          "dispersion": 0.34684747205729693,
+          "phaseScores": [
+            0.11475409833915604,
+            -0.3472594760797518,
+            -0.19755238659197363,
+            -0.8458035133560687
+          ]
+        },
+        "constructs": {
+          "informationSeeking": 39,
+          "secondOrderThinking": 52.0625,
+          "adversaryModeling": 50,
+          "escalationSensitivity": 55.00000000000001,
+          "informationDiscipline": null,
+          "evidenceResponsiveUpdating": null,
+          "resourceStewardship": 53.25,
+          "planningForesight": 61.87499999999999,
+          "multiDomainIntegration": 19.263406092104486,
+          "riskPosture": 0.3703703703703704,
+          "decisionCoherence": 69.25000000000001
+        },
+        "telemetrySummary": {
+          "medianActiveDecisionMs": 257.3500000014901,
+          "iqrActiveDecisionMs": 176.39999999850988,
+          "totalRevisions": 0,
+          "revisedWindows": 0,
+          "evidenceTriggeredRevisionRate": null
+        }
+      },
+      "modelStamps": {
+        "measurementModelVersion": "s5-cognitive-v3-adapter-v1.0.0",
+        "formulaVersion": "cognitive-v3-semantic-v1.0.0",
+        "optionProfileVersion": "s5-option-profiles-internal-v1.0.0",
+        "scenarioContentVersion": "s5-silent-waves-redesign-content-v1.0.0",
+        "reasonModelVersion": "s5-reason-model-internal-v1.0.0",
+        "expertPanelVersion": "not-yet-expert-validated",
+        "validityStatus": "experimental_pending_expert_and_human_validation"
+      }
+    }
+  ]
+}

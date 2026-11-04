@@ -1,0 +1,262 @@
+{
+  "status": "PASS",
+  "assertions": 60,
+  "results": [
+    {
+      "label": "Player has no admin archive setting",
+      "status": "PASS"
+    },
+    {
+      "label": "Archive defaults OFF without writing configuration",
+      "status": "PASS"
+    },
+    {
+      "label": "No implicit archive activation",
+      "status": "PASS"
+    },
+    {
+      "label": "S1 enabled entry disclosure",
+      "status": "PASS"
+    },
+    {
+      "label": "S1 genuine completion persists: گزارش شناختی این اجرا برای پروفایل آغازکننده در این مرورگر ذخیره شد.",
+      "status": "PASS"
+    },
+    {
+      "label": "A/F: double S1 finish produces one record",
+      "status": "PASS"
+    },
+    {
+      "label": "Exact S1 canonical object, including timing telemetry retained",
+      "status": "PASS"
+    },
+    {
+      "label": "S2 enabled entry disclosure",
+      "status": "PASS"
+    },
+    {
+      "label": "S2 genuine completion storage policy: گزارش شناختی این اجرا برای پروفایل آغازکننده در این مرورگر ذخیره شد.",
+      "status": "PASS"
+    },
+    {
+      "label": "A: S2 stored with old logger OFF",
+      "status": "PASS"
+    },
+    {
+      "label": "A: real S1/S2 no behavioral events when old flag OFF",
+      "status": "PASS"
+    },
+    {
+      "label": "F: durable insert-if-absent",
+      "status": "PASS"
+    },
+    {
+      "label": "S1 enabled entry disclosure",
+      "status": "PASS"
+    },
+    {
+      "label": "S1 genuine completion persists: گزارش شناختی این اجرا برای پروفایل آغازکننده در این مرورگر ذخیره شد.",
+      "status": "PASS"
+    },
+    {
+      "label": "G: shared scientific S1 ID, separate attempts and owners",
+      "status": "PASS"
+    },
+    {
+      "label": "S2 genuine completion storage policy: ذخیره گزارش شناختی غیرفعال است؛ گزارش جدیدی آرشیو نشد.",
+      "status": "PASS"
+    },
+    {
+      "label": "B/E: OFF stops new records and retains old ones",
+      "status": "PASS"
+    },
+    {
+      "label": "B: legacy completion event obeys independent flag",
+      "status": "PASS"
+    },
+    {
+      "label": "S2 genuine completion storage policy: ذخیره گزارش شناختی غیرفعال است؛ گزارش جدیدی آرشیو نشد.",
+      "status": "PASS"
+    },
+    {
+      "label": "C: both OFF no new behavioral event or cognitive record",
+      "status": "PASS"
+    },
+    {
+      "label": "C: system administrative logger remains independent",
+      "status": "PASS"
+    },
+    {
+      "label": "S2 enabled entry disclosure",
+      "status": "PASS"
+    },
+    {
+      "label": "Switched profile cannot see original owner storage status",
+      "status": "PASS"
+    },
+    {
+      "label": "D/H: both ON; switched profile does not reassign attempt",
+      "status": "PASS"
+    },
+    {
+      "label": "S2 enabled entry disclosure",
+      "status": "PASS"
+    },
+    {
+      "label": "S2 genuine completion storage policy: ذخیره گزارش شناختی غیرفعال است؛ گزارش جدیدی آرشیو نشد.",
+      "status": "PASS"
+    },
+    {
+      "label": "Policy re-read: ON at start, OFF at completion prevents insert",
+      "status": "PASS"
+    },
+    {
+      "label": "S2 genuine completion storage policy: گزارش شناختی این اجرا برای پروفایل آغازکننده در این مرورگر ذخیره شد.",
+      "status": "PASS"
+    },
+    {
+      "label": "Policy re-read: OFF at start, ON at completion saves result",
+      "status": "PASS"
+    },
+    {
+      "label": "I missing owner",
+      "status": "PASS"
+    },
+    {
+      "label": "I unknown owner",
+      "status": "PASS"
+    },
+    {
+      "label": "J legacy ID",
+      "status": "PASS"
+    },
+    {
+      "label": "J preview identity",
+      "status": "PASS"
+    },
+    {
+      "label": "J forged/reloaded attempt",
+      "status": "PASS"
+    },
+    {
+      "label": "H read mismatch",
+      "status": "PASS"
+    },
+    {
+      "label": "H list mismatch",
+      "status": "PASS"
+    },
+    {
+      "label": "Policy not auto-enabled by legacy backup transfer",
+      "status": "PASS"
+    },
+    {
+      "label": "J missing nested field",
+      "status": "PASS"
+    },
+    {
+      "label": "J omitted vs null",
+      "status": "PASS"
+    },
+    {
+      "label": "J wrong version",
+      "status": "PASS"
+    },
+    {
+      "label": "J NaN",
+      "status": "PASS"
+    },
+    {
+      "label": "J out of range",
+      "status": "PASS"
+    },
+    {
+      "label": "J run mismatch",
+      "status": "PASS"
+    },
+    {
+      "label": "J unknown scientific field",
+      "status": "PASS"
+    },
+    {
+      "label": "J malformed array",
+      "status": "PASS"
+    },
+    {
+      "label": "K signed/null/zero preserved without coercion",
+      "status": "PASS"
+    },
+    {
+      "label": "F identity conflict never overwrites",
+      "status": "PASS"
+    },
+    {
+      "label": "Read schema validation",
+      "status": "PASS"
+    },
+    {
+      "label": "List schema validation",
+      "status": "PASS"
+    },
+    {
+      "label": "L unavailable IndexedDB",
+      "status": "PASS"
+    },
+    {
+      "label": "L unavailable storage status never claims saved",
+      "status": "PASS"
+    },
+    {
+      "label": "L quota failure",
+      "status": "PASS"
+    },
+    {
+      "label": "L quota storage status never claims saved",
+      "status": "PASS"
+    },
+    {
+      "label": "M invalid policy fails closed",
+      "status": "PASS"
+    },
+    {
+      "label": "J incomplete route",
+      "status": "PASS"
+    },
+    {
+      "label": "J three-way identity mismatch",
+      "status": "PASS"
+    },
+    {
+      "label": "E archive OFF read existing",
+      "status": "PASS"
+    },
+    {
+      "label": "M config reload persists independently",
+      "status": "PASS"
+    },
+    {
+      "label": "A/F/E reload retains records without duplication while archive OFF",
+      "status": "PASS"
+    },
+    {
+      "label": "N deleted-owner records never reassigned",
+      "status": "PASS"
+    }
+  ],
+  "realUiCompletions": {
+    "s1": 2,
+    "s2": 6
+  },
+  "strictMode": true,
+  "liveUserDataAccessed": false,
+  "profileDir": "C:\\Users\\pc\\AppData\\Local\\Temp\\cross09d1a-browser-hAWeMy",
+  "screenshots": [
+    "01-real-app-admin-two-controls.png",
+    "02-s1-enabled-disclosure.png",
+    "03-s1-real-completion-saved.png",
+    "04-s2-real-completion-saved.png",
+    "05-archive-disabled-completion.png",
+    "06-owner-switch-completion.png",
+    "07-refresh-admin-independent-settings.png"
+  ]
+}
