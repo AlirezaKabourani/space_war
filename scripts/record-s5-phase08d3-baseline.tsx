@@ -1,0 +1,16 @@
+﻿import fs from 'node:fs';import {createHash} from 'node:crypto';import {execFileSync,spawnSync} from 'node:child_process';
+import {WORLD_CATALOG} from '../src/ui/components/scenario/scenario-five/model/index';
+import {MISSION_POLICIES} from '../src/ui/components/scenario/scenario-five/calibration/missionPolicies';
+import {simulateScenario5} from '../src/ui/components/scenario/scenario-five/calibration/simulationDriver';
+import {buildMissionAar} from '../src/ui/components/scenario/scenario-five/ui/endingPresentation';
+const output='docs/scenario5-phase08d3-baseline.json';if(fs.existsSync(output))throw Error('Never replace baseline');
+const h=(x:string|Buffer)=>createHash('sha256').update(x).digest('hex');const files=execFileSync('git',['ls-files','--cached','--others','--exclude-standard','-z'],{encoding:'utf8'}).split('\0').filter(p=>p&&fs.existsSync(p)&&fs.statSync(p).isFile());
+const hashes=Object.fromEntries(files.map(p=>[p,h(fs.readFileSync(p))]));
+const changed=['src/ui/components/scenario/scenario-five/ui/ScenarioFiveMissionEnding.tsx','src/ui/components/scenario/scenario-five/ui/endingPresentation.ts','src/ui/components/scenario/scenario-five/ui/presentation.ts','src/ui/components/scenario/ScenarioFive.css'];
+const original=JSON.parse(fs.readFileSync('docs/scenario5-phase8d-baseline.json','utf8'));
+const runs=WORLD_CATALOG.flatMap(w=>MISSION_POLICIES.filter(p=>!p.oraclePolicy&&!p.stressPolicy&&!p.randomPolicy).map(policy=>simulateScenario5({worldId:w.worldId,environmentSeed:1,policy})));
+const corpus=runs.map(r=>{const aar=buildMissionAar(r.state);return {worldId:r.worldId,policy:r.policyId,digest:h(JSON.stringify(r)),cognitive:h(JSON.stringify(r.result.cognitive)),domain:h(JSON.stringify(r.result.domain)),mission:h(JSON.stringify(r.state.missionState)),evidence:h(JSON.stringify(r.cognitiveBundle)),aarFacts:{end:aar.end,directFacts:aar.directFacts,rows:aar.rows,narrative:aar.narrative,lateEvidenceIds:aar.lateEvidenceIds,turningPoints:h(JSON.stringify(aar.turningPoints))}};});
+const beforeVerifiers=[];
+for(const script of ['scripts/verify-s5-phase8d2-ux.tsx','scripts/verify-s5-phase09c1.tsx','scripts/verify-s5-c2-refinement.tsx']){const r=spawnSync(process.execPath,['node_modules/tsx/dist/cli.mjs',script],{encoding:'utf8',windowsHide:true,maxBuffer:16*1024*1024});beforeVerifiers.push({script,status:r.status===0?'PASS':'FAIL',exitCode:r.status,stdout:r.stdout,stderr:r.stderr});}
+fs.writeFileSync(output,JSON.stringify({head:execFileSync('git',['rev-parse','HEAD'],{encoding:'utf8'}).trim(),hashes,files:Object.fromEntries(changed.map(p=>[p,fs.readFileSync(p).toString('base64')])),frozen:Object.fromEntries(Object.keys(original.frozen).map(p=>[p,h(fs.readFileSync(p))])),historicalFrozenMismatches:Object.entries(original.frozen).filter(([p,hash])=>h(fs.readFileSync(p))!==hash).map(([p])=>p),corpus,beforeVerifiers},null,2)+'\n');
+console.log(JSON.stringify({runs:runs.length,frozen:Object.keys(original.frozen).length,historicalFrozenMismatches:Object.entries(original.frozen).filter(([p,hash])=>h(fs.readFileSync(p))!==hash).map(([p])=>p),verifiers:beforeVerifiers.map(({script,status,stderr})=>({script,status,reason:stderr?.split('\n').find(s=>s.includes('AssertionError'))}))},null,2));

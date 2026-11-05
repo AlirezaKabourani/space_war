@@ -1,0 +1,174 @@
+{
+  "phase": "PHASE 08D.3",
+  "status": "PASS",
+  "allHistoricalVerifiersPass": false,
+  "acceptance": "New feature gates pass; historical snapshot/hash failures explicitly pre-existing, permitted by the supplied implementation contract, not represented as PASS.",
+  "startingHead": "aed3b973c167b89011a30f2c8a0e76433c02ae95",
+  "location": {
+    "after": "#s5-truth",
+    "section": "#s5-belief-vs-reality",
+    "preservedTimelineAnchor": "#s5-belief-timeline",
+    "integration": "Replaces the old four-card timeline; one canonical four-checkpoint sequence, no duplicate timeline"
+  },
+  "applicationFiles": {
+    "modified": [
+      "src/ui/components/scenario/scenario-five/ui/ScenarioFiveMissionEnding.tsx",
+      "src/ui/components/scenario/scenario-five/ui/endingPresentation.ts",
+      "src/ui/components/scenario/scenario-five/ui/presentation.ts",
+      "src/ui/components/scenario/ScenarioFive.css"
+    ],
+    "added": [
+      "src/ui/components/scenario/scenario-five/ui/ScenarioFiveBeliefRealityAar.tsx",
+      "src/ui/components/scenario/scenario-five/ui/beliefRealityAarPresentation.ts"
+    ]
+  },
+  "focused": {
+    "assertions": 25278,
+    "existingPresentationAssertions": 32798,
+    "malformedCases": 42,
+    "canonicalCheckpoints": 4,
+    "revisedTransitions": 62,
+    "unchangedTransitions": 274
+  },
+  "scientificParity": {
+    "runCount": 112,
+    "semanticMismatches": 0,
+    "fullRunCognitiveDomainMissionActorEvidenceEqual": true,
+    "allAarFactsEqual": true
+  },
+  "frozenScientificHashes": {
+    "count": 63,
+    "status": "PASS",
+    "mismatches": [],
+    "sameAsHistoricalAcceptedHashes": true
+  },
+  "guards": {
+    "hiddenTruthBeforeCompletion": "PASS for all 23 pre-completion occurrences of the real 24-occurrence flow",
+    "ownership": "PASS",
+    "noScoringTelemetryArchiveWrites": "PASS; pure source firewall and actual browser Storage/IndexedDB mutation instrumentation",
+    "existingMissionFacts": "PASS; before/after 112 AAR projections and unchanged six-ending explanation function source",
+    "legacyId2AndActiveId5Routing": "PASS; all other pre-existing application files match baseline",
+    "no09d2OrCrossScenarioWork": "CONFIRMED",
+    "priorUiChanges": "Preserved orange truth section, removed alternative endings, primary cognitive CTA and dashboard-only completion flow"
+  },
+  "sixEndingWitnesses": [
+    {
+      "endingId": "critical_cargo_lost_or_compromised",
+      "status": "PASS"
+    },
+    {
+      "endingId": "priority_delivered_network_degradation",
+      "status": "PASS"
+    },
+    {
+      "endingId": "mission_incomplete_continuity_preserved",
+      "status": "PASS"
+    },
+    {
+      "endingId": "delivery_complete_threat_persistent",
+      "status": "PASS"
+    },
+    {
+      "endingId": "delivery_complete_attribution_unresolved",
+      "status": "PASS"
+    },
+    {
+      "endingId": "delivery_complete_threat_contained",
+      "status": "PASS"
+    }
+  ],
+  "build": [
+    {
+      "id": "typecheck",
+      "status": "PASS",
+      "exitCode": 0
+    },
+    {
+      "id": "scoped-lint",
+      "status": "PASS",
+      "exitCode": 0
+    },
+    {
+      "id": "production-build",
+      "status": "PASS",
+      "exitCode": 0
+    }
+  ],
+  "browser": {
+    "status": "PASS",
+    "screenshots": 14,
+    "viewports": [
+      "1440x900",
+      "1366x768",
+      "1280x720",
+      "390x844"
+    ],
+    "actualEightDecisionProductFlow": "PASS",
+    "actualLiveDomInspections": 45,
+    "hiddenTruthInActualLiveDom": "ABSENT",
+    "passiveStateStorageIndexedDbAndTelemetry": "PASS",
+    "keyboardAccordion": "PASS",
+    "sixEndings": [
+      {
+        "endingId": "critical_cargo_lost_or_compromised",
+        "status": "PASS"
+      },
+      {
+        "endingId": "priority_delivered_network_degradation",
+        "status": "PASS"
+      },
+      {
+        "endingId": "mission_incomplete_continuity_preserved",
+        "status": "PASS"
+      },
+      {
+        "endingId": "delivery_complete_threat_persistent",
+        "status": "PASS"
+      },
+      {
+        "endingId": "delivery_complete_attribution_unresolved",
+        "status": "PASS"
+      },
+      {
+        "endingId": "delivery_complete_threat_contained",
+        "status": "PASS"
+      }
+    ],
+    "inspection": "docs/scenario5-phase08d3-screenshots/inspection.json"
+  },
+  "historicalVerifierIssues": [
+    {
+      "script": "scripts/verify-s5-phase8d2-ux.tsx",
+      "status": "FAIL",
+      "preExisting": true,
+      "beforeAssertion": "AssertionError [ERR_ASSERTION]: App including legacy id=2 and active id=5 unchanged",
+      "afterAssertion": "AssertionError [ERR_ASSERTION]: App including legacy id=2 and active id=5 unchanged"
+    },
+    {
+      "script": "scripts/verify-s5-phase09c1.tsx",
+      "status": "FAIL",
+      "preExisting": true,
+      "beforeAssertion": "AssertionError [ERR_ASSERTION]: Unchanged existing source src/ui/components/scenario/scenario-five/ui/ScenarioFiveMissionEnding.tsx",
+      "afterAssertion": "AssertionError [ERR_ASSERTION]: Unchanged existing source src/ui/components/scenario/scenario-five/ui/ScenarioFiveMissionEnding.tsx"
+    },
+    {
+      "script": "scripts/verify-s5-c2-refinement.tsx",
+      "status": "FAIL",
+      "preExisting": true,
+      "beforeAssertion": "AssertionError [ERR_ASSERTION]: Unchanged pre-existing file .gitignore",
+      "afterAssertion": "AssertionError [ERR_ASSERTION]: Unchanged pre-existing file .gitignore"
+    }
+  ],
+  "scope": {
+    "preexistingFilesCompared": 1184,
+    "unexpectedExistingChanges": [],
+    "modelsStorageAdminCrossScenarioSummarySimulationUnchanged": true
+  },
+  "patch": {
+    "path": "docs/scenario5-phase08d3.patch",
+    "relativeTo": "Workspace snapshot at start of this request, retaining earlier uncommitted orange-truth CSS change",
+    "reverseApplyCheck": "PASS",
+    "realIndexUnchanged": true
+  },
+  "knownNewBlockers": []
+}

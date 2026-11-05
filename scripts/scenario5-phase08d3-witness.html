@@ -1,0 +1,19 @@
+<!doctype html>
+<html lang="fa" dir="rtl"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>08D.3 — genuine completed-run browser witnesses</title></head>
+<body style="padding-top:64px"><div style="position:fixed;inset:0 0 auto;z-index:1000;padding:10px;background:#152438;color:#e4eff9;font:14px system-ui;border-bottom:1px solid #58718a">شاهد بازپخش اجرای واقعی موتور — TEST WITNESS — خارج از مسیر محصول</div><div id="root"></div>
+<script type="module">
+import React from 'react';
+import {createRoot} from 'react-dom/client';
+import {ScenarioFiveSummary} from '../src/ui/components/scenario/ScenarioFiveSummary.tsx';
+import '../src/index.css';
+import '../src/App.css';
+import '../src/ui/components/scenario/ScenarioFive.css';
+const query=new URLSearchParams(location.search),kind=query.get('case')??'same';
+const examples=await(await fetch('/docs/scenario5-phase08d3-browser-witnesses.json')).json();
+const archived=await(await fetch('/docs/scenario5-phase8d-witnesses.json')).json();
+const witness=query.has('ending')?archived.find(w=>w.id===query.get('ending')):examples[kind];
+if(!witness)throw Error('Requested genuine witness not found');
+window.__phase08d3Witness={kind,runId:witness.state.runId,finished:0,source:'Original completed engine run; no injected belief, truth or evidence values'};
+const root=createRoot(document.getElementById('root'));
+root.render(React.createElement(ScenarioFiveSummary,{runtimeState:witness.state,result:witness.result,onComplete:()=>{window.__phase08d3Witness.finished++;root.render(React.createElement('p',{'data-test-finished':'true'},'پایان آزمون'));}}));
+</script></body></html>

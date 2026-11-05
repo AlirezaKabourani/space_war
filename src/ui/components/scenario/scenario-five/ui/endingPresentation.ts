@@ -101,7 +101,10 @@ export function selectTurningPoints(state: Scenario5RuntimeState) {
 
 export function buildMissionAar(state: Scenario5RuntimeState) {
   const explanation = buildEndingExplanation(state);
-  const finalBelief = state.beliefs.find(b=>b.checkpointId === 'D_final_belief');
+  const finalBeliefs = Array.isArray(state.beliefs) ? state.beliefs.filter(b=>b?.checkpointId === 'D_final_belief') : [];
+  const finalBelief = finalBeliefs.length === 1 ? finalBeliefs[0] : undefined;
+  const finalEvidenceIds = Array.isArray(finalBelief?.visibleEvidenceIdsAtCheckpoint)
+    && finalBelief.visibleEvidenceIdsAtCheckpoint.every((id: unknown) => typeof id === 'string' && id.length > 0) ? finalBelief.visibleEvidenceIdsAtCheckpoint : null;
   return {...explanation, view:buildScenario5PlayerView(state), outcomes:state.domainDecisionRecords.map((_,i)=>buildStoredScenario5Outcome(state,i)),
-    turningPoints:selectTurningPoints(state), lateEvidenceIds:finalBelief ? state.evidence.filter(e=>!finalBelief.visibleEvidenceIdsAtCheckpoint.includes(e.evidenceId)).map(e=>e.evidenceId) : []};
+    turningPoints:selectTurningPoints(state), lateEvidenceIds:finalEvidenceIds ? state.evidence.filter(e=>!finalEvidenceIds.includes(e.evidenceId)).map(e=>e.evidenceId) : []};
 }

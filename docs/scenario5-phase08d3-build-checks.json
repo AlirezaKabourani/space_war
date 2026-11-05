@@ -1,0 +1,42 @@
+[
+  {
+    "id": "typecheck",
+    "status": "PASS",
+    "exitCode": 0,
+    "command": [
+      "C:\\Program Files\\nodejs\\node.exe",
+      "node_modules/typescript/bin/tsc",
+      "-b"
+    ],
+    "stdout": "",
+    "stderr": ""
+  },
+  {
+    "id": "scoped-lint",
+    "status": "PASS",
+    "exitCode": 0,
+    "command": [
+      "C:\\Program Files\\nodejs\\node.exe",
+      "node_modules/eslint/bin/eslint.js",
+      "src/ui/components/scenario/scenario-five/ui/ScenarioFiveBeliefRealityAar.tsx",
+      "src/ui/components/scenario/scenario-five/ui/beliefRealityAarPresentation.ts",
+      "src/ui/components/scenario/scenario-five/ui/ScenarioFiveMissionEnding.tsx",
+      "src/ui/components/scenario/scenario-five/ui/endingPresentation.ts",
+      "src/ui/components/scenario/scenario-five/ui/presentation.ts"
+    ],
+    "stdout": "",
+    "stderr": ""
+  },
+  {
+    "id": "production-build",
+    "status": "PASS",
+    "exitCode": 0,
+    "command": [
+      "C:\\Program Files\\nodejs\\node.exe",
+      "node_modules/vite/bin/vite.js",
+      "build"
+    ],
+    "stdout": "vite v7.3.6 building client environment for production...\ntransforming...\n✓ 157 modules transformed.\nrendering chunks...\ncomputing gzip size...\ndist/index.html                                            0.65 kB │ gzip:   0.45 kB\ndist/assets/A2-D4FrC2go.png                              588.46 kB\ndist/assets/enemy_drone_icon-D34fXmtR.png                712.48 kB\ndist/assets/A3-CgU3nE5r.png                              839.13 kB\ndist/assets/card_frame_tactical-hUrZNK1S.png           1,176.55 kB\ndist/assets/cargo_icon-DusPgqRM.png                    1,207.96 kB\ndist/assets/A1-dHRt997N.png                            2,205.73 kB\ndist/assets/friendly_satellite_icon-zvobxqhm.png       2,305.74 kB\ndist/assets/scenario3_dungeon_background-Dy7gsnrJ.png  2,311.05 kB\ndist/assets/index-BYN74Eas.css                           160.58 kB │ gzip:  32.19 kB\ndist/assets/index-DVpUcmjg.js                          1,143.94 kB │ gzip: 305.47 kB\n✓ built in 1.74s\n",
+    "stderr": "\n(!) Some chunks are larger than 500 kB after minification. Consider:\n- Using dynamic import() to code-split the application\n- Use build.rollupOptions.output.manualChunks to improve chunking: https://rollupjs.org/configuration-options/#output-manualchunks\n- Adjust chunk size limit for this warning via build.chunkSizeWarningLimit.\n"
+  }
+]

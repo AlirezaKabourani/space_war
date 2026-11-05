@@ -1,0 +1,62 @@
+# Phase 09D-2A: archive reanalysis readiness
+
+This report inspects current types, validators and write hooks only. No installed browser/profile storage, real profile name, personal identifier or user event log was opened. The number, provenance and characteristics of actual installed users/runs are **NOT DETERMINABLE**, not zero. Existing repository test artifacts are not human participant observations.
+
+## What is actually written
+
+`src/services/storage/cognitiveRunValidation.ts:6` defines `SavedCognitiveRunV1`: schema `cross-scenario-run-v1`, UUID `recordId`, immutable attempt-start `userProfileId`, released/internal scenario identifiers, unchanged scientific `sourceRunId`, actual archive creation `recordedAtIso`, source `new-completion-v1`, scenario-specific `cognitive`, and `modelStamps`. It does not embed a full final snapshot, runtime, raw telemetry bundle or participant research record. Unknown scientific fields are rejected rather than silently retained outside the schema.
+
+`src/services/storage/completedCognitiveAttempt.ts:24` passes the exact S1 `cognitive` object from the authoritative newly completed snapshot; the snapshot itself is not saved in this repository. The attempt's owner is captured separately from the reused S1 scientific run ID. The S2 hook at `:31` passes only `result.cognitive`, after complete-stage and three-way run-ID equality checks. Neither hook reads old events or the shared S1 snapshot to infer ownership. Their actual line anchors are also recorded by the audit's source-extraction script.
+
+The repository clones and validates on write/read and indexes exact owner/scenario/time/record IDs. Archive saving defaults OFF and is re-read at completion. Disabling new storage does not delete existing records. Thus archived data are opt-in completed-run observations under this local policy; the record schema supplies neither an exposure denominator nor information about all abandoned/unarchived attempts. UI/admin gating remains client-side, not authenticated server proof of human identity or protection from same-origin modification.
+
+## Guaranteed schema versus actual S1 runtime payload
+
+| Information | S1 archive cognitive | S2 archive cognitive |
+| --- | --- | --- |
+| Cognitive scores and versions | All current V3 scalar outputs, six nested versions | Current scalar outputs, seven version/status strings, internal scenario/run IDs |
+| Orientation | Overall, strengths, integration, dispersion, three moves, marker/interpretation | Overall, strengths, integration, dispersion, four phases |
+| Final core response IDs | `perWindow` contains windowId/optionId for all nine distinct core windows under the current archive validator | **Absent**: no final action ID/window selection list |
+| Available response sets | Not a complete run-level set; fixed source codebook can be identified by version; UI affordability history not saved in perWindow | **Absent**: no per-decision availableActionIds |
+| Evidence interaction | Per-window coverage scalar; total dwell/summary data; optional extreme-decision payloads may include some IDs/timelines | **Absent raw events**: no evidence catalog/open IDs/open timestamps; summary rate only |
+| Attribution/belief transitions | `evidenceUpdatingAudit` stores existing adjacent phase pairs, player/evidence before/after, deltas/weights/contributions; evidence alignment array/mean | **Absent**: no four checkpoint payloads, confidence/corridor selections or visible-evidence sets |
+| Reason data | Final coherence score, not all move-level reason responses; optional extreme telemetry may include one or two reason/context fields | **Absent**: no B/C/D reason IDs or captured-before-outcome flags |
+| Resource accounting | Final stewardship score, not full user_cost event ledger; optional extreme decisions may carry some before/after resources | **Absent**: no eight before/after resource pairs or final visible resource object |
+| Timing/revisions | Median/IQR, dwell, totals, revised windows, first/final-change subset, optional extreme decisions | Median/IQR, totals/revised-window count, one revision-rate scalar |
+| Mission/actor/world/hidden truth | Not part of this cognitive-run record; no final mission state, truth criterion or seed | Not stored: no convoy/mission trace, ending, actor seed or truth/realized influence payload |
+| Research pairing metadata | No study pair/visit/assignment identifier, shared exposure sequence or verified participant identity | Same absence |
+
+There is a consequential S1 type/runtime distinction. The declared result type at `scenario-four/model/cognitiveEngineV3.ts:221` types `timing.longestDecision`/`shortestDecision` as optional `{windowId,activeDecisionMs}`. The actual engine at `:384` assigns the entire selected `DecisionTelemetryV3` objects. These can contain run/move/window IDs, selections and selection timelines, available/opened evidence IDs, evidence-open timelines, help/glossary flags, optional attribution/reason fields, and visible resource snapshots. The archive validator explicitly permits either the compact declared shape or the full current shape (`cognitiveRunValidation.ts:66` and its `decisionTime` branch at `:75`).
+
+Consequently, current production S1 writes can preserve full telemetry for at most the two extreme core decision references (they can also be the same decision); the guaranteed v1 schema does not promise two full records, and it certainly does not promise all nine decision timelines. One must not infer a complete raw run from these optional extrema. The S1 `perWindow` array separately preserves all nine final core option IDs, but not the full alternatives/open events/reason/resource path. S2 has no analogous raw extrema or per-window responses at all.
+
+Similarly, S1's updating audit preserves useful before/after transition values, but it does not guarantee original recordedAt timestamps, every original estimate record or all visible evidence items that produced the system confidence. Phase-pair values are not a universal raw-event archive. Empty arrays, optional absence, explicit null, actual zero and intentionally unmeasured null remain different states.
+
+## What can and cannot be mechanically reanalyzed
+
+This is a capability inventory, not a choice of a new scoring recipe.
+
+| Existing output / required inputs | S1 current archive capability | S2 current archive capability |
+| --- | --- | --- |
+| Profile-only second-order/adversary/escalation/planning and MCI recipes | Final core window/option IDs are available to reconstruct current encoded profile lookups using the exact matching codebook; missing/tampered/unknown IDs cannot be guessed | Cannot reconstruct: final actions and available sets are missing |
+| Existing S1 OSI/risk/coalition/strengths | Fixed nominal codebook plus all final core IDs makes original profile-based inputs structurally available; no claim of cross-scenario equivalence | Original S2 relative coordinates require actual available sets per decision; final phase/overall values do not recover those sets or selections |
+| Information seeking under a different observation rule | Per-window coverage and optional sparse extrema do not recover every relevant/available/opened ID, source-diversity count and timed opportunity | Raw relevant evidence, source sets, opened IDs and timestamps absent |
+| Updating based on source belief/evidence transitions | Existing S1 audit pairs expose some original before/after values and weights; this supports inspecting those stored pairs, not a complete evidence catalog or guaranteed original sequence/timestamps | Four beliefs and visible evidence support inputs absent; one final scalar cannot identify transitions |
+| Stewardship from consistent raw costs/resources | Full direct user-cost ledger not in canonical cognitive; optional resources are sparse, so penalty/context cannot generally be reconstructed | Full eight visible resource pairs/final resources absent |
+| Coherence under alternative response/reason rules | Core final IDs exist; all original move-level reason responses generally do not | Both final action IDs and B/C/D reasons absent |
+| Timing/engagement/revision under a common definition | Some aggregates, change pairs and optional sparse raw extrema exist; full opportunity denominators/timed records do not | Only aggregate timing/revisions/rate; no full raw timing/evidence/selection sequence |
+| Original saved values and quality/stamps | Can be read as saved, including nulls and independent completeness | Can be read as saved; this is not recovery of raw events |
+
+Therefore the current archive **cannot support general retroactive raw-feature rescoring across both scenarios**. S1 has a material partial advantage for final-choice/profile-only analyses; S2 does not retain the needed per-decision inputs. A deterministic witness goes beyond field absence: two distinct synthetic S2 raw histories, one with all four targeted-interference estimates at 50 and another at 80, have identical other source inputs and produce the **entire same cognitive result vector**, including completeness. Stable evidence changes are excluded in both. Thus the stored result is demonstrably not an injective encoding of those raw beliefs; their values cannot generally be recovered from the vector. This is a mechanical non-identifiability example, not a human study or calibration. An arbitrary common scoring recipe has not been defined or approved, so its sufficiency is independently **NOT DETERMINABLE**. No recipe is invented to make the stored aggregates look sufficient.
+
+Version strings are available, but complete codebooks/formula definitions and a Git commit hash are not embedded in each archived record. This audit preserves current source hashes and exact source declarations externally; it does not prove that an arbitrary historical record's version label uniquely identifies immutable source bytes. The validator enforces current expected model stamps and schema, not authenticated execution provenance or complete raw-input validity. S1 perWindow option IDs are nonempty strings in the validator; it does not itself prove their membership in a historical codebook. The real completion path supplies actual selected IDs, but archive tamper resistance is not implemented.
+
+## Same-profile links and identifiability gaps
+
+Under the application's attempt-start ownership contract, future inspection could assemble collections of S1 and S2 records sharing the exact immutable `userProfileId`, retaining scenario, unique persistence `recordId`, scientific source ID, record timestamp, versions, scores and null/quality states. Names are unnecessary for this structural linkage. S1's scientific run ID can repeat and cannot identify a unique attempt or link a person. Deleted profiles are not reassigned; existing read gates reject a missing owner.
+
+There is **no predetermined study pairing key** across scenarios, common visit/session ID, randomized administration order, anchor-response record, validated external participant identity, complete exposure history or shared item response matrix in the cognitive archive. Multiple attempts create multiple possible within-profile record pairs; the source supplies no scientific rule selecting one pair. `recordedAtIso` is storage creation wall-clock time, not necessarily the original decision/visit chronology. A shared local profile does not authenticate that the same physical participant completed every record.
+
+No inspected active measurement/archive definition or synthetic audit fixture supplies verified human paired-response data for reliability, measurement invariance, covariance, linking accuracy, differential opportunity or a representative score distribution. Real browser contents were deliberately not inspected, so actual availability/counts are **NOT DETERMINABLE**. No inference is made from old behavioral logs, shared singleton snapshots, seeds, timestamps alone or repository QA witnesses.
+
+Missing scientific inputs are facts, not design proposals: the absent approved framework contents; defined human study/visit links; raw per-decision choices and available alternatives in both scenarios; full evidence/belief/reason/resource/timing paths where required; immutable version-to-source provenance; and human observations with appropriate provenance. No calibration method, sample size, norm or clinical interpretation is selected. Stop at 09D-2A; no storage migration or new telemetry is implemented.

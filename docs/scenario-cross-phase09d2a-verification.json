@@ -1,0 +1,194 @@
+{
+  "phase": "09D-2A",
+  "status": "PASS",
+  "statusMeaning": "PASS for bounded read-only source extraction and deterministic diagnostics, with explicit NOT DETERMINABLE gaps; not approval of harmonization or empirical equivalence.",
+  "checkedAtUtc": "2026-11-05T12:48:06.934984+00:00",
+  "baseline": {
+    "initialHead": "aed3b973c167b89011a30f2c8a0e76433c02ae95",
+    "finalHead": "aed3b973c167b89011a30f2c8a0e76433c02ae95",
+    "headUnchanged": true,
+    "originalFiles": 1214,
+    "originalSrcScriptFiles": 274,
+    "initialRepeatedHashesStable": true,
+    "originalFileChanges": [],
+    "allOriginalFilesByteIdentical": true,
+    "trackedDiffStatUnchanged": true,
+    "cachedDiffUnchanged": true,
+    "existingDirtyTrackedFilesPreserved": [
+      "src/ui/components/scenario/ScenarioFive.css",
+      "src/ui/components/scenario/scenario-five/ui/ScenarioFiveMissionEnding.tsx",
+      "src/ui/components/scenario/scenario-five/ui/endingPresentation.ts",
+      "src/ui/components/scenario/scenario-five/ui/presentation.ts"
+    ],
+    "concurrentOriginalChanges": []
+  },
+  "currentVersions": {
+    "S1": {
+      "measurementModelVersion": "s4-cog-v3",
+      "formulaVersion": "3.0.0",
+      "optionProfileVersion": "s4-options-v3.1-postfix",
+      "scenarioContentVersion": "s4-content-2026-09",
+      "expertPanelVersion": "provisional-unvalidated",
+      "anchorTestVersion": "s4-anchor-first-options-v1"
+    },
+    "S2": {
+      "measurementModelVersion": "s5-cognitive-v3-adapter-v1.0.0",
+      "formulaVersion": "cognitive-v3-semantic-v1.0.0",
+      "optionProfileVersion": "s5-option-profiles-internal-v1.0.0",
+      "scenarioContentVersion": "s5-silent-waves-redesign-content-v1.0.0",
+      "reasonModelVersion": "s5-reason-model-internal-v1.0.0",
+      "expertPanelVersion": "not-yet-expert-validated",
+      "validityStatus": "experimental_pending_expert_and_human_validation"
+    }
+  },
+  "archiveContract": {
+    "schemaVersion": "cross-scenario-run-v1",
+    "db": "space-war.completed-cognitive-runs.v1",
+    "store": "completedRuns",
+    "source": "new-completion-v1"
+  },
+  "coverage": {
+    "profiles": {
+      "S1": 41,
+      "S2": 33
+    },
+    "windows": {
+      "S1": 9,
+      "S2": 8
+    },
+    "csvRows": {
+      "construct-matrix": 39,
+      "option-profile-diagnostics": 30,
+      "window-diagnostics": 153,
+      "recipe-support-bounds": 14
+    },
+    "sharedExactAtomicNames": 10,
+    "additionalSharedDomainNameMappings": 5,
+    "tasks": {
+      "1_baselineAndOwnership": "PASS: byte guards, current stamps, schema and exact completion payload inspection; no installed storage reads",
+      "2_fullConstructCrosswalk": "PASS: 39 rows, full-estimator paths/formulas/gates/partial/null semantics; 4 inner-arithmetic-only rows; no empirical equivalence claim",
+      "3_optionProfileDiagnostics": "PASS: exhaustive 74-entry codebook, 30 statistic rows, 153 window/construct rows and qualified outer support bounds",
+      "4_identifiabilityFacts": "PASS: implemented anchor absence, saved-schema limits, synthetic full-vector non-identifiability witness and theoretical owner linkage described; unavailable human/framework inputs marked NOT DETERMINABLE",
+      "5_deterministicDiagnostics": "PASS: 202 synthetic assertions, including 2 source-grounded inner-coefficient counterexamples, missing-scenario handling and zero storage access",
+      "6_deliverables": "PASS: all six exact required document paths plus optional raw outputs and audit-only scripts"
+    }
+  },
+  "findings": {
+    "fullEstimatorEquivalence": "NOT ESTABLISHED; matching inner coefficients do not establish equal full estimators or psychometric equivalence",
+    "flatRelativeSpread": {
+      "S1": 0,
+      "S2": null,
+      "S1RawOrientationEpsilon": 1e-06,
+      "S2RawOrientationEpsilon": 1e-09,
+      "S2RelativeSpreadEpsilon": 1e-09,
+      "S2ScalarDiagnosticThreshold": 0.1
+    },
+    "s2MciOnlyPotentiallyDiagnosticWindow": [
+      "C2_resource_portfolio"
+    ],
+    "sharedImplementedAnchors": {
+      "sharedActionIds": [],
+      "exactSharedOptionTitles": [],
+      "exactSharedCoreQuestions": [],
+      "s1CoreQuestions": 9,
+      "s2CoreQuestions": 8,
+      "s1AnchorTest": "Within-S1 deterministic first-option QA fixture, not a cross-scenario respondent anchor",
+      "declaredCrossScenarioAnchorLinkage": "No shared cross-scenario anchor catalog or item/response linkage found in inspected active codebooks/questions."
+    },
+    "archiveS1": "Partial codebook-only rescoring possible from per-window final choices with matching codebook; optional extreme telemetry and updating audit do not guarantee a full raw run.",
+    "archiveS2": "Only cognitive result vector archived; no general raw-feature retroactive rescoring from saved schema. Distinct synthetic belief histories can have identical entire cognitive result vectors.",
+    "ownerLinkage": "Authentic immutable profile IDs permit grouping independent completed results; same human, study pair/visit/order/exposure and actual counts are NOT DETERMINABLE from permitted source inspection.",
+    "missingScenarioNeverCoercedToZero": true
+  },
+  "checks": [
+    {
+      "name": "new deterministic audit",
+      "command": "node node_modules/tsx/dist/cli.mjs scripts/scenario-cross-phase09d2a-audit.tsx",
+      "status": "PASS",
+      "assertions": 202,
+      "humanData": false,
+      "forbiddenStorageAccesses": 0
+    },
+    {
+      "name": "scoped audit lint",
+      "command": "node node_modules/eslint/bin/eslint.js scripts/scenario-cross-phase09d2a-audit.tsx scripts/scenario-cross-phase09d2a-node-types.d.ts",
+      "status": "PASS",
+      "exitCode": 0
+    },
+    {
+      "name": "strict audit no-emit typecheck",
+      "command": "node node_modules/typescript/bin/tsc --noEmit --jsx react-jsx --module ESNext --moduleResolution bundler --target ES2022 --allowImportingTsExtensions --skipLibCheck --esModuleInterop --strict scripts/scenario-cross-phase09d2a-audit.tsx scripts/scenario-cross-phase09d2a-node-types.d.ts src/vite-env.d.ts",
+      "status": "PASS",
+      "exitCode": 0
+    },
+    {
+      "name": "existing build/historical scientific verifiers",
+      "status": "NOT RUN",
+      "reason": "Read-only task: avoid writes to historic baselines/build artifacts; no application changes to validate."
+    },
+    {
+      "name": "CSV schemas/counts and all original hash checks",
+      "status": "PASS"
+    }
+  ],
+  "invariants": {
+    "noOriginalSourceConfigScriptDocChanges": true,
+    "noUiEngineTelemetryMissionChanges": true,
+    "noRealBrowserLaunched": true,
+    "noInstalledUserStorageOrRawLogsRead": true,
+    "noStorageOrPolicyChanges": true,
+    "noTestUserRecordsCreated": true,
+    "noSyntheticRecordsMixedWithRealProfiles": true,
+    "noCommonNormativeOrAggregateScoreCreated": true,
+    "noCalibrationMethodOrSampleSizeProposed": true,
+    "noPsychologicalInterpretation": true,
+    "noCommitResetRevertCleanOrHeadChange": true,
+    "newFilesWithinAllowedPrefixes": true
+  },
+  "limitationsAndMissingInputs": [
+    {
+      "status": "NOT DETERMINABLE",
+      "reason": "Referenced framework file not found under workspace, E:/war, or matching Downloads filenames; no contents provided.",
+      "expectedFile": "Phase_09D2_Scientific_Harmonization_Framework_v1.md"
+    },
+    {
+      "status": "NOT DETERMINABLE",
+      "item": "Empirical score distributions, participant-level covariance/reliability/invariance and administered common-person/common-item observations",
+      "reason": "No participant dataset supplied; installed data access prohibited."
+    },
+    {
+      "status": "NOT DETERMINABLE",
+      "item": "Actual installed archive counts/provenance or matched research visits",
+      "reason": "Source-only audit, no live storage read; profile identity alone does not establish study linkage."
+    },
+    {
+      "status": "NOT DETERMINABLE",
+      "item": "Exact jointly attainable full legal-path extrema",
+      "reason": "Current codebook supplies outer support bounds only; resource/evidence/target/phase dependencies require additional path evidence."
+    },
+    {
+      "status": "NOT AVAILABLE IN CURRENT SCHEMA",
+      "item": "Complete raw decision/evidence/belief/resource histories needed for general retrospective rescoring across both scenarios",
+      "reason": "S1 retains partial reconstruction fields; S2 retains only result.cognitive."
+    }
+  ],
+  "artifacts": {
+    "required": [
+      "docs/scenario-cross-phase09d2a-structural-comparison.md",
+      "docs/scenario-cross-phase09d2a-construct-matrix.csv",
+      "docs/scenario-cross-phase09d2a-option-profile-diagnostics.csv",
+      "docs/scenario-cross-phase09d2a-archive-reanalysis-readiness.md",
+      "docs/scenario-cross-phase09d2a-verification.json",
+      "docs/scenario-cross-phase09d2a-source-hash-manifest.json"
+    ],
+    "optional": [
+      "docs/scenario-cross-phase09d2a-deterministic-diagnostics.json",
+      "docs/scenario-cross-phase09d2a-raw-inventory.json",
+      "docs/scenario-cross-phase09d2a-recipe-support-bounds.csv",
+      "docs/scenario-cross-phase09d2a-window-diagnostics.csv",
+      "scripts/scenario-cross-phase09d2a-audit.tsx",
+      "scripts/scenario-cross-phase09d2a-node-types.d.ts"
+    ]
+  },
+  "stopBoundary": "STOP at 09D-2A. No 09D-2B/2C, dashboard change, fused formula, calibration design or normative score."
+}

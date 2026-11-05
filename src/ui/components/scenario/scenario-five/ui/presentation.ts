@@ -109,7 +109,10 @@ export function buildStoredScenario5Outcome(state: Scenario5RuntimeState, index:
   if (!record) throw new Error("Missing committed outcome");
   const action = getMissionAction(record.actionId);
   const evidenceIds = new Set(state.domainDecisionRecords.slice(0, index + 1).flatMap(r => r.newVisibleEvidenceIds));
-  const finalBelief = state.beliefs.find(b => b.checkpointId === "D_final_belief");
+  const finalBeliefs = Array.isArray(state.beliefs) ? state.beliefs.filter(b => b?.checkpointId === "D_final_belief") : [];
+  const finalBelief = finalBeliefs.length === 1 ? finalBeliefs[0] : undefined;
+  const finalEvidenceIds = Array.isArray(finalBelief?.visibleEvidenceIdsAtCheckpoint)
+    && finalBelief.visibleEvidenceIdsAtCheckpoint.every((id: unknown) => typeof id === 'string' && id.length > 0) ? finalBelief.visibleEvidenceIdsAtCheckpoint : null;
   const convoyChanges = record.convoyStateBefore.flatMap((before) => {
     const after = record.convoyStateAfter.find(({ corridorId }) => corridorId === before.corridorId);
     if (!after) throw new Error(`Missing outcome convoy ${before.corridorId}`);
@@ -163,7 +166,7 @@ export function buildStoredScenario5Outcome(state: Scenario5RuntimeState, index:
       groundSupport: c.groundSupport, escortedNow: c.escortedUntilRound === Math.min(8, record.roundId + 1),
     })),
     newEvidence: state.evidence.filter(e => record.newVisibleEvidenceIds.includes(e.evidenceId)).map(buildEvidenceSummary),
-    lateEvidenceIds: finalBelief ? record.newVisibleEvidenceIds.filter(id => !finalBelief.visibleEvidenceIdsAtCheckpoint.includes(id) && record.roundId === 8) : [],
+    lateEvidenceIds: finalEvidenceIds ? record.newVisibleEvidenceIds.filter(id => !finalEvidenceIds.includes(id) && record.roundId === 8) : [],
     pendingGroundRequest: action.evidence?.timing === "pending",
     actionDurationMinutes: action.durationMinutes,
     baselineMinutes: BASE_ROUND_MINUTES,

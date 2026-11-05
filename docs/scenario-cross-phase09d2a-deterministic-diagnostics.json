@@ -1,0 +1,947 @@
+{
+  "status": "PASS",
+  "syntheticOnly": true,
+  "notPsychometricValidation": true,
+  "assertions": 202,
+  "tests": [
+    {
+      "name": "Current S1 codebook entries",
+      "status": "PASS",
+      "actual": 41
+    },
+    {
+      "name": "Current S2 codebook entries",
+      "status": "PASS",
+      "actual": 33
+    },
+    {
+      "name": "S1 core decision windows",
+      "status": "PASS",
+      "actual": 9
+    },
+    {
+      "name": "S2 decision windows",
+      "status": "PASS",
+      "actual": 8
+    },
+    {
+      "name": "S1 unique option IDs",
+      "status": "PASS",
+      "actual": 41
+    },
+    {
+      "name": "S2 unique action IDs",
+      "status": "PASS",
+      "actual": 33
+    },
+    {
+      "name": "Current S2 MCI: only C2 can pass .1 spread; a subset cannot exceed its full codebook spread",
+      "status": "PASS",
+      "actual": [
+        "C2_resource_portfolio"
+      ]
+    },
+    {
+      "name": "S1 empty OSI is null",
+      "status": "PASS",
+      "actual": null
+    },
+    {
+      "name": "S2 empty OSI is null",
+      "status": "PASS",
+      "actual": null
+    },
+    {
+      "name": "S1 no profile data is not zero",
+      "status": "PASS",
+      "actual": null
+    },
+    {
+      "name": "S2 no eligible data is not zero",
+      "status": "PASS",
+      "actual": null
+    },
+    {
+      "name": "S1 empty coverage is measured coverage zero, not a score",
+      "status": "PASS",
+      "actual": 0
+    },
+    {
+      "name": "S2 empty coverage zero is not cognitive ability",
+      "status": "PASS",
+      "actual": 0
+    },
+    {
+      "name": "S1 flat window -> zero",
+      "status": "PASS",
+      "actual": 0
+    },
+    {
+      "name": "S1 absent set -> null",
+      "status": "PASS",
+      "actual": null
+    },
+    {
+      "name": "S1 any positive spread is normalized, even tiny spread",
+      "status": "PASS",
+      "actual": -1
+    },
+    {
+      "name": "S2 equal orientation profile set -> null",
+      "status": "PASS",
+      "actual": null
+    },
+    {
+      "name": "S2 flat risk set -> null",
+      "status": "PASS",
+      "actual": null
+    },
+    {
+      "name": "S2 singleton is not score-eligible",
+      "status": "PASS",
+      "actual": null
+    },
+    {
+      "name": "Exact extracted S2 helper: sub-epsilon spread -> null",
+      "status": "PASS",
+      "actual": null
+    },
+    {
+      "name": "S1 integration(0,0) is zero",
+      "status": "PASS",
+      "actual": 0
+    },
+    {
+      "name": "S2 integration(0,0) is null",
+      "status": "PASS",
+      "actual": null
+    },
+    {
+      "name": "S2 missing strength -> null",
+      "status": "PASS",
+      "actual": null
+    },
+    {
+      "name": "S1 existing harmonic inner arithmetic",
+      "status": "PASS"
+    },
+    {
+      "name": "S2 positive-denominator harmonic arithmetic",
+      "status": "PASS"
+    },
+    {
+      "name": "S1 one missing core decision makes its move and overall null",
+      "status": "PASS",
+      "actual": null
+    },
+    {
+      "name": "S1 partial moves make dispersion null",
+      "status": "PASS",
+      "actual": null
+    },
+    {
+      "name": "S1 partial strength can remain available",
+      "status": "PASS"
+    },
+    {
+      "name": "S2 missing whole phases makes overall null",
+      "status": "PASS",
+      "actual": null
+    },
+    {
+      "name": "S2 dispersion uses >=2 available phases even if other phases absent",
+      "status": "PASS"
+    },
+    {
+      "name": "S2 partial phase-balanced strengths survive",
+      "status": "PASS"
+    },
+    {
+      "name": "S2 stewardship requires all 8 records/resources",
+      "status": "PASS",
+      "actual": null
+    },
+    {
+      "name": "S2 stewardship requires each visible before/after resource object",
+      "status": "PASS",
+      "actual": null
+    },
+    {
+      "name": "Example 1 S1: same info=.9, one available source, none opened, diversity=1",
+      "status": "PASS"
+    },
+    {
+      "name": "Example 1 S2: same info=.9 and coefficients, none opened, diversity=0",
+      "status": "PASS"
+    },
+    {
+      "name": "Example 2 S1: information-acquisition window included in second-order score",
+      "status": "PASS"
+    },
+    {
+      "name": "Example 2 S2: A2 excluded despite equal inner recipe coefficients",
+      "status": "PASS",
+      "actual": null
+    },
+    {
+      "name": "S1 stable belief/evidence pair scores 100 by tolerant existing rule",
+      "status": "PASS"
+    },
+    {
+      "name": "S2 stable evidence-support pair is excluded, giving null",
+      "status": "PASS",
+      "actual": null
+    },
+    {
+      "name": "S1 no selection revision excludes evidence-open opportunity",
+      "status": "PASS",
+      "actual": null
+    },
+    {
+      "name": "S2 evidence between first selection and confirm is opportunity even if final=first, so rate is measured zero",
+      "status": "PASS",
+      "actual": 0
+    },
+    {
+      "name": "S2 coverage can be 80 with valid singleton decisions/timing/empty evidence references",
+      "status": "PASS",
+      "actual": 80
+    },
+    {
+      "name": "Coverage validity does not imply a diagnostic choice set",
+      "status": "PASS",
+      "actual": null
+    },
+    {
+      "name": "Singleton choices give null construct despite positive coverage",
+      "status": "PASS",
+      "actual": null
+    },
+    {
+      "name": "S1 at exactly 20 percent is not penalized",
+      "status": "PASS"
+    },
+    {
+      "name": "S1 direct-cost shadow penalty ignores actor recovery",
+      "status": "PASS"
+    },
+    {
+      "name": "S2 two final resources at exactly 5 incur 5+5 points penalty",
+      "status": "PASS"
+    },
+    {
+      "name": "Two distinct synthetic raw belief histories",
+      "status": "PASS"
+    },
+    {
+      "name": "Entire archived S2 cognitive vector can be identical for different raw beliefs: source-grounded non-identifiability witness",
+      "status": "PASS",
+      "actual": {
+        "scenarioId": "s5_silent_waves_redesign",
+        "runId": "AUDIT_ONLY_SYNTHETIC_NOT_A_SAVED_RUN",
+        "measurementModelVersion": "s5-cognitive-v3-adapter-v1.0.0",
+        "formulaVersion": "cognitive-v3-semantic-v1.0.0",
+        "optionProfileVersion": "s5-option-profiles-internal-v1.0.0",
+        "scenarioContentVersion": "s5-silent-waves-redesign-content-v1.0.0",
+        "reasonModelVersion": "s5-reason-model-internal-v1.0.0",
+        "expertPanelVersion": "not-yet-expert-validated",
+        "validityStatus": "experimental_pending_expert_and_human_validation",
+        "dataCompleteness": {
+          "overall": 90,
+          "decisions": 100,
+          "timing": 100,
+          "evidence": 100,
+          "estimates": 100,
+          "reasons": 0
+        },
+        "orientation": {
+          "overall": -0.31896531942215955,
+          "operationalStrength": 70,
+          "strategicStrength": 56.25,
+          "integration": 62.37623762376238,
+          "dispersion": 0.34684747205729693,
+          "phaseScores": [
+            0.11475409833915604,
+            -0.3472594760797518,
+            -0.19755238659197363,
+            -0.8458035133560687
+          ]
+        },
+        "constructs": {
+          "informationSeeking": 57.50000000000001,
+          "secondOrderThinking": 52.0625,
+          "adversaryModeling": 50,
+          "escalationSensitivity": 55.00000000000001,
+          "informationDiscipline": null,
+          "evidenceResponsiveUpdating": null,
+          "resourceStewardship": 53.25,
+          "planningForesight": 61.87499999999999,
+          "multiDomainIntegration": 19.263406092104486,
+          "riskPosture": 0.3703703703703704,
+          "decisionCoherence": null
+        },
+        "telemetrySummary": {
+          "medianActiveDecisionMs": 9,
+          "iqrActiveDecisionMs": 0,
+          "totalRevisions": 0,
+          "revisedWindows": 0,
+          "evidenceTriggeredRevisionRate": null
+        }
+      }
+    },
+    {
+      "name": "S1 bounded signed coordinate: m1_i_passive",
+      "status": "PASS"
+    },
+    {
+      "name": "S1 bounded signed coordinate: m1_i_dedicated_ssa",
+      "status": "PASS"
+    },
+    {
+      "name": "S1 bounded signed coordinate: m1_i_commercial",
+      "status": "PASS"
+    },
+    {
+      "name": "S1 bounded signed coordinate: m1_i_allied_network",
+      "status": "PASS"
+    },
+    {
+      "name": "S1 bounded signed coordinate: m1_p_hold",
+      "status": "PASS"
+    },
+    {
+      "name": "S1 bounded signed coordinate: m1_p_covert_readiness",
+      "status": "PASS"
+    },
+    {
+      "name": "S1 bounded signed coordinate: m1_p_visible_protection",
+      "status": "PASS"
+    },
+    {
+      "name": "S1 bounded signed coordinate: m1_p_mission_reposition",
+      "status": "PASS"
+    },
+    {
+      "name": "S1 bounded signed coordinate: m1_c_none",
+      "status": "PASS"
+    },
+    {
+      "name": "S1 bounded signed coordinate: m1_c_private",
+      "status": "PASS"
+    },
+    {
+      "name": "S1 bounded signed coordinate: m1_c_allies",
+      "status": "PASS"
+    },
+    {
+      "name": "S1 bounded signed coordinate: m1_c_public_warning",
+      "status": "PASS"
+    },
+    {
+      "name": "S1 bounded signed coordinate: m1_c_private_allied",
+      "status": "PASS"
+    },
+    {
+      "name": "S1 bounded signed coordinate: m2_a_technical_diagnostics",
+      "status": "PASS"
+    },
+    {
+      "name": "S1 bounded signed coordinate: m2_a_second_sensor",
+      "status": "PASS"
+    },
+    {
+      "name": "S1 bounded signed coordinate: m2_a_ally_intel",
+      "status": "PASS"
+    },
+    {
+      "name": "S1 bounded signed coordinate: m2_a_commercial_validation",
+      "status": "PASS"
+    },
+    {
+      "name": "S1 bounded signed coordinate: m2_a_act_with_current_data",
+      "status": "PASS"
+    },
+    {
+      "name": "S1 bounded signed coordinate: m2_m_continue_normal",
+      "status": "PASS"
+    },
+    {
+      "name": "S1 bounded signed coordinate: m2_m_activate_fallback",
+      "status": "PASS"
+    },
+    {
+      "name": "S1 bounded signed coordinate: m2_m_reduce_load",
+      "status": "PASS"
+    },
+    {
+      "name": "S1 bounded signed coordinate: m2_m_protective_reconfiguration",
+      "status": "PASS"
+    },
+    {
+      "name": "S1 bounded signed coordinate: m2_m_split_service",
+      "status": "PASS"
+    },
+    {
+      "name": "S1 bounded signed coordinate: m2_r_no_counteraction",
+      "status": "PASS"
+    },
+    {
+      "name": "S1 bounded signed coordinate: m2_r_request_explanation",
+      "status": "PASS"
+    },
+    {
+      "name": "S1 bounded signed coordinate: m2_r_private_warning",
+      "status": "PASS"
+    },
+    {
+      "name": "S1 bounded signed coordinate: m2_r_joint_allied_response",
+      "status": "PASS"
+    },
+    {
+      "name": "S1 bounded signed coordinate: m2_r_request_defensive_authority",
+      "status": "PASS"
+    },
+    {
+      "name": "S1 bounded signed coordinate: m2_r_deconfliction_offer",
+      "status": "PASS"
+    },
+    {
+      "name": "S1 bounded signed coordinate: m3_t_insufficient",
+      "status": "PASS"
+    },
+    {
+      "name": "S1 bounded signed coordinate: m3_t_sufficient_limited",
+      "status": "PASS"
+    },
+    {
+      "name": "S1 bounded signed coordinate: m3_t_sufficient_strong",
+      "status": "PASS"
+    },
+    {
+      "name": "S1 bounded signed coordinate: m3_coa_contain_understand",
+      "status": "PASS"
+    },
+    {
+      "name": "S1 bounded signed coordinate: m3_coa_controlled_deterrence",
+      "status": "PASS"
+    },
+    {
+      "name": "S1 bounded signed coordinate: m3_coa_coordinated_response",
+      "status": "PASS"
+    },
+    {
+      "name": "S1 bounded signed coordinate: m3_coa_negotiated_deescalation",
+      "status": "PASS"
+    },
+    {
+      "name": "S1 bounded signed coordinate: m3_coa_unilateral_strong",
+      "status": "PASS"
+    },
+    {
+      "name": "S1 bounded signed coordinate: m3_info_keep_restricted",
+      "status": "PASS"
+    },
+    {
+      "name": "S1 bounded signed coordinate: m3_info_share_allies",
+      "status": "PASS"
+    },
+    {
+      "name": "S1 bounded signed coordinate: m3_info_public_partial",
+      "status": "PASS"
+    },
+    {
+      "name": "S1 bounded signed coordinate: m3_info_public_attribution",
+      "status": "PASS"
+    },
+    {
+      "name": "S2 bounded/null signed coordinate: a1_network_baseline",
+      "status": "PASS"
+    },
+    {
+      "name": "S2 bounded/null signed coordinate: a1_network_baseline",
+      "status": "PASS"
+    },
+    {
+      "name": "S2 bounded/null signed coordinate: a1_priority_focus",
+      "status": "PASS"
+    },
+    {
+      "name": "S2 bounded/null signed coordinate: a1_priority_focus",
+      "status": "PASS"
+    },
+    {
+      "name": "S2 bounded/null signed coordinate: a1_rotating_watch",
+      "status": "PASS"
+    },
+    {
+      "name": "S2 bounded/null signed coordinate: a1_rotating_watch",
+      "status": "PASS"
+    },
+    {
+      "name": "S2 bounded/null signed coordinate: a1_preserve_reserve",
+      "status": "PASS"
+    },
+    {
+      "name": "S2 bounded/null signed coordinate: a1_preserve_reserve",
+      "status": "PASS"
+    },
+    {
+      "name": "S2 bounded/null signed coordinate: a2_focused_pnt",
+      "status": "PASS"
+    },
+    {
+      "name": "S2 bounded/null signed coordinate: a2_focused_pnt",
+      "status": "PASS"
+    },
+    {
+      "name": "S2 bounded/null signed coordinate: a2_broad_sweep",
+      "status": "PASS"
+    },
+    {
+      "name": "S2 bounded/null signed coordinate: a2_broad_sweep",
+      "status": "PASS"
+    },
+    {
+      "name": "S2 bounded/null signed coordinate: a2_field_radio",
+      "status": "PASS"
+    },
+    {
+      "name": "S2 bounded/null signed coordinate: a2_field_radio",
+      "status": "PASS"
+    },
+    {
+      "name": "S2 bounded/null signed coordinate: a2_ground_liaison",
+      "status": "PASS"
+    },
+    {
+      "name": "S2 bounded/null signed coordinate: a2_ground_liaison",
+      "status": "PASS"
+    },
+    {
+      "name": "S2 bounded/null signed coordinate: b1_suspect_focus",
+      "status": "PASS"
+    },
+    {
+      "name": "S2 bounded/null signed coordinate: b1_suspect_focus",
+      "status": "PASS"
+    },
+    {
+      "name": "S2 bounded/null signed coordinate: b1_priority_cargo",
+      "status": "PASS"
+    },
+    {
+      "name": "S2 bounded/null signed coordinate: b1_priority_cargo",
+      "status": "PASS"
+    },
+    {
+      "name": "S2 bounded/null signed coordinate: b1_split_attention",
+      "status": "PASS"
+    },
+    {
+      "name": "S2 bounded/null signed coordinate: b1_split_attention",
+      "status": "PASS"
+    },
+    {
+      "name": "S2 bounded/null signed coordinate: b1_pulse_network",
+      "status": "PASS"
+    },
+    {
+      "name": "S2 bounded/null signed coordinate: b1_pulse_network",
+      "status": "PASS"
+    },
+    {
+      "name": "S2 bounded/null signed coordinate: b2_continue_crosscheck",
+      "status": "PASS"
+    },
+    {
+      "name": "S2 bounded/null signed coordinate: b2_continue_crosscheck",
+      "status": "PASS"
+    },
+    {
+      "name": "S2 bounded/null signed coordinate: b2_reroute",
+      "status": "PASS"
+    },
+    {
+      "name": "S2 bounded/null signed coordinate: b2_reroute",
+      "status": "PASS"
+    },
+    {
+      "name": "S2 bounded/null signed coordinate: b2_staged_checkpoints",
+      "status": "PASS"
+    },
+    {
+      "name": "S2 bounded/null signed coordinate: b2_staged_checkpoints",
+      "status": "PASS"
+    },
+    {
+      "name": "S2 bounded/null signed coordinate: b2_hold_verify",
+      "status": "PASS"
+    },
+    {
+      "name": "S2 bounded/null signed coordinate: b2_hold_verify",
+      "status": "PASS"
+    },
+    {
+      "name": "S2 bounded/null signed coordinate: c1_fallback_nav",
+      "status": "PASS"
+    },
+    {
+      "name": "S2 bounded/null signed coordinate: c1_fallback_nav",
+      "status": "PASS"
+    },
+    {
+      "name": "S2 bounded/null signed coordinate: c1_ground_recon",
+      "status": "PASS"
+    },
+    {
+      "name": "S2 bounded/null signed coordinate: c1_ground_recon",
+      "status": "PASS"
+    },
+    {
+      "name": "S2 bounded/null signed coordinate: c1_checkpoint_spacing",
+      "status": "PASS"
+    },
+    {
+      "name": "S2 bounded/null signed coordinate: c1_checkpoint_spacing",
+      "status": "PASS"
+    },
+    {
+      "name": "S2 bounded/null signed coordinate: c1_preserve_mobile_reserve",
+      "status": "PASS"
+    },
+    {
+      "name": "S2 bounded/null signed coordinate: c1_preserve_mobile_reserve",
+      "status": "PASS"
+    },
+    {
+      "name": "S2 bounded/null signed coordinate: c2_isr_heavy",
+      "status": "PASS"
+    },
+    {
+      "name": "S2 bounded/null signed coordinate: c2_isr_heavy",
+      "status": "PASS"
+    },
+    {
+      "name": "S2 bounded/null signed coordinate: c2_mobility_heavy",
+      "status": "PASS"
+    },
+    {
+      "name": "S2 bounded/null signed coordinate: c2_mobility_heavy",
+      "status": "PASS"
+    },
+    {
+      "name": "S2 bounded/null signed coordinate: c2_balanced",
+      "status": "PASS"
+    },
+    {
+      "name": "S2 bounded/null signed coordinate: c2_balanced",
+      "status": "PASS"
+    },
+    {
+      "name": "S2 bounded/null signed coordinate: c2_priority_surge",
+      "status": "PASS"
+    },
+    {
+      "name": "S2 bounded/null signed coordinate: c2_priority_surge",
+      "status": "PASS"
+    },
+    {
+      "name": "S2 bounded/null signed coordinate: d1_emergency_reroute",
+      "status": "PASS"
+    },
+    {
+      "name": "S2 bounded/null signed coordinate: d1_emergency_reroute",
+      "status": "PASS"
+    },
+    {
+      "name": "S2 bounded/null signed coordinate: d1_ground_containment",
+      "status": "PASS"
+    },
+    {
+      "name": "S2 bounded/null signed coordinate: d1_ground_containment",
+      "status": "PASS"
+    },
+    {
+      "name": "S2 bounded/null signed coordinate: d1_deception_routing",
+      "status": "PASS"
+    },
+    {
+      "name": "S2 bounded/null signed coordinate: d1_deception_routing",
+      "status": "PASS"
+    },
+    {
+      "name": "S2 bounded/null signed coordinate: d1_escorted_continuation",
+      "status": "PASS"
+    },
+    {
+      "name": "S2 bounded/null signed coordinate: d1_escorted_continuation",
+      "status": "PASS"
+    },
+    {
+      "name": "S2 bounded/null signed coordinate: d1_hold_confirm",
+      "status": "PASS"
+    },
+    {
+      "name": "S2 bounded/null signed coordinate: d1_hold_confirm",
+      "status": "PASS"
+    },
+    {
+      "name": "S2 bounded/null signed coordinate: d2_critical_delivery_surge",
+      "status": "PASS"
+    },
+    {
+      "name": "S2 bounded/null signed coordinate: d2_critical_delivery_surge",
+      "status": "PASS"
+    },
+    {
+      "name": "S2 bounded/null signed coordinate: d2_network_balanced_finish",
+      "status": "PASS"
+    },
+    {
+      "name": "S2 bounded/null signed coordinate: d2_network_balanced_finish",
+      "status": "PASS"
+    },
+    {
+      "name": "S2 bounded/null signed coordinate: d2_resilient_handoff",
+      "status": "PASS"
+    },
+    {
+      "name": "S2 bounded/null signed coordinate: d2_resilient_handoff",
+      "status": "PASS"
+    },
+    {
+      "name": "S2 bounded/null signed coordinate: d2_continuity_first_finish",
+      "status": "PASS"
+    },
+    {
+      "name": "S2 bounded/null signed coordinate: d2_continuity_first_finish",
+      "status": "PASS"
+    },
+    {
+      "name": "Synthetic existing-result valid bounds: informationSeeking",
+      "status": "PASS"
+    },
+    {
+      "name": "Synthetic existing-result valid bounds: secondOrderThinking",
+      "status": "PASS"
+    },
+    {
+      "name": "Synthetic existing-result valid bounds: adversaryModeling",
+      "status": "PASS"
+    },
+    {
+      "name": "Synthetic existing-result valid bounds: escalationSensitivity",
+      "status": "PASS"
+    },
+    {
+      "name": "Synthetic existing-result valid bounds: informationDiscipline",
+      "status": "PASS"
+    },
+    {
+      "name": "Synthetic existing-result valid bounds: evidenceResponsiveUpdating",
+      "status": "PASS"
+    },
+    {
+      "name": "Synthetic existing-result valid bounds: coalitionOrientation",
+      "status": "PASS"
+    },
+    {
+      "name": "Synthetic existing-result valid bounds: resourceStewardship",
+      "status": "PASS"
+    },
+    {
+      "name": "Synthetic existing-result valid bounds: planningForesight",
+      "status": "PASS"
+    },
+    {
+      "name": "Synthetic existing-result valid bounds: multiDomainIntegration",
+      "status": "PASS"
+    },
+    {
+      "name": "Synthetic existing-result valid bounds: riskPosture",
+      "status": "PASS"
+    },
+    {
+      "name": "Synthetic existing-result valid bounds: decisionCoherence",
+      "status": "PASS"
+    },
+    {
+      "name": "Synthetic existing-result valid bounds: informationSeeking",
+      "status": "PASS"
+    },
+    {
+      "name": "Synthetic existing-result valid bounds: secondOrderThinking",
+      "status": "PASS"
+    },
+    {
+      "name": "Synthetic existing-result valid bounds: adversaryModeling",
+      "status": "PASS"
+    },
+    {
+      "name": "Synthetic existing-result valid bounds: escalationSensitivity",
+      "status": "PASS"
+    },
+    {
+      "name": "Synthetic existing-result valid bounds: informationDiscipline",
+      "status": "PASS"
+    },
+    {
+      "name": "Synthetic existing-result valid bounds: evidenceResponsiveUpdating",
+      "status": "PASS"
+    },
+    {
+      "name": "Synthetic existing-result valid bounds: resourceStewardship",
+      "status": "PASS"
+    },
+    {
+      "name": "Synthetic existing-result valid bounds: planningForesight",
+      "status": "PASS"
+    },
+    {
+      "name": "Synthetic existing-result valid bounds: multiDomainIntegration",
+      "status": "PASS"
+    },
+    {
+      "name": "Synthetic existing-result valid bounds: riskPosture",
+      "status": "PASS"
+    },
+    {
+      "name": "Synthetic existing-result valid bounds: decisionCoherence",
+      "status": "PASS"
+    },
+    {
+      "name": "S2 discipline is unmeasured, never numeric zero",
+      "status": "PASS",
+      "actual": null
+    },
+    {
+      "name": "Display null stays insufficient, not zero",
+      "status": "PASS",
+      "actual": "داده کافی برای محاسبه وجود ندارد"
+    },
+    {
+      "name": "Omitted value is a data error",
+      "status": "PASS",
+      "actual": "خطای داده: مقدار ثبت‌شده معتبر نیست."
+    },
+    {
+      "name": "A true measured zero is retained",
+      "status": "PASS",
+      "actual": "0.00"
+    },
+    {
+      "name": "Actual missing-scenario panel renders absence, not a zero result",
+      "status": "PASS"
+    },
+    {
+      "name": "Current dashboard routes absent run to the tested absence branch",
+      "status": "PASS"
+    },
+    {
+      "name": "Missing archived run is invalid, not an all-zero saved result",
+      "status": "PASS"
+    },
+    {
+      "name": "Zero storage access attempts; no profiles, IndexedDB or event logs read/written",
+      "status": "PASS",
+      "actual": 0
+    },
+    {
+      "name": "No shared current response/action IDs",
+      "status": "PASS",
+      "actual": 0
+    },
+    {
+      "name": "No literally shared core question wording",
+      "status": "PASS",
+      "actual": 0
+    },
+    {
+      "name": "No literally shared current core option titles",
+      "status": "PASS",
+      "actual": 0
+    },
+    {
+      "name": "Current codebook outer bound S1/secondOrderThinking",
+      "status": "PASS"
+    },
+    {
+      "name": "Current codebook outer bound S2/secondOrderThinking",
+      "status": "PASS"
+    },
+    {
+      "name": "Current codebook outer bound S1/resourceStewardship",
+      "status": "PASS"
+    },
+    {
+      "name": "Current codebook outer bound S2/resourceStewardship",
+      "status": "PASS"
+    },
+    {
+      "name": "Current codebook outer bound S1/planningForesight",
+      "status": "PASS"
+    },
+    {
+      "name": "Current codebook outer bound S2/planningForesight",
+      "status": "PASS"
+    },
+    {
+      "name": "Current codebook outer bound S1/adversaryModeling",
+      "status": "PASS"
+    },
+    {
+      "name": "Current codebook outer bound S2/adversaryModeling",
+      "status": "PASS"
+    },
+    {
+      "name": "Current codebook outer bound S1/escalationSensitivity",
+      "status": "PASS"
+    },
+    {
+      "name": "Current codebook outer bound S2/escalationSensitivity",
+      "status": "PASS"
+    },
+    {
+      "name": "Current codebook outer bound S1/multiDomainIntegration",
+      "status": "PASS"
+    },
+    {
+      "name": "Current codebook outer bound S2/multiDomainIntegration",
+      "status": "PASS"
+    }
+  ],
+  "examples": {
+    "equalInformationCoefficientsDifferentSourceDiversity": {
+      "S1": 69,
+      "S2": 54,
+      "note": "Equal .6/.25/.15 coefficients, same selected .9 information loading, one source, none opened; source-specific diversity rules differ."
+    },
+    "equalSecondOrderRecipeDifferentInclusion": {
+      "S1": 58.25,
+      "S2": null,
+      "note": "Identical .35/.25/.20/.20 recipe; S1 investigation included, S2 A2 excluded. Partial synthetic inputs, not paired participants."
+    }
+  },
+  "emptyInput": {
+    "S1": {
+      "overall": null,
+      "coverage": 0
+    },
+    "S2": {
+      "overall": null,
+      "coverage": 0
+    }
+  },
+  "fullSyntheticSources": {
+    "S1Versions": {
+      "measurementModelVersion": "s4-cog-v3",
+      "formulaVersion": "3.0.0",
+      "optionProfileVersion": "s4-options-v3.1-postfix",
+      "scenarioContentVersion": "s4-content-2026-09",
+      "expertPanelVersion": "provisional-unvalidated",
+      "anchorTestVersion": "s4-anchor-first-options-v1"
+    },
+    "S2Version": "s5-cognitive-v3-adapter-v1.0.0"
+  },
+  "forbiddenStorageAccesses": 0
+}

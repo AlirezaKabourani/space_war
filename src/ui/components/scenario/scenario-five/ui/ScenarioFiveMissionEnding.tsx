@@ -7,6 +7,8 @@ import { ScenarioFiveOutcomeContent } from './ScenarioFiveOutcomePanel';
 import { SCENARIO5_ACTION_COPY_FA, SCENARIO5_ACTOR_LABELS_FA, SCENARIO5_BELIEF_COPY_FA, SCENARIO5_CORRIDOR_CONTENT_FA, SCENARIO5_PROVENANCE_LABELS_FA, SCENARIO5_REASON_LABELS_FA, SCENARIO5_SOURCE_LABELS_FA, SCENARIO5_STATUS_LABELS_FA } from './uiContentFa';
 import { getScenario5OperationalAttributionLabel } from './uiContentFa';
 import { ScenarioFiveOperationalTime } from './ScenarioFiveTime';
+import { ScenarioFiveBeliefRealityAar } from './ScenarioFiveBeliefRealityAar';
+import { buildBeliefRealityAarView } from './beliefRealityAarPresentation';
 
 export const ScenarioFiveMissionEnding = ({state, result, onCognitiveEntry}: {
   state: Scenario5RuntimeState; result: Scenario5RuntimeResult; onCognitiveEntry: () => void; onComplete: () => void;
@@ -14,11 +16,12 @@ export const ScenarioFiveMissionEnding = ({state, result, onCognitiveEntry}: {
   if (state.stage.stageId !== 'complete') throw new Error('Mission ending cannot render before completion');
   const aar = buildMissionAar(state);
   const audit = buildScenario5AarView(state,result);
+  const comparison = buildBeliefRealityAarView(state, audit, aar);
   const {view} = aar;
   const attribution = getScenario5OperationalAttributionLabel(state.missionState.operationalAttributionStatus);
   return <main className="s5-root s5-aar s5-ending" dir="rtl" data-ending-id={aar.end.endStateId}>
     <header className="s5-aar-header"><span>سناریو ۲ — امواج خاموش</span><h1>پایان مأموریت</h1><p><ScenarioFiveOperationalTime minutes={view.resources.worldClockMinutes} /> · شواهد ثبت‌شده: {view.visibleEvidence.length}</p></header>
-    <nav className="s5-ending-nav" aria-label="گزارش مأموریت"><a href="#s5-ending">نتیجه</a><a href="#s5-why">چرا این پایان؟</a><a href="#s5-trace">مسیر تصمیم‌ها</a><a href="#s5-truth">آنچه نمی‌دانستید</a><a href="#s5-belief-timeline">مسیر برداشت</a></nav>
+    <nav className="s5-ending-nav" aria-label="گزارش مأموریت"><a href="#s5-ending">نتیجه</a><a href="#s5-why">چرا این پایان؟</a><a href="#s5-trace">مسیر تصمیم‌ها</a><a href="#s5-truth">آنچه نمی‌دانستید</a><a href="#s5-belief-vs-reality">برداشت و واقعیت</a><a href="#s5-belief-timeline">مسیر برداشت</a></nav>
     <section id="s5-ending" className="s5-panel s5-ending-lead" data-aar-section="mission">
       <h2>{ENDING_TITLES[aar.end.endStateId]}</h2><p>{aar.narrative}</p>
       <div className="s5-metric-grid">
@@ -49,7 +52,7 @@ export const ScenarioFiveMissionEnding = ({state, result, onCognitiveEntry}: {
       {aar.outcomes.map(o => {
         const decision=state.decisions.find(d=>d.roundId===o.roundId)!;
         const reason=[4,6,8].includes(o.roundId) ? state.reasons.find(r=>r.phaseId===decision.phaseId) : null;
-        const nearby = state.beliefs.filter(b => (o.roundId===1 && b.checkpointId==='A2_prebelief') || (o.roundId===2 && b.checkpointId==='A2_postbelief') || (o.roundId===6 && b.checkpointId==='C_belief_checkpoint') || (o.roundId===7 && b.checkpointId==='D_final_belief'));
+        const nearby = (comparison?.checkpoints.flatMap(b => b.belief ? [b.belief] : []) ?? []).filter(b => (o.roundId===1 && b.checkpointId==='A2_prebelief') || (o.roundId===2 && b.checkpointId==='A2_postbelief') || (o.roundId===6 && b.checkpointId==='C_belief_checkpoint') || (o.roundId===7 && b.checkpointId==='D_final_belief'));
         return <details className="s5-trace-card" key={o.roundId}><summary>تصمیم {o.roundId}: {SCENARIO5_ACTION_COPY_FA[o.actionId].title} — {o.effectiveTargetCorridorId ? SCENARIO5_CORRIDOR_CONTENT_FA[o.effectiveTargetCorridorId].convoyLabel : 'کل شبکه'}<span className="s5-trace-compact">ISR: <bdi dir="ltr">{o.resourcesBefore.isrCapacity} → {o.resourcesAfter.isrCapacity}</bdi> · پشتیبانی: <bdi dir="ltr">{o.resourcesBefore.supportReserve} → {o.resourcesAfter.supportReserve}</bdi> · زمان عملیاتی: <bdi dir="ltr">T+{o.worldClockBefore} → T+{o.worldClockAfter}</bdi> دقیقه · {o.newEvidenceCount} شاهد تازه</span></summary>
           <p>پایش و اطلاعات (ISR): <bdi dir="ltr">{o.resourcesBefore.isrCapacity} → {o.resourcesAfter.isrCapacity}</bdi> · پشتیبانی: <bdi dir="ltr">{o.resourcesBefore.supportReserve} → {o.resourcesAfter.supportReserve}</bdi> · زمان: <bdi dir="ltr">T+{o.worldClockBefore} → T+{o.worldClockAfter}</bdi> · {o.newEvidenceCount} شاهد تازه</p>
           {reason && <p>دلیل: {SCENARIO5_REASON_LABELS_FA[reason.reasonId]}</p>}
@@ -70,13 +73,11 @@ export const ScenarioFiveMissionEnding = ({state, result, onCognitiveEntry}: {
       <p>الگوی عامل مقابل: {SCENARIO5_ACTOR_LABELS_FA[audit.truth.actorProfile as keyof typeof SCENARIO5_ACTOR_LABELS_FA]}</p>
       <p>وضعیت نهایی عامل مقابل: {{covert:'پنهان',probing:'آزمودن واکنش',committed:'درگیر',disengaging:'کاهش درگیری'}[audit.truth.finalActorPosture] ?? audit.truth.finalActorPosture}</p>
       <p>انتساب عملیاتی: {attribution} · مهار اختلال: {aar.end.threatContained ? 'بله' : 'خیر'}</p>
-      <details><summary>حقیقت منشأ شواهد</summary>{audit.evidenceAudit.map(({evidence,hiddenProvenance,opened}) => <p key={evidence.evidenceId}><bdi dir="ltr">{evidence.evidenceId}</bdi> — {SCENARIO5_SOURCE_LABELS_FA[evidence.sourceType]}؛ {SCENARIO5_PROVENANCE_LABELS_FA[hiddenProvenance] ?? hiddenProvenance}؛ {opened ? 'جزئیات باز شد' : 'جزئیات باز نشد'}{aar.lateEvidenceIds.includes(evidence.evidenceId) && '؛ پس از برآورد نهایی دریافت شد'}</p>)}</details>
+      <details><summary>حقیقت منشأ شواهد</summary><p>منشأ پنهان فقط در گزارش پایان آشکار می‌شود؛ جهت مشاهده‌شده شاهد و منشأ پنهان آن دو مفهوم متفاوت‌اند.</p>{audit.evidenceAudit.map(({evidence,hiddenProvenance,opened}) => <p key={evidence.evidenceId}><bdi dir="ltr">{evidence.evidenceId}</bdi> — {SCENARIO5_SOURCE_LABELS_FA[evidence.sourceType]}؛ {SCENARIO5_PROVENANCE_LABELS_FA[hiddenProvenance] ?? hiddenProvenance}؛ {opened ? 'جزئیات باز شد' : 'جزئیات باز نشد'}{aar.lateEvidenceIds.includes(evidence.evidenceId) && '؛ پس از برآورد نهایی دریافت شد'}</p>)}</details>
       <details><summary>اطلاعات پژوهش و بازپخش</summary><p>جهان: <code dir="ltr">{audit.truth.worldId}</code> · بذر: {audit.truth.seed}</p><p>واکنش نهایی: <code dir="ltr">{audit.truth.lastReactionId ?? '—'}</code></p></details>
     </section>
-    <section id="s5-belief-timeline" className="s5-panel s5-aar-section" data-aar-section="belief"><h2>مسیر برداشت شما</h2>
-      {state.beliefs.map(b=><article className="s5-trace-card" key={b.checkpointId}><h3>{SCENARIO5_BELIEF_COPY_FA[`belief:${b.checkpointId}`].title}</h3><p>{SCENARIO5_CORRIDOR_CONTENT_FA[b.mostLikelyCorridorId].corridorLabel} · اطمینان کریدور: {b.corridorConfidence} · برآورد اخلال هدفمند: {b.targetedInterferenceEstimate} · اطمینان برآورد: {b.targetedInterferenceConfidence}</p><p>شواهد در دسترس آن زمان: {b.visibleEvidenceIdsAtCheckpoint.length} · مقایسه با کریدور واقعی: {b.mostLikelyCorridorId===audit.truth.primaryAffectedCorridorId ? 'یکسان' : 'متفاوت'}</p></article>)}
-      <p>شواهدی که پس از برآورد نهایی رسیدند در برداشت‌های ثبت‌شده وارد نمی‌شوند.</p>
-    </section>
+    <ScenarioFiveBeliefRealityAar state={state} audit={audit} aar={aar} />
+
     <footer className="s5-ending-actions"><button type="button" className="s5-primary-button" onClick={onCognitiveEntry}>مشاهده الگوی تصمیم‌گیری</button></footer>
   </main>;
 };

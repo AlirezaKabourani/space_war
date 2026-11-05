@@ -1,0 +1,48 @@
+{
+  "status": "PASS",
+  "source": "Production ending via isolated archived-run witness page",
+  "results": [
+    {
+      "width": 1440,
+      "height": 900,
+      "filename": "truth-emphasis-1440x900.png",
+      "title": "آنچه هنگام تصمیم‌گیری نمی‌دانستید",
+      "background": "linear-gradient(135deg, rgb(53, 30, 28), rgb(38, 30, 24))",
+      "border": "rgb(251, 146, 60)",
+      "borderWidth": "4px",
+      "rect": {
+        "x": 39,
+        "y": 143.890625,
+        "width": 1362,
+        "height": 353.921875,
+        "top": 143.890625,
+        "right": 1401,
+        "bottom": 497.8125,
+        "left": 39
+      },
+      "documentWidth": 1425,
+      "details": 2
+    },
+    {
+      "width": 390,
+      "height": 844,
+      "filename": "truth-emphasis-390x844.png",
+      "title": "آنچه هنگام تصمیم‌گیری نمی‌دانستید",
+      "background": "linear-gradient(135deg, rgb(53, 30, 28), rgb(38, 30, 24))",
+      "border": "rgb(251, 146, 60)",
+      "borderWidth": "4px",
+      "rect": {
+        "x": 23.796875,
+        "y": 144.28125,
+        "width": 279.203125,
+        "height": 443.28125,
+        "top": 144.28125,
+        "right": 303,
+        "bottom": 587.5625,
+        "left": 23.796875
+      },
+      "documentWidth": 375,
+      "details": 2
+    }
+  ]
+}
