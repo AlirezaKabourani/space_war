@@ -1,5 +1,6 @@
 import { useCallback, useEffect, useRef, useState } from "react";
 import "./App.css";
+import "./ui/components/admin/CrossScenarioCognitiveDashboard.css";
 
 import { ScenarioRunner } from "./ui/components/scenario/ScenarioRunner";
 import { AllScenarios, type ScenarioId } from "./scenarios";
@@ -11,6 +12,8 @@ import { deleteProfile, loadProfileState, saveProfileState, selectProfile } from
 import { ProfileCreateForm } from "./ui/components/profile/ProfileCreateForm";
 import { AdminLoginForm } from "./ui/components/profile/AdminLoginForm";
 import { SystemManagement } from "./ui/components/admin/SystemManagement";
+import { CrossScenarioCognitiveDashboard } from "./ui/components/admin/CrossScenarioCognitiveDashboard";
+import { createCognitiveAdminReadAccess, revokeCognitiveAdminReadAccess, type CognitiveAdminReadAccess } from "./services/storage/cognitiveAdminReadAccess";
 import { systemLogger } from "./services/analytics/systemLogger";
 import { ScenarioZeroLearning } from "./ui/components/scenario/scenario-zero/ScenarioZeroLearning";
 import { ScenarioFiveAdminDashboardPreview } from "./ui/components/scenario/scenario-five/ui/ScenarioFiveAdminDashboardPreview";
@@ -238,6 +241,12 @@ const getProfileTypeLabel = (profile: Profile) => {
 const App = () => {
   const [profileState, setProfileState] = useState(() => loadProfileState(SCENARIOS.length));
   const { profiles, activeProfileId } = profileState;
+  const profileStateRef = useRef(profileState);
+  profileStateRef.current = profileState;
+  const cognitiveAdminAccessRef = useRef<CognitiveAdminReadAccess | null>(null);
+  const [cognitiveDashboardTargetId, setCognitiveDashboardTargetId] = useState<string | null>(null);
+  const cognitiveDashboardTriggerRef = useRef<HTMLButtonElement | null>(null);
+  const cognitiveDashboardReturnProfileRef = useRef<string | null>(null);
   const [profileStorageError, setProfileStorageError] = useState<string | null>(null);
   const [profileDeletionError, setProfileDeletionError] = useState<string | null>(null);
   const [showAdminLogin, setShowAdminLogin] = useState(false);
@@ -306,6 +315,9 @@ const [expandedScenarioId, setExpandedScenarioId] = useState<number | null>(null
     }
     setProfileDeletionError(null);
     setShowAdminLogin(false);
+    revokeCognitiveAdminReadAccess(cognitiveAdminAccessRef.current);
+    cognitiveAdminAccessRef.current = null;
+    setCognitiveDashboardTargetId(null);
     setProfileState((current) => selectProfile(current, id));
     systemLogger.log("profile_selected", target);
     setView("mainMenu");
@@ -318,6 +330,8 @@ const [expandedScenarioId, setExpandedScenarioId] = useState<number | null>(null
       return false;
     }
     systemLogger.log("admin_login_succeeded", nextState.profiles.find((profile) => profile.id === "admin"));
+    revokeCognitiveAdminReadAccess(cognitiveAdminAccessRef.current);
+    cognitiveAdminAccessRef.current = createCognitiveAdminReadAccess(() => profileStateRef.current);
     setProfileState(nextState);
     setProfileDeletionError(null);
     setShowAdminLogin(false);
@@ -353,6 +367,9 @@ const [expandedScenarioId, setExpandedScenarioId] = useState<number | null>(null
     }
     setProfileState(nextState);
     setShowAdminLogin(false);
+    revokeCognitiveAdminReadAccess(cognitiveAdminAccessRef.current);
+    cognitiveAdminAccessRef.current = null;
+    setCognitiveDashboardTargetId(null);
     systemLogger.log("profile_created", profile);
     setView("mainMenu");
     return {};
@@ -607,7 +624,17 @@ const [expandedScenarioId, setExpandedScenarioId] = useState<number | null>(null
     </div>
   );
 
-  const renderProfileManager = () => (
+  const renderProfileManager = () => cognitiveDashboardTargetId !== null ? (
+    <CrossScenarioCognitiveDashboard
+      targetProfileId={cognitiveDashboardTargetId}
+      access={cognitiveAdminAccessRef.current}
+      profiles={profiles}
+      onBack={() => {
+        setCognitiveDashboardTargetId(null);
+        requestAnimationFrame(() => cognitiveDashboardTriggerRef.current?.focus());
+      }}
+    />
+  ) : (
     <div className="screen">
       <div className="card profile-manager-card">
         <div className="screen-header">
@@ -666,6 +693,18 @@ const [expandedScenarioId, setExpandedScenarioId] = useState<number | null>(null
                     </div>
                   )}
                 </button>
+                {activeProfile.role === "admin" && cognitiveAdminAccessRef.current && (
+                  <button type="button" className="secondary cross-profile-action" data-cognitive-dashboard-profile={profile.id}
+                    aria-label={`مشاهده داشبورد شناختی تجمیعی برای ${profile.name}`}
+                    ref={button => { if (profile.id === cognitiveDashboardReturnProfileRef.current) cognitiveDashboardTriggerRef.current = button; }}
+                    onClick={event => {
+                      cognitiveDashboardReturnProfileRef.current = profile.id;
+                      cognitiveDashboardTriggerRef.current = event.currentTarget;
+                      setCognitiveDashboardTargetId(profile.id);
+                    }}>
+                    مشاهده داشبورد شناختی تجمیعی
+                  </button>
+                )}
                 {canDeleteProfile(activeProfile, profile) && (
                   <button
                     type="button"

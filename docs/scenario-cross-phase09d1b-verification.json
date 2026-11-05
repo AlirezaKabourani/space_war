@@ -1,0 +1,239 @@
+{
+  "phase": "09D-1B",
+  "status": "PASS",
+  "statusMeaning": "Approved bounded implementation, current scientific parity, browser/access invariants and regression parity pass. Five pre-existing snapshot checks and whole-repository lint still fail and are explicitly reported.",
+  "clientDate": "2026-11-04",
+  "clientTimezone": "Asia/Tehran",
+  "completedAtUtc": "2026-11-04T16:25:10.794228+00:00",
+  "git": {
+    "originalHead": "9dd7a7f64e05f978203097aef65b660dc188112c",
+    "finalHead": "9dd7a7f64e05f978203097aef65b660dc188112c",
+    "originalStatus": "",
+    "originalDiffStat": "",
+    "finalStatus": "M src/App.tsx\n M src/services/storage/cognitiveRunRepository.ts\n?? docs/scenario-cross-phase09d1b-access-and-ownership.md\n?? docs/scenario-cross-phase09d1b-baseline.json\n?? docs/scenario-cross-phase09d1b-checks/\n?? docs/scenario-cross-phase09d1b-field-to-ui-map.csv\n?? docs/scenario-cross-phase09d1b-historical-verification.json\n?? docs/scenario-cross-phase09d1b-implementation.md\n?? docs/scenario-cross-phase09d1b-real-completions.json\n?? docs/scenario-cross-phase09d1b-scientific-parity.md\n?? docs/scenario-cross-phase09d1b-scientific-verification.json\n?? docs/scenario-cross-phase09d1b-screenshots/\n?? docs/scenario-cross-phase09d1b-verification.json\n?? docs/scenario-cross-phase09d1b.patch\n?? scripts/check-cross-phase09d1b-history.mjs\n?? scripts/scenario-cross-phase09d1b-presentation.html\n?? scripts/scenario-cross-phase09d1b-presentation.tsx\n?? scripts/verify-cross-phase09d1b-browser.mjs\n?? scripts/verify-cross-phase09d1b-scientific.tsx\n?? src/services/storage/cognitiveAdminReadAccess.ts\n?? src/ui/components/admin/CrossScenarioCognitiveDashboard.css\n?? src/ui/components/admin/CrossScenarioCognitiveDashboard.tsx\n?? src/ui/components/admin/crossScenarioPresentation.ts",
+    "finalDiffStat": "src/App.tsx                                    | 41 +++++++++++-\n src/services/storage/cognitiveRunRepository.ts | 89 ++++++++++++++++++++++++++\n 2 files changed, 129 insertions(+), 1 deletion(-)",
+    "commitCreated": false
+  },
+  "modifiedApplicationFiles": [
+    "src/App.tsx",
+    "src/services/storage/cognitiveRunRepository.ts"
+  ],
+  "addedApplicationFiles": [
+    "src/services/storage/cognitiveAdminReadAccess.ts",
+    "src/ui/components/admin/CrossScenarioCognitiveDashboard.tsx",
+    "src/ui/components/admin/CrossScenarioCognitiveDashboard.css",
+    "src/ui/components/admin/crossScenarioPresentation.ts"
+  ],
+  "testSources": [
+    "scripts/verify-cross-phase09d1b-browser.mjs",
+    "scripts/verify-cross-phase09d1b-scientific.tsx",
+    "scripts/check-cross-phase09d1b-history.mjs",
+    "scripts/scenario-cross-phase09d1b-presentation.html",
+    "scripts/scenario-cross-phase09d1b-presentation.tsx"
+  ],
+  "sourceGuards": {
+    "capturedExistingFiles": 260,
+    "protectedFiles": 159,
+    "protectedHashesUnchanged": true,
+    "allOtherExistingSourceAndScriptHashesUnchanged": true,
+    "originalOwnerOnlyAndWritePathUnchanged": true,
+    "noPolicyLoggerBackupOrCompletionChanges": true,
+    "gitLfsAndConfigUnchanged": true
+  },
+  "finalApplicationAndTestHashes": {
+    "src/App.tsx": "7e465b93b7b77396e0f4f6a0a9a558398ef0901df1e94ddc015e3618deff771c",
+    "src/services/storage/cognitiveRunRepository.ts": "54da3fb14e36944e11747844618d0a006bffb9a62d7ae7db6750fea811e01db9",
+    "src/services/storage/cognitiveAdminReadAccess.ts": "6bdf43236c8f2c6f64e6acb3f5bf671a9c04bdf852108979dfb345ffaa4fa2aa",
+    "src/ui/components/admin/CrossScenarioCognitiveDashboard.tsx": "f7d7795a3613c3ab31af56042f8604d094e7d2a77271392bf71cbb16d75e9456",
+    "src/ui/components/admin/CrossScenarioCognitiveDashboard.css": "6baa5f587eb00e7cf32231560ac9e0c2efbe0b42a39e4ee8e33f81a72c67e2c6",
+    "src/ui/components/admin/crossScenarioPresentation.ts": "6324bd64e940482f12b29213ce9585fe711ce2b33b295ad8da9334bc4c122845",
+    "scripts/verify-cross-phase09d1b-browser.mjs": "3524a1dbf4b89937879a26b52dba6936ccd28913188f384c02b06b4501d7beac",
+    "scripts/verify-cross-phase09d1b-scientific.tsx": "fbb6a49e08a36049594676159cd1f4dba199f82f57edfbede444d7491762b566",
+    "scripts/check-cross-phase09d1b-history.mjs": "74972a3496c9f1a7bda8495e078a9180f8d5bcb219b2d91e0c817fccb40135da",
+    "scripts/scenario-cross-phase09d1b-presentation.html": "c6ab63686796afb987c3c6a735f10225eabbe77fd542e166acfb6e51d99d363f",
+    "scripts/scenario-cross-phase09d1b-presentation.tsx": "1f70734bafa4593ecc67f9e15af09f22f8cc0bb744089004a78cca8bacf6baba"
+  },
+  "adminAccess": {
+    "realAppPasswordEstablishedSession": true,
+    "liveSessionRecheckAfterAsyncRead": true,
+    "exactExistingTargetProfileId": true,
+    "recordOwnerMismatchRejected": true,
+    "nonadminForgedNullAndRevokedSessionsRejected": true,
+    "normalModeNoLinks": true,
+    "directPropsAndNavigationDenied": true,
+    "selectedActiveProfileUnchangedDuringView": true,
+    "pendingTargetAndProfileSwitchNoStaleData": true,
+    "noGenericAllRecordApi": true,
+    "clientSideInterfaceGateOnly": true
+  },
+  "runSelection": {
+    "independentS1S2": true,
+    "defaultNewest": true,
+    "recordIdSelectorNotScientificRunId": true,
+    "ordering": "recordedAtIso desc, then recordId desc",
+    "duplicateS1SourceRunIdsRemainDistinct": true,
+    "archiveOffReadable": true,
+    "sameNameDifferentOwnersIsolated": true
+  },
+  "presentation": {
+    "nineApprovedConceptualRows": true,
+    "noCombinedNumericScoreOrRanking": true,
+    "signedOSIAndRiskUnchanged": true,
+    "threeS1MovesAndFourS2Phases": true,
+    "S2InformationDisciplineAlwaysUnmeasured": true,
+    "s1SpecificAttributionAndWindowDetails": true,
+    "S2UsesOnlyArchivedCognitiveTelemetrySummary": true,
+    "separateCompletenessAndVersions": true,
+    "nullZeroOmittedUnmeasuredDistinct": true,
+    "everyNumericSourceEqualsSelectedStoredPayload": true,
+    "noLegacyFallbackOrScientificEngineCall": true,
+    "noDashboardStorageOrTelemetryWrites": true,
+    "emptyDatabaseReadCreatesNoDatabaseOrSchema": true,
+    "noCognitiveRecordMutation": true
+  },
+  "tests": {
+    "browserAssertions": 76,
+    "browserFailures": 0,
+    "scientificAndPresentationAssertions": 469,
+    "s1ExistingCognitiveUnitTests": 60,
+    "s2ExistingRuntimeAssertions": 2979,
+    "s2DeterministicRuns": 112,
+    "s2SemanticMismatches": 0,
+    "protectedHashCount": 159,
+    "prior09D1ABrowserAssertionsBeforeAndAfter": 60,
+    "prior09D1AScientificBeforeAndAfter": "PASS",
+    "build": "PASS",
+    "typecheck": "PASS",
+    "scopedLint": "PASS",
+    "repositoryLintBefore": {
+      "errors": 140,
+      "warnings": 3
+    },
+    "repositoryLintAfter": {
+      "errors": 140,
+      "warnings": 3
+    },
+    "newLintIssues": 0,
+    "historicalStatusAndFirstFailuresUnchanged": true,
+    "knownPreExistingFailedChecks": [
+      {
+        "script": "scripts/verify-s5-phase8d-integrated-gameplay.ts",
+        "status": "FAIL",
+        "exitCode": 1,
+        "failure": "AssertionError [ERR_ASSERTION]: App identity including legacy id=2 unchanged except exact approved id=5 resource sentence\r",
+        "log": "docs/scenario-cross-phase09d1b-checks/after-verify-s5-phase8d-integrated-gameplay.ts.txt"
+      },
+      {
+        "script": "scripts/verify-s5-phase8d2-header.tsx",
+        "status": "FAIL",
+        "exitCode": 1,
+        "failure": "AssertionError [ERR_ASSERTION]: App, id=2, id=5 routing and all metadata unchanged\r",
+        "log": "docs/scenario-cross-phase09d1b-checks/after-verify-s5-phase8d2-header.tsx.txt"
+      },
+      {
+        "script": "scripts/verify-s5-phase8d2-ux.tsx",
+        "status": "FAIL",
+        "exitCode": 1,
+        "failure": "AssertionError [ERR_ASSERTION]: App including legacy id=2 and active id=5 unchanged\r",
+        "log": "docs/scenario-cross-phase09d1b-checks/after-verify-s5-phase8d2-ux.tsx.txt"
+      },
+      {
+        "script": "scripts/verify-s5-phase09c1.tsx",
+        "status": "FAIL",
+        "exitCode": 1,
+        "failure": "AssertionError [ERR_ASSERTION]: Unchanged existing source src/ui/components/scenario/scenario-five/ui/ScenarioFiveMissionEnding.tsx\r",
+        "log": "docs/scenario-cross-phase09d1b-checks/after-verify-s5-phase09c1.tsx.txt"
+      },
+      {
+        "script": "scripts/verify-s5-phase09c2.tsx",
+        "status": "FAIL",
+        "exitCode": 1,
+        "failure": "AssertionError [ERR_ASSERTION]: Unchanged existing source src/ui/components/scenario/scenario-five/ui/ScenarioFiveMissionEnding.tsx\r",
+        "log": "docs/scenario-cross-phase09d1b-checks/after-verify-s5-phase09c2.tsx.txt"
+      }
+    ],
+    "patchReverseApplyCheck": "PASS",
+    "modifiedFileWhitespaceCheck": "PASS",
+    "requiredArtifactsAnd23Screenshots": "PASS"
+  },
+  "browser": {
+    "source": "REAL App navigation and normal admin password flow, disposable Chromium only",
+    "genuineCompletions": {
+      "s1": 3,
+      "s2": 3
+    },
+    "coverage": [
+      "S1-only",
+      "S2-only",
+      "both",
+      "neither",
+      "multiple per scenario",
+      "same name two owners",
+      "archive OFF",
+      "error/corruption/quota/deletion",
+      "pending target/profile switch",
+      "direct normal mode and props denial",
+      "refresh persistence",
+      "keyboard focus/labels",
+      "signed negative/zero/positive endpoints and null/missing"
+    ],
+    "viewports": [
+      "1440x900",
+      "1280x720",
+      "1366x768",
+      "390x844"
+    ],
+    "screenshots": [
+      "docs/scenario-cross-phase09d1b-screenshots/01-admin-profile-list-1440x900.png",
+      "docs/scenario-cross-phase09d1b-screenshots/02-both-scenarios-1440x900.png",
+      "docs/scenario-cross-phase09d1b-screenshots/03-shared-concepts-1440x900.png",
+      "docs/scenario-cross-phase09d1b-screenshots/04-risk-1440x900.png",
+      "docs/scenario-cross-phase09d1b-screenshots/05-unique-1440x900.png",
+      "docs/scenario-cross-phase09d1b-screenshots/06-quality-1440x900.png",
+      "docs/scenario-cross-phase09d1b-screenshots/07-responsive-top-1280x720.png",
+      "docs/scenario-cross-phase09d1b-screenshots/08-responsive-concepts-1280x720.png",
+      "docs/scenario-cross-phase09d1b-screenshots/09-responsive-risk-1280x720.png",
+      "docs/scenario-cross-phase09d1b-screenshots/07-responsive-top-1366x768.png",
+      "docs/scenario-cross-phase09d1b-screenshots/08-responsive-concepts-1366x768.png",
+      "docs/scenario-cross-phase09d1b-screenshots/09-responsive-risk-1366x768.png",
+      "docs/scenario-cross-phase09d1b-screenshots/07-responsive-top-390x844.png",
+      "docs/scenario-cross-phase09d1b-screenshots/08-responsive-concepts-390x844.png",
+      "docs/scenario-cross-phase09d1b-screenshots/09-responsive-risk-390x844.png",
+      "docs/scenario-cross-phase09d1b-screenshots/10-s1-only-1440x900.png",
+      "docs/scenario-cross-phase09d1b-screenshots/11-s2-only-1440x900.png",
+      "docs/scenario-cross-phase09d1b-screenshots/12-neither-1440x900.png",
+      "docs/scenario-cross-phase09d1b-screenshots/13-invalid-data-error-1440x900.png",
+      "docs/scenario-cross-phase09d1b-screenshots/14-unavailable-error-1440x900.png",
+      "docs/scenario-cross-phase09d1b-screenshots/15-normal-mode-denied-links-1440x900.png",
+      "docs/scenario-cross-phase09d1b-screenshots/16-refresh-persistence-1440x900.png",
+      "docs/scenario-cross-phase09d1b-screenshots/17-deleted-owner-error-1440x900.png"
+    ],
+    "horizontalOverflowOrClipping": false,
+    "uncaughtBrowserErrors": 0,
+    "realUserBrowserAccessed": false,
+    "testFaultWrites": "Isolated corruption/timestamp/profile/read fault probes only; genuine archived scientific records restored and verified byte-equivalent; no test write is part of the production dashboard."
+  },
+  "artifacts": {
+    "implementation": "docs/scenario-cross-phase09d1b-implementation.md",
+    "fieldMap": "docs/scenario-cross-phase09d1b-field-to-ui-map.csv",
+    "fieldMapRows": 105,
+    "accessAndOwnership": "docs/scenario-cross-phase09d1b-access-and-ownership.md",
+    "scientificParity": "docs/scenario-cross-phase09d1b-scientific-parity.md",
+    "baseline": "docs/scenario-cross-phase09d1b-baseline.json",
+    "scientificVerification": "docs/scenario-cross-phase09d1b-scientific-verification.json",
+    "historicalVerification": "docs/scenario-cross-phase09d1b-historical-verification.json",
+    "realCompletions": "docs/scenario-cross-phase09d1b-real-completions.json",
+    "browserInspection": "docs/scenario-cross-phase09d1b-screenshots/inspection.json",
+    "patch": "docs/scenario-cross-phase09d1b.patch"
+  },
+  "limitations": [
+    "Client-side admin/session/profile gating is not server authentication or protection against same-origin JavaScript.",
+    "Browser/origin-local IndexedDB; no encryption, device sync or new backup integration.",
+    "Safe nonmutating IDB enumeration must be supported or the read fails explicitly as unavailable.",
+    "Two scenario models remain scientifically non-equivalent; no pooled value or cross-scenario ranking is asserted.",
+    "S2 cognitive archive contains no full mission/convoy/evidence/belief checkpoint trace.",
+    "Historical 08D/09C failures and repository lint remain pre-existing; no baselines rewritten."
+  ],
+  "objectiveUnresolvedIssues": [],
+  "stopBoundary": "09D-1B only; no 09D-2 harmonization, combined score, migration or server changes."
+}

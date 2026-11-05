@@ -1,0 +1,2185 @@
+{
+  "status": "PASS",
+  "sameHistoricalResults": true,
+  "noNewLintIssues": true,
+  "prior1APassesRetained": true,
+  "phases": {
+    "before": {
+      "checks": [
+        {
+          "script": "scripts/validate-s4-cognitive-v3.mjs",
+          "status": "PASS",
+          "exitCode": 0,
+          "failure": null,
+          "log": "docs/scenario-cross-phase09d1b-checks/before-validate-s4-cognitive-v3.mjs.txt"
+        },
+        {
+          "script": "scripts/validate-profiles.ts",
+          "status": "PASS",
+          "exitCode": 0,
+          "failure": null,
+          "log": "docs/scenario-cross-phase09d1b-checks/before-validate-profiles.ts.txt"
+        },
+        {
+          "script": "scripts/validate-system-management.ts",
+          "status": "PASS",
+          "exitCode": 0,
+          "failure": null,
+          "log": "docs/scenario-cross-phase09d1b-checks/before-validate-system-management.ts.txt"
+        },
+        {
+          "script": "scripts/verify-s5-phase6-runtime.ts",
+          "status": "PASS",
+          "exitCode": 0,
+          "failure": null,
+          "log": "docs/scenario-cross-phase09d1b-checks/before-verify-s5-phase6-runtime.ts.txt"
+        },
+        {
+          "script": "scripts/verify-cross-phase09d1a-scientific.ts",
+          "status": "PASS",
+          "exitCode": 0,
+          "failure": null,
+          "log": "docs/scenario-cross-phase09d1b-checks/before-verify-cross-phase09d1a-scientific.ts.txt"
+        },
+        {
+          "script": "scripts/verify-s5-phase8d-integrated-gameplay.ts",
+          "status": "FAIL",
+          "exitCode": 1,
+          "failure": "AssertionError [ERR_ASSERTION]: App identity including legacy id=2 unchanged except exact approved id=5 resource sentence\r",
+          "log": "docs/scenario-cross-phase09d1b-checks/before-verify-s5-phase8d-integrated-gameplay.ts.txt"
+        },
+        {
+          "script": "scripts/verify-s5-phase8d2-header.tsx",
+          "status": "FAIL",
+          "exitCode": 1,
+          "failure": "AssertionError [ERR_ASSERTION]: App, id=2, id=5 routing and all metadata unchanged\r",
+          "log": "docs/scenario-cross-phase09d1b-checks/before-verify-s5-phase8d2-header.tsx.txt"
+        },
+        {
+          "script": "scripts/verify-s5-phase8d2-ux.tsx",
+          "status": "FAIL",
+          "exitCode": 1,
+          "failure": "AssertionError [ERR_ASSERTION]: App including legacy id=2 and active id=5 unchanged\r",
+          "log": "docs/scenario-cross-phase09d1b-checks/before-verify-s5-phase8d2-ux.tsx.txt"
+        },
+        {
+          "script": "scripts/verify-s5-phase09c1.tsx",
+          "status": "FAIL",
+          "exitCode": 1,
+          "failure": "AssertionError [ERR_ASSERTION]: Unchanged existing source src/ui/components/scenario/scenario-five/ui/ScenarioFiveMissionEnding.tsx\r",
+          "log": "docs/scenario-cross-phase09d1b-checks/before-verify-s5-phase09c1.tsx.txt"
+        },
+        {
+          "script": "scripts/verify-s5-phase09c2.tsx",
+          "status": "FAIL",
+          "exitCode": 1,
+          "failure": "AssertionError [ERR_ASSERTION]: Unchanged existing source src/ui/components/scenario/scenario-five/ui/ScenarioFiveMissionEnding.tsx\r",
+          "log": "docs/scenario-cross-phase09d1b-checks/before-verify-s5-phase09c2.tsx.txt"
+        },
+        {
+          "script": "scripts/verify-cross-phase09d1a-browser.mjs",
+          "status": "PASS",
+          "exitCode": 0,
+          "failure": null,
+          "log": "docs/scenario-cross-phase09d1b-checks/before-verify-cross-phase09d1a-browser.mjs.txt"
+        }
+      ],
+      "lint": {
+        "errors": 140,
+        "warnings": 3,
+        "issues": [
+          {
+            "file": "scripts/analyze-s4-report.ts",
+            "line": 39,
+            "rule": "@typescript-eslint/no-unused-vars",
+            "severity": 2,
+            "message": "'EndState' is defined but never used."
+          },
+          {
+            "file": "scripts/analyze-s4-report.ts",
+            "line": 237,
+            "rule": "@typescript-eslint/no-explicit-any",
+            "severity": 2,
+            "message": "Unexpected any. Specify a different type."
+          },
+          {
+            "file": "scripts/analyze-s4-report.ts",
+            "line": 286,
+            "rule": "@typescript-eslint/no-explicit-any",
+            "severity": 2,
+            "message": "Unexpected any. Specify a different type."
+          },
+          {
+            "file": "scripts/analyze-s4-report.ts",
+            "line": 324,
+            "rule": "@typescript-eslint/no-explicit-any",
+            "severity": 2,
+            "message": "Unexpected any. Specify a different type."
+          },
+          {
+            "file": "scripts/analyze-s4-report.ts",
+            "line": 335,
+            "rule": "@typescript-eslint/no-explicit-any",
+            "severity": 2,
+            "message": "Unexpected any. Specify a different type."
+          },
+          {
+            "file": "scripts/analyze-s4-report.ts",
+            "line": 367,
+            "rule": "@typescript-eslint/no-explicit-any",
+            "severity": 2,
+            "message": "Unexpected any. Specify a different type."
+          },
+          {
+            "file": "scripts/analyze-s4-report.ts",
+            "line": 372,
+            "rule": "@typescript-eslint/no-explicit-any",
+            "severity": 2,
+            "message": "Unexpected any. Specify a different type."
+          },
+          {
+            "file": "scripts/analyze-s4-report.ts",
+            "line": 373,
+            "rule": "@typescript-eslint/no-explicit-any",
+            "severity": 2,
+            "message": "Unexpected any. Specify a different type."
+          },
+          {
+            "file": "scripts/analyze-s4-report.ts",
+            "line": 374,
+            "rule": "@typescript-eslint/no-explicit-any",
+            "severity": 2,
+            "message": "Unexpected any. Specify a different type."
+          },
+          {
+            "file": "scripts/analyze-s4-report.ts",
+            "line": 375,
+            "rule": "@typescript-eslint/no-explicit-any",
+            "severity": 2,
+            "message": "Unexpected any. Specify a different type."
+          },
+          {
+            "file": "scripts/analyze-s4-report.ts",
+            "line": 376,
+            "rule": "@typescript-eslint/no-explicit-any",
+            "severity": 2,
+            "message": "Unexpected any. Specify a different type."
+          },
+          {
+            "file": "scripts/analyze-s4-report.ts",
+            "line": 377,
+            "rule": "@typescript-eslint/no-explicit-any",
+            "severity": 2,
+            "message": "Unexpected any. Specify a different type."
+          },
+          {
+            "file": "scripts/analyze-s4-report.ts",
+            "line": 385,
+            "rule": "@typescript-eslint/no-explicit-any",
+            "severity": 2,
+            "message": "Unexpected any. Specify a different type."
+          },
+          {
+            "file": "scripts/analyze-s4-report.ts",
+            "line": 388,
+            "rule": "@typescript-eslint/no-explicit-any",
+            "severity": 2,
+            "message": "Unexpected any. Specify a different type."
+          },
+          {
+            "file": "scripts/analyze-s4-report.ts",
+            "line": 403,
+            "rule": "@typescript-eslint/no-explicit-any",
+            "severity": 2,
+            "message": "Unexpected any. Specify a different type."
+          },
+          {
+            "file": "scripts/analyze-s4-report.ts",
+            "line": 408,
+            "rule": "@typescript-eslint/no-explicit-any",
+            "severity": 2,
+            "message": "Unexpected any. Specify a different type."
+          },
+          {
+            "file": "scripts/analyze-s4-report.ts",
+            "line": 409,
+            "rule": "@typescript-eslint/no-explicit-any",
+            "severity": 2,
+            "message": "Unexpected any. Specify a different type."
+          },
+          {
+            "file": "scripts/analyze-s4-report.ts",
+            "line": 410,
+            "rule": "@typescript-eslint/no-explicit-any",
+            "severity": 2,
+            "message": "Unexpected any. Specify a different type."
+          },
+          {
+            "file": "scripts/analyze-s4-report.ts",
+            "line": 411,
+            "rule": "@typescript-eslint/no-explicit-any",
+            "severity": 2,
+            "message": "Unexpected any. Specify a different type."
+          },
+          {
+            "file": "scripts/analyze-s4-report.ts",
+            "line": 412,
+            "rule": "@typescript-eslint/no-explicit-any",
+            "severity": 2,
+            "message": "Unexpected any. Specify a different type."
+          },
+          {
+            "file": "scripts/analyze-s4-report.ts",
+            "line": 422,
+            "rule": "@typescript-eslint/no-explicit-any",
+            "severity": 2,
+            "message": "Unexpected any. Specify a different type."
+          },
+          {
+            "file": "scripts/analyze-s4-report.ts",
+            "line": 423,
+            "rule": "@typescript-eslint/no-explicit-any",
+            "severity": 2,
+            "message": "Unexpected any. Specify a different type."
+          },
+          {
+            "file": "scripts/analyze-s4-report.ts",
+            "line": 424,
+            "rule": "@typescript-eslint/no-explicit-any",
+            "severity": 2,
+            "message": "Unexpected any. Specify a different type."
+          },
+          {
+            "file": "scripts/analyze-s4-report.ts",
+            "line": 425,
+            "rule": "@typescript-eslint/no-explicit-any",
+            "severity": 2,
+            "message": "Unexpected any. Specify a different type."
+          },
+          {
+            "file": "scripts/analyze-s4-report.ts",
+            "line": 426,
+            "rule": "@typescript-eslint/no-explicit-any",
+            "severity": 2,
+            "message": "Unexpected any. Specify a different type."
+          },
+          {
+            "file": "scripts/analyze-s4-report.ts",
+            "line": 427,
+            "rule": "@typescript-eslint/no-explicit-any",
+            "severity": 2,
+            "message": "Unexpected any. Specify a different type."
+          },
+          {
+            "file": "scripts/analyze-s4-report.ts",
+            "line": 436,
+            "rule": "@typescript-eslint/no-explicit-any",
+            "severity": 2,
+            "message": "Unexpected any. Specify a different type."
+          },
+          {
+            "file": "scripts/analyze-s4-report.ts",
+            "line": 459,
+            "rule": "@typescript-eslint/no-explicit-any",
+            "severity": 2,
+            "message": "Unexpected any. Specify a different type."
+          },
+          {
+            "file": "scripts/analyze-s4-report.ts",
+            "line": 463,
+            "rule": "@typescript-eslint/no-explicit-any",
+            "severity": 2,
+            "message": "Unexpected any. Specify a different type."
+          },
+          {
+            "file": "scripts/analyze-s4-report.ts",
+            "line": 463,
+            "rule": "@typescript-eslint/no-explicit-any",
+            "severity": 2,
+            "message": "Unexpected any. Specify a different type."
+          },
+          {
+            "file": "scripts/analyze-s4-report.ts",
+            "line": 465,
+            "rule": "@typescript-eslint/no-explicit-any",
+            "severity": 2,
+            "message": "Unexpected any. Specify a different type."
+          },
+          {
+            "file": "scripts/analyze-s4-report.ts",
+            "line": 473,
+            "rule": "@typescript-eslint/no-explicit-any",
+            "severity": 2,
+            "message": "Unexpected any. Specify a different type."
+          },
+          {
+            "file": "scripts/analyze-s4-report.ts",
+            "line": 664,
+            "rule": "@typescript-eslint/no-explicit-any",
+            "severity": 2,
+            "message": "Unexpected any. Specify a different type."
+          },
+          {
+            "file": "scripts/analyze-s4-report.ts",
+            "line": 665,
+            "rule": "@typescript-eslint/no-explicit-any",
+            "severity": 2,
+            "message": "Unexpected any. Specify a different type."
+          },
+          {
+            "file": "scripts/analyze-s4-report.ts",
+            "line": 665,
+            "rule": "@typescript-eslint/no-explicit-any",
+            "severity": 2,
+            "message": "Unexpected any. Specify a different type."
+          },
+          {
+            "file": "scripts/analyze-s4-report.ts",
+            "line": 796,
+            "rule": "@typescript-eslint/no-explicit-any",
+            "severity": 2,
+            "message": "Unexpected any. Specify a different type."
+          },
+          {
+            "file": "scripts/analyze-s4-report.ts",
+            "line": 796,
+            "rule": "@typescript-eslint/no-explicit-any",
+            "severity": 2,
+            "message": "Unexpected any. Specify a different type."
+          },
+          {
+            "file": "scripts/analyze-s4-report.ts",
+            "line": 802,
+            "rule": "@typescript-eslint/no-explicit-any",
+            "severity": 2,
+            "message": "Unexpected any. Specify a different type."
+          },
+          {
+            "file": "scripts/analyze-s4-report.ts",
+            "line": 806,
+            "rule": "@typescript-eslint/no-explicit-any",
+            "severity": 2,
+            "message": "Unexpected any. Specify a different type."
+          },
+          {
+            "file": "scripts/analyze-s4-report.ts",
+            "line": 823,
+            "rule": "@typescript-eslint/no-explicit-any",
+            "severity": 2,
+            "message": "Unexpected any. Specify a different type."
+          },
+          {
+            "file": "scripts/audit-s5-current-flow-catalogs.ts",
+            "line": 18,
+            "rule": "@typescript-eslint/no-explicit-any",
+            "severity": 2,
+            "message": "Unexpected any. Specify a different type."
+          },
+          {
+            "file": "scripts/audit-s5-current-flow-catalogs.ts",
+            "line": 19,
+            "rule": "@typescript-eslint/no-explicit-any",
+            "severity": 2,
+            "message": "Unexpected any. Specify a different type."
+          },
+          {
+            "file": "scripts/audit-s5-current-flow-catalogs.ts",
+            "line": 40,
+            "rule": "prefer-const",
+            "severity": 2,
+            "message": "'region' is never reassigned. Use 'const' instead."
+          },
+          {
+            "file": "scripts/audit-s5-current-flow-catalogs.ts",
+            "line": 41,
+            "rule": "prefer-const",
+            "severity": 2,
+            "message": "'appRanges' is never reassigned. Use 'const' instead."
+          },
+          {
+            "file": "scripts/audit-s5-current-flow-catalogs.ts",
+            "line": 89,
+            "rule": "@typescript-eslint/no-explicit-any",
+            "severity": 2,
+            "message": "Unexpected any. Specify a different type."
+          },
+          {
+            "file": "scripts/audit-s5-current-flow-catalogs.ts",
+            "line": 89,
+            "rule": "@typescript-eslint/no-explicit-any",
+            "severity": 2,
+            "message": "Unexpected any. Specify a different type."
+          },
+          {
+            "file": "scripts/audit-s5-current-flow-catalogs.ts",
+            "line": 165,
+            "rule": "no-dupe-else-if",
+            "severity": 2,
+            "message": "This branch can never execute. Its condition is a duplicate or covered by previous conditions in the if-else-if chain."
+          },
+          {
+            "file": "scripts/audit-s5-current-flow-docs.ts",
+            "line": 2,
+            "rule": "@typescript-eslint/no-unused-vars",
+            "severity": 2,
+            "message": "'readdirSync' is defined but never used."
+          },
+          {
+            "file": "scripts/audit-s5-current-flow-docs.ts",
+            "line": 2,
+            "rule": "@typescript-eslint/no-unused-vars",
+            "severity": 2,
+            "message": "'existsSync' is defined but never used."
+          },
+          {
+            "file": "scripts/audit-s5-current-flow-docs.ts",
+            "line": 9,
+            "rule": "@typescript-eslint/no-explicit-any",
+            "severity": 2,
+            "message": "Unexpected any. Specify a different type."
+          },
+          {
+            "file": "scripts/audit-s5-current-flow-docs.ts",
+            "line": 9,
+            "rule": "@typescript-eslint/no-explicit-any",
+            "severity": 2,
+            "message": "Unexpected any. Specify a different type."
+          },
+          {
+            "file": "scripts/audit-s5-current-flow-docs.ts",
+            "line": 13,
+            "rule": "@typescript-eslint/no-explicit-any",
+            "severity": 2,
+            "message": "Unexpected any. Specify a different type."
+          },
+          {
+            "file": "scripts/audit-s5-current-flow-docs.ts",
+            "line": 14,
+            "rule": "@typescript-eslint/no-explicit-any",
+            "severity": 2,
+            "message": "Unexpected any. Specify a different type."
+          },
+          {
+            "file": "scripts/audit-s5-current-flow-docs.ts",
+            "line": 18,
+            "rule": "@typescript-eslint/no-explicit-any",
+            "severity": 2,
+            "message": "Unexpected any. Specify a different type."
+          },
+          {
+            "file": "scripts/audit-s5-current-flow-docs.ts",
+            "line": 24,
+            "rule": "@typescript-eslint/no-explicit-any",
+            "severity": 2,
+            "message": "Unexpected any. Specify a different type."
+          },
+          {
+            "file": "scripts/audit-s5-current-flow-docs.ts",
+            "line": 45,
+            "rule": "@typescript-eslint/no-explicit-any",
+            "severity": 2,
+            "message": "Unexpected any. Specify a different type."
+          },
+          {
+            "file": "scripts/audit-s5-current-flow-docs.ts",
+            "line": 53,
+            "rule": "@typescript-eslint/no-explicit-any",
+            "severity": 2,
+            "message": "Unexpected any. Specify a different type."
+          },
+          {
+            "file": "scripts/audit-s5-current-flow-docs.ts",
+            "line": 64,
+            "rule": "@typescript-eslint/no-explicit-any",
+            "severity": 2,
+            "message": "Unexpected any. Specify a different type."
+          },
+          {
+            "file": "scripts/audit-s5-current-flow-docs.ts",
+            "line": 65,
+            "rule": "@typescript-eslint/no-explicit-any",
+            "severity": 2,
+            "message": "Unexpected any. Specify a different type."
+          },
+          {
+            "file": "scripts/audit-s5-current-flow-docs.ts",
+            "line": 70,
+            "rule": "@typescript-eslint/no-explicit-any",
+            "severity": 2,
+            "message": "Unexpected any. Specify a different type."
+          },
+          {
+            "file": "scripts/audit-s5-current-flow-docs.ts",
+            "line": 74,
+            "rule": "@typescript-eslint/no-explicit-any",
+            "severity": 2,
+            "message": "Unexpected any. Specify a different type."
+          },
+          {
+            "file": "scripts/audit-s5-current-flow-docs.ts",
+            "line": 85,
+            "rule": "@typescript-eslint/no-explicit-any",
+            "severity": 2,
+            "message": "Unexpected any. Specify a different type."
+          },
+          {
+            "file": "scripts/audit-s5-current-flow-docs.ts",
+            "line": 93,
+            "rule": "@typescript-eslint/no-explicit-any",
+            "severity": 2,
+            "message": "Unexpected any. Specify a different type."
+          },
+          {
+            "file": "scripts/audit-s5-current-flow-docs.ts",
+            "line": 122,
+            "rule": "@typescript-eslint/no-explicit-any",
+            "severity": 2,
+            "message": "Unexpected any. Specify a different type."
+          },
+          {
+            "file": "scripts/audit-s5-current-flow-docs.ts",
+            "line": 128,
+            "rule": "@typescript-eslint/no-explicit-any",
+            "severity": 2,
+            "message": "Unexpected any. Specify a different type."
+          },
+          {
+            "file": "scripts/audit-s5-current-flow-docs.ts",
+            "line": 128,
+            "rule": "@typescript-eslint/no-explicit-any",
+            "severity": 2,
+            "message": "Unexpected any. Specify a different type."
+          },
+          {
+            "file": "scripts/audit-s5-current-flow-docs.ts",
+            "line": 130,
+            "rule": "@typescript-eslint/no-unused-vars",
+            "severity": 2,
+            "message": "'value' is defined but never used."
+          },
+          {
+            "file": "scripts/audit-s5-current-flow-docs.ts",
+            "line": 141,
+            "rule": "@typescript-eslint/no-explicit-any",
+            "severity": 2,
+            "message": "Unexpected any. Specify a different type."
+          },
+          {
+            "file": "scripts/audit-s5-current-flow-docs.ts",
+            "line": 145,
+            "rule": "@typescript-eslint/no-explicit-any",
+            "severity": 2,
+            "message": "Unexpected any. Specify a different type."
+          },
+          {
+            "file": "scripts/audit-s5-current-flow-docs.ts",
+            "line": 151,
+            "rule": "@typescript-eslint/no-explicit-any",
+            "severity": 2,
+            "message": "Unexpected any. Specify a different type."
+          },
+          {
+            "file": "scripts/audit-s5-current-flow-docs.ts",
+            "line": 156,
+            "rule": "@typescript-eslint/no-explicit-any",
+            "severity": 2,
+            "message": "Unexpected any. Specify a different type."
+          },
+          {
+            "file": "scripts/audit-s5-current-flow-docs.ts",
+            "line": 156,
+            "rule": "@typescript-eslint/no-explicit-any",
+            "severity": 2,
+            "message": "Unexpected any. Specify a different type."
+          },
+          {
+            "file": "scripts/audit-s5-current-flow-docs.ts",
+            "line": 157,
+            "rule": "@typescript-eslint/no-explicit-any",
+            "severity": 2,
+            "message": "Unexpected any. Specify a different type."
+          },
+          {
+            "file": "scripts/audit-s5-current-flow-docs.ts",
+            "line": 215,
+            "rule": "@typescript-eslint/no-explicit-any",
+            "severity": 2,
+            "message": "Unexpected any. Specify a different type."
+          },
+          {
+            "file": "scripts/audit-s5-current-flow-docs.ts",
+            "line": 216,
+            "rule": "@typescript-eslint/no-explicit-any",
+            "severity": 2,
+            "message": "Unexpected any. Specify a different type."
+          },
+          {
+            "file": "scripts/audit-s5-current-flow-docs.ts",
+            "line": 217,
+            "rule": "prefer-const",
+            "severity": 2,
+            "message": "'bible' is never reassigned. Use 'const' instead."
+          },
+          {
+            "file": "scripts/audit-s5-current-flow-docs.ts",
+            "line": 217,
+            "rule": "@typescript-eslint/no-explicit-any",
+            "severity": 2,
+            "message": "Unexpected any. Specify a different type."
+          },
+          {
+            "file": "scripts/audit-s5-current-flow-verify.ts",
+            "line": 3,
+            "rule": "@typescript-eslint/no-unused-vars",
+            "severity": 2,
+            "message": "'readdirSync' is defined but never used."
+          },
+          {
+            "file": "scripts/audit-s5-current-flow-verify.ts",
+            "line": 21,
+            "rule": "@typescript-eslint/no-explicit-any",
+            "severity": 2,
+            "message": "Unexpected any. Specify a different type."
+          },
+          {
+            "file": "scripts/audit-s5-current-flow-verify.ts",
+            "line": 40,
+            "rule": "@typescript-eslint/no-explicit-any",
+            "severity": 2,
+            "message": "Unexpected any. Specify a different type."
+          },
+          {
+            "file": "scripts/audit-s5-current-flow-verify.ts",
+            "line": 45,
+            "rule": "@typescript-eslint/no-explicit-any",
+            "severity": 2,
+            "message": "Unexpected any. Specify a different type."
+          },
+          {
+            "file": "scripts/audit-s5-current-flow-verify.ts",
+            "line": 56,
+            "rule": "@typescript-eslint/no-explicit-any",
+            "severity": 2,
+            "message": "Unexpected any. Specify a different type."
+          },
+          {
+            "file": "scripts/audit-s5-current-flow-verify.ts",
+            "line": 57,
+            "rule": "@typescript-eslint/no-explicit-any",
+            "severity": 2,
+            "message": "Unexpected any. Specify a different type."
+          },
+          {
+            "file": "scripts/audit-s5-current-flow-verify.ts",
+            "line": 57,
+            "rule": "@typescript-eslint/no-explicit-any",
+            "severity": 2,
+            "message": "Unexpected any. Specify a different type."
+          },
+          {
+            "file": "scripts/audit-s5-current-flow-verify.ts",
+            "line": 58,
+            "rule": "@typescript-eslint/no-explicit-any",
+            "severity": 2,
+            "message": "Unexpected any. Specify a different type."
+          },
+          {
+            "file": "scripts/audit-s5-current-flow-verify.ts",
+            "line": 60,
+            "rule": "@typescript-eslint/no-explicit-any",
+            "severity": 2,
+            "message": "Unexpected any. Specify a different type."
+          },
+          {
+            "file": "scripts/audit-s5-current-flow-verify.ts",
+            "line": 63,
+            "rule": "@typescript-eslint/no-explicit-any",
+            "severity": 2,
+            "message": "Unexpected any. Specify a different type."
+          },
+          {
+            "file": "scripts/audit-s5-current-flow-verify.ts",
+            "line": 66,
+            "rule": "@typescript-eslint/no-explicit-any",
+            "severity": 2,
+            "message": "Unexpected any. Specify a different type."
+          },
+          {
+            "file": "scripts/audit-s5-current-flow-verify.ts",
+            "line": 68,
+            "rule": "@typescript-eslint/no-explicit-any",
+            "severity": 2,
+            "message": "Unexpected any. Specify a different type."
+          },
+          {
+            "file": "scripts/audit-s5-current-flow-verify.ts",
+            "line": 68,
+            "rule": "@typescript-eslint/no-explicit-any",
+            "severity": 2,
+            "message": "Unexpected any. Specify a different type."
+          },
+          {
+            "file": "scripts/audit-s5-current-flow-verify.ts",
+            "line": 69,
+            "rule": "@typescript-eslint/no-explicit-any",
+            "severity": 2,
+            "message": "Unexpected any. Specify a different type."
+          },
+          {
+            "file": "scripts/audit-s5-current-flow-verify.ts",
+            "line": 81,
+            "rule": "@typescript-eslint/no-explicit-any",
+            "severity": 2,
+            "message": "Unexpected any. Specify a different type."
+          },
+          {
+            "file": "scripts/audit-s5-current-flow-verify.ts",
+            "line": 81,
+            "rule": "@typescript-eslint/no-explicit-any",
+            "severity": 2,
+            "message": "Unexpected any. Specify a different type."
+          },
+          {
+            "file": "scripts/audit-s5-current-flow-verify.ts",
+            "line": 84,
+            "rule": "@typescript-eslint/no-explicit-any",
+            "severity": 2,
+            "message": "Unexpected any. Specify a different type."
+          },
+          {
+            "file": "scripts/audit-s5-current-flow-verify.ts",
+            "line": 85,
+            "rule": "@typescript-eslint/no-explicit-any",
+            "severity": 2,
+            "message": "Unexpected any. Specify a different type."
+          },
+          {
+            "file": "scripts/audit-s5-current-flow-verify.ts",
+            "line": 86,
+            "rule": "@typescript-eslint/no-explicit-any",
+            "severity": 2,
+            "message": "Unexpected any. Specify a different type."
+          },
+          {
+            "file": "scripts/audit-s5-current-flow-verify.ts",
+            "line": 86,
+            "rule": "@typescript-eslint/no-explicit-any",
+            "severity": 2,
+            "message": "Unexpected any. Specify a different type."
+          },
+          {
+            "file": "scripts/audit-s5-current-flow.ts",
+            "line": 10,
+            "rule": "@typescript-eslint/no-unused-vars",
+            "severity": 2,
+            "message": "'BASE_ROUND_MINUTES' is defined but never used."
+          },
+          {
+            "file": "scripts/audit-s5-current-flow.ts",
+            "line": 50,
+            "rule": "@typescript-eslint/no-explicit-any",
+            "severity": 2,
+            "message": "Unexpected any. Specify a different type."
+          },
+          {
+            "file": "scripts/audit-s5-current-flow.ts",
+            "line": 67,
+            "rule": "@typescript-eslint/no-explicit-any",
+            "severity": 2,
+            "message": "Unexpected any. Specify a different type."
+          },
+          {
+            "file": "scripts/audit-s5-current-flow.ts",
+            "line": 69,
+            "rule": "@typescript-eslint/no-explicit-any",
+            "severity": 2,
+            "message": "Unexpected any. Specify a different type."
+          },
+          {
+            "file": "scripts/audit-s5-current-flow.ts",
+            "line": 70,
+            "rule": "@typescript-eslint/no-explicit-any",
+            "severity": 2,
+            "message": "Unexpected any. Specify a different type."
+          },
+          {
+            "file": "scripts/audit-s5-current-flow.ts",
+            "line": 70,
+            "rule": "@typescript-eslint/no-explicit-any",
+            "severity": 2,
+            "message": "Unexpected any. Specify a different type."
+          },
+          {
+            "file": "scripts/audit-s5-current-flow.ts",
+            "line": 71,
+            "rule": "@typescript-eslint/no-explicit-any",
+            "severity": 2,
+            "message": "Unexpected any. Specify a different type."
+          },
+          {
+            "file": "scripts/audit-s5-current-flow.ts",
+            "line": 71,
+            "rule": "@typescript-eslint/no-explicit-any",
+            "severity": 2,
+            "message": "Unexpected any. Specify a different type."
+          },
+          {
+            "file": "scripts/audit-s5-current-flow.ts",
+            "line": 73,
+            "rule": "@typescript-eslint/no-explicit-any",
+            "severity": 2,
+            "message": "Unexpected any. Specify a different type."
+          },
+          {
+            "file": "scripts/audit-s5-current-flow.ts",
+            "line": 75,
+            "rule": "@typescript-eslint/no-explicit-any",
+            "severity": 2,
+            "message": "Unexpected any. Specify a different type."
+          },
+          {
+            "file": "scripts/audit-s5-current-flow.ts",
+            "line": 78,
+            "rule": "@typescript-eslint/no-explicit-any",
+            "severity": 2,
+            "message": "Unexpected any. Specify a different type."
+          },
+          {
+            "file": "scripts/audit-s5-current-flow.ts",
+            "line": 79,
+            "rule": "@typescript-eslint/no-explicit-any",
+            "severity": 2,
+            "message": "Unexpected any. Specify a different type."
+          },
+          {
+            "file": "scripts/audit-s5-current-flow.ts",
+            "line": 94,
+            "rule": "prefer-const",
+            "severity": 2,
+            "message": "'priorProgress' is never reassigned. Use 'const' instead."
+          },
+          {
+            "file": "scripts/audit-s5-current-flow.ts",
+            "line": 97,
+            "rule": "@typescript-eslint/no-explicit-any",
+            "severity": 2,
+            "message": "Unexpected any. Specify a different type."
+          },
+          {
+            "file": "scripts/audit-s5-current-flow.ts",
+            "line": 178,
+            "rule": "@typescript-eslint/no-unused-vars",
+            "severity": 2,
+            "message": "'first' is assigned a value but never used."
+          },
+          {
+            "file": "scripts/run-s5-phase8-calibration.ts",
+            "line": 27,
+            "rule": "@typescript-eslint/no-unused-vars",
+            "severity": 2,
+            "message": "'SHADOW_DEADLINE_SHIFTS' is defined but never used."
+          },
+          {
+            "file": "scripts/run-s5-phase8-calibration.ts",
+            "line": 28,
+            "rule": "@typescript-eslint/no-unused-vars",
+            "severity": 2,
+            "message": "'SHADOW_HORIZONS' is defined but never used."
+          },
+          {
+            "file": "scripts/run-s5-phase8-calibration.ts",
+            "line": 29,
+            "rule": "@typescript-eslint/no-unused-vars",
+            "severity": 2,
+            "message": "'SHADOW_RESOURCE_BUDGETS' is defined but never used."
+          },
+          {
+            "file": "scripts/run-s5-phase8-calibration.ts",
+            "line": 53,
+            "rule": "@typescript-eslint/no-unused-vars",
+            "severity": 2,
+            "message": "'CalibrationPolicy' is defined but never used."
+          },
+          {
+            "file": "scripts/verify-s5-phase4-mission.ts",
+            "line": 33,
+            "rule": "@typescript-eslint/no-unused-vars",
+            "severity": 2,
+            "message": "'MissionConvoyState' is defined but never used."
+          },
+          {
+            "file": "scripts/verify-s5-phase5-cognitive.ts",
+            "line": 37,
+            "rule": "@typescript-eslint/no-unused-vars",
+            "severity": 2,
+            "message": "'PhaseId' is defined but never used."
+          },
+          {
+            "file": "scripts/verify-s5-phase5-cognitive.ts",
+            "line": 283,
+            "rule": "@typescript-eslint/no-unused-vars",
+            "severity": 2,
+            "message": "'constructResult' is assigned a value but never used."
+          },
+          {
+            "file": "scripts/verify-s5-phase6-runtime.ts",
+            "line": 367,
+            "rule": "@typescript-eslint/no-unused-vars",
+            "severity": 2,
+            "message": "'index' is defined but never used."
+          },
+          {
+            "file": "scripts/verify-s5-phase6-runtime.ts",
+            "line": 373,
+            "rule": "no-useless-escape",
+            "severity": 2,
+            "message": "Unnecessary escape character: \\\"."
+          },
+          {
+            "file": "scripts/verify-s5-phase6-runtime.ts",
+            "line": 373,
+            "rule": "no-useless-escape",
+            "severity": 2,
+            "message": "Unnecessary escape character: \\\"."
+          },
+          {
+            "file": "scripts/verify-s5-phase8-calibration.ts",
+            "line": 90,
+            "rule": "@typescript-eslint/no-explicit-any",
+            "severity": 2,
+            "message": "Unexpected any. Specify a different type."
+          },
+          {
+            "file": "scripts/verify-s5-phase8a-audit.ts",
+            "line": 84,
+            "rule": "@typescript-eslint/no-explicit-any",
+            "severity": 2,
+            "message": "Unexpected any. Specify a different type."
+          },
+          {
+            "file": "scripts/verify-s5-phase8b-calibration.ts",
+            "line": 79,
+            "rule": "@typescript-eslint/no-explicit-any",
+            "severity": 2,
+            "message": "Unexpected any. Specify a different type."
+          },
+          {
+            "file": "scripts/verify-s5-phase8b-calibration.ts",
+            "line": 114,
+            "rule": "@typescript-eslint/no-explicit-any",
+            "severity": 2,
+            "message": "Unexpected any. Specify a different type."
+          },
+          {
+            "file": "scripts/verify-s5-phase8b-calibration.ts",
+            "line": 115,
+            "rule": "@typescript-eslint/no-explicit-any",
+            "severity": 2,
+            "message": "Unexpected any. Specify a different type."
+          },
+          {
+            "file": "scripts/verify-s5-phase8b-calibration.ts",
+            "line": 116,
+            "rule": "@typescript-eslint/no-explicit-any",
+            "severity": 2,
+            "message": "Unexpected any. Specify a different type."
+          },
+          {
+            "file": "scripts/verify-s5-phase8b-calibration.ts",
+            "line": 118,
+            "rule": "@typescript-eslint/no-explicit-any",
+            "severity": 2,
+            "message": "Unexpected any. Specify a different type."
+          },
+          {
+            "file": "scripts/verify-s5-phase8c-ui.ts",
+            "line": 19,
+            "rule": "@typescript-eslint/no-unused-vars",
+            "severity": 2,
+            "message": "'SCENARIO5_CORRIDOR_CONTENT_FA' is defined but never used."
+          },
+          {
+            "file": "scripts/verify-s5-phase8d-integrated-gameplay.ts",
+            "line": 23,
+            "rule": "@typescript-eslint/no-unused-vars",
+            "severity": 2,
+            "message": "'_' is defined but never used."
+          },
+          {
+            "file": "scripts/verify-s5-phase8d-integrated-gameplay.ts",
+            "line": 35,
+            "rule": "@typescript-eslint/no-unused-vars",
+            "severity": 2,
+            "message": "'_' is defined but never used."
+          },
+          {
+            "file": "scripts/verify-s5-phase8d-presentation.tsx",
+            "line": 18,
+            "rule": "@typescript-eslint/no-unused-vars",
+            "severity": 2,
+            "message": "'CorridorId' is defined but never used."
+          },
+          {
+            "file": "scripts/verify-s5-phase8d-presentation.tsx",
+            "line": 103,
+            "rule": "prefer-const",
+            "severity": 2,
+            "message": "'inspected' is never reassigned. Use 'const' instead."
+          },
+          {
+            "file": "scripts/verify-s5-phase8d-presentation.tsx",
+            "line": 147,
+            "rule": "@typescript-eslint/no-explicit-any",
+            "severity": 2,
+            "message": "Unexpected any. Specify a different type."
+          },
+          {
+            "file": "scripts/verify-s5-phase8d-presentation.tsx",
+            "line": 151,
+            "rule": "@typescript-eslint/no-explicit-any",
+            "severity": 2,
+            "message": "Unexpected any. Specify a different type."
+          },
+          {
+            "file": "scripts/verify-s5-phase8d-presentation.tsx",
+            "line": 161,
+            "rule": "@typescript-eslint/no-explicit-any",
+            "severity": 2,
+            "message": "Unexpected any. Specify a different type."
+          },
+          {
+            "file": "scripts/verify-s5-phase8d1-corrections.tsx",
+            "line": 79,
+            "rule": "@typescript-eslint/no-unused-vars",
+            "severity": 2,
+            "message": "'_' is defined but never used."
+          },
+          {
+            "file": "src/ui/components/scenario/ScenarioOneSimulation.tsx",
+            "line": 1036,
+            "rule": "react-hooks/exhaustive-deps",
+            "severity": 1,
+            "message": "React Hook useEffect has a missing dependency: 'startRoundFiveTimer'. Either include it or remove the dependency array."
+          },
+          {
+            "file": "src/ui/components/scenario/ScenarioThreeDungeon.tsx",
+            "line": 381,
+            "rule": "react-hooks/exhaustive-deps",
+            "severity": 1,
+            "message": "React Hook useEffect has missing dependencies: 'area.startTileId', 'logDungeonEvent', 'onCompletionUiActiveChange', and 'revealAround'. Either include them or remove the dependency array. If 'onCompletionUiActiveChange' changes too often, find the parent component that defines it and wrap that definition in useCallback."
+          },
+          {
+            "file": "src/ui/components/scenario/ScenarioThreeDungeon.tsx",
+            "line": 396,
+            "rule": "react-hooks/exhaustive-deps",
+            "severity": 1,
+            "message": "React Hook useMemo has a missing dependency: 'hasAbility'. Either include it or remove the dependency array."
+          },
+          {
+            "file": "src/ui/components/scenario/ScenarioThreeDungeon.tsx",
+            "line": 720,
+            "rule": "react-hooks/rules-of-hooks",
+            "severity": 2,
+            "message": "React Hook \"useCard\" cannot be called inside a callback. React Hooks must be called in a React function component or a custom React Hook function."
+          },
+          {
+            "file": "src/ui/components/scenario/scenario-five/model/projections.ts",
+            "line": 17,
+            "rule": "@typescript-eslint/no-unused-vars",
+            "severity": 2,
+            "message": "'_hiddenProvenance' is defined but never used."
+          }
+        ]
+      }
+    },
+    "after": {
+      "checks": [
+        {
+          "script": "scripts/validate-s4-cognitive-v3.mjs",
+          "status": "PASS",
+          "exitCode": 0,
+          "failure": null,
+          "log": "docs/scenario-cross-phase09d1b-checks/after-validate-s4-cognitive-v3.mjs.txt"
+        },
+        {
+          "script": "scripts/validate-profiles.ts",
+          "status": "PASS",
+          "exitCode": 0,
+          "failure": null,
+          "log": "docs/scenario-cross-phase09d1b-checks/after-validate-profiles.ts.txt"
+        },
+        {
+          "script": "scripts/validate-system-management.ts",
+          "status": "PASS",
+          "exitCode": 0,
+          "failure": null,
+          "log": "docs/scenario-cross-phase09d1b-checks/after-validate-system-management.ts.txt"
+        },
+        {
+          "script": "scripts/verify-s5-phase6-runtime.ts",
+          "status": "PASS",
+          "exitCode": 0,
+          "failure": null,
+          "log": "docs/scenario-cross-phase09d1b-checks/after-verify-s5-phase6-runtime.ts.txt"
+        },
+        {
+          "script": "scripts/verify-cross-phase09d1a-scientific.ts",
+          "status": "PASS",
+          "exitCode": 0,
+          "failure": null,
+          "log": "docs/scenario-cross-phase09d1b-checks/after-verify-cross-phase09d1a-scientific.ts.txt"
+        },
+        {
+          "script": "scripts/verify-s5-phase8d-integrated-gameplay.ts",
+          "status": "FAIL",
+          "exitCode": 1,
+          "failure": "AssertionError [ERR_ASSERTION]: App identity including legacy id=2 unchanged except exact approved id=5 resource sentence\r",
+          "log": "docs/scenario-cross-phase09d1b-checks/after-verify-s5-phase8d-integrated-gameplay.ts.txt"
+        },
+        {
+          "script": "scripts/verify-s5-phase8d2-header.tsx",
+          "status": "FAIL",
+          "exitCode": 1,
+          "failure": "AssertionError [ERR_ASSERTION]: App, id=2, id=5 routing and all metadata unchanged\r",
+          "log": "docs/scenario-cross-phase09d1b-checks/after-verify-s5-phase8d2-header.tsx.txt"
+        },
+        {
+          "script": "scripts/verify-s5-phase8d2-ux.tsx",
+          "status": "FAIL",
+          "exitCode": 1,
+          "failure": "AssertionError [ERR_ASSERTION]: App including legacy id=2 and active id=5 unchanged\r",
+          "log": "docs/scenario-cross-phase09d1b-checks/after-verify-s5-phase8d2-ux.tsx.txt"
+        },
+        {
+          "script": "scripts/verify-s5-phase09c1.tsx",
+          "status": "FAIL",
+          "exitCode": 1,
+          "failure": "AssertionError [ERR_ASSERTION]: Unchanged existing source src/ui/components/scenario/scenario-five/ui/ScenarioFiveMissionEnding.tsx\r",
+          "log": "docs/scenario-cross-phase09d1b-checks/after-verify-s5-phase09c1.tsx.txt"
+        },
+        {
+          "script": "scripts/verify-s5-phase09c2.tsx",
+          "status": "FAIL",
+          "exitCode": 1,
+          "failure": "AssertionError [ERR_ASSERTION]: Unchanged existing source src/ui/components/scenario/scenario-five/ui/ScenarioFiveMissionEnding.tsx\r",
+          "log": "docs/scenario-cross-phase09d1b-checks/after-verify-s5-phase09c2.tsx.txt"
+        },
+        {
+          "script": "scripts/verify-cross-phase09d1a-browser.mjs",
+          "status": "PASS",
+          "exitCode": 0,
+          "failure": null,
+          "log": "docs/scenario-cross-phase09d1b-checks/after-verify-cross-phase09d1a-browser.mjs.txt"
+        }
+      ],
+      "lint": {
+        "errors": 140,
+        "warnings": 3,
+        "issues": [
+          {
+            "file": "scripts/analyze-s4-report.ts",
+            "line": 39,
+            "rule": "@typescript-eslint/no-unused-vars",
+            "severity": 2,
+            "message": "'EndState' is defined but never used."
+          },
+          {
+            "file": "scripts/analyze-s4-report.ts",
+            "line": 237,
+            "rule": "@typescript-eslint/no-explicit-any",
+            "severity": 2,
+            "message": "Unexpected any. Specify a different type."
+          },
+          {
+            "file": "scripts/analyze-s4-report.ts",
+            "line": 286,
+            "rule": "@typescript-eslint/no-explicit-any",
+            "severity": 2,
+            "message": "Unexpected any. Specify a different type."
+          },
+          {
+            "file": "scripts/analyze-s4-report.ts",
+            "line": 324,
+            "rule": "@typescript-eslint/no-explicit-any",
+            "severity": 2,
+            "message": "Unexpected any. Specify a different type."
+          },
+          {
+            "file": "scripts/analyze-s4-report.ts",
+            "line": 335,
+            "rule": "@typescript-eslint/no-explicit-any",
+            "severity": 2,
+            "message": "Unexpected any. Specify a different type."
+          },
+          {
+            "file": "scripts/analyze-s4-report.ts",
+            "line": 367,
+            "rule": "@typescript-eslint/no-explicit-any",
+            "severity": 2,
+            "message": "Unexpected any. Specify a different type."
+          },
+          {
+            "file": "scripts/analyze-s4-report.ts",
+            "line": 372,
+            "rule": "@typescript-eslint/no-explicit-any",
+            "severity": 2,
+            "message": "Unexpected any. Specify a different type."
+          },
+          {
+            "file": "scripts/analyze-s4-report.ts",
+            "line": 373,
+            "rule": "@typescript-eslint/no-explicit-any",
+            "severity": 2,
+            "message": "Unexpected any. Specify a different type."
+          },
+          {
+            "file": "scripts/analyze-s4-report.ts",
+            "line": 374,
+            "rule": "@typescript-eslint/no-explicit-any",
+            "severity": 2,
+            "message": "Unexpected any. Specify a different type."
+          },
+          {
+            "file": "scripts/analyze-s4-report.ts",
+            "line": 375,
+            "rule": "@typescript-eslint/no-explicit-any",
+            "severity": 2,
+            "message": "Unexpected any. Specify a different type."
+          },
+          {
+            "file": "scripts/analyze-s4-report.ts",
+            "line": 376,
+            "rule": "@typescript-eslint/no-explicit-any",
+            "severity": 2,
+            "message": "Unexpected any. Specify a different type."
+          },
+          {
+            "file": "scripts/analyze-s4-report.ts",
+            "line": 377,
+            "rule": "@typescript-eslint/no-explicit-any",
+            "severity": 2,
+            "message": "Unexpected any. Specify a different type."
+          },
+          {
+            "file": "scripts/analyze-s4-report.ts",
+            "line": 385,
+            "rule": "@typescript-eslint/no-explicit-any",
+            "severity": 2,
+            "message": "Unexpected any. Specify a different type."
+          },
+          {
+            "file": "scripts/analyze-s4-report.ts",
+            "line": 388,
+            "rule": "@typescript-eslint/no-explicit-any",
+            "severity": 2,
+            "message": "Unexpected any. Specify a different type."
+          },
+          {
+            "file": "scripts/analyze-s4-report.ts",
+            "line": 403,
+            "rule": "@typescript-eslint/no-explicit-any",
+            "severity": 2,
+            "message": "Unexpected any. Specify a different type."
+          },
+          {
+            "file": "scripts/analyze-s4-report.ts",
+            "line": 408,
+            "rule": "@typescript-eslint/no-explicit-any",
+            "severity": 2,
+            "message": "Unexpected any. Specify a different type."
+          },
+          {
+            "file": "scripts/analyze-s4-report.ts",
+            "line": 409,
+            "rule": "@typescript-eslint/no-explicit-any",
+            "severity": 2,
+            "message": "Unexpected any. Specify a different type."
+          },
+          {
+            "file": "scripts/analyze-s4-report.ts",
+            "line": 410,
+            "rule": "@typescript-eslint/no-explicit-any",
+            "severity": 2,
+            "message": "Unexpected any. Specify a different type."
+          },
+          {
+            "file": "scripts/analyze-s4-report.ts",
+            "line": 411,
+            "rule": "@typescript-eslint/no-explicit-any",
+            "severity": 2,
+            "message": "Unexpected any. Specify a different type."
+          },
+          {
+            "file": "scripts/analyze-s4-report.ts",
+            "line": 412,
+            "rule": "@typescript-eslint/no-explicit-any",
+            "severity": 2,
+            "message": "Unexpected any. Specify a different type."
+          },
+          {
+            "file": "scripts/analyze-s4-report.ts",
+            "line": 422,
+            "rule": "@typescript-eslint/no-explicit-any",
+            "severity": 2,
+            "message": "Unexpected any. Specify a different type."
+          },
+          {
+            "file": "scripts/analyze-s4-report.ts",
+            "line": 423,
+            "rule": "@typescript-eslint/no-explicit-any",
+            "severity": 2,
+            "message": "Unexpected any. Specify a different type."
+          },
+          {
+            "file": "scripts/analyze-s4-report.ts",
+            "line": 424,
+            "rule": "@typescript-eslint/no-explicit-any",
+            "severity": 2,
+            "message": "Unexpected any. Specify a different type."
+          },
+          {
+            "file": "scripts/analyze-s4-report.ts",
+            "line": 425,
+            "rule": "@typescript-eslint/no-explicit-any",
+            "severity": 2,
+            "message": "Unexpected any. Specify a different type."
+          },
+          {
+            "file": "scripts/analyze-s4-report.ts",
+            "line": 426,
+            "rule": "@typescript-eslint/no-explicit-any",
+            "severity": 2,
+            "message": "Unexpected any. Specify a different type."
+          },
+          {
+            "file": "scripts/analyze-s4-report.ts",
+            "line": 427,
+            "rule": "@typescript-eslint/no-explicit-any",
+            "severity": 2,
+            "message": "Unexpected any. Specify a different type."
+          },
+          {
+            "file": "scripts/analyze-s4-report.ts",
+            "line": 436,
+            "rule": "@typescript-eslint/no-explicit-any",
+            "severity": 2,
+            "message": "Unexpected any. Specify a different type."
+          },
+          {
+            "file": "scripts/analyze-s4-report.ts",
+            "line": 459,
+            "rule": "@typescript-eslint/no-explicit-any",
+            "severity": 2,
+            "message": "Unexpected any. Specify a different type."
+          },
+          {
+            "file": "scripts/analyze-s4-report.ts",
+            "line": 463,
+            "rule": "@typescript-eslint/no-explicit-any",
+            "severity": 2,
+            "message": "Unexpected any. Specify a different type."
+          },
+          {
+            "file": "scripts/analyze-s4-report.ts",
+            "line": 463,
+            "rule": "@typescript-eslint/no-explicit-any",
+            "severity": 2,
+            "message": "Unexpected any. Specify a different type."
+          },
+          {
+            "file": "scripts/analyze-s4-report.ts",
+            "line": 465,
+            "rule": "@typescript-eslint/no-explicit-any",
+            "severity": 2,
+            "message": "Unexpected any. Specify a different type."
+          },
+          {
+            "file": "scripts/analyze-s4-report.ts",
+            "line": 473,
+            "rule": "@typescript-eslint/no-explicit-any",
+            "severity": 2,
+            "message": "Unexpected any. Specify a different type."
+          },
+          {
+            "file": "scripts/analyze-s4-report.ts",
+            "line": 664,
+            "rule": "@typescript-eslint/no-explicit-any",
+            "severity": 2,
+            "message": "Unexpected any. Specify a different type."
+          },
+          {
+            "file": "scripts/analyze-s4-report.ts",
+            "line": 665,
+            "rule": "@typescript-eslint/no-explicit-any",
+            "severity": 2,
+            "message": "Unexpected any. Specify a different type."
+          },
+          {
+            "file": "scripts/analyze-s4-report.ts",
+            "line": 665,
+            "rule": "@typescript-eslint/no-explicit-any",
+            "severity": 2,
+            "message": "Unexpected any. Specify a different type."
+          },
+          {
+            "file": "scripts/analyze-s4-report.ts",
+            "line": 796,
+            "rule": "@typescript-eslint/no-explicit-any",
+            "severity": 2,
+            "message": "Unexpected any. Specify a different type."
+          },
+          {
+            "file": "scripts/analyze-s4-report.ts",
+            "line": 796,
+            "rule": "@typescript-eslint/no-explicit-any",
+            "severity": 2,
+            "message": "Unexpected any. Specify a different type."
+          },
+          {
+            "file": "scripts/analyze-s4-report.ts",
+            "line": 802,
+            "rule": "@typescript-eslint/no-explicit-any",
+            "severity": 2,
+            "message": "Unexpected any. Specify a different type."
+          },
+          {
+            "file": "scripts/analyze-s4-report.ts",
+            "line": 806,
+            "rule": "@typescript-eslint/no-explicit-any",
+            "severity": 2,
+            "message": "Unexpected any. Specify a different type."
+          },
+          {
+            "file": "scripts/analyze-s4-report.ts",
+            "line": 823,
+            "rule": "@typescript-eslint/no-explicit-any",
+            "severity": 2,
+            "message": "Unexpected any. Specify a different type."
+          },
+          {
+            "file": "scripts/audit-s5-current-flow-catalogs.ts",
+            "line": 18,
+            "rule": "@typescript-eslint/no-explicit-any",
+            "severity": 2,
+            "message": "Unexpected any. Specify a different type."
+          },
+          {
+            "file": "scripts/audit-s5-current-flow-catalogs.ts",
+            "line": 19,
+            "rule": "@typescript-eslint/no-explicit-any",
+            "severity": 2,
+            "message": "Unexpected any. Specify a different type."
+          },
+          {
+            "file": "scripts/audit-s5-current-flow-catalogs.ts",
+            "line": 40,
+            "rule": "prefer-const",
+            "severity": 2,
+            "message": "'region' is never reassigned. Use 'const' instead."
+          },
+          {
+            "file": "scripts/audit-s5-current-flow-catalogs.ts",
+            "line": 41,
+            "rule": "prefer-const",
+            "severity": 2,
+            "message": "'appRanges' is never reassigned. Use 'const' instead."
+          },
+          {
+            "file": "scripts/audit-s5-current-flow-catalogs.ts",
+            "line": 89,
+            "rule": "@typescript-eslint/no-explicit-any",
+            "severity": 2,
+            "message": "Unexpected any. Specify a different type."
+          },
+          {
+            "file": "scripts/audit-s5-current-flow-catalogs.ts",
+            "line": 89,
+            "rule": "@typescript-eslint/no-explicit-any",
+            "severity": 2,
+            "message": "Unexpected any. Specify a different type."
+          },
+          {
+            "file": "scripts/audit-s5-current-flow-catalogs.ts",
+            "line": 165,
+            "rule": "no-dupe-else-if",
+            "severity": 2,
+            "message": "This branch can never execute. Its condition is a duplicate or covered by previous conditions in the if-else-if chain."
+          },
+          {
+            "file": "scripts/audit-s5-current-flow-docs.ts",
+            "line": 2,
+            "rule": "@typescript-eslint/no-unused-vars",
+            "severity": 2,
+            "message": "'readdirSync' is defined but never used."
+          },
+          {
+            "file": "scripts/audit-s5-current-flow-docs.ts",
+            "line": 2,
+            "rule": "@typescript-eslint/no-unused-vars",
+            "severity": 2,
+            "message": "'existsSync' is defined but never used."
+          },
+          {
+            "file": "scripts/audit-s5-current-flow-docs.ts",
+            "line": 9,
+            "rule": "@typescript-eslint/no-explicit-any",
+            "severity": 2,
+            "message": "Unexpected any. Specify a different type."
+          },
+          {
+            "file": "scripts/audit-s5-current-flow-docs.ts",
+            "line": 9,
+            "rule": "@typescript-eslint/no-explicit-any",
+            "severity": 2,
+            "message": "Unexpected any. Specify a different type."
+          },
+          {
+            "file": "scripts/audit-s5-current-flow-docs.ts",
+            "line": 13,
+            "rule": "@typescript-eslint/no-explicit-any",
+            "severity": 2,
+            "message": "Unexpected any. Specify a different type."
+          },
+          {
+            "file": "scripts/audit-s5-current-flow-docs.ts",
+            "line": 14,
+            "rule": "@typescript-eslint/no-explicit-any",
+            "severity": 2,
+            "message": "Unexpected any. Specify a different type."
+          },
+          {
+            "file": "scripts/audit-s5-current-flow-docs.ts",
+            "line": 18,
+            "rule": "@typescript-eslint/no-explicit-any",
+            "severity": 2,
+            "message": "Unexpected any. Specify a different type."
+          },
+          {
+            "file": "scripts/audit-s5-current-flow-docs.ts",
+            "line": 24,
+            "rule": "@typescript-eslint/no-explicit-any",
+            "severity": 2,
+            "message": "Unexpected any. Specify a different type."
+          },
+          {
+            "file": "scripts/audit-s5-current-flow-docs.ts",
+            "line": 45,
+            "rule": "@typescript-eslint/no-explicit-any",
+            "severity": 2,
+            "message": "Unexpected any. Specify a different type."
+          },
+          {
+            "file": "scripts/audit-s5-current-flow-docs.ts",
+            "line": 53,
+            "rule": "@typescript-eslint/no-explicit-any",
+            "severity": 2,
+            "message": "Unexpected any. Specify a different type."
+          },
+          {
+            "file": "scripts/audit-s5-current-flow-docs.ts",
+            "line": 64,
+            "rule": "@typescript-eslint/no-explicit-any",
+            "severity": 2,
+            "message": "Unexpected any. Specify a different type."
+          },
+          {
+            "file": "scripts/audit-s5-current-flow-docs.ts",
+            "line": 65,
+            "rule": "@typescript-eslint/no-explicit-any",
+            "severity": 2,
+            "message": "Unexpected any. Specify a different type."
+          },
+          {
+            "file": "scripts/audit-s5-current-flow-docs.ts",
+            "line": 70,
+            "rule": "@typescript-eslint/no-explicit-any",
+            "severity": 2,
+            "message": "Unexpected any. Specify a different type."
+          },
+          {
+            "file": "scripts/audit-s5-current-flow-docs.ts",
+            "line": 74,
+            "rule": "@typescript-eslint/no-explicit-any",
+            "severity": 2,
+            "message": "Unexpected any. Specify a different type."
+          },
+          {
+            "file": "scripts/audit-s5-current-flow-docs.ts",
+            "line": 85,
+            "rule": "@typescript-eslint/no-explicit-any",
+            "severity": 2,
+            "message": "Unexpected any. Specify a different type."
+          },
+          {
+            "file": "scripts/audit-s5-current-flow-docs.ts",
+            "line": 93,
+            "rule": "@typescript-eslint/no-explicit-any",
+            "severity": 2,
+            "message": "Unexpected any. Specify a different type."
+          },
+          {
+            "file": "scripts/audit-s5-current-flow-docs.ts",
+            "line": 122,
+            "rule": "@typescript-eslint/no-explicit-any",
+            "severity": 2,
+            "message": "Unexpected any. Specify a different type."
+          },
+          {
+            "file": "scripts/audit-s5-current-flow-docs.ts",
+            "line": 128,
+            "rule": "@typescript-eslint/no-explicit-any",
+            "severity": 2,
+            "message": "Unexpected any. Specify a different type."
+          },
+          {
+            "file": "scripts/audit-s5-current-flow-docs.ts",
+            "line": 128,
+            "rule": "@typescript-eslint/no-explicit-any",
+            "severity": 2,
+            "message": "Unexpected any. Specify a different type."
+          },
+          {
+            "file": "scripts/audit-s5-current-flow-docs.ts",
+            "line": 130,
+            "rule": "@typescript-eslint/no-unused-vars",
+            "severity": 2,
+            "message": "'value' is defined but never used."
+          },
+          {
+            "file": "scripts/audit-s5-current-flow-docs.ts",
+            "line": 141,
+            "rule": "@typescript-eslint/no-explicit-any",
+            "severity": 2,
+            "message": "Unexpected any. Specify a different type."
+          },
+          {
+            "file": "scripts/audit-s5-current-flow-docs.ts",
+            "line": 145,
+            "rule": "@typescript-eslint/no-explicit-any",
+            "severity": 2,
+            "message": "Unexpected any. Specify a different type."
+          },
+          {
+            "file": "scripts/audit-s5-current-flow-docs.ts",
+            "line": 151,
+            "rule": "@typescript-eslint/no-explicit-any",
+            "severity": 2,
+            "message": "Unexpected any. Specify a different type."
+          },
+          {
+            "file": "scripts/audit-s5-current-flow-docs.ts",
+            "line": 156,
+            "rule": "@typescript-eslint/no-explicit-any",
+            "severity": 2,
+            "message": "Unexpected any. Specify a different type."
+          },
+          {
+            "file": "scripts/audit-s5-current-flow-docs.ts",
+            "line": 156,
+            "rule": "@typescript-eslint/no-explicit-any",
+            "severity": 2,
+            "message": "Unexpected any. Specify a different type."
+          },
+          {
+            "file": "scripts/audit-s5-current-flow-docs.ts",
+            "line": 157,
+            "rule": "@typescript-eslint/no-explicit-any",
+            "severity": 2,
+            "message": "Unexpected any. Specify a different type."
+          },
+          {
+            "file": "scripts/audit-s5-current-flow-docs.ts",
+            "line": 215,
+            "rule": "@typescript-eslint/no-explicit-any",
+            "severity": 2,
+            "message": "Unexpected any. Specify a different type."
+          },
+          {
+            "file": "scripts/audit-s5-current-flow-docs.ts",
+            "line": 216,
+            "rule": "@typescript-eslint/no-explicit-any",
+            "severity": 2,
+            "message": "Unexpected any. Specify a different type."
+          },
+          {
+            "file": "scripts/audit-s5-current-flow-docs.ts",
+            "line": 217,
+            "rule": "prefer-const",
+            "severity": 2,
+            "message": "'bible' is never reassigned. Use 'const' instead."
+          },
+          {
+            "file": "scripts/audit-s5-current-flow-docs.ts",
+            "line": 217,
+            "rule": "@typescript-eslint/no-explicit-any",
+            "severity": 2,
+            "message": "Unexpected any. Specify a different type."
+          },
+          {
+            "file": "scripts/audit-s5-current-flow-verify.ts",
+            "line": 3,
+            "rule": "@typescript-eslint/no-unused-vars",
+            "severity": 2,
+            "message": "'readdirSync' is defined but never used."
+          },
+          {
+            "file": "scripts/audit-s5-current-flow-verify.ts",
+            "line": 21,
+            "rule": "@typescript-eslint/no-explicit-any",
+            "severity": 2,
+            "message": "Unexpected any. Specify a different type."
+          },
+          {
+            "file": "scripts/audit-s5-current-flow-verify.ts",
+            "line": 40,
+            "rule": "@typescript-eslint/no-explicit-any",
+            "severity": 2,
+            "message": "Unexpected any. Specify a different type."
+          },
+          {
+            "file": "scripts/audit-s5-current-flow-verify.ts",
+            "line": 45,
+            "rule": "@typescript-eslint/no-explicit-any",
+            "severity": 2,
+            "message": "Unexpected any. Specify a different type."
+          },
+          {
+            "file": "scripts/audit-s5-current-flow-verify.ts",
+            "line": 56,
+            "rule": "@typescript-eslint/no-explicit-any",
+            "severity": 2,
+            "message": "Unexpected any. Specify a different type."
+          },
+          {
+            "file": "scripts/audit-s5-current-flow-verify.ts",
+            "line": 57,
+            "rule": "@typescript-eslint/no-explicit-any",
+            "severity": 2,
+            "message": "Unexpected any. Specify a different type."
+          },
+          {
+            "file": "scripts/audit-s5-current-flow-verify.ts",
+            "line": 57,
+            "rule": "@typescript-eslint/no-explicit-any",
+            "severity": 2,
+            "message": "Unexpected any. Specify a different type."
+          },
+          {
+            "file": "scripts/audit-s5-current-flow-verify.ts",
+            "line": 58,
+            "rule": "@typescript-eslint/no-explicit-any",
+            "severity": 2,
+            "message": "Unexpected any. Specify a different type."
+          },
+          {
+            "file": "scripts/audit-s5-current-flow-verify.ts",
+            "line": 60,
+            "rule": "@typescript-eslint/no-explicit-any",
+            "severity": 2,
+            "message": "Unexpected any. Specify a different type."
+          },
+          {
+            "file": "scripts/audit-s5-current-flow-verify.ts",
+            "line": 63,
+            "rule": "@typescript-eslint/no-explicit-any",
+            "severity": 2,
+            "message": "Unexpected any. Specify a different type."
+          },
+          {
+            "file": "scripts/audit-s5-current-flow-verify.ts",
+            "line": 66,
+            "rule": "@typescript-eslint/no-explicit-any",
+            "severity": 2,
+            "message": "Unexpected any. Specify a different type."
+          },
+          {
+            "file": "scripts/audit-s5-current-flow-verify.ts",
+            "line": 68,
+            "rule": "@typescript-eslint/no-explicit-any",
+            "severity": 2,
+            "message": "Unexpected any. Specify a different type."
+          },
+          {
+            "file": "scripts/audit-s5-current-flow-verify.ts",
+            "line": 68,
+            "rule": "@typescript-eslint/no-explicit-any",
+            "severity": 2,
+            "message": "Unexpected any. Specify a different type."
+          },
+          {
+            "file": "scripts/audit-s5-current-flow-verify.ts",
+            "line": 69,
+            "rule": "@typescript-eslint/no-explicit-any",
+            "severity": 2,
+            "message": "Unexpected any. Specify a different type."
+          },
+          {
+            "file": "scripts/audit-s5-current-flow-verify.ts",
+            "line": 81,
+            "rule": "@typescript-eslint/no-explicit-any",
+            "severity": 2,
+            "message": "Unexpected any. Specify a different type."
+          },
+          {
+            "file": "scripts/audit-s5-current-flow-verify.ts",
+            "line": 81,
+            "rule": "@typescript-eslint/no-explicit-any",
+            "severity": 2,
+            "message": "Unexpected any. Specify a different type."
+          },
+          {
+            "file": "scripts/audit-s5-current-flow-verify.ts",
+            "line": 84,
+            "rule": "@typescript-eslint/no-explicit-any",
+            "severity": 2,
+            "message": "Unexpected any. Specify a different type."
+          },
+          {
+            "file": "scripts/audit-s5-current-flow-verify.ts",
+            "line": 85,
+            "rule": "@typescript-eslint/no-explicit-any",
+            "severity": 2,
+            "message": "Unexpected any. Specify a different type."
+          },
+          {
+            "file": "scripts/audit-s5-current-flow-verify.ts",
+            "line": 86,
+            "rule": "@typescript-eslint/no-explicit-any",
+            "severity": 2,
+            "message": "Unexpected any. Specify a different type."
+          },
+          {
+            "file": "scripts/audit-s5-current-flow-verify.ts",
+            "line": 86,
+            "rule": "@typescript-eslint/no-explicit-any",
+            "severity": 2,
+            "message": "Unexpected any. Specify a different type."
+          },
+          {
+            "file": "scripts/audit-s5-current-flow.ts",
+            "line": 10,
+            "rule": "@typescript-eslint/no-unused-vars",
+            "severity": 2,
+            "message": "'BASE_ROUND_MINUTES' is defined but never used."
+          },
+          {
+            "file": "scripts/audit-s5-current-flow.ts",
+            "line": 50,
+            "rule": "@typescript-eslint/no-explicit-any",
+            "severity": 2,
+            "message": "Unexpected any. Specify a different type."
+          },
+          {
+            "file": "scripts/audit-s5-current-flow.ts",
+            "line": 67,
+            "rule": "@typescript-eslint/no-explicit-any",
+            "severity": 2,
+            "message": "Unexpected any. Specify a different type."
+          },
+          {
+            "file": "scripts/audit-s5-current-flow.ts",
+            "line": 69,
+            "rule": "@typescript-eslint/no-explicit-any",
+            "severity": 2,
+            "message": "Unexpected any. Specify a different type."
+          },
+          {
+            "file": "scripts/audit-s5-current-flow.ts",
+            "line": 70,
+            "rule": "@typescript-eslint/no-explicit-any",
+            "severity": 2,
+            "message": "Unexpected any. Specify a different type."
+          },
+          {
+            "file": "scripts/audit-s5-current-flow.ts",
+            "line": 70,
+            "rule": "@typescript-eslint/no-explicit-any",
+            "severity": 2,
+            "message": "Unexpected any. Specify a different type."
+          },
+          {
+            "file": "scripts/audit-s5-current-flow.ts",
+            "line": 71,
+            "rule": "@typescript-eslint/no-explicit-any",
+            "severity": 2,
+            "message": "Unexpected any. Specify a different type."
+          },
+          {
+            "file": "scripts/audit-s5-current-flow.ts",
+            "line": 71,
+            "rule": "@typescript-eslint/no-explicit-any",
+            "severity": 2,
+            "message": "Unexpected any. Specify a different type."
+          },
+          {
+            "file": "scripts/audit-s5-current-flow.ts",
+            "line": 73,
+            "rule": "@typescript-eslint/no-explicit-any",
+            "severity": 2,
+            "message": "Unexpected any. Specify a different type."
+          },
+          {
+            "file": "scripts/audit-s5-current-flow.ts",
+            "line": 75,
+            "rule": "@typescript-eslint/no-explicit-any",
+            "severity": 2,
+            "message": "Unexpected any. Specify a different type."
+          },
+          {
+            "file": "scripts/audit-s5-current-flow.ts",
+            "line": 78,
+            "rule": "@typescript-eslint/no-explicit-any",
+            "severity": 2,
+            "message": "Unexpected any. Specify a different type."
+          },
+          {
+            "file": "scripts/audit-s5-current-flow.ts",
+            "line": 79,
+            "rule": "@typescript-eslint/no-explicit-any",
+            "severity": 2,
+            "message": "Unexpected any. Specify a different type."
+          },
+          {
+            "file": "scripts/audit-s5-current-flow.ts",
+            "line": 94,
+            "rule": "prefer-const",
+            "severity": 2,
+            "message": "'priorProgress' is never reassigned. Use 'const' instead."
+          },
+          {
+            "file": "scripts/audit-s5-current-flow.ts",
+            "line": 97,
+            "rule": "@typescript-eslint/no-explicit-any",
+            "severity": 2,
+            "message": "Unexpected any. Specify a different type."
+          },
+          {
+            "file": "scripts/audit-s5-current-flow.ts",
+            "line": 178,
+            "rule": "@typescript-eslint/no-unused-vars",
+            "severity": 2,
+            "message": "'first' is assigned a value but never used."
+          },
+          {
+            "file": "scripts/run-s5-phase8-calibration.ts",
+            "line": 27,
+            "rule": "@typescript-eslint/no-unused-vars",
+            "severity": 2,
+            "message": "'SHADOW_DEADLINE_SHIFTS' is defined but never used."
+          },
+          {
+            "file": "scripts/run-s5-phase8-calibration.ts",
+            "line": 28,
+            "rule": "@typescript-eslint/no-unused-vars",
+            "severity": 2,
+            "message": "'SHADOW_HORIZONS' is defined but never used."
+          },
+          {
+            "file": "scripts/run-s5-phase8-calibration.ts",
+            "line": 29,
+            "rule": "@typescript-eslint/no-unused-vars",
+            "severity": 2,
+            "message": "'SHADOW_RESOURCE_BUDGETS' is defined but never used."
+          },
+          {
+            "file": "scripts/run-s5-phase8-calibration.ts",
+            "line": 53,
+            "rule": "@typescript-eslint/no-unused-vars",
+            "severity": 2,
+            "message": "'CalibrationPolicy' is defined but never used."
+          },
+          {
+            "file": "scripts/verify-s5-phase4-mission.ts",
+            "line": 33,
+            "rule": "@typescript-eslint/no-unused-vars",
+            "severity": 2,
+            "message": "'MissionConvoyState' is defined but never used."
+          },
+          {
+            "file": "scripts/verify-s5-phase5-cognitive.ts",
+            "line": 37,
+            "rule": "@typescript-eslint/no-unused-vars",
+            "severity": 2,
+            "message": "'PhaseId' is defined but never used."
+          },
+          {
+            "file": "scripts/verify-s5-phase5-cognitive.ts",
+            "line": 283,
+            "rule": "@typescript-eslint/no-unused-vars",
+            "severity": 2,
+            "message": "'constructResult' is assigned a value but never used."
+          },
+          {
+            "file": "scripts/verify-s5-phase6-runtime.ts",
+            "line": 367,
+            "rule": "@typescript-eslint/no-unused-vars",
+            "severity": 2,
+            "message": "'index' is defined but never used."
+          },
+          {
+            "file": "scripts/verify-s5-phase6-runtime.ts",
+            "line": 373,
+            "rule": "no-useless-escape",
+            "severity": 2,
+            "message": "Unnecessary escape character: \\\"."
+          },
+          {
+            "file": "scripts/verify-s5-phase6-runtime.ts",
+            "line": 373,
+            "rule": "no-useless-escape",
+            "severity": 2,
+            "message": "Unnecessary escape character: \\\"."
+          },
+          {
+            "file": "scripts/verify-s5-phase8-calibration.ts",
+            "line": 90,
+            "rule": "@typescript-eslint/no-explicit-any",
+            "severity": 2,
+            "message": "Unexpected any. Specify a different type."
+          },
+          {
+            "file": "scripts/verify-s5-phase8a-audit.ts",
+            "line": 84,
+            "rule": "@typescript-eslint/no-explicit-any",
+            "severity": 2,
+            "message": "Unexpected any. Specify a different type."
+          },
+          {
+            "file": "scripts/verify-s5-phase8b-calibration.ts",
+            "line": 79,
+            "rule": "@typescript-eslint/no-explicit-any",
+            "severity": 2,
+            "message": "Unexpected any. Specify a different type."
+          },
+          {
+            "file": "scripts/verify-s5-phase8b-calibration.ts",
+            "line": 114,
+            "rule": "@typescript-eslint/no-explicit-any",
+            "severity": 2,
+            "message": "Unexpected any. Specify a different type."
+          },
+          {
+            "file": "scripts/verify-s5-phase8b-calibration.ts",
+            "line": 115,
+            "rule": "@typescript-eslint/no-explicit-any",
+            "severity": 2,
+            "message": "Unexpected any. Specify a different type."
+          },
+          {
+            "file": "scripts/verify-s5-phase8b-calibration.ts",
+            "line": 116,
+            "rule": "@typescript-eslint/no-explicit-any",
+            "severity": 2,
+            "message": "Unexpected any. Specify a different type."
+          },
+          {
+            "file": "scripts/verify-s5-phase8b-calibration.ts",
+            "line": 118,
+            "rule": "@typescript-eslint/no-explicit-any",
+            "severity": 2,
+            "message": "Unexpected any. Specify a different type."
+          },
+          {
+            "file": "scripts/verify-s5-phase8c-ui.ts",
+            "line": 19,
+            "rule": "@typescript-eslint/no-unused-vars",
+            "severity": 2,
+            "message": "'SCENARIO5_CORRIDOR_CONTENT_FA' is defined but never used."
+          },
+          {
+            "file": "scripts/verify-s5-phase8d-integrated-gameplay.ts",
+            "line": 23,
+            "rule": "@typescript-eslint/no-unused-vars",
+            "severity": 2,
+            "message": "'_' is defined but never used."
+          },
+          {
+            "file": "scripts/verify-s5-phase8d-integrated-gameplay.ts",
+            "line": 35,
+            "rule": "@typescript-eslint/no-unused-vars",
+            "severity": 2,
+            "message": "'_' is defined but never used."
+          },
+          {
+            "file": "scripts/verify-s5-phase8d-presentation.tsx",
+            "line": 18,
+            "rule": "@typescript-eslint/no-unused-vars",
+            "severity": 2,
+            "message": "'CorridorId' is defined but never used."
+          },
+          {
+            "file": "scripts/verify-s5-phase8d-presentation.tsx",
+            "line": 103,
+            "rule": "prefer-const",
+            "severity": 2,
+            "message": "'inspected' is never reassigned. Use 'const' instead."
+          },
+          {
+            "file": "scripts/verify-s5-phase8d-presentation.tsx",
+            "line": 147,
+            "rule": "@typescript-eslint/no-explicit-any",
+            "severity": 2,
+            "message": "Unexpected any. Specify a different type."
+          },
+          {
+            "file": "scripts/verify-s5-phase8d-presentation.tsx",
+            "line": 151,
+            "rule": "@typescript-eslint/no-explicit-any",
+            "severity": 2,
+            "message": "Unexpected any. Specify a different type."
+          },
+          {
+            "file": "scripts/verify-s5-phase8d-presentation.tsx",
+            "line": 161,
+            "rule": "@typescript-eslint/no-explicit-any",
+            "severity": 2,
+            "message": "Unexpected any. Specify a different type."
+          },
+          {
+            "file": "scripts/verify-s5-phase8d1-corrections.tsx",
+            "line": 79,
+            "rule": "@typescript-eslint/no-unused-vars",
+            "severity": 2,
+            "message": "'_' is defined but never used."
+          },
+          {
+            "file": "src/ui/components/scenario/ScenarioOneSimulation.tsx",
+            "line": 1036,
+            "rule": "react-hooks/exhaustive-deps",
+            "severity": 1,
+            "message": "React Hook useEffect has a missing dependency: 'startRoundFiveTimer'. Either include it or remove the dependency array."
+          },
+          {
+            "file": "src/ui/components/scenario/ScenarioThreeDungeon.tsx",
+            "line": 381,
+            "rule": "react-hooks/exhaustive-deps",
+            "severity": 1,
+            "message": "React Hook useEffect has missing dependencies: 'area.startTileId', 'logDungeonEvent', 'onCompletionUiActiveChange', and 'revealAround'. Either include them or remove the dependency array. If 'onCompletionUiActiveChange' changes too often, find the parent component that defines it and wrap that definition in useCallback."
+          },
+          {
+            "file": "src/ui/components/scenario/ScenarioThreeDungeon.tsx",
+            "line": 396,
+            "rule": "react-hooks/exhaustive-deps",
+            "severity": 1,
+            "message": "React Hook useMemo has a missing dependency: 'hasAbility'. Either include it or remove the dependency array."
+          },
+          {
+            "file": "src/ui/components/scenario/ScenarioThreeDungeon.tsx",
+            "line": 720,
+            "rule": "react-hooks/rules-of-hooks",
+            "severity": 2,
+            "message": "React Hook \"useCard\" cannot be called inside a callback. React Hooks must be called in a React function component or a custom React Hook function."
+          },
+          {
+            "file": "src/ui/components/scenario/scenario-five/model/projections.ts",
+            "line": 17,
+            "rule": "@typescript-eslint/no-unused-vars",
+            "severity": 2,
+            "message": "'_hiddenProvenance' is defined but never used."
+          }
+        ]
+      }
+    }
+  },
+  "mirrorRoot": "C:\\Users\\pc\\AppData\\Local\\Temp\\cross09d1b-history-mm9X3J"
+}

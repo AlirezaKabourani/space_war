@@ -1,0 +1,24 @@
+node:internal/modules/run_main:107
+    triggerUncaughtException(
+    ^
+
+AssertionError [ERR_ASSERTION]: Unchanged existing source src/ui/components/scenario/scenario-five/ui/ScenarioFiveMissionEnding.tsx
++ actual - expected
+
++ 'ce48ea799f7e375c1a644682db47595cb37886e840ca8485e423eea2991a2198'
+- '039809206bafb8daba110c1ff021240b8a549ba1ca600bb9ccd8989b5dd2202e'
+
+    at equal (C:\Users\pc\AppData\Local\Temp\cross09d1b-history-mm9X3J\before\scripts\verify-s5-phase09c1.tsx:19:70)
+    at <anonymous> (C:\Users\pc\AppData\Local\Temp\cross09d1b-history-mm9X3J\before\scripts\verify-s5-phase09c1.tsx:22:98)
+    at ModuleJob.run (node:internal/modules/esm/module_job:377:25)
+    at async onImport.tracePromise.__proto__ (node:internal/modules/esm/loader:671:26)
+    at async asyncRunEntryPointWithESMLoader (node:internal/modules/run_main:101:5) {
+  generatedMessage: false,
+  code: 'ERR_ASSERTION',
+  actual: 'ce48ea799f7e375c1a644682db47595cb37886e840ca8485e423eea2991a2198',
+  expected: '039809206bafb8daba110c1ff021240b8a549ba1ca600bb9ccd8989b5dd2202e',
+  operator: 'deepStrictEqual',
+  diff: 'simple'
+}
+
+Node.js v24.11.1

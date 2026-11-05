@@ -1,0 +1,898 @@
+{
+  "status": "PASS",
+  "assertions": 76,
+  "checks": [
+    {
+      "message": "Real admin session established before any archive exists",
+      "status": "PASS"
+    },
+    {
+      "message": "Empty archive read creates no IndexedDB database or schema",
+      "status": "PASS"
+    },
+    {
+      "message": "Real App S1 canonical completion saved",
+      "status": "PASS"
+    },
+    {
+      "message": "Real App S2 canonical completion saved",
+      "status": "PASS"
+    },
+    {
+      "message": "Real App S1 canonical completion saved",
+      "status": "PASS"
+    },
+    {
+      "message": "Real App S2 canonical completion saved",
+      "status": "PASS"
+    },
+    {
+      "message": "Real App S1 canonical completion saved",
+      "status": "PASS"
+    },
+    {
+      "message": "Real App S2 canonical completion saved",
+      "status": "PASS"
+    },
+    {
+      "message": "One admin action per existing profile, including built-ins",
+      "status": "PASS"
+    },
+    {
+      "message": "No horizontal overflow or chart clipping: 01-admin-profile-list",
+      "status": "PASS"
+    },
+    {
+      "message": "Repository tests use the actual password-established App session",
+      "status": "PASS"
+    },
+    {
+      "message": "Both / S1 only / S2 only / neither genuine archive coverage",
+      "status": "PASS"
+    },
+    {
+      "message": "Repeated S1 scientific ID remains visible as separate UUID records",
+      "status": "PASS"
+    },
+    {
+      "message": "Dashboard heading receives keyboard/screen-reader focus",
+      "status": "PASS"
+    },
+    {
+      "message": "Exactly nine conceptual rows",
+      "status": "PASS"
+    },
+    {
+      "message": "Archive OFF retains readable results",
+      "status": "PASS"
+    },
+    {
+      "message": "S2 information discipline is explicitly unmeasured",
+      "status": "PASS"
+    },
+    {
+      "message": "Distinct attempt UUID selectors, even shared S1 scientific run ID",
+      "status": "PASS"
+    },
+    {
+      "message": "Newest independent runs selected by default",
+      "status": "PASS"
+    },
+    {
+      "message": "No horizontal overflow or chart clipping: 02-both-scenarios",
+      "status": "PASS"
+    },
+    {
+      "message": "No horizontal overflow or chart clipping: 03-shared-concepts",
+      "status": "PASS"
+    },
+    {
+      "message": "No horizontal overflow or chart clipping: 04-risk",
+      "status": "PASS"
+    },
+    {
+      "message": "No horizontal overflow or chart clipping: 05-unique",
+      "status": "PASS"
+    },
+    {
+      "message": "No horizontal overflow or chart clipping: 06-quality",
+      "status": "PASS"
+    },
+    {
+      "message": "No horizontal overflow or chart clipping: 07-responsive-top",
+      "status": "PASS"
+    },
+    {
+      "message": "No horizontal overflow or chart clipping: 08-responsive-concepts",
+      "status": "PASS"
+    },
+    {
+      "message": "No horizontal overflow or chart clipping: 09-responsive-risk",
+      "status": "PASS"
+    },
+    {
+      "message": "No horizontal overflow or chart clipping: 07-responsive-top",
+      "status": "PASS"
+    },
+    {
+      "message": "No horizontal overflow or chart clipping: 08-responsive-concepts",
+      "status": "PASS"
+    },
+    {
+      "message": "No horizontal overflow or chart clipping: 09-responsive-risk",
+      "status": "PASS"
+    },
+    {
+      "message": "No horizontal overflow or chart clipping: 07-responsive-top",
+      "status": "PASS"
+    },
+    {
+      "message": "No horizontal overflow or chart clipping: 08-responsive-concepts",
+      "status": "PASS"
+    },
+    {
+      "message": "No horizontal overflow or chart clipping: 09-responsive-risk",
+      "status": "PASS"
+    },
+    {
+      "message": "S1 selection does not change S2 selection",
+      "status": "PASS"
+    },
+    {
+      "message": "S2 selection does not change S1 selection",
+      "status": "PASS"
+    },
+    {
+      "message": "Every rendered numeric source equals the selected stored payload exactly",
+      "status": "PASS"
+    },
+    {
+      "message": "Keyboard controls remain reachable",
+      "status": "PASS"
+    },
+    {
+      "message": "Pickers, spectra and meters have screen-reader labels",
+      "status": "PASS"
+    },
+    {
+      "message": "Back restores focus to the same profile action",
+      "status": "PASS"
+    },
+    {
+      "message": "Same display name, different owner ID, S1-only isolation",
+      "status": "PASS"
+    },
+    {
+      "message": "No horizontal overflow or chart clipping: 10-s1-only",
+      "status": "PASS"
+    },
+    {
+      "message": "S2-only empty counterpart",
+      "status": "PASS"
+    },
+    {
+      "message": "No horizontal overflow or chart clipping: 11-s2-only",
+      "status": "PASS"
+    },
+    {
+      "message": "Both absent, no legacy log/snapshot fallback",
+      "status": "PASS"
+    },
+    {
+      "message": "No horizontal overflow or chart clipping: 12-neither",
+      "status": "PASS"
+    },
+    {
+      "message": "Dashboard open, select, navigate, refresh-list and close perform zero storage writes",
+      "status": "PASS"
+    },
+    {
+      "message": "All browser storage, logs, selected admin profile and scientific records unchanged by dashboard interactions",
+      "status": "PASS"
+    },
+    {
+      "message": "Nonadmin-shaped access cannot list another owner",
+      "status": "PASS"
+    },
+    {
+      "message": "Missing session cannot read",
+      "status": "PASS"
+    },
+    {
+      "message": "Record read requires exact target owner",
+      "status": "PASS"
+    },
+    {
+      "message": "Deleted or unknown owner is explicit",
+      "status": "PASS"
+    },
+    {
+      "message": "Scoped read returns exact canonical owner record",
+      "status": "PASS"
+    },
+    {
+      "message": "Unavailable IDB",
+      "status": "PASS"
+    },
+    {
+      "message": "Quota/read restriction explicit",
+      "status": "PASS"
+    },
+    {
+      "message": "Malformed required value rejects scoped list",
+      "status": "PASS"
+    },
+    {
+      "message": "Malformed required value rejects scoped read",
+      "status": "PASS"
+    },
+    {
+      "message": "Corrupt archive is a data error, never a silent empty result",
+      "status": "PASS"
+    },
+    {
+      "message": "No horizontal overflow or chart clipping: 13-invalid-data-error",
+      "status": "PASS"
+    },
+    {
+      "message": "Unavailable IDB is distinct from valid empty archive",
+      "status": "PASS"
+    },
+    {
+      "message": "No horizontal overflow or chart clipping: 14-unavailable-error",
+      "status": "PASS"
+    },
+    {
+      "message": "Stable timestamp / UUID descending tie-break",
+      "status": "PASS"
+    },
+    {
+      "message": "Target change during pending fetch never renders stale prior-owner data",
+      "status": "PASS"
+    },
+    {
+      "message": "Profile switch revokes an already pending admin repository read",
+      "status": "PASS"
+    },
+    {
+      "message": "No stale dashboard data after actual profile switch",
+      "status": "PASS"
+    },
+    {
+      "message": "Normal mode has no dashboard links",
+      "status": "PASS"
+    },
+    {
+      "message": "No horizontal overflow or chart clipping: 15-normal-mode-denied-links",
+      "status": "PASS"
+    },
+    {
+      "message": "Revoked real session cannot be reused by a normal user",
+      "status": "PASS"
+    },
+    {
+      "message": "Direct navigation/refresh does not restore admin dashboard",
+      "status": "PASS"
+    },
+    {
+      "message": "After refresh and real admin re-login, saved results remain readable",
+      "status": "PASS"
+    },
+    {
+      "message": "No horizontal overflow or chart clipping: 16-refresh-persistence",
+      "status": "PASS"
+    },
+    {
+      "message": "All six canonical completed records unchanged after error, race and refresh tests",
+      "status": "PASS"
+    },
+    {
+      "message": "Deleted existing owner produces explicit status and no report data",
+      "status": "PASS"
+    },
+    {
+      "message": "No horizontal overflow or chart clipping: 17-deleted-owner-error",
+      "status": "PASS"
+    },
+    {
+      "message": "Negative / zero / positive signed endpoints, null and contained marker geometry in real mobile browser",
+      "status": "PASS"
+    },
+    {
+      "message": "Zero / null / omitted presentation invariants in browser",
+      "status": "PASS"
+    },
+    {
+      "message": "Direct component props without real session fail closed in browser",
+      "status": "PASS"
+    }
+  ],
+  "screenshots": [
+    {
+      "file": "docs/scenario-cross-phase09d1b-screenshots/01-admin-profile-list-1440x900.png",
+      "width": 1440,
+      "height": 900,
+      "scrollWidth": 1425,
+      "overflows": [],
+      "actions": []
+    },
+    {
+      "file": "docs/scenario-cross-phase09d1b-screenshots/02-both-scenarios-1440x900.png",
+      "width": 1440,
+      "height": 900,
+      "scrollWidth": 1425,
+      "overflows": [],
+      "actions": [
+        {
+          "label": "بازگشت به مدیریت پروفایل‌ها",
+          "width": 229.875
+        },
+        {
+          "label": "۱۳ آبان ۱۴۰۵، ۱۹:۴۸ · 77c00384۱۳ آبان ۱۴۰۵، ۱۹:۴۸ · 847b1fd0",
+          "width": 624.5
+        },
+        {
+          "label": "۱۳ آبان ۱۴۰۵، ۱۹:۴۹ · 92fba1d6۱۳ آبان ۱۴۰۵، ۱۹:۴۸ · b879280c",
+          "width": 624.5
+        },
+        {
+          "label": "بازگشت به مدیریت پروفایل‌ها",
+          "width": 229.875
+        },
+        {
+          "label": "خواندن دوباره آرشیو",
+          "width": 129
+        }
+      ]
+    },
+    {
+      "file": "docs/scenario-cross-phase09d1b-screenshots/03-shared-concepts-1440x900.png",
+      "width": 1440,
+      "height": 900,
+      "scrollWidth": 1425,
+      "overflows": [],
+      "actions": [
+        {
+          "label": "بازگشت به مدیریت پروفایل‌ها",
+          "width": 229.875
+        },
+        {
+          "label": "۱۳ آبان ۱۴۰۵، ۱۹:۴۸ · 77c00384۱۳ آبان ۱۴۰۵، ۱۹:۴۸ · 847b1fd0",
+          "width": 624.5
+        },
+        {
+          "label": "۱۳ آبان ۱۴۰۵، ۱۹:۴۹ · 92fba1d6۱۳ آبان ۱۴۰۵، ۱۹:۴۸ · b879280c",
+          "width": 624.5
+        },
+        {
+          "label": "بازگشت به مدیریت پروفایل‌ها",
+          "width": 229.875
+        },
+        {
+          "label": "خواندن دوباره آرشیو",
+          "width": 129
+        }
+      ]
+    },
+    {
+      "file": "docs/scenario-cross-phase09d1b-screenshots/04-risk-1440x900.png",
+      "width": 1440,
+      "height": 900,
+      "scrollWidth": 1425,
+      "overflows": [],
+      "actions": [
+        {
+          "label": "بازگشت به مدیریت پروفایل‌ها",
+          "width": 229.875
+        },
+        {
+          "label": "۱۳ آبان ۱۴۰۵، ۱۹:۴۸ · 77c00384۱۳ آبان ۱۴۰۵، ۱۹:۴۸ · 847b1fd0",
+          "width": 624.5
+        },
+        {
+          "label": "۱۳ آبان ۱۴۰۵، ۱۹:۴۹ · 92fba1d6۱۳ آبان ۱۴۰۵، ۱۹:۴۸ · b879280c",
+          "width": 624.5
+        },
+        {
+          "label": "بازگشت به مدیریت پروفایل‌ها",
+          "width": 229.875
+        },
+        {
+          "label": "خواندن دوباره آرشیو",
+          "width": 129
+        }
+      ]
+    },
+    {
+      "file": "docs/scenario-cross-phase09d1b-screenshots/05-unique-1440x900.png",
+      "width": 1440,
+      "height": 900,
+      "scrollWidth": 1425,
+      "overflows": [],
+      "actions": [
+        {
+          "label": "بازگشت به مدیریت پروفایل‌ها",
+          "width": 229.875
+        },
+        {
+          "label": "۱۳ آبان ۱۴۰۵، ۱۹:۴۸ · 77c00384۱۳ آبان ۱۴۰۵، ۱۹:۴۸ · 847b1fd0",
+          "width": 624.5
+        },
+        {
+          "label": "۱۳ آبان ۱۴۰۵، ۱۹:۴۹ · 92fba1d6۱۳ آبان ۱۴۰۵، ۱۹:۴۸ · b879280c",
+          "width": 624.5
+        },
+        {
+          "label": "بازگشت به مدیریت پروفایل‌ها",
+          "width": 229.875
+        },
+        {
+          "label": "خواندن دوباره آرشیو",
+          "width": 129
+        }
+      ]
+    },
+    {
+      "file": "docs/scenario-cross-phase09d1b-screenshots/06-quality-1440x900.png",
+      "width": 1440,
+      "height": 900,
+      "scrollWidth": 1425,
+      "overflows": [],
+      "actions": [
+        {
+          "label": "بازگشت به مدیریت پروفایل‌ها",
+          "width": 229.875
+        },
+        {
+          "label": "۱۳ آبان ۱۴۰۵، ۱۹:۴۸ · 77c00384۱۳ آبان ۱۴۰۵، ۱۹:۴۸ · 847b1fd0",
+          "width": 624.5
+        },
+        {
+          "label": "۱۳ آبان ۱۴۰۵، ۱۹:۴۹ · 92fba1d6۱۳ آبان ۱۴۰۵، ۱۹:۴۸ · b879280c",
+          "width": 624.5
+        },
+        {
+          "label": "بازگشت به مدیریت پروفایل‌ها",
+          "width": 229.875
+        },
+        {
+          "label": "خواندن دوباره آرشیو",
+          "width": 129
+        }
+      ]
+    },
+    {
+      "file": "docs/scenario-cross-phase09d1b-screenshots/07-responsive-top-1280x720.png",
+      "width": 1280,
+      "height": 720,
+      "scrollWidth": 1265,
+      "overflows": [],
+      "actions": [
+        {
+          "label": "بازگشت به مدیریت پروفایل‌ها",
+          "width": 229.875
+        },
+        {
+          "label": "۱۳ آبان ۱۴۰۵، ۱۹:۴۸ · 77c00384۱۳ آبان ۱۴۰۵، ۱۹:۴۸ · 847b1fd0",
+          "width": 544.5
+        },
+        {
+          "label": "۱۳ آبان ۱۴۰۵، ۱۹:۴۹ · 92fba1d6۱۳ آبان ۱۴۰۵، ۱۹:۴۸ · b879280c",
+          "width": 544.5
+        },
+        {
+          "label": "بازگشت به مدیریت پروفایل‌ها",
+          "width": 229.875
+        },
+        {
+          "label": "خواندن دوباره آرشیو",
+          "width": 129
+        }
+      ]
+    },
+    {
+      "file": "docs/scenario-cross-phase09d1b-screenshots/08-responsive-concepts-1280x720.png",
+      "width": 1280,
+      "height": 720,
+      "scrollWidth": 1265,
+      "overflows": [],
+      "actions": [
+        {
+          "label": "بازگشت به مدیریت پروفایل‌ها",
+          "width": 229.875
+        },
+        {
+          "label": "۱۳ آبان ۱۴۰۵، ۱۹:۴۸ · 77c00384۱۳ آبان ۱۴۰۵، ۱۹:۴۸ · 847b1fd0",
+          "width": 544.5
+        },
+        {
+          "label": "۱۳ آبان ۱۴۰۵، ۱۹:۴۹ · 92fba1d6۱۳ آبان ۱۴۰۵، ۱۹:۴۸ · b879280c",
+          "width": 544.5
+        },
+        {
+          "label": "بازگشت به مدیریت پروفایل‌ها",
+          "width": 229.875
+        },
+        {
+          "label": "خواندن دوباره آرشیو",
+          "width": 129
+        }
+      ]
+    },
+    {
+      "file": "docs/scenario-cross-phase09d1b-screenshots/09-responsive-risk-1280x720.png",
+      "width": 1280,
+      "height": 720,
+      "scrollWidth": 1265,
+      "overflows": [],
+      "actions": [
+        {
+          "label": "بازگشت به مدیریت پروفایل‌ها",
+          "width": 229.875
+        },
+        {
+          "label": "۱۳ آبان ۱۴۰۵، ۱۹:۴۸ · 77c00384۱۳ آبان ۱۴۰۵، ۱۹:۴۸ · 847b1fd0",
+          "width": 544.5
+        },
+        {
+          "label": "۱۳ آبان ۱۴۰۵، ۱۹:۴۹ · 92fba1d6۱۳ آبان ۱۴۰۵، ۱۹:۴۸ · b879280c",
+          "width": 544.5
+        },
+        {
+          "label": "بازگشت به مدیریت پروفایل‌ها",
+          "width": 229.875
+        },
+        {
+          "label": "خواندن دوباره آرشیو",
+          "width": 129
+        }
+      ]
+    },
+    {
+      "file": "docs/scenario-cross-phase09d1b-screenshots/07-responsive-top-1366x768.png",
+      "width": 1366,
+      "height": 768,
+      "scrollWidth": 1351,
+      "overflows": [],
+      "actions": [
+        {
+          "label": "بازگشت به مدیریت پروفایل‌ها",
+          "width": 229.875
+        },
+        {
+          "label": "۱۳ آبان ۱۴۰۵، ۱۹:۴۸ · 77c00384۱۳ آبان ۱۴۰۵، ۱۹:۴۸ · 847b1fd0",
+          "width": 587.5
+        },
+        {
+          "label": "۱۳ آبان ۱۴۰۵، ۱۹:۴۹ · 92fba1d6۱۳ آبان ۱۴۰۵، ۱۹:۴۸ · b879280c",
+          "width": 587.5
+        },
+        {
+          "label": "بازگشت به مدیریت پروفایل‌ها",
+          "width": 229.875
+        },
+        {
+          "label": "خواندن دوباره آرشیو",
+          "width": 129
+        }
+      ]
+    },
+    {
+      "file": "docs/scenario-cross-phase09d1b-screenshots/08-responsive-concepts-1366x768.png",
+      "width": 1366,
+      "height": 768,
+      "scrollWidth": 1351,
+      "overflows": [],
+      "actions": [
+        {
+          "label": "بازگشت به مدیریت پروفایل‌ها",
+          "width": 229.875
+        },
+        {
+          "label": "۱۳ آبان ۱۴۰۵، ۱۹:۴۸ · 77c00384۱۳ آبان ۱۴۰۵، ۱۹:۴۸ · 847b1fd0",
+          "width": 587.5
+        },
+        {
+          "label": "۱۳ آبان ۱۴۰۵، ۱۹:۴۹ · 92fba1d6۱۳ آبان ۱۴۰۵، ۱۹:۴۸ · b879280c",
+          "width": 587.5
+        },
+        {
+          "label": "بازگشت به مدیریت پروفایل‌ها",
+          "width": 229.875
+        },
+        {
+          "label": "خواندن دوباره آرشیو",
+          "width": 129
+        }
+      ]
+    },
+    {
+      "file": "docs/scenario-cross-phase09d1b-screenshots/09-responsive-risk-1366x768.png",
+      "width": 1366,
+      "height": 768,
+      "scrollWidth": 1351,
+      "overflows": [],
+      "actions": [
+        {
+          "label": "بازگشت به مدیریت پروفایل‌ها",
+          "width": 229.875
+        },
+        {
+          "label": "۱۳ آبان ۱۴۰۵، ۱۹:۴۸ · 77c00384۱۳ آبان ۱۴۰۵، ۱۹:۴۸ · 847b1fd0",
+          "width": 587.5
+        },
+        {
+          "label": "۱۳ آبان ۱۴۰۵، ۱۹:۴۹ · 92fba1d6۱۳ آبان ۱۴۰۵، ۱۹:۴۸ · b879280c",
+          "width": 587.5
+        },
+        {
+          "label": "بازگشت به مدیریت پروفایل‌ها",
+          "width": 229.875
+        },
+        {
+          "label": "خواندن دوباره آرشیو",
+          "width": 129
+        }
+      ]
+    },
+    {
+      "file": "docs/scenario-cross-phase09d1b-screenshots/07-responsive-top-390x844.png",
+      "width": 390,
+      "height": 844,
+      "scrollWidth": 375,
+      "overflows": [],
+      "actions": [
+        {
+          "label": "بازگشت به مدیریت پروفایل‌ها",
+          "width": 347
+        },
+        {
+          "label": "۱۳ آبان ۱۴۰۵، ۱۹:۴۸ · 77c00384۱۳ آبان ۱۴۰۵، ۱۹:۴۸ · 847b1fd0",
+          "width": 315
+        },
+        {
+          "label": "۱۳ آبان ۱۴۰۵، ۱۹:۴۹ · 92fba1d6۱۳ آبان ۱۴۰۵، ۱۹:۴۸ · b879280c",
+          "width": 315
+        },
+        {
+          "label": "بازگشت به مدیریت پروفایل‌ها",
+          "width": 347
+        },
+        {
+          "label": "خواندن دوباره آرشیو",
+          "width": 347
+        }
+      ]
+    },
+    {
+      "file": "docs/scenario-cross-phase09d1b-screenshots/08-responsive-concepts-390x844.png",
+      "width": 390,
+      "height": 844,
+      "scrollWidth": 375,
+      "overflows": [],
+      "actions": [
+        {
+          "label": "بازگشت به مدیریت پروفایل‌ها",
+          "width": 347
+        },
+        {
+          "label": "۱۳ آبان ۱۴۰۵، ۱۹:۴۸ · 77c00384۱۳ آبان ۱۴۰۵، ۱۹:۴۸ · 847b1fd0",
+          "width": 315
+        },
+        {
+          "label": "۱۳ آبان ۱۴۰۵، ۱۹:۴۹ · 92fba1d6۱۳ آبان ۱۴۰۵، ۱۹:۴۸ · b879280c",
+          "width": 315
+        },
+        {
+          "label": "بازگشت به مدیریت پروفایل‌ها",
+          "width": 347
+        },
+        {
+          "label": "خواندن دوباره آرشیو",
+          "width": 347
+        }
+      ]
+    },
+    {
+      "file": "docs/scenario-cross-phase09d1b-screenshots/09-responsive-risk-390x844.png",
+      "width": 390,
+      "height": 844,
+      "scrollWidth": 375,
+      "overflows": [],
+      "actions": [
+        {
+          "label": "بازگشت به مدیریت پروفایل‌ها",
+          "width": 347
+        },
+        {
+          "label": "۱۳ آبان ۱۴۰۵، ۱۹:۴۸ · 77c00384۱۳ آبان ۱۴۰۵، ۱۹:۴۸ · 847b1fd0",
+          "width": 315
+        },
+        {
+          "label": "۱۳ آبان ۱۴۰۵، ۱۹:۴۹ · 92fba1d6۱۳ آبان ۱۴۰۵، ۱۹:۴۸ · b879280c",
+          "width": 315
+        },
+        {
+          "label": "بازگشت به مدیریت پروفایل‌ها",
+          "width": 347
+        },
+        {
+          "label": "خواندن دوباره آرشیو",
+          "width": 347
+        }
+      ]
+    },
+    {
+      "file": "docs/scenario-cross-phase09d1b-screenshots/10-s1-only-1440x900.png",
+      "width": 1440,
+      "height": 900,
+      "scrollWidth": 1425,
+      "overflows": [],
+      "actions": [
+        {
+          "label": "بازگشت به مدیریت پروفایل‌ها",
+          "width": 229.875
+        },
+        {
+          "label": "۱۳ آبان ۱۴۰۵، ۱۹:۴۹ · 1c64b8a4",
+          "width": 624.5
+        },
+        {
+          "label": "بازگشت به مدیریت پروفایل‌ها",
+          "width": 229.875
+        },
+        {
+          "label": "خواندن دوباره آرشیو",
+          "width": 129
+        }
+      ]
+    },
+    {
+      "file": "docs/scenario-cross-phase09d1b-screenshots/11-s2-only-1440x900.png",
+      "width": 1440,
+      "height": 900,
+      "scrollWidth": 1425,
+      "overflows": [],
+      "actions": [
+        {
+          "label": "بازگشت به مدیریت پروفایل‌ها",
+          "width": 229.875
+        },
+        {
+          "label": "۱۳ آبان ۱۴۰۵، ۱۹:۴۹ · dc01460b",
+          "width": 624.5
+        },
+        {
+          "label": "بازگشت به مدیریت پروفایل‌ها",
+          "width": 229.875
+        },
+        {
+          "label": "خواندن دوباره آرشیو",
+          "width": 129
+        }
+      ]
+    },
+    {
+      "file": "docs/scenario-cross-phase09d1b-screenshots/12-neither-1440x900.png",
+      "width": 1440,
+      "height": 900,
+      "scrollWidth": 1425,
+      "overflows": [],
+      "actions": [
+        {
+          "label": "بازگشت به مدیریت پروفایل‌ها",
+          "width": 229.875
+        },
+        {
+          "label": "بازگشت به مدیریت پروفایل‌ها",
+          "width": 229.875
+        },
+        {
+          "label": "خواندن دوباره آرشیو",
+          "width": 129
+        }
+      ]
+    },
+    {
+      "file": "docs/scenario-cross-phase09d1b-screenshots/13-invalid-data-error-1440x900.png",
+      "width": 1440,
+      "height": 900,
+      "scrollWidth": 1425,
+      "overflows": [],
+      "actions": [
+        {
+          "label": "بازگشت به مدیریت پروفایل‌ها",
+          "width": 229.875
+        },
+        {
+          "label": "بازگشت به مدیریت پروفایل‌ها",
+          "width": 229.875
+        },
+        {
+          "label": "خواندن دوباره آرشیو",
+          "width": 129
+        }
+      ]
+    },
+    {
+      "file": "docs/scenario-cross-phase09d1b-screenshots/14-unavailable-error-1440x900.png",
+      "width": 1440,
+      "height": 900,
+      "scrollWidth": 1425,
+      "overflows": [],
+      "actions": [
+        {
+          "label": "بازگشت به مدیریت پروفایل‌ها",
+          "width": 229.875
+        },
+        {
+          "label": "بازگشت به مدیریت پروفایل‌ها",
+          "width": 229.875
+        },
+        {
+          "label": "خواندن دوباره آرشیو",
+          "width": 129
+        }
+      ]
+    },
+    {
+      "file": "docs/scenario-cross-phase09d1b-screenshots/15-normal-mode-denied-links-1440x900.png",
+      "width": 1440,
+      "height": 900,
+      "scrollWidth": 1425,
+      "overflows": [],
+      "actions": []
+    },
+    {
+      "file": "docs/scenario-cross-phase09d1b-screenshots/16-refresh-persistence-1440x900.png",
+      "width": 1440,
+      "height": 900,
+      "scrollWidth": 1425,
+      "overflows": [],
+      "actions": [
+        {
+          "label": "بازگشت به مدیریت پروفایل‌ها",
+          "width": 229.875
+        },
+        {
+          "label": "۱۳ آبان ۱۴۰۵، ۱۹:۴۸ · 77c00384۱۳ آبان ۱۴۰۵، ۱۹:۴۸ · 847b1fd0",
+          "width": 624.5
+        },
+        {
+          "label": "۱۳ آبان ۱۴۰۵، ۱۹:۴۹ · 92fba1d6۱۳ آبان ۱۴۰۵، ۱۹:۴۸ · b879280c",
+          "width": 624.5
+        },
+        {
+          "label": "بازگشت به مدیریت پروفایل‌ها",
+          "width": 229.875
+        },
+        {
+          "label": "خواندن دوباره آرشیو",
+          "width": 129
+        }
+      ]
+    },
+    {
+      "file": "docs/scenario-cross-phase09d1b-screenshots/17-deleted-owner-error-1440x900.png",
+      "width": 1440,
+      "height": 900,
+      "scrollWidth": 1440,
+      "overflows": [],
+      "actions": [
+        {
+          "label": "بازگشت به مدیریت پروفایل‌ها",
+          "width": 229.875
+        }
+      ]
+    }
+  ],
+  "genuineCompletions": {
+    "s1": 3,
+    "s2": 3
+  },
+  "source": "REAL App navigation and normal admin password flow, disposable Chromium only",
+  "realUserStorageAccessed": false,
+  "profileDir": "C:\\Users\\pc\\AppData\\Local\\Temp\\cross09d1b-browser-ZFAng9",
+  "originalRecordsDigest": "5fdfe38cb4955b33662bf2b297d863d3a92b8f244b1ae38db1a4514e247fb569",
+  "errors": []
+}

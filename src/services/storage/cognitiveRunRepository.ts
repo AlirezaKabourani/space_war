@@ -1,6 +1,7 @@
 import { loadProfileState } from './profileStorage';
 import { readCognitiveArchivePolicy } from './cognitiveArchivePolicy';
 import { validateSavedCognitiveRun, type SavedCognitiveRunV1 } from './cognitiveRunValidation';
+import { requireCognitiveAdminReadAccess, type CognitiveAdminReadAccess } from './cognitiveAdminReadAccess';
 
 export const COGNITIVE_ARCHIVE_DB = 'space-war.completed-cognitive-runs.v1';
 export const COGNITIVE_ARCHIVE_STORE = 'completedRuns';
@@ -139,4 +140,92 @@ export async function readCognitiveRun(recordId: string, currentProfileId: strin
       } catch (error) { abort(error); }
     };
   });
+}
+
+// Admin reads use their own explicit session scope; never impersonate the owner
+// through the original owner-only APIs. No policy, record, telemetry or schema write.
+async function scopedAdminRead<T>(targetProfileId: string, access: CognitiveAdminReadAccess | null,
+  read: (store: IDBObjectStore, done: (value: T) => void, abort: (error: unknown) => void) => void,
+  empty: T): Promise<T> {
+  requireCognitiveAdminReadAccess(access, targetProfileId);
+  if (typeof indexedDB === 'undefined' || typeof indexedDB.databases !== 'function') {
+    throw new CognitiveStorageError('Unavailable', 'خواندن بدون تغییر آرشیو در این مرورگر در دسترس نیست.');
+  }
+  let databases: IDBDatabaseInfo[];
+  try { databases = await indexedDB.databases(); }
+  catch (error) { throw storageFailure(error); }
+  requireCognitiveAdminReadAccess(access, targetProfileId);
+  if (!databases.some(db => db.name === COGNITIVE_ARCHIVE_DB)) return empty;
+  const db = await new Promise<IDBDatabase>((resolve, reject) => {
+    const request = indexedDB.open(COGNITIVE_ARCHIVE_DB, 1);
+    const timeout = setTimeout(() => fail(new CognitiveStorageError('Unavailable', 'زمان انتظار خواندن آرشیو پایان یافت.')), 5000);
+    let abandoned = false;
+    const fail = (error: unknown) => { abandoned = true; clearTimeout(timeout); reject(error); };
+    request.onupgradeneeded = () => {
+      request.transaction?.abort();
+      fail(new CognitiveStorageError('SchemaUnavailable', 'آرشیو موجود نیست یا نسخه آن تغییر کرده است؛ هیچ داده‌ای ساخته نشد.'));
+    };
+    request.onerror = () => fail(storageFailure(request.error));
+    request.onblocked = () => fail(new CognitiveStorageError('Blocked', 'آرشیو توسط صفحه دیگری مسدود شده است.'));
+    request.onsuccess = () => {
+      clearTimeout(timeout);
+      if (abandoned) request.result.close();
+      else { request.result.onversionchange = () => request.result.close(); resolve(request.result); }
+    };
+  });
+  try {
+    requireCognitiveAdminReadAccess(access, targetProfileId);
+    const value = await new Promise<T>((resolve, reject) => {
+      let result: T;
+      let failure: unknown;
+      const tx = db.transaction(COGNITIVE_ARCHIVE_STORE, 'readonly');
+      const abort = (error: unknown) => { failure = error; tx.abort(); };
+      tx.onabort = () => reject(failure ?? storageFailure(tx.error));
+      tx.onerror = () => { failure ??= storageFailure(tx.error); };
+      tx.oncomplete = () => {
+        try { requireCognitiveAdminReadAccess(access, targetProfileId); resolve(result); }
+        catch (error) { reject(error); }
+      };
+      try { read(tx.objectStore(COGNITIVE_ARCHIVE_STORE), v => { result = v; }, abort); }
+      catch (error) { abort(error); }
+    });
+    requireCognitiveAdminReadAccess(access, targetProfileId);
+    return value;
+  } finally { db.close(); }
+}
+
+export async function listCognitiveRunsForAdmin(targetProfileId: string, scenarioId: 4 | 5, access: CognitiveAdminReadAccess | null): Promise<SavedCognitiveRunV1[]> {
+  requireCognitiveAdminReadAccess(access, targetProfileId);
+  if (scenarioId !== 4 && scenarioId !== 5) throw new CognitiveStorageError('ScenarioMismatch', 'سناریوی آرشیو نامعتبر است.');
+  return scopedAdminRead<SavedCognitiveRunV1[]>(targetProfileId, access, (store, done, abort) => {
+    const get = store.index('userProfileId').getAll(targetProfileId);
+    get.onsuccess = () => {
+      try {
+        requireCognitiveAdminReadAccess(access, targetProfileId);
+        const rows: SavedCognitiveRunV1[] = [];
+        for (const value of get.result) {
+          validateSavedCognitiveRun(value);
+          if (value.userProfileId !== targetProfileId) throw new CognitiveStorageError('OwnerMismatch', 'مالک رکورد با پروفایل موردنظر تطابق ندارد.');
+          if (value.releasedScenarioId === scenarioId) rows.push(value);
+        }
+        rows.sort((a, b) => a.recordedAtIso === b.recordedAtIso ? (a.recordId < b.recordId ? 1 : a.recordId > b.recordId ? -1 : 0) : a.recordedAtIso < b.recordedAtIso ? 1 : -1);
+        done(rows);
+      } catch (error) { abort(error); }
+    };
+  }, []);
+}
+
+export async function readCognitiveRunForAdmin(recordId: string, targetProfileId: string, access: CognitiveAdminReadAccess | null): Promise<SavedCognitiveRunV1 | null> {
+  return scopedAdminRead<SavedCognitiveRunV1 | null>(targetProfileId, access, (store, done, abort) => {
+    const get = store.get(recordId);
+    get.onsuccess = () => {
+      try {
+        requireCognitiveAdminReadAccess(access, targetProfileId);
+        if (get.result === undefined) { done(null); return; }
+        validateSavedCognitiveRun(get.result);
+        if (get.result.userProfileId !== targetProfileId) throw new CognitiveStorageError('OwnerMismatch', 'مالک رکورد با پروفایل موردنظر تطابق ندارد.');
+        done(get.result);
+      } catch (error) { abort(error); }
+    };
+  }, null);
 }

@@ -1,0 +1,909 @@
+diff --git a/src/App.tsx b/src/App.tsx
+--- a/src/App.tsx
++++ b/src/App.tsx
+@@ -1,5 +1,6 @@
+ import { useCallback, useEffect, useRef, useState } from "react";
+ import "./App.css";
++import "./ui/components/admin/CrossScenarioCognitiveDashboard.css";
+ 
+ import { ScenarioRunner } from "./ui/components/scenario/ScenarioRunner";
+ import { AllScenarios, type ScenarioId } from "./scenarios";
+@@ -11,6 +12,8 @@
+ import { ProfileCreateForm } from "./ui/components/profile/ProfileCreateForm";
+ import { AdminLoginForm } from "./ui/components/profile/AdminLoginForm";
+ import { SystemManagement } from "./ui/components/admin/SystemManagement";
++import { CrossScenarioCognitiveDashboard } from "./ui/components/admin/CrossScenarioCognitiveDashboard";
++import { createCognitiveAdminReadAccess, revokeCognitiveAdminReadAccess, type CognitiveAdminReadAccess } from "./services/storage/cognitiveAdminReadAccess";
+ import { systemLogger } from "./services/analytics/systemLogger";
+ import { ScenarioZeroLearning } from "./ui/components/scenario/scenario-zero/ScenarioZeroLearning";
+ import { ScenarioFiveAdminDashboardPreview } from "./ui/components/scenario/scenario-five/ui/ScenarioFiveAdminDashboardPreview";
+@@ -238,6 +241,12 @@
+ const App = () => {
+   const [profileState, setProfileState] = useState(() => loadProfileState(SCENARIOS.length));
+   const { profiles, activeProfileId } = profileState;
++  const profileStateRef = useRef(profileState);
++  profileStateRef.current = profileState;
++  const cognitiveAdminAccessRef = useRef<CognitiveAdminReadAccess | null>(null);
++  const [cognitiveDashboardTargetId, setCognitiveDashboardTargetId] = useState<string | null>(null);
++  const cognitiveDashboardTriggerRef = useRef<HTMLButtonElement | null>(null);
++  const cognitiveDashboardReturnProfileRef = useRef<string | null>(null);
+   const [profileStorageError, setProfileStorageError] = useState<string | null>(null);
+   const [profileDeletionError, setProfileDeletionError] = useState<string | null>(null);
+   const [showAdminLogin, setShowAdminLogin] = useState(false);
+@@ -306,6 +315,9 @@
+     }
+     setProfileDeletionError(null);
+     setShowAdminLogin(false);
++    revokeCognitiveAdminReadAccess(cognitiveAdminAccessRef.current);
++    cognitiveAdminAccessRef.current = null;
++    setCognitiveDashboardTargetId(null);
+     setProfileState((current) => selectProfile(current, id));
+     systemLogger.log("profile_selected", target);
+     setView("mainMenu");
+@@ -318,6 +330,8 @@
+       return false;
+     }
+     systemLogger.log("admin_login_succeeded", nextState.profiles.find((profile) => profile.id === "admin"));
++    revokeCognitiveAdminReadAccess(cognitiveAdminAccessRef.current);
++    cognitiveAdminAccessRef.current = createCognitiveAdminReadAccess(() => profileStateRef.current);
+     setProfileState(nextState);
+     setProfileDeletionError(null);
+     setShowAdminLogin(false);
+@@ -353,6 +367,9 @@
+     }
+     setProfileState(nextState);
+     setShowAdminLogin(false);
++    revokeCognitiveAdminReadAccess(cognitiveAdminAccessRef.current);
++    cognitiveAdminAccessRef.current = null;
++    setCognitiveDashboardTargetId(null);
+     systemLogger.log("profile_created", profile);
+     setView("mainMenu");
+     return {};
+@@ -607,7 +624,17 @@
+     </div>
+   );
+ 
+-  const renderProfileManager = () => (
++  const renderProfileManager = () => cognitiveDashboardTargetId !== null ? (
++    <CrossScenarioCognitiveDashboard
++      targetProfileId={cognitiveDashboardTargetId}
++      access={cognitiveAdminAccessRef.current}
++      profiles={profiles}
++      onBack={() => {
++        setCognitiveDashboardTargetId(null);
++        requestAnimationFrame(() => cognitiveDashboardTriggerRef.current?.focus());
++      }}
++    />
++  ) : (
+     <div className="screen">
+       <div className="card profile-manager-card">
+         <div className="screen-header">
+@@ -666,6 +693,18 @@
+                     </div>
+                   )}
+                 </button>
++                {activeProfile.role === "admin" && cognitiveAdminAccessRef.current && (
++                  <button type="button" className="secondary cross-profile-action" data-cognitive-dashboard-profile={profile.id}
++                    aria-label={`مشاهده داشبورد شناختی تجمیعی برای ${profile.name}`}
++                    ref={button => { if (profile.id === cognitiveDashboardReturnProfileRef.current) cognitiveDashboardTriggerRef.current = button; }}
++                    onClick={event => {
++                      cognitiveDashboardReturnProfileRef.current = profile.id;
++                      cognitiveDashboardTriggerRef.current = event.currentTarget;
++                      setCognitiveDashboardTargetId(profile.id);
++                    }}>
++                    مشاهده داشبورد شناختی تجمیعی
++                  </button>
++                )}
+                 {canDeleteProfile(activeProfile, profile) && (
+                   <button
+                     type="button"
+diff --git a/src/services/storage/cognitiveRunRepository.ts b/src/services/storage/cognitiveRunRepository.ts
+--- a/src/services/storage/cognitiveRunRepository.ts
++++ b/src/services/storage/cognitiveRunRepository.ts
+@@ -1,6 +1,7 @@
+ import { loadProfileState } from './profileStorage';
+ import { readCognitiveArchivePolicy } from './cognitiveArchivePolicy';
+ import { validateSavedCognitiveRun, type SavedCognitiveRunV1 } from './cognitiveRunValidation';
++import { requireCognitiveAdminReadAccess, type CognitiveAdminReadAccess } from './cognitiveAdminReadAccess';
+ 
+ export const COGNITIVE_ARCHIVE_DB = 'space-war.completed-cognitive-runs.v1';
+ export const COGNITIVE_ARCHIVE_STORE = 'completedRuns';
+@@ -140,3 +141,91 @@
+     };
+   });
+ }
++
++// Admin reads use their own explicit session scope; never impersonate the owner
++// through the original owner-only APIs. No policy, record, telemetry or schema write.
++async function scopedAdminRead<T>(targetProfileId: string, access: CognitiveAdminReadAccess | null,
++  read: (store: IDBObjectStore, done: (value: T) => void, abort: (error: unknown) => void) => void,
++  empty: T): Promise<T> {
++  requireCognitiveAdminReadAccess(access, targetProfileId);
++  if (typeof indexedDB === 'undefined' || typeof indexedDB.databases !== 'function') {
++    throw new CognitiveStorageError('Unavailable', 'خواندن بدون تغییر آرشیو در این مرورگر در دسترس نیست.');
++  }
++  let databases: IDBDatabaseInfo[];
++  try { databases = await indexedDB.databases(); }
++  catch (error) { throw storageFailure(error); }
++  requireCognitiveAdminReadAccess(access, targetProfileId);
++  if (!databases.some(db => db.name === COGNITIVE_ARCHIVE_DB)) return empty;
++  const db = await new Promise<IDBDatabase>((resolve, reject) => {
++    const request = indexedDB.open(COGNITIVE_ARCHIVE_DB, 1);
++    const timeout = setTimeout(() => fail(new CognitiveStorageError('Unavailable', 'زمان انتظار خواندن آرشیو پایان یافت.')), 5000);
++    let abandoned = false;
++    const fail = (error: unknown) => { abandoned = true; clearTimeout(timeout); reject(error); };
++    request.onupgradeneeded = () => {
++      request.transaction?.abort();
++      fail(new CognitiveStorageError('SchemaUnavailable', 'آرشیو موجود نیست یا نسخه آن تغییر کرده است؛ هیچ داده‌ای ساخته نشد.'));
++    };
++    request.onerror = () => fail(storageFailure(request.error));
++    request.onblocked = () => fail(new CognitiveStorageError('Blocked', 'آرشیو توسط صفحه دیگری مسدود شده است.'));
++    request.onsuccess = () => {
++      clearTimeout(timeout);
++      if (abandoned) request.result.close();
++      else { request.result.onversionchange = () => request.result.close(); resolve(request.result); }
++    };
++  });
++  try {
++    requireCognitiveAdminReadAccess(access, targetProfileId);
++    const value = await new Promise<T>((resolve, reject) => {
++      let result: T;
++      let failure: unknown;
++      const tx = db.transaction(COGNITIVE_ARCHIVE_STORE, 'readonly');
++      const abort = (error: unknown) => { failure = error; tx.abort(); };
++      tx.onabort = () => reject(failure ?? storageFailure(tx.error));
++      tx.onerror = () => { failure ??= storageFailure(tx.error); };
++      tx.oncomplete = () => {
++        try { requireCognitiveAdminReadAccess(access, targetProfileId); resolve(result); }
++        catch (error) { reject(error); }
++      };
++      try { read(tx.objectStore(COGNITIVE_ARCHIVE_STORE), v => { result = v; }, abort); }
++      catch (error) { abort(error); }
++    });
++    requireCognitiveAdminReadAccess(access, targetProfileId);
++    return value;
++  } finally { db.close(); }
++}
++
++export async function listCognitiveRunsForAdmin(targetProfileId: string, scenarioId: 4 | 5, access: CognitiveAdminReadAccess | null): Promise<SavedCognitiveRunV1[]> {
++  requireCognitiveAdminReadAccess(access, targetProfileId);
++  if (scenarioId !== 4 && scenarioId !== 5) throw new CognitiveStorageError('ScenarioMismatch', 'سناریوی آرشیو نامعتبر است.');
++  return scopedAdminRead<SavedCognitiveRunV1[]>(targetProfileId, access, (store, done, abort) => {
++    const get = store.index('userProfileId').getAll(targetProfileId);
++    get.onsuccess = () => {
++      try {
++        requireCognitiveAdminReadAccess(access, targetProfileId);
++        const rows: SavedCognitiveRunV1[] = [];
++        for (const value of get.result) {
++          validateSavedCognitiveRun(value);
++          if (value.userProfileId !== targetProfileId) throw new CognitiveStorageError('OwnerMismatch', 'مالک رکورد با پروفایل موردنظر تطابق ندارد.');
++          if (value.releasedScenarioId === scenarioId) rows.push(value);
++        }
++        rows.sort((a, b) => a.recordedAtIso === b.recordedAtIso ? (a.recordId < b.recordId ? 1 : a.recordId > b.recordId ? -1 : 0) : a.recordedAtIso < b.recordedAtIso ? 1 : -1);
++        done(rows);
++      } catch (error) { abort(error); }
++    };
++  }, []);
++}
++
++export async function readCognitiveRunForAdmin(recordId: string, targetProfileId: string, access: CognitiveAdminReadAccess | null): Promise<SavedCognitiveRunV1 | null> {
++  return scopedAdminRead<SavedCognitiveRunV1 | null>(targetProfileId, access, (store, done, abort) => {
++    const get = store.get(recordId);
++    get.onsuccess = () => {
++      try {
++        requireCognitiveAdminReadAccess(access, targetProfileId);
++        if (get.result === undefined) { done(null); return; }
++        validateSavedCognitiveRun(get.result);
++        if (get.result.userProfileId !== targetProfileId) throw new CognitiveStorageError('OwnerMismatch', 'مالک رکورد با پروفایل موردنظر تطابق ندارد.');
++        done(get.result);
++      } catch (error) { abort(error); }
++    };
++  }, null);
++}
+diff --git a/src/services/storage/cognitiveAdminReadAccess.ts b/src/services/storage/cognitiveAdminReadAccess.ts
+--- /dev/null
++++ b/src/services/storage/cognitiveAdminReadAccess.ts
+@@ -0,0 +1,49 @@
++import type { Profile } from '../../core/types/profile';
++import { loadProfileState, PROFILE_STORAGE_KEY, type ProfileState } from './profileStorage';
++
++export interface CognitiveAdminReadAccess { readonly sessionId: symbol }
++type LiveSession = () => ProfileState;
++const sessions = new WeakMap<CognitiveAdminReadAccess, LiveSession>();
++
++export class CognitiveAdminReadError extends Error {
++  readonly code: 'PermissionDenied' | 'OwnerMissing' | 'ProfileStorageUnavailable';
++  constructor(code: CognitiveAdminReadError['code'], message: string) {
++    super(message); this.name = 'CognitiveAdminReadError'; this.code = code;
++  }
++}
++
++// App calls this only after its existing password-based admin selection succeeds.
++// A live callback, rather than an admin-shaped object, grounds every read in that session.
++export function createCognitiveAdminReadAccess(readLiveSession: LiveSession): CognitiveAdminReadAccess {
++  const access = Object.freeze({ sessionId: Symbol('cognitive-admin-read-session') });
++  sessions.set(access, readLiveSession);
++  return access;
++}
++
++export function revokeCognitiveAdminReadAccess(access: CognitiveAdminReadAccess | null): void {
++  if (access) sessions.delete(access);
++}
++
++export function requireCognitiveAdminReadAccess(access: CognitiveAdminReadAccess | null, targetProfileId: string): Profile {
++  const readSession = access && sessions.get(access);
++  if (!readSession) throw new CognitiveAdminReadError('PermissionDenied', 'مشاهده این گزارش فقط در نشست فعال ادمین امکان‌پذیر است.');
++  const live = readSession();
++  const actor = live.profiles.find(p => p.id === live.activeProfileId);
++  if (!actor || actor.role !== 'admin') throw new CognitiveAdminReadError('PermissionDenied', 'نشست ادمین پایان یافته است؛ دوباره وارد شوید.');
++  let stored: ReturnType<typeof loadProfileState>;
++  try {
++    const raw: unknown = JSON.parse(localStorage.getItem(PROFILE_STORAGE_KEY) ?? 'null');
++    if (!raw || typeof raw !== 'object' || !('profiles' in raw) || !Array.isArray(raw.profiles) || !('activeProfileId' in raw)) throw new Error('Invalid profile state');
++    if (raw.activeProfileId !== actor.id) throw new CognitiveAdminReadError('PermissionDenied', 'پروفایل فعال تغییر کرده است؛ گزارش ادمین قابل مشاهده نیست.');
++    stored = loadProfileState(3);
++  } catch (error) {
++    if (error instanceof CognitiveAdminReadError) throw error;
++    throw new CognitiveAdminReadError('ProfileStorageUnavailable', 'خواندن وضعیت پروفایل‌ها ممکن نیست؛ گزارش نمایش داده نشد.');
++  }
++  if (!stored.profiles.some(p => p.id === actor.id && p.role === 'admin')) throw new CognitiveAdminReadError('PermissionDenied', 'پروفایل ادمین معتبر نیست.');
++  const target = live.profiles.find(p => p.id === targetProfileId);
++  if (typeof targetProfileId !== 'string' || !targetProfileId.trim() || !target || !stored.profiles.some(p => p.id === targetProfileId)) {
++    throw new CognitiveAdminReadError('OwnerMissing', 'پروفایل موردنظر وجود ندارد یا حذف شده است.');
++  }
++  return target;
++}
+diff --git a/src/ui/components/admin/CrossScenarioCognitiveDashboard.tsx b/src/ui/components/admin/CrossScenarioCognitiveDashboard.tsx
+--- /dev/null
++++ b/src/ui/components/admin/CrossScenarioCognitiveDashboard.tsx
+@@ -0,0 +1,160 @@
++import { useEffect, useRef, useState, type ReactNode } from 'react';
++import type { Profile } from '../../../core/types/profile';
++import { requireCognitiveAdminReadAccess, type CognitiveAdminReadAccess } from '../../../services/storage/cognitiveAdminReadAccess';
++import { listCognitiveRunsForAdmin } from '../../../services/storage/cognitiveRunRepository';
++import type { SavedCognitiveRunV1 } from '../../../services/storage/cognitiveRunValidation';
++import { readCognitiveArchivePolicy } from '../../../services/storage/cognitiveArchivePolicy';
++import { archiveDate, cognitiveNumber, cognitiveReadError, CROSS_COMPARABILITY, CROSS_CONCEPTS, CROSS_DATA_ERROR, CROSS_EMPTY, CROSS_NULL } from './crossScenarioPresentation';
++
++type ScenarioId = 4 | 5;
++type S1Run = Extract<SavedCognitiveRunV1, { releasedScenarioId: 4 }>;
++type S2Run = Extract<SavedCognitiveRunV1, { releasedScenarioId: 5 }>;
++type Panel = { status: 'loading' } | { status: 'error'; error: ReturnType<typeof cognitiveReadError> } | { status: 'ready'; rows: SavedCognitiveRunV1[]; selectedId: string | null };
++const scenarioName = (id: ScenarioId) => id === 4 ? 'سناریو ۱' : 'سناریو ۲';
++const usableNumber = (value: unknown, signed = false): value is number => typeof value === 'number' && Number.isFinite(value) && (signed ? value >= -1 && value <= 1 : value >= 0 && value <= 100 + 1e-9);
++
++export function CognitiveSignedSpectrum({ label, value, field, risk = false }: { label: string; value: number | null; field: string; risk?: boolean }) {
++  const valid = usableNumber(value, true);
++  const shown = value === null || valid ? cognitiveNumber(value, true) : CROSS_DATA_ERROR;
++  return <div className="cross-spectrum" data-cross-field={field} data-source-value={value === null ? 'null' : String(value)}>
++    <div className="cross-value-heading"><span>{label}</span><strong className={!valid ? 'cross-missing' : ''}><bdi dir={valid ? 'ltr' : 'rtl'}>{shown}</bdi></strong></div>
++    <div className="cross-axis" dir="ltr" role="img" aria-label={`${label}: ${shown}`}>
++      <div className="cross-axis-track"><i className="cross-axis-center" />{valid && <i className="cross-axis-marker" data-cross-marker={field} style={{ left: `${(value + 1) * 50}%` }} />}</div>
++      <div className="cross-axis-ticks" aria-hidden="true"><span>−1</span><span>0</span><span>+1</span></div>
++      <div className="cross-axis-ends"><span dir="rtl">{risk ? 'پذیرش ریسک کمتر' : 'عملیاتی'}</span><span dir="rtl">{risk ? 'پذیرش ریسک بیشتر' : 'راهبردی'}</span></div>
++    </div>
++  </div>;
++}
++
++export function CognitiveStoredValue({ label, value, field, unit = '', bar = false }: { label: string; value: number | null; field: string; unit?: string; bar?: boolean }) {
++  const valid = usableNumber(value);
++  const shown = value === null || (typeof value === 'number' && Number.isFinite(value)) ? cognitiveNumber(value) : CROSS_DATA_ERROR;
++  return <div className="cross-stored-value" data-cross-field={field} data-source-value={value === null ? 'null' : String(value)}>
++    <div className="cross-value-heading"><span>{label}</span><strong className={value === null ? 'cross-missing' : ''}><bdi dir={value === null ? 'rtl' : 'ltr'}>{shown}</bdi>{value !== null && shown !== CROSS_DATA_ERROR && unit && <small> {unit}</small>}</strong></div>
++    {bar && valid && <div className="cross-meter" role="meter" aria-label={label} aria-valuemin={0} aria-valuemax={100} aria-valuenow={value}><i style={{ width: `${value}%` }} /></div>}
++  </div>;
++}
++
++function PanelNotice({ panel }: { panel: Panel }) {
++  if (panel.status === 'loading') return <p role="status" className="cross-empty">در حال خواندن آرشیو…</p>;
++  if (panel.status === 'error') return <p role="alert" className="cross-error" data-cross-error={panel.error.code}>{panel.error.message}</p>;
++  return <p className="cross-empty" role="status">{CROSS_EMPTY}</p>;
++}
++
++function Orientation({ run }: { run: SavedCognitiveRunV1 }) {
++  const r = run.cognitive, id = run.releasedScenarioId;
++  const phases = run.releasedScenarioId === 4 ? [run.cognitive.orientation.perMove.move1, run.cognitive.orientation.perMove.move2, run.cognitive.orientation.perMove.move3] : run.cognitive.orientation.phaseScores;
++  return <>
++    <CognitiveSignedSpectrum label="شاخص جهت‌گیری این اجرا (OSI)" value={r.orientation.overall} field={`${id}.orientation.overall`} />
++    <div className="cross-strengths">{([['operationalStrength', 'قدرت عملیاتی'], ['strategicStrength', 'قدرت راهبردی'], ['integration', 'یکپارچگی عملیاتی–راهبردی']] as const).map(([key, label]) => <CognitiveStoredValue key={key} label={label} value={r.orientation[key]} field={`${id}.orientation.${key}`} unit="از ۱۰۰" />)}</div>
++    <CognitiveStoredValue label="پراکندگی جهت‌گیری" value={r.orientation.dispersion} field={`${id}.orientation.dispersion`} />
++    <h4>{id === 4 ? 'سه مرحله سناریو ۱' : 'چهار فاز سناریو ۲'}</h4>
++    <div className="cross-phase-spectra">{phases.map((value, i) => <CognitiveSignedSpectrum key={i} label={id === 4 ? `مرحله ${['۱', '۲', '۳'][i]}` : `فاز ${['A', 'B', 'C', 'D'][i]}`} value={value} field={`${id}.orientation.${id === 4 ? `perMove.move${i + 1}` : `phaseScores[${i}]`}`} />)}</div>
++  </>;
++}
++
++const timingLabels = [
++  ['medianActiveDecisionMs', 'میانه زمان فعال تصمیم', 'میلی‌ثانیه'], ['iqrActiveDecisionMs', 'دامنه میان‌چارکی زمان فعال', 'میلی‌ثانیه'],
++  ['totalRevisions', 'تعداد بازنگری‌ها', ''], ['revisedWindows', 'پنجره‌های دارای بازنگری', ''], ['evidenceTriggeredRevisionRate', 'نرخ بازنگری پس از مشاهده شواهد', '٪'],
++] as const;
++function Timing({ run }: { run: SavedCognitiveRunV1 }) {
++  const timing = run.releasedScenarioId === 4 ? run.cognitive.timing : run.cognitive.telemetrySummary;
++  return <div className="cross-timing">{timingLabels.map(([key, label, unit]) => <CognitiveStoredValue key={key} label={label} value={timing[key]} field={`${run.releasedScenarioId}.${run.releasedScenarioId === 4 ? 'timing' : 'telemetrySummary'}.${key}`} unit={unit} />)}</div>;
++}
++
++function S1Details({ run }: { run: S1Run }) {
++  const r = run.cognitive;
++  return <>
++    <CognitiveStoredValue label="انضباط اطلاعاتی" value={r.scores.informationDiscipline} field="4.scores.informationDiscipline" unit="از ۱۰۰" bar />
++    <CognitiveStoredValue label="گرایش ائتلافی" value={r.scores.coalitionOrientation} field="4.scores.coalitionOrientation" unit="از ۱۰۰" bar />
++    <details><summary>زمان و فرایند پاسخ سناریو ۱</summary><Timing run={run} /><CognitiveStoredValue label="زمان فعال مشاهده شواهد" value={r.timing.totalEvidenceDwellMs} field="4.timing.totalEvidenceDwellMs" unit="میلی‌ثانیه" />
++      {(['longestDecision', 'shortestDecision'] as const).map(key => r.timing[key] && <div key={key}><h4>{key === 'longestDecision' ? 'طولانی‌ترین تصمیم' : 'کوتاه‌ترین تصمیم'}</h4><code>{r.timing[key].windowId}</code><CognitiveStoredValue label="زمان فعال" value={r.timing[key].activeDecisionMs} field={`4.timing.${key}.activeDecisionMs`} unit="میلی‌ثانیه" /></div>)}
++      <p>وضعیت ثبت‌شده فرایند پاسخ: <code>{r.responseProcess.status}</code></p><dl>{Object.entries(r.responseProcess.flags).map(([key, flag]) => <div key={key}><dt><code>{key}</code></dt><dd>{flag ? 'فعال' : 'غیرفعال'}</dd></div>)}</dl>
++    </details>
++    <details><summary>جزئیات انتساب و هم‌سویی با شواهد</summary><CognitiveStoredValue label="میانگین هم‌سویی شواهد در همین اجرا" value={r.attribution.meanEvidenceAlignment} field="4.attribution.meanEvidenceAlignment" unit="از ۱۰۰" />
++      {r.attribution.evidenceAlignment.map((x, i) => <CognitiveStoredValue key={i} label={x.phase} value={x.score} field={`4.attribution.evidenceAlignment[${i}].score`} />)}
++      {r.attribution.evidenceUpdatingAudit.map((x, i) => <details key={i}><summary>ثبت {i + 1}: <bdi>{x.phaseBefore} → {x.phaseAfter}</bdi></summary><dl>{Object.entries(x).map(([key, value]) => <div key={key}><dt><code>{key}</code></dt><dd><bdi>{typeof value === 'number' ? cognitiveNumber(value) : value}</bdi></dd></div>)}</dl></details>)}
++    </details>
++    <details><summary>مقادیر ثبت‌شده هر پنجره تصمیم</summary>{r.perWindow.map((x, i) => <article className="cross-window" key={x.windowId}><h4><code>{x.windowId}</code></h4><p>گزینه ثبت‌شده: <code>{x.optionId}</code></p><CognitiveSignedSpectrum label="جهت‌گیری پنجره" value={x.adjustedOsi} field={`4.perWindow[${i}].adjustedOsi`} />
++      {(['operationalLoading', 'strategicLoading', 'diagnosticWeight', 'evidenceCoverage'] as const).map(key => <CognitiveStoredValue key={key} label={key} value={x[key]} field={`4.perWindow[${i}].${key}`} />)}</article>)}</details>
++  </>;
++}
++
++function Quality({ run }: { run: SavedCognitiveRunV1 }) {
++  const r = run.cognitive;
++  const fields = run.releasedScenarioId === 4 ? [
++    ['coreDecisionRecords', 'رکورد تصمیم‌های اصلی'], ['timingIntegrity', 'کامل‌بودن زمان‌ها'], ['evidenceTelemetry', 'ثبت تعامل با شواهد'], ['attributionEstimates', 'برآوردهای انتساب'], ['reasonCapture', 'ثبت دلایل'],
++  ] : [['decisions', 'تصمیم‌ها'], ['timing', 'زمان‌ها'], ['evidence', 'شواهد'], ['estimates', 'برآوردها'], ['reasons', 'دلایل']];
++  const components = run.releasedScenarioId === 4 ? run.cognitive.dataCompleteness.components : run.cognitive.dataCompleteness;
++  return <><CognitiveStoredValue label="کامل‌بودن داده‌های همین اجرا" value={r.dataCompleteness.overall} field={`${run.releasedScenarioId}.dataCompleteness.overall`} unit="٪" bar />
++    {fields.map(([key, label]) => <CognitiveStoredValue key={key} label={label} value={(components as Record<string, number>)[key]} field={`${run.releasedScenarioId}.dataCompleteness.${run.releasedScenarioId === 4 ? 'components.' : ''}${key}`} unit="٪" />)}
++    <p className="cross-muted">نسخه مدل: <code>{run.modelStamps.measurementModelVersion}</code><br />نسخه فرمول: <code>{run.modelStamps.formulaVersion}</code></p>
++    <p className="cross-muted">این مدل‌ها آزمایشی‌اند؛ برچسب نسخه یا وضعیت اعتبار، تأیید روان‌سنجی محسوب نمی‌شود.</p>
++  </>;
++}
++
++export function CrossScenarioCognitiveDashboard({ targetProfileId, access, profiles, onBack }: { targetProfileId: string; access: CognitiveAdminReadAccess | null; profiles: readonly Profile[]; onBack: () => void }) {
++  const [loaded, setLoaded] = useState<{ owner: string; access: CognitiveAdminReadAccess | null; panels: Record<ScenarioId, Panel> } | null>(null);
++  const [revision, setRevision] = useState(0);
++  const headingRef = useRef<HTMLHeadingElement>(null);
++  const [policy, setPolicy] = useState(readCognitiveArchivePolicy);
++  let target: Profile | null = null;
++  let denied: ReturnType<typeof cognitiveReadError> | null = null;
++  try { target = requireCognitiveAdminReadAccess(access, targetProfileId); }
++  catch (error) { denied = cognitiveReadError(error); }
++  const permitted = !denied;
++  useEffect(() => { headingRef.current?.focus(); }, [targetProfileId]);
++  useEffect(() => {
++    const update = () => { setPolicy(readCognitiveArchivePolicy()); setRevision(x => x + 1); };
++    window.addEventListener('storage', update);
++    window.addEventListener('cognitive-archive-policy-change', update);
++    return () => { window.removeEventListener('storage', update); window.removeEventListener('cognitive-archive-policy-change', update); };
++  }, []);
++  useEffect(() => {
++    let cancelled = false;
++    if (!permitted) return;
++    setLoaded({ owner: targetProfileId, access, panels: { 4: { status: 'loading' }, 5: { status: 'loading' } } });
++    for (const id of [4, 5] as const) {
++      void listCognitiveRunsForAdmin(targetProfileId, id, access).then(rows => {
++        requireCognitiveAdminReadAccess(access, targetProfileId);
++        return { status: 'ready', rows, selectedId: rows[0]?.recordId ?? null } as Panel;
++      }).catch(error => ({ status: 'error', error: cognitiveReadError(error) }) as Panel).then(panel => {
++        if (!cancelled) setLoaded(previous => previous?.owner === targetProfileId && previous.access === access ? { ...previous, panels: { ...previous.panels, [id]: panel } } : previous);
++      });
++    }
++    return () => { cancelled = true; };
++  }, [targetProfileId, access, profiles, revision, permitted]);
++
++  const panels: Record<ScenarioId, Panel> = loaded?.owner === targetProfileId && loaded.access === access ? loaded.panels : { 4: { status: 'loading' }, 5: { status: 'loading' } };
++  const selected = (id: ScenarioId) => {
++    const p = panels[id];
++    return p.status === 'ready' ? p.rows.find(r => r.recordId === p.selectedId) ?? null : null;
++  };
++  const s1 = selected(4) as S1Run | null, s2 = selected(5) as S2Run | null;
++  const inColumns = (render: (run: SavedCognitiveRunV1) => ReactNode) => <div className="cross-columns">{([4, 5] as const).map(id => <article className={`cross-scenario cross-scenario-${id}`} key={id}><h3>{scenarioName(id)}</h3>{selected(id) ? render(selected(id)!) : <PanelNotice panel={panels[id]} />}</article>)}</div>;
++
++  return <main className="cross-dashboard" dir="rtl" data-cross-dashboard data-cross-owner={permitted ? targetProfileId : undefined}>
++    <header className="cross-dashboard-header"><div><span className="cross-eyebrow">گزارش‌های آرشیوشده · مرورگر فعلی</span><h1 ref={headingRef} tabIndex={-1}>داشبورد شناختی تجمیعی</h1><p>نمای مشترک سناریوهای ۱ و ۲ — بدون امتیاز شناختی تلفیقی</p>{target && <p className="cross-target">پروفایل: <strong>{target.name}</strong><span>فقط مشاهده</span></p>}</div><button className="secondary" onClick={onBack}>بازگشت به مدیریت پروفایل‌ها</button></header>
++    {denied ? <p className="cross-error" role="alert" data-cross-error={denied.code}>{denied.message}</p> : <>
++      <div className="cross-archive-notice" role="note">{policy.enabled ? 'گزارش‌های تکمیل‌شده و ذخیره‌شده در این مرورگر نمایش داده می‌شوند.' : 'ذخیره گزارش جدید غیرفعال است؛ گزارش‌های قبلی قابل مشاهده‌اند'}<span>داده‌ها فقط متعلق به همین مرورگر و مبدأ سایت‌اند؛ همگام‌سازی بین دستگاه‌ها وجود ندارد.</span>{policy.error && <span role="status">{policy.error}</span>}</div>
++      <section className="cross-run-pickers" aria-label="انتخاب مستقل اجراهای سناریوها">{([4, 5] as const).map(id => {
++        const p = panels[id], run = selected(id);
++        return <article className={`cross-run-picker cross-scenario-${id}`} key={id}><div className="cross-picker-heading"><span className="cross-scenario-number">{id === 4 ? '۰۱' : '۰۲'}</span><div><h2>{scenarioName(id)}</h2><p>{id === 4 ? 'حریم خاکستری مدار' : 'امواج خاموش'}</p></div><span className="cross-run-count">{p.status === 'ready' ? `${p.rows.length.toLocaleString('fa-IR')} اجرای آرشیوشده` : p.status === 'error' ? 'خطای خواندن' : 'در حال خواندن'}</span></div>
++          {p.status === 'ready' && p.rows.length > 0 ? <><label htmlFor={`cross-run-${id}`}>اجرای انتخاب‌شده {scenarioName(id)}</label><select id={`cross-run-${id}`} value={p.selectedId ?? ''} onChange={event => { const recordId = event.target.value; setLoaded(old => old && old.owner === targetProfileId && old.access === access ? { ...old, panels: { ...old.panels, [id]: { ...p, selectedId: recordId } } } : old); }}>{p.rows.map(r => <option key={r.recordId} value={r.recordId}>{archiveDate(r.recordedAtIso)} · {r.recordId.slice(0, 8)}</option>)}</select>
++            {run && <div className="cross-picker-metadata"><time dateTime={run.recordedAtIso}>{archiveDate(run.recordedAtIso)}</time><span>زمان محلی تهران</span><span>مدل <code>{run.modelStamps.measurementModelVersion}</code></span><span>فرمول <code>{run.modelStamps.formulaVersion}</code></span></div>}</> : <PanelNotice panel={p} />}
++        </article>;
++      })}</section>
++      <section className="cross-coverage" aria-label="پوشش گزارش‌ها">{([4, 5] as const).map(id => <div key={id}><span>{scenarioName(id)}</span><strong>{selected(id) ? 'گزارش در دسترس' : panels[id].status === 'ready' ? 'اجرای آرشیوشده ندارد' : panels[id].status === 'error' ? 'خطای خواندن آرشیو' : 'در حال خواندن'}</strong>{selected(id) && <span>کامل‌بودن داده‌ها: <bdi>{cognitiveNumber(selected(id)!.cognitive.dataCompleteness.overall)}٪</bdi></span>}</div>)}</section>
++      <nav className="cross-section-nav" aria-label="بخش‌های گزارش"><a href="#cross-orientation">جهت‌گیری</a><a href="#cross-concepts">شاخص‌های هم‌موضوع</a><a href="#cross-risk">ریسک</a><a href="#cross-unique">جزئیات اختصاصی</a><a href="#cross-quality">کیفیت داده‌ها</a></nav>
++      <section className="cross-section" id="cross-orientation" aria-labelledby="cross-orientation-title"><div className="cross-section-heading"><span>۰۱</span><h2 id="cross-orientation-title">جهت‌گیری عملیاتی–راهبردی</h2></div><p className="cross-muted">هر طیف، جهت‌گیری همان اجرای سناریو را نسبت به گزینه‌های در دسترس آن نشان می‌دهد. عملیاتی‌تر یا راهبردی‌تر بودن به معنی بهتر یا بدتر بودن نیست.</p>{inColumns(run => <Orientation run={run} />)}</section>
++      <section className="cross-section" id="cross-concepts" aria-labelledby="cross-concepts-title"><div className="cross-section-heading"><span>۰۲</span><h2 id="cross-concepts-title">شاخص‌های شناختی هم‌موضوع</h2></div><p className="cross-comparability">{CROSS_COMPARABILITY}</p><p className="cross-muted">هم‌موضوع؛ محاسبه مستقل در هر سناریو</p>
++        <div className="cross-concept-table">{CROSS_CONCEPTS.map(([key, label]) => <article className="cross-concept-row" key={key} data-cross-concept={key}><h3>{label}</h3><div className="cross-concept-values">{([4, 5] as const).map(id => <div className={`cross-concept-cell cross-scenario-${id}`} key={id}><span className="cross-cell-scenario">{scenarioName(id)}</span>{id === 4 && s1 ? <CognitiveStoredValue label={`${label} — سناریو ۱`} value={s1.cognitive.scores[key]} field={`4.scores.${key}`} unit="از ۱۰۰" bar /> : id === 5 && s2 ? <CognitiveStoredValue label={`${label} — سناریو ۲`} value={s2.cognitive.constructs[key]} field={`5.constructs.${key}`} unit="از ۱۰۰" bar /> : <PanelNotice panel={panels[id]} />}</div>)}</div></article>)}</div>
++      </section>
++      <section className="cross-section" id="cross-risk" aria-labelledby="cross-risk-title"><div className="cross-section-heading"><span>۰۳</span><h2 id="cross-risk-title">موضع نسبی ریسک</h2></div><p className="cross-muted">موقعیت نسبی در طیف گزینه‌های همان سناریو؛ بدون قضاوت بهتر یا بدتر و بدون مقدار مشترک ریسک.</p>{inColumns(run => <CognitiveSignedSpectrum label="موضع نسبی ریسک همین اجرا" value={run.releasedScenarioId === 4 ? run.cognitive.scores.riskPosture : run.cognitive.constructs.riskPosture} field={`${run.releasedScenarioId}.${run.releasedScenarioId === 4 ? 'scores' : 'constructs'}.riskPosture`} risk />)}</section>
++      <section className="cross-section" id="cross-unique" aria-labelledby="cross-unique-title"><div className="cross-section-heading"><span>۰۴</span><h2 id="cross-unique-title">شاخص‌ها و جزئیات اختصاصی</h2></div><p className="cross-unmeasured" data-cross-unmeasured>انضباط اطلاعاتی: در سناریو ۲ سنجیده نمی‌شود</p>{inColumns(run => run.releasedScenarioId === 4 ? <S1Details run={run} /> : <><p className="cross-muted">چهار فاز A، B، C و D در بخش جهت‌گیری همین گزارش نمایش داده شده‌اند.</p><h4>خلاصه تعامل ثبت‌شده</h4><Timing run={run} /><p className="cross-muted">آرشیو شناختی شامل مسیر کامل مأموریت، وضعیت کاروان‌ها، فهرست شواهد یا خط زمانی برآوردها نیست؛ این موارد از نتایج شناختی بازسازی نمی‌شوند.</p></>)}</section>
++      <section className="cross-section" id="cross-quality" aria-labelledby="cross-quality-title"><div className="cross-section-heading"><span>۰۵</span><h2 id="cross-quality-title">کامل‌بودن داده‌ها و محدودیت‌ها</h2></div><p className="cross-comparability">کامل‌بودن داده‌ها فقط پوشش ثبت داده است و شاخص هوش یا عملکرد نیست. صفر با نبود داده کافی و با سنجیده‌نشدن یک ویژگی تفاوت دارد.</p>{inColumns(run => <Quality run={run} />)}<p className="cross-muted">این گزارش فقط مقادیر آرشیوشده را نمایش می‌دهد. انتخاب پروفایل و نشست ادمین، محدودیت رابط کاربری‌اند؛ مجوزدهی سرور، رمزنگاری یا حفاظت در برابر کد همان مبدأ وجود ندارد. آرشیو در پشتیبان فعلی سامانه گنجانده نمی‌شود.</p></section>
++      <details className="cross-section cross-technical"><summary>جزئیات فنی</summary>{inColumns(run => <dl><div><dt>شناسه رکورد</dt><dd><code>{run.recordId}</code></dd></div><div><dt>شناسه علمی اجرا</dt><dd><code>{run.sourceRunId}</code></dd></div><div><dt>زمان ذخیره</dt><dd><code>{run.recordedAtIso}</code></dd></div><div><dt>منبع</dt><dd><code>{run.source}</code></dd></div><div><dt>نسخه ساختار</dt><dd><code>{run.schemaVersion}</code></dd></div>{Object.entries(run.modelStamps).map(([key, value]) => <div key={key}><dt><code>{key}</code></dt><dd><code>{value}</code></dd></div>)}</dl>)}</details>
++      <footer className="cross-footer"><button className="secondary" onClick={onBack}>بازگشت به مدیریت پروفایل‌ها</button><button className="link" onClick={() => setRevision(x => x + 1)}>خواندن دوباره آرشیو</button><span>{CROSS_NULL} ≠ ۰</span></footer>
++    </>}
++  </main>;
++}
+diff --git a/src/ui/components/admin/CrossScenarioCognitiveDashboard.css b/src/ui/components/admin/CrossScenarioCognitiveDashboard.css
+--- /dev/null
++++ b/src/ui/components/admin/CrossScenarioCognitiveDashboard.css
+@@ -0,0 +1,97 @@
++.cross-dashboard { --cross-gold:#f2c96d; --cross-cyan:#64d8ed; --cross-line:rgba(158,185,215,.18); color:#e5edf7; width:min(1480px,100%); margin:0 auto; padding:40px 32px 90px; box-sizing:border-box; line-height:1.85; }
++.cross-dashboard *, .cross-dashboard *::before, .cross-dashboard *::after { box-sizing:border-box; }
++.cross-dashboard h1,.cross-dashboard h2,.cross-dashboard h3,.cross-dashboard h4,.cross-dashboard p { margin-top:0; }
++.cross-dashboard h1 { font-size:clamp(1.6rem,2.7vw,2.35rem); line-height:1.5; margin-bottom:10px; letter-spacing:-.035em; }
++.cross-dashboard h2 { font-size:1.2rem; margin-bottom:12px; }
++.cross-dashboard h3 { font-size:1rem; margin-bottom:16px; }
++.cross-dashboard h4 { font-size:.9rem; margin:22px 0 12px; }
++.cross-dashboard button,.cross-dashboard select,.cross-dashboard summary,.cross-dashboard a { font:inherit; }
++.cross-dashboard :is(button,select,summary,a):focus-visible,.cross-dashboard h1:focus-visible { outline:3px solid var(--cross-cyan); outline-offset:4px; }
++.cross-dashboard-header { display:flex; align-items:flex-start; justify-content:space-between; gap:28px; margin-bottom:24px; }
++.cross-dashboard-header>div { min-width:0; }
++.cross-dashboard-header>button { flex-shrink:0; margin-top:22px; }
++.cross-eyebrow { display:block; color:var(--cross-cyan); font-size:.8rem; margin-bottom:12px; }
++.cross-dashboard-header>div>p { color:#aebed2; margin-bottom:18px; }
++.cross-target { display:flex; align-items:center; flex-wrap:wrap; gap:8px; }
++.cross-target strong { color:#f6f8fc; font-size:1rem; }
++.cross-target>span { border:1px solid var(--cross-line); border-radius:100px; padding:2px 12px; margin-inline-start:12px; color:var(--cross-cyan); font-size:.75rem; }
++.cross-archive-notice { background:rgba(22,43,64,.65); border:1px solid rgba(100,216,237,.23); border-inline-start:3px solid var(--cross-cyan); border-radius:12px; padding:15px 20px; font-size:.88rem; margin-bottom:24px; }
++.cross-archive-notice>span { display:block; color:#9eafc6; font-size:.8rem; margin-top:4px; }
++.cross-run-pickers,.cross-columns,.cross-coverage { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:20px; }
++.cross-run-picker,.cross-section { border:1px solid var(--cross-line); border-radius:18px; background:linear-gradient(145deg,rgba(20,35,57,.96),rgba(9,20,37,.98)); box-shadow:0 12px 35px rgba(0,0,0,.12); }
++.cross-run-picker { padding:22px; min-width:0; border-top:2px solid var(--cross-accent); }
++.cross-scenario-4 { --cross-accent:var(--cross-gold); }
++.cross-scenario-5 { --cross-accent:var(--cross-cyan); }
++.cross-picker-heading { display:flex; align-items:center; gap:12px; margin-bottom:22px; }
++.cross-picker-heading h2 { margin:0; font-size:1.05rem; }
++.cross-picker-heading p { margin:0; color:#a9b8cd; font-size:.78rem; }
++.cross-scenario-number { color:var(--cross-accent); font-size:1.2rem; font-weight:700; border-inline-end:1px solid var(--cross-line); padding-inline-end:14px; }
++.cross-run-count { margin-inline-start:auto; color:var(--cross-accent); font-size:.75rem; text-align:end; }
++.cross-run-picker label { display:block; margin-bottom:8px; font-size:.8rem; color:#c0cbdc; }
++.cross-run-picker select { width:100%; max-width:100%; background:#0c192c; border:1px solid #455874; border-radius:10px; padding:12px; color:#f1f6ff; min-height:48px; font-size:.83rem; }
++.cross-picker-metadata { margin-top:14px; display:flex; flex-wrap:wrap; column-gap:12px; row-gap:4px; color:#91a5c1; font-size:.72rem; }
++.cross-picker-metadata>span:has(code) { flex-basis:100%; }
++.cross-coverage { margin:18px 0 24px; border:1px solid var(--cross-line); border-radius:12px; background:rgba(6,17,32,.7); gap:0; }
++.cross-coverage>div { padding:16px 22px; display:flex; flex-wrap:wrap; column-gap:16px; row-gap:2px; align-items:center; font-size:.8rem; }
++.cross-coverage>div+div { border-inline-start:1px solid var(--cross-line); }
++.cross-coverage strong { font-size:.8rem; color:#cfdeee; }
++.cross-coverage>div>span:last-child { color:#99acc5; }
++.cross-section-nav { display:flex; flex-wrap:wrap; gap:10px 24px; margin:20px 0 26px; }
++.cross-section-nav a { color:#a9bfd7; font-size:.82rem; text-decoration:none; padding:5px 0; border-bottom:1px solid var(--cross-line); }
++.cross-section-nav a:hover { color:var(--cross-cyan); }
++.cross-section { padding:26px; margin-bottom:22px; scroll-margin-top:16px; }
++.cross-section-heading { display:flex; align-items:baseline; gap:12px; margin-bottom:6px; }
++.cross-section-heading>span { color:#7086a2; font-size:.8rem; }
++.cross-section-heading h2 { margin-bottom:10px; }
++.cross-muted { color:#9cacc2; font-size:.83rem; line-height:1.95; }
++.cross-columns { margin-top:22px; }
++.cross-scenario { min-width:0; background:rgba(3,12,25,.3); border:1px solid var(--cross-line); border-radius:12px; padding:20px; }
++.cross-scenario>h3 { color:var(--cross-accent); border-bottom:1px solid var(--cross-line); padding-bottom:12px; }
++.cross-value-heading { display:flex; flex-wrap:wrap; justify-content:space-between; align-items:baseline; gap:6px 16px; font-size:.85rem; }
++.cross-value-heading>span { color:#b4c2d5; }
++.cross-value-heading strong { color:#f3f7fd; font-size:1rem; font-variant-numeric:tabular-nums; }
++.cross-value-heading small { font-size:.72rem; font-weight:400; color:#a7b7cf; }
++.cross-value-heading strong.cross-missing { font-size:.75rem; font-weight:400; color:#9eacc0; }
++.cross-stored-value { padding:12px 0; border-bottom:1px solid rgba(158,185,215,.08); }
++.cross-meter { height:5px; border-radius:6px; background:#26364c; margin-top:10px; overflow:hidden; direction:ltr; }
++.cross-meter i { display:block; height:100%; background:var(--cross-accent,var(--cross-cyan)); border-radius:inherit; }
++.cross-spectrum { padding:8px 0 18px; min-width:0; }
++.cross-axis { margin-top:16px; padding:0 9px; }
++.cross-axis-track { height:10px; position:relative; border-radius:6px; background:linear-gradient(90deg,#f2c96d 0%,#90cabc 50%,#64d8ed 100%); }
++.cross-axis-center { position:absolute; left:50%; top:-4px; bottom:-4px; border-left:1px solid rgba(255,255,255,.65); }
++.cross-axis-marker { position:absolute; width:14px; height:20px; top:-5px; transform:translateX(-50%); border:2px solid #fff; border-radius:5px; background:#14243b; box-shadow:0 0 0 2px #14243b; }
++.cross-axis-ticks,.cross-axis-ends { display:flex; justify-content:space-between; gap:12px; font-size:.72rem; color:#9badc5; margin-top:8px; }
++.cross-axis-ends { font-size:.7rem; }
++.cross-phase-spectra { display:grid; gap:12px; grid-template-columns:repeat(2,minmax(0,1fr)); }
++.cross-phase-spectra .cross-value-heading { font-size:.75rem; }
++.cross-phase-spectra .cross-value-heading strong { font-size:.9rem; }
++.cross-phase-spectra .cross-axis-ends { display:none; }
++.cross-strengths { display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:10px; margin:8px 0 10px; }
++.cross-strengths .cross-value-heading { display:grid; gap:6px; font-size:.75rem; }
++.cross-comparability { color:#d7d0b2; border-inline-start:2px solid var(--cross-gold); padding:8px 14px; background:rgba(242,201,109,.04); font-size:.85rem; line-height:2; }
++.cross-concept-row { display:grid; grid-template-columns:minmax(180px,.8fr) minmax(0,2fr); gap:20px; padding:19px 0; border-bottom:1px solid var(--cross-line); align-items:center; }
++.cross-concept-row:last-child { border:0; }
++.cross-concept-row>h3 { margin:0; font-weight:500; font-size:.9rem; }
++.cross-concept-values { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:24px; min-width:0; }
++.cross-concept-cell { min-width:0; }
++.cross-cell-scenario { color:var(--cross-accent); font-size:.7rem; }
++.cross-concept-cell .cross-stored-value { padding-top:4px; border:0; }
++.cross-concept-cell .cross-value-heading>span { position:absolute; width:1px; height:1px; overflow:hidden; clip-path:inset(50%); }
++.cross-concept-cell .cross-value-heading strong { font-size:1.12rem; }
++.cross-empty { color:#9aaec9; font-size:.8rem; padding:12px 0; line-height:2; margin:0; }
++.cross-error { color:#ffd0ce; border:1px solid #8e464d; border-radius:10px; padding:16px; background:rgba(117,35,49,.13); font-size:.85rem; }
++.cross-unmeasured { border:1px dashed #61748d; border-radius:10px; color:#c0cedf; padding:14px; font-size:.85rem; }
++.cross-dashboard details { margin-top:16px; border-top:1px solid var(--cross-line); padding-top:14px; }
++.cross-dashboard summary { color:#c1d8ec; cursor:pointer; font-size:.85rem; }
++.cross-dashboard details[open]>summary { margin-bottom:18px; }
++.cross-dashboard code { direction:ltr; unicode-bidi:isolate; overflow-wrap:anywhere; white-space:normal; font-size:.75rem; color:#a7bed7; }
++.cross-dashboard dl { margin:0; }
++.cross-dashboard dl>div { display:grid; grid-template-columns:minmax(0,1fr) minmax(0,1.4fr); gap:12px; border-bottom:1px solid var(--cross-line); padding:10px 0; font-size:.8rem; }
++.cross-dashboard dd { margin:0; min-width:0; overflow-wrap:anywhere; }
++.cross-window { margin-top:18px; padding:0 12px 18px; border-bottom:1px solid var(--cross-line); }
++.cross-technical>summary { font-size:1rem; }
++.cross-footer { display:flex; align-items:center; flex-wrap:wrap; gap:14px; }
++.cross-footer>span { margin-inline-start:auto; font-size:.75rem; color:#9aacbf; }
++.profile-row .cross-profile-action { flex-shrink:0; max-width:100%; font-size:.78rem; white-space:normal; }
++@media(max-width:1000px) { .cross-dashboard { padding:28px 22px 85px; } .cross-strengths { grid-template-columns:1fr; gap:0; } .cross-strengths .cross-value-heading { display:flex; } .cross-concept-row { grid-template-columns:minmax(140px,.8fr) minmax(0,2fr); gap:12px; } }
++@media(max-width:650px) { .cross-dashboard { padding:22px 14px 85px; } .cross-dashboard-header { display:block; } .cross-dashboard-header>button { margin-top:0; width:100%; } .cross-run-pickers,.cross-columns,.cross-coverage { grid-template-columns:1fr; gap:14px; } .cross-run-picker,.cross-section { padding:18px 15px; border-radius:14px; } .cross-scenario { padding:15px 12px; } .cross-run-count { max-width:90px; } .cross-coverage { gap:0; } .cross-coverage>div { padding:14px 16px; } .cross-coverage>div+div { border-inline-start:0; border-top:1px solid var(--cross-line); } .cross-concept-row { grid-template-columns:1fr; gap:10px; padding:17px 0; } .cross-concept-values { gap:18px; } .cross-value-heading { gap:6px 10px; } .cross-phase-spectra { gap:16px; } .cross-phase-spectra .cross-value-heading { display:grid; } .cross-section-nav { gap:8px 18px; } .cross-footer>button { width:100%; } .cross-footer>span { margin-inline-start:0; } .profile-row .cross-profile-action { width:100%; } }
+diff --git a/src/ui/components/admin/crossScenarioPresentation.ts b/src/ui/components/admin/crossScenarioPresentation.ts
+--- /dev/null
++++ b/src/ui/components/admin/crossScenarioPresentation.ts
+@@ -0,0 +1,36 @@
++export const CROSS_CONCEPTS = [
++  ['informationSeeking', 'جست‌وجوی اطلاعات'],
++  ['secondOrderThinking', 'تفکر مرتبه دوم'],
++  ['adversaryModeling', 'مدل‌سازی طرف مقابل'],
++  ['escalationSensitivity', 'حساسیت به تشدید'],
++  ['evidenceResponsiveUpdating', 'بازنگری مبتنی بر شواهد'],
++  ['resourceStewardship', 'نگهداشت و تخصیص منابع'],
++  ['planningForesight', 'برنامه‌ریزی و آینده‌نگری'],
++  ['multiDomainIntegration', 'یکپارچه‌سازی چندمعیاره'],
++  ['decisionCoherence', 'انسجام تصمیم'],
++] as const;
++export const CROSS_NULL = 'داده کافی برای محاسبه وجود ندارد';
++export const CROSS_EMPTY = 'برای این کاربر اجرای تکمیل‌شدهٔ آرشیوشده از این سناریو وجود ندارد.';
++export const CROSS_DATA_ERROR = 'خطای داده: مقدار ثبت‌شده معتبر نیست.';
++export const CROSS_COMPARABILITY = 'مقادیر دو سناریو از مدل‌ها و موقعیت‌های متفاوت محاسبه شده‌اند و فعلاً میانگین‌گیری یا رتبه‌بندی بین‌سناریویی نمی‌شوند.';
++
++export function cognitiveNumber(value: unknown, signed = false): string {
++  if (value === null) return CROSS_NULL;
++  if (typeof value !== 'number' || !Number.isFinite(value)) return CROSS_DATA_ERROR;
++  return signed ? (value >= 0 ? '+' : '−') + value.toFixed(2).replace('-', '') : value.toFixed(2);
++}
++export function archiveDate(iso: string): string {
++  return new Intl.DateTimeFormat('fa-IR', { dateStyle: 'medium', timeStyle: 'short', timeZone: 'Asia/Tehran' }).format(new Date(iso));
++}
++export function cognitiveReadError(error: unknown): { code: string; message: string } {
++  const code = error instanceof DOMException ? error.name : error && typeof error === 'object' && 'code' in error && typeof error.code === 'string' ? error.code : 'InvalidData';
++  if (code === 'PermissionDenied' || code === 'OwnerMissing' || code === 'ProfileStorageUnavailable') return { code, message: error instanceof Error ? error.message : 'دسترسی به گزارش ممکن نیست.' };
++  const messages: Record<string, string> = {
++    Unavailable: 'آرشیو مرورگر در دسترس نیست؛ این وضعیت با نبود اجرای ذخیره‌شده تفاوت دارد.',
++    Blocked: 'خواندن آرشیو توسط صفحه دیگری مسدود شده است؛ دوباره تلاش کنید.',
++    QuotaExceededError: 'مرورگر به علت محدودیت فضای ذخیره‌سازی اجازه خواندن آرشیو را نداد.',
++    OwnerMismatch: 'مالک رکورد با پروفایل موردنظر تطابق ندارد؛ گزارش نمایش داده نشد.',
++    SchemaUnavailable: 'ساختار آرشیو در دسترس نیست یا نسخه آن پشتیبانی نمی‌شود.',
++  };
++  return { code, message: messages[code] ?? 'خواندن یا اعتبارسنجی آرشیو ناموفق بود؛ داده نامعتبر به‌عنوان نبود اجرا یا مقدار صفر نمایش داده نمی‌شود.' };
++}
+diff --git a/scripts/verify-cross-phase09d1b-browser.mjs b/scripts/verify-cross-phase09d1b-browser.mjs
+--- /dev/null
++++ b/scripts/verify-cross-phase09d1b-browser.mjs
+@@ -0,0 +1,200 @@
++import fs from 'node:fs';
++import os from 'node:os';
++import path from 'node:path';
++import assert from 'node:assert/strict';
++import { spawn } from 'node:child_process';
++import { createHash } from 'node:crypto';
++
++const output = 'docs/scenario-cross-phase09d1b-screenshots'; fs.mkdirSync(output, { recursive: true });
++const profileDir = fs.mkdtempSync(path.join(os.tmpdir(), 'cross09d1b-browser-'));
++const chromePath = ['C:/Program Files/Google/Chrome/Application/chrome.exe', 'C:/Program Files (x86)/Microsoft/Edge/Application/msedge.exe'].find(fs.existsSync);
++if (!chromePath) throw Error('Chromium executable not found');
++const origin = 'http://127.0.0.1:5233';
++const vite = spawn(process.execPath, ['node_modules/vite/bin/vite.js', '--host', '127.0.0.1', '--port', '5233', '--strictPort'], { stdio: 'ignore', windowsHide: true });
++const chrome = spawn(chromePath, ['--headless=new', '--remote-debugging-port=9284', `--user-data-dir=${profileDir}`, '--disable-gpu', '--no-first-run', origin], { stdio: 'ignore', windowsHide: true });
++const delay = (ms = 80) => new Promise(r => setTimeout(r, ms));
++const checks = [], screenshots = [], errors = [];
++let send, evaluate, socket;
++const check = (v, message) => { assert.ok(v, message); checks.push({ message, status: 'PASS' }); };
++async function waitFor(fn, message) { for (let i = 0; i < 240; i++) { try { const r = await fn(); if (r) return r; } catch { /* loading */ } await delay(100); } throw Error('Timeout: ' + message); }
++try {
++  await waitFor(async () => (await fetch(origin)).ok, 'Vite');
++  const targets = await waitFor(async () => (await fetch('http://127.0.0.1:9284/json')).json(), 'CDP');
++  socket = new WebSocket(targets.find(t => t.type === 'page').webSocketDebuggerUrl);
++  await new Promise((resolve, reject) => { socket.addEventListener('open', resolve, { once: true }); socket.addEventListener('error', reject, { once: true }); });
++  let seq = 0; const pending = new Map();
++  socket.addEventListener('message', ({ data }) => { const m = JSON.parse(data); if (m.method === 'Runtime.exceptionThrown') errors.push(m.params); if (pending.has(m.id)) { const p = pending.get(m.id); pending.delete(m.id); if (m.error) p.reject(Error(m.error.message)); else p.resolve(m.result); } });
++  send = (method, params = {}) => new Promise((resolve, reject) => { const id = ++seq; pending.set(id, { resolve, reject }); socket.send(JSON.stringify({ id, method, params })); });
++  evaluate = async expression => { const r = await send('Runtime.evaluate', { expression, awaitPromise: true, returnByValue: true }); if (r.exceptionDetails) throw Error(r.exceptionDetails.exception?.description ?? r.exceptionDetails.text); return r.result.value; };
++  await send('Runtime.enable'); await send('Page.enable'); await send('Page.navigate', { url: origin });
++  const viewport = async (width = 1440, height = 900) => { await send('Emulation.setDeviceMetricsOverride', { width, height, deviceScaleFactor: 1, mobile: false }); await delay(120); };
++  await viewport();
++  const click = async selector => { await waitFor(() => evaluate(`(()=>{const n=document.querySelector(${JSON.stringify(selector)});if(!n||n.disabled)return false;n.click();return true})()`), selector); await delay(); };
++  const clickText = async text => { await waitFor(() => evaluate(`(()=>{const n=[...document.querySelectorAll('button')].find(n=>n.textContent.trim()===${JSON.stringify(text)}&&!n.disabled);if(!n)return false;n.click();return true})()`), text); await delay(); };
++  const input = async (selector, value) => { await evaluate(`(()=>{const n=document.querySelector(${JSON.stringify(selector)});Object.getOwnPropertyDescriptor(HTMLInputElement.prototype,'value').set.call(n,${JSON.stringify(value)});n.dispatchEvent(new Event('input',{bubbles:true}))})()`); await delay(); };
++  const shot = async (name, selector, width = 1440, height = 900) => {
++    await viewport(width, height);
++    await evaluate(selector ? `document.querySelector(${JSON.stringify(selector)}).scrollIntoView({block:'start'})` : 'scrollTo(0,0)'); await delay(150);
++    const layout = await evaluate(`(()=>{const nodes=[...document.querySelectorAll('.cross-dashboard,.cross-section,.cross-scenario,.cross-run-picker,.cross-axis,.cross-concept-cell')];return {width:innerWidth,height:innerHeight,scrollWidth:document.documentElement.scrollWidth,overflows:nodes.filter(n=>n.scrollWidth>n.clientWidth+2).map(n=>({class:n.className,width:n.clientWidth,scroll:n.scrollWidth})),actions:[...document.querySelectorAll('.cross-dashboard button,.cross-dashboard select')].map(n=>({label:n.getAttribute('aria-label')||n.textContent.trim(),width:n.getBoundingClientRect().width}))}})()`);
++    check(layout.scrollWidth <= width + 1 && layout.overflows.length === 0, 'No horizontal overflow or chart clipping: ' + name);
++    const r = await send('Page.captureScreenshot', { format: 'png', captureBeyondViewport: false }); const file = `${output}/${name}-${width}x${height}.png`;
++    fs.writeFileSync(file, Buffer.from(r.data, 'base64')); screenshots.push({ file, ...layout });
++  };
++  const profileManager = async () => {
++    if (await evaluate("!!document.querySelector('[data-cross-dashboard]')")) { await clickText('بازگشت به مدیریت پروفایل‌ها'); return; }
++    if (await evaluate("!!document.querySelector('.profile-manager-card')")) return;
++    if (await evaluate("!!document.querySelector('.main-menu-card')")) await clickText('ساخت / انتخاب پروفایل');
++    else { await click('[aria-label="منوی سریع"]'); await clickText('مدیریت پروفایل'); }
++  };
++  const login = async () => {
++    await profileManager(); await evaluate("[...document.querySelectorAll('.profile-item')].find(n=>n.querySelector('.profile-name').textContent==='ادمین').click()"); await delay();
++    await input('#admin-password', '8888'); await clickText('ورود به ادمین');
++    await waitFor(() => evaluate("!!document.querySelector('.main-menu-card')"), 'admin main menu');
++  };
++  const chooseOwner = async id => {
++    await profileManager();
++    await evaluate(`(async()=>{const p=await import('/src/services/storage/profileStorage.ts');const index=p.loadProfileState(3).profiles.findIndex(x=>x.id===${JSON.stringify(id)});if(index<0)throw Error('Missing owner');document.querySelectorAll('.profile-item')[index].click()})()`);
++    await waitFor(() => evaluate("!!document.querySelector('.main-menu-card')"), 'owner selected');
++  };
++  const captureAccess = () => evaluate(`(()=>{const root=document.getElementById('root'),k=Object.keys(root).find(k=>k.startsWith('__reactContainer$'));let found;function walk(f){if(!f||found)return;if(f.type?.name==='App'){found=f;return}walk(f.child);walk(f.sibling)}walk(root[k]);for(let h=found?.memoizedState;h;h=h.next){const a=h.memoizedState?.current;if(a&&typeof a.sessionId==='symbol'){window.realAdminAccess=a;return true}}return false})()`);
++  await waitFor(() => evaluate("!!document.querySelector('.main-menu-card')"), 'real App');
++  // Only disposable local profile fixtures are provisioned. Cognitive results below are
++  // generated by real App -> ScenarioRunner -> production component -> completion hooks.
++  const owners = await evaluate(`(async()=>{const p=await import('/src/services/storage/profileStorage.ts'),t=await import('/src/core/types/profile.ts');const state=p.loadProfileState(3);const labels=[['کاربر','مشترک'],['کاربر','مشترک'],['کاربر','سناریو دوم'],['کاربر','بدون اجرا']];const users=labels.map(([firstName,lastName],i)=>({...t.createPlayerProfile({firstName,lastName,nationalId:String(1000000000+i),phoneNumber:'09120000000'}),progress:3}));p.saveProfileState({profiles:[...state.profiles,...users],activeProfileId:users[0].id});return users.map(p=>({id:p.id,name:p.name}))})()`);
++  await send('Page.reload'); await delay(600); await login();
++  check(await captureAccess(), 'Real admin session established before any archive exists');
++  check(await evaluate(`(async()=>{const r=await import('/src/services/storage/cognitiveRunRepository.ts');const before=JSON.stringify(await indexedDB.databases());const empty=await r.listCognitiveRunsForAdmin(${JSON.stringify(owners[3].id)},4,realAdminAccess);return empty.length===0&&before===JSON.stringify(await indexedDB.databases())})()`), 'Empty archive read creates no IndexedDB database or schema'); await clickText('مدیریت سامانه'); await click('[role=switch]'); await clickText('بازگشت به منوی اصلی');
++  async function startScenario(id) {
++    await clickText('شروع');
++    await evaluate(`(()=>{const title=${JSON.stringify(id === 4 ? 'حریم خاکستری مدار' : 'امواج خاموش')};const card=[...document.querySelectorAll('.scenario-card')].find(n=>n.querySelector('.scenario-title').textContent.includes(title));if(!card)throw Error('Missing scenario');card.querySelector('.scenario-actions button:last-child').click()})()`);
++    await delay(); if (await evaluate("!!document.querySelector('.intro-modal .primary')")) await click('.intro-modal .primary');
++  }
++  async function completeS1() {
++    await startScenario(4); for (let i = 0; i < 6; i++) await click('.s4-intro-shell button.primary');
++    for (let step = 0; step < 100; step++) {
++      if (await evaluate("document.querySelector('[data-cognitive-archive-status]')?.textContent.includes('ذخیره شد')")) break;
++      const action = await evaluate(`(()=>{const b=[...document.querySelectorAll('.s4-shell button')],notice=b.find(n=>n.textContent.trim()==='متوجه شدم'&&!n.disabled);if(notice){notice.click();return true}const options=[...document.querySelectorAll('.s4-option-card > button:first-child')].filter(n=>!n.disabled);if(options.length&&!document.querySelector('.s4-option-card.selected')){options[0].click();return true}const confirm=b.find(n=>n.textContent.trim()==='ثبت تصمیم'&&!n.disabled);if(confirm){confirm.click();return true}const next=document.querySelector('.s4-move1-action-bar button:not(:disabled)')??document.querySelector('.s4-main .primary:not(:disabled)');if(next){next.click();return true}return false})()`);
++      if (!action) throw Error('S1 stalled: ' + await evaluate('document.body.innerText.slice(0,1200)')); await delay(65);
++    }
++    check(await evaluate("document.querySelector('[data-cognitive-archive-status]')?.textContent.includes('ذخیره شد')"), 'Real App S1 canonical completion saved');
++  }
++  async function completeS2() {
++    await startScenario(5); await click('.s5-briefing-card > .s5-primary-button');
++    for (let step = 0; step < 115; step++) {
++      if (await evaluate("!!document.querySelector('.s5-ending')")) break;
++      const action = await evaluate(`(()=>{const phase=document.querySelector('.s5-phase-summary .s5-primary-button');if(phase){phase.click();return 'phase'}const belief=document.querySelector('.s5-belief-panel');if(belief){const radio=belief.querySelector('.s5-corridor-card input');if(radio&&!radio.checked){radio.click();return 'select'}const b=belief.querySelector('.s5-primary-button:not(:disabled)');if(b){b.click();return 'confirm'}return 'ranges'}const reason=document.querySelector('.s5-reason-options input');if(reason&&!reason.checked){reason.click();return 'reason'}const rb=document.querySelector('.s5-form-panel .s5-primary-button:not(:disabled)');if(rb){rb.click();return 'reason confirm'}const outcome=document.querySelector('.s5-outcome-panel .s5-primary-button');if(outcome){outcome.click();return 'outcome'}const confirm=document.querySelector('.s5-decision-actions .s5-primary-button:not(:disabled)');if(confirm){confirm.click();return 'decision'}const actions=[...document.querySelectorAll('.s5-action-card')].filter(n=>!n.disabled);if(actions.length){const selected=document.querySelector('.s5-action-card[aria-pressed=true]');const target=document.querySelector('.s5-map-target:not(:disabled)');if(selected&&target&&document.querySelector('.s5-target-picker select')?.value===''){target.dispatchEvent(new MouseEvent('click',{bubbles:true}));return 'target'}actions[0].click();return 'select action'}return null})()`);
++      if (action === 'ranges') for (let i = 0; i < 3; i++) {
++        await evaluate(`document.querySelectorAll('.s5-belief-range')[${i}].focus()`);
++        await send('Input.dispatchKeyEvent', { type: 'keyDown', key: 'ArrowRight', code: 'ArrowRight', windowsVirtualKeyCode: 39 });
++        await send('Input.dispatchKeyEvent', { type: 'keyUp', key: 'ArrowRight', code: 'ArrowRight', windowsVirtualKeyCode: 39 });
++      }
++      if (!action) throw Error('S2 stalled: ' + await evaluate('document.body.innerText.slice(0,1200)')); await delay(65);
++    }
++    await waitFor(() => evaluate("document.querySelector('[data-cognitive-archive-status]')?.textContent.includes('ذخیره شد')"), 'S2 saved'); check(true, 'Real App S2 canonical completion saved');
++  }
++  for (const [owner, scenarios] of [[owners[0], [4, 5, 4, 5]], [owners[1], [4]], [owners[2], [5]]]) {
++    for (const id of scenarios) { await chooseOwner(owner.id); if (id === 4) await completeS1(); else await completeS2(); }
++  }
++  await login(); await clickText('مدیریت سامانه'); await click('[role=switch]'); await clickText('بازگشت به منوی اصلی'); await profileManager();
++  check(await evaluate(`document.querySelectorAll('[data-cognitive-dashboard-profile]').length`) === owners.length + 3, 'One admin action per existing profile, including built-ins');
++  await shot('01-admin-profile-list', '.profile-list');
++  // Read the real App's existing session handle, without changing any React state.
++
++  check(await captureAccess(), 'Repository tests use the actual password-established App session');
++  await evaluate(`(async()=>{window.repo=await import('/src/services/storage/cognitiveRunRepository.ts');window.accessModule=await import('/src/services/storage/cognitiveAdminReadAccess.ts');window.owners=${JSON.stringify(owners)};window.records={};for(const p of owners)records[p.id]=[...await repo.listCognitiveRunsForAdmin(p.id,4,realAdminAccess),...await repo.listCognitiveRunsForAdmin(p.id,5,realAdminAccess)];})()`);
++  const records = JSON.parse(await evaluate('JSON.stringify(records)'));
++  fs.writeFileSync('docs/scenario-cross-phase09d1b-real-completions.json', JSON.stringify({ testOnly: true, source: 'Six real completions through real App navigation in a disposable Chromium profile; no cognitive payload injection', owners, records }, null, 2));
++  check(records[owners[0].id].length === 4 && records[owners[1].id].length === 1 && records[owners[2].id].length === 1 && records[owners[3].id].length === 0, 'Both / S1 only / S2 only / neither genuine archive coverage');
++  check(records[owners[0].id].filter(r => r.releasedScenarioId === 4).map(r => r.sourceRunId).every((id, _, a) => id === a[0]), 'Repeated S1 scientific ID remains visible as separate UUID records');
++  const snapshot = () => evaluate(`(async()=>JSON.stringify({local:Object.fromEntries(Object.keys(localStorage).sort().map(k=>[k,localStorage.getItem(k)])),records:await Promise.all(owners.map(async p=>[...await repo.listCognitiveRunsForAdmin(p.id,4,realAdminAccess),...await repo.listCognitiveRunsForAdmin(p.id,5,realAdminAccess)]))}))()`);
++  const beforeRead = await snapshot();
++  await evaluate(`(()=>{window.writes=[];window.restoreInstrumentation=[];for(const [proto,key]of [[Storage.prototype,'setItem'],[Storage.prototype,'removeItem'],[Storage.prototype,'clear'],[IDBObjectStore.prototype,'add'],[IDBObjectStore.prototype,'put'],[IDBObjectStore.prototype,'delete'],[IDBObjectStore.prototype,'clear']]){const old=proto[key];restoreInstrumentation.push(()=>proto[key]=old);proto[key]=function(...args){writes.push(key);return old.apply(this,args)}}})()`);
++  async function openDashboard(id, ready = true) {
++    await profileManager(); await click(`[data-cognitive-dashboard-profile="${id}"]`);
++    if (ready) await waitFor(() => evaluate("!!document.querySelector('[data-cross-dashboard]')&&!document.body.innerText.includes('در حال خواندن آرشیو…')"), 'dashboard settled');
++  }
++  await openDashboard(owners[0].id);
++  check(await evaluate('document.activeElement.tagName==="H1"'), 'Dashboard heading receives keyboard/screen-reader focus');
++  check(await evaluate("document.querySelectorAll('[data-cross-concept]').length===9"), 'Exactly nine conceptual rows');
++  check(await evaluate("document.body.innerText.includes('ذخیره گزارش جدید غیرفعال است؛ گزارش‌های قبلی قابل مشاهده‌اند')"), 'Archive OFF retains readable results');
++  check(await evaluate("document.querySelector('[data-cross-unmeasured]').textContent.includes('در سناریو ۲ سنجیده نمی‌شود')&&!document.querySelector('[data-cross-unmeasured]').querySelector('[role=meter]')"), 'S2 information discipline is explicitly unmeasured');
++  check(await evaluate("!document.querySelector('#cross-run-4 option').value.includes('run-')&&document.querySelectorAll('#cross-run-4 option').length===2"), 'Distinct attempt UUID selectors, even shared S1 scientific run ID');
++  const defaults = await evaluate("({s1:document.querySelector('#cross-run-4').value,s2:document.querySelector('#cross-run-5').value})");
++  check(defaults.s1 === records[owners[0].id].filter(r => r.releasedScenarioId === 4)[0].recordId && defaults.s2 === records[owners[0].id].filter(r => r.releasedScenarioId === 5)[0].recordId, 'Newest independent runs selected by default');
++  await shot('02-both-scenarios', null); await shot('03-shared-concepts', '#cross-concepts'); await shot('04-risk', '#cross-risk'); await shot('05-unique', '#cross-unique'); await shot('06-quality', '#cross-quality');
++  for (const [width, height] of [[1280, 720], [1366, 768], [390, 844]]) { await shot('07-responsive-top', null, width, height); await shot('08-responsive-concepts', '#cross-concepts', width, height); await shot('09-responsive-risk', '#cross-risk', width, height); }
++  await viewport();
++  await evaluate("(()=>{const s=document.querySelector('#cross-run-4');s.value=s.options[1].value;s.dispatchEvent(new Event('change',{bubbles:true}))})()"); await delay();
++  check(await evaluate(`document.querySelector('#cross-run-5').value===${JSON.stringify(defaults.s2)}`), 'S1 selection does not change S2 selection');
++  const olderS1 = await evaluate("document.querySelector('#cross-run-4').value");
++  await evaluate("(()=>{const s=document.querySelector('#cross-run-5');s.value=s.options[1].value;s.dispatchEvent(new Event('change',{bubbles:true}))})()"); await delay();
++  check(await evaluate(`document.querySelector('#cross-run-4').value===${JSON.stringify(olderS1)}`), 'S2 selection does not change S1 selection');
++  check(await evaluate(`(()=>{const selected=[document.querySelector('#cross-run-4').value,document.querySelector('#cross-run-5').value],runs=records[owners[0].id].filter(r=>selected.includes(r.recordId));return [...document.querySelectorAll('[data-cross-field]')].every(n=>{const [id,...parts]=n.dataset.crossField.split('.');const run=runs.find(r=>r.releasedScenarioId===Number(id));const keys=parts.join('.').replaceAll('[','.').replaceAll(']','').split('.');let v=run.cognitive;for(const key of keys)v=v[key];return n.dataset.sourceValue===(v===null?'null':String(v))})})()`), 'Every rendered numeric source equals the selected stored payload exactly');
++  await evaluate("document.querySelector('#cross-run-4').focus()"); await send('Input.dispatchKeyEvent', { type: 'keyDown', key: 'Tab', code: 'Tab', windowsVirtualKeyCode: 9 }); await send('Input.dispatchKeyEvent', { type: 'keyUp', key: 'Tab', code: 'Tab', windowsVirtualKeyCode: 9 });
++  check(await evaluate("document.querySelector('[data-cross-dashboard]').contains(document.activeElement)"), 'Keyboard controls remain reachable');
++  check(await evaluate("[...document.querySelectorAll('.cross-dashboard select')].every(n=>!!document.querySelector('label[for='+n.id+']'))&&[...document.querySelectorAll('.cross-axis[role=img],[role=meter]')].every(n=>!!n.getAttribute('aria-label'))"), 'Pickers, spectra and meters have screen-reader labels');
++  await profileManager();
++  check(await evaluate(`document.activeElement.dataset.cognitiveDashboardProfile===${JSON.stringify(owners[0].id)}`), 'Back restores focus to the same profile action');
++  await openDashboard(owners[1].id); check(await evaluate("!!document.querySelector('#cross-run-4')&&!document.querySelector('#cross-run-5')"), 'Same display name, different owner ID, S1-only isolation'); await shot('10-s1-only', null);
++  await openDashboard(owners[2].id); check(await evaluate("!document.querySelector('#cross-run-4')&&!!document.querySelector('#cross-run-5')"), 'S2-only empty counterpart'); await shot('11-s2-only', null);
++  await openDashboard(owners[3].id); check(await evaluate("!document.querySelector('#cross-run-4')&&!document.querySelector('#cross-run-5')"), 'Both absent, no legacy log/snapshot fallback'); await shot('12-neither', null);
++  await profileManager();
++  check(await evaluate('writes.length===0'), 'Dashboard open, select, navigate, refresh-list and close perform zero storage writes');
++  await evaluate('restoreInstrumentation.forEach(fn=>fn())');
++  const afterRead = await snapshot(); check(JSON.stringify(beforeRead) === JSON.stringify(afterRead), 'All browser storage, logs, selected admin profile and scientific records unchanged by dashboard interactions');
++  // Real App session + scoped repository denial, corruption and request-race checks.
++  const repositoryChecks = await evaluate(`(async()=>{const results=[];const reject=async(name,fn)=>{try{await fn();results.push({name,pass:false})}catch(e){results.push({name,pass:true,code:e.code??e.name})}};
++    const A=owners[0].id,B=owners[1].id,record=records[A][0];
++    await reject('Nonadmin-shaped access cannot list another owner',()=>repo.listCognitiveRunsForAdmin(A,4,{id:'admin',role:'admin'}));
++    await reject('Missing session cannot read',()=>repo.readCognitiveRunForAdmin(record.recordId,A,null));
++    await reject('Record read requires exact target owner',()=>repo.readCognitiveRunForAdmin(record.recordId,B,realAdminAccess));
++    await reject('Deleted or unknown owner is explicit',()=>repo.listCognitiveRunsForAdmin('player-deleted-owner',4,realAdminAccess));
++    results.push({name:'Scoped read returns exact canonical owner record',pass:JSON.stringify(await repo.readCognitiveRunForAdmin(record.recordId,A,realAdminAccess))===JSON.stringify(record)});
++    const original=indexedDB;Object.defineProperty(window,'indexedDB',{value:undefined,configurable:true});await reject('Unavailable IDB',()=>repo.listCognitiveRunsForAdmin(A,4,realAdminAccess));Object.defineProperty(window,'indexedDB',{value:original,configurable:true});
++    const getAll=IDBIndex.prototype.getAll;IDBIndex.prototype.getAll=function(){throw new DOMException('isolated read restriction','QuotaExceededError')};await reject('Quota/read restriction explicit',()=>repo.listCognitiveRunsForAdmin(A,4,realAdminAccess));IDBIndex.prototype.getAll=getAll;
++    const db=await new Promise((resolve,reject)=>{const q=indexedDB.open(repo.COGNITIVE_ARCHIVE_DB,1);q.onsuccess=()=>resolve(q.result);q.onerror=()=>reject(q.error)});
++    const put=x=>new Promise((resolve,reject)=>{const tx=db.transaction(repo.COGNITIVE_ARCHIVE_STORE,'readwrite');tx.objectStore(repo.COGNITIVE_ARCHIVE_STORE).put(x);tx.oncomplete=resolve;tx.onabort=()=>reject(tx.error)});
++    window.corruptionFixture={db,put,record};const bad=structuredClone(record);delete bad.cognitive.orientation.overall;await put(bad);
++    await reject('Malformed required value rejects scoped list',()=>repo.listCognitiveRunsForAdmin(A,4,realAdminAccess));await reject('Malformed required value rejects scoped read',()=>repo.readCognitiveRunForAdmin(record.recordId,A,realAdminAccess));
++    return results;})()`);
++  for (const r of repositoryChecks) check(r.pass, r.name);
++  await openDashboard(owners[0].id); check(await evaluate("!!document.querySelector('[data-cross-error]')&&!document.querySelector('#cross-run-4')"), 'Corrupt archive is a data error, never a silent empty result'); await shot('13-invalid-data-error', null);
++  await evaluate('corruptionFixture.put(corruptionFixture.record).then(()=>corruptionFixture.db.close())');
++  await profileManager(); await evaluate('window.savedIDB=indexedDB;void Object.defineProperty(window,"indexedDB",{value:undefined,configurable:true})'); await openDashboard(owners[0].id); check(await evaluate("!!document.querySelector('[data-cross-error=Unavailable]')"), 'Unavailable IDB is distinct from valid empty archive'); await shot('14-unavailable-error', null); await evaluate('void Object.defineProperty(window,"indexedDB",{value:savedIDB,configurable:true})');
++  await profileManager();
++  // Stable timestamp tie-break on real records, in isolated test DB only; restore both bytes.
++  const tieCheck = await evaluate(`(async()=>{const originals=records[owners[0].id].filter(r=>r.releasedScenarioId===4);const db=await new Promise(r=>{const q=indexedDB.open(repo.COGNITIVE_ARCHIVE_DB,1);q.onsuccess=()=>r(q.result)});const put=x=>new Promise(r=>{const tx=db.transaction(repo.COGNITIVE_ARCHIVE_STORE,'readwrite');tx.objectStore(repo.COGNITIVE_ARCHIVE_STORE).put(x);tx.oncomplete=r});for(const r of originals)await put({...r,recordedAtIso:originals[0].recordedAtIso});const sorted=await repo.listCognitiveRunsForAdmin(owners[0].id,4,realAdminAccess);for(const r of originals)await put(r);db.close();return sorted.map(r=>r.recordId).join('|')===originals.map(r=>r.recordId).sort().reverse().join('|')})()`); check(tieCheck, 'Stable timestamp / UUID descending tie-break');
++  const installBarrier = () => evaluate(`(()=>{window.releaseReads=[];window.originalDatabases=indexedDB.databases.bind(indexedDB);indexedDB.databases=()=>new Promise(resolve=>releaseReads.push(()=>originalDatabases().then(resolve)))})()`);
++  const releaseBarrier = () => evaluate('(()=>{indexedDB.databases=originalDatabases;releaseReads.splice(0).forEach(fn=>fn())})()');
++  await installBarrier(); await openDashboard(owners[0].id, false); await profileManager(); await openDashboard(owners[1].id, false); await releaseBarrier(); await delay(250);
++  check(await evaluate(`document.querySelector('[data-cross-dashboard]').dataset.crossOwner===${JSON.stringify(owners[1].id)}&&!document.querySelector('#cross-run-5')`), 'Target change during pending fetch never renders stale prior-owner data');
++  await profileManager(); await installBarrier();
++  await evaluate(`void (window.pendingAdminRead=repo.listCognitiveRunsForAdmin(${JSON.stringify(owners[0].id)},4,realAdminAccess).then(()=>false,()=>true))`);
++  await openDashboard(owners[0].id, false); await profileManager(); await chooseOwner(owners[2].id); await releaseBarrier(); await delay(150);
++  check(await evaluate('pendingAdminRead'), 'Profile switch revokes an already pending admin repository read');
++  check(await evaluate("!document.querySelector('[data-cross-dashboard]')&&!document.querySelector('[data-cross-field]')"), 'No stale dashboard data after actual profile switch');
++  await profileManager(); check(await evaluate("document.querySelectorAll('[data-cognitive-dashboard-profile]').length===0"), 'Normal mode has no dashboard links'); await shot('15-normal-mode-denied-links', '.profile-list');
++  check(await evaluate(`repo.listCognitiveRunsForAdmin(${JSON.stringify(owners[0].id)},4,realAdminAccess).then(()=>false,()=>true)`), 'Revoked real session cannot be reused by a normal user');
++  await send('Page.navigate', { url: origin + '/?cognitiveDashboard=' + encodeURIComponent(owners[0].id) }); await delay(500); check(await evaluate("!document.querySelector('[data-cross-dashboard]')&&!document.querySelector('[data-cross-field]')"), 'Direct navigation/refresh does not restore admin dashboard');
++  await login(); await profileManager(); await captureAccess(); await openDashboard(owners[0].id); check(await evaluate("document.querySelectorAll('#cross-run-4 option').length===2&&document.querySelectorAll('#cross-run-5 option').length===2"), 'After refresh and real admin re-login, saved results remain readable'); await shot('16-refresh-persistence', null);
++  const finalRecords = JSON.parse(await evaluate(`(async()=>{const r=await import('/src/services/storage/cognitiveRunRepository.ts');const result={};for(const p of ${JSON.stringify(owners)})result[p.id]=[...await r.listCognitiveRunsForAdmin(p.id,4,realAdminAccess),...await r.listCognitiveRunsForAdmin(p.id,5,realAdminAccess)];return JSON.stringify(result)})()`));
++  check(JSON.stringify(finalRecords) === JSON.stringify(records), 'All six canonical completed records unchanged after error, race and refresh tests');
++  await profileManager();
++  const storedProfiles = await evaluate('localStorage.getItem("space-war.profiles.v1")');
++  await evaluate(`(()=>{const p=JSON.parse(localStorage.getItem('space-war.profiles.v1'));p.profiles=p.profiles.filter(x=>x.id!==${JSON.stringify(owners[3].id)});localStorage.setItem('space-war.profiles.v1',JSON.stringify(p))})()`);
++  await openDashboard(owners[3].id);
++  check(await evaluate("!!document.querySelector('[data-cross-error=OwnerMissing]')&&!document.querySelector('[data-cross-field]')"), 'Deleted existing owner produces explicit status and no report data');
++  await shot('17-deleted-owner-error', null);
++  await evaluate(`localStorage.setItem('space-war.profiles.v1',${JSON.stringify(storedProfiles)})`);
++  await send('Page.navigate', { url: origin + '/scripts/scenario-cross-phase09d1b-presentation.html' }); await delay(600); await viewport(390, 844);
++  check(await evaluate(`(()=>{const cases=[...document.querySelectorAll('[data-scalar-case]')];return cases.length===4&&cases.every(n=>{const value=n.dataset.scalarCase,markers=[...n.querySelectorAll('[data-cross-marker]')];if(value==='null')return markers.length===0&&n.innerText.includes('داده کافی برای محاسبه وجود ندارد');return markers.length===2&&markers.every(m=>{const track=m.parentElement.getBoundingClientRect(),r=m.getBoundingClientRect();return m.style.left===String((Number(value)+1)*50)+'%'&&r.left>=track.left-9&&r.right<=track.right+9})})})()`), 'Negative / zero / positive signed endpoints, null and contained marker geometry in real mobile browser');
++  check(await evaluate("document.querySelector('[data-zero-case]').innerText.includes('0.00')&&document.querySelector('[data-zero-case] [role=meter]').getAttribute('aria-valuenow')==='0'&&!document.querySelector('[data-null-case] [role=meter]')&&document.querySelector('[data-missing-case]').innerText.includes('خطای داده')"), 'Zero / null / omitted presentation invariants in browser');
++  check(await evaluate("!!document.querySelector('[data-denied-props] [data-cross-error=PermissionDenied]')&&!document.querySelector('[data-denied-props] [data-cross-field]')"), 'Direct component props without real session fail closed in browser');
++  const digest = createHash('sha256').update(JSON.stringify(records)).digest('hex');
++  const result = { status: 'PASS', assertions: checks.length, checks, screenshots, genuineCompletions: { s1: 3, s2: 3 }, source: 'REAL App navigation and normal admin password flow, disposable Chromium only', realUserStorageAccessed: false, profileDir, originalRecordsDigest: digest, errors };
++  fs.writeFileSync(`${output}/inspection.json`, JSON.stringify(result, null, 2)); console.log(JSON.stringify({ status: 'PASS', assertions: checks.length, screenshots: screenshots.length }));
++} catch (error) {
++  let page;
++  if (evaluate) { try { page = await evaluate('({url:location.href,text:document.body.innerText.slice(0,2500)})'); const r = await send('Page.captureScreenshot', { format: 'png' }); fs.writeFileSync(`${output}/failure.png`, Buffer.from(r.data, 'base64')); } catch { /* disconnected */ } }
++  fs.writeFileSync(`${output}/inspection.json`, JSON.stringify({ status: 'FAIL', error: String(error), stack: error.stack, checks, errors, page, screenshots }, null, 2)); throw error;
++} finally { socket?.close(); chrome.kill(); vite.kill(); }
+diff --git a/scripts/verify-cross-phase09d1b-scientific.tsx b/scripts/verify-cross-phase09d1b-scientific.tsx
+--- /dev/null
++++ b/scripts/verify-cross-phase09d1b-scientific.tsx
+@@ -0,0 +1,59 @@
++import assert from 'node:assert/strict';
++import fs from 'node:fs';
++import { createHash } from 'node:crypto';
++import * as React from 'react';
++import { renderToStaticMarkup } from 'react-dom/server';
++import { WORLD_CATALOG } from '../src/ui/components/scenario/scenario-five/model/index';
++import { MISSION_POLICIES } from '../src/ui/components/scenario/scenario-five/calibration/missionPolicies';
++import { simulateScenario5 } from '../src/ui/components/scenario/scenario-five/calibration/simulationDriver';
++import { CognitiveSignedSpectrum, CognitiveStoredValue, CrossScenarioCognitiveDashboard } from '../src/ui/components/admin/CrossScenarioCognitiveDashboard';
++import { CROSS_CONCEPTS, CROSS_NULL, CROSS_DATA_ERROR, cognitiveNumber, cognitiveReadError } from '../src/ui/components/admin/crossScenarioPresentation';
++
++(globalThis as unknown as { React: typeof React }).React = React;
++const read = (p: string) => fs.readFileSync(p, 'utf8');
++const hash = (v: unknown) => createHash('sha256').update(JSON.stringify(v)).digest('hex');
++const baseline = JSON.parse(read('docs/scenario-cross-phase09d1b-baseline.json'));
++let assertions = 0;
++const equal = (a: unknown, b: unknown, label: string) => { assert.deepEqual(a, b, label); assertions++; };
++const check = (v: unknown, label: string) => { assert.ok(v, label); assertions++; };
++const protectedHashes: Record<string, { before: string; after: string }> = {};
++for (const [p, before] of Object.entries(baseline.protected) as [string, string][]) {
++  const after = createHash('sha256').update(fs.readFileSync(p)).digest('hex');
++  equal(after, before, 'Frozen ' + p); protectedHashes[p] = { before, after };
++}
++equal(Object.keys(protectedHashes).length, 159, 'Exact protected file manifest');
++const allowed = new Set(['src/App.tsx', 'src/services/storage/cognitiveRunRepository.ts']);
++for (const [p, before] of Object.entries(baseline.hashes) as [string, string][]) if (!allowed.has(p)) equal(createHash('sha256').update(fs.readFileSync(p)).digest('hex'), before, 'Unchanged pre-existing source ' + p);
++const beforeRepository = Buffer.from(baseline.beforeFiles['src/services/storage/cognitiveRunRepository.ts'], 'base64').toString('utf8').trim();
++const newImport = "import { requireCognitiveAdminReadAccess, type CognitiveAdminReadAccess } from './cognitiveAdminReadAccess';\n";
++equal(read('src/services/storage/cognitiveRunRepository.ts').replace(newImport, '').split('// Admin reads use')[0].trim(), beforeRepository, 'Entire pre-existing repository/write path remains byte-identical');
++const runs = WORLD_CATALOG.flatMap(w => MISSION_POLICIES.filter(p => !p.oraclePolicy && !p.stressPolicy && !p.randomPolicy).map(policy => simulateScenario5({ worldId: w.worldId, environmentSeed: 1, policy })));
++const actual = runs.map(r => ({ worldId: r.worldId, policy: r.policyId, digest: hash(r), cognitive: hash(r.result.cognitive), domain: hash(r.result.domain), mission: hash(r.state.missionState), evidence: hash(r.cognitiveBundle) }));
++equal(runs.length, 112, '16 worlds x 7 policies');
++equal(actual, JSON.parse(read('docs/scenario5-phase09c1-baseline-corpus.json')), 'Full scientific / cognitive / domain / mission / evidence parity');
++for (const risk of [false, true]) for (const value of [-1, -.5, 0, .5, 1, null]) {
++  const html = renderToStaticMarkup(<CognitiveSignedSpectrum label="OSI/risk fixture" field="fixture" value={value} risk={risk} />);
++  equal(html.includes('data-cross-marker='), value !== null, 'Null has no marker; measured zero has marker');
++  if (value !== null) { check(html.includes(`left:${(value + 1) * 50}%`), 'Signed geometry'); check(html.includes(cognitiveNumber(value, true)), 'Signed original value'); }
++  else check(html.includes(CROSS_NULL), 'Null differs from zero');
++}
++for (const value of [undefined, NaN, Infinity, -2, 2]) {
++  const html = renderToStaticMarkup(<CognitiveSignedSpectrum label="invalid fixture" field="fixture" value={value as number} />);
++  check(html.includes(CROSS_DATA_ERROR) && !html.includes('data-cross-marker='), 'Invalid/missing signed value is explicit data error');
++}
++const zero = renderToStaticMarkup(<CognitiveStoredValue label="zero" field="fixture" value={0} bar />);
++check(zero.includes('0.00') && zero.includes('aria-valuenow="0"'), 'True zero remains visible and measured');
++const absent = renderToStaticMarkup(<CognitiveStoredValue label="absent" field="fixture" value={null} bar />);
++check(absent.includes(CROSS_NULL) && !absent.includes('role="meter"'), 'Null creates neither zero nor measurement bar');
++equal(cognitiveNumber(undefined), CROSS_DATA_ERROR, 'Omitted numeric field is not null or zero');
++equal(cognitiveReadError(new DOMException('isolated read restriction', 'QuotaExceededError')).code, 'QuotaExceededError', 'DOM quota error name is retained instead of its numeric legacy code');
++equal(CROSS_CONCEPTS.length, 9, 'Exactly nine conceptual groups');
++const denied = renderToStaticMarkup(<CrossScenarioCognitiveDashboard targetProfileId="private-owner" access={null} profiles={[]} onBack={() => {}} />);
++check(denied.includes('data-cross-error="PermissionDenied"') && !denied.includes('data-cross-field=') && !denied.includes('data-cross-owner='), 'Direct nonadmin component props fail closed');
++const ui = read('src/ui/components/admin/CrossScenarioCognitiveDashboard.tsx');
++check(!/eventLogger|systemLogger|\.setItem\(|\.put\(|calculate[A-Z]|Math\.abs|\.reduce\(/.test(ui), 'Report view has no write, telemetry, aggregation or cognitive recomputation');
++check(!/final\.snapshot|getEvents|sid::attempt/.test(ui), 'No legacy fallback');
++check(ui.includes('در سناریو ۲ سنجیده نمی‌شود') && ui.includes('run.cognitive.scores.riskPosture') && ui.includes('run.cognitive.constructs.riskPosture'), 'Explicit unmeasured and raw signed risk contracts');
++const result = { status: 'PASS', assertions, protectedFiles: 159, protectedHashes, allOtherPreExistingSourcesUnchanged: true, existingRepositoryAndWritePathUnchanged: true, s2Parity: { runs: 112, worlds: 16, policies: 7, environmentSeed: 1, semanticMismatches: 0, fullCognitiveDomainMissionEvidenceDigestsEqual: true }, presentation: 'PASS; signed endpoints/zero/null/missing, bar zero/null, direct denied props, no telemetry/recomputation/legacy fallback' };
++fs.writeFileSync('docs/scenario-cross-phase09d1b-scientific-verification.json', JSON.stringify(result, null, 2) + '\n');
++console.log(JSON.stringify({ ...result, protectedHashes: undefined }));
+diff --git a/scripts/check-cross-phase09d1b-history.mjs b/scripts/check-cross-phase09d1b-history.mjs
+--- /dev/null
++++ b/scripts/check-cross-phase09d1b-history.mjs
+@@ -0,0 +1,51 @@
++import fs from 'node:fs';
++import os from 'node:os';
++import path from 'node:path';
++import { spawnSync } from 'node:child_process';
++
++const root = process.cwd(), output = 'docs/scenario-cross-phase09d1b-checks'; fs.mkdirSync(output, { recursive: true });
++const baseline = JSON.parse(fs.readFileSync('docs/scenario-cross-phase09d1b-baseline.json', 'utf8'));
++const mirrorRoot = fs.mkdtempSync(path.join(os.tmpdir(), 'cross09d1b-history-'));
++const scripts = [
++  'scripts/validate-s4-cognitive-v3.mjs', 'scripts/validate-profiles.ts', 'scripts/validate-system-management.ts',
++  'scripts/verify-s5-phase6-runtime.ts', 'scripts/verify-cross-phase09d1a-scientific.ts',
++  'scripts/verify-s5-phase8d-integrated-gameplay.ts', 'scripts/verify-s5-phase8d2-header.tsx',
++  'scripts/verify-s5-phase8d2-ux.tsx', 'scripts/verify-s5-phase09c1.tsx', 'scripts/verify-s5-phase09c2.tsx',
++  'scripts/verify-cross-phase09d1a-browser.mjs',
++];
++const phases = {};
++for (const phase of ['before', 'after']) {
++  const dir = path.join(mirrorRoot, phase); fs.mkdirSync(dir);
++  for (const entry of fs.readdirSync(root, { withFileTypes: true })) if (entry.isFile()) fs.copyFileSync(path.join(root, entry.name), path.join(dir, entry.name));
++  fs.symlinkSync(path.join(root, 'node_modules'), path.join(dir, 'node_modules'), 'junction');
++  fs.cpSync(path.join(root, 'docs'), path.join(dir, 'docs'), { recursive: true, filter: p => !/\.png$|phase09d1b-checks/.test(p) });
++  const required = { ...JSON.parse(fs.readFileSync('docs/scenario5-phase8d-baseline.json', 'utf8')).frozen, ...JSON.parse(fs.readFileSync('docs/scenario5-phase09c2-baseline.json', 'utf8')).hashes };
++  for (const file of [...Object.keys(required), '.git/config']) if (!fs.existsSync(path.join(dir, file)) && fs.existsSync(path.join(root, file))) {
++    fs.mkdirSync(path.dirname(path.join(dir, file)), { recursive: true }); fs.copyFileSync(path.join(root, file), path.join(dir, file));
++  }
++  if (phase === 'before') for (const file of Object.keys(baseline.hashes).filter(p => p.startsWith('src/') || p.startsWith('scripts/'))) {
++    const dest = path.join(dir, file); fs.mkdirSync(path.dirname(dest), { recursive: true });
++    if (baseline.beforeFiles[file]) fs.writeFileSync(dest, Buffer.from(baseline.beforeFiles[file], 'base64'));
++    else fs.copyFileSync(path.join(root, file), dest);
++  }
++  else for (const folder of ['src', 'scripts']) fs.cpSync(path.join(root, folder), path.join(dir, folder), { recursive: true });
++  const checks = [];
++  for (const script of scripts) {
++    const r = spawnSync(process.execPath, [path.join(root, 'node_modules/tsx/dist/cli.mjs'), script], { cwd: dir, encoding: 'utf8', windowsHide: true, timeout: 240000, maxBuffer: 32 * 1024 * 1024 });
++    const text = (r.stdout ?? '') + (r.stderr ?? '') + (r.error ? String(r.error) : '');
++    const file = `${output}/${phase}-${path.basename(script)}.txt`; fs.writeFileSync(file, text);
++    const failure = text.match(/AssertionError[^\n]*/)?.[0] ?? (r.status === 0 ? null : text.slice(0, 250));
++    checks.push({ script, status: r.status === 0 ? 'PASS' : 'FAIL', exitCode: r.status, failure, log: file });
++  }
++  const lint = spawnSync(process.execPath, [path.join(root, 'node_modules/eslint/bin/eslint.js'), '.', '--format', 'json'], { cwd: dir, encoding: 'utf8', windowsHide: true, maxBuffer: 16 * 1024 * 1024 });
++  const issues = JSON.parse(lint.stdout).flatMap(row => row.messages.map(m => ({ file: path.relative(dir, row.filePath).replaceAll('\\', '/'), line: m.line, rule: m.ruleId, severity: m.severity, message: m.message })));
++  fs.writeFileSync(`${output}/${phase}-lint.json`, JSON.stringify(issues, null, 2));
++  phases[phase] = { checks, lint: { errors: issues.filter(x => x.severity === 2).length, warnings: issues.filter(x => x.severity === 1).length, issues } };
++  console.log(JSON.stringify({ phase, checks: checks.map(({ script, status }) => ({ script, status })), lintErrors: phases[phase].lint.errors }));
++}
++const sameHistoricalResults = phases.before.checks.every((r, i) => r.status === phases.after.checks[i].status && r.failure === phases.after.checks[i].failure);
++const noNewLintIssues = JSON.stringify(phases.before.lint.issues) === JSON.stringify(phases.after.lint.issues);
++const prior1APassesRetained = ['scripts/verify-cross-phase09d1a-scientific.ts', 'scripts/verify-cross-phase09d1a-browser.mjs'].every(s => phases.before.checks.find(r => r.script === s).status === 'PASS' && phases.after.checks.find(r => r.script === s).status === 'PASS');
++const status = sameHistoricalResults && noNewLintIssues && prior1APassesRetained ? 'PASS' : 'FAIL';
++fs.writeFileSync('docs/scenario-cross-phase09d1b-historical-verification.json', JSON.stringify({ status, sameHistoricalResults, noNewLintIssues, prior1APassesRetained, phases, mirrorRoot }, null, 2));
++if (status !== 'PASS') process.exitCode = 1;
+diff --git a/scripts/scenario-cross-phase09d1b-presentation.html b/scripts/scenario-cross-phase09d1b-presentation.html
+--- /dev/null
++++ b/scripts/scenario-cross-phase09d1b-presentation.html
+@@ -0,0 +1 @@
++<!doctype html><html lang="fa" dir="rtl"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>09D-1B TEST ONLY presentation invariants</title></head><body><div id="root"></div><script type="module" src="/scripts/scenario-cross-phase09d1b-presentation.tsx"></script></body></html>
+diff --git a/scripts/scenario-cross-phase09d1b-presentation.tsx b/scripts/scenario-cross-phase09d1b-presentation.tsx
+--- /dev/null
++++ b/scripts/scenario-cross-phase09d1b-presentation.tsx
+@@ -0,0 +1,18 @@
++// TEST ONLY: scalar presentation fixtures, never archive inputs or scientific runs.
++import { createRoot } from 'react-dom/client';
++import '../src/index.css';
++import '../src/ui/components/admin/CrossScenarioCognitiveDashboard.css';
++import { CognitiveSignedSpectrum, CognitiveStoredValue, CrossScenarioCognitiveDashboard } from '../src/ui/components/admin/CrossScenarioCognitiveDashboard';
++
++export function PresentationWitness() {
++  return <><main className="cross-dashboard" dir="rtl"><h1>آزمون نمایش — داده‌های نمونه آزمایشی</h1>
++    {[-1, 0, 1, null].map((value, i) => <section key={i} data-scalar-case={String(value)}>
++      <CognitiveSignedSpectrum label="جهت‌گیری آزمایشی" value={value} field={`orientation-${i}`} />
++      <CognitiveSignedSpectrum label="ریسک آزمایشی" value={value} field={`risk-${i}`} risk />
++    </section>)}
++    <section data-zero-case><CognitiveStoredValue label="صفر" field="zero" value={0} bar /></section>
++    <section data-null-case><CognitiveStoredValue label="داده ناکافی" field="null" value={null} bar /></section>
++    <section data-missing-case><CognitiveStoredValue label="فیلد حذف‌شده" field="missing" value={undefined as unknown as number} bar /></section>
++  </main><section data-denied-props><CrossScenarioCognitiveDashboard targetProfileId="not-authorized" access={null} profiles={[]} onBack={() => {}} /></section></>;
++}
++createRoot(document.getElementById('root')!).render(<PresentationWitness />);

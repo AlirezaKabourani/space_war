@@ -1,0 +1,1 @@
+{"status":"PASS","assertions":60,"realUiCompletions":8,"out":"docs/scenario-cross-phase09d1a-screenshots"}
