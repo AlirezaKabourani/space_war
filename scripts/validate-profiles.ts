@@ -74,14 +74,14 @@ try {
   assert.strictEqual(deleteProfile(testerState, player.id), testerState, "Scenario testers cannot delete profiles");
   const adminState = { ...state, activeProfileId: "admin" };
   for (const password of ["", "wrong", "888", "88888", " 8888 "]) {
-    assert.strictEqual(selectProfile(state, "admin", password), state, "Admin selection requires the correct password");
+    assert.strictEqual(await selectProfile(state, "admin", password), state, "Admin selection requires the correct password");
   }
   for (const password of ["8888", "۸۸۸۸", "٨٨٨٨"]) {
-    assert.deepEqual(selectProfile(state, "admin", password), adminState);
+    assert.deepEqual(await selectProfile(state, "admin", password), adminState);
   }
-  assert.equal(selectProfile(adminState, otherPlayer.id).activeProfileId, otherPlayer.id, "Players need no password");
-  assert.strictEqual(selectProfile(state, "missing", "8888"), state);
-  assert.strictEqual(selectProfile(adminState, "admin", "wrong"), adminState, "Invalid passwords cannot change state even when admin was already selected");
+  assert.equal((await selectProfile(adminState, otherPlayer.id)).activeProfileId, otherPlayer.id, "Players need no password");
+  assert.strictEqual(await selectProfile(state, "missing", "8888"), state);
+  assert.strictEqual(await selectProfile(adminState, "admin", "wrong"), adminState, "Invalid passwords cannot change state even when admin was already selected");
   saveProfileState(adminState);
   assert.equal(loadProfileState(6).activeProfileId, "test-player", "Reload must not restore admin access without a password");
   for (const id of ["admin", "scenario-tester", "missing"]) {

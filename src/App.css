@@ -384,8 +384,67 @@ button.link {
   max-width: 1080px;
 }
 
-.system-management-card .screen-header {
+.system-management-card .screen-header,
+.suggestion-card .screen-header {
   flex-wrap: wrap;
+}
+
+.suggestion-screen {
+  max-width: 900px;
+}
+
+.suggestion-card textarea {
+  width: 100%;
+  min-height: 240px;
+  resize: vertical;
+  border: 1px solid var(--border-soft);
+  border-radius: 10px;
+  padding: 1rem;
+  background: rgba(15, 23, 42, 0.8);
+  color: var(--text-main);
+  font: inherit;
+  line-height: 1.9;
+}
+
+.suggestion-card :is(textarea, button):focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 3px;
+}
+
+.suggestion-card textarea[aria-invalid="true"] {
+  border-color: #fda4af;
+}
+
+.suggestion-list {
+  display: grid;
+  gap: 1rem;
+  margin-top: 1rem;
+}
+
+.suggestion-entry {
+  min-width: 0;
+  padding: 1rem;
+  border: 1px solid var(--border-soft);
+  border-radius: 12px;
+  background: rgba(15, 23, 42, 0.5);
+  overflow-wrap: anywhere;
+}
+
+.suggestion-entry-meta {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.suggestion-entry-meta time {
+  color: var(--text-muted);
+  font-size: 0.85rem;
+}
+
+.suggestion-entry-text {
+  white-space: pre-wrap;
+  margin-bottom: 0;
 }
 
 .system-management-stats,

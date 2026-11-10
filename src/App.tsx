@@ -12,6 +12,8 @@ import { deleteProfile, loadProfileState, saveProfileState, selectProfile } from
 import { ProfileCreateForm } from "./ui/components/profile/ProfileCreateForm";
 import { AdminLoginForm } from "./ui/components/profile/AdminLoginForm";
 import { SystemManagement } from "./ui/components/admin/SystemManagement";
+import { SuggestionsManagement } from "./ui/components/admin/SuggestionsManagement";
+import { SuggestionForm } from "./ui/components/suggestions/SuggestionForm";
 import { CrossScenarioCognitiveDashboard } from "./ui/components/admin/CrossScenarioCognitiveDashboard";
 import { createCognitiveAdminReadAccess, revokeCognitiveAdminReadAccess, type CognitiveAdminReadAccess } from "./services/storage/cognitiveAdminReadAccess";
 import { systemLogger } from "./services/analytics/systemLogger";
@@ -91,6 +93,9 @@ type View =
   | "scenarioList"
   | "scenarioPlay"
   | "profileManager"
+  | "scenarioSuggestion"
+  | "generalSuggestion"
+  | "suggestionsManagement"
   | "systemManagement";
 
 const SCENARIOS: Scenario[] = [
@@ -306,7 +311,7 @@ const App = () => {
   const [answeredCount, setAnsweredCount] = useState(0);
 
 const [expandedScenarioId, setExpandedScenarioId] = useState<number | null>(null);
-  const handleSelectProfile = (id: string) => {
+  const handleSelectProfile = async (id: string) => {
     const target = profiles.find((profile) => profile.id === id);
     if (!target) return;
     if (target.role === "admin") {
@@ -318,14 +323,15 @@ const [expandedScenarioId, setExpandedScenarioId] = useState<number | null>(null
     revokeCognitiveAdminReadAccess(cognitiveAdminAccessRef.current);
     cognitiveAdminAccessRef.current = null;
     setCognitiveDashboardTargetId(null);
-    setProfileState((current) => selectProfile(current, id));
+    setProfileState(await selectProfile(profileStateRef.current, id));
     systemLogger.log("profile_selected", target);
     setView("mainMenu");
   };
 
-  const handleAdminLogin = (password: string): boolean => {
-    const nextState = selectProfile(profileState, "admin", password);
-    if (nextState === profileState) {
+  const handleAdminLogin = async (password: string): Promise<boolean> => {
+    const currentState = profileStateRef.current;
+    const nextState = await selectProfile(currentState, "admin", password);
+    if (nextState === currentState || profileStateRef.current !== currentState) {
       systemLogger.log("admin_login_failed");
       return false;
     }
@@ -602,18 +608,10 @@ const [expandedScenarioId, setExpandedScenarioId] = useState<number | null>(null
           <button onClick={() => setView("scenarioList")}>شروع</button>
           <button onClick={() => setView("profileManager")}>ساخت / انتخاب پروفایل</button>
           {activeProfile.role === "admin" && <button onClick={() => setView("systemManagement")}>مدیریت سامانه</button>}
-          <button
-            onClick={() =>
-              alert("پیشنهاد سناریو در نسخه بعدی فعال خواهد شد.")
-            }
-          >
+          <button onClick={() => setView("scenarioSuggestion")}>
             پیشنهاد سناریو
           </button>
-          <button
-            onClick={() =>
-              alert("بخش پیشنهادات در نسخه بعدی فعال خواهد شد.")
-            }
-          >
+          <button onClick={() => setView("generalSuggestion")}>
             پیشنهادات
           </button>
           <button className="danger" onClick={handleExit}>
@@ -1092,12 +1090,26 @@ const renderScenarioPlay = () => {
       )}
       {view === "mainMenu" && renderMainMenu()}
       {view === "profileManager" && renderProfileManager()}
+      {(view === "scenarioSuggestion" || view === "generalSuggestion") && (
+        <SuggestionForm key={`${activeProfile.id}:${view}`} activeProfile={activeProfile}
+          kind={view === "scenarioSuggestion" ? "scenario" : "general"}
+          onBack={() => setView("mainMenu")} />
+      )}
       {view === "systemManagement" && (
         <SystemManagement
           activeProfile={activeProfile}
           profiles={profiles}
           onBack={() => setView("mainMenu")}
           onManageProfiles={() => setView("profileManager")}
+          onManageSuggestions={() => setView("suggestionsManagement")}
+          adminAccess={cognitiveAdminAccessRef.current}
+        />
+      )}
+      {view === "suggestionsManagement" && activeProfile.role === "admin" && (
+        <SuggestionsManagement
+          profiles={profiles}
+          adminAccess={cognitiveAdminAccessRef.current}
+          onBack={() => setView("systemManagement")}
         />
       )}
       {view === "scenarioList" && renderScenarioList()}

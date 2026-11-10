@@ -1,5 +1,7 @@
 import { useRef, useState, type ChangeEvent } from "react";
 import type { Profile } from "../../../core/types/profile";
+import type { CognitiveAdminReadAccess } from "../../../services/storage/cognitiveAdminReadAccess";
+import { AdminPasswordForm } from "./AdminPasswordForm";
 import { eventLogger } from "../../../services/analytics/eventLogger";
 import { buildLogCSV, downloadFile } from "../../../services/analytics/logExport";
 import { systemLogger } from "../../../services/analytics/systemLogger";
@@ -14,12 +16,14 @@ interface SystemManagementProps {
   profiles: readonly Profile[];
   onBack: () => void;
   onManageProfiles: () => void;
+  onManageSuggestions: () => void;
+  adminAccess: CognitiveAdminReadAccess | null;
 }
 
 const fileStamp = () => new Date().toISOString().replace(/[:.]/g, "-");
 const errorMessage = (error: unknown) => error instanceof Error ? error.message : "عملیات انجام نشد؛ دوباره تلاش کنید.";
 
-export const SystemManagement = ({ activeProfile, profiles, onBack, onManageProfiles }: SystemManagementProps) => {
+export const SystemManagement = ({ activeProfile, profiles, onBack, onManageProfiles, onManageSuggestions, adminAccess }: SystemManagementProps) => {
   const [, refresh] = useState(0);
   const [selectedUserId, setSelectedUserId] = useState("all");
   const [message, setMessage] = useState<string | null>(null);
@@ -126,6 +130,13 @@ export const SystemManagement = ({ activeProfile, profiles, onBack, onManageProf
           <button onClick={onManageProfiles}>باز کردن مدیریت پروفایل‌ها</button>
         </section>
 
+        <section className="system-management-section" aria-labelledby="suggestions-management-title">
+          <h3 id="suggestions-management-title">پیشنهادهای کاربران</h3>
+          <button onClick={onManageSuggestions}>مشاهده پیشنهادات</button>
+        </section>
+
+        <AdminPasswordForm activeProfile={activeProfile} adminAccess={adminAccess} />
+
         <section className="system-management-section" aria-labelledby="logging-title">
           <h3 id="logging-title">ثبت رویدادهای رفتاری (سامانه قدیمی)</h3>
           <p>وضعیت فعلی: <strong className={loggingEnabled ? "logging-active" : "logging-paused"}>{loggingEnabled ? "لاگ‌برداری فعال است" : "لاگ‌برداری متوقف است"}</strong></p>
@@ -181,7 +192,8 @@ export const SystemManagement = ({ activeProfile, profiles, onBack, onManageProf
 
         <section className="system-management-section" aria-labelledby="backup-title">
           <h3 id="backup-title">پشتیبان کامل و انتقال سامانه</h3>
-          <p>فایل پشتیبان شامل همهٔ پروفایل‌ها و اطلاعات تماس، پیشرفت بازی، لاگ‌های رفتاری و سامانه، داده‌های ذخیره‌شدهٔ سناریوها و تنظیمات است.</p>
+          <p>فایل پشتیبان شامل همهٔ پروفایل‌ها و اطلاعات تماس، پیشنهادهای کاربران، پیشرفت بازی، لاگ‌های رفتاری و سامانه، داده‌های ذخیره‌شدهٔ سناریوها و تنظیمات، از جمله رمز ادمین است.</p>
+          <p className="hint">پس از بازیابی، با رمز ادمینِ سیستم مبدأ در زمان تهیهٔ پشتیبان وارد شوید.</p>
           <p className="hint">این خروجی فقط داده‌های قدیمی localStorage را منتقل می‌کند؛ آرشیو شناختی جدید و تنظیم فعال‌سازی آن در پشتیبان نیستند و به دستگاه دیگر منتقل نمی‌شوند.</p>
           <p className="hint">بازیِ در حال اجرا فقط تا آخرین دادهٔ ذخیره‌شده منتقل می‌شود. بهتر است بازیکن پیش از تهیهٔ پشتیبان سناریو را تمام کند.</p>
           <ol className="system-transfer-steps"><li>در سیستم مبدأ، پشتیبان کامل را دانلود کنید.</li><li>فایل را به ویندوز یا مرورگر مقصد منتقل کنید.</li><li>با ادمین وارد شوید، فایل را بارگذاری و بازیابی را تأیید کنید.</li></ol>
@@ -203,7 +215,7 @@ export const SystemManagement = ({ activeProfile, profiles, onBack, onManageProf
 
         <section className="system-management-section system-reset-section" aria-labelledby="reset-title">
           <h3 id="reset-title">ریست سامانه</h3>
-          <p>تمام پروفایل‌های ساخته‌شده، پیشرفت‌ها، لاگ‌ها و داده‌های ذخیره‌شدهٔ سامانه در این مرورگر پاک می‌شوند. سامانه به سه پروفایل اولیه و تنظیمات پیش‌فرض برمی‌گردد.</p>
+          <p>تمام پروفایل‌های ساخته‌شده، پیشرفت‌ها، لاگ‌ها و داده‌های ذخیره‌شدهٔ سامانه در این مرورگر پاک می‌شوند. سامانه به سه پروفایل اولیه و تنظیمات پیش‌فرض برمی‌گردد و رمز ادمین دوباره ۸۸۸۸ می‌شود.</p>
           <p className="hint">این ریست مربوط به ذخیره‌سازی قدیمی سامانه است؛ آرشیو شناختی جداگانه و تنظیم آن را پاک نمی‌کند. گزارش‌های پروفایل حذف‌شده به پروفایل دیگری متصل نمی‌شوند.</p>
           <button className="danger" disabled={readingFile} onClick={() => { setShowReset(true); setResetConfirmation(""); setPendingBackup(null); }}>ریست سامانه</button>
           {showReset && (

@@ -1,6 +1,8 @@
 import { PROFILE_STORAGE_KEY } from "./profileStorage";
 import { validateProfileInput, type Profile, type ProfileInput } from "../../core/types/profile";
 import { SYSTEM_LOG_KEY } from "../analytics/systemLogger";
+import { SUGGESTION_STORAGE_KEY, validateSuggestions } from "./suggestionStorage";
+import { ADMIN_PASSWORD_KEY, validateAdminPasswordRecord } from "./adminPasswordStorage";
 
 export const BEHAVIOR_LOG_KEY = "space-war.analytics.events";
 export const LOGGING_ENABLED_KEY = "space-war.analytics.enabled";
@@ -86,10 +88,12 @@ export const parseSystemBackup = (text: string): SystemBackup => {
     if (!key.startsWith(APP_PREFIX) || typeof raw !== "string") throw new Error("فایل دارای دادهٔ نامعتبر یا نامرتبط با سامانه است.");
     if (key === LOGGING_ENABLED_KEY) {
       if (raw !== "true" && raw !== "false") throw new Error("وضعیت لاگ‌برداری در فایل معتبر نیست.");
-    } else if (key === PROFILE_STORAGE_KEY || key === BEHAVIOR_LOG_KEY || key === SYSTEM_LOG_KEY || key.startsWith("space-war.scenario4.")) {
+    } else if (key === PROFILE_STORAGE_KEY || key === BEHAVIOR_LOG_KEY || key === SYSTEM_LOG_KEY || key === SUGGESTION_STORAGE_KEY || key === ADMIN_PASSWORD_KEY || key.startsWith("space-war.scenario4.")) {
       let parsed: unknown;
       try { parsed = JSON.parse(raw); } catch { throw new Error(`دادهٔ ذخیره‌شده در بخش «${key}» معتبر نیست.`); }
       if (key === PROFILE_STORAGE_KEY) validateProfiles(parsed);
+      else if (key === SUGGESTION_STORAGE_KEY) validateSuggestions(parsed);
+      else if (key === ADMIN_PASSWORD_KEY) validateAdminPasswordRecord(parsed);
       else if (key === BEHAVIOR_LOG_KEY || key === SYSTEM_LOG_KEY) validateLog(parsed);
       else if (!isRecord(parsed)) throw new Error("اطلاعات سناریو در فایل معتبر نیست.");
     }

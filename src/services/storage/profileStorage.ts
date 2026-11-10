@@ -1,10 +1,10 @@
 import {
   canDeleteProfile,
-  normalizeDigits,
   normalizeProfileInput,
   validateProfileInput,
   type Profile,
 } from "../../core/types/profile";
+import { verifyAdminPassword } from "./adminPasswordStorage";
 
 export const PROFILE_STORAGE_KEY = "space-war.profiles.v1";
 
@@ -89,9 +89,9 @@ export const loadProfileState = (scenarioCount: number): ProfileState => {
   }
 };
 
-export const selectProfile = (state: ProfileState, profileId: string, password = ""): ProfileState => {
+export const selectProfile = async (state: ProfileState, profileId: string, password = ""): Promise<ProfileState> => {
   const target = state.profiles.find((profile) => profile.id === profileId);
-  if (!target || (target.role === "admin" && normalizeDigits(password) !== "8888")) return state;
+  if (!target || (target.role === "admin" && !await verifyAdminPassword(password))) return state;
   return { ...state, activeProfileId: target.id };
 };
 
